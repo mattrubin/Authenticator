@@ -55,7 +55,6 @@
 		8BE5C90211A7423700A20746 /* Info.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5C90111A7423700A20746 /* Info.png */; };
 		8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */; };
 		8BE5CF7211AB48F700A20746 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5CF7111AB48F700A20746 /* close.png */; };
-		8BE5D6A711AC683500A20746 /* GTMRoundedRectPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5D6A611AC683500A20746 /* GTMRoundedRectPath.m */; };
 		8BE5D80911AC824500A20746 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE5D80811AC824500A20746 /* MobileCoreServices.framework */; };
 		8BF23A7213D4EF7000F3FD82 /* UIColor+MobileColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+MobileColors.m */; };
 		8BF23A7413D4EF7E00F3FD82 /* GoogleNavBarLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BF23A7313D4EF7E00F3FD82 /* GoogleNavBarLogo.png */; };
@@ -244,8 +243,6 @@
 		8BE5CF5A11AB48D200A20746 /* close.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = close.pdf; sourceTree = "<group>"; };
 		8BE5CF7111AB48F700A20746 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
 		8BE5CF7C11AB490F00A20746 /* Info.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Info.pdf; sourceTree = "<group>"; };
-		8BE5D6A511AC683500A20746 /* GTMRoundedRectPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMRoundedRectPath.h; sourceTree = "<group>"; };
-		8BE5D6A611AC683500A20746 /* GTMRoundedRectPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMRoundedRectPath.m; sourceTree = "<group>"; };
 		8BE5D80811AC824500A20746 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		8BF23A7013D4EF7000F3FD82 /* UIColor+MobileColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MobileColors.h"; sourceTree = "<group>"; };
 		8BF23A7113D4EF7000F3FD82 /* UIColor+MobileColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MobileColors.m"; sourceTree = "<group>"; };
@@ -431,20 +428,10 @@
 			isa = PBXGroup;
 			children = (
 				8B2B88AA118B932900437315 /* GTMDefines.h */,
-				8BE5CB0B11A7646E00A20746 /* iPhone */,
 				8B2B888E118B92DC00437315 /* Foundation */,
 			);
 			name = "google-toolbox-for-mac";
 			path = "externals/google-toolbox-for-mac";
-			sourceTree = "<group>";
-		};
-		8BE5CB0B11A7646E00A20746 /* iPhone */ = {
-			isa = PBXGroup;
-			children = (
-				8BE5D6A511AC683500A20746 /* GTMRoundedRectPath.h */,
-				8BE5D6A611AC683500A20746 /* GTMRoundedRectPath.m */,
-			);
-			path = iPhone;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -650,7 +637,6 @@
 				8B2B88A3118B931300437315 /* GTMNSString+URLArguments.m in Sources */,
 				8B2B9DE5119084FC00437315 /* OTPAuthURLEntryController.m in Sources */,
 				8B45557811932B5D00ABD707 /* OTPAuthBarClock.m in Sources */,
-				8BE5D6A711AC683500A20746 /* GTMRoundedRectPath.m in Sources */,
 				8BCB5AD011C0307C009B6C40 /* GTMNSScanner+Unsigned.m in Sources */,
 				8B0022E011E7BF800092DE18 /* OTPTableView.m in Sources */,
 				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */,

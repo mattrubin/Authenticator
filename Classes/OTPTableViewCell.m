@@ -21,7 +21,6 @@
 #import "OTPAuthURL.h"
 #import "UIColor+MobileColors.h"
 #import "GTMLocalizedString.h"
-#import "GTMRoundedRectPath.h"
 
 @interface OTPTableViewCell ()
 @property (readwrite, retain, nonatomic) OTPAuthURL *authURL;
@@ -377,7 +376,7 @@
   CGGradientRef gradient = GoogleCreateBlueBarGradient();
   if (gradient) {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    GTMCGContextAddRoundRect(context, self.bounds, 8);
+    CGContextAddRect(context, self.bounds);
     CGContextClip(context);
     CGPoint midTop = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
     CGPoint midBottom = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
