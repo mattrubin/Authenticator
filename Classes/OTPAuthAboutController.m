@@ -43,7 +43,7 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     // On an iPad, support both portrait modes and landscape modes.
     return UIInterfaceOrientationIsLandscape(interfaceOrientation) ||
            UIInterfaceOrientationIsPortrait(interfaceOrientation);
@@ -182,7 +182,7 @@
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     // On an iPad, support both portrait modes and landscape modes.
     return UIInterfaceOrientationIsLandscape(interfaceOrientation) ||
            UIInterfaceOrientationIsPortrait(interfaceOrientation);

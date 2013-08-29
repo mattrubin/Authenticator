@@ -42,7 +42,7 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     // On an iPad, support both portrait modes and landscape modes.
     return UIInterfaceOrientationIsLandscape(interfaceOrientation) ||
            UIInterfaceOrientationIsPortrait(interfaceOrientation);
@@ -80,12 +80,6 @@
   [navigationItem setLeftBarButtonItem:clockItem animated:NO];
   self.navigationController.toolbar.tintColor = [UIColor googleBlueBarColor];
 
-  // UIGestureRecognizers are actually in the iOS 3.1.3 SDK, but are not
-  // publicly exposed (and have slightly different method names).
-  // Check to see it the "public" version is available, otherwise don't use it
-  // at all. numberOfTapsRequired does not exist in 3.1.3.
-  if ([UITapGestureRecognizer
-       instancesRespondToSelector:@selector(numberOfTapsRequired)]) {
     UILongPressGestureRecognizer *gesture =
         [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                        action:@selector(showCopyMenu:)];
@@ -95,7 +89,6 @@
                                                  action:@selector(showCopyMenu:)];
     doubleTap.numberOfTapsRequired = 2;
     [view addGestureRecognizer:doubleTap];
-  }
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
