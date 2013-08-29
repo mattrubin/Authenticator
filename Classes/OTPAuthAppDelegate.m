@@ -274,7 +274,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     [tableView endUpdates];
     [self updateUI];
     if ([self.authURLs count] == 0 && self.editingState != kOTPEditingSingleRow) {
-      [self.editButton.target performSelector:self.editButton.action withObject:self];
+      [self.rootViewController setEditing:NO animated:YES];
     }
   }
 }

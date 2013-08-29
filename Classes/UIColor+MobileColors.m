@@ -43,7 +43,7 @@
 }
 
 + (UIColor *)googleTableViewSeparatorColor {
-  return [UIColor colorWithWhite:0.95
+  return [UIColor colorWithWhite:0.95f
                          alpha:1.0];
 }
 
@@ -63,8 +63,8 @@
 
 + (UIColor *)googleAdYellowBackgroundColor {
   return [UIColor colorWithRed:1.0     // 255
-                         green:0.9725  // 248
-                          blue:0.8667  // 221
+                         green:0.9725f // 248
+                          blue:0.8667f // 221
                          alpha:1.0];
 }
 

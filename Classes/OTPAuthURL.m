@@ -427,7 +427,7 @@ static NSString *const TOTPAuthURLTimerNotification
     self.warningSent = NO;
   } else if (progress > period - self.generationAdvanceWarning
              && !self.warningSent) {
-    NSNumber *warning = [NSNumber numberWithInt:ceil(period - progress)];
+    NSNumber *warning = [NSNumber numberWithDouble:ceil(period - progress)];
     NSDictionary *userInfo
       = [NSDictionary dictionaryWithObject:warning
                                     forKey:OTPAuthURLSecondsBeforeNewOTPKey];
@@ -458,7 +458,7 @@ static NSString *const TOTPAuthURLTimerNotification
 
   NSTimeInterval period = [generator period];
   if (fpclassify(period - [generatorClass defaultPeriod]) != FP_ZERO) {
-    id val = [NSNumber numberWithUnsignedInteger:period];
+    id val = [NSNumber numberWithDouble:period];
     [query setObject:val forKey:kQueryPeriodKey];
   }
 

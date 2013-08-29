@@ -35,7 +35,7 @@
 // queue is retained using dispatch_queue retain semantics.
 @property (nonatomic, retain) __attribute__((NSObject)) dispatch_queue_t queue;
 @property (nonatomic, strong) AVCaptureSession *avSession;
-@property BOOL handleCapture;
+@property (atomic) BOOL handleCapture;
 
 - (void)keyboardWasShown:(NSNotification*)aNotification;
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification;
@@ -58,7 +58,7 @@
 @synthesize handleCapture = handleCapture_;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     // On an iPad, support both portrait modes and landscape modes.
     return UIInterfaceOrientationIsLandscape(interfaceOrientation) ||
            UIInterfaceOrientationIsPortrait(interfaceOrientation);
@@ -158,19 +158,11 @@
   NSDictionary* info = [aNotification userInfo];
   CGFloat offset = 0;
 
-  // UIKeyboardFrameBeginUserInfoKey does not exist on iOS 3.1.3
-  if (&UIKeyboardFrameBeginUserInfoKey != NULL) {
     NSValue *sizeValue = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [sizeValue CGRectValue].size;
     BOOL isLandscape
       = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
     offset = isLandscape ? keyboardSize.width : keyboardSize.height;
-  } else {
-    NSValue *sizeValue = [info objectForKey:UIKeyboardBoundsUserInfoKey];
-    CGSize keyboardSize = [sizeValue CGRectValue].size;
-    // The keyboard size value appears to rotate correctly on iOS 3.1.3.
-    offset = keyboardSize.height;
-  }
 
   UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, offset, 0.0);
   self.scrollView.contentInset = contentInsets;
