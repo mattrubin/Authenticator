@@ -39,7 +39,6 @@
 		8B2B8894118B92F200437315 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B8892118B92F200437315 /* GTMStringEncoding.m */; };
 		8B2B889E118B930800437315 /* GTMNSDictionary+URLArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B889C118B930800437315 /* GTMNSDictionary+URLArguments.m */; };
 		8B2B88A3118B931300437315 /* GTMNSString+URLArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B88A1118B931300437315 /* GTMNSString+URLArguments.m */; };
-		8B2B88A8118B931E00437315 /* GTMObjC2Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B88A6118B931E00437315 /* GTMObjC2Runtime.m */; };
 		8B2B88C5118B939300437315 /* GTMMethodCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B88C0118B939300437315 /* GTMMethodCheck.m */; };
 		8B2B88C9118B93AA00437315 /* GTMMethodCheckTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B88C1118B939300437315 /* GTMMethodCheckTest.m */; };
 		8B2B8914118B93C300437315 /* GTMDevLogUnitTestingBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B88DB118B93C300437315 /* GTMDevLogUnitTestingBridge.m */; };
@@ -242,7 +241,6 @@
 		8B2B88A0118B931300437315 /* GTMNSString+URLArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+URLArguments.h"; sourceTree = "<group>"; };
 		8B2B88A1118B931300437315 /* GTMNSString+URLArguments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+URLArguments.m"; sourceTree = "<group>"; };
 		8B2B88A5118B931E00437315 /* GTMObjC2Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMObjC2Runtime.h; sourceTree = "<group>"; };
-		8B2B88A6118B931E00437315 /* GTMObjC2Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMObjC2Runtime.m; sourceTree = "<group>"; };
 		8B2B88AA118B932900437315 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		8B2B88BF118B939300437315 /* GTMMethodCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMMethodCheck.h; sourceTree = "<group>"; };
 		8B2B88C0118B939300437315 /* GTMMethodCheck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMMethodCheck.m; sourceTree = "<group>"; };
@@ -495,7 +493,6 @@
 				8B2B88A1118B931300437315 /* GTMNSString+URLArguments.m */,
 				8B2BC3631302FE2900C7B44C /* GTMLocalizedString.h */,
 				8B2B88A5118B931E00437315 /* GTMObjC2Runtime.h */,
-				8B2B88A6118B931E00437315 /* GTMObjC2Runtime.m */,
 				8B2B8956118B945B00437315 /* GTMRegex.h */,
 				8B2B8957118B945B00437315 /* GTMRegex.m */,
 				8B2B897C118B955900437315 /* GTMSystemVersion.m */,
@@ -790,7 +787,6 @@
 				8B2B8894118B92F200437315 /* GTMStringEncoding.m in Sources */,
 				8B2B889E118B930800437315 /* GTMNSDictionary+URLArguments.m in Sources */,
 				8B2B88A3118B931300437315 /* GTMNSString+URLArguments.m in Sources */,
-				8B2B88A8118B931E00437315 /* GTMObjC2Runtime.m in Sources */,
 				8B2B88C5118B939300437315 /* GTMMethodCheck.m in Sources */,
 				8B2B9DE5119084FC00437315 /* OTPAuthURLEntryController.m in Sources */,
 				8B45557811932B5D00ABD707 /* OTPAuthBarClock.m in Sources */,
