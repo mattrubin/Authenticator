@@ -33,7 +33,7 @@
   CGContextRef context = UIGraphicsGetCurrentContext();
   CGRect bounds = self.bounds;
   CGFloat rectHeight = 200;
-  CGFloat oneSixthRectHeight = rectHeight * 0.165;
+  CGFloat oneSixthRectHeight = rectHeight * 0.165f;
   CGFloat midX = CGRectGetMidX(bounds);
   CGFloat midY = CGRectGetMidY(bounds);
   CGFloat minY = CGRectGetMinY(bounds);
@@ -42,8 +42,8 @@
   CGFloat maxX = CGRectGetMaxX(bounds);
 
   // Blackout boxes
-  CGRect scanRect = CGRectMake(midX - rectHeight * .5,
-                               midY - rectHeight * .5,
+  CGRect scanRect = CGRectMake(midX - rectHeight * .5f,
+                               midY - rectHeight * .5f,
                                rectHeight,
                                rectHeight);
   CGRect leftRect = CGRectMake(minX, minY,
@@ -59,7 +59,7 @@
   CGContextAddRect(context, rightRect);
   CGContextAddRect(context, bottomRect);
   CGContextAddRect(context, topRect);
-  [[[UIColor blackColor] colorWithAlphaComponent:0.3] set];
+  [[[UIColor blackColor] colorWithAlphaComponent:0.3f] set];
   CGContextFillPath(context);
 
   // Frame Box
