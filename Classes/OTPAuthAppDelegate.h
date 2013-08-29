@@ -32,12 +32,12 @@ typedef enum {
     UITableViewDelegate,
     UIActionSheetDelegate,
     UIAlertViewDelegate>
-@property(nonatomic, retain) IBOutlet UINavigationController *navigationController;
-@property(nonatomic, retain) IBOutlet UIWindow *window;
-@property(nonatomic, retain) IBOutlet UINavigationController *authURLEntryController;
-@property(nonatomic, retain) IBOutlet UIBarButtonItem *legalButton;
-@property(nonatomic, retain) IBOutlet UINavigationItem *navigationItem;
-@property(nonatomic, retain) IBOutlet UINavigationItem *authURLEntryNavigationItem;
+@property(nonatomic, strong) IBOutlet UINavigationController *navigationController;
+@property(nonatomic, strong) IBOutlet UIWindow *window;
+@property(nonatomic, strong) IBOutlet UINavigationController *authURLEntryController;
+@property(nonatomic, strong) IBOutlet UIBarButtonItem *legalButton;
+@property(nonatomic, strong) IBOutlet UINavigationItem *navigationItem;
+@property(nonatomic, strong) IBOutlet UINavigationItem *authURLEntryNavigationItem;
 
 - (IBAction)addAuthURL:(id)sender;
 - (IBAction)showLegalInformation:(id)sender;

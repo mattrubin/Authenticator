@@ -31,18 +31,18 @@
 static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @interface OTPGoodTokenSheet : UIActionSheet
-@property(readwrite, nonatomic, retain) OTPAuthURL *authURL;
+@property(readwrite, nonatomic, strong) OTPAuthURL *authURL;
 @end
 
 @interface OTPAuthAppDelegate ()
 // The OTPAuthURL objects in this array are loaded from the keychain at
 // startup and serialized there on shutdown.
-@property (nonatomic, retain) NSMutableArray *authURLs;
-@property (nonatomic, assign) RootViewController *rootViewController;
-@property (nonatomic, assign) UIBarButtonItem *editButton;
+@property (nonatomic, strong) NSMutableArray *authURLs;
+@property (nonatomic, unsafe_unretained) RootViewController *rootViewController;
+@property (nonatomic, unsafe_unretained) UIBarButtonItem *editButton;
 @property (nonatomic, assign) OTPEditingState editingState;
-@property (nonatomic, retain) OTPAuthURL *urlBeingAdded;
-@property (nonatomic, retain) UIAlertView *urlAddAlert;
+@property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
+@property (nonatomic, strong) UIAlertView *urlAddAlert;
 
 - (void)saveKeychainArray;
 - (void)updateUI;
@@ -64,18 +64,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @synthesize urlBeingAdded = urlBeingAdded_;
 
 - (void)dealloc {
-  self.window = nil;
-  self.authURLEntryController = nil;
-  self.navigationController = nil;
   self.rootViewController = nil;
-  self.authURLs = nil;
   self.editButton = nil;
-  self.urlBeingAdded = nil;
-  self.legalButton = nil;
-  self.navigationItem = nil;
-  self.urlAddAlert = nil;
-  self.authURLEntryNavigationItem = nil;
-  [super dealloc];
 }
 
 - (void)awakeFromNib {
@@ -136,7 +126,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
   [self.window addSubview:self.navigationController.view];
   if ([self.authURLs count] == 0) {
     OTPWelcomeViewController *controller
-      = [[[OTPWelcomeViewController alloc] init] autorelease];
+      = [[OTPWelcomeViewController alloc] init];
     [self.navigationController pushViewController:controller animated:NO];
   }
   [self.window makeKeyAndVisible];
@@ -155,12 +145,11 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     NSString *noButton = GTMLocalizedString(@"No", @"No");
     NSString *yesButton = GTMLocalizedString(@"Yes", @"Yes");
 
-    self.urlAddAlert = [[[UIAlertView alloc] initWithTitle:title
+    self.urlAddAlert = [[UIAlertView alloc] initWithTitle:title
                                                    message:message
                                                   delegate:self
                                          cancelButtonTitle:noButton
-                                         otherButtonTitles:yesButton, nil]
-                        autorelease];
+                                         otherButtonTitles:yesButton, nil];
     self.urlBeingAdded = authURL;
     [self.urlAddAlert show];
   }
@@ -230,8 +219,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
   UITableViewCell *cell
     = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
   if (!cell) {
-    cell = [[[cellClass alloc] initWithStyle:UITableViewCellStyleDefault
-                             reuseIdentifier:cellIdentifier] autorelease];
+    cell = [[cellClass alloc] initWithStyle:UITableViewCellStyleDefault
+                             reuseIdentifier:cellIdentifier];
   }
   [(OTPTableViewCell *)cell setAuthURL:url];
   return cell;
@@ -370,7 +359,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (IBAction)showLegalInformation:(id)sender {
   OTPAuthAboutController *controller
-      = [[[OTPAuthAboutController alloc] init] autorelease];
+      = [[OTPAuthAboutController alloc] init];
   [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -382,9 +371,5 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @synthesize authURL = authURL_;
 
-- (void)dealloc {
-  self.authURL = nil;
-  [super dealloc];
-}
 
 @end

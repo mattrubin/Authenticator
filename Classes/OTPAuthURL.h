@@ -30,9 +30,9 @@
 
 // |name| is an arbitrary UTF8 text string extracted from the url path.
 @property(readwrite, copy, nonatomic) NSString *name;
-@property(readonly, nonatomic) NSString *otpCode;
-@property(readonly, nonatomic) NSString *checkCode;
-@property(readonly, retain, nonatomic) NSData *keychainItemRef;
+@property(unsafe_unretained, readonly, nonatomic) NSString *otpCode;
+@property(unsafe_unretained, readonly, nonatomic) NSString *checkCode;
+@property(readonly, strong, nonatomic) NSData *keychainItemRef;
 
 // Standard base32 alphabet.
 // Input is case insensitive.

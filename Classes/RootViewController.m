@@ -26,7 +26,7 @@
 #import "GTMLocalizedString.h"
 
 @interface RootViewController ()
-@property(nonatomic, readwrite, retain) OTPAuthBarClock *clock;
+@property(nonatomic, readwrite, strong) OTPAuthBarClock *clock;
 - (void)showCopyMenu:(UIGestureRecognizer *)recognizer;
 @end
 
@@ -38,11 +38,7 @@
 
 - (void)dealloc {
   [self.clock invalidate];
-  self.clock = nil;
   self.delegate = nil;
-  self.addItem = nil;
-  self.legalItem = nil;
-  [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -62,7 +58,7 @@
   view.delegate = self.delegate;
   view.backgroundColor = [UIColor googleBlueBackgroundColor];
 
-  UIButton *titleButton = [[[UIButton alloc] init] autorelease];
+  UIButton *titleButton = [[UIButton alloc] init];
   [titleButton setImage:[UIImage imageNamed:@"GoogleNavBarLogo.png"]
                forState:UIControlStateNormal];
   [titleButton setTitle:GTMLocalizedString(@"Authenticator", nil)
@@ -77,10 +73,10 @@
 
   UINavigationItem *navigationItem = self.navigationItem;
   navigationItem.titleView = titleButton;
-  self.clock = [[[OTPAuthBarClock alloc] initWithFrame:CGRectMake(0,0,30,30)
-                                                period:[TOTPGenerator defaultPeriod]] autorelease];
+  self.clock = [[OTPAuthBarClock alloc] initWithFrame:CGRectMake(0,0,30,30)
+                                                period:[TOTPGenerator defaultPeriod]];
   UIBarButtonItem *clockItem
-    = [[[UIBarButtonItem alloc] initWithCustomView:clock_] autorelease];
+    = [[UIBarButtonItem alloc] initWithCustomView:clock_];
   [navigationItem setLeftBarButtonItem:clockItem animated:NO];
   self.navigationController.toolbar.tintColor = [UIColor googleBlueBarColor];
 
@@ -91,14 +87,12 @@
   if ([UITapGestureRecognizer
        instancesRespondToSelector:@selector(numberOfTapsRequired)]) {
     UILongPressGestureRecognizer *gesture =
-        [[[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                       action:@selector(showCopyMenu:)]
-         autorelease];
+        [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                       action:@selector(showCopyMenu:)];
     [view addGestureRecognizer:gesture];
     UITapGestureRecognizer *doubleTap =
-        [[[UITapGestureRecognizer alloc] initWithTarget:self
-                                                 action:@selector(showCopyMenu:)]
-         autorelease];
+        [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                 action:@selector(showCopyMenu:)];
     doubleTap.numberOfTapsRequired = 2;
     [view addGestureRecognizer:doubleTap];
   }
