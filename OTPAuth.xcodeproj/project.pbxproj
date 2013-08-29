@@ -36,9 +36,6 @@
 		8B2B8728118B900E00437315 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8727118B900E00437315 /* CoreFoundation.framework */; };
 		8B2B8755118B902200437315 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8754118B902200437315 /* CoreGraphics.framework */; };
 		8B2B8777118B903000437315 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8776118B903000437315 /* Foundation.framework */; };
-		8B2B8894118B92F200437315 /* GTMStringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B8892118B92F200437315 /* GTMStringEncoding.m */; };
-		8B2B889E118B930800437315 /* GTMNSDictionary+URLArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B889C118B930800437315 /* GTMNSDictionary+URLArguments.m */; };
-		8B2B88A3118B931300437315 /* GTMNSString+URLArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B88A1118B931300437315 /* GTMNSString+URLArguments.m */; };
 		8B2B9DE5119084FC00437315 /* OTPAuthURLEntryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B9DE4119084FC00437315 /* OTPAuthURLEntryController.m */; };
 		8B3F0F5A122F2003009A6409 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B3F0F59122F2003009A6409 /* AVFoundation.framework */; };
 		8B45557811932B5D00ABD707 /* OTPAuthBarClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B45557711932B5D00ABD707 /* OTPAuthBarClock.m */; };
@@ -50,7 +47,6 @@
 		8BC958E8128B5DB500A0E8F2 /* Icon_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E4128B5DB500A0E8F2 /* Icon_2x.png */; };
 		8BC958E9128B5DB500A0E8F2 /* Icon-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E5128B5DB500A0E8F2 /* Icon-iPad.png */; };
 		8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E6128B5DB500A0E8F2 /* Icon.png */; };
-		8BCB5AD011C0307C009B6C40 /* GTMNSScanner+Unsigned.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCB5ACE11C0307C009B6C40 /* GTMNSScanner+Unsigned.m */; };
 		8BDA1F1313550A7B003EF49C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BDA1F1213550A7B003EF49C /* Localizable.strings */; };
 		8BE5C90211A7423700A20746 /* Info.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5C90111A7423700A20746 /* Info.png */; };
 		8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */; };
@@ -203,20 +199,12 @@
 		8B2B8754118B902200437315 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8B2B8776118B903000437315 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8B2B877C118B904000437315 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		8B2B8891118B92F200437315 /* GTMStringEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMStringEncoding.h; sourceTree = "<group>"; };
-		8B2B8892118B92F200437315 /* GTMStringEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMStringEncoding.m; sourceTree = "<group>"; };
-		8B2B889B118B930800437315 /* GTMNSDictionary+URLArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSDictionary+URLArguments.h"; sourceTree = "<group>"; };
-		8B2B889C118B930800437315 /* GTMNSDictionary+URLArguments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSDictionary+URLArguments.m"; sourceTree = "<group>"; };
-		8B2B88A0118B931300437315 /* GTMNSString+URLArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+URLArguments.h"; sourceTree = "<group>"; };
-		8B2B88A1118B931300437315 /* GTMNSString+URLArguments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+URLArguments.m"; sourceTree = "<group>"; };
-		8B2B88AA118B932900437315 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		8B2B89B6118B967A00437315 /* HOTPGeneratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOTPGeneratorTest.m; sourceTree = "<group>"; };
 		8B2B89B7118B967A00437315 /* TOTPGeneratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOTPGeneratorTest.m; sourceTree = "<group>"; };
 		8B2B89BE118B968900437315 /* OTPAuthURLTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthURLTest.m; sourceTree = "<group>"; };
 		8B2B8AE1118BA49F00437315 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		8B2B9DE3119084FC00437315 /* OTPAuthURLEntryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthURLEntryController.h; sourceTree = "<group>"; };
 		8B2B9DE4119084FC00437315 /* OTPAuthURLEntryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthURLEntryController.m; sourceTree = "<group>"; };
-		8B2BC3631302FE2900C7B44C /* GTMLocalizedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMLocalizedString.h; sourceTree = "<group>"; };
 		8B3F0F59122F2003009A6409 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8B4553CA1192158300ABD707 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.entitlements"; sourceTree = "<group>"; };
 		8B45557611932B5D00ABD707 /* OTPAuthBarClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthBarClock.h; sourceTree = "<group>"; };
@@ -234,8 +222,6 @@
 		8BC958E5128B5DB500A0E8F2 /* Icon-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPad.png"; sourceTree = "<group>"; };
 		8BC958E6128B5DB500A0E8F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		8BC958E7128B5DB500A0E8F2 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
-		8BCB5ACE11C0307C009B6C40 /* GTMNSScanner+Unsigned.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSScanner+Unsigned.m"; sourceTree = "<group>"; };
-		8BCB5ACF11C0307C009B6C40 /* GTMNSScanner+Unsigned.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSScanner+Unsigned.h"; sourceTree = "<group>"; };
 		8BDA1F1013550A75003EF49C /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8BE5C90111A7423700A20746 /* Info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Info.png; sourceTree = "<group>"; };
 		8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPTableViewCell.xib; sourceTree = "<group>"; };
@@ -337,7 +323,6 @@
 			children = (
 				8B2B8AE1118BA49F00437315 /* README */,
 				8B4553CA1192158300ABD707 /* Entitlements.plist */,
-				8B73DCF81182657500861C87 /* google-toolbox-for-mac */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -404,32 +389,6 @@
 				9B03839CF35E4014987A36CA /* libPods.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		8B2B888E118B92DC00437315 /* Foundation */ = {
-			isa = PBXGroup;
-			children = (
-				8B2B8891118B92F200437315 /* GTMStringEncoding.h */,
-				8B2B8892118B92F200437315 /* GTMStringEncoding.m */,
-				8BCB5ACE11C0307C009B6C40 /* GTMNSScanner+Unsigned.m */,
-				8BCB5ACF11C0307C009B6C40 /* GTMNSScanner+Unsigned.h */,
-				8B2B889B118B930800437315 /* GTMNSDictionary+URLArguments.h */,
-				8B2B889C118B930800437315 /* GTMNSDictionary+URLArguments.m */,
-				8B2B88A0118B931300437315 /* GTMNSString+URLArguments.h */,
-				8B2B88A1118B931300437315 /* GTMNSString+URLArguments.m */,
-				8B2BC3631302FE2900C7B44C /* GTMLocalizedString.h */,
-			);
-			path = Foundation;
-			sourceTree = "<group>";
-		};
-		8B73DCF81182657500861C87 /* google-toolbox-for-mac */ = {
-			isa = PBXGroup;
-			children = (
-				8B2B88AA118B932900437315 /* GTMDefines.h */,
-				8B2B888E118B92DC00437315 /* Foundation */,
-			);
-			name = "google-toolbox-for-mac";
-			path = "externals/google-toolbox-for-mac";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -630,12 +589,8 @@
 				8BF50E051186512E005C936F /* OTPWelcomeViewController.m in Sources */,
 				8BF50EDE11874258005C936F /* OTPAuthApplication.m in Sources */,
 				8B2B6E501187AC6B00437315 /* OTPGenerator.m in Sources */,
-				8B2B8894118B92F200437315 /* GTMStringEncoding.m in Sources */,
-				8B2B889E118B930800437315 /* GTMNSDictionary+URLArguments.m in Sources */,
-				8B2B88A3118B931300437315 /* GTMNSString+URLArguments.m in Sources */,
 				8B2B9DE5119084FC00437315 /* OTPAuthURLEntryController.m in Sources */,
 				8B45557811932B5D00ABD707 /* OTPAuthBarClock.m in Sources */,
-				8BCB5AD011C0307C009B6C40 /* GTMNSScanner+Unsigned.m in Sources */,
 				8B0022E011E7BF800092DE18 /* OTPTableView.m in Sources */,
 				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */,
 				8BF23A7213D4EF7000F3FD82 /* UIColor+MobileColors.m in Sources */,
