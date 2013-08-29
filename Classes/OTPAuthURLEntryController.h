@@ -34,14 +34,14 @@
   dispatch_queue_t queue_;
 }
 
-@property(nonatomic, readwrite, assign) id<OTPAuthURLEntryControllerDelegate> delegate;
-@property(nonatomic, readwrite, retain) IBOutlet UITextField *accountName;
-@property(nonatomic, readwrite, retain) IBOutlet UITextField *accountKey;
-@property(nonatomic, readwrite, retain) IBOutlet UILabel *accountNameLabel;
-@property(nonatomic, readwrite, retain) IBOutlet UILabel *accountKeyLabel;
-@property(nonatomic, readwrite, retain) IBOutlet UISegmentedControl *accountType;
-@property(nonatomic, readwrite, retain) IBOutlet UIButton *scanBarcodeButton;
-@property(nonatomic, readwrite, retain) IBOutlet UIScrollView *scrollView;
+@property(nonatomic, readwrite, unsafe_unretained) id<OTPAuthURLEntryControllerDelegate> delegate;
+@property(nonatomic, readwrite, strong) IBOutlet UITextField *accountName;
+@property(nonatomic, readwrite, strong) IBOutlet UITextField *accountKey;
+@property(nonatomic, readwrite, strong) IBOutlet UILabel *accountNameLabel;
+@property(nonatomic, readwrite, strong) IBOutlet UILabel *accountKeyLabel;
+@property(nonatomic, readwrite, strong) IBOutlet UISegmentedControl *accountType;
+@property(nonatomic, readwrite, strong) IBOutlet UIButton *scanBarcodeButton;
+@property(nonatomic, readwrite, strong) IBOutlet UIScrollView *scrollView;
 
 - (IBAction)accountNameDidEndOnExit:(id)sender;
 - (IBAction)accountKeyDidEndOnExit:(id)sender;

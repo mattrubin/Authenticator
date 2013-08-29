@@ -23,15 +23,15 @@
 
 @interface OTPTableViewCell : UITableViewCell<UITextFieldDelegate>
 
-@property (retain, nonatomic, readwrite) IBOutlet UILabel *frontCodeLabel;
-@property (retain, nonatomic, readwrite) IBOutlet UILabel *frontWarningLabel;
-@property (retain, nonatomic, readwrite) IBOutlet UILabel *backCheckLabel;
-@property (retain, nonatomic, readwrite) IBOutlet UILabel *backIntegrityCheckLabel;
-@property (retain, nonatomic, readwrite) IBOutlet UITextField *frontNameTextField;
-@property (retain, nonatomic, readwrite) IBOutlet UIButton *frontRefreshButton;
-@property (retain, nonatomic, readwrite) IBOutlet UIButton *frontInfoButton;
-@property (retain, nonatomic, readwrite) IBOutlet UIView *frontView;
-@property (retain, nonatomic, readwrite) IBOutlet OTPTableViewCellBackView *backView;
+@property (strong, nonatomic, readwrite) IBOutlet UILabel *frontCodeLabel;
+@property (strong, nonatomic, readwrite) IBOutlet UILabel *frontWarningLabel;
+@property (strong, nonatomic, readwrite) IBOutlet UILabel *backCheckLabel;
+@property (strong, nonatomic, readwrite) IBOutlet UILabel *backIntegrityCheckLabel;
+@property (strong, nonatomic, readwrite) IBOutlet UITextField *frontNameTextField;
+@property (strong, nonatomic, readwrite) IBOutlet UIButton *frontRefreshButton;
+@property (strong, nonatomic, readwrite) IBOutlet UIButton *frontInfoButton;
+@property (strong, nonatomic, readwrite) IBOutlet UIView *frontView;
+@property (strong, nonatomic, readwrite) IBOutlet OTPTableViewCellBackView *backView;
 
 - (void)setAuthURL:(OTPAuthURL *)authURL;
 - (void)willBeginEditing;

@@ -81,8 +81,8 @@
   UITableViewCell *cell
     = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (!cell) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
-                                   reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                   reuseIdentifier:CellIdentifier];
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
   }
 
@@ -150,9 +150,8 @@
   }
   if (url) {
     OTPAuthAboutWebViewController *controller
-        = [[[OTPAuthAboutWebViewController alloc] initWithURL:url
-                                           accessibilityLabel:label]
-           autorelease];
+        = [[OTPAuthAboutWebViewController alloc] initWithURL:url
+                                           accessibilityLabel:label];
     [[self navigationController] pushViewController:controller animated:YES];
   }
 }
@@ -163,21 +162,16 @@
 
 - (id)initWithURL:(NSURL *)url accessibilityLabel:(NSString *)label {
   if ((self = [super initWithNibName:nil bundle:nil])) {
-    url_ = [url retain];
+    url_ = url;
     label_ = [label copy];
   }
   return self;
 }
 
-- (void)dealloc {
-  [url_ release];
-  [label_ release];
-  [super dealloc];
-}
 
 - (void)loadView {
   UIWebView *webView
-    = [[[UIWebView alloc] initWithFrame:CGRectZero] autorelease];
+    = [[UIWebView alloc] initWithFrame:CGRectZero];
   [webView setScalesPageToFit:YES];
   [webView setDelegate:self];
   [webView setAccessibilityLabel:label_];
@@ -214,7 +208,6 @@
 - (void)stopSpinner {
   [spinner_ stopAnimating];
   [spinner_ removeFromSuperview];
-  [spinner_ release];
   spinner_ = nil;
 }
 
@@ -228,12 +221,12 @@
     = GTMLocalizedString(@"Unable to load webpage.",
                          @"Notification that a web page cannot be loaded");
   UIAlertView *alert
-    = [[[UIAlertView alloc] initWithTitle:errString
+    = [[UIAlertView alloc] initWithTitle:errString
                                   message:[error localizedDescription]
                                  delegate:nil
                         cancelButtonTitle:GTMLocalizedString(@"OK",
                                                              @"OK button")
-                        otherButtonTitles:nil] autorelease];
+                        otherButtonTitles:nil];
   [alert setDelegate:self];
   [alert show];
 }

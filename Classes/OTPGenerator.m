@@ -80,18 +80,12 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
     if (!goodAlgorithm || digits_ > 8 || digits_ < 6 || !secret_) {
       _GTMDevLog(@"Bad args digits(min 6, max 8): %d secret: %@ algorithm: %@",
                  digits_, secret_, algorithm_);
-      [self release];
       self = nil;
     }
   }
   return self;
 }
 
-- (void)dealloc {
-  self.algorithm = nil;
-  self.secret = nil;
-  [super dealloc];
-}
 
 // Must be overriden by subclass.
 - (NSString *)generateOTP {

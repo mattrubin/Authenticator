@@ -29,12 +29,12 @@
 #import "UIColor+MobileColors.h"
 
 @interface OTPAuthURLEntryController ()
-@property(nonatomic, readwrite, assign) UITextField *activeTextField;
-@property(nonatomic, readwrite, assign) UIBarButtonItem *doneButtonItem;
-@property(nonatomic, readwrite, retain) Decoder *decoder;
+@property(nonatomic, readwrite, unsafe_unretained) UITextField *activeTextField;
+@property(nonatomic, readwrite, unsafe_unretained) UIBarButtonItem *doneButtonItem;
+@property(nonatomic, readwrite, strong) Decoder *decoder;
 // queue is retained using dispatch_queue retain semantics.
 @property (nonatomic, retain) __attribute__((NSObject)) dispatch_queue_t queue;
-@property (nonatomic, retain) AVCaptureSession *avSession;
+@property (nonatomic, strong) AVCaptureSession *avSession;
 @property BOOL handleCapture;
 
 - (void)keyboardWasShown:(NSNotification*)aNotification;
@@ -73,18 +73,8 @@
   [nc removeObserver:self];
   self.delegate = nil;
   self.doneButtonItem = nil;
-  self.accountName = nil;
-  self.accountKey = nil;
-  self.accountNameLabel = nil;
-  self.accountKeyLabel = nil;
-  self.accountType = nil;
-  self.scanBarcodeButton = nil;
-  self.scrollView = nil;
-  self.decoder = nil;
   self.queue = nil;
-  self.avSession = nil;
   self.queue = nil;
-  [super dealloc];
 }
 
 - (void)viewDidLoad {
@@ -126,7 +116,7 @@
   self.doneButtonItem
     = self.navigationController.navigationBar.topItem.rightBarButtonItem;
   self.doneButtonItem.enabled = NO;
-  self.decoder = [[[Decoder alloc] init] autorelease];
+  self.decoder = [[Decoder alloc] init];
   self.decoder.delegate = self;
   self.scrollView.backgroundColor = [UIColor googleBlueBackgroundColor];
 
@@ -243,8 +233,8 @@
     }
     NSString *name = self.accountName.text;
     OTPAuthURL *authURL
-      = [[[authURLClass alloc] initWithSecret:secret
-                                         name:name] autorelease];
+      = [[authURLClass alloc] initWithSecret:secret
+                                         name:name];
     NSString *checkCode = authURL.checkCode;
     if (checkCode) {
       [self.delegate authURLEntryController:self didCreateAuthURL:authURL];
@@ -265,12 +255,11 @@
     NSString *button
       = GTMLocalizedString(@"Try Again",
                            @"Button title to try again");
-    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:title
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                      message:message
                                                     delegate:nil
                                            cancelButtonTitle:button
-                                           otherButtonTitles:nil]
-                          autorelease];
+                                           otherButtonTitles:nil];
     [alert show];
   }
 }
@@ -283,7 +272,7 @@
 
 - (IBAction)scanBarcode:(id)sender {
   if (!self.avSession) {
-    self.avSession = [[[AVCaptureSession alloc] init] autorelease];
+    self.avSession = [[AVCaptureSession alloc] init];
     AVCaptureDevice *device =
       [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     AVCaptureDeviceInput *captureInput =
@@ -294,7 +283,7 @@
     self.queue = queue;
     dispatch_release(queue);
     AVCaptureVideoDataOutput *captureOutput =
-      [[[AVCaptureVideoDataOutput alloc] init] autorelease];
+      [[AVCaptureVideoDataOutput alloc] init];
     [captureOutput setAlwaysDiscardsLateVideoFrames:YES];
     [captureOutput setMinFrameDuration:CMTimeMake(5,1)];  // At most 5 frames/sec.
     [captureOutput setSampleBufferDelegate:self
@@ -322,13 +311,13 @@
   [cancelButton setTitle:cancelString forState:UIControlStateNormal];
 
   UIViewController *previewController
-    = [[[UIViewController alloc] init] autorelease];
+    = [[UIViewController alloc] init];
   [previewController.view.layer addSublayer:previewLayer];
 
   CGRect frame = previewController.view.bounds;
   previewLayer.frame = frame;
   OTPScannerOverlayView *overlayView
-    = [[[OTPScannerOverlayView alloc] initWithFrame:frame] autorelease];
+    = [[OTPScannerOverlayView alloc] initWithFrame:frame];
   [previewController.view addSubview:overlayView];
 
   // Center the cancel button horizontally, and put it
@@ -363,7 +352,7 @@
 didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection {
   if (!self.handleCapture) return;
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  @autoreleasepool {
   CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
   if (imageBuffer) {
     CVReturn ret = CVPixelBufferLockBaseAddress(imageBuffer, 0);
@@ -391,7 +380,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
   } else {
     NSLog(@"Unable to get imageBuffer from %@", sampleBuffer);
   }
-  [pool release];
+  }
 }
 
 
@@ -446,12 +435,11 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                  urlString];
       NSString *button = GTMLocalizedString(@"Try Again",
                                             @"Button title to try again");
-      UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:title
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                        message:message
                                                       delegate:self
                                              cancelButtonTitle:button
-                                             otherButtonTitles:nil]
-                            autorelease];
+                                             otherButtonTitles:nil];
       [alert show];
     }
   }

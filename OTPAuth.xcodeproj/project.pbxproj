@@ -729,6 +729,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				INFOPLIST_FILE = "OTPAuth-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
@@ -740,6 +741,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				INFOPLIST_FILE = "OTPAuth-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
