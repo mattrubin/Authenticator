@@ -39,7 +39,7 @@
 }
 
 - (NSString *)generateOTP {
-  NSUInteger counter = [self counter];
+  uint64_t counter = [self counter];
   counter += 1;
   NSString *otp = [super generateOTPForCounter:counter];
   [self setCounter:counter];

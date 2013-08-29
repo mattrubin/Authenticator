@@ -35,7 +35,7 @@
 // queue is retained using dispatch_queue retain semantics.
 @property (nonatomic, retain) __attribute__((NSObject)) dispatch_queue_t queue;
 @property (nonatomic, strong) AVCaptureSession *avSession;
-@property BOOL handleCapture;
+@property (atomic) BOOL handleCapture;
 
 - (void)keyboardWasShown:(NSNotification*)aNotification;
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification;

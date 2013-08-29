@@ -33,4 +33,4 @@
 
 // Returns a gradient that mimics a navigation bar tinted with
 // googleBlueBarColor. Client responsible for releasing.
-CGGradientRef GoogleCreateBlueBarGradient();
+CGGradientRef GoogleCreateBlueBarGradient(void);
