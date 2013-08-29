@@ -162,8 +162,10 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
                          (id)kCFBooleanTrue, kSecReturnData,
                          nil];
   NSDictionary *result = nil;
-  OSStatus status = SecItemCopyMatching((CFDictionaryRef)query,
-                                        (CFTypeRef*)&result);
+  CFDictionaryRef cf_result = NULL;
+  OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query,
+                                        (CFTypeRef*)&cf_result);
+  result = (__bridge_transfer NSDictionary *)cf_result;
   if (status == noErr) {
     authURL = [self authURLWithKeychainDictionary:result];
     [authURL setKeychainItemRef:data];
@@ -244,7 +246,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
                            self.keychainItemRef, (id)kSecValuePersistentRef,
                            nil];
 
-    status = SecItemUpdate((CFDictionaryRef)query, (CFDictionaryRef)attributes);
+    status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)attributes);
 
     _GTMDevLog(@"SecItemUpdate(%@, %@) = %ld", query, attributes, status);
   } else {
@@ -253,6 +255,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
     [attributes setObject:self.generator.secret forKey:(id)kSecValueData];
     [attributes setObject:kOTPService forKey:(id)kSecAttrService];
     NSData *ref = nil;
+    CFDataRef cf_ref = NULL;
 
     // The name here has to be unique or else we will get a errSecDuplicateItem
     // so if we have two items with the same name, we will just append a
@@ -262,7 +265,8 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
     NSString *name = self.name;
     for (int i = 0; i < 1000; i++) {
       [attributes setObject:name forKey:(id)kSecAttrAccount];
-      status = SecItemAdd((CFDictionaryRef)attributes, (CFTypeRef *)&ref);
+      status = SecItemAdd((__bridge CFDictionaryRef)attributes, (CFTypeRef *)&cf_ref);
+      ref = (__bridge_transfer NSData *)cf_ref;
       if (status == errSecDuplicateItem) {
         name = [NSString stringWithFormat:@"%@.%ld", self.name, random()];
       } else {
@@ -287,7 +291,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
                          (id)kSecClassGenericPassword, (id)kSecClass,
                          [self keychainItemRef], (id)kSecValuePersistentRef,
                          nil];
-  OSStatus status = SecItemDelete((CFDictionaryRef)query);
+  OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
 
   _GTMDevLog(@"SecItemDelete(%@) = %ld", query, status);
 
