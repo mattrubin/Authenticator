@@ -67,6 +67,8 @@
 		C9A4FA1E17CFB5C200CD5EDC /* Info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1A17CFB5C200CD5EDC /* Info@2x.png */; };
 		C9A4FA1F17CFB5C200CD5EDC /* PlusButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1B17CFB5C200CD5EDC /* PlusButton@2x.png */; };
 		C9A4FA2017CFB5C200CD5EDC /* Refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1C17CFB5C200CD5EDC /* Refresh@2x.png */; };
+		C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */; };
+		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -257,6 +259,8 @@
 		C9A4FA1A17CFB5C200CD5EDC /* Info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Info@2x.png"; sourceTree = "<group>"; };
 		C9A4FA1B17CFB5C200CD5EDC /* PlusButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PlusButton@2x.png"; sourceTree = "<group>"; };
 		C9A4FA1C17CFB5C200CD5EDC /* Refresh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Refresh@2x.png"; sourceTree = "<group>"; };
+		C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -383,6 +387,8 @@
 				8BF5104D118748C7005C936F /* RootViewController.xib */,
 				8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */,
 				8B00365211ECD2390092DE18 /* Default.png */,
+				C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */,
+				C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */,
 				8BDA1F1213550A7B003EF49C /* Localizable.strings */,
 			);
 			path = Resources;
@@ -532,6 +538,8 @@
 				C9A4FA1E17CFB5C200CD5EDC /* Info@2x.png in Resources */,
 				C9A4FA1F17CFB5C200CD5EDC /* PlusButton@2x.png in Resources */,
 				C9A4FA2017CFB5C200CD5EDC /* Refresh@2x.png in Resources */,
+				C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */,
+				C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
