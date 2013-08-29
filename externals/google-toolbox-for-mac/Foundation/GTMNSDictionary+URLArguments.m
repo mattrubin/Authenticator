@@ -18,13 +18,9 @@
 
 #import "GTMNSDictionary+URLArguments.h"
 #import "GTMNSString+URLArguments.h"
-#import "GTMMethodCheck.h"
 #import "GTMDefines.h"
 
 @implementation NSDictionary (GTMNSDictionaryURLArgumentsAdditions)
-
-GTM_METHOD_CHECK(NSString, gtm_stringByEscapingForURLArgument);
-GTM_METHOD_CHECK(NSString, gtm_stringByUnescapingFromURLArgument);
 
 + (NSDictionary *)gtm_dictionaryWithHttpArgumentsString:(NSString *)argString {
   NSMutableDictionary* ret = [NSMutableDictionary dictionary];
