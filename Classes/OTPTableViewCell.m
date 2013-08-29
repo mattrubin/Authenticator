@@ -22,7 +22,6 @@
 #import "UIColor+MobileColors.h"
 #import "GTMLocalizedString.h"
 #import "GTMRoundedRectPath.h"
-#import "GTMSystemVersion.h"
 
 @interface OTPTableViewCell ()
 @property (readwrite, retain, nonatomic) OTPAuthURL *authURL;
