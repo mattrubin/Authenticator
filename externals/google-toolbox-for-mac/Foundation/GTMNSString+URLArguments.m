@@ -17,7 +17,6 @@
 //
 
 #import "GTMNSString+URLArguments.h"
-#import "GTMGarbageCollection.h"
 
 @implementation NSString (GTMNSStringURLArgumentsAdditions)
 
@@ -30,7 +29,7 @@
                                             NULL,
                                             (CFStringRef)@"!*'();:@&=+$,/?%#[]",
                                             kCFStringEncodingUTF8);
-  return GTMCFAutorelease(escaped);
+  return ([((id)(escaped)) autorelease]);
 }
 
 - (NSString*)gtm_stringByUnescapingFromURLArgument {
