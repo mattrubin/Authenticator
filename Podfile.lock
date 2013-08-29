@@ -1,0 +1,10 @@
+PODS:
+  - ZXing/ios (2.1)
+
+DEPENDENCIES:
+  - ZXing/ios (= 2.1)
+
+SPEC CHECKSUMS:
+  ZXing: 32762c9a78b6442a0a5705c73fccbef518739088
+
+COCOAPODS: 0.23.0
