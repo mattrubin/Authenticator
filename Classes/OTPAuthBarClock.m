@@ -65,8 +65,22 @@
   CGFloat percent = (float)(mod / self.period);
   CGContextRef context = UIGraphicsGetCurrentContext();
   CGRect bounds = self.bounds;
+
+  // Clear the context
   [[UIColor clearColor] setFill];
   CGContextFillRect(context, rect);
+
+  // Set the color
+  UIColor *drawColor = [UIColor googleBlueBackgroundColor];
+  CGFloat redBuffer = 0.2f;
+  if (percent > (1-redBuffer)) {
+    CGFloat percentRed = (percent - (1-redBuffer)) / redBuffer;
+    drawColor = [UIColor colorWithRed:1.0f green:1.0f-percentRed blue:1.0f-percentRed alpha:1];
+  }
+  [drawColor setFill];
+  [drawColor setStroke];
+
+  // Draw the wedge
   CGFloat midX = CGRectGetMidX(bounds);
   CGFloat midY = CGRectGetMidY(bounds);
   CGFloat radius = midY - 4;
@@ -75,53 +89,13 @@
   CGFloat end = 2 * (float)M_PI;
   CGFloat sweep = end * percent + start;
   CGContextAddArc(context, midX, midY, radius, start, sweep, 1);
-  [[[UIColor googleBlueBackgroundColor] colorWithAlphaComponent:0.7f] setFill];
   CGContextFillPath(context);
-  if (percent > .875) {
-    CGContextMoveToPoint(context, midX, midY);
-    CGContextAddArc(context, midX, midY, radius, start, sweep, 1);
-    CGFloat alpha = (percent - .875f) / .125f;
-    [[[UIColor redColor] colorWithAlphaComponent:alpha * 0.5f] setFill];
-    CGContextFillPath(context);
-  }
 
-  // Draw top shadow
-  CGFloat offset = 0.25;
-  CGFloat x = midX + (radius - offset) * (float)cos(0 - M_PI_4);
-  CGFloat y = midY + (radius - offset) * (float)sin(0 - M_PI_4);
-  [[UIColor blackColor] setStroke];
-  CGContextMoveToPoint(context, x , y);
-  CGContextAddArc(context,
-                  midX, midY, radius - offset, 0 - (float)M_PI_4, 5.0f * (float)M_PI_4, 1);
-  CGContextStrokePath(context);
-
-  // Draw bottom highlight
-  x = midX + (radius + offset) * (float)cos(0 + M_PI_4);
-  y = midY + (radius + offset) * (float)sin(0 + M_PI_4);
-  [[UIColor whiteColor] setStroke];
-  CGContextMoveToPoint(context, x , y);
-  CGContextAddArc(context,
-                  midX, midY, radius + offset, 0 + (float)M_PI_4, 3.0f * (float)M_PI_4, 0);
-  CGContextStrokePath(context);
-
-  // Draw face
-  [[UIColor googleBlueTextColor] setStroke];
+  // Draw the border
   CGContextMoveToPoint(context, midX + radius , midY);
   CGContextAddArc(context, midX, midY, radius, 0, 2.0 * (float)M_PI, 1);
   CGContextStrokePath(context);
 
-  if (percent > .875) {
-    CGFloat alpha = (percent - .875f) / .125f;
-    [[[UIColor redColor] colorWithAlphaComponent:alpha] setStroke];
-    CGContextStrokePath(context);
-  }
-
-  // Hand
-  x = midX + radius * cosf(sweep);
-  y = midY + radius * sinf(sweep);
-  CGContextMoveToPoint(context, midX, midY);
-  CGContextAddLineToPoint(context, x, y);
-  CGContextStrokePath(context);
 }
 
 - (void)invalidate {
@@ -130,7 +104,7 @@
 }
 
 - (void)startUpTimer {
-  self.timer = [NSTimer scheduledTimerWithTimeInterval:1
+  self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01
                                                 target:self
                                               selector:@selector(redrawTimer:)
                                               userInfo:nil
