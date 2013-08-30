@@ -57,11 +57,9 @@
 		8BF5098311863B35005C936F /* OTPAuthAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF5098111863B35005C936F /* OTPAuthAboutController.m */; };
 		8BF50E051186512E005C936F /* OTPWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF50E031186512E005C936F /* OTPWelcomeViewController.m */; };
 		8BF50EDE11874258005C936F /* OTPAuthApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF50EDD11874258005C936F /* OTPAuthApplication.m */; };
-		8BF51053118748C7005C936F /* OTPAuthAboutController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF51047118748C7005C936F /* OTPAuthAboutController.xib */; };
 		8BF51055118748C7005C936F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF51049118748C7005C936F /* MainWindow.xib */; };
 		8BF51057118748C7005C936F /* OTPWelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104B118748C7005C936F /* OTPWelcomeViewController.xib */; };
 		8BF51058118748C7005C936F /* OTPAuthURLEntryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */; };
-		8BF51059118748C7005C936F /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104D118748C7005C936F /* RootViewController.xib */; };
 		C9A4FA1D17CFB5C200CD5EDC /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1917CFB5C200CD5EDC /* close@2x.png */; };
 		C9A4FA1E17CFB5C200CD5EDC /* Info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1A17CFB5C200CD5EDC /* Info@2x.png */; };
 		C9A4FA1F17CFB5C200CD5EDC /* PlusButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1B17CFB5C200CD5EDC /* PlusButton@2x.png */; };
@@ -244,12 +242,10 @@
 		8BF50E031186512E005C936F /* OTPWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPWelcomeViewController.m; sourceTree = "<group>"; };
 		8BF50EDC11874258005C936F /* OTPAuthApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthApplication.h; sourceTree = "<group>"; };
 		8BF50EDD11874258005C936F /* OTPAuthApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthApplication.m; sourceTree = "<group>"; };
-		8BF51047118748C7005C936F /* OTPAuthAboutController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPAuthAboutController.xib; sourceTree = "<group>"; };
 		8BF51049118748C7005C936F /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		8BF5104A118748C7005C936F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/LegalNotices.html; sourceTree = "<group>"; };
 		8BF5104B118748C7005C936F /* OTPWelcomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPWelcomeViewController.xib; sourceTree = "<group>"; };
 		8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPAuthURLEntryController.xib; sourceTree = "<group>"; };
-		8BF5104D118748C7005C936F /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* OTPAuth-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OTPAuth-Info.plist"; sourceTree = "<group>"; };
 		9B03839CF35E4014987A36CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
@@ -377,11 +373,9 @@
 				8B2B8226118B62F500437315 /* PlusButton.pdf */,
 				C9A4FA1B17CFB5C200CD5EDC /* PlusButton@2x.png */,
 				8B00BE9913748ABA00B36076 /* LegalNotices.html */,
-				8BF51047118748C7005C936F /* OTPAuthAboutController.xib */,
 				8BF51049118748C7005C936F /* MainWindow.xib */,
 				8BF5104B118748C7005C936F /* OTPWelcomeViewController.xib */,
 				8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */,
-				8BF5104D118748C7005C936F /* RootViewController.xib */,
 				8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */,
 				8B00365211ECD2390092DE18 /* Default.png */,
 				C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */,
@@ -514,12 +508,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BF51053118748C7005C936F /* OTPAuthAboutController.xib in Resources */,
 				8BF51055118748C7005C936F /* MainWindow.xib in Resources */,
 				8B00BE9A13748ABA00B36076 /* LegalNotices.html in Resources */,
 				8BF51057118748C7005C936F /* OTPWelcomeViewController.xib in Resources */,
 				8BF51058118748C7005C936F /* OTPAuthURLEntryController.xib in Resources */,
-				8BF51059118748C7005C936F /* RootViewController.xib in Resources */,
 				8B2B8585118B8ACF00437315 /* Refresh.png in Resources */,
 				8B2B8586118B8ACF00437315 /* PlusButton.png in Resources */,
 				8BE5C90211A7423700A20746 /* Info.png in Resources */,

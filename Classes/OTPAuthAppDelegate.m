@@ -282,6 +282,11 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 #pragma mark -
 #pragma mark UITableViewDelegate
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+
 - (void)tableView:(UITableView*)tableView
     willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
   _GTMDevAssert(self.editingState == kOTPNotEditing, @"Should not be editing");

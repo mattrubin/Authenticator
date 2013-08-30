@@ -33,7 +33,7 @@
 @implementation OTPAuthAboutController
 
 - (id)init {
-  return [super initWithNibName:@"OTPAuthAboutController" bundle:nil];
+  return [super initWithStyle:UITableViewStyleGrouped];
 }
 
 - (void)viewDidLoad {
