@@ -18,7 +18,6 @@
 
 #import "RootViewController.h"
 #import "OTPAuthURL.h"
-#import "HOTPGenerator.h"
 #import "OTPTableViewCell.h"
 #import "UIColor+MobileColors.h"
 #import "OTPAuthBarClock.h"

@@ -20,8 +20,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "OTPAuthURL.h"
 #import "GTMNSString+URLArguments.h"
-#import "HOTPGenerator.h"
-#import "TOTPGenerator.h"
 #import "Decoder.h"
 #import "TwoDDecoderResult.h"
 #import "OTPScannerOverlayView.h"

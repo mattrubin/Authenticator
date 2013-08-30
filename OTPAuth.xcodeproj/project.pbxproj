@@ -281,11 +281,6 @@
 				8BF23A7113D4EF7000F3FD82 /* UIColor+MobileColors.m */,
 				8B0022DE11E7BF800092DE18 /* OTPTableView.h */,
 				8B0022DF11E7BF800092DE18 /* OTPTableView.m */,
-				8B2B6E4E1187AC6B00437315 /* OTPGenerator.m */,
-				8B2B6E4F1187AC6B00437315 /* OTPGenerator.h */,
-				8B73DCF21182656200861C87 /* HOTPGenerator.h */,
-				8B73DCEF1182656200861C87 /* HOTPGenerator.m */,
-				8B2B89B6118B967A00437315 /* HOTPGeneratorTest.m */,
 				8BF5098011863B35005C936F /* OTPAuthAboutController.h */,
 				8BF5098111863B35005C936F /* OTPAuthAboutController.m */,
 				1D3623240D0F684500981E51 /* OTPAuthAppDelegate.h */,
@@ -303,11 +298,9 @@
 				8B0028B411EB75920092DE18 /* OTPScannerOverlayView.m */,
 				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
 				28C286E00D94DF7D0034E888 /* RootViewController.m */,
-				8B73DCEE1182656200861C87 /* TOTPGenerator.h */,
-				8B73DCF31182656200861C87 /* TOTPGenerator.m */,
-				8B2B89B7118B967A00437315 /* TOTPGeneratorTest.m */,
 				8B45557611932B5D00ABD707 /* OTPAuthBarClock.h */,
 				8B45557711932B5D00ABD707 /* OTPAuthBarClock.m */,
+				C9A4FA2717D1189600CD5EDC /* Generators */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -395,6 +388,37 @@
 				9B03839CF35E4014987A36CA /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9A4FA2517D116B700CD5EDC /* TOTP */ = {
+			isa = PBXGroup;
+			children = (
+				8B73DCEE1182656200861C87 /* TOTPGenerator.h */,
+				8B73DCF31182656200861C87 /* TOTPGenerator.m */,
+				8B2B89B7118B967A00437315 /* TOTPGeneratorTest.m */,
+			);
+			name = TOTP;
+			sourceTree = "<group>";
+		};
+		C9A4FA2617D116C300CD5EDC /* HOTP */ = {
+			isa = PBXGroup;
+			children = (
+				8B73DCF21182656200861C87 /* HOTPGenerator.h */,
+				8B73DCEF1182656200861C87 /* HOTPGenerator.m */,
+				8B2B89B6118B967A00437315 /* HOTPGeneratorTest.m */,
+			);
+			name = HOTP;
+			sourceTree = "<group>";
+		};
+		C9A4FA2717D1189600CD5EDC /* Generators */ = {
+			isa = PBXGroup;
+			children = (
+				8B2B6E4E1187AC6B00437315 /* OTPGenerator.m */,
+				8B2B6E4F1187AC6B00437315 /* OTPGenerator.h */,
+				C9A4FA2617D116C300CD5EDC /* HOTP */,
+				C9A4FA2517D116B700CD5EDC /* TOTP */,
+			);
+			name = Generators;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -19,8 +19,6 @@
 #import "OTPAuthAppDelegate.h"
 #import "GTMDefines.h"
 #import "OTPAuthURL.h"
-#import "HOTPGenerator.h"
-#import "TOTPGenerator.h"
 #import "OTPTableViewCell.h"
 #import "OTPAuthAboutController.h"
 #import "OTPWelcomeViewController.h"

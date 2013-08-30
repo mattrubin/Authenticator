@@ -18,8 +18,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class OTPGenerator;
-
 // This class encapsulates the parsing of otpauth:// urls, the creation of
 // either HOTPGenerator or TOTPGenerator objects, and the persistence of the
 // objects state to the iPhone keychain in a secure fashion.
