@@ -53,7 +53,6 @@
 		8BE5CF7211AB48F700A20746 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5CF7111AB48F700A20746 /* close.png */; };
 		8BE5D80911AC824500A20746 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE5D80811AC824500A20746 /* MobileCoreServices.framework */; };
 		8BF23A7213D4EF7000F3FD82 /* UIColor+MobileColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+MobileColors.m */; };
-		8BF23A7413D4EF7E00F3FD82 /* GoogleNavBarLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BF23A7313D4EF7E00F3FD82 /* GoogleNavBarLogo.png */; };
 		8BF505511186272B005C936F /* OTPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF505501186272B005C936F /* OTPTableViewCell.m */; };
 		8BF5098311863B35005C936F /* OTPAuthAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF5098111863B35005C936F /* OTPAuthAboutController.m */; };
 		8BF50E051186512E005C936F /* OTPWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF50E031186512E005C936F /* OTPWelcomeViewController.m */; };
@@ -237,7 +236,6 @@
 		8BE5D80811AC824500A20746 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		8BF23A7013D4EF7000F3FD82 /* UIColor+MobileColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MobileColors.h"; sourceTree = "<group>"; };
 		8BF23A7113D4EF7000F3FD82 /* UIColor+MobileColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MobileColors.m"; sourceTree = "<group>"; };
-		8BF23A7313D4EF7E00F3FD82 /* GoogleNavBarLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GoogleNavBarLogo.png; sourceTree = "<group>"; };
 		8BF5054F1186272B005C936F /* OTPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTableViewCell.h; sourceTree = "<group>"; };
 		8BF505501186272B005C936F /* OTPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTableViewCell.m; sourceTree = "<group>"; };
 		8BF5098011863B35005C936F /* OTPAuthAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthAboutController.h; sourceTree = "<group>"; };
@@ -361,7 +359,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8BF23A7313D4EF7E00F3FD82 /* GoogleNavBarLogo.png */,
 				8BC958E4128B5DB500A0E8F2 /* Icon_2x.png */,
 				8BC958E5128B5DB500A0E8F2 /* Icon-iPad.png */,
 				8BC958E6128B5DB500A0E8F2 /* Icon.png */,
@@ -533,7 +530,6 @@
 				8BC958E9128B5DB500A0E8F2 /* Icon-iPad.png in Resources */,
 				8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */,
 				8BDA1F1313550A7B003EF49C /* Localizable.strings in Resources */,
-				8BF23A7413D4EF7E00F3FD82 /* GoogleNavBarLogo.png in Resources */,
 				C9A4FA1D17CFB5C200CD5EDC /* close@2x.png in Resources */,
 				C9A4FA1E17CFB5C200CD5EDC /* Info@2x.png in Resources */,
 				C9A4FA1F17CFB5C200CD5EDC /* PlusButton@2x.png in Resources */,
