@@ -11,6 +11,9 @@ Pod::Spec.new do |s|
   s.frameworks   = 'Foundation'
   s.requires_arc = false
 
+  # The linter complains about disabling warnings via compiler flags, but I'm tired of seeing these warnings
+  s.compiler_flags = '-Wno-format'
+
   # Workaround for redefinition errors when building for the iOS simulator
   s.prefix_header_contents = <<-EOS
 #if TARGET_OS_IPHONE && MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
