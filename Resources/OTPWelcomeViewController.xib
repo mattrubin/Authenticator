@@ -143,7 +143,7 @@ bnRpY2F0b3IgeW91IG11c3QgZmlyc3QgYWRkIGFuIGFjY291bnQgYnkgcHJlc3Npbmc6A</string>
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">addAuthURL:</string>
 						<reference key="source" ref="1016323608"/>
-						<reference key="destination" ref="975951072"/>
+						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">11</int>

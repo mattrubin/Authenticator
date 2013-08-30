@@ -46,7 +46,5 @@
 	</array>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
-	<key>NSPrincipalClass</key>
-	<string>OTPAuthApplication</string>
 </dict>
 </plist>

@@ -56,7 +56,6 @@
 		8BF505511186272B005C936F /* OTPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF505501186272B005C936F /* OTPTableViewCell.m */; };
 		8BF5098311863B35005C936F /* OTPAuthAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF5098111863B35005C936F /* OTPAuthAboutController.m */; };
 		8BF50E051186512E005C936F /* OTPWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF50E031186512E005C936F /* OTPWelcomeViewController.m */; };
-		8BF50EDE11874258005C936F /* OTPAuthApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF50EDD11874258005C936F /* OTPAuthApplication.m */; };
 		8BF51055118748C7005C936F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF51049118748C7005C936F /* MainWindow.xib */; };
 		8BF51057118748C7005C936F /* OTPWelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104B118748C7005C936F /* OTPWelcomeViewController.xib */; };
 		8BF51058118748C7005C936F /* OTPAuthURLEntryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */; };
@@ -240,8 +239,6 @@
 		8BF5098111863B35005C936F /* OTPAuthAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthAboutController.m; sourceTree = "<group>"; };
 		8BF50E021186512E005C936F /* OTPWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPWelcomeViewController.h; sourceTree = "<group>"; };
 		8BF50E031186512E005C936F /* OTPWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPWelcomeViewController.m; sourceTree = "<group>"; };
-		8BF50EDC11874258005C936F /* OTPAuthApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthApplication.h; sourceTree = "<group>"; };
-		8BF50EDD11874258005C936F /* OTPAuthApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthApplication.m; sourceTree = "<group>"; };
 		8BF51049118748C7005C936F /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		8BF5104A118748C7005C936F /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/LegalNotices.html; sourceTree = "<group>"; };
 		8BF5104B118748C7005C936F /* OTPWelcomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPWelcomeViewController.xib; sourceTree = "<group>"; };
@@ -293,8 +290,6 @@
 				8BF5098111863B35005C936F /* OTPAuthAboutController.m */,
 				1D3623240D0F684500981E51 /* OTPAuthAppDelegate.h */,
 				1D3623250D0F684500981E51 /* OTPAuthAppDelegate.m */,
-				8BF50EDC11874258005C936F /* OTPAuthApplication.h */,
-				8BF50EDD11874258005C936F /* OTPAuthApplication.m */,
 				8B73DCF01182656200861C87 /* OTPAuthURL.h */,
 				8B73DCF11182656200861C87 /* OTPAuthURL.m */,
 				8B2B89BE118B968900437315 /* OTPAuthURLTest.m */,
@@ -605,7 +600,6 @@
 				8BF505511186272B005C936F /* OTPTableViewCell.m in Sources */,
 				8BF5098311863B35005C936F /* OTPAuthAboutController.m in Sources */,
 				8BF50E051186512E005C936F /* OTPWelcomeViewController.m in Sources */,
-				8BF50EDE11874258005C936F /* OTPAuthApplication.m in Sources */,
 				8B2B6E501187AC6B00437315 /* OTPGenerator.m in Sources */,
 				8B2B9DE5119084FC00437315 /* OTPAuthURLEntryController.m in Sources */,
 				8B45557811932B5D00ABD707 /* OTPAuthBarClock.m in Sources */,

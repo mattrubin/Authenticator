@@ -39,12 +39,16 @@
   navItem.hidesBackButton = YES;
   UIBarButtonItem *button
     = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                     target:nil
+                                                     target:self
                                                      action:@selector(addAuthURL:)];
   [navItem setRightBarButtonItem:button animated:NO];
 
   NSString *label = GTMLocalizedString(@"Welcome_label", @"Welcome text");
   welcomeText_.text = label;
+}
+
+- (IBAction)addAuthURL:(id)sender {
+    [(OTPAuthAppDelegate *)([UIApplication sharedApplication].delegate) addAuthURL:sender];
 }
 
 @end
