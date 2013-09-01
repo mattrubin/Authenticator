@@ -20,7 +20,6 @@
 #import "OTPAuthURL.h"
 #import "OTPTableViewCell.h"
 #import "OTPAuthAboutController.h"
-#import "OTPWelcomeViewController.h"
 #import "RootViewController.h"
 #import "GTMLocalizedString.h"
 
@@ -119,12 +118,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
   self.rootViewController
     = (RootViewController*)[self.navigationController topViewController];
-  [self.window addSubview:self.navigationController.view];
-  if ([self.authURLs count] == 0) {
-    OTPWelcomeViewController *controller
-      = [[OTPWelcomeViewController alloc] init];
-    [self.navigationController pushViewController:controller animated:NO];
-  }
+  self.window.rootViewController = self.navigationController;
   [self.window makeKeyAndVisible];
   return YES;
 }
