@@ -283,8 +283,7 @@
 				C98C1C4717D2EEB800A07D3F /* Screens */,
 				C98C1C4617D2EE6500A07D3F /* Entry */,
 				C98C1C4817D2F01A00A07D3F /* Core */,
-				8BF23A7013D4EF7000F3FD82 /* UIColor+MobileColors.h */,
-				8BF23A7113D4EF7000F3FD82 /* UIColor+MobileColors.m */,
+				C98C1C4E17D2F14500A07D3F /* Appearance */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -301,14 +300,12 @@
 			isa = PBXGroup;
 			children = (
 				8B2B8AE1118BA49F00437315 /* README */,
-				8B4553CA1192158300ABD707 /* Entitlements.plist */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				C98C1C4F17D2F16800A07D3F /* Config */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */,
-				C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -320,6 +317,7 @@
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				8BF5147F118799AE005C936F /* OTPAuth-Info.plist */,
 				8B2B85D9118B8DE400437315 /* OTPAuthUnitTest-Info.plist */,
+				8B4553CA1192158300ABD707 /* Entitlements.plist */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -327,31 +325,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8BC958E4128B5DB500A0E8F2 /* Icon_2x.png */,
-				8BC958E5128B5DB500A0E8F2 /* Icon-iPad.png */,
-				8BC958E6128B5DB500A0E8F2 /* Icon.png */,
-				8BC958E7128B5DB500A0E8F2 /* iTunesArtwork.png */,
-				8BC958E3128B5DA400A0E8F2 /* iOSIcon-Auth.psd */,
-				8BE5CF5A11AB48D200A20746 /* close.pdf */,
-				8BE5CF7111AB48F700A20746 /* close.png */,
-				C9A4FA1917CFB5C200CD5EDC /* close@2x.png */,
-				8BE5CF7C11AB490F00A20746 /* Info.pdf */,
-				8BE5C90111A7423700A20746 /* Info.png */,
-				C9A4FA1A17CFB5C200CD5EDC /* Info@2x.png */,
-				8B2B81C1118B4C9600437315 /* Refresh.pdf */,
-				8B2B8583118B8ACF00437315 /* Refresh.png */,
-				C9A4FA1C17CFB5C200CD5EDC /* Refresh@2x.png */,
-				8B2B8584118B8ACF00437315 /* PlusButton.png */,
-				8B2B8226118B62F500437315 /* PlusButton.pdf */,
-				C9A4FA1B17CFB5C200CD5EDC /* PlusButton@2x.png */,
+				C98C1C4A17D2F08400A07D3F /* Icons */,
+				C98C1C4D17D2F0A800A07D3F /* Launch Images */,
+				C98C1C4B17D2F08E00A07D3F /* Buttons */,
+				C98C1C4C17D2F09F00A07D3F /* XIBs */,
 				8B00BE9913748ABA00B36076 /* LegalNotices.html */,
-				8BF51049118748C7005C936F /* MainWindow.xib */,
-				8BF5104B118748C7005C936F /* OTPWelcomeViewController.xib */,
-				8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */,
-				8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */,
-				8B00365211ECD2390092DE18 /* Default.png */,
-				C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */,
-				C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */,
 				8BDA1F1213550A7B003EF49C /* Localizable.strings */,
 			);
 			path = Resources;
@@ -428,6 +406,76 @@
 				C98C1C4517D2EDF500A07D3F /* Table View */,
 			);
 			name = Root;
+			sourceTree = "<group>";
+		};
+		C98C1C4A17D2F08400A07D3F /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				8BC958E4128B5DB500A0E8F2 /* Icon_2x.png */,
+				8BC958E5128B5DB500A0E8F2 /* Icon-iPad.png */,
+				8BC958E6128B5DB500A0E8F2 /* Icon.png */,
+				8BC958E7128B5DB500A0E8F2 /* iTunesArtwork.png */,
+				8BC958E3128B5DA400A0E8F2 /* iOSIcon-Auth.psd */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
+		C98C1C4B17D2F08E00A07D3F /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				8BE5CF5A11AB48D200A20746 /* close.pdf */,
+				8BE5CF7111AB48F700A20746 /* close.png */,
+				C9A4FA1917CFB5C200CD5EDC /* close@2x.png */,
+				8BE5CF7C11AB490F00A20746 /* Info.pdf */,
+				8BE5C90111A7423700A20746 /* Info.png */,
+				C9A4FA1A17CFB5C200CD5EDC /* Info@2x.png */,
+				8B2B81C1118B4C9600437315 /* Refresh.pdf */,
+				8B2B8583118B8ACF00437315 /* Refresh.png */,
+				C9A4FA1C17CFB5C200CD5EDC /* Refresh@2x.png */,
+				8B2B8584118B8ACF00437315 /* PlusButton.png */,
+				8B2B8226118B62F500437315 /* PlusButton.pdf */,
+				C9A4FA1B17CFB5C200CD5EDC /* PlusButton@2x.png */,
+			);
+			name = Buttons;
+			sourceTree = "<group>";
+		};
+		C98C1C4C17D2F09F00A07D3F /* XIBs */ = {
+			isa = PBXGroup;
+			children = (
+				8BF51049118748C7005C936F /* MainWindow.xib */,
+				8BF5104B118748C7005C936F /* OTPWelcomeViewController.xib */,
+				8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */,
+				8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */,
+			);
+			name = XIBs;
+			sourceTree = "<group>";
+		};
+		C98C1C4D17D2F0A800A07D3F /* Launch Images */ = {
+			isa = PBXGroup;
+			children = (
+				8B00365211ECD2390092DE18 /* Default.png */,
+				C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */,
+				C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */,
+			);
+			name = "Launch Images";
+			sourceTree = "<group>";
+		};
+		C98C1C4E17D2F14500A07D3F /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				8BF23A7013D4EF7000F3FD82 /* UIColor+MobileColors.h */,
+				8BF23A7113D4EF7000F3FD82 /* UIColor+MobileColors.m */,
+			);
+			name = Appearance;
+			sourceTree = "<group>";
+		};
+		C98C1C4F17D2F16800A07D3F /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */,
+				C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */,
+			);
+			name = Config;
 			sourceTree = "<group>";
 		};
 		C9A4FA2517D116B700CD5EDC /* TOTP */ = {
