@@ -17,8 +17,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class OTPAuthBarClock;
+#import "OTPAuthBarClock.h"
 
 @interface RootViewController : UITableViewController
 

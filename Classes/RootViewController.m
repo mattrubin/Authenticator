@@ -20,7 +20,6 @@
 #import "OTPAuthURL.h"
 #import "OTPTableViewCell.h"
 #import "UIColor+MobileColors.h"
-#import "OTPAuthBarClock.h"
 #import "TOTPGenerator.h"
 #import "GTMLocalizedString.h"
 

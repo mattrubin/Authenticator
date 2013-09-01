@@ -21,7 +21,6 @@
 #import "DecoderDelegate.h"
 
 @class OTPAuthURL;
-@class Decoder;
 @protocol OTPAuthURLEntryControllerDelegate;
 
 @interface OTPAuthURLEntryController : UIViewController
