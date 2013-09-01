@@ -17,7 +17,6 @@
 //
 
 #import "OTPTableViewCell.h"
-#import "HOTPGenerator.h"
 #import "OTPAuthURL.h"
 #import "UIColor+MobileColors.h"
 #import "GTMLocalizedString.h"

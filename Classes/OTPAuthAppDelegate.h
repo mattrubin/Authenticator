@@ -16,7 +16,7 @@
 //  the License.
 //
 
-#import "RootViewController.h"
+#import <UIKit/UIKit.h>
 #import "OTPAuthURLEntryController.h"
 
 typedef enum {
