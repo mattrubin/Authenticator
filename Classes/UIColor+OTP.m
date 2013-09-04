@@ -28,19 +28,15 @@
     return _NAME;\
 }\
 
+#define STATIC_RGB(NAME, RED, GREEN, BLUE) STATIC_COLOR(NAME,\
+[UIColor colorWithRed:(RED)/255.f green:(GREEN)/255.f blue:(BLUE)/255.f alpha:1.0])
+
+
 
 @implementation UIColor (OTP)
 
-STATIC_COLOR(otpBarColor,
-             [UIColor colorWithRed:(float)0x5C/0xFF
-                             green:(float)0x7D/0xFF
-                              blue:(float)0xD2/0xFF
-                             alpha:1.0])
-
-STATIC_COLOR(otpBackgroundColor,
-             [UIColor colorWithRed:(float)0xEB/0xFF
-                             green:(float)0xEF/0xFF
-                              blue:(float)0xF9/0xFF
-                             alpha:1.0])
+STATIC_RGB(otpBarColor, 0, 125, 210)
+STATIC_RGB(otpBackgroundColor, 250, 253, 255)
+STATIC_RGB(otpCellTextColor, 30, 60, 90)
 
 @end

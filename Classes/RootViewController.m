@@ -73,7 +73,10 @@
   UIBarButtonItem *clockItem
     = [[UIBarButtonItem alloc] initWithCustomView:clock_];
   [navigationItem setLeftBarButtonItem:clockItem animated:NO];
-  self.navigationController.toolbar.tintColor = [UIColor otpBarColor];
+    
+    [[UINavigationBar appearance] setTintColor:[UIColor otpBarColor]];
+    [[UIToolbar appearance] setTintColor:[UIColor otpBarColor]];
+    [[UISegmentedControl appearance] setTintColor:[UIColor otpBarColor]];
 
     UILongPressGestureRecognizer *gesture =
         [[UILongPressGestureRecognizer alloc] initWithTarget:self

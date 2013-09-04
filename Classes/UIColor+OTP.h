@@ -23,5 +23,6 @@
 
 + (instancetype)otpBarColor;
 + (instancetype)otpBackgroundColor;
++ (instancetype)otpCellTextColor;
 
 @end

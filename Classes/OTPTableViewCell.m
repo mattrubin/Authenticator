@@ -79,6 +79,10 @@
     self.backIntegrityCheckLabel.text =
         GTMLocalizedString(@"Integrity Check Value",
                            @"Integerity Check Value label");
+      self.frontCodeLabel.textColor = [UIColor otpCellTextColor];
+      self.frontNameTextField.textColor = [UIColor otpCellTextColor];
+      self.backCheckLabel.textColor = [UIColor otpCellTextColor];
+      self.backIntegrityCheckLabel.textColor = [UIColor otpCellTextColor];
   }
 }
 
