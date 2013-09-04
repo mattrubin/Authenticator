@@ -896,7 +896,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
-				"GOOGLE_IPHONE_ENTERPRISE_CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = Entitlements.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 			};
@@ -906,7 +905,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
-				"GOOGLE_IPHONE_ENTERPRISE_CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]" = Entitlements.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 				ZXING_CONFIGURATION = Release;
