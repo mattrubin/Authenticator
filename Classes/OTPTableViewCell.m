@@ -18,7 +18,6 @@
 
 #import "OTPTableViewCell.h"
 #import "OTPAuthURL.h"
-#import "UIColor+MobileColors.h"
 #import "GTMLocalizedString.h"
 
 @interface OTPTableViewCell ()
@@ -353,19 +352,6 @@
     self.clearsContextBeforeDrawing = YES;
   }
   return self;
-}
-
-- (void)drawRect:(CGRect)rect {
-  CGGradientRef gradient = GoogleCreateBlueBarGradient();
-  if (gradient) {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextAddRect(context, self.bounds);
-    CGContextClip(context);
-    CGPoint midTop = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
-    CGPoint midBottom = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
-    CGContextDrawLinearGradient(context, gradient, midTop, midBottom, 0);
-    CFRelease(gradient);
-  }
 }
 
 @end

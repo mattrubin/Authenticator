@@ -1,4 +1,6 @@
 //
+//  UIColor+OTP.m
+//
 //  Copyright 2011 Google Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -14,19 +16,23 @@
 //  the License.
 //
 
-//
-// Prefix header for all source files of the 'OTPAuth' target in the 'OTPAuth' project
-//
-#import <Availability.h>
-
-#ifndef __IPHONE_3_0
-#warning "This project uses features only available in iPhone SDK 3.0 and later."
-#endif
-
-
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
-#endif
-
 #import "UIColor+OTP.h"
+
+
+@implementation UIColor (OTP)
+
++ (UIColor *)otpBarColor {
+  return [UIColor colorWithRed:(float)0x5C/0xFF
+                         green:(float)0x7D/0xFF
+                          blue:(float)0xD2/0xFF
+                         alpha:1.0];
+}
+
++ (UIColor *)otpBackgroundColor {
+  return [UIColor colorWithRed:(float)0xEB/0xFF
+                         green:(float)0xEF/0xFF
+                          blue:(float)0xF9/0xFF
+                         alpha:1.0];
+}
+
+@end

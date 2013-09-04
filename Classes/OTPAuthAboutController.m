@@ -17,7 +17,6 @@
 //
 
 #import "OTPAuthAboutController.h"
-#import "UIColor+MobileColors.h"
 #import "GTMLocalizedString.h"
 
 @interface OTPAuthAboutWebViewController : UIViewController
@@ -39,7 +38,7 @@
 - (void)viewDidLoad {
   UITableView *view = (UITableView *)[self view];
   [view setAccessibilityLabel:@"LegalOptions"];
-  [view setBackgroundColor:[UIColor googleBlueBackgroundColor]];
+  [view setBackgroundColor:[UIColor otpBackgroundColor]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

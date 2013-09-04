@@ -18,7 +18,7 @@
 
 #import "OTPAuthBarClock.h"
 #import "GTMDefines.h"
-#import "UIColor+MobileColors.h"
+
 
 @interface OTPAuthBarClock ()
 @property (nonatomic, strong, readwrite) NSTimer *timer;
@@ -71,7 +71,7 @@
   CGContextFillRect(context, rect);
 
   // Set the color
-  UIColor *drawColor = [UIColor googleBlueBackgroundColor];
+  UIColor *drawColor = [UIColor otpBackgroundColor];
   CGFloat redBuffer = 0.2f;
   if (percent > (1-redBuffer)) {
     CGFloat percentRed = (percent - (1-redBuffer)) / redBuffer;

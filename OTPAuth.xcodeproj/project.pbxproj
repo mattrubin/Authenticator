@@ -51,7 +51,7 @@
 		8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */; };
 		8BE5CF7211AB48F700A20746 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5CF7111AB48F700A20746 /* close.png */; };
 		8BE5D80911AC824500A20746 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE5D80811AC824500A20746 /* MobileCoreServices.framework */; };
-		8BF23A7213D4EF7000F3FD82 /* UIColor+MobileColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+MobileColors.m */; };
+		8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */; };
 		8BF505511186272B005C936F /* OTPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF505501186272B005C936F /* OTPTableViewCell.m */; };
 		8BF5098311863B35005C936F /* OTPAuthAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF5098111863B35005C936F /* OTPAuthAboutController.m */; };
 		8BF51055118748C7005C936F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF51049118748C7005C936F /* MainWindow.xib */; };
@@ -226,8 +226,8 @@
 		8BE5CF7111AB48F700A20746 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
 		8BE5CF7C11AB490F00A20746 /* Info.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Info.pdf; sourceTree = "<group>"; };
 		8BE5D80811AC824500A20746 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		8BF23A7013D4EF7000F3FD82 /* UIColor+MobileColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MobileColors.h"; sourceTree = "<group>"; };
-		8BF23A7113D4EF7000F3FD82 /* UIColor+MobileColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MobileColors.m"; sourceTree = "<group>"; };
+		8BF23A7013D4EF7000F3FD82 /* UIColor+OTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+OTP.h"; sourceTree = "<group>"; };
+		8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+OTP.m"; sourceTree = "<group>"; };
 		8BF5054F1186272B005C936F /* OTPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTableViewCell.h; sourceTree = "<group>"; };
 		8BF505501186272B005C936F /* OTPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTableViewCell.m; sourceTree = "<group>"; };
 		8BF5098011863B35005C936F /* OTPAuthAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthAboutController.h; sourceTree = "<group>"; };
@@ -451,8 +451,8 @@
 		C98C1C4E17D2F14500A07D3F /* Appearance */ = {
 			isa = PBXGroup;
 			children = (
-				8BF23A7013D4EF7000F3FD82 /* UIColor+MobileColors.h */,
-				8BF23A7113D4EF7000F3FD82 /* UIColor+MobileColors.m */,
+				8BF23A7013D4EF7000F3FD82 /* UIColor+OTP.h */,
+				8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */,
 			);
 			name = Appearance;
 			sourceTree = "<group>";
@@ -700,7 +700,7 @@
 				8B45557811932B5D00ABD707 /* OTPAuthBarClock.m in Sources */,
 				8B0022E011E7BF800092DE18 /* OTPTableView.m in Sources */,
 				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */,
-				8BF23A7213D4EF7000F3FD82 /* UIColor+MobileColors.m in Sources */,
+				8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,6 +845,8 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OTPAuth.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_PEDANTIC = YES;
@@ -868,6 +870,8 @@
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OTPAuth.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_PEDANTIC = YES;

@@ -23,7 +23,7 @@
 #import "TwoDDecoderResult.h"
 #import "OTPScannerOverlayView.h"
 #import "GTMLocalizedString.h"
-#import "UIColor+MobileColors.h"
+
 
 @interface OTPAuthURLEntryController ()
 @property(nonatomic, readwrite, unsafe_unretained) UITextField *activeTextField;
@@ -115,7 +115,7 @@
   self.doneButtonItem.enabled = NO;
   self.decoder = [[Decoder alloc] init];
   self.decoder.delegate = self;
-  self.scrollView.backgroundColor = [UIColor googleBlueBackgroundColor];
+  self.scrollView.backgroundColor = [UIColor otpBackgroundColor];
 
   // Hide the Scan button if we don't have a camera that will support video.
   AVCaptureDevice *device = nil;
