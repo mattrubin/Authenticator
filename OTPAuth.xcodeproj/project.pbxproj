@@ -43,8 +43,8 @@
 		8B73DCF61182656200861C87 /* TOTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B73DCF31182656200861C87 /* TOTPGenerator.m */; };
 		8B8098E613D4FED600D4FCC8 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B8098E513D4FED600D4FCC8 /* libstdc++.dylib */; };
 		8BBC772113BA945D006B3033 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B877C118B904000437315 /* Security.framework */; };
-		8BC958E8128B5DB500A0E8F2 /* Icon_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E4128B5DB500A0E8F2 /* Icon_2x.png */; };
-		8BC958E9128B5DB500A0E8F2 /* Icon-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E5128B5DB500A0E8F2 /* Icon-iPad.png */; };
+		8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E4128B5DB500A0E8F2 /* Icon@2x.png */; };
+		8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E5128B5DB500A0E8F2 /* Icon-72.png */; };
 		8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E6128B5DB500A0E8F2 /* Icon.png */; };
 		8BDA1F1313550A7B003EF49C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BDA1F1213550A7B003EF49C /* Localizable.strings */; };
 		8BE5C90211A7423700A20746 /* Info.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5C90111A7423700A20746 /* Info.png */; };
@@ -56,6 +56,8 @@
 		8BF5098311863B35005C936F /* OTPAuthAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF5098111863B35005C936F /* OTPAuthAboutController.m */; };
 		8BF51055118748C7005C936F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF51049118748C7005C936F /* MainWindow.xib */; };
 		8BF51058118748C7005C936F /* OTPAuthURLEntryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */; };
+		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
+		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
 		C9A4FA1D17CFB5C200CD5EDC /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1917CFB5C200CD5EDC /* close@2x.png */; };
 		C9A4FA1E17CFB5C200CD5EDC /* Info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1A17CFB5C200CD5EDC /* Info@2x.png */; };
 		C9A4FA2017CFB5C200CD5EDC /* Refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1C17CFB5C200CD5EDC /* Refresh@2x.png */; };
@@ -198,7 +200,7 @@
 		8B2B89B6118B967A00437315 /* HOTPGeneratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOTPGeneratorTest.m; sourceTree = "<group>"; };
 		8B2B89B7118B967A00437315 /* TOTPGeneratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOTPGeneratorTest.m; sourceTree = "<group>"; };
 		8B2B89BE118B968900437315 /* OTPAuthURLTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthURLTest.m; sourceTree = "<group>"; };
-		8B2B8AE1118BA49F00437315 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		8B2B8AE1118BA49F00437315 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8B2B9DE3119084FC00437315 /* OTPAuthURLEntryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthURLEntryController.h; sourceTree = "<group>"; };
 		8B2B9DE4119084FC00437315 /* OTPAuthURLEntryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthURLEntryController.m; sourceTree = "<group>"; };
 		8B3F0F59122F2003009A6409 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -213,8 +215,8 @@
 		8B73DCF31182656200861C87 /* TOTPGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOTPGenerator.m; sourceTree = "<group>"; };
 		8B8098E513D4FED600D4FCC8 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/gcc/arm-apple-darwin10/4.2.1/libstdc++.dylib"; sourceTree = SDKROOT; };
 		8B80995D13D500E200D4FCC8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Developer/Library/Frameworks/SenTestingKit.framework; sourceTree = SDKROOT; };
-		8BC958E4128B5DB500A0E8F2 /* Icon_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_2x.png; sourceTree = "<group>"; };
-		8BC958E5128B5DB500A0E8F2 /* Icon-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPad.png"; sourceTree = "<group>"; };
+		8BC958E4128B5DB500A0E8F2 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		8BC958E5128B5DB500A0E8F2 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		8BC958E6128B5DB500A0E8F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		8BC958E7128B5DB500A0E8F2 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		8BDA1F1013550A75003EF49C /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -235,6 +237,8 @@
 		8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPAuthURLEntryController.xib; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* OTPAuth-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OTPAuth-Info.plist"; sourceTree = "<group>"; };
 		9B03839CF35E4014987A36CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C948F01517D70080008FCA41 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		C9A4FA1917CFB5C200CD5EDC /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
 		C9A4FA1A17CFB5C200CD5EDC /* Info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Info@2x.png"; sourceTree = "<group>"; };
@@ -288,7 +292,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				8B2B8AE1118BA49F00437315 /* README */,
+				8B2B8AE1118BA49F00437315 /* README.md */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -398,10 +402,12 @@
 		C98C1C4A17D2F08400A07D3F /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				8BC958E4128B5DB500A0E8F2 /* Icon_2x.png */,
-				8BC958E5128B5DB500A0E8F2 /* Icon-iPad.png */,
 				8BC958E6128B5DB500A0E8F2 /* Icon.png */,
+				8BC958E4128B5DB500A0E8F2 /* Icon@2x.png */,
+				8BC958E5128B5DB500A0E8F2 /* Icon-72.png */,
+				C948F01517D70080008FCA41 /* Icon-72@2x.png */,
 				8BC958E7128B5DB500A0E8F2 /* iTunesArtwork.png */,
+				C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -605,8 +611,8 @@
 				8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */,
 				8BE5CF7211AB48F700A20746 /* close.png in Resources */,
 				8B00365311ECD2390092DE18 /* Default.png in Resources */,
-				8BC958E8128B5DB500A0E8F2 /* Icon_2x.png in Resources */,
-				8BC958E9128B5DB500A0E8F2 /* Icon-iPad.png in Resources */,
+				8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */,
+				8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */,
 				8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */,
 				8BDA1F1313550A7B003EF49C /* Localizable.strings in Resources */,
 				C9A4FA1D17CFB5C200CD5EDC /* close@2x.png in Resources */,
@@ -614,6 +620,8 @@
 				C9A4FA2017CFB5C200CD5EDC /* Refresh@2x.png in Resources */,
 				C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */,
 				C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */,
+				C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */,
+				C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
