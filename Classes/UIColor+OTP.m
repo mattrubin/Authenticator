@@ -1,4 +1,6 @@
 //
+//  UIColor+OTP.m
+//
 //  Copyright 2011 Google Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -14,19 +16,27 @@
 //  the License.
 //
 
-//
-// Prefix header for all source files of the 'OTPAuth' target in the 'OTPAuth' project
-//
-#import <Availability.h>
-
-#ifndef __IPHONE_3_0
-#warning "This project uses features only available in iPhone SDK 3.0 and later."
-#endif
-
-
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
-#endif
-
 #import "UIColor+OTP.h"
+
+
+#define STATIC_COLOR(NAME, OBJECT) + (instancetype)NAME {\
+    static UIColor *_NAME;\
+    static dispatch_once_t onceToken;\
+    dispatch_once(&onceToken, ^{\
+        _NAME = OBJECT;\
+    });\
+    return _NAME;\
+}\
+
+#define STATIC_RGB(NAME, RED, GREEN, BLUE) STATIC_COLOR(NAME,\
+[UIColor colorWithRed:(RED)/255.f green:(GREEN)/255.f blue:(BLUE)/255.f alpha:1.0])
+
+
+
+@implementation UIColor (OTP)
+
+STATIC_RGB(otpBarColor, 0, 125, 210)
+STATIC_RGB(otpBackgroundColor, 250, 253, 255)
+STATIC_RGB(otpCellTextColor, 30, 60, 90)
+
+@end

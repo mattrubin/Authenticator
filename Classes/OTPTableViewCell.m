@@ -18,7 +18,6 @@
 
 #import "OTPTableViewCell.h"
 #import "OTPAuthURL.h"
-#import "UIColor+MobileColors.h"
 #import "GTMLocalizedString.h"
 
 @interface OTPTableViewCell ()
@@ -80,6 +79,10 @@
     self.backIntegrityCheckLabel.text =
         GTMLocalizedString(@"Integrity Check Value",
                            @"Integerity Check Value label");
+      self.frontCodeLabel.textColor = [UIColor otpCellTextColor];
+      self.frontNameTextField.textColor = [UIColor otpCellTextColor];
+      self.backCheckLabel.textColor = [UIColor otpCellTextColor];
+      self.backIntegrityCheckLabel.textColor = [UIColor otpCellTextColor];
   }
 }
 
@@ -353,19 +356,6 @@
     self.clearsContextBeforeDrawing = YES;
   }
   return self;
-}
-
-- (void)drawRect:(CGRect)rect {
-  CGGradientRef gradient = GoogleCreateBlueBarGradient();
-  if (gradient) {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextAddRect(context, self.bounds);
-    CGContextClip(context);
-    CGPoint midTop = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
-    CGPoint midBottom = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
-    CGContextDrawLinearGradient(context, gradient, midTop, midBottom, 0);
-    CFRelease(gradient);
-  }
 }
 
 @end

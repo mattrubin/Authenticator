@@ -19,7 +19,6 @@
 #import "RootViewController.h"
 #import "OTPAuthURL.h"
 #import "OTPTableViewCell.h"
-#import "UIColor+MobileColors.h"
 #import "TOTPGenerator.h"
 #import "GTMLocalizedString.h"
 
@@ -54,7 +53,7 @@
   UITableView *view = (UITableView *)self.view;
   view.dataSource = self.delegate;
   view.delegate = self.delegate;
-  view.backgroundColor = [UIColor googleBlueBackgroundColor];
+  view.backgroundColor = [UIColor otpBackgroundColor];
 
   UIButton *titleButton = [[UIButton alloc] init];
   [titleButton setTitle:GTMLocalizedString(@"Authenticator", nil)
@@ -74,7 +73,10 @@
   UIBarButtonItem *clockItem
     = [[UIBarButtonItem alloc] initWithCustomView:clock_];
   [navigationItem setLeftBarButtonItem:clockItem animated:NO];
-  self.navigationController.toolbar.tintColor = [UIColor googleBlueBarColor];
+    
+    [[UINavigationBar appearance] setTintColor:[UIColor otpBarColor]];
+    [[UIToolbar appearance] setTintColor:[UIColor otpBarColor]];
+    [[UISegmentedControl appearance] setTintColor:[UIColor otpBarColor]];
 
     UILongPressGestureRecognizer *gesture =
         [[UILongPressGestureRecognizer alloc] initWithTarget:self

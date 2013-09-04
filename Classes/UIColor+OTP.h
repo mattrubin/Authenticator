@@ -1,5 +1,5 @@
 //
-//  UIColor+MobileColors.h
+//  UIColor+OTP.h
 //
 //  Copyright 2011 Google Inc.
 //
@@ -16,21 +16,13 @@
 //  the License.
 //
 
-// This header defines shared colors for all native iPhone Google
-// apps.
-
 #import <UIKit/UIKit.h>
 
-@interface UIColor (GMOMobileColors)
-+ (UIColor *)googleBlueBarColor;
-+ (UIColor *)googleBlueBackgroundColor;
-+ (UIColor *)googleTableViewSeparatorColor;
-+ (UIColor *)googleReadItemBackgroundColor;
-+ (UIColor *)googleBlueTextColor;
-+ (UIColor *)googleGreenURLTextColor;
-+ (UIColor *)googleAdYellowBackgroundColor;
-@end
 
-// Returns a gradient that mimics a navigation bar tinted with
-// googleBlueBarColor. Client responsible for releasing.
-CGGradientRef GoogleCreateBlueBarGradient(void);
+@interface UIColor (OTP)
+
++ (instancetype)otpBarColor;
++ (instancetype)otpBackgroundColor;
++ (instancetype)otpCellTextColor;
+
+@end
