@@ -35,7 +35,6 @@ typedef enum {
     UIAlertViewDelegate>
 @property(nonatomic, strong) IBOutlet UINavigationController *navigationController;
 @property(nonatomic, strong) IBOutlet UIWindow *window;
-@property(nonatomic, strong) IBOutlet UINavigationItem *navigationItem;
 
 - (IBAction)addAuthURL:(id)sender;
 

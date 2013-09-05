@@ -34,7 +34,6 @@
 		8BE5D80911AC824500A20746 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE5D80811AC824500A20746 /* MobileCoreServices.framework */; };
 		8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */; };
 		8BF505511186272B005C936F /* OTPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF505501186272B005C936F /* OTPTableViewCell.m */; };
-		8BF51055118748C7005C936F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF51049118748C7005C936F /* MainWindow.xib */; };
 		8BF51058118748C7005C936F /* OTPAuthURLEntryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
 		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
@@ -93,7 +92,6 @@
 		8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+OTP.m"; sourceTree = "<group>"; };
 		8BF5054F1186272B005C936F /* OTPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTableViewCell.h; sourceTree = "<group>"; };
 		8BF505501186272B005C936F /* OTPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTableViewCell.m; sourceTree = "<group>"; };
-		8BF51049118748C7005C936F /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPAuthURLEntryController.xib; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* OTPAuth-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OTPAuth-Info.plist"; sourceTree = "<group>"; };
 		9B03839CF35E4014987A36CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,7 +259,6 @@
 		C98C1C4C17D2F09F00A07D3F /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
-				8BF51049118748C7005C936F /* MainWindow.xib */,
 				8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */,
 				8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */,
 			);
@@ -431,7 +428,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BF51055118748C7005C936F /* MainWindow.xib in Resources */,
 				8BF51058118748C7005C936F /* OTPAuthURLEntryController.xib in Resources */,
 				8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */,
 				8B00365311ECD2390092DE18 /* Default.png in Resources */,

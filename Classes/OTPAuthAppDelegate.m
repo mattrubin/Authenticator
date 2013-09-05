@@ -30,11 +30,11 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @property(readwrite, nonatomic, strong) OTPAuthURL *authURL;
 @end
 
-@interface OTPAuthAppDelegate ()
+@interface OTPAuthAppDelegate () <UINavigationControllerDelegate>
 // The OTPAuthURL objects in this array are loaded from the keychain at
 // startup and serialized there on shutdown.
 @property (nonatomic, strong) NSMutableArray *authURLs;
-@property (nonatomic, unsafe_unretained) RootViewController *rootViewController;
+@property (nonatomic, strong) RootViewController *rootViewController;
 @property (nonatomic, unsafe_unretained) UIBarButtonItem *editButton;
 @property (nonatomic, assign) OTPEditingState editingState;
 @property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
@@ -53,16 +53,11 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @synthesize editButton = editButton_;
 @synthesize editingState = editingState_;
 @synthesize urlAddAlert = urlAddAlert_;
-@synthesize navigationItem = navigationItem_;
 @synthesize urlBeingAdded = urlBeingAdded_;
 
 - (void)dealloc {
   self.rootViewController = nil;
   self.editButton = nil;
-}
-
-- (void)awakeFromNib {
-  self.navigationItem.title = @"Google Authenticator";
 }
 
 - (void)updateEditing:(UITableView *)tableView {
@@ -108,8 +103,13 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-  self.rootViewController
-    = (RootViewController*)[self.navigationController topViewController];
+    self.rootViewController = [[RootViewController alloc] init];
+    self.rootViewController.delegate = self;
+
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
+    self.navigationController.delegate = self;
+    self.navigationController.toolbarHidden = NO;
+
   self.window.rootViewController = self.navigationController;
   [self.window makeKeyAndVisible];
   return YES;
@@ -166,12 +166,11 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
                     animated:(BOOL)animated {
   if (viewController == self.rootViewController) {
     self.editButton = viewController.editButtonItem;
-    UIToolbar *toolbar = self.navigationController.toolbar;
-    NSMutableArray *items = [NSMutableArray arrayWithArray:toolbar.items];
-    // We are replacing our "proxy edit button" with a real one.
-    [items replaceObjectAtIndex:0 withObject:self.editButton];
-    toolbar.items = items;
-
+    self.rootViewController.addItem.target = self;
+    self.rootViewController.addItem.action = @selector(addAuthURL:);
+    self.navigationController.toolbar.items = @[self.editButton,
+                                                [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                                                self.rootViewController.addItem];
     [self updateUI];
   }
 }

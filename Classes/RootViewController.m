@@ -87,6 +87,9 @@
                                                  action:@selector(showCopyMenu:)];
     doubleTap.numberOfTapsRequired = 2;
     [view addGestureRecognizer:doubleTap];
+    
+    self.addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
+    self.addItem.style = UIBarButtonItemStyleBordered;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
