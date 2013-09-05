@@ -1,17 +1,17 @@
 PODS:
-  - google-toolbox-for-google-authenticator (446)
+  - google-toolbox-for-authenticator (446)
   - ZXing/ios (2.1)
 
 DEPENDENCIES:
-  - google-toolbox-for-google-authenticator (from `google-toolbox-for-google-authenticator.podspec`)
+  - google-toolbox-for-authenticator (from `google-toolbox-for-authenticator.podspec`)
   - ZXing/ios (= 2.1)
 
 EXTERNAL SOURCES:
-  google-toolbox-for-google-authenticator:
-    :podspec: google-toolbox-for-google-authenticator.podspec
+  google-toolbox-for-authenticator:
+    :podspec: google-toolbox-for-authenticator.podspec
 
 SPEC CHECKSUMS:
-  google-toolbox-for-google-authenticator: 68629f927c380c19d6edc7140e782958bce83008
+  google-toolbox-for-authenticator: e8531fe4b0d7eefcb93ea8ebb0dee27b7ed8624a
   ZXing: 32762c9a78b6442a0a5705c73fccbef518739088
 
 COCOAPODS: 0.23.0

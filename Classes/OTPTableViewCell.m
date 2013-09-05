@@ -19,7 +19,7 @@
 
 #import "OTPTableViewCell.h"
 #import "OTPAuthURL.h"
-#import "GTMLocalizedString.h"
+
 
 @interface OTPTableViewCell ()
 @property (readwrite, strong, nonatomic) OTPAuthURL *authURL;
@@ -77,9 +77,7 @@
     self.frontView.frame = bounds;
     [self.contentView addSubview:self.frontView];
     [self updateUIForAuthURL:self.authURL];
-    self.backIntegrityCheckLabel.text =
-        GTMLocalizedString(@"Integrity Check Value",
-                           @"Integerity Check Value label");
+    self.backIntegrityCheckLabel.text = @"Integrity Check Value";
       self.frontCodeLabel.textColor = [UIColor otpCellTextColor];
       self.frontNameTextField.textColor = [UIColor otpCellTextColor];
       self.backCheckLabel.textColor = [UIColor otpCellTextColor];
