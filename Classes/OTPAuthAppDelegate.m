@@ -106,6 +106,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     }
   }
 
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
   self.rootViewController
     = (RootViewController*)[self.navigationController topViewController];
   self.window.rootViewController = self.navigationController;
