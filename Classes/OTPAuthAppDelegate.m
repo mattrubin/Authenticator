@@ -47,14 +47,12 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @implementation OTPAuthAppDelegate
 @synthesize window = window_;
-@synthesize authURLEntryController = authURLEntryController_;
 @synthesize navigationController = navigationController_;
 @synthesize authURLs = authURLs_;
 @synthesize rootViewController = rootViewController_;
 @synthesize editButton = editButton_;
 @synthesize editingState = editingState_;
 @synthesize urlAddAlert = urlAddAlert_;
-@synthesize authURLEntryNavigationItem = authURLEntryNavigationItem_;
 @synthesize navigationItem = navigationItem_;
 @synthesize urlBeingAdded = urlBeingAdded_;
 
@@ -65,7 +63,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (void)awakeFromNib {
   self.navigationItem.title = @"Google Authenticator";
-  self.authURLEntryNavigationItem.title = @"Add Token";
 }
 
 - (void)updateEditing:(UITableView *)tableView {
@@ -337,8 +334,12 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 -(IBAction)addAuthURL:(id)sender {
   [self.navigationController popToRootViewControllerAnimated:NO];
   [self.rootViewController setEditing:NO animated:NO];
-  [self.navigationController presentModalViewController:self.authURLEntryController
-                                               animated:YES];
+    
+    OTPAuthURLEntryController *entryController = [[OTPAuthURLEntryController alloc] init];
+    entryController.delegate = self;
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:entryController];
+
+    [self.navigationController presentModalViewController:nc animated:YES];
 }
 
 @end
