@@ -6,20 +6,6 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		8B2B8562118B884200437315 /* GenerateArtwork */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 8B2B856D118B885B00437315 /* Build configuration list for PBXAggregateTarget "GenerateArtwork" */;
-			buildPhases = (
-				8B2B8561118B884200437315 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = GenerateArtwork;
-			productName = GenerateArtwork;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* OTPAuthAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* OTPAuthAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -30,7 +16,6 @@
 		8B00365311ECD2390092DE18 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B00365211ECD2390092DE18 /* Default.png */; };
 		8B00BE9A13748ABA00B36076 /* LegalNotices.html in Resources */ = {isa = PBXBuildFile; fileRef = 8B00BE9913748ABA00B36076 /* LegalNotices.html */; };
 		8B2B6E501187AC6B00437315 /* OTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B6E4E1187AC6B00437315 /* OTPGenerator.m */; };
-		8B2B8585118B8ACF00437315 /* Refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B2B8583118B8ACF00437315 /* Refresh.png */; };
 		8B2B86FE118B8FA000437315 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B86FD118B8FA000437315 /* UIKit.framework */; };
 		8B2B8728118B900E00437315 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8727118B900E00437315 /* CoreFoundation.framework */; };
 		8B2B8755118B902200437315 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8754118B902200437315 /* CoreGraphics.framework */; };
@@ -46,9 +31,7 @@
 		8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E4128B5DB500A0E8F2 /* Icon@2x.png */; };
 		8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E5128B5DB500A0E8F2 /* Icon-72.png */; };
 		8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E6128B5DB500A0E8F2 /* Icon.png */; };
-		8BE5C90211A7423700A20746 /* Info.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5C90111A7423700A20746 /* Info.png */; };
 		8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */; };
-		8BE5CF7211AB48F700A20746 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5CF7111AB48F700A20746 /* close.png */; };
 		8BE5D80911AC824500A20746 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE5D80811AC824500A20746 /* MobileCoreServices.framework */; };
 		8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */; };
 		8BF505511186272B005C936F /* OTPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF505501186272B005C936F /* OTPTableViewCell.m */; };
@@ -57,22 +40,9 @@
 		8BF51058118748C7005C936F /* OTPAuthURLEntryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104C118748C7005C936F /* OTPAuthURLEntryController.xib */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
 		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
-		C9A4FA1D17CFB5C200CD5EDC /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1917CFB5C200CD5EDC /* close@2x.png */; };
-		C9A4FA1E17CFB5C200CD5EDC /* Info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1A17CFB5C200CD5EDC /* Info@2x.png */; };
-		C9A4FA2017CFB5C200CD5EDC /* Refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA1C17CFB5C200CD5EDC /* Refresh@2x.png */; };
 		C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */; };
 		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		8B3F0E75122F134D009A6409 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8B2B8562118B884200437315;
-			remoteInfo = GenerateArtwork;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1D3623240D0F684500981E51 /* OTPAuthAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthAppDelegate.h; sourceTree = "<group>"; };
@@ -91,8 +61,6 @@
 		8B00BE9913748ABA00B36076 /* LegalNotices.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LegalNotices.html; sourceTree = "<group>"; };
 		8B2B6E4E1187AC6B00437315 /* OTPGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPGenerator.m; sourceTree = "<group>"; };
 		8B2B6E4F1187AC6B00437315 /* OTPGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPGenerator.h; sourceTree = "<group>"; };
-		8B2B81C1118B4C9600437315 /* Refresh.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Refresh.pdf; sourceTree = "<group>"; };
-		8B2B8583118B8ACF00437315 /* Refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Refresh.png; sourceTree = "<group>"; };
 		8B2B85D9118B8DE400437315 /* OTPAuthUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OTPAuthUnitTest-Info.plist"; sourceTree = "<group>"; };
 		8B2B86FD118B8FA000437315 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8B2B8727118B900E00437315 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -121,11 +89,7 @@
 		8BC958E5128B5DB500A0E8F2 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		8BC958E6128B5DB500A0E8F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		8BC958E7128B5DB500A0E8F2 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
-		8BE5C90111A7423700A20746 /* Info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Info.png; sourceTree = "<group>"; };
 		8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPTableViewCell.xib; sourceTree = "<group>"; };
-		8BE5CF5A11AB48D200A20746 /* close.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = close.pdf; sourceTree = "<group>"; };
-		8BE5CF7111AB48F700A20746 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
-		8BE5CF7C11AB490F00A20746 /* Info.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Info.pdf; sourceTree = "<group>"; };
 		8BE5D80811AC824500A20746 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		8BF23A7013D4EF7000F3FD82 /* UIColor+OTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+OTP.h"; sourceTree = "<group>"; };
 		8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+OTP.m"; sourceTree = "<group>"; };
@@ -140,9 +104,6 @@
 		C948F01517D70080008FCA41 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
-		C9A4FA1917CFB5C200CD5EDC /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
-		C9A4FA1A17CFB5C200CD5EDC /* Info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Info@2x.png"; sourceTree = "<group>"; };
-		C9A4FA1C17CFB5C200CD5EDC /* Refresh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Refresh@2x.png"; sourceTree = "<group>"; };
 		C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -220,7 +181,6 @@
 			children = (
 				C98C1C4A17D2F08400A07D3F /* Icons */,
 				C98C1C4D17D2F0A800A07D3F /* Launch Images */,
-				C98C1C4B17D2F08E00A07D3F /* Buttons */,
 				C98C1C4C17D2F09F00A07D3F /* XIBs */,
 				8B00BE9913748ABA00B36076 /* LegalNotices.html */,
 			);
@@ -311,22 +271,6 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
-		C98C1C4B17D2F08E00A07D3F /* Buttons */ = {
-			isa = PBXGroup;
-			children = (
-				8BE5CF5A11AB48D200A20746 /* close.pdf */,
-				8BE5CF7111AB48F700A20746 /* close.png */,
-				C9A4FA1917CFB5C200CD5EDC /* close@2x.png */,
-				8BE5CF7C11AB490F00A20746 /* Info.pdf */,
-				8BE5C90111A7423700A20746 /* Info.png */,
-				C9A4FA1A17CFB5C200CD5EDC /* Info@2x.png */,
-				8B2B81C1118B4C9600437315 /* Refresh.pdf */,
-				8B2B8583118B8ACF00437315 /* Refresh.png */,
-				C9A4FA1C17CFB5C200CD5EDC /* Refresh@2x.png */,
-			);
-			name = Buttons;
-			sourceTree = "<group>";
-		};
 		C98C1C4C17D2F09F00A07D3F /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
@@ -412,7 +356,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8B3F0E76122F134D009A6409 /* PBXTargetDependency */,
 			);
 			name = OTPAuth;
 			productName = OTPAuth;
@@ -492,7 +435,6 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* OTPAuth */,
-				8B2B8562118B884200437315 /* GenerateArtwork */,
 			);
 		};
 /* End PBXProject section */
@@ -505,17 +447,11 @@
 				8BF51055118748C7005C936F /* MainWindow.xib in Resources */,
 				8B00BE9A13748ABA00B36076 /* LegalNotices.html in Resources */,
 				8BF51058118748C7005C936F /* OTPAuthURLEntryController.xib in Resources */,
-				8B2B8585118B8ACF00437315 /* Refresh.png in Resources */,
-				8BE5C90211A7423700A20746 /* Info.png in Resources */,
 				8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */,
-				8BE5CF7211AB48F700A20746 /* close.png in Resources */,
 				8B00365311ECD2390092DE18 /* Default.png in Resources */,
 				8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */,
 				8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */,
 				8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */,
-				C9A4FA1D17CFB5C200CD5EDC /* close@2x.png in Resources */,
-				C9A4FA1E17CFB5C200CD5EDC /* Info@2x.png in Resources */,
-				C9A4FA2017CFB5C200CD5EDC /* Refresh@2x.png in Resources */,
 				C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */,
 				C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */,
 				C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */,
@@ -540,28 +476,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
-		};
-		8B2B8561118B884200437315 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Resources/Refresh.pdf",
-				"$(SRCROOT)/Resources/Info.pdf",
-				"$(SRCROOT)/Resources/close.pdf",
-			);
-			outputPaths = (
-				"$(SRCROOT)/Resources/Refresh.png",
-				"$(SRCROOT)/Resources/Info.png",
-				"$(SRCROOT)/Resources/close.png",
-				"$(SRCROOT)/Resources/Refresh@2x.png",
-				"$(SRCROOT)/Resources/Info@2x.png",
-				"$(SRCROOT)/Resources/close@2x.png",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Generates pngs from our PDFs.\n# You will need to check out that PNG files from perforce before running this script.\n# You should never actually edit the PNG files. You should edit the PDFs and generate the PNGs from there.\n\n/usr/bin/sips -s format png -s dpiHeight 72 -s dpiWidth 72 -z 24 24 --out \"${SRCROOT}/Resources/Refresh.png\" \"${SRCROOT}/Resources/Refresh.pdf\"\n/usr/bin/sips -s format png -s dpiHeight 72 -s dpiWidth 72 -z 24 24 --out \"${SRCROOT}/Resources/Info.png\" \"${SRCROOT}/Resources/Info.pdf\"\n/usr/bin/sips -s format png -s dpiHeight 72 -s dpiWidth 72 -z 24 24 --out \"${SRCROOT}/Resources/close.png\" \"${SRCROOT}/Resources/close.pdf\"\n\n/usr/bin/sips -s format png -s dpiHeight 144 -s dpiWidth 144 -z 48 48 --out \"${SRCROOT}/Resources/Refresh@2x.png\" \"${SRCROOT}/Resources/Refresh.pdf\"\n/usr/bin/sips -s format png -s dpiHeight 144 -s dpiWidth 144 -z 48 48 --out \"${SRCROOT}/Resources/Info@2x.png\" \"${SRCROOT}/Resources/Info.pdf\"\n/usr/bin/sips -s format png -s dpiHeight 144 -s dpiWidth 144 -z 48 48 --out \"${SRCROOT}/Resources/close@2x.png\" \"${SRCROOT}/Resources/close.pdf\"";
 		};
 		9865F5A341C744F78B880E59 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -603,14 +517,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		8B3F0E76122F134D009A6409 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8B2B8562118B884200437315 /* GenerateArtwork */;
-			targetProxy = 8B3F0E75122F134D009A6409 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
@@ -663,20 +569,6 @@
 			};
 			name = Release;
 		};
-		8B2B8563118B884200437315 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = GenerateArtwork;
-			};
-			name = Debug;
-		};
-		8B2B8564118B884200437315 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = GenerateArtwork;
-			};
-			name = Release;
-		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -704,15 +596,6 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8B2B856D118B885B00437315 /* Build configuration list for PBXAggregateTarget "GenerateArtwork" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8B2B8563118B884200437315 /* Debug */,
-				8B2B8564118B884200437315 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
