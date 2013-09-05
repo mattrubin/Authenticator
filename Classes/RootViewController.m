@@ -32,7 +32,6 @@
 @synthesize delegate = delegate_;
 @synthesize clock = clock_;
 @synthesize addItem = addItem_;
-@synthesize legalItem = legalItem_;
 
 - (void)dealloc {
   [self.clock invalidate];
@@ -93,7 +92,6 @@
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
   [super setEditing:editing animated:animated];
   self.addItem.enabled = !editing;
-  self.legalItem.enabled = !editing;
 }
 
 - (void)showCopyMenu:(UIGestureRecognizer *)recognizer {

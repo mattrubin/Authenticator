@@ -25,6 +25,5 @@
 @property(nonatomic, readwrite, unsafe_unretained) id<UITableViewDataSource, UITableViewDelegate> delegate;
 @property(nonatomic, readonly, strong) OTPAuthBarClock *clock;
 @property(nonatomic, readwrite, strong) IBOutlet UIBarButtonItem *addItem;
-@property(nonatomic, readwrite, strong) IBOutlet UIBarButtonItem *legalItem;
 
 @end

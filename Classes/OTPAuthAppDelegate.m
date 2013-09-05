@@ -20,7 +20,6 @@
 #import "OTPAuthAppDelegate.h"
 #import "OTPAuthURL.h"
 #import "OTPTableViewCell.h"
-#import "OTPAuthAboutController.h"
 #import "RootViewController.h"
 #import <GTMDefines.h>
 
@@ -340,12 +339,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
   [self.rootViewController setEditing:NO animated:NO];
   [self.navigationController presentModalViewController:self.authURLEntryController
                                                animated:YES];
-}
-
-- (IBAction)showLegalInformation:(id)sender {
-  OTPAuthAboutController *controller
-      = [[OTPAuthAboutController alloc] init];
-  [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

@@ -40,6 +40,5 @@ typedef enum {
 @property(nonatomic, strong) IBOutlet UINavigationItem *authURLEntryNavigationItem;
 
 - (IBAction)addAuthURL:(id)sender;
-- (IBAction)showLegalInformation:(id)sender;
 
 @end
