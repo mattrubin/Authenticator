@@ -1,6 +1,7 @@
 //
 //  OTPAuthAboutController.m
 //
+//  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -193,6 +194,15 @@
 
 #pragma mark -
 #pragma mark UIWebViewDelegate
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (![request.URL.scheme isEqualToString:@"file"]) {
+        [[UIApplication sharedApplication] openURL:request.URL];
+        return NO;
+    }
+    return YES;
+}
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
   spinner_ = [[UIActivityIndicatorView alloc]
