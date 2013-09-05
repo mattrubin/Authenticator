@@ -56,7 +56,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @synthesize editingState = editingState_;
 @synthesize urlAddAlert = urlAddAlert_;
 @synthesize authURLEntryNavigationItem = authURLEntryNavigationItem_;
-@synthesize legalButton = legalButton_;
 @synthesize navigationItem = navigationItem_;
 @synthesize urlBeingAdded = urlBeingAdded_;
 
@@ -66,7 +65,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 - (void)awakeFromNib {
-  self.legalButton.title = @"Legal Information";
   self.navigationItem.title = @"Google Authenticator";
   self.authURLEntryNavigationItem.title = @"Add Token";
 }
