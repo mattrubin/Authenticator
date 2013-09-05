@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "google-toolbox-for-google-authenticator"
+  s.name         = "google-toolbox-for-authenticator"
   s.version      = "446"
   s.summary      = "The subset of google-toolbox-for-mac required by google-authenticator."
   s.homepage     = "https://code.google.com/p/google-toolbox-for-mac/"
@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.author       = 'Google (https://code.google.com/p/google-toolbox-for-mac/people/list)'
   s.source       = { :svn => "http://google-toolbox-for-mac.googlecode.com/svn/trunk/", :revision => "446" }
   s.platform     = :ios
-  s.source_files = 'GTMDefines.h', 'Foundation/GTMStringEncoding.{h,m}', 'Foundation/GTMNSScanner+Unsigned.{h,m}', 'Foundation/GTMNSDictionary+URLArguments.{h,m}', 'Foundation/GTMNSString+URLArguments.{h,m}', 'Foundation/GTMLocalizedString.h', 'DebugUtils/GTMMethodCheck.{h,m}', 'Foundation/GTMGarbageCollection.h', 'Foundation/GTMObjC2Runtime.h'
+  s.source_files = 'GTMDefines.h', 'Foundation/GTMStringEncoding.{h,m}', 'Foundation/GTMNSScanner+Unsigned.{h,m}', 'Foundation/GTMNSDictionary+URLArguments.{h,m}', 'Foundation/GTMNSString+URLArguments.{h,m}', 'DebugUtils/GTMMethodCheck.{h,m}', 'Foundation/GTMGarbageCollection.h', 'Foundation/GTMObjC2Runtime.h'
   s.frameworks   = 'Foundation'
   s.requires_arc = false
 

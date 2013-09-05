@@ -22,7 +22,8 @@
 #import "OTPTableViewCell.h"
 #import "OTPAuthAboutController.h"
 #import "RootViewController.h"
-#import "GTMLocalizedString.h"
+#import <GTMDefines.h>
+
 
 static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
@@ -65,15 +66,9 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 - (void)awakeFromNib {
-  self.legalButton.title
-    = GTMLocalizedString(@"Legal Information",
-                         @"Legal Information Button Title");
-  self.navigationItem.title
-    = GTMLocalizedString(@"Google Authenticator",
-                         @"Product Name");
-  self.authURLEntryNavigationItem.title
-    = GTMLocalizedString(@"Add Token",
-                         @"Add Token Navigation Screen Title");
+  self.legalButton.title = @"Legal Information";
+  self.navigationItem.title = @"Google Authenticator";
+  self.authURLEntryNavigationItem.title = @"Add Token";
 }
 
 - (void)updateEditing:(UITableView *)tableView {
@@ -127,14 +122,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
   OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
   if (authURL) {
-    NSString *title = GTMLocalizedString(@"Add Token",
-                                         @"Add Token Alert Title");
-    NSString *message
-      = [NSString stringWithFormat:
-         GTMLocalizedString(@"Do you want to add the token named “%@”?",
-                            @"Add Token Message"), [authURL name]];
-    NSString *noButton = GTMLocalizedString(@"No", @"No");
-    NSString *yesButton = GTMLocalizedString(@"Yes", @"Yes");
+    NSString *title = @"Add Token";
+    NSString *message = [NSString stringWithFormat: @"Do you want to add the token named “%@”?", [authURL name]];
+    NSString *noButton = @"No";
+    NSString *yesButton = @"Yes";
 
     self.urlAddAlert = [[UIAlertView alloc] initWithTitle:title
                                                    message:message

@@ -21,7 +21,7 @@
 #import "OTPAuthURL.h"
 #import "OTPTableViewCell.h"
 #import "TOTPGenerator.h"
-#import "GTMLocalizedString.h"
+
 
 @interface RootViewController ()
 @property(nonatomic, readwrite, strong) OTPAuthBarClock *clock;
@@ -57,7 +57,7 @@
   view.backgroundColor = [UIColor otpBackgroundColor];
 
   UIButton *titleButton = [[UIButton alloc] init];
-  [titleButton setTitle:GTMLocalizedString(@"Authenticator", nil)
+  [titleButton setTitle:@"Authenticator"
                forState:UIControlStateNormal];
   UILabel *titleLabel = [titleButton titleLabel];
   titleLabel.font = [UIFont boldSystemFontOfSize:20.0];

@@ -18,7 +18,7 @@
 //
 
 #import "OTPAuthAboutController.h"
-#import "GTMLocalizedString.h"
+
 
 @interface OTPAuthAboutWebViewController : UIViewController
   <UIWebViewDelegate, UIAlertViewDelegate> {
@@ -91,20 +91,17 @@
   switch([indexPath row]) {
     case 0:
       label = @"Terms of Service";
-      text = GTMLocalizedString(@"Terms of Service",
-                                @"Terms of Service Table Item Title");
+      text = @"Terms of Service";
       break;
 
     case 1:
       label = @"Privacy Policy";
-      text = GTMLocalizedString(@"Privacy Policy",
-                                @"Privacy Policy Table Item Title");
+      text = @"Privacy Policy";
       break;
 
     case 2:
       label = @"Legal Notices";
-      text = GTMLocalizedString(@"Legal Notices",
-                                @"Legal Notices Table Item Title");
+      text = @"Legal Notices";
       break;
 
     default:
@@ -130,8 +127,6 @@
     }
 
     case 1:
-      // Privacy appears to do the localization thing correctly. So no hacks
-      // needed (contrast to case 0 above.
       url = [NSURL URLWithString:@"http://www.google.com/mobile/privacy.html"];
       label = @"Privacy Policy";
       break;
@@ -226,15 +221,12 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
   [self stopSpinner];
-  NSString *errString
-    = GTMLocalizedString(@"Unable to load webpage.",
-                         @"Notification that a web page cannot be loaded");
+  NSString *errString = @"Unable to load webpage.";
   UIAlertView *alert
     = [[UIAlertView alloc] initWithTitle:errString
                                   message:[error localizedDescription]
                                  delegate:nil
-                        cancelButtonTitle:GTMLocalizedString(@"OK",
-                                                             @"OK button")
+                        cancelButtonTitle:@"OK"
                         otherButtonTitles:nil];
   [alert setDelegate:self];
   [alert show];
