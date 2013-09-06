@@ -66,8 +66,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 - (void)viewDidLoad {
-  UITableView *view = (UITableView *)self.view;
-  view.backgroundColor = [UIColor otpBackgroundColor];
+  self.view.backgroundColor = [UIColor otpBackgroundColor];
 
   UIButton *titleButton = [[UIButton alloc] init];
   [titleButton setTitle:@"Authenticator"
@@ -95,12 +94,12 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     UILongPressGestureRecognizer *gesture =
         [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                        action:@selector(showCopyMenu:)];
-    [view addGestureRecognizer:gesture];
+    [self.view addGestureRecognizer:gesture];
     UITapGestureRecognizer *doubleTap =
         [[UITapGestureRecognizer alloc] initWithTarget:self
                                                  action:@selector(showCopyMenu:)];
     doubleTap.numberOfTapsRequired = 2;
-    [view addGestureRecognizer:doubleTap];
+    [self.view addGestureRecognizer:doubleTap];
     
     self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAuthURL:)];
     self.addButtonItem.style = UIBarButtonItemStyleBordered;
@@ -128,11 +127,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
   if ((isLongPress && recognizer.state == UIGestureRecognizerStateBegan) ||
       (!isLongPress && recognizer.state == UIGestureRecognizerStateRecognized)) {
     CGPoint location = [recognizer locationInView:self.view];
-    UITableView *view = (UITableView*)self.view;
-    NSIndexPath *indexPath = [view indexPathForRowAtPoint:location];
-    UITableViewCell* cell = [view cellForRowAtIndexPath:indexPath];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
     if ([cell respondsToSelector:@selector(showCopyMenu:)]) {
-      location = [view convertPoint:location toView:cell];
+      location = [self.view convertPoint:location toView:cell];
       [(OTPTableViewCell*)cell showCopyMenu:location];
     }
   }
@@ -216,8 +214,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     [self.authURLs addObject:authURL];
     [self saveKeychainArray];
     [self updateUI];
-    UITableView *tableView = (UITableView*)self.view;
-    [tableView reloadData];
+    [self.tableView reloadData];
 }
 
 
