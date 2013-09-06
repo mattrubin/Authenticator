@@ -1,5 +1,5 @@
 //
-//  OTPAuthURLEntryController.m
+//  OTPEntryController.m
 //
 //  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
@@ -17,7 +17,7 @@
 //  the License.
 //
 
-#import "OTPAuthURLEntryController.h"
+#import "OTPEntryController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "OTPAuthURL.h"
 #import "Decoder.h"
@@ -25,7 +25,7 @@
 #import "OTPScannerOverlayView.h"
 
 
-@interface OTPAuthURLEntryController ()
+@interface OTPEntryController ()
 @property(nonatomic, readwrite, unsafe_unretained) UITextField *activeTextField;
 @property(nonatomic, readwrite, unsafe_unretained) UIBarButtonItem *doneButtonItem;
 @property(nonatomic, readwrite, strong) Decoder *decoder;
@@ -38,7 +38,7 @@
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification;
 @end
 
-@implementation OTPAuthURLEntryController
+@implementation OTPEntryController
 @synthesize delegate = delegate_;
 @synthesize doneButtonItem = doneButtonItem_;
 @synthesize accountName = accountName_;
@@ -219,7 +219,7 @@
                                          name:name];
     NSString *checkCode = authURL.checkCode;
     if (checkCode) {
-      [self.delegate authURLEntryController:self didCreateAuthURL:authURL];
+      [self.delegate entryController:self didCreateAuthURL:authURL];
     }
   } else {
     NSString *title = @"Invalid Key";
@@ -253,7 +253,7 @@
     AVCaptureDeviceInput *captureInput =
       [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
     [self.avSession addInput:captureInput];
-    dispatch_queue_t queue = dispatch_queue_create("OTPAuthURLEntryController",
+    dispatch_queue_t queue = dispatch_queue_create("OTPEntryController",
                                                    0);
     self.queue = queue;
     dispatch_release(queue);
@@ -397,7 +397,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                                               secret:nil];
     [self.avSession stopRunning];
     if (authURL) {
-      [self.delegate authURLEntryController:self didCreateAuthURL:authURL];
+      [self.delegate entryController:self didCreateAuthURL:authURL];
       [self dismissModalViewControllerAnimated:NO];
     } else {
       NSString *title = @"Invalid Barcode";

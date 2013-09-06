@@ -22,12 +22,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OTPAuthAppDelegate.h"
+#import "OTPAppDelegate.h"
 
 
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([OTPAuthAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([OTPAppDelegate class]));
     }
 }

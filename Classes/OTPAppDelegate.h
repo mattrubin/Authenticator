@@ -1,5 +1,5 @@
 //
-//  RootViewController.h
+//  OTPAppDelegate.h
 //
 //  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
@@ -18,12 +18,24 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OTPAuthBarClock.h"
+#import "OTPEntryController.h"
 
-@interface RootViewController : UITableViewController
+typedef enum {
+  kOTPNotEditing,
+  kOTPEditingSingleRow,
+  kOTPEditingTable
+} OTPEditingState;
 
-@property(nonatomic, readwrite, unsafe_unretained) id<UITableViewDataSource, UITableViewDelegate> delegate;
-@property(nonatomic, readonly, strong) OTPAuthBarClock *clock;
-@property(nonatomic, readwrite, strong) IBOutlet UIBarButtonItem *addItem;
+@interface OTPAppDelegate : NSObject
+    <UIApplicationDelegate,
+    OTPEntryControllerDelegate,
+    UITableViewDataSource,
+    UITableViewDelegate,
+    UIActionSheetDelegate,
+    UIAlertViewDelegate>
+@property(nonatomic, strong) IBOutlet UINavigationController *navigationController;
+@property(nonatomic, strong) IBOutlet UIWindow *window;
+
+- (IBAction)addAuthURL:(id)sender;
 
 @end

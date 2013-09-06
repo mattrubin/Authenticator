@@ -1,5 +1,5 @@
 //
-//  OTPAuthURLEntryController.h
+//  OTPEntryController.h
 //
 //  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
@@ -22,9 +22,9 @@
 #import "DecoderDelegate.h"
 
 @class OTPAuthURL;
-@protocol OTPAuthURLEntryControllerDelegate;
+@protocol OTPEntryControllerDelegate;
 
-@interface OTPAuthURLEntryController : UIViewController
+@interface OTPEntryController : UIViewController
     <UITextFieldDelegate,
      UINavigationControllerDelegate,
      DecoderDelegate,
@@ -34,7 +34,7 @@
   dispatch_queue_t queue_;
 }
 
-@property(nonatomic, readwrite, unsafe_unretained) id<OTPAuthURLEntryControllerDelegate> delegate;
+@property(nonatomic, readwrite, unsafe_unretained) id<OTPEntryControllerDelegate> delegate;
 @property(nonatomic, readwrite, strong) IBOutlet UITextField *accountName;
 @property(nonatomic, readwrite, strong) IBOutlet UITextField *accountKey;
 @property(nonatomic, readwrite, strong) IBOutlet UILabel *accountNameLabel;
@@ -51,10 +51,10 @@
 
 @end
 
-@protocol OTPAuthURLEntryControllerDelegate
+@protocol OTPEntryControllerDelegate
 
-- (void)authURLEntryController:(OTPAuthURLEntryController*)controller
-              didCreateAuthURL:(OTPAuthURL *)authURL;
+- (void)entryController:(OTPEntryController*)controller
+       didCreateAuthURL:(OTPAuthURL *)authURL;
 
 @end
 

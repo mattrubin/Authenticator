@@ -1,5 +1,5 @@
 //
-//  OTPAuthBarClock.m
+//  OTPClock.m
 //
 //  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
@@ -17,17 +17,17 @@
 //  the License.
 //
 
-#import "OTPAuthBarClock.h"
+#import "OTPClock.h"
 #import "GTMDefines.h"
 
 
-@interface OTPAuthBarClock ()
+@interface OTPClock ()
 @property (nonatomic, strong, readwrite) NSTimer *timer;
 @property (nonatomic, assign, readwrite) NSTimeInterval period;
 - (void)startUpTimer;
 @end
 
-@implementation OTPAuthBarClock
+@implementation OTPClock
 
 @synthesize timer = timer_;
 @synthesize period = period_;
