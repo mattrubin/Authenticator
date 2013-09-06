@@ -33,22 +33,17 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @property (nonatomic, strong) OTPClock *clock;
 @property (nonatomic, strong) UIBarButtonItem *addButtonItem;
-
-- (void)showCopyMenu:(UIGestureRecognizer *)recognizer;
-
-// The OTPAuthURL objects in this array are loaded from the keychain at
-// startup and serialized there on shutdown.
 @property (nonatomic, strong) NSMutableArray *authURLs;
 
-- (void)saveKeychainArray;
-- (void)updateEditing:(UITableView *)tableview;
-
 @end
+
 
 @implementation OTPRootViewController
 
 @synthesize clock;
 @synthesize addButtonItem;
+@synthesize authURLs;
+
 
 - (void)dealloc {
   [self.clock invalidate];
@@ -68,8 +63,9 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     UIBarButtonItem *clockItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
     [self.navigationItem setLeftBarButtonItem:clockItem animated:NO];
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showCopyMenu:)];
-    [self.view addGestureRecognizer:tap];
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showCopyMenu:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:doubleTap];
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showCopyMenu:)];
     [self.view addGestureRecognizer:longPress];
@@ -81,6 +77,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                           self.addButtonItem];
     self.navigationController.toolbarHidden = NO;
+    
+    [self fetchKeychainArray];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -128,15 +126,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 #pragma mark - TEMP -
 
-@synthesize authURLs = authURLs_;
-
-
-- (void)updateEditing:(UITableView *)tableView {
-    if ([self.authURLs count] == 0 && [tableView isEditing]) {
-        [tableView setEditing:NO animated:YES];
-    }
-}
-
 - (void)updateUI {
     BOOL hidden = YES;
     for (OTPAuthURL *url in self.authURLs) {
@@ -146,36 +135,30 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         }
     }
     self.clock.hidden = hidden;
-    self.editButtonItem.enabled = [self.authURLs count] > 0;
+    self.editButtonItem.enabled = (self.authURLs.count > 0);
 }
 
-- (void)saveKeychainArray {
+
+#pragma mark - Keychain
+
+- (void)saveKeychainArray
+{
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSArray *keychainReferences = [self valueForKeyPath:@"authURLs.keychainItemRef"];
     [ud setObject:keychainReferences forKey:kOTPKeychainEntriesArray];
     [ud synchronize];
 }
 
-
-#pragma mark - Initialization
-
-- (id)init
+- (void)fetchKeychainArray
 {
-    self = [super init];
-    if (self) {
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        NSArray *savedKeychainReferences = [ud arrayForKey:kOTPKeychainEntriesArray];
-        self.authURLs
-        = [NSMutableArray arrayWithCapacity:[savedKeychainReferences count]];
-        for (NSData *keychainRef in savedKeychainReferences) {
-            OTPAuthURL *authURL = [OTPAuthURL authURLWithKeychainItemRef:keychainRef];
-            if (authURL) {
-                [self.authURLs addObject:authURL];
-            }
+    NSArray *savedKeychainReferences = [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
+    self.authURLs = [NSMutableArray arrayWithCapacity:[savedKeychainReferences count]];
+    for (NSData *keychainRef in savedKeychainReferences) {
+        OTPAuthURL *authURL = [OTPAuthURL authURLWithKeychainItemRef:keychainRef];
+        if (authURL) {
+            [self.authURLs addObject:authURL];
         }
-        
     }
-    return self;
 }
 
 
@@ -223,15 +206,15 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section {
-    return [self.authURLs count];
+    return self.authURLs.count;
 }
 
-- (void)tableView:(UITableView *)tableView
-moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
-      toIndexPath:(NSIndexPath *)toIndexPath {
-    NSUInteger oldIndex = [fromIndexPath row];
-    NSUInteger newIndex = [toIndexPath row];
-    [self.authURLs exchangeObjectAtIndex:oldIndex withObjectAtIndex:newIndex];
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)source toIndexPath:(NSIndexPath *)destination
+{
+    id object = [self.authURLs objectAtIndex:source.row];
+    [self.authURLs removeObjectAtIndex:source.row];
+    [self.authURLs insertObject:object atIndex:destination.row];
+    
     [self saveKeychainArray];
 }
 
@@ -255,7 +238,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         [self saveKeychainArray];
         [tableView endUpdates];
         [self updateUI];
-        if ([self.authURLs count] == 0) {
+        if (!self.authURLs.count) {
             [self setEditing:NO animated:YES];
         }
     }
