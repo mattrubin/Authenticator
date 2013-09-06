@@ -176,13 +176,22 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 #pragma mark - UITableViewDataSource
 
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.authURLs.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     NSString *cellIdentifier = nil;
     Class cellClass = Nil;
     
-    NSUInteger idx = [indexPath row];
-    OTPAuthURL *url = [self.authURLs objectAtIndex:idx];
+    OTPAuthURL *url = [self.authURLs objectAtIndex:indexPath.row];
     if ([url isMemberOfClass:[HOTPAuthURL class]]) {
         cellIdentifier = @"HOTPCell";
         cellClass = [HOTPTableViewCell class];
@@ -190,23 +199,14 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         cellIdentifier = @"TOTPCell";
         cellClass = [TOTPTableViewCell class];
     }
-    UITableViewCell *cell
-    = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
-        cell = [[cellClass alloc] initWithStyle:UITableViewCellStyleDefault
-                                reuseIdentifier:cellIdentifier];
+        cell = [[cellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    
     [(OTPTableViewCell *)cell setAuthURL:url];
     return cell;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section {
-    return self.authURLs.count;
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)source toIndexPath:(NSIndexPath *)destination
@@ -218,22 +218,22 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     [self saveKeychainArray];
 }
 
-- (void)tableView:(UITableView *)tableView
-commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [tableView beginUpdates];
-        NSUInteger idx = [indexPath row];
-        OTPAuthURL *authURL = [self.authURLs objectAtIndex:idx];
         
-            NSIndexPath *path = [NSIndexPath indexPathForRow:idx inSection:0];
-            NSArray *rows = [NSArray arrayWithObject:path];
-            [tableView deleteRowsAtIndexPaths:rows
-                             withRowAnimation:UITableViewRowAnimationFade];
+        NSUInteger idx = indexPath.row;
+        NSIndexPath *path = [NSIndexPath indexPathForRow:idx inSection:0];
+        [tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationFade];
+        
+        OTPAuthURL *authURL = [self.authURLs objectAtIndex:idx];
         [authURL removeFromKeychain];
         [self.authURLs removeObjectAtIndex:idx];
         [self saveKeychainArray];
+        
         [tableView endUpdates];
+        
         [self updateUI];
         if (!self.authURLs.count) {
             [self setEditing:NO animated:YES];
