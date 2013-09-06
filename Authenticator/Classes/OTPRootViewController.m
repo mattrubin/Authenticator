@@ -95,23 +95,24 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     self.addButtonItem.enabled = !editing;
 }
 
-- (void)showCopyMenu:(UIGestureRecognizer *)recognizer {
-  BOOL isLongPress =
-      [recognizer isKindOfClass:[UILongPressGestureRecognizer class]];
-  if ((isLongPress && recognizer.state == UIGestureRecognizerStateBegan) ||
-      (!isLongPress && recognizer.state == UIGestureRecognizerStateRecognized)) {
-    CGPoint location = [recognizer locationInView:self.view];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-    UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    if ([cell respondsToSelector:@selector(showCopyMenu:)]) {
-      location = [self.view convertPoint:location toView:cell];
-      [(OTPTableViewCell*)cell showCopyMenu:location];
-    }
-  }
-}
-
 
 #pragma mark - Actions
+
+- (void)showCopyMenu:(UIGestureRecognizer *)recognizer
+{
+    BOOL isLongPress = [recognizer isKindOfClass:[UILongPressGestureRecognizer class]];
+    if ((isLongPress && recognizer.state == UIGestureRecognizerStateBegan) ||
+        (!isLongPress && recognizer.state == UIGestureRecognizerStateRecognized)) {
+        CGPoint location = [recognizer locationInView:self.view];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+        UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        
+        if ([cell respondsToSelector:@selector(showCopyMenu:)]) {
+            location = [self.view convertPoint:location toView:cell];
+            [(OTPTableViewCell*)cell showCopyMenu:location];
+        }
+    }
+}
 
 - (void)addAuthURL:(id)sender
 {
