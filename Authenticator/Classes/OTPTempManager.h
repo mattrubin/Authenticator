@@ -31,8 +31,7 @@ typedef enum {
     OTPEntryControllerDelegate,
     UITableViewDataSource,
     UITableViewDelegate,
-    UIActionSheetDelegate,
-    UIAlertViewDelegate>
+    UIActionSheetDelegate>
 @property(nonatomic, strong) IBOutlet UINavigationController *navigationController;
 @property(nonatomic, strong) IBOutlet UIWindow *window;
 

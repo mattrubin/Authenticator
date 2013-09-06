@@ -37,8 +37,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @property (nonatomic, strong) OTPRootViewController *rootViewController;
 @property (nonatomic, unsafe_unretained) UIBarButtonItem *editButton;
 @property (nonatomic, assign) OTPEditingState editingState;
-@property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
-@property (nonatomic, strong) UIAlertView *urlAddAlert;
 
 - (void)saveKeychainArray;
 - (void)updateUI;
@@ -52,8 +50,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @synthesize rootViewController = rootViewController_;
 @synthesize editButton = editButton_;
 @synthesize editingState = editingState_;
-@synthesize urlAddAlert = urlAddAlert_;
-@synthesize urlBeingAdded = urlBeingAdded_;
 
 - (void)dealloc {
   self.rootViewController = nil;
@@ -115,24 +111,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
   return YES;
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-  OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
-  if (authURL) {
-    NSString *title = @"Add Token";
-    NSString *message = [NSString stringWithFormat: @"Do you want to add the token named “%@”?", [authURL name]];
-    NSString *noButton = @"No";
-    NSString *yesButton = @"Yes";
-
-    self.urlAddAlert = [[UIAlertView alloc] initWithTitle:title
-                                                   message:message
-                                                  delegate:self
-                                         cancelButtonTitle:noButton
-                                         otherButtonTitles:yesButton, nil];
-    self.urlBeingAdded = authURL;
-    [self.urlAddAlert show];
-  }
-  return authURL != nil;
-}
 
 #pragma mark -
 #pragma mark OTPEntryControllerDelegate
@@ -315,19 +293,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
   }
 }
 
-#pragma mark -
-#pragma mark UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView
-    clickedButtonAtIndex:(NSInteger)buttonIndex {
-  _GTMDevAssert(alertView == self.urlAddAlert, @"Unexpected Alert");
-  if (buttonIndex == 1) {
-    [self entryController:nil
-         didCreateAuthURL:self.urlBeingAdded];
-  }
-  self.urlBeingAdded = nil;
-  self.urlAddAlert = nil;
-}
 
 #pragma mark -
 #pragma mark Actions

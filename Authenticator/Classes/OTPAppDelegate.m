@@ -23,17 +23,34 @@
 //
 
 #import "OTPAppDelegate.h"
+#import "OTPTempManager.h"
+#import "OTPAuthURL.h"
+
+
+@interface OTPAppDelegate () < UIAlertViewDelegate >
+
+@property (nonatomic, strong) OTPTempManager *manager;
+
+@property (nonatomic, strong) UIAlertView *urlAddAlert;
+@property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
+
+@end
 
 
 @implementation OTPAppDelegate
 
 @synthesize window;
+@synthesize manager;
+@synthesize urlAddAlert;
+@synthesize urlBeingAdded;
 
 
 #pragma mark - UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.manager = [[OTPTempManager alloc] init];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -67,5 +84,42 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
+#pragma mark - URL Handling
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
+    if (authURL) {
+        NSString *title = @"Add Token";
+        NSString *message = [NSString stringWithFormat: @"Do you want to add the token named “%@”?", [authURL name]];
+        NSString *noButton = @"No";
+        NSString *yesButton = @"Yes";
+        
+        self.urlAddAlert = [[UIAlertView alloc] initWithTitle:title
+                                                      message:message
+                                                     delegate:self
+                                            cancelButtonTitle:noButton
+                                            otherButtonTitles:yesButton, nil];
+        self.urlBeingAdded = authURL;
+        [self.urlAddAlert show];
+    }
+    return authURL != nil;
+}
+
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [self.manager entryController:nil didCreateAuthURL:self.urlBeingAdded];
+    }
+    
+    self.urlBeingAdded = nil;
+    self.urlAddAlert = nil;
+}
+
 
 @end
