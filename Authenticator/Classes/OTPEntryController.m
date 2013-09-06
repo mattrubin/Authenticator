@@ -18,7 +18,6 @@
 //
 
 #import "OTPEntryController.h"
-#import <MobileCoreServices/MobileCoreServices.h>
 #import "OTPAuthURL.h"
 #import "Decoder.h"
 #import "TwoDDecoderResult.h"
