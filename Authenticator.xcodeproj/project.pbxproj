@@ -147,9 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				8B2B8AE1118BA49F00437315 /* README.md */,
-				080E96DDFE201D6D7F000001 /* Classes */,
-				29B97315FDCFA39411CA2CEA /* Other Sources */,
-				29B97317FDCFA39411CA2CEA /* Resources */,
+				C97B68CB17D964D4005D1FE0 /* Authenticator */,
 				C98C1C4F17D2F16800A07D3F /* Config */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -194,6 +192,16 @@
 				9B03839CF35E4014987A36CA /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C97B68CB17D964D4005D1FE0 /* Authenticator */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+			);
+			path = Authenticator;
 			sourceTree = "<group>";
 		};
 		C98C1C4517D2EDF500A07D3F /* Table View */ = {
