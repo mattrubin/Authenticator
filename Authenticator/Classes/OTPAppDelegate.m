@@ -29,8 +29,8 @@
 
 @interface OTPAppDelegate () < UIAlertViewDelegate >
 
-@property (nonatomic, strong) UIAlertView *urlAddAlert;
-@property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
+@property (nonatomic, strong) UIAlertView *addConfirmationAlert;
+@property (nonatomic, strong) OTPAuthURL *urlToAdd;
 
 @property (nonatomic, strong) OTPRootViewController *rootViewController;
 
@@ -40,8 +40,8 @@
 @implementation OTPAppDelegate
 
 @synthesize window;
-@synthesize urlAddAlert;
-@synthesize urlBeingAdded;
+@synthesize addConfirmationAlert;
+@synthesize urlToAdd;
 @synthesize rootViewController;
 
 
@@ -94,20 +94,17 @@
 {
     OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
     if (authURL) {
-        NSString *title = @"Add Token";
         NSString *message = [NSString stringWithFormat: @"Do you want to add the token named “%@”?", [authURL name]];
-        NSString *noButton = @"No";
-        NSString *yesButton = @"Yes";
         
-        self.urlAddAlert = [[UIAlertView alloc] initWithTitle:title
+        self.addConfirmationAlert = [[UIAlertView alloc] initWithTitle:@"Add Token"
                                                       message:message
                                                      delegate:self
-                                            cancelButtonTitle:noButton
-                                            otherButtonTitles:yesButton, nil];
-        self.urlBeingAdded = authURL;
-        [self.urlAddAlert show];
+                                            cancelButtonTitle:@"No"
+                                            otherButtonTitles:@"Yes", nil];
+        self.urlToAdd = authURL;
+        [self.addConfirmationAlert show];
     }
-    return authURL != nil;
+    return !authURL;
 }
 
 
@@ -115,12 +112,12 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1) {
-        [self.rootViewController entryController:nil didCreateAuthURL:self.urlBeingAdded];
+    if (buttonIndex == alertView.firstOtherButtonIndex) {
+        [self.rootViewController entryController:nil didCreateAuthURL:self.urlToAdd];
     }
     
-    self.urlBeingAdded = nil;
-    self.urlAddAlert = nil;
+    self.urlToAdd = nil;
+    self.addConfirmationAlert = nil;
 }
 
 
