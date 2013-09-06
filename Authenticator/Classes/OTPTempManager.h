@@ -19,6 +19,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OTPEntryController.h"
+#import "OTPRootViewController.h"
 
 typedef enum {
   kOTPNotEditing,
@@ -27,13 +28,13 @@ typedef enum {
 } OTPEditingState;
 
 @interface OTPTempManager : NSObject
-    <UIApplicationDelegate,
+    <UINavigationControllerDelegate,
     OTPEntryControllerDelegate,
     UITableViewDataSource,
     UITableViewDelegate,
     UIActionSheetDelegate>
 @property(nonatomic, strong) IBOutlet UINavigationController *navigationController;
-@property(nonatomic, strong) IBOutlet UIWindow *window;
+@property (nonatomic, strong) OTPRootViewController *rootViewController;
 
 - (IBAction)addAuthURL:(id)sender;
 

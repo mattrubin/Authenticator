@@ -20,7 +20,6 @@
 #import "OTPTempManager.h"
 #import "OTPAuthURL.h"
 #import "OTPTableViewCell.h"
-#import "OTPRootViewController.h"
 #import <GTMDefines.h>
 
 
@@ -30,11 +29,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @property(readwrite, nonatomic, strong) OTPAuthURL *authURL;
 @end
 
-@interface OTPTempManager () <UINavigationControllerDelegate>
+@interface OTPTempManager ()
 // The OTPAuthURL objects in this array are loaded from the keychain at
 // startup and serialized there on shutdown.
 @property (nonatomic, strong) NSMutableArray *authURLs;
-@property (nonatomic, strong) OTPRootViewController *rootViewController;
 @property (nonatomic, unsafe_unretained) UIBarButtonItem *editButton;
 @property (nonatomic, assign) OTPEditingState editingState;
 
@@ -44,7 +42,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @end
 
 @implementation OTPTempManager
-@synthesize window = window_;
 @synthesize navigationController = navigationController_;
 @synthesize authURLs = authURLs_;
 @synthesize rootViewController = rootViewController_;
@@ -82,10 +79,12 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 #pragma mark -
-#pragma mark Application Delegate
+#pragma mark Initialization
 
-- (BOOL)application:(UIApplication *)application
-    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (id)init
+{
+    self = [super init];
+    if (self) {
   NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
   NSArray *savedKeychainReferences = [ud arrayForKey:kOTPKeychainEntriesArray];
   self.authURLs
@@ -97,18 +96,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     }
   }
 
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    self.rootViewController = [[OTPRootViewController alloc] init];
-    self.rootViewController.delegate = self;
-
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
-    self.navigationController.delegate = self;
-    self.navigationController.toolbarHidden = NO;
-
-  self.window.rootViewController = self.navigationController;
-  [self.window makeKeyAndVisible];
-  return YES;
+    }
+    return self;
 }
 
 

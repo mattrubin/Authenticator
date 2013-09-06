@@ -25,6 +25,7 @@
 #import "OTPAppDelegate.h"
 #import "OTPTempManager.h"
 #import "OTPAuthURL.h"
+#import "OTPRootViewController.h"
 
 
 @interface OTPAppDelegate () < UIAlertViewDelegate >
@@ -33,6 +34,9 @@
 
 @property (nonatomic, strong) UIAlertView *urlAddAlert;
 @property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
+
+@property (nonatomic, strong) UINavigationController *navigationController;
+@property (nonatomic, strong) OTPRootViewController *rootViewController;
 
 @end
 
@@ -43,6 +47,8 @@
 @synthesize manager;
 @synthesize urlAddAlert;
 @synthesize urlBeingAdded;
+@synthesize navigationController;
+@synthesize rootViewController;
 
 
 #pragma mark - UIApplicationDelegate
@@ -52,8 +58,17 @@
     self.manager = [[OTPTempManager alloc] init];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    
+    self.rootViewController = [[OTPRootViewController alloc] init];
+    self.rootViewController.delegate = self.manager;
+    self.manager.rootViewController = self.rootViewController;
+    
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
+    self.navigationController.delegate = self.manager;
+    self.manager.navigationController = self.navigationController;
+    self.navigationController.toolbarHidden = NO;
+    
+    self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     return YES;
 }
