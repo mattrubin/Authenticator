@@ -35,7 +35,6 @@ typedef enum {
     UIActionSheetDelegate>
 @property (nonatomic, strong) OTPRootViewController *rootViewController;
 
-- (IBAction)addAuthURL:(id)sender;
 - (void)updateUI;
 
 @end

@@ -25,9 +25,6 @@
 
 static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
-@interface OTPGoodTokenSheet : UIActionSheet
-@property(readwrite, nonatomic, strong) OTPAuthURL *authURL;
-@end
 
 @interface OTPTempManager ()
 // The OTPAuthURL objects in this array are loaded from the keychain at
@@ -249,28 +246,5 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     [tableView reloadData];
   }
 }
-
-
-#pragma mark -
-#pragma mark Actions
-
--(IBAction)addAuthURL:(id)sender {
-  [self.rootViewController setEditing:NO animated:NO];
-    
-    OTPEntryController *entryController = [[OTPEntryController alloc] init];
-    entryController.delegate = self;
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:entryController];
-
-    [self.rootViewController presentModalViewController:nc animated:YES];
-}
-
-@end
-
-#pragma mark -
-
-@implementation OTPGoodTokenSheet
-
-@synthesize authURL = authURL_;
-
 
 @end

@@ -91,7 +91,7 @@
     doubleTap.numberOfTapsRequired = 2;
     [view addGestureRecognizer:doubleTap];
     
-    self.addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self.manager action:@selector(addAuthURL:)];
+    self.addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAuthURL:)];
     self.addItem.style = UIBarButtonItemStyleBordered;
     
     self.toolbarItems = @[self.editButtonItem,
@@ -125,6 +125,21 @@
       [(OTPTableViewCell*)cell showCopyMenu:location];
     }
   }
+}
+
+
+#pragma mark -
+#pragma mark Actions
+
+- (void)addAuthURL:(id)sender
+{
+    [self setEditing:NO animated:NO];
+    
+    OTPEntryController *entryController = [[OTPEntryController alloc] init];
+    entryController.delegate = self.manager;
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:entryController];
+    
+    [self presentModalViewController:nc animated:YES];
 }
 
 @end
