@@ -28,13 +28,6 @@
 static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 
-typedef enum {
-    kOTPNotEditing,
-    kOTPEditingSingleRow,
-    kOTPEditingTable
-} OTPEditingState;
-
-
 @interface OTPRootViewController ()
 @property(nonatomic, readwrite, strong) OTPClock *clock;
 - (void)showCopyMenu:(UIGestureRecognizer *)recognizer;
@@ -42,7 +35,6 @@ typedef enum {
 // The OTPAuthURL objects in this array are loaded from the keychain at
 // startup and serialized there on shutdown.
 @property (nonatomic, strong) NSMutableArray *authURLs;
-@property (nonatomic, assign) OTPEditingState editingState;
 
 - (void)saveKeychainArray;
 - (void)updateEditing:(UITableView *)tableview;
@@ -161,7 +153,6 @@ typedef enum {
 #pragma mark - TEMP -
 
 @synthesize authURLs = authURLs_;
-@synthesize editingState = editingState_;
 
 
 - (void)updateEditing:(UITableView *)tableView {
@@ -234,8 +225,7 @@ typedef enum {
     NSString *cellIdentifier = nil;
     Class cellClass = Nil;
     
-    // See otp_tableViewWillBeginEditing for comments on why this is being done.
-    NSUInteger idx = self.editingState == kOTPEditingTable ? [indexPath row] : [indexPath section];
+    NSUInteger idx = [indexPath row];
     OTPAuthURL *url = [self.authURLs objectAtIndex:idx];
     if ([url isMemberOfClass:[HOTPAuthURL class]]) {
         cellIdentifier = @"HOTPCell";
@@ -255,14 +245,12 @@ typedef enum {
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // See otp_tableViewWillBeginEditing for comments on why this is being done.
-    return self.editingState == kOTPEditingTable ? 1 : [self.authURLs count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section {
-    // See otp_tableViewWillBeginEditing for comments on why this is being done.
-    return self.editingState == kOTPEditingTable ? [self.authURLs count] : 1;
+    return [self.authURLs count];
 }
 
 - (void)tableView:(UITableView *)tableView
@@ -282,26 +270,19 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         = (OTPTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
         [cell didEndEditing];
         [tableView beginUpdates];
-        NSUInteger idx = self.editingState == kOTPEditingTable ? [indexPath row] : [indexPath section];
+        NSUInteger idx = [indexPath row];
         OTPAuthURL *authURL = [self.authURLs objectAtIndex:idx];
         
-        // See otp_tableViewWillBeginEditing for comments on why this is being done.
-        if (self.editingState == kOTPEditingTable) {
             NSIndexPath *path = [NSIndexPath indexPathForRow:idx inSection:0];
             NSArray *rows = [NSArray arrayWithObject:path];
             [tableView deleteRowsAtIndexPaths:rows
                              withRowAnimation:UITableViewRowAnimationFade];
-        } else {
-            NSIndexSet *set = [NSIndexSet indexSetWithIndex:idx];
-            [tableView deleteSections:set
-                     withRowAnimation:UITableViewRowAnimationFade];
-        }
         [authURL removeFromKeychain];
         [self.authURLs removeObjectAtIndex:idx];
         [self saveKeychainArray];
         [tableView endUpdates];
         [self updateUI];
-        if ([self.authURLs count] == 0 && self.editingState != kOTPEditingSingleRow) {
+        if ([self.authURLs count] == 0) {
             [self setEditing:NO animated:YES];
         }
     }
@@ -317,55 +298,16 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 
 - (void)tableView:(UITableView*)tableView
 willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    _GTMDevAssert(self.editingState == kOTPNotEditing, @"Should not be editing");
     OTPTableViewCell *cell
     = (OTPTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell willBeginEditing];
-    self.editingState = kOTPEditingSingleRow;
 }
 
 - (void)tableView:(UITableView*)tableView
 didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    _GTMDevAssert(self.editingState == kOTPEditingSingleRow, @"Must be editing single row");
     OTPTableViewCell *cell
     = (OTPTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell didEndEditing];
-    self.editingState = kOTPNotEditing;
 }
-
-#pragma mark -
-#pragma mark OTPTableViewDelegate
-
-// With iOS <= 4 there doesn't appear to be a way to move rows around safely
-// in a multisectional table where you want to maintain a single row per
-// section. You have control over where a row would go into a section with
-// tableView:targetIndexPathForMoveFromRowAtIndexPath:toProposedIndexPath:
-// but it doesn't allow you to enforce only one row per section.
-// By doing this we collapse the table into a single section with multiple rows
-// when editing, and then expand back to the "spaced" out view when editing is
-// done. We only want this to be done when editing the entire table (by hitting
-// the edit button) as when you swipe a row to edit it doesn't allow you
-// to move the row.
-// When a row is swiped, tableView:willBeginEditingRowAtIndexPath: is called
-// first, which means that self.editingState will be set to kOTPEditingSingleRow
-// This means that in all code that deals with indexes of items that we need
-// to check to see if self.editingState == kOTPEditingTable to know whether to
-// check for the index of rows in section 0, or the indexes of the sections
-// themselves.
-- (void)otp_tableViewWillBeginEditing:(UITableView *)tableView {
-    if (self.editingState == kOTPNotEditing) {
-        self.editingState = kOTPEditingTable;
-        [tableView reloadData];
-    }
-}
-
-- (void)otp_tableViewDidEndEditing:(UITableView *)tableView {
-    if (self.editingState == kOTPEditingTable) {
-        self.editingState = kOTPNotEditing;
-        [tableView reloadData];
-    }
-}
-
 
 @end
-
