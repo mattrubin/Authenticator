@@ -187,8 +187,8 @@
   }
 }
 
-#pragma mark -
-#pragma mark Actions
+
+#pragma mark - Actions
 
 - (IBAction)accountNameDidEndOnExit:(id)sender {
   [self.accountKey becomeFirstResponder];
@@ -358,8 +358,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 }
 
 
-#pragma mark -
-#pragma mark UITextField Delegate Methods
+#pragma mark - UITextField Delegate Methods
 
 - (BOOL)textField:(UITextField *)textField
     shouldChangeCharactersInRange:(NSRange)range
@@ -382,8 +381,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 }
 
 
-#pragma mark -
-#pragma mark DecoderDelegate
+#pragma mark - DecoderDelegate
 
 - (void)decoder:(Decoder *)decoder
  didDecodeImage:(UIImage *)image
@@ -418,8 +416,8 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
          reason:(NSString *)reason {
 }
 
-#pragma mark -
-#pragma mark UIAlertViewDelegate
+
+#pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView
     didDismissWithButtonIndex:(NSInteger)buttonIndex {

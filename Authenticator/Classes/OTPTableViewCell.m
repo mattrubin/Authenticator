@@ -107,14 +107,6 @@
            object:authURL_];
 }
 
-- (void)willBeginEditing {
-  [self.frontNameTextField becomeFirstResponder];
-}
-
-- (void)didEndEditing {
-  [self.frontNameTextField resignFirstResponder];
-}
-
 - (void)otpChangeDidStop:(NSString *)animationID
                 finished:(NSNumber *)finished
                  context:(void *)context {
@@ -197,8 +189,8 @@
   return [self.authURL isKindOfClass:[TOTPAuthURL class]];
 }
 
-#pragma mark -
-#pragma mark Actions
+
+#pragma mark - Actions
 
 - (IBAction)copy:(id)sender {
   UIPasteboard *pb = [UIPasteboard generalPasteboard];
@@ -239,6 +231,7 @@
 
 @end
 
+
 #pragma mark -
 
 @implementation HOTPTableViewCell
@@ -272,6 +265,7 @@
 }
 
 @end
+
 
 #pragma mark -
 
@@ -344,6 +338,7 @@
 }
 
 @end
+
 
 #pragma mark -
 
