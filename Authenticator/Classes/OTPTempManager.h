@@ -28,14 +28,14 @@ typedef enum {
 } OTPEditingState;
 
 @interface OTPTempManager : NSObject
-    <UINavigationControllerDelegate,
+    <
     OTPEntryControllerDelegate,
     UITableViewDataSource,
     UITableViewDelegate,
     UIActionSheetDelegate>
-@property(nonatomic, strong) IBOutlet UINavigationController *navigationController;
 @property (nonatomic, strong) OTPRootViewController *rootViewController;
 
 - (IBAction)addAuthURL:(id)sender;
+- (void)updateUI;
 
 @end

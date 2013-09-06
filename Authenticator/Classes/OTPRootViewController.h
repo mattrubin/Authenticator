@@ -20,7 +20,13 @@
 #import <UIKit/UIKit.h>
 #import "OTPClock.h"
 
+
+@class OTPTempManager;
+
+
 @interface OTPRootViewController : UITableViewController
+
+@property (nonatomic, strong) OTPTempManager *manager;
 
 @property(nonatomic, readwrite, unsafe_unretained) id<UITableViewDataSource, UITableViewDelegate> delegate;
 @property(nonatomic, readonly, strong) OTPClock *clock;

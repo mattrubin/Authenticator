@@ -35,7 +35,6 @@
 @property (nonatomic, strong) UIAlertView *urlAddAlert;
 @property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
 
-@property (nonatomic, strong) UINavigationController *navigationController;
 @property (nonatomic, strong) OTPRootViewController *rootViewController;
 
 @end
@@ -47,7 +46,6 @@
 @synthesize manager;
 @synthesize urlAddAlert;
 @synthesize urlBeingAdded;
-@synthesize navigationController;
 @synthesize rootViewController;
 
 
@@ -62,13 +60,10 @@
     self.rootViewController = [[OTPRootViewController alloc] init];
     self.rootViewController.delegate = self.manager;
     self.manager.rootViewController = self.rootViewController;
+    self.rootViewController.manager = self.manager;
     
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
-    self.navigationController.delegate = self.manager;
-    self.manager.navigationController = self.navigationController;
-    self.navigationController.toolbarHidden = NO;
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
     
-    self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     return YES;
 }

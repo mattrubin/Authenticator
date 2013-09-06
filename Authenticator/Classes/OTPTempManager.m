@@ -33,24 +33,19 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 // The OTPAuthURL objects in this array are loaded from the keychain at
 // startup and serialized there on shutdown.
 @property (nonatomic, strong) NSMutableArray *authURLs;
-@property (nonatomic, unsafe_unretained) UIBarButtonItem *editButton;
 @property (nonatomic, assign) OTPEditingState editingState;
 
 - (void)saveKeychainArray;
-- (void)updateUI;
 - (void)updateEditing:(UITableView *)tableview;
 @end
 
 @implementation OTPTempManager
-@synthesize navigationController = navigationController_;
 @synthesize authURLs = authURLs_;
 @synthesize rootViewController = rootViewController_;
-@synthesize editButton = editButton_;
 @synthesize editingState = editingState_;
 
 - (void)dealloc {
   self.rootViewController = nil;
-  self.editButton = nil;
 }
 
 - (void)updateEditing:(UITableView *)tableView {
@@ -68,7 +63,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     }
   }
   self.rootViewController.clock.hidden = hidden;
-  self.editButton.enabled = [self.authURLs count] > 0;
+  self.rootViewController.editButtonItem.enabled = [self.authURLs count] > 0;
 }
 
 - (void)saveKeychainArray {
@@ -106,8 +101,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (void)entryController:(OTPEntryController*)controller
        didCreateAuthURL:(OTPAuthURL *)authURL {
-  [self.navigationController dismissModalViewControllerAnimated:YES];
-  [self.navigationController popToRootViewControllerAnimated:NO];
   [authURL saveToKeychain];
   [self.authURLs addObject:authURL];
   [self saveKeychainArray];
@@ -116,31 +109,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
   [tableView reloadData];
 }
 
-#pragma mark -
-#pragma mark UINavigationControllerDelegate
-
-- (void)navigationController:(UINavigationController *)navigationController
-      willShowViewController:(UIViewController *)viewController
-                    animated:(BOOL)animated {
-  [self.rootViewController setEditing:NO animated:animated];
-  // Only display the toolbar for the rootViewController.
-  BOOL hidden = viewController != self.rootViewController;
-  [navigationController setToolbarHidden:hidden animated:YES];
-}
-
-- (void)navigationController:(UINavigationController *)navigationController
-       didShowViewController:(UIViewController *)viewController
-                    animated:(BOOL)animated {
-  if (viewController == self.rootViewController) {
-    self.editButton = viewController.editButtonItem;
-    self.rootViewController.addItem.target = self;
-    self.rootViewController.addItem.action = @selector(addAuthURL:);
-    self.navigationController.toolbar.items = @[self.editButton,
-                                                [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                                                self.rootViewController.addItem];
-    [self updateUI];
-  }
-}
 
 #pragma mark -
 #pragma mark UITableViewDataSource
@@ -287,14 +255,13 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 #pragma mark Actions
 
 -(IBAction)addAuthURL:(id)sender {
-  [self.navigationController popToRootViewControllerAnimated:NO];
   [self.rootViewController setEditing:NO animated:NO];
     
     OTPEntryController *entryController = [[OTPEntryController alloc] init];
     entryController.delegate = self;
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:entryController];
 
-    [self.navigationController presentModalViewController:nc animated:YES];
+    [self.rootViewController presentModalViewController:nc animated:YES];
 }
 
 @end

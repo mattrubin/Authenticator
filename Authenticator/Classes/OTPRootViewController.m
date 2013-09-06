@@ -21,6 +21,7 @@
 #import "OTPAuthURL.h"
 #import "OTPTableViewCell.h"
 #import "TOTPGenerator.h"
+#import "OTPTempManager.h"
 
 
 @interface OTPRootViewController ()
@@ -29,6 +30,8 @@
 @end
 
 @implementation OTPRootViewController
+
+@synthesize manager;
 @synthesize delegate = delegate_;
 @synthesize clock = clock_;
 @synthesize addItem = addItem_;
@@ -88,8 +91,19 @@
     doubleTap.numberOfTapsRequired = 2;
     [view addGestureRecognizer:doubleTap];
     
-    self.addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
+    self.addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self.manager action:@selector(addAuthURL:)];
     self.addItem.style = UIBarButtonItemStyleBordered;
+    
+    self.toolbarItems = @[self.editButtonItem,
+                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                          self.addItem];
+    self.navigationController.toolbarHidden = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.manager updateUI];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {

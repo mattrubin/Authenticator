@@ -219,6 +219,7 @@
     NSString *checkCode = authURL.checkCode;
     if (checkCode) {
       [self.delegate entryController:self didCreateAuthURL:authURL];
+      [self dismissModalViewControllerAnimated:NO];
     }
   } else {
     NSString *title = @"Invalid Key";
