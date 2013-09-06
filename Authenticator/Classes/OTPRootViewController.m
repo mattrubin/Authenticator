@@ -137,8 +137,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 
-#pragma mark -
-#pragma mark Actions
+#pragma mark - Actions
 
 - (void)addAuthURL:(id)sender
 {
@@ -182,8 +181,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     [ud synchronize];
 }
 
-#pragma mark -
-#pragma mark Initialization
+
+#pragma mark - Initialization
 
 - (id)init
 {
@@ -205,8 +204,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 
-#pragma mark -
-#pragma mark OTPEntryControllerDelegate
+#pragma mark - OTPEntryControllerDelegate
 
 - (void)entryController:(OTPEntryController*)controller
        didCreateAuthURL:(OTPAuthURL *)authURL {
@@ -218,8 +216,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 
-#pragma mark -
-#pragma mark UITableViewDataSource
+#pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -289,8 +286,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
 }
 
-#pragma mark -
-#pragma mark UITableViewDelegate
+
+#pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

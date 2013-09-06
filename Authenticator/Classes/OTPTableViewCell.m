@@ -197,8 +197,8 @@
   return [self.authURL isKindOfClass:[TOTPAuthURL class]];
 }
 
-#pragma mark -
-#pragma mark Actions
+
+#pragma mark - Actions
 
 - (IBAction)copy:(id)sender {
   UIPasteboard *pb = [UIPasteboard generalPasteboard];
@@ -239,6 +239,7 @@
 
 @end
 
+
 #pragma mark -
 
 @implementation HOTPTableViewCell
@@ -272,6 +273,7 @@
 }
 
 @end
+
 
 #pragma mark -
 
@@ -344,6 +346,7 @@
 }
 
 @end
+
 
 #pragma mark -
 
