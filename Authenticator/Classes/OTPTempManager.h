@@ -1,5 +1,5 @@
 //
-//  OTPAppDelegate.h
+//  OTPTempManager.h
 //
 //  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
@@ -26,7 +26,7 @@ typedef enum {
   kOTPEditingTable
 } OTPEditingState;
 
-@interface OTPAppDelegate : NSObject
+@interface OTPTempManager : NSObject
     <UIApplicationDelegate,
     OTPEntryControllerDelegate,
     UITableViewDataSource,

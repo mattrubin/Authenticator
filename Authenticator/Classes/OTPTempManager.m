@@ -1,5 +1,5 @@
 //
-//  OTPAppDelegate.m
+//  OTPTempManager.m
 //
 //  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
@@ -17,7 +17,7 @@
 //  the License.
 //
 
-#import "OTPAppDelegate.h"
+#import "OTPTempManager.h"
 #import "OTPAuthURL.h"
 #import "OTPTableViewCell.h"
 #import "OTPRootViewController.h"
@@ -30,7 +30,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @property(readwrite, nonatomic, strong) OTPAuthURL *authURL;
 @end
 
-@interface OTPAppDelegate () <UINavigationControllerDelegate>
+@interface OTPTempManager () <UINavigationControllerDelegate>
 // The OTPAuthURL objects in this array are loaded from the keychain at
 // startup and serialized there on shutdown.
 @property (nonatomic, strong) NSMutableArray *authURLs;
@@ -45,7 +45,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 - (void)updateEditing:(UITableView *)tableview;
 @end
 
-@implementation OTPAppDelegate
+@implementation OTPTempManager
 @synthesize window = window_;
 @synthesize navigationController = navigationController_;
 @synthesize authURLs = authURLs_;
