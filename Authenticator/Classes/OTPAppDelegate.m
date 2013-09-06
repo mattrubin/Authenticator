@@ -1,355 +1,127 @@
 //
 //  OTPAppDelegate.m
+//  Authenticator
 //
-//  Copyright 2013 Matt Rubin
-//  Copyright 2011 Google Inc.
+//  Copyright (c) 2013 Matt Rubin
 //
-//  Licensed under the Apache License, Version 2.0 (the "License"); you may not
-//  use this file except in compliance with the License.  You may obtain a copy
-//  of the License at
+//  Permission is hereby granted, free of charge, to any person obtaining a copy of
+//  this software and associated documentation files (the "Software"), to deal in
+//  the Software without restriction, including without limitation the rights to
+//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+//  the Software, and to permit persons to whom the Software is furnished to do so,
+//  subject to the following conditions:
 //
-//  http://www.apache.org/licenses/LICENSE-2.0
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
 //
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-//  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
-//  License for the specific language governing permissions and limitations under
-//  the License.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+//  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+//  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+//  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+//  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
 #import "OTPAppDelegate.h"
 #import "OTPAuthURL.h"
-#import "OTPTableViewCell.h"
 #import "OTPRootViewController.h"
-#import <GTMDefines.h>
 
 
-static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
+@interface OTPAppDelegate () < UIAlertViewDelegate >
 
-@interface OTPGoodTokenSheet : UIActionSheet
-@property(readwrite, nonatomic, strong) OTPAuthURL *authURL;
-@end
-
-@interface OTPAppDelegate () <UINavigationControllerDelegate>
-// The OTPAuthURL objects in this array are loaded from the keychain at
-// startup and serialized there on shutdown.
-@property (nonatomic, strong) NSMutableArray *authURLs;
-@property (nonatomic, strong) OTPRootViewController *rootViewController;
-@property (nonatomic, unsafe_unretained) UIBarButtonItem *editButton;
-@property (nonatomic, assign) OTPEditingState editingState;
-@property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
 @property (nonatomic, strong) UIAlertView *urlAddAlert;
+@property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
 
-- (void)saveKeychainArray;
-- (void)updateUI;
-- (void)updateEditing:(UITableView *)tableview;
+@property (nonatomic, strong) OTPRootViewController *rootViewController;
+
 @end
+
 
 @implementation OTPAppDelegate
-@synthesize window = window_;
-@synthesize navigationController = navigationController_;
-@synthesize authURLs = authURLs_;
-@synthesize rootViewController = rootViewController_;
-@synthesize editButton = editButton_;
-@synthesize editingState = editingState_;
-@synthesize urlAddAlert = urlAddAlert_;
-@synthesize urlBeingAdded = urlBeingAdded_;
 
-- (void)dealloc {
-  self.rootViewController = nil;
-  self.editButton = nil;
-}
+@synthesize window;
+@synthesize urlAddAlert;
+@synthesize urlBeingAdded;
+@synthesize rootViewController;
 
-- (void)updateEditing:(UITableView *)tableView {
-  if ([self.authURLs count] == 0 && [tableView isEditing]) {
-    [tableView setEditing:NO animated:YES];
-  }
-}
 
-- (void)updateUI {
-  BOOL hidden = YES;
-  for (OTPAuthURL *url in self.authURLs) {
-    if ([url isMemberOfClass:[TOTPAuthURL class]]) {
-      hidden = NO;
-      break;
-    }
-  }
-  self.rootViewController.clock.hidden = hidden;
-  self.editButton.enabled = [self.authURLs count] > 0;
-}
+#pragma mark - UIApplicationDelegate
 
-- (void)saveKeychainArray {
-  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-  NSArray *keychainReferences = [self valueForKeyPath:@"authURLs.keychainItemRef"];
-  [ud setObject:keychainReferences forKey:kOTPKeychainEntriesArray];
-  [ud synchronize];
-}
-
-#pragma mark -
-#pragma mark Application Delegate
-
-- (BOOL)application:(UIApplication *)application
-    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-  NSArray *savedKeychainReferences = [ud arrayForKey:kOTPKeychainEntriesArray];
-  self.authURLs
-      = [NSMutableArray arrayWithCapacity:[savedKeychainReferences count]];
-  for (NSData *keychainRef in savedKeychainReferences) {
-    OTPAuthURL *authURL = [OTPAuthURL authURLWithKeychainItemRef:keychainRef];
-    if (authURL) {
-      [self.authURLs addObject:authURL];
-    }
-  }
-
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    self.rootViewController = [[OTPRootViewController alloc] init];
-    self.rootViewController.delegate = self;
-
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
-    self.navigationController.delegate = self;
-    self.navigationController.toolbarHidden = NO;
-
-  self.window.rootViewController = self.navigationController;
-  [self.window makeKeyAndVisible];
-  return YES;
-}
-
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-  OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
-  if (authURL) {
-    NSString *title = @"Add Token";
-    NSString *message = [NSString stringWithFormat: @"Do you want to add the token named “%@”?", [authURL name]];
-    NSString *noButton = @"No";
-    NSString *yesButton = @"Yes";
-
-    self.urlAddAlert = [[UIAlertView alloc] initWithTitle:title
-                                                   message:message
-                                                  delegate:self
-                                         cancelButtonTitle:noButton
-                                         otherButtonTitles:yesButton, nil];
-    self.urlBeingAdded = authURL;
-    [self.urlAddAlert show];
-  }
-  return authURL != nil;
-}
-
-#pragma mark -
-#pragma mark OTPEntryControllerDelegate
-
-- (void)entryController:(OTPEntryController*)controller
-       didCreateAuthURL:(OTPAuthURL *)authURL {
-  [self.navigationController dismissModalViewControllerAnimated:YES];
-  [self.navigationController popToRootViewControllerAnimated:NO];
-  [authURL saveToKeychain];
-  [self.authURLs addObject:authURL];
-  [self saveKeychainArray];
-  [self updateUI];
-  UITableView *tableView = (UITableView*)self.rootViewController.view;
-  [tableView reloadData];
-}
-
-#pragma mark -
-#pragma mark UINavigationControllerDelegate
-
-- (void)navigationController:(UINavigationController *)navigationController
-      willShowViewController:(UIViewController *)viewController
-                    animated:(BOOL)animated {
-  [self.rootViewController setEditing:NO animated:animated];
-  // Only display the toolbar for the rootViewController.
-  BOOL hidden = viewController != self.rootViewController;
-  [navigationController setToolbarHidden:hidden animated:YES];
-}
-
-- (void)navigationController:(UINavigationController *)navigationController
-       didShowViewController:(UIViewController *)viewController
-                    animated:(BOOL)animated {
-  if (viewController == self.rootViewController) {
-    self.editButton = viewController.editButtonItem;
-    self.rootViewController.addItem.target = self;
-    self.rootViewController.addItem.action = @selector(addAuthURL:);
-    self.navigationController.toolbar.items = @[self.editButton,
-                                                [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                                                self.rootViewController.addItem];
-    [self updateUI];
-  }
-}
-
-#pragma mark -
-#pragma mark UITableViewDataSource
-
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSString *cellIdentifier = nil;
-  Class cellClass = Nil;
-
-  // See otp_tableViewWillBeginEditing for comments on why this is being done.
-  NSUInteger idx = self.editingState == kOTPEditingTable ? [indexPath row] : [indexPath section];
-  OTPAuthURL *url = [self.authURLs objectAtIndex:idx];
-  if ([url isMemberOfClass:[HOTPAuthURL class]]) {
-    cellIdentifier = @"HOTPCell";
-    cellClass = [HOTPTableViewCell class];
-  } else if ([url isMemberOfClass:[TOTPAuthURL class]]) {
-    cellIdentifier = @"TOTPCell";
-    cellClass = [TOTPTableViewCell class];
-  }
-  UITableViewCell *cell
-    = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-  if (!cell) {
-    cell = [[cellClass alloc] initWithStyle:UITableViewCellStyleDefault
-                             reuseIdentifier:cellIdentifier];
-  }
-  [(OTPTableViewCell *)cell setAuthURL:url];
-  return cell;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  // See otp_tableViewWillBeginEditing for comments on why this is being done.
-  return self.editingState == kOTPEditingTable ? 1 : [self.authURLs count];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section {
-  // See otp_tableViewWillBeginEditing for comments on why this is being done.
-  return self.editingState == kOTPEditingTable ? [self.authURLs count] : 1;
-}
-
-- (void)tableView:(UITableView *)tableView
-    moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
-           toIndexPath:(NSIndexPath *)toIndexPath {
-  NSUInteger oldIndex = [fromIndexPath row];
-  NSUInteger newIndex = [toIndexPath row];
-  [self.authURLs exchangeObjectAtIndex:oldIndex withObjectAtIndex:newIndex];
-  [self saveKeychainArray];
-}
-
-- (void)tableView:(UITableView *)tableView
-   commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-    forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (editingStyle == UITableViewCellEditingStyleDelete) {
-    OTPTableViewCell *cell
-      = (OTPTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [cell didEndEditing];
-    [tableView beginUpdates];
-    NSUInteger idx = self.editingState == kOTPEditingTable ? [indexPath row] : [indexPath section];
-    OTPAuthURL *authURL = [self.authURLs objectAtIndex:idx];
-
-    // See otp_tableViewWillBeginEditing for comments on why this is being done.
-    if (self.editingState == kOTPEditingTable) {
-      NSIndexPath *path = [NSIndexPath indexPathForRow:idx inSection:0];
-      NSArray *rows = [NSArray arrayWithObject:path];
-      [tableView deleteRowsAtIndexPaths:rows
-                       withRowAnimation:UITableViewRowAnimationFade];
-    } else {
-      NSIndexSet *set = [NSIndexSet indexSetWithIndex:idx];
-      [tableView deleteSections:set
-               withRowAnimation:UITableViewRowAnimationFade];
-    }
-    [authURL removeFromKeychain];
-    [self.authURLs removeObjectAtIndex:idx];
-    [self saveKeychainArray];
-    [tableView endUpdates];
-    [self updateUI];
-    if ([self.authURLs count] == 0 && self.editingState != kOTPEditingSingleRow) {
-      [self.rootViewController setEditing:NO animated:YES];
-    }
-  }
-}
-
-#pragma mark -
-#pragma mark UITableViewDelegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    return 80;
-}
-
-- (void)tableView:(UITableView*)tableView
-    willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-  _GTMDevAssert(self.editingState == kOTPNotEditing, @"Should not be editing");
-  OTPTableViewCell *cell
-      = (OTPTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-  [cell willBeginEditing];
-  self.editingState = kOTPEditingSingleRow;
-}
-
-- (void)tableView:(UITableView*)tableView
-   didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-  _GTMDevAssert(self.editingState == kOTPEditingSingleRow, @"Must be editing single row");
-  OTPTableViewCell *cell
-      = (OTPTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-  [cell didEndEditing];
-  self.editingState = kOTPNotEditing;
-}
-
-#pragma mark -
-#pragma mark OTPTableViewDelegate
-
-// With iOS <= 4 there doesn't appear to be a way to move rows around safely
-// in a multisectional table where you want to maintain a single row per
-// section. You have control over where a row would go into a section with
-// tableView:targetIndexPathForMoveFromRowAtIndexPath:toProposedIndexPath:
-// but it doesn't allow you to enforce only one row per section.
-// By doing this we collapse the table into a single section with multiple rows
-// when editing, and then expand back to the "spaced" out view when editing is
-// done. We only want this to be done when editing the entire table (by hitting
-// the edit button) as when you swipe a row to edit it doesn't allow you
-// to move the row.
-// When a row is swiped, tableView:willBeginEditingRowAtIndexPath: is called
-// first, which means that self.editingState will be set to kOTPEditingSingleRow
-// This means that in all code that deals with indexes of items that we need
-// to check to see if self.editingState == kOTPEditingTable to know whether to
-// check for the index of rows in section 0, or the indexes of the sections
-// themselves.
-- (void)otp_tableViewWillBeginEditing:(UITableView *)tableView {
-  if (self.editingState == kOTPNotEditing) {
-    self.editingState = kOTPEditingTable;
-    [tableView reloadData];
-  }
-}
-
-- (void)otp_tableViewDidEndEditing:(UITableView *)tableView {
-  if (self.editingState == kOTPEditingTable) {
-    self.editingState = kOTPNotEditing;
-    [tableView reloadData];
-  }
-}
-
-#pragma mark -
-#pragma mark UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView
-    clickedButtonAtIndex:(NSInteger)buttonIndex {
-  _GTMDevAssert(alertView == self.urlAddAlert, @"Unexpected Alert");
-  if (buttonIndex == 1) {
-    [self entryController:nil
-         didCreateAuthURL:self.urlBeingAdded];
-  }
-  self.urlBeingAdded = nil;
-  self.urlAddAlert = nil;
-}
-
-#pragma mark -
-#pragma mark Actions
-
--(IBAction)addAuthURL:(id)sender {
-  [self.navigationController popToRootViewControllerAnimated:NO];
-  [self.rootViewController setEditing:NO animated:NO];
     
-    OTPEntryController *entryController = [[OTPEntryController alloc] init];
-    entryController.delegate = self;
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:entryController];
-
-    [self.navigationController presentModalViewController:nc animated:YES];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    self.rootViewController = [[OTPRootViewController alloc] init];
+    
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
+    
+    [self.window makeKeyAndVisible];
+    return YES;
 }
 
-@end
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
 
-#pragma mark -
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+}
 
-@implementation OTPGoodTokenSheet
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+}
 
-@synthesize authURL = authURL_;
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+#pragma mark - URL Handling
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
+    if (authURL) {
+        NSString *title = @"Add Token";
+        NSString *message = [NSString stringWithFormat: @"Do you want to add the token named “%@”?", [authURL name]];
+        NSString *noButton = @"No";
+        NSString *yesButton = @"Yes";
+        
+        self.urlAddAlert = [[UIAlertView alloc] initWithTitle:title
+                                                      message:message
+                                                     delegate:self
+                                            cancelButtonTitle:noButton
+                                            otherButtonTitles:yesButton, nil];
+        self.urlBeingAdded = authURL;
+        [self.urlAddAlert show];
+    }
+    return authURL != nil;
+}
+
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [self.rootViewController entryController:nil didCreateAuthURL:self.urlBeingAdded];
+    }
+    
+    self.urlBeingAdded = nil;
+    self.urlAddAlert = nil;
+}
 
 
 @end
