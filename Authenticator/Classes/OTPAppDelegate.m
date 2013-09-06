@@ -1,5 +1,5 @@
 //
-//  OTPAuthAppDelegate.m
+//  OTPAppDelegate.m
 //
 //  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
@@ -17,10 +17,10 @@
 //  the License.
 //
 
-#import "OTPAuthAppDelegate.h"
+#import "OTPAppDelegate.h"
 #import "OTPAuthURL.h"
 #import "OTPTableViewCell.h"
-#import "RootViewController.h"
+#import "OTPRootViewController.h"
 #import <GTMDefines.h>
 
 
@@ -30,11 +30,11 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @property(readwrite, nonatomic, strong) OTPAuthURL *authURL;
 @end
 
-@interface OTPAuthAppDelegate () <UINavigationControllerDelegate>
+@interface OTPAppDelegate () <UINavigationControllerDelegate>
 // The OTPAuthURL objects in this array are loaded from the keychain at
 // startup and serialized there on shutdown.
 @property (nonatomic, strong) NSMutableArray *authURLs;
-@property (nonatomic, strong) RootViewController *rootViewController;
+@property (nonatomic, strong) OTPRootViewController *rootViewController;
 @property (nonatomic, unsafe_unretained) UIBarButtonItem *editButton;
 @property (nonatomic, assign) OTPEditingState editingState;
 @property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
@@ -45,7 +45,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 - (void)updateEditing:(UITableView *)tableview;
 @end
 
-@implementation OTPAuthAppDelegate
+@implementation OTPAppDelegate
 @synthesize window = window_;
 @synthesize navigationController = navigationController_;
 @synthesize authURLs = authURLs_;
@@ -103,7 +103,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    self.rootViewController = [[RootViewController alloc] init];
+    self.rootViewController = [[OTPRootViewController alloc] init];
     self.rootViewController.delegate = self;
 
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
@@ -135,10 +135,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 #pragma mark -
-#pragma mark OTPManualAuthURLEntryControllerDelegate
+#pragma mark OTPEntryControllerDelegate
 
-- (void)authURLEntryController:(OTPAuthURLEntryController*)controller
-              didCreateAuthURL:(OTPAuthURL *)authURL {
+- (void)entryController:(OTPEntryController*)controller
+       didCreateAuthURL:(OTPAuthURL *)authURL {
   [self.navigationController dismissModalViewControllerAnimated:YES];
   [self.navigationController popToRootViewControllerAnimated:NO];
   [authURL saveToKeychain];
@@ -322,8 +322,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     clickedButtonAtIndex:(NSInteger)buttonIndex {
   _GTMDevAssert(alertView == self.urlAddAlert, @"Unexpected Alert");
   if (buttonIndex == 1) {
-    [self authURLEntryController:nil
-                didCreateAuthURL:self.urlBeingAdded];
+    [self entryController:nil
+         didCreateAuthURL:self.urlBeingAdded];
   }
   self.urlBeingAdded = nil;
   self.urlAddAlert = nil;
@@ -336,7 +336,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
   [self.navigationController popToRootViewControllerAnimated:NO];
   [self.rootViewController setEditing:NO animated:NO];
     
-    OTPAuthURLEntryController *entryController = [[OTPAuthURLEntryController alloc] init];
+    OTPEntryController *entryController = [[OTPEntryController alloc] init];
     entryController.delegate = self;
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:entryController];
 

@@ -1,5 +1,5 @@
 //
-//  RootViewController.m
+//  OTPRootViewController.m
 //
 //  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
@@ -17,18 +17,18 @@
 //  the License.
 //
 
-#import "RootViewController.h"
+#import "OTPRootViewController.h"
 #import "OTPAuthURL.h"
 #import "OTPTableViewCell.h"
 #import "TOTPGenerator.h"
 
 
-@interface RootViewController ()
-@property(nonatomic, readwrite, strong) OTPAuthBarClock *clock;
+@interface OTPRootViewController ()
+@property(nonatomic, readwrite, strong) OTPClock *clock;
 - (void)showCopyMenu:(UIGestureRecognizer *)recognizer;
 @end
 
-@implementation RootViewController
+@implementation OTPRootViewController
 @synthesize delegate = delegate_;
 @synthesize clock = clock_;
 @synthesize addItem = addItem_;
@@ -68,7 +68,7 @@
 
   UINavigationItem *navigationItem = self.navigationItem;
   navigationItem.titleView = titleButton;
-  self.clock = [[OTPAuthBarClock alloc] initWithFrame:CGRectMake(0,0,30,30)
+  self.clock = [[OTPClock alloc] initWithFrame:CGRectMake(0,0,30,30)
                                                 period:[TOTPGenerator defaultPeriod]];
   UIBarButtonItem *clockItem
     = [[UIBarButtonItem alloc] initWithCustomView:clock_];

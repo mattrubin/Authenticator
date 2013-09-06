@@ -1,5 +1,5 @@
 //
-//  OTPAuthAppDelegate.h
+//  OTPClock.h
 //
 //  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
@@ -18,24 +18,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OTPAuthURLEntryController.h"
 
-typedef enum {
-  kOTPNotEditing,
-  kOTPEditingSingleRow,
-  kOTPEditingTable
-} OTPEditingState;
 
-@interface OTPAuthAppDelegate : NSObject
-    <UIApplicationDelegate,
-    OTPAuthURLEntryControllerDelegate,
-    UITableViewDataSource,
-    UITableViewDelegate,
-    UIActionSheetDelegate,
-    UIAlertViewDelegate>
-@property(nonatomic, strong) IBOutlet UINavigationController *navigationController;
-@property(nonatomic, strong) IBOutlet UIWindow *window;
-
-- (IBAction)addAuthURL:(id)sender;
-
+@interface OTPClock : UIView
+- (id)initWithFrame:(CGRect)frame period:(NSTimeInterval)period;
+- (void)invalidate;
 @end

@@ -1,5 +1,5 @@
 //
-//  OTPAuthBarClock.h
+//  OTPRootViewController.h
 //
 //  Copyright 2013 Matt Rubin
 //  Copyright 2011 Google Inc.
@@ -18,9 +18,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OTPClock.h"
 
+@interface OTPRootViewController : UITableViewController
 
-@interface OTPAuthBarClock : UIView
-- (id)initWithFrame:(CGRect)frame period:(NSTimeInterval)period;
-- (void)invalidate;
+@property(nonatomic, readwrite, unsafe_unretained) id<UITableViewDataSource, UITableViewDelegate> delegate;
+@property(nonatomic, readonly, strong) OTPClock *clock;
+@property(nonatomic, readwrite, strong) IBOutlet UIBarButtonItem *addItem;
+
 @end

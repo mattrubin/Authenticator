@@ -11,7 +11,7 @@ EXTERNAL SOURCES:
     :podspec: google-toolbox-for-authenticator.podspec
 
 SPEC CHECKSUMS:
-  google-toolbox-for-authenticator: e8531fe4b0d7eefcb93ea8ebb0dee27b7ed8624a
+  google-toolbox-for-authenticator: 836595666ed3588c82e1d28e691125887b475cbd
   ZXing: 32762c9a78b6442a0a5705c73fccbef518739088
 
 COCOAPODS: 0.23.0
