@@ -19,12 +19,8 @@
 
 #import <UIKit/UIKit.h>
 #import "OTPEntryController.h"
-#import "OTPClock.h"
 
 
 @interface OTPRootViewController : UITableViewController <OTPEntryControllerDelegate>
-
-@property(nonatomic, readonly, strong) OTPClock *clock;
-@property(nonatomic, readwrite, strong) IBOutlet UIBarButtonItem *addItem;
 
 @end

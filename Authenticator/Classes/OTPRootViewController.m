@@ -22,6 +22,7 @@
 #import "OTPTableViewCell.h"
 #import "TOTPGenerator.h"
 #import "UIColor+OTP.h"
+#import "OTPClock.h"
 #import <GTMDefines.h>
 
 
@@ -29,7 +30,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 
 @interface OTPRootViewController ()
-@property(nonatomic, readwrite, strong) OTPClock *clock;
+
+@property (nonatomic, strong) OTPClock *clock;
+@property (nonatomic, strong) UIBarButtonItem *addButtonItem;
+
 - (void)showCopyMenu:(UIGestureRecognizer *)recognizer;
 
 // The OTPAuthURL objects in this array are loaded from the keychain at
@@ -43,8 +47,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @implementation OTPRootViewController
 
-@synthesize clock = clock_;
-@synthesize addItem = addItem_;
+@synthesize clock;
+@synthesize addButtonItem;
 
 - (void)dealloc {
   [self.clock invalidate];
@@ -81,7 +85,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
   self.clock = [[OTPClock alloc] initWithFrame:CGRectMake(0,0,30,30)
                                                 period:[TOTPGenerator defaultPeriod]];
   UIBarButtonItem *clockItem
-    = [[UIBarButtonItem alloc] initWithCustomView:clock_];
+    = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
   [navigationItem setLeftBarButtonItem:clockItem animated:NO];
     
     [[UINavigationBar appearance] setTintColor:[UIColor otpBarColor]];
@@ -98,12 +102,12 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     doubleTap.numberOfTapsRequired = 2;
     [view addGestureRecognizer:doubleTap];
     
-    self.addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAuthURL:)];
-    self.addItem.style = UIBarButtonItemStyleBordered;
+    self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAuthURL:)];
+    self.addButtonItem.style = UIBarButtonItemStyleBordered;
     
     self.toolbarItems = @[self.editButtonItem,
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                          self.addItem];
+                          self.addButtonItem];
     self.navigationController.toolbarHidden = NO;
 }
 
@@ -115,7 +119,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
   [super setEditing:editing animated:animated];
-  self.addItem.enabled = !editing;
+  self.addButtonItem.enabled = !editing;
 }
 
 - (void)showCopyMenu:(UIGestureRecognizer *)recognizer {
