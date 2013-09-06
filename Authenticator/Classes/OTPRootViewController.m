@@ -93,6 +93,20 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     self.addButtonItem.enabled = !editing;
 }
 
+- (void)updateUI
+{
+    BOOL hidden = YES;
+    for (OTPAuthURL *url in self.authURLs) {
+        if ([url isMemberOfClass:[TOTPAuthURL class]]) {
+            hidden = NO;
+            break;
+        }
+    }
+    self.clock.hidden = hidden;
+    
+    self.editButtonItem.enabled = (self.authURLs.count > 0);
+}
+
 
 #pragma mark - Actions
 
@@ -124,21 +138,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 
-#pragma mark - TEMP -
-
-- (void)updateUI {
-    BOOL hidden = YES;
-    for (OTPAuthURL *url in self.authURLs) {
-        if ([url isMemberOfClass:[TOTPAuthURL class]]) {
-            hidden = NO;
-            break;
-        }
-    }
-    self.clock.hidden = hidden;
-    self.editButtonItem.enabled = (self.authURLs.count > 0);
-}
-
-
 #pragma mark - Keychain
 
 - (void)saveKeychainArray
@@ -164,8 +163,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 #pragma mark - OTPEntryControllerDelegate
 
-- (void)entryController:(OTPEntryController*)controller
-       didCreateAuthURL:(OTPAuthURL *)authURL {
+- (void)entryController:(OTPEntryController *)controller didCreateAuthURL:(OTPAuthURL *)authURL
+{
     [authURL saveToKeychain];
     [self.authURLs addObject:authURL];
     [self saveKeychainArray];
@@ -191,7 +190,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     NSString *cellIdentifier = nil;
     Class cellClass = Nil;
     
-    OTPAuthURL *url = [self.authURLs objectAtIndex:indexPath.row];
+    OTPAuthURL *url = (self.authURLs)[indexPath.row];
     if ([url isMemberOfClass:[HOTPAuthURL class]]) {
         cellIdentifier = @"HOTPCell";
         cellClass = [HOTPTableViewCell class];
@@ -211,7 +210,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)source toIndexPath:(NSIndexPath *)destination
 {
-    id object = [self.authURLs objectAtIndex:source.row];
+    id object = (self.authURLs)[source.row];
     [self.authURLs removeObjectAtIndex:source.row];
     [self.authURLs insertObject:object atIndex:destination.row];
     
@@ -227,7 +226,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         NSIndexPath *path = [NSIndexPath indexPathForRow:idx inSection:0];
         [tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationFade];
         
-        OTPAuthURL *authURL = [self.authURLs objectAtIndex:idx];
+        OTPAuthURL *authURL = (self.authURLs)[idx];
         [authURL removeFromKeychain];
         [self.authURLs removeObjectAtIndex:idx];
         [self saveKeychainArray];
