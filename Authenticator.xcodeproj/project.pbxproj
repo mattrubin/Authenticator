@@ -34,6 +34,7 @@
 		8BF51058118748C7005C936F /* OTPEntryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104C118748C7005C936F /* OTPEntryController.xib */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
 		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
+		C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
 		C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */; };
 		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
@@ -88,6 +89,8 @@
 		9B03839CF35E4014987A36CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C948F01517D70080008FCA41 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
+		C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
+		C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		C97B68C617D9226D005D1FE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -120,7 +123,7 @@
 				C98C1C4917D2F03400A07D3F /* Root */,
 				C98C1C4617D2EE6500A07D3F /* Entry */,
 				C98C1C4817D2F01A00A07D3F /* Core */,
-				C98C1C4E17D2F14500A07D3F /* Appearance */,
+				C98C1C4E17D2F14500A07D3F /* Categories */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -266,13 +269,15 @@
 			name = "Launch Images";
 			sourceTree = "<group>";
 		};
-		C98C1C4E17D2F14500A07D3F /* Appearance */ = {
+		C98C1C4E17D2F14500A07D3F /* Categories */ = {
 			isa = PBXGroup;
 			children = (
 				8BF23A7013D4EF7000F3FD82 /* UIColor+OTP.h */,
 				8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */,
+				C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */,
+				C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */,
 			);
-			name = Appearance;
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		C98C1C4F17D2F16800A07D3F /* Config */ = {
@@ -487,6 +492,7 @@
 				8B45557811932B5D00ABD707 /* OTPClock.m in Sources */,
 				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */,
 				8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */,
+				C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

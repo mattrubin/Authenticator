@@ -25,12 +25,10 @@
 #import "OTPAppDelegate.h"
 #import "OTPAuthURL.h"
 #import "OTPRootViewController.h"
+#import "UIAlertView+Blocks.h"
 
 
-@interface OTPAppDelegate () < UIAlertViewDelegate >
-
-@property (nonatomic, strong) UIAlertView *addConfirmationAlert;
-@property (nonatomic, strong) OTPAuthURL *urlToAdd;
+@interface OTPAppDelegate ()
 
 @property (nonatomic, strong) OTPRootViewController *rootViewController;
 
@@ -40,8 +38,6 @@
 @implementation OTPAppDelegate
 
 @synthesize window;
-@synthesize addConfirmationAlert;
-@synthesize urlToAdd;
 @synthesize rootViewController;
 
 
@@ -53,12 +49,10 @@
     [[UIToolbar appearance] setTintColor:[UIColor otpBarColor]];
     [[UISegmentedControl appearance] setTintColor:[UIColor otpBarColor]];
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
     self.rootViewController = [[OTPRootViewController alloc] init];
     
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
-    
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -97,31 +91,22 @@
 {
     OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
     if (authURL) {
-        NSString *message = [NSString stringWithFormat: @"Do you want to add the token named “%@”?", [authURL name]];
+        NSString *message = [NSString stringWithFormat: @"Do you want to add a token for “%@”?", [authURL name]];
         
-        self.addConfirmationAlert = [[UIAlertView alloc] initWithTitle:@"Add Token"
-                                                      message:message
-                                                     delegate:self
-                                            cancelButtonTitle:@"No"
-                                            otherButtonTitles:@"Yes", nil];
-        self.urlToAdd = authURL;
-        [self.addConfirmationAlert show];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Token"
+                                                        message:message
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"OK", nil];
+        
+        alert.clickedButtonHandler = ^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == alertView.firstOtherButtonIndex) {
+                [self.rootViewController entryController:nil didCreateAuthURL:authURL];
+            }
+        };
+
+        [alert show];
     }
     return !authURL;
 }
-
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == alertView.firstOtherButtonIndex) {
-        [self.rootViewController entryController:nil didCreateAuthURL:self.urlToAdd];
-    }
-    
-    self.urlToAdd = nil;
-    self.addConfirmationAlert = nil;
-}
-
 
 @end
