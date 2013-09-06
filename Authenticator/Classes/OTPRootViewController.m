@@ -45,11 +45,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @synthesize authURLs;
 
 
-- (void)dealloc {
-  [self.clock invalidate];
-}
-
-
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
@@ -58,8 +53,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     
     self.title = @"Authenticator";
     
-    self.clock = [[OTPClock alloc] initWithFrame:CGRectMake(0,0,30,30)
-                                          period:[TOTPGenerator defaultPeriod]];
+    self.clock = [[OTPClock alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    self.clock.period = [TOTPGenerator defaultPeriod];
     UIBarButtonItem *clockItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
     [self.navigationItem setLeftBarButtonItem:clockItem animated:NO];
     

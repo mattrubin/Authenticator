@@ -18,107 +18,101 @@
 //
 
 #import "OTPClock.h"
-#import "GTMDefines.h"
 
 
 @interface OTPClock ()
-@property (nonatomic, strong, readwrite) NSTimer *timer;
-@property (nonatomic, assign, readwrite) NSTimeInterval period;
-- (void)startUpTimer;
+
+@property (nonatomic, strong) NSTimer *timer;
+
 @end
+
 
 @implementation OTPClock
 
-@synthesize timer = timer_;
-@synthesize period = period_;
+@synthesize timer;
+@synthesize period;
 
-- (id)initWithFrame:(CGRect)frame period:(NSTimeInterval)period {
-  if ((self = [super initWithFrame:frame])) {
-    [self startUpTimer];
-    self.opaque = NO;
-    self.period = period;
-    UIApplication *app = [UIApplication sharedApplication];
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self
-           selector:@selector(applicationDidBecomeActive:)
-               name:UIApplicationDidBecomeActiveNotification
-             object:app];
-    [nc addObserver:self
-           selector:@selector(applicationWillResignActive:)
-               name:UIApplicationWillResignActiveNotification
-             object:app];
-  }
-  return self;
+
+#pragma mark - Create/Destroy
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.opaque = NO;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(startTimer)
+                                                     name:UIApplicationDidBecomeActiveNotification
+                                                   object:[UIApplication sharedApplication]];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(stopTimer)
+                                                     name:UIApplicationWillResignActiveNotification
+                                                   object:[UIApplication sharedApplication]];
+        
+        [self startTimer];
+    }
+    return self;
 }
 
-- (void)dealloc {
-  _GTMDevAssert(!self.timer, @"Need to call invalidate on clock!");
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 }
 
-- (void)redrawTimer:(NSTimer *)timer {
-  [self setNeedsDisplay];
+
+#pragma mark - Timer
+
+- (void)startTimer
+{
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01
+                                                  target:self
+                                                selector:@selector(setNeedsDisplay)
+                                                userInfo:nil
+                                                 repeats:YES];
 }
 
-- (void)drawRect:(CGRect)rect {
-  NSTimeInterval seconds = [[NSDate date] timeIntervalSince1970];
-  NSTimeInterval mod =  fmod(seconds, self.period);
-  CGFloat percent = (float)(mod / self.period);
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  CGRect bounds = self.bounds;
-
-  // Clear the context
-  [[UIColor clearColor] setFill];
-  CGContextFillRect(context, rect);
-
-  // Set the color
-  UIColor *drawColor = [UIColor otpBackgroundColor];
-  CGFloat redBuffer = 0.2f;
-  if (percent > (1-redBuffer)) {
-    CGFloat percentRed = (percent - (1-redBuffer)) / redBuffer;
-    drawColor = [UIColor colorWithRed:1.0f green:1.0f-percentRed blue:1.0f-percentRed alpha:1];
-  }
-  [drawColor setFill];
-  [drawColor setStroke];
-
-  // Draw the wedge
-  CGFloat midX = CGRectGetMidX(bounds);
-  CGFloat midY = CGRectGetMidY(bounds);
-  CGFloat radius = midY - 4;
-  CGContextMoveToPoint(context, midX, midY);
-  CGFloat start = - (float)M_PI_2;
-  CGFloat end = 2 * (float)M_PI;
-  CGFloat sweep = end * percent + start;
-  CGContextAddArc(context, midX, midY, radius, start, sweep, 1);
-  CGContextFillPath(context);
-
-  // Draw the border
-  CGContextMoveToPoint(context, midX + radius , midY);
-  CGContextAddArc(context, midX, midY, radius, 0, 2.0 * (float)M_PI, 1);
-  CGContextStrokePath(context);
-
+- (void)stopTimer
+{
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
-- (void)invalidate {
-  [self.timer invalidate];
-  self.timer = nil;
-}
 
-- (void)startUpTimer {
-  self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01
-                                                target:self
-                                              selector:@selector(redrawTimer:)
-                                              userInfo:nil
-                                               repeats:YES];
-}
+#pragma mark - Drawing
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-  [self startUpTimer];
-  [self redrawTimer:nil];
-}
+- (void)drawRect:(CGRect)rect
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // Clear the context
+    [[UIColor clearColor] setFill];
+    CGContextFillRect(context, rect);
+    
+    // Set the color
+    [[UIColor otpBackgroundColor] setFill];
+    [[UIColor otpBackgroundColor] setStroke];
+    
+    // Get the dimensions
+    CGFloat midX = CGRectGetMidX(self.bounds);
+    CGFloat midY = CGRectGetMidY(self.bounds);
+    CGFloat radius = midY - 4;
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-  [self invalidate];
+    NSTimeInterval seconds = fmod([[NSDate date] timeIntervalSince1970], self.period);
+    CGFloat percent = (float)(seconds / self.period);
+    
+    // Draw the wedge
+    CGContextMoveToPoint(context, midX, midY);
+    CGFloat startAngle = -(float)M_PI_2;
+    CGFloat endAngle = startAngle + percent * (float)(2 * M_PI);
+    CGContextAddArc(context, midX, midY, radius, startAngle, endAngle, 1);
+    CGContextFillPath(context);
+    
+    // Draw the border
+    CGContextMoveToPoint(context, midX + radius , midY);
+    CGContextAddArc(context, midX, midY, radius, 0, 2.0 * (float)M_PI, 1);
+    CGContextStrokePath(context);
 }
 
 @end

@@ -21,6 +21,7 @@
 
 
 @interface OTPClock : UIView
-- (id)initWithFrame:(CGRect)frame period:(NSTimeInterval)period;
-- (void)invalidate;
+
+@property (nonatomic, assign) NSTimeInterval period;
+
 @end
