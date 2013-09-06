@@ -23,14 +23,11 @@
 //
 
 #import "OTPAppDelegate.h"
-#import "OTPTempManager.h"
 #import "OTPAuthURL.h"
 #import "OTPRootViewController.h"
 
 
 @interface OTPAppDelegate () < UIAlertViewDelegate >
-
-@property (nonatomic, strong) OTPTempManager *manager;
 
 @property (nonatomic, strong) UIAlertView *urlAddAlert;
 @property (nonatomic, strong) OTPAuthURL *urlBeingAdded;
@@ -43,7 +40,6 @@
 @implementation OTPAppDelegate
 
 @synthesize window;
-@synthesize manager;
 @synthesize urlAddAlert;
 @synthesize urlBeingAdded;
 @synthesize rootViewController;
@@ -53,14 +49,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.manager = [[OTPTempManager alloc] init];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     self.rootViewController = [[OTPRootViewController alloc] init];
-    self.rootViewController.delegate = self.manager;
-    self.manager.rootViewController = self.rootViewController;
-    self.rootViewController.manager = self.manager;
     
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
     
@@ -124,7 +116,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
-        [self.manager entryController:nil didCreateAuthURL:self.urlBeingAdded];
+        [self.rootViewController entryController:nil didCreateAuthURL:self.urlBeingAdded];
     }
     
     self.urlBeingAdded = nil;
