@@ -75,6 +75,10 @@
 }
 
 - (void)viewDidLoad {
+    self.title = @"Add Token";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
+    
   self.accountName.placeholder = @"user@example.com";
   self.accountNameLabel.text = @"Account:";
   self.accountKey.placeholder = @"Enter your key";
