@@ -107,14 +107,6 @@
            object:authURL_];
 }
 
-- (void)willBeginEditing {
-  [self.frontNameTextField becomeFirstResponder];
-}
-
-- (void)didEndEditing {
-  [self.frontNameTextField resignFirstResponder];
-}
-
 - (void)otpChangeDidStop:(NSString *)animationID
                 finished:(NSNumber *)finished
                  context:(void *)context {

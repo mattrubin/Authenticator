@@ -35,8 +35,6 @@
 @property (strong, nonatomic, readwrite) IBOutlet OTPTableViewCellBackView *backView;
 
 - (void)setAuthURL:(OTPAuthURL *)authURL;
-- (void)willBeginEditing;
-- (void)didEndEditing;
 - (IBAction)showInfo:(id)sender;
 - (IBAction)hideInfo:(id)sender;
 - (IBAction)refreshAuthURL:(id)sender;

@@ -222,9 +222,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
 forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        OTPTableViewCell *cell
-        = (OTPTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-        [cell didEndEditing];
         [tableView beginUpdates];
         NSUInteger idx = [indexPath row];
         OTPAuthURL *authURL = [self.authURLs objectAtIndex:idx];
@@ -250,20 +247,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80;
-}
-
-- (void)tableView:(UITableView*)tableView
-willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    OTPTableViewCell *cell
-    = (OTPTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [cell willBeginEditing];
-}
-
-- (void)tableView:(UITableView*)tableView
-didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    OTPTableViewCell *cell
-    = (OTPTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [cell didEndEditing];
 }
 
 @end

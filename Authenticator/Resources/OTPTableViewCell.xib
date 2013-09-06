@@ -205,7 +205,7 @@
 						<reference key="IBUIFont" ref="373599952"/>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 75}</string>
+				<string key="NSFrameSize">{320, 80}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="627789510"/>
@@ -303,7 +303,6 @@
 						<string key="NSFrame">{{52, 49}, {216, 19}}</string>
 						<reference key="NSSuperview" ref="3146584"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
