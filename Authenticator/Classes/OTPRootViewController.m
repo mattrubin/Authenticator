@@ -54,52 +54,25 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
   [self.clock invalidate];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    // On an iPad, support both portrait modes and landscape modes.
-    return UIInterfaceOrientationIsLandscape(interfaceOrientation) ||
-           UIInterfaceOrientationIsPortrait(interfaceOrientation);
-  }
-  // On a phone/pod, don't support upside-down portrait.
-  return interfaceOrientation == UIInterfaceOrientationPortrait ||
-         UIInterfaceOrientationIsLandscape(interfaceOrientation);
-}
 
-- (void)viewDidLoad {
-  self.view.backgroundColor = [UIColor otpBackgroundColor];
+#pragma mark - View Lifecycle
 
-  UIButton *titleButton = [[UIButton alloc] init];
-  [titleButton setTitle:@"Authenticator"
-               forState:UIControlStateNormal];
-  UILabel *titleLabel = [titleButton titleLabel];
-  titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-  titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-  [titleButton setTitleShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5]
-                          forState:UIControlStateNormal];
-  titleButton.adjustsImageWhenHighlighted = NO;
-  [titleButton sizeToFit];
-
-  UINavigationItem *navigationItem = self.navigationItem;
-  navigationItem.titleView = titleButton;
-  self.clock = [[OTPClock alloc] initWithFrame:CGRectMake(0,0,30,30)
-                                                period:[TOTPGenerator defaultPeriod]];
-  UIBarButtonItem *clockItem
-    = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
-  [navigationItem setLeftBarButtonItem:clockItem animated:NO];
+- (void)viewDidLoad
+{
+    self.view.backgroundColor = [UIColor otpBackgroundColor];
     
-    [[UINavigationBar appearance] setTintColor:[UIColor otpBarColor]];
-    [[UIToolbar appearance] setTintColor:[UIColor otpBarColor]];
-    [[UISegmentedControl appearance] setTintColor:[UIColor otpBarColor]];
-
-    UILongPressGestureRecognizer *gesture =
-        [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                       action:@selector(showCopyMenu:)];
-    [self.view addGestureRecognizer:gesture];
-    UITapGestureRecognizer *doubleTap =
-        [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                 action:@selector(showCopyMenu:)];
-    doubleTap.numberOfTapsRequired = 2;
-    [self.view addGestureRecognizer:doubleTap];
+    self.title = @"Authenticator";
+    
+    self.clock = [[OTPClock alloc] initWithFrame:CGRectMake(0,0,30,30)
+                                          period:[TOTPGenerator defaultPeriod]];
+    UIBarButtonItem *clockItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
+    [self.navigationItem setLeftBarButtonItem:clockItem animated:NO];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showCopyMenu:)];
+    [self.view addGestureRecognizer:tap];
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showCopyMenu:)];
+    [self.view addGestureRecognizer:longPress];
     
     self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAuthURL:)];
     self.addButtonItem.style = UIBarButtonItemStyleBordered;
@@ -116,9 +89,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     [self updateUI];
 }
 
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
-  [super setEditing:editing animated:animated];
-  self.addButtonItem.enabled = !editing;
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    self.addButtonItem.enabled = !editing;
 }
 
 - (void)showCopyMenu:(UIGestureRecognizer *)recognizer {

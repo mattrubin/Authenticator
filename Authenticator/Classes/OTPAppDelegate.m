@@ -49,6 +49,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[UINavigationBar appearance] setTintColor:[UIColor otpBarColor]];
+    [[UIToolbar appearance] setTintColor:[UIColor otpBarColor]];
+    [[UISegmentedControl appearance] setTintColor:[UIColor otpBarColor]];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
