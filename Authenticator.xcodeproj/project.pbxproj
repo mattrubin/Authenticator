@@ -80,7 +80,6 @@
 		8B73DCF21182656200861C87 /* HOTPGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HOTPGenerator.h; sourceTree = "<group>"; };
 		8B73DCF31182656200861C87 /* TOTPGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOTPGenerator.m; sourceTree = "<group>"; };
 		8B8098E513D4FED600D4FCC8 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/gcc/arm-apple-darwin10/4.2.1/libstdc++.dylib"; sourceTree = SDKROOT; };
-		8B80995D13D500E200D4FCC8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Developer/Library/Frameworks/SenTestingKit.framework; sourceTree = SDKROOT; };
 		8BC958E4128B5DB500A0E8F2 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		8BC958E5128B5DB500A0E8F2 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		8BC958E6128B5DB500A0E8F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -180,7 +179,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B80995D13D500E200D4FCC8 /* SenTestingKit.framework */,
 				8B8098E513D4FED600D4FCC8 /* libstdc++.dylib */,
 				8B3F0F59122F2003009A6409 /* AVFoundation.framework */,
 				8BE5D80811AC824500A20746 /* MobileCoreServices.framework */,
@@ -198,8 +196,8 @@
 			isa = PBXGroup;
 			children = (
 				080E96DDFE201D6D7F000001 /* Classes */,
-				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
 			);
 			path = Authenticator;
 			sourceTree = "<group>";
@@ -521,15 +519,15 @@
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_ENTITLEMENTS = Authenticator/Entitlements.plist;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Authenticator.pch;
+				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_PEDANTIC = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Authenticator-Info.plist";
+				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
 				PRODUCT_NAME = Authenticator;
 			};
 			name = Debug;
@@ -546,15 +544,15 @@
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_ENTITLEMENTS = Authenticator/Entitlements.plist;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Authenticator.pch;
+				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				GCC_WARN_PEDANTIC = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Authenticator-Info.plist";
+				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
 				PRODUCT_NAME = Authenticator;
 			};
 			name = Release;
