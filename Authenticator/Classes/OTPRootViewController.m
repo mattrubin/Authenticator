@@ -19,7 +19,7 @@
 
 #import "OTPRootViewController.h"
 #import "OTPAuthURL.h"
-#import "OTPTableViewCell.h"
+#import "OTPTokenCell.h"
 #import "TOTPGenerator.h"
 #import "UIColor+OTP.h"
 #import "OTPClock.h"
