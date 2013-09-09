@@ -10,9 +10,9 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 
-@interface OTPTokenCell ()
+@interface OTPTokenCell () <UITextFieldDelegate>
 
-@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UITextField *nameLabel;
 @property (nonatomic, strong) UILabel *passwordLabel;
 
 @end
@@ -43,7 +43,11 @@
 
 - (void)createSubviews
 {
-    self.nameLabel = [UILabel new];
+    self.nameLabel = [UITextField new];
+    self.nameLabel.returnKeyType = UIReturnKeyDone;
+    self.nameLabel.delegate = self;
+    self.nameLabel.enabled = NO;
+    
     self.passwordLabel = [UILabel new];
     
     [self.contentView addSubview:self.nameLabel];
@@ -109,6 +113,32 @@
 {
     self.nameLabel.text = self.token.name;
     self.passwordLabel.text = self.token.otpCode;
+}
+
+
+#pragma mark - Editing
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    
+    self.nameLabel.enabled = editing;
+    self.nameLabel.borderStyle = editing ? UITextBorderStyleLine : UITextBorderStyleNone;
+    
+    if (!editing) {
+        [self.nameLabel resignFirstResponder];
+        
+        if (![self.token.name isEqualToString:self.nameLabel.text]) {
+            self.token.name = self.nameLabel.text;
+            [self.token saveToKeychain];
+        }
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end
