@@ -38,6 +38,7 @@
 		C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */; };
 		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
 		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
+		C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,7 @@
 		C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenCell.h; sourceTree = "<group>"; };
 		C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenCell.m; sourceTree = "<group>"; };
+		C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				8B2B8777118B903000437315 /* Foundation.framework in Frameworks */,
 				8B3F0F5A122F2003009A6409 /* AVFoundation.framework in Frameworks */,
 				8BBC772113BA945D006B3033 /* Security.framework in Frameworks */,
+				C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */,
 				43B5E4365C6C4081AEF41717 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -181,6 +184,7 @@
 				8B2B8754118B902200437315 /* CoreGraphics.framework */,
 				8B2B8727118B900E00437315 /* CoreFoundation.framework */,
 				8B2B86FD118B8FA000437315 /* UIKit.framework */,
+				C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */,
 				9B03839CF35E4014987A36CA /* libPods.a */,
 			);
 			name = Frameworks;

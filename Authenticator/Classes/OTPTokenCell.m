@@ -7,6 +7,7 @@
 //
 
 #import "OTPTokenCell.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
 
 @implementation OTPTokenCell
@@ -15,6 +16,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self addObserver:self forKeyPath:@"token" options:(NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew) context:nil];
     }
     return self;
@@ -23,8 +25,17 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
+    
+    if (selected) {
+        [self copyPassword];
+    }
+}
 
-    // Configure the view for the selected state
+- (void)copyPassword
+{
+    // TODO: show "Copied" notification
+    NSLog(@"Copied %@!", self.token.name);
+    [[UIPasteboard generalPasteboard] setValue:self.token.otpCode forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
 }
 
 
