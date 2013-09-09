@@ -20,8 +20,6 @@
 #pragma mark - Shim
 
 @interface OTPTableViewCell : OTPTokenCell
-- (void)setAuthURL:(OTPAuthURL *)authURL DEPRECATED_ATTRIBUTE;
-- (void)showCopyMenu:(CGPoint)location DEPRECATED_ATTRIBUTE;
 @end
 
 @interface HOTPTableViewCell : OTPTableViewCell

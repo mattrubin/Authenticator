@@ -66,10 +66,6 @@
 #pragma mark - Shim
 
 @implementation OTPTableViewCell
-- (void)setAuthURL:(OTPAuthURL *)authURL {
-    [self setToken:authURL];
-}
-- (void)showCopyMenu:(CGPoint)location {}
 @end
 
 @implementation HOTPTableViewCell
