@@ -22,6 +22,15 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [self removeObserver:self forKeyPath:@"token"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
+#pragma mark - Copying
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
@@ -45,13 +54,21 @@
 {
     if ((object == self) && [keyPath isEqualToString:@"token"]) {
         [self refresh];
-        [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                        name:OTPAuthURLDidGenerateNewOTPNotification
-                                                      object:change[NSKeyValueChangeOldKey]];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(refresh)
-                                                     name:OTPAuthURLDidGenerateNewOTPNotification
-                                                   object:change[NSKeyValueChangeNewKey]];
+        
+        OTPAuthURL *oldObject = change[NSKeyValueChangeOldKey];
+        if (oldObject) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:OTPAuthURLDidGenerateNewOTPNotification
+                                                          object:oldObject];
+        }
+        
+        OTPAuthURL *newObject = change[NSKeyValueChangeNewKey];
+        if (newObject) {
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(refresh)
+                                                         name:OTPAuthURLDidGenerateNewOTPNotification
+                                                       object:newObject];
+        }
     }
 }
 
