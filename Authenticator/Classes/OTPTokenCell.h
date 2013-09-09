@@ -12,13 +12,15 @@
 
 @interface OTPTokenCell : UITableViewCell
 
+@property (nonatomic, strong) OTPAuthURL *token;
+
 @end
 
 
 #pragma mark - Shim
 
 @interface OTPTableViewCell : OTPTokenCell
-- (void)setAuthURL:(OTPAuthURL *)authURL;
+- (void)setAuthURL:(OTPAuthURL *)authURL DEPRECATED_ATTRIBUTE;
 - (void)showCopyMenu:(CGPoint)location;
 @end
 

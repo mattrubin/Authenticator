@@ -15,7 +15,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+        [self addObserver:self forKeyPath:@"token" options:(NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew) context:nil];
     }
     return self;
 }
@@ -27,13 +27,37 @@
     // Configure the view for the selected state
 }
 
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ((object == self) && [keyPath isEqualToString:@"token"]) {
+        [self refresh];
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:OTPAuthURLDidGenerateNewOTPNotification
+                                                      object:change[NSKeyValueChangeOldKey]];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refresh)
+                                                     name:OTPAuthURLDidGenerateNewOTPNotification
+                                                   object:change[NSKeyValueChangeNewKey]];
+    }
+}
+
+- (void)refresh
+{
+    self.textLabel.text = self.token.otpCode;
+}
+
 @end
 
 
 #pragma mark - Shim
 
 @implementation OTPTableViewCell
-- (void)setAuthURL:(OTPAuthURL *)authURL {}
+- (void)setAuthURL:(OTPAuthURL *)authURL {
+    [self setToken:authURL];
+}
 - (void)showCopyMenu:(CGPoint)location {}
 @end
 
