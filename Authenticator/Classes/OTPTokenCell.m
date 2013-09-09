@@ -160,12 +160,9 @@
 @end
 
 
-#pragma mark - Shim
+#pragma mark -
 
-@implementation OTPTableViewCell
-@end
-
-@implementation HOTPTableViewCell
+@implementation HOTPTokenCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -187,7 +184,10 @@
 
 @end
 
-@implementation TOTPTableViewCell
+
+#pragma mark -
+
+@implementation TOTPTokenCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

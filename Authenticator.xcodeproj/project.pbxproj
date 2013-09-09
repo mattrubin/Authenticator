@@ -83,8 +83,6 @@
 		8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPTableViewCell.xib; sourceTree = "<group>"; };
 		8BF23A7013D4EF7000F3FD82 /* UIColor+OTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+OTP.h"; sourceTree = "<group>"; };
 		8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+OTP.m"; sourceTree = "<group>"; };
-		8BF5054F1186272B005C936F /* OTPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTableViewCell.h; sourceTree = "<group>"; };
-		8BF505501186272B005C936F /* OTPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTableViewCell.m; sourceTree = "<group>"; };
 		8BF5104C118748C7005C936F /* OTPEntryController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPEntryController.xib; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* Authenticator-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Authenticator-Info.plist"; sourceTree = "<group>"; };
 		9B03839CF35E4014987A36CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -205,8 +203,6 @@
 			children = (
 				C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */,
 				C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */,
-				8BF5054F1186272B005C936F /* OTPTableViewCell.h */,
-				8BF505501186272B005C936F /* OTPTableViewCell.m */,
 			);
 			name = "Table View";
 			sourceTree = "<group>";

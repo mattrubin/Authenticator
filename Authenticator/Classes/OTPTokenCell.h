@@ -33,13 +33,9 @@
 @end
 
 
-#pragma mark - Shim
-
-@interface OTPTableViewCell : OTPTokenCell
+@interface HOTPTokenCell : OTPTokenCell
 @end
 
-@interface HOTPTableViewCell : OTPTableViewCell
-@end
 
-@interface TOTPTableViewCell : OTPTableViewCell
+@interface TOTPTokenCell : OTPTokenCell
 @end

@@ -159,19 +159,17 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellIdentifier = nil;
     Class cellClass = Nil;
     
     OTPAuthURL *url = (self.authURLs)[indexPath.row];
     if ([url isMemberOfClass:[HOTPAuthURL class]]) {
-        cellIdentifier = @"HOTPCell";
-        cellClass = [HOTPTableViewCell class];
+        cellClass = [HOTPTokenCell class];
     } else if ([url isMemberOfClass:[TOTPAuthURL class]]) {
-        cellIdentifier = @"TOTPCell";
-        cellClass = [TOTPTableViewCell class];
+        cellClass = [TOTPTokenCell class];
     }
+    NSString *cellIdentifier = NSStringFromClass(cellClass);
     
-    OTPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    OTPTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[cellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
