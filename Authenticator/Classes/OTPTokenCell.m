@@ -120,6 +120,25 @@
 @end
 
 @implementation HOTPTableViewCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        UIButton *nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+        [nextPasswordButton addTarget:self action:@selector(generateNextPassword) forControlEvents:UIControlEventTouchUpInside];
+        self.accessoryView = nextPasswordButton;
+    }
+    return self;
+}
+
+- (void)generateNextPassword
+{
+    if ([self.token isKindOfClass:[HOTPAuthURL class]]) {
+        [(HOTPAuthURL *)self.token generateNextOTPCode];
+    }
+}
+
 @end
 
 @implementation TOTPTableViewCell
