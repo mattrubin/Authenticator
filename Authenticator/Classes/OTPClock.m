@@ -29,12 +29,6 @@
 
 @implementation OTPClock
 
-@synthesize timer;
-@synthesize period;
-
-
-#pragma mark - Create/Destroy
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

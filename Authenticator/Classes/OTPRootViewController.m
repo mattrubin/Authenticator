@@ -40,11 +40,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @implementation OTPRootViewController
 
-@synthesize clock;
-@synthesize addButtonItem;
-@synthesize authURLs;
-
-
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad

@@ -37,10 +37,6 @@
 
 @implementation OTPAppDelegate
 
-@synthesize window;
-@synthesize rootViewController;
-
-
 #pragma mark - UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
