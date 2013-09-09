@@ -10,6 +10,14 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 
+@interface OTPTokenCell ()
+
+@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *passwordLabel;
+
+@end
+
+
 @implementation OTPTokenCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -17,6 +25,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        [self createSubviews];
+        
         [self addObserver:self forKeyPath:@"token" options:(NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew) context:nil];
     }
     return self;
@@ -26,6 +37,28 @@
 {
     [self removeObserver:self forKeyPath:@"token"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Subviews
+
+- (void)createSubviews
+{
+    self.nameLabel = [UILabel new];
+    self.passwordLabel = [UILabel new];
+    
+    [self.contentView addSubview:self.nameLabel];
+    [self.contentView addSubview:self.passwordLabel];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    CGRect frame = CGRectInset(self.bounds, 10, 5);
+    frame.size.height = frame.size.height/2;
+    self.nameLabel.frame = frame;
+    frame.origin.y += frame.size.height;
+    self.passwordLabel.frame = frame;
 }
 
 
@@ -74,7 +107,8 @@
 
 - (void)refresh
 {
-    self.textLabel.text = self.token.otpCode;
+    self.nameLabel.text = self.token.name;
+    self.passwordLabel.text = self.token.otpCode;
 }
 
 @end
