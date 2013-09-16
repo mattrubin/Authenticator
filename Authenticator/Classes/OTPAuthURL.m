@@ -329,7 +329,7 @@ static NSString *const TOTPAuthURLTimerNotification
   static NSTimer *sTOTPTimer = nil;
   if (!sTOTPTimer) {
     @autoreleasepool {
-      sTOTPTimer = [NSTimer scheduledTimerWithTimeInterval:1
+      sTOTPTimer = [NSTimer scheduledTimerWithTimeInterval:.01
                                                     target:self
                                                   selector:@selector(totpTimer:)
                                                   userInfo:nil

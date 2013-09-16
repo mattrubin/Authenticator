@@ -28,9 +28,7 @@
 		8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E4128B5DB500A0E8F2 /* Icon@2x.png */; };
 		8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E5128B5DB500A0E8F2 /* Icon-72.png */; };
 		8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E6128B5DB500A0E8F2 /* Icon.png */; };
-		8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */; };
 		8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */; };
-		8BF505511186272B005C936F /* OTPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF505501186272B005C936F /* OTPTableViewCell.m */; };
 		8BF51058118748C7005C936F /* OTPEntryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104C118748C7005C936F /* OTPEntryController.xib */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
 		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
@@ -38,6 +36,8 @@
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
 		C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */; };
 		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
+		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
+		C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,11 +79,8 @@
 		8BC958E5128B5DB500A0E8F2 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		8BC958E6128B5DB500A0E8F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		8BC958E7128B5DB500A0E8F2 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
-		8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPTableViewCell.xib; sourceTree = "<group>"; };
 		8BF23A7013D4EF7000F3FD82 /* UIColor+OTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+OTP.h"; sourceTree = "<group>"; };
 		8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+OTP.m"; sourceTree = "<group>"; };
-		8BF5054F1186272B005C936F /* OTPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTableViewCell.h; sourceTree = "<group>"; };
-		8BF505501186272B005C936F /* OTPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTableViewCell.m; sourceTree = "<group>"; };
 		8BF5104C118748C7005C936F /* OTPEntryController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPEntryController.xib; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* Authenticator-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Authenticator-Info.plist"; sourceTree = "<group>"; };
 		9B03839CF35E4014987A36CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +92,9 @@
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenCell.h; sourceTree = "<group>"; };
+		C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenCell.m; sourceTree = "<group>"; };
+		C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +108,7 @@
 				8B2B8777118B903000437315 /* Foundation.framework in Frameworks */,
 				8B3F0F5A122F2003009A6409 /* AVFoundation.framework in Frameworks */,
 				8BBC772113BA945D006B3033 /* Security.framework in Frameworks */,
+				C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */,
 				43B5E4365C6C4081AEF41717 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -179,6 +180,7 @@
 				8B2B8754118B902200437315 /* CoreGraphics.framework */,
 				8B2B8727118B900E00437315 /* CoreFoundation.framework */,
 				8B2B86FD118B8FA000437315 /* UIKit.framework */,
+				C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */,
 				9B03839CF35E4014987A36CA /* libPods.a */,
 			);
 			name = Frameworks;
@@ -197,8 +199,8 @@
 		C98C1C4517D2EDF500A07D3F /* Table View */ = {
 			isa = PBXGroup;
 			children = (
-				8BF5054F1186272B005C936F /* OTPTableViewCell.h */,
-				8BF505501186272B005C936F /* OTPTableViewCell.m */,
+				C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */,
+				C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */,
 			);
 			name = "Table View";
 			sourceTree = "<group>";
@@ -254,7 +256,6 @@
 			isa = PBXGroup;
 			children = (
 				8BF5104C118748C7005C936F /* OTPEntryController.xib */,
-				8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -427,7 +428,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BF51058118748C7005C936F /* OTPEntryController.xib in Resources */,
-				8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */,
 				8B00365311ECD2390092DE18 /* Default.png in Resources */,
 				8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */,
 				8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */,
@@ -486,13 +486,13 @@
 				8B73DCF41182656200861C87 /* HOTPGenerator.m in Sources */,
 				8B73DCF51182656200861C87 /* OTPAuthURL.m in Sources */,
 				8B73DCF61182656200861C87 /* TOTPGenerator.m in Sources */,
-				8BF505511186272B005C936F /* OTPTableViewCell.m in Sources */,
 				8B2B6E501187AC6B00437315 /* OTPGenerator.m in Sources */,
 				8B2B9DE5119084FC00437315 /* OTPEntryController.m in Sources */,
 				8B45557811932B5D00ABD707 /* OTPClock.m in Sources */,
 				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */,
 				8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */,
 				C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */,
+				C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

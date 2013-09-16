@@ -19,7 +19,7 @@
 
 #import "OTPRootViewController.h"
 #import "OTPAuthURL.h"
-#import "OTPTableViewCell.h"
+#import "OTPTokenCell.h"
 #import "TOTPGenerator.h"
 #import "UIColor+OTP.h"
 #import "OTPClock.h"
@@ -40,11 +40,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @implementation OTPRootViewController
 
-@synthesize clock;
-@synthesize addButtonItem;
-@synthesize authURLs;
-
-
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
@@ -57,13 +52,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     self.clock.period = [TOTPGenerator defaultPeriod];
     UIBarButtonItem *clockItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
     [self.navigationItem setLeftBarButtonItem:clockItem animated:NO];
-    
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showCopyMenu:)];
-    doubleTap.numberOfTapsRequired = 2;
-    [self.view addGestureRecognizer:doubleTap];
-    
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showCopyMenu:)];
-    [self.view addGestureRecognizer:longPress];
     
     self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAuthURL:)];
     self.addButtonItem.style = UIBarButtonItemStyleBordered;
@@ -104,22 +92,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 
 #pragma mark - Actions
-
-- (void)showCopyMenu:(UIGestureRecognizer *)recognizer
-{
-    BOOL isLongPress = [recognizer isKindOfClass:[UILongPressGestureRecognizer class]];
-    if ((isLongPress && recognizer.state == UIGestureRecognizerStateBegan) ||
-        (!isLongPress && recognizer.state == UIGestureRecognizerStateRecognized)) {
-        CGPoint location = [recognizer locationInView:self.view];
-        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-        UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        
-        if ([cell respondsToSelector:@selector(showCopyMenu:)]) {
-            location = [self.view convertPoint:location toView:cell];
-            [(OTPTableViewCell*)cell showCopyMenu:location];
-        }
-    }
-}
 
 - (void)addAuthURL:(id)sender
 {
@@ -182,24 +154,22 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellIdentifier = nil;
     Class cellClass = Nil;
     
     OTPAuthURL *url = (self.authURLs)[indexPath.row];
     if ([url isMemberOfClass:[HOTPAuthURL class]]) {
-        cellIdentifier = @"HOTPCell";
-        cellClass = [HOTPTableViewCell class];
+        cellClass = [HOTPTokenCell class];
     } else if ([url isMemberOfClass:[TOTPAuthURL class]]) {
-        cellIdentifier = @"TOTPCell";
-        cellClass = [TOTPTableViewCell class];
+        cellClass = [TOTPTokenCell class];
     }
+    NSString *cellIdentifier = NSStringFromClass(cellClass);
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    OTPTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[cellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    [(OTPTableViewCell *)cell setAuthURL:url];
+    cell.token = url;
     return cell;
 }
 
