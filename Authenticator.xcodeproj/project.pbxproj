@@ -28,7 +28,6 @@
 		8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E4128B5DB500A0E8F2 /* Icon@2x.png */; };
 		8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E5128B5DB500A0E8F2 /* Icon-72.png */; };
 		8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E6128B5DB500A0E8F2 /* Icon.png */; };
-		8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */; };
 		8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */; };
 		8BF51058118748C7005C936F /* OTPEntryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BF5104C118748C7005C936F /* OTPEntryController.xib */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
@@ -80,7 +79,6 @@
 		8BC958E5128B5DB500A0E8F2 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		8BC958E6128B5DB500A0E8F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		8BC958E7128B5DB500A0E8F2 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
-		8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPTableViewCell.xib; sourceTree = "<group>"; };
 		8BF23A7013D4EF7000F3FD82 /* UIColor+OTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+OTP.h"; sourceTree = "<group>"; };
 		8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+OTP.m"; sourceTree = "<group>"; };
 		8BF5104C118748C7005C936F /* OTPEntryController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OTPEntryController.xib; sourceTree = "<group>"; };
@@ -258,7 +256,6 @@
 			isa = PBXGroup;
 			children = (
 				8BF5104C118748C7005C936F /* OTPEntryController.xib */,
-				8BE5CF5411AB441D00A20746 /* OTPTableViewCell.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -431,7 +428,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BF51058118748C7005C936F /* OTPEntryController.xib in Resources */,
-				8BE5CF5511AB441D00A20746 /* OTPTableViewCell.xib in Resources */,
 				8B00365311ECD2390092DE18 /* Default.png in Resources */,
 				8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */,
 				8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */,
