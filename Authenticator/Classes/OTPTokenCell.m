@@ -24,6 +24,7 @@
 
 #import "OTPTokenCell.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 
 @interface OTPTokenCell () <UITextFieldDelegate>
@@ -96,9 +97,9 @@
 
 - (void)copyPassword
 {
-    // TODO: show "Copied" notification
-    NSLog(@"Copied %@!", self.token.name);
     [[UIPasteboard generalPasteboard] setValue:self.token.otpCode forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
+
+    [SVProgressHUD showSuccessWithStatus:@"Copied"];
 }
 
 
