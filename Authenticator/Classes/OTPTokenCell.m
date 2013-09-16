@@ -60,25 +60,26 @@
 - (void)createSubviews
 {
     self.nameLabel = [UITextField new];
+    self.nameLabel.font = [UIFont systemFontOfSize:15];
     self.nameLabel.returnKeyType = UIReturnKeyDone;
     self.nameLabel.delegate = self;
     self.nameLabel.enabled = NO;
     
     self.passwordLabel = [UILabel new];
+    self.passwordLabel.font = [UIFont systemFontOfSize:50];
+    self.passwordLabel.backgroundColor = [UIColor otpBackgroundColor];
     
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.passwordLabel];
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
     
-    CGRect frame = CGRectInset(self.bounds, 10, 5);
-    frame.size.height = frame.size.height/2;
+    CGRect frame = CGRectInset(self.contentView.bounds, 10, 5);
+    frame.size.height = 20;
     self.nameLabel.frame = frame;
     frame.origin.y += frame.size.height;
     self.passwordLabel.frame = frame;
+    
+    self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.passwordLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
 
 
@@ -139,7 +140,11 @@
     [super setEditing:editing animated:animated];
     
     self.nameLabel.enabled = editing;
-    self.nameLabel.borderStyle = editing ? UITextBorderStyleLine : UITextBorderStyleNone;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.nameLabel.textColor = editing ? [UIColor blackColor] : [UIColor otpBarColor];
+        self.passwordLabel.alpha = !editing ? 1 : 0.2;
+    }];
     
     if (!editing) {
         [self.nameLabel resignFirstResponder];
@@ -164,15 +169,13 @@
 
 @implementation HOTPTokenCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (void)createSubviews
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        UIButton *nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-        [nextPasswordButton addTarget:self action:@selector(generateNextPassword) forControlEvents:UIControlEventTouchUpInside];
-        self.accessoryView = nextPasswordButton;
-    }
-    return self;
+    [super createSubviews];
+    
+    UIButton *nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    [nextPasswordButton addTarget:self action:@selector(generateNextPassword) forControlEvents:UIControlEventTouchUpInside];
+    self.accessoryView = nextPasswordButton;
 }
 
 - (void)generateNextPassword
