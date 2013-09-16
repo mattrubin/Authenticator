@@ -35,6 +35,10 @@
 @end
 
 
+// TODO: Show integrity check for counter-based tokens?
+// TODO: Show warning when a TOTP is about to change?
+
+
 @implementation OTPTokenCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
