@@ -29,7 +29,7 @@
 @property(nonatomic, readwrite, unsafe_unretained) UIBarButtonItem *doneButtonItem;
 @property(nonatomic, readwrite, strong) Decoder *decoder;
 // queue is retained using dispatch_queue retain semantics.
-@property (nonatomic, retain) __attribute__((NSObject)) dispatch_queue_t queue;
+@property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) AVCaptureSession *avSession;
 @property (atomic) BOOL handleCapture;
 
@@ -124,22 +124,6 @@
   self.doneButtonItem = nil;
   self.handleCapture = NO;
   [self.avSession stopRunning];
-}
-
-- (dispatch_queue_t)queue {
-  return queue_;
-}
-
-- (void)setQueue:(dispatch_queue_t)aQueue {
-  if (queue_ != aQueue) {
-    if (queue_) {
-      dispatch_release(queue_);
-    }
-    queue_ = aQueue;
-    if (queue_) {
-      dispatch_retain(queue_);
-    }
-  }
 }
 
 // Called when the UIKeyboardDidShowNotification is sent.
@@ -256,7 +240,6 @@
     dispatch_queue_t queue = dispatch_queue_create("OTPEntryController",
                                                    0);
     self.queue = queue;
-    dispatch_release(queue);
     AVCaptureVideoDataOutput *captureOutput =
       [[AVCaptureVideoDataOutput alloc] init];
     [captureOutput setAlwaysDiscardsLateVideoFrames:YES];

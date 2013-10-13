@@ -29,10 +29,7 @@
      UINavigationControllerDelegate,
      DecoderDelegate,
      UIAlertViewDelegate,
-     AVCaptureVideoDataOutputSampleBufferDelegate> {
- @private
-  dispatch_queue_t queue_;
-}
+     AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property(nonatomic, readwrite, unsafe_unretained) id<OTPEntryControllerDelegate> delegate;
 @property(nonatomic, readwrite, strong) IBOutlet UITextField *accountName;
