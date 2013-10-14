@@ -66,7 +66,6 @@
 		8B2B9DE3119084FC00437315 /* OTPEntryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPEntryController.h; sourceTree = "<group>"; };
 		8B2B9DE4119084FC00437315 /* OTPEntryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPEntryController.m; sourceTree = "<group>"; };
 		8B3F0F59122F2003009A6409 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		8B4553CA1192158300ABD707 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.entitlements"; sourceTree = "<group>"; };
 		8B45557611932B5D00ABD707 /* OTPClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPClock.h; sourceTree = "<group>"; };
 		8B45557711932B5D00ABD707 /* OTPClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPClock.m; sourceTree = "<group>"; };
 		8B73DCEE1182656200861C87 /* TOTPGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOTPGenerator.h; sourceTree = "<group>"; };
@@ -155,7 +154,6 @@
 				28A0AAE50D9B0CCF005BE974 /* Authenticator.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				8BF5147F118799AE005C936F /* Authenticator-Info.plist */,
-				8B4553CA1192158300ABD707 /* Entitlements.plist */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -358,60 +356,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
 				en,
-				ar,
-				bg,
-				ca,
-				cs,
-				da,
-				de,
-				el,
-				en_GB,
-				es,
-				fi,
-				fil,
-				fr_CH,
-				fr,
-				gsw,
-				he,
-				hi,
-				hr,
-				hu,
-				id,
-				in,
-				it,
-				iw,
-				ja,
-				ko,
-				ln,
-				lt,
-				lv,
-				mo,
-				nl,
-				no,
-				pl,
-				pt_BR,
-				pt_PT,
-				pt,
-				ro,
-				ru,
-				sk,
-				sl,
-				sr,
-				sv,
-				th,
-				tl,
-				tr,
-				uk,
-				vi,
-				zh_CN,
-				zh_HK,
-				zh_TW,
-				zh,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -503,7 +448,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = Authenticator/Entitlements.plist;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
@@ -516,7 +460,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = Authenticator/Entitlements.plist;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
@@ -529,10 +472,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -541,8 +486,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

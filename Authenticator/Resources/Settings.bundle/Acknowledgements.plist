@@ -250,7 +250,7 @@ respective headers for the terms of their individual licenses.</string>
    limitations under the License.
 </string>
 			<key>Title</key>
-			<string>ZXing</string>
+			<string>ZXingObjC</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

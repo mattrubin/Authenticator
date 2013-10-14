@@ -19,17 +19,15 @@
 
 #import "OTPEntryController.h"
 #import "OTPAuthURL.h"
-#import "Decoder.h"
-#import "TwoDDecoderResult.h"
 #import "OTPScannerOverlayView.h"
+#import <ZXingObjC/ZXingObjC.h>
 
 
 @interface OTPEntryController ()
 @property(nonatomic, readwrite, unsafe_unretained) UITextField *activeTextField;
 @property(nonatomic, readwrite, unsafe_unretained) UIBarButtonItem *doneButtonItem;
-@property(nonatomic, readwrite, strong) Decoder *decoder;
-// queue is retained using dispatch_queue retain semantics.
-@property (nonatomic, retain) __attribute__((NSObject)) dispatch_queue_t queue;
+@property(nonatomic, readwrite, strong) id <ZXReader> decoder;
+@property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) AVCaptureSession *avSession;
 @property (atomic) BOOL handleCapture;
 
@@ -49,7 +47,6 @@
 @synthesize scrollView = scrollView_;
 @synthesize activeTextField = activeTextField_;
 @synthesize decoder = decoder_;
-@dynamic queue;
 @synthesize avSession = avSession_;
 @synthesize handleCapture = handleCapture_;
 
@@ -69,8 +66,6 @@
   [nc removeObserver:self];
   self.delegate = nil;
   self.doneButtonItem = nil;
-  self.queue = nil;
-  self.queue = nil;
 }
 
 - (void)viewDidLoad {
@@ -105,8 +100,7 @@
   self.doneButtonItem
     = self.navigationController.navigationBar.topItem.rightBarButtonItem;
   self.doneButtonItem.enabled = NO;
-  self.decoder = [[Decoder alloc] init];
-  self.decoder.delegate = self;
+  self.decoder = [ZXMultiFormatReader reader];
   self.scrollView.backgroundColor = [UIColor otpBackgroundColor];
 
   // Hide the Scan button if we don't have a camera that will support video.
@@ -124,22 +118,6 @@
   self.doneButtonItem = nil;
   self.handleCapture = NO;
   [self.avSession stopRunning];
-}
-
-- (dispatch_queue_t)queue {
-  return queue_;
-}
-
-- (void)setQueue:(dispatch_queue_t)aQueue {
-  if (queue_ != aQueue) {
-    if (queue_) {
-      dispatch_release(queue_);
-    }
-    queue_ = aQueue;
-    if (queue_) {
-      dispatch_retain(queue_);
-    }
-  }
 }
 
 // Called when the UIKeyboardDidShowNotification is sent.
@@ -253,10 +231,7 @@
     AVCaptureDeviceInput *captureInput =
       [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
     [self.avSession addInput:captureInput];
-    dispatch_queue_t queue = dispatch_queue_create("OTPEntryController",
-                                                   0);
-    self.queue = queue;
-    dispatch_release(queue);
+    self.queue = dispatch_queue_create("OTPEntryController", 0);
     AVCaptureVideoDataOutput *captureOutput =
       [[AVCaptureVideoDataOutput alloc] init];
     [captureOutput setAlwaysDiscardsLateVideoFrames:YES];
@@ -342,12 +317,26 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
       CGColorSpaceRelease(colorSpace);
       CGImageRef cgImage = CGBitmapContextCreateImage(context);
       CGContextRelease(context);
-      UIImage *image = [UIImage imageWithCGImage:cgImage];
+        ZXLuminanceSource* source = [[ZXCGImageLuminanceSource alloc] initWithCGImage:cgImage];
+        ZXBinaryBitmap* bitmap = [ZXBinaryBitmap binaryBitmapWithBinarizer:[ZXHybridBinarizer binarizerWithSource:source]];
       CFRelease(cgImage);
       CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
-      [self.decoder performSelectorOnMainThread:@selector(decodeImage:)
-                                     withObject:image
-                                  waitUntilDone:NO];
+        
+        NSError* error = nil;
+        
+        // There are a number of hints we can give to the reader, including
+        // possible formats, allowed lengths, and the string encoding.
+        ZXDecodeHints* hints = [ZXDecodeHints hints];
+        [hints addPossibleFormat:kBarcodeFormatQRCode];
+        
+        ZXResult* result = [self.decoder decode:bitmap
+                                          hints:hints
+                                          error:&error];
+        if (result) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self didDecodeImageWithResult:result];
+            });
+        }
     } else {
       NSLog(@"Unable to lock buffer %d", ret);
     }
@@ -383,10 +372,8 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
 #pragma mark - DecoderDelegate
 
-- (void)decoder:(Decoder *)decoder
- didDecodeImage:(UIImage *)image
-    usingSubset:(UIImage *)subset
-     withResult:(TwoDDecoderResult *)twoDResult {
+- (void)didDecodeImageWithResult:(ZXResult *)twoDResult
+{
   if (self.handleCapture) {
     self.handleCapture = NO;
     NSString *urlString = twoDResult.text;
@@ -410,12 +397,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     }
   }
 }
-
-- (void)decoder:(Decoder *)decoder failedToDecodeImage:(UIImage *)image
-    usingSubset:(UIImage *)subset
-         reason:(NSString *)reason {
-}
-
 
 #pragma mark - UIAlertViewDelegate
 
