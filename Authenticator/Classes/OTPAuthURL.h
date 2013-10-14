@@ -66,12 +66,7 @@
 
 @end
 
-@interface TOTPAuthURL : OTPAuthURL  {
- @private
-  NSTimeInterval generationAdvanceWarning_;
-  NSTimeInterval lastProgress_;
-  BOOL warningSent_;
-}
+@interface TOTPAuthURL : OTPAuthURL
 
 @property(readwrite, assign, nonatomic) NSTimeInterval generationAdvanceWarning;
 
@@ -79,10 +74,7 @@
 
 @end
 
-@interface HOTPAuthURL : OTPAuthURL {
- @private
-  NSString *otpCode_;
-}
+@interface HOTPAuthURL : OTPAuthURL
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name;
 - (void)generateNextOTPCode;
 @end

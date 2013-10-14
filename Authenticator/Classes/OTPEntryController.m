@@ -20,7 +20,11 @@
 #import "OTPEntryController.h"
 #import "OTPAuthURL.h"
 #import "OTPScannerOverlayView.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 #import <ZXingObjC/ZXingObjC.h>
+#pragma clang diagnostic pop
 
 
 @interface OTPEntryController ()

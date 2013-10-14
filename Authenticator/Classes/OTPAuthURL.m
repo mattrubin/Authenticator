@@ -24,7 +24,12 @@
 #import "GTMNSDictionary+URLArguments.h"
 #import "GTMNSString+URLArguments.h"
 #import "GTMNSScanner+Unsigned.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 #import "GTMStringEncoding.h"
+#pragma clang diagnostic pop
+
 #import "HOTPGenerator.h"
 #import "TOTPGenerator.h"
 
