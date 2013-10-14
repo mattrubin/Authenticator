@@ -184,7 +184,7 @@
 
   if ([secret length]) {
     Class authURLClass = Nil;
-    if ([accountType_ selectedSegmentIndex] == 0) {
+    if ([self.accountType selectedSegmentIndex] == 0) {
       authURLClass = [TOTPAuthURL class];
     } else {
       authURLClass = [HOTPAuthURL class];
