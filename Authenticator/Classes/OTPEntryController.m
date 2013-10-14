@@ -23,6 +23,7 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #import <ZXingObjC/ZXingObjC.h>
 #pragma clang diagnostic pop
 
