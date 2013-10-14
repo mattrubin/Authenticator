@@ -234,7 +234,6 @@
     AVCaptureVideoDataOutput *captureOutput =
       [[AVCaptureVideoDataOutput alloc] init];
     [captureOutput setAlwaysDiscardsLateVideoFrames:YES];
-    [captureOutput setMinFrameDuration:CMTimeMake(5,1)];  // At most 5 frames/sec.
     [captureOutput setSampleBufferDelegate:self
                                      queue:self.queue];
     NSNumber *bgra = [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA];
