@@ -109,4 +109,7 @@ IBC_ERRORS = YES;
 IBC_NOTICES = YES;
 IBC_WARNINGS = YES;
 
-WARNING_CFLAGS = -Wunreachable-code -Wsemicolon-before-method-body -Wswitch-enum -Wcovered-switch-default -Wmethod-signatures -Wconditional-uninitialized -Wdirect-ivar-access -Wobjc-interface-ivars -Wundef -Wreadonly-setter-attrs -Wdocumentation-unknown-command;
+// Specific warning flags we've encountered before and want to ensure are checked
+SPECIFIC_WARNING_FLAGS = -Wunreachable-code -Wsemicolon-before-method-body -Wswitch-enum -Wcovered-switch-default -Wmethod-signatures -Wconditional-uninitialized -Wdirect-ivar-access -Wobjc-interface-ivars -Wundef -Wreadonly-setter-attrs -Wdocumentation-unknown-command;
+// In addition to the specific warning flags, use -Weverything, with a few specific exceptions
+WARNING_CFLAGS = $(SPECIFIC_WARNING_FLAGS) -Weverything -Wno-objc-missing-property-synthesis -Wno-assign-enum;
