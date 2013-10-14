@@ -22,7 +22,11 @@
 #import <CommonCrypto/CommonHMAC.h>
 #import <CommonCrypto/CommonDigest.h>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundef"
 #import "GTMDefines.h"
+#pragma clang diagnostic pop
+
 
 static NSUInteger kPinModTable[] = {
   0,

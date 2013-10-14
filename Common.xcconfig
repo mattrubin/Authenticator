@@ -109,4 +109,4 @@ IBC_ERRORS = YES;
 IBC_NOTICES = YES;
 IBC_WARNINGS = YES;
 
-WARNING_CFLAGS = -Wunreachable-code -Wsemicolon-before-method-body -Wswitch-enum -Wcovered-switch-default -Wmethod-signatures -Wconditional-uninitialized -Wdirect-ivar-access -Wobjc-interface-ivars;
+WARNING_CFLAGS = -Wunreachable-code -Wsemicolon-before-method-body -Wswitch-enum -Wcovered-switch-default -Wmethod-signatures -Wconditional-uninitialized -Wdirect-ivar-access -Wobjc-interface-ivars -Wundef;

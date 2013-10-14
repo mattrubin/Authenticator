@@ -23,7 +23,11 @@
 #import "TOTPGenerator.h"
 #import "UIColor+OTP.h"
 #import "OTPClock.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundef"
 #import <GTMDefines.h>
+#pragma clang diagnostic pop
 
 
 static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
