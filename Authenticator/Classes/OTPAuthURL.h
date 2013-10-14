@@ -29,8 +29,8 @@
 
 // |name| is an arbitrary UTF8 text string extracted from the url path.
 @property(readwrite, copy, nonatomic) NSString *name;
-@property(unsafe_unretained, readonly, nonatomic) NSString *otpCode;
-@property(unsafe_unretained, readonly, nonatomic) NSString *checkCode;
+@property(readonly, nonatomic) NSString *otpCode;
+@property(readonly, nonatomic) NSString *checkCode;
 @property(readonly, strong, nonatomic) NSData *keychainItemRef;
 
 // Standard base32 alphabet.
@@ -62,16 +62,9 @@
 // |generator| state.
 - (BOOL)isInKeychain;
 
-- (NSString*)checkCode;
-
 @end
 
-@interface TOTPAuthURL : OTPAuthURL  {
- @private
-  NSTimeInterval generationAdvanceWarning_;
-  NSTimeInterval lastProgress_;
-  BOOL warningSent_;
-}
+@interface TOTPAuthURL : OTPAuthURL
 
 @property(readwrite, assign, nonatomic) NSTimeInterval generationAdvanceWarning;
 
@@ -79,10 +72,7 @@
 
 @end
 
-@interface HOTPAuthURL : OTPAuthURL {
- @private
-  NSString *otpCode_;
-}
+@interface HOTPAuthURL : OTPAuthURL
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name;
 - (void)generateNextOTPCode;
 @end

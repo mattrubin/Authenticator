@@ -23,8 +23,17 @@
 
 #import "GTMNSDictionary+URLArguments.h"
 #import "GTMNSString+URLArguments.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundef"
 #import "GTMNSScanner+Unsigned.h"
+#pragma clang diagnostic pop
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 #import "GTMStringEncoding.h"
+#pragma clang diagnostic pop
+
 #import "HOTPGenerator.h"
 #import "TOTPGenerator.h"
 
@@ -94,7 +103,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 @synthesize name = name_;
 @synthesize keychainItemRef = keychainItemRef_;
 @synthesize generator = generator_;
-@dynamic checkCode;
 @dynamic otpCode;
 
 + (OTPAuthURL *)authURLWithURL:(NSURL *)url
@@ -231,7 +239,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   NSMutableDictionary *attributes =
    [NSMutableDictionary dictionaryWithObject:urlData
                                       forKey:(__bridge id)kSecAttrGeneric];
-  OSStatus status;
+  OSStatus status = noErr;
 
   if ([self isInKeychain]) {
     NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:

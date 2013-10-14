@@ -62,9 +62,14 @@
 {
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01
                                                   target:self
-                                                selector:@selector(setNeedsDisplay)
+                                                selector:@selector(tick)
                                                 userInfo:nil
                                                  repeats:YES];
+}
+
+- (void)tick
+{
+    [self setNeedsDisplay];
 }
 
 - (void)stopTimer

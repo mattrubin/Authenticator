@@ -18,7 +18,12 @@
 //
 
 #import "TOTPGenerator.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundef"
 #import "GTMDefines.h"
+#pragma clang diagnostic pop
+
 
 @interface TOTPGenerator ()
 @property(assign, nonatomic, readwrite) NSTimeInterval period;

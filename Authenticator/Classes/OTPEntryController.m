@@ -20,7 +20,12 @@
 #import "OTPEntryController.h"
 #import "OTPAuthURL.h"
 #import "OTPScannerOverlayView.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #import <ZXingObjC/ZXingObjC.h>
+#pragma clang diagnostic pop
 
 
 @interface OTPEntryController ()
@@ -50,15 +55,14 @@
 @synthesize avSession = avSession_;
 @synthesize handleCapture = handleCapture_;
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    // On an iPad, support both portrait modes and landscape modes.
-    return UIInterfaceOrientationIsLandscape(interfaceOrientation) ||
-           UIInterfaceOrientationIsPortrait(interfaceOrientation);
-  }
-  // On a phone/pod, don't support upside-down portrait.
-  return interfaceOrientation == UIInterfaceOrientationPortrait ||
-         UIInterfaceOrientationIsLandscape(interfaceOrientation);
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
 }
 
 - (void)dealloc {
@@ -185,7 +189,7 @@
 
   if ([secret length]) {
     Class authURLClass = Nil;
-    if ([accountType_ selectedSegmentIndex] == 0) {
+    if ([self.accountType selectedSegmentIndex] == 0) {
       authURLClass = [TOTPAuthURL class];
     } else {
       authURLClass = [HOTPAuthURL class];
@@ -197,7 +201,7 @@
     NSString *checkCode = authURL.checkCode;
     if (checkCode) {
       [self.delegate entryController:self didCreateAuthURL:authURL];
-      [self dismissModalViewControllerAnimated:NO];
+      [self dismissViewControllerAnimated:NO completion:nil];
     }
   } else {
     NSString *title = @"Invalid Key";
@@ -220,7 +224,7 @@
 - (IBAction)cancel:(id)sender {
   self.handleCapture = NO;
   [self.avSession stopRunning];
-  [self dismissModalViewControllerAnimated:NO];
+  [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (IBAction)scanBarcode:(id)sender {
@@ -235,7 +239,6 @@
     AVCaptureVideoDataOutput *captureOutput =
       [[AVCaptureVideoDataOutput alloc] init];
     [captureOutput setAlwaysDiscardsLateVideoFrames:YES];
-    [captureOutput setMinFrameDuration:CMTimeMake(5,1)];  // At most 5 frames/sec.
     [captureOutput setSampleBufferDelegate:self
                                      queue:self.queue];
     NSNumber *bgra = [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA];
@@ -292,7 +295,7 @@
          forControlEvents:UIControlEventTouchUpInside];
   [overlayView addSubview:cancelButton];
 
-  [self presentModalViewController:previewController animated:NO];
+  [self presentViewController:previewController animated:NO completion:nil];
   self.handleCapture = YES;
   [self.avSession startRunning];
 }
@@ -383,7 +386,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     [self.avSession stopRunning];
     if (authURL) {
       [self.delegate entryController:self didCreateAuthURL:authURL];
-      [self dismissModalViewControllerAnimated:NO];
+      [self dismissViewControllerAnimated:NO completion:nil];
     } else {
       NSString *title = @"Invalid Barcode";
       NSString *message = [NSString stringWithFormat: @"The barcode '%@' is not a valid authentication token barcode.", urlString];
