@@ -197,7 +197,7 @@
     NSString *checkCode = authURL.checkCode;
     if (checkCode) {
       [self.delegate entryController:self didCreateAuthURL:authURL];
-      [self dismissModalViewControllerAnimated:NO];
+      [self dismissViewControllerAnimated:NO completion:nil];
     }
   } else {
     NSString *title = @"Invalid Key";
@@ -220,7 +220,7 @@
 - (IBAction)cancel:(id)sender {
   self.handleCapture = NO;
   [self.avSession stopRunning];
-  [self dismissModalViewControllerAnimated:NO];
+  [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (IBAction)scanBarcode:(id)sender {
@@ -292,7 +292,7 @@
          forControlEvents:UIControlEventTouchUpInside];
   [overlayView addSubview:cancelButton];
 
-  [self presentModalViewController:previewController animated:NO];
+  [self presentViewController:previewController animated:NO completion:nil];
   self.handleCapture = YES;
   [self.avSession startRunning];
 }
@@ -383,7 +383,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     [self.avSession stopRunning];
     if (authURL) {
       [self.delegate entryController:self didCreateAuthURL:authURL];
-      [self dismissModalViewControllerAnimated:NO];
+      [self dismissViewControllerAnimated:NO completion:nil];
     } else {
       NSString *title = @"Invalid Barcode";
       NSString *message = [NSString stringWithFormat: @"The barcode '%@' is not a valid authentication token barcode.", urlString];

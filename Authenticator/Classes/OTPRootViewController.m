@@ -101,7 +101,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     entryController.delegate = self;
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:entryController];
     
-    [self presentModalViewController:nc animated:YES];
+    [self presentViewController:nc animated:YES completion:nil];
 }
 
 
