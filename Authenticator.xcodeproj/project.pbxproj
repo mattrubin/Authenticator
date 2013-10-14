@@ -450,7 +450,6 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
 				PRODUCT_NAME = Authenticator;
 			};
@@ -462,7 +461,6 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
 				PRODUCT_NAME = Authenticator;
 			};
