@@ -28,7 +28,6 @@
 @property(nonatomic, readwrite, unsafe_unretained) UITextField *activeTextField;
 @property(nonatomic, readwrite, unsafe_unretained) UIBarButtonItem *doneButtonItem;
 @property(nonatomic, readwrite, strong) Decoder *decoder;
-// queue is retained using dispatch_queue retain semantics.
 @property (nonatomic, strong) dispatch_queue_t queue;
 @property (nonatomic, strong) AVCaptureSession *avSession;
 @property (atomic) BOOL handleCapture;
@@ -49,7 +48,6 @@
 @synthesize scrollView = scrollView_;
 @synthesize activeTextField = activeTextField_;
 @synthesize decoder = decoder_;
-@dynamic queue;
 @synthesize avSession = avSession_;
 @synthesize handleCapture = handleCapture_;
 
@@ -69,8 +67,6 @@
   [nc removeObserver:self];
   self.delegate = nil;
   self.doneButtonItem = nil;
-  self.queue = nil;
-  self.queue = nil;
 }
 
 - (void)viewDidLoad {
@@ -237,9 +233,7 @@
     AVCaptureDeviceInput *captureInput =
       [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
     [self.avSession addInput:captureInput];
-    dispatch_queue_t queue = dispatch_queue_create("OTPEntryController",
-                                                   0);
-    self.queue = queue;
+    self.queue = dispatch_queue_create("OTPEntryController", 0);
     AVCaptureVideoDataOutput *captureOutput =
       [[AVCaptureVideoDataOutput alloc] init];
     [captureOutput setAlwaysDiscardsLateVideoFrames:YES];
