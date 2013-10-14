@@ -33,6 +33,7 @@
     if (self) {
         self.opaque = NO;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.layer.needsDisplayOnBoundsChange = YES;
     }
     return self;
 }
