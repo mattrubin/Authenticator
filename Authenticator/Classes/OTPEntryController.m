@@ -50,15 +50,14 @@
 @synthesize avSession = avSession_;
 @synthesize handleCapture = handleCapture_;
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    // On an iPad, support both portrait modes and landscape modes.
-    return UIInterfaceOrientationIsLandscape(interfaceOrientation) ||
-           UIInterfaceOrientationIsPortrait(interfaceOrientation);
-  }
-  // On a phone/pod, don't support upside-down portrait.
-  return interfaceOrientation == UIInterfaceOrientationPortrait ||
-         UIInterfaceOrientationIsLandscape(interfaceOrientation);
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
 }
 
 - (void)dealloc {
