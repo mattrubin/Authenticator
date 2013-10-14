@@ -29,8 +29,8 @@
 
 // |name| is an arbitrary UTF8 text string extracted from the url path.
 @property(readwrite, copy, nonatomic) NSString *name;
-@property(unsafe_unretained, readonly, nonatomic) NSString *otpCode;
-@property(unsafe_unretained, readonly, nonatomic) NSString *checkCode;
+@property(readonly, nonatomic) NSString *otpCode;
+@property(readonly, nonatomic) NSString *checkCode;
 @property(readonly, strong, nonatomic) NSData *keychainItemRef;
 
 // Standard base32 alphabet.
@@ -61,8 +61,6 @@
 // It does not assert that the keychain is up to date with the latest
 // |generator| state.
 - (BOOL)isInKeychain;
-
-- (NSString*)checkCode;
 
 @end
 
