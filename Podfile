@@ -1,7 +1,7 @@
-platform :ios
+platform :ios, '6.0'
 
 pod 'SVProgressHUD', '0.9'
-pod 'ZXing/ios', '2.1'
+pod 'ZXingObjC', '2.2.2'
 pod 'google-toolbox-for-authenticator', :podspec => 'google-toolbox-for-authenticator.podspec'
 
 post_install do | installer |

@@ -19,7 +19,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import "DecoderDelegate.h"
 
 @class OTPAuthURL;
 @protocol OTPEntryControllerDelegate;
@@ -27,7 +26,6 @@
 @interface OTPEntryController : UIViewController
     <UITextFieldDelegate,
      UINavigationControllerDelegate,
-     DecoderDelegate,
      UIAlertViewDelegate,
      AVCaptureVideoDataOutputSampleBufferDelegate>
 
