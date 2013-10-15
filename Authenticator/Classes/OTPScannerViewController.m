@@ -154,8 +154,6 @@
 
 - (void)readBarcodeFromCGImage:(CGImageRef)imageToDecode
 {
-    if (self.paused) return;
-
     ZXLuminanceSource* source = [[ZXCGImageLuminanceSource alloc] initWithCGImage:imageToDecode];
     ZXBinaryBitmap* bitmap = [ZXBinaryBitmap binaryBitmapWithBinarizer:[ZXHybridBinarizer binarizerWithSource:source]];
 
@@ -182,8 +180,7 @@
     self.paused = YES;
 
     // Attempt to create an auth URL from the decoded text
-    NSString *urlString = decodedText;
-    NSURL *url = [NSURL URLWithString:urlString];
+    NSURL *url = [NSURL URLWithString:decodedText];
     OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
 
     if (authURL) {
@@ -191,7 +188,8 @@
         [self.captureSession stopRunning];
 
         // Inform the delegate that an auth URL was captured
-        //[self.delegate scannerViewController:self didCaptureAuthURL:authURL];
+        id <OTPScannerViewControllerDelegate> delegate = self.delegate;
+        [delegate scannerViewController:self didCaptureAuthURL:authURL];
     } else {
         // Show an error message
         [SVProgressHUD showErrorWithStatus:@"Invalid Token"];

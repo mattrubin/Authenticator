@@ -23,7 +23,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 
-@interface OTPEntryController () <UITextFieldDelegate>
+@interface OTPEntryController () <UITextFieldDelegate, OTPScannerViewControllerDelegate>
 @property(nonatomic, readwrite, unsafe_unretained) UITextField *activeTextField;
 @property(nonatomic, readwrite, unsafe_unretained) UIBarButtonItem *doneButtonItem;
 
@@ -212,7 +212,17 @@
 
 - (IBAction)scanBarcode:(id)sender {
     OTPScannerViewController *scanner = [[OTPScannerViewController alloc] init];
+    scanner.delegate = self;
     [self.navigationController pushViewController:scanner animated:YES];
+}
+
+
+#pragma mark - OTPScannerViewControllerDelegate
+
+- (void)scannerViewController:(OTPScannerViewController *)controller didCaptureAuthURL:(OTPAuthURL *)authURL
+{
+    [self.delegate entryController:self didCreateAuthURL:authURL];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

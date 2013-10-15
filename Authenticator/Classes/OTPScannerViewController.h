@@ -25,6 +25,19 @@
 #import <UIKit/UIKit.h>
 
 
+@class OTPAuthURL;
+@protocol OTPScannerViewControllerDelegate;
+
+
 @interface OTPScannerViewController : UIViewController
+
+@property (nonatomic, weak) id <OTPScannerViewControllerDelegate> delegate;
+
+@end
+
+
+@protocol OTPScannerViewControllerDelegate <NSObject>
+
+- (void)scannerViewController:(OTPScannerViewController *)controller didCaptureAuthURL:(OTPAuthURL *)authURL;
 
 @end
