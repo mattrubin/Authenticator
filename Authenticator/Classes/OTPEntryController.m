@@ -43,16 +43,6 @@
 @synthesize scrollView = scrollView_;
 @synthesize activeTextField = activeTextField_;
 
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationPortrait;
-}
-
 - (void)dealloc {
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc removeObserver:self];
@@ -142,16 +132,6 @@
   UIEdgeInsets contentInsets = UIEdgeInsetsZero;
   self.scrollView.contentInset = contentInsets;
   self.scrollView.scrollIndicatorInsets = contentInsets;
-}
-
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)orientation {
-  // Scrolling is only enabled when in landscape.
-  if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-    self.scrollView.contentSize = self.view.bounds.size;
-  } else {
-    self.scrollView.contentSize = CGSizeZero;
-  }
 }
 
 
