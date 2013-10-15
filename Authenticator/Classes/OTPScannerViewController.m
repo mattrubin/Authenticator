@@ -29,11 +29,21 @@
 @interface OTPScannerViewController ()
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
+@property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
 
 @end
 
 
 @implementation OTPScannerViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [self createCaptureSession];
+    }
+    return self;
+}
 
 #pragma mark - View Lifecycle
 
@@ -41,10 +51,12 @@
 {
     [super viewDidLoad];
 
-    AVCaptureVideoPreviewLayer *videoLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.captureSession];
-    videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    [self.view.layer addSublayer:videoLayer];
-    videoLayer.frame = self.view.layer.bounds;
+    self.view.backgroundColor = [UIColor blackColor];
+
+    self.videoLayer = [AVCaptureVideoPreviewLayer layer];
+    self.videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    [self.view.layer addSublayer:self.videoLayer];
+    self.videoLayer.frame = self.view.layer.bounds;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -64,16 +76,23 @@
 
 #pragma mark - Video Capture
 
-- (AVCaptureSession *)captureSession
+- (void)createCaptureSession
 {
-    if (!_captureSession) {
-        _captureSession = [[AVCaptureSession alloc] init];
+    dispatch_queue_t async_queue = dispatch_queue_create("OTPScannerViewController createCaptureSession", NULL);
+    dispatch_async(async_queue, ^{
+        AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
 
         AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         AVCaptureDeviceInput *captureInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:nil];
-        [_captureSession addInput:captureInput];
-    }
-    return _captureSession;
+        [captureSession addInput:captureInput];
+
+        [captureSession startRunning];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.captureSession = captureSession;
+            self.videoLayer.session = captureSession;
+        });
+    });
 }
 
 @end
