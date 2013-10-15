@@ -23,7 +23,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 
-@interface OTPEntryController () <UITextFieldDelegate, OTPScannerViewControllerDelegate>
+@interface OTPEntryController () <UITextFieldDelegate, OTPTokenSourceDelegate>
 @property(nonatomic, readwrite, unsafe_unretained) UITextField *activeTextField;
 @property(nonatomic, readwrite, unsafe_unretained) UIBarButtonItem *doneButtonItem;
 
@@ -197,11 +197,11 @@
 }
 
 
-#pragma mark - OTPScannerViewControllerDelegate
+#pragma mark - OTPTokenSourceDelegate
 
-- (void)scannerViewController:(OTPScannerViewController *)controller didCaptureAuthURL:(OTPAuthURL *)authURL
+- (void)tokenSource:(id)tokenSource didCreateToken:(OTPAuthURL *)token
 {
-    [self.delegate entryController:self didCreateAuthURL:authURL];
+    [self.delegate entryController:self didCreateAuthURL:token];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
