@@ -41,10 +41,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[UINavigationBar appearance] setTintColor:[UIColor otpBarColor]];
-    [[UIToolbar appearance] setTintColor:[UIColor otpBarColor]];
-    [[UISegmentedControl appearance] setTintColor:[UIColor otpBarColor]];
-    
+    [[UINavigationBar appearance] setBarTintColor:[UIColor otpBarColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+
+    [[UIToolbar appearance] setBarTintColor:[UIColor otpBarColor]];
+    [[UIToolbar appearance] setTintColor:[UIColor whiteColor]];
+
     self.rootViewController = [[OTPRootViewController alloc] init];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

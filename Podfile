@@ -1,4 +1,4 @@
-platform :ios, '6.0'
+platform :ios, '7.0'
 
 pod 'SVProgressHUD', '0.9'
 pod 'ZXingObjC', '2.2.2'
