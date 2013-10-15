@@ -25,6 +25,8 @@
 #import "OTPScannerViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "OTPScannerOverlayView.h"
+#import "OTPAuthURL.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
@@ -38,6 +40,7 @@
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
 @property (nonatomic, strong) id <ZXReader> barcodeReader;
+@property (atomic, assign) BOOL paused;
 
 @end
 
@@ -116,6 +119,8 @@
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
+    if (self.paused) return;
+
     CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     if (!imageBuffer) return;
 
@@ -146,8 +151,11 @@
         CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
     }
 }
+
 - (void)readBarcodeFromCGImage:(CGImageRef)imageToDecode
 {
+    if (self.paused) return;
+
     ZXLuminanceSource* source = [[ZXCGImageLuminanceSource alloc] initWithCGImage:imageToDecode];
     ZXBinaryBitmap* bitmap = [ZXBinaryBitmap binaryBitmapWithBinarizer:[ZXHybridBinarizer binarizerWithSource:source]];
 
@@ -162,12 +170,38 @@
                                             hints:hints
                                             error:&error];
     if (result) {
-        [self handleDecodedText:result.text];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self handleDecodedText:result.text];
+        });
     }
 }
 
 - (void)handleDecodedText:(NSString *)decodedText
 {
+    // Pause decoding while deciding what to do with this decoded string
+    self.paused = YES;
+
+    // Attempt to create an auth URL from the decoded text
+    NSString *urlString = decodedText;
+    NSURL *url = [NSURL URLWithString:urlString];
+    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
+
+    if (authURL) {
+        // Halt the video capture
+        [self.captureSession stopRunning];
+
+        // Inform the delegate that an auth URL was captured
+        //[self.delegate scannerViewController:self didCaptureAuthURL:authURL];
+    } else {
+        // Show an error message
+        [SVProgressHUD showErrorWithStatus:@"Invalid Token"];
+
+        // Wait a second, then resume decoding
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.paused = NO;
+        });
+    }
 }
 
 @end
