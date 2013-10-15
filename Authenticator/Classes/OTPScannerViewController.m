@@ -24,6 +24,7 @@
 
 #import "OTPScannerViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "OTPScannerOverlayView.h"
 
 
 @interface OTPScannerViewController ()
@@ -57,6 +58,9 @@
     self.videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.view.layer addSublayer:self.videoLayer];
     self.videoLayer.frame = self.view.layer.bounds;
+
+    OTPScannerOverlayView *overlayView = [[OTPScannerOverlayView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:overlayView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
