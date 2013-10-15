@@ -1,5 +1,5 @@
 //
-//  OTPScannerOverlayView.h
+//  OTPScannerViewController.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -25,5 +25,19 @@
 #import <UIKit/UIKit.h>
 
 
-@interface OTPScannerOverlayView : UIView
+@class OTPAuthURL;
+@protocol OTPScannerViewControllerDelegate;
+
+
+@interface OTPScannerViewController : UIViewController
+
+@property (nonatomic, weak) id <OTPScannerViewControllerDelegate> delegate;
+
+@end
+
+
+@protocol OTPScannerViewControllerDelegate <NSObject>
+
+- (void)scannerViewController:(OTPScannerViewController *)controller didCaptureAuthURL:(OTPAuthURL *)authURL;
+
 @end

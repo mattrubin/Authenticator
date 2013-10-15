@@ -18,16 +18,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <AVFoundation/AVFoundation.h>
 
 @class OTPAuthURL;
 @protocol OTPEntryControllerDelegate;
 
 @interface OTPEntryController : UIViewController
-    <UITextFieldDelegate,
-     UINavigationControllerDelegate,
-     UIAlertViewDelegate,
-     AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property(nonatomic, readwrite, unsafe_unretained) id<OTPEntryControllerDelegate> delegate;
 @property(nonatomic, readwrite, strong) IBOutlet UITextField *accountName;
