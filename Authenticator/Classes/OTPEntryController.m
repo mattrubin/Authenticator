@@ -19,23 +19,13 @@
 
 #import "OTPEntryController.h"
 #import "OTPAuthURL.h"
-#import "OTPScannerOverlayView.h"
 #import "OTPScannerViewController.h"
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
-#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#import <ZXingObjC/ZXingObjC.h>
-#pragma clang diagnostic pop
+#import <AVFoundation/AVFoundation.h>
 
 
-@interface OTPEntryController ()
+@interface OTPEntryController () <UITextFieldDelegate>
 @property(nonatomic, readwrite, unsafe_unretained) UITextField *activeTextField;
 @property(nonatomic, readwrite, unsafe_unretained) UIBarButtonItem *doneButtonItem;
-@property(nonatomic, readwrite, strong) id <ZXReader> decoder;
-@property (nonatomic, strong) dispatch_queue_t queue;
-@property (nonatomic, strong) AVCaptureSession *avSession;
-@property (atomic) BOOL handleCapture;
 
 - (void)keyboardWasShown:(NSNotification*)aNotification;
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification;
@@ -52,9 +42,6 @@
 @synthesize scanBarcodeButton = scanBarcodeButton_;
 @synthesize scrollView = scrollView_;
 @synthesize activeTextField = activeTextField_;
-@synthesize decoder = decoder_;
-@synthesize avSession = avSession_;
-@synthesize handleCapture = handleCapture_;
 
 - (NSUInteger)supportedInterfaceOrientations
 {
@@ -105,7 +92,6 @@
   self.doneButtonItem
     = self.navigationController.navigationBar.topItem.rightBarButtonItem;
   self.doneButtonItem.enabled = NO;
-  self.decoder = [ZXMultiFormatReader reader];
   self.scrollView.backgroundColor = [UIColor otpBackgroundColor];
 
   // Hide the Scan button if we don't have a camera that will support video.
@@ -121,8 +107,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
   self.doneButtonItem = nil;
-  self.handleCapture = NO;
-  [self.avSession stopRunning];
 }
 
 // Called when the UIKeyboardDidShowNotification is sent.
@@ -223,135 +207,12 @@
 }
 
 - (IBAction)cancel:(id)sender {
-  self.handleCapture = NO;
-  [self.avSession stopRunning];
   [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (IBAction)scanBarcode:(id)sender {
     OTPScannerViewController *scanner = [[OTPScannerViewController alloc] init];
     [self.navigationController pushViewController:scanner animated:YES];
-    return;
-
-  if (!self.avSession) {
-    self.avSession = [[AVCaptureSession alloc] init];
-    AVCaptureDevice *device =
-      [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    AVCaptureDeviceInput *captureInput =
-      [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
-    [self.avSession addInput:captureInput];
-    self.queue = dispatch_queue_create("OTPEntryController", 0);
-    AVCaptureVideoDataOutput *captureOutput =
-      [[AVCaptureVideoDataOutput alloc] init];
-    [captureOutput setAlwaysDiscardsLateVideoFrames:YES];
-    [captureOutput setSampleBufferDelegate:self
-                                     queue:self.queue];
-    NSNumber *bgra = [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA];
-    NSDictionary *videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   bgra, kCVPixelBufferPixelFormatTypeKey,
-                                   nil];
-    [captureOutput setVideoSettings:videoSettings];
-    [self.avSession addOutput:captureOutput];
-  }
-
-  AVCaptureVideoPreviewLayer *previewLayer
-    = [AVCaptureVideoPreviewLayer layerWithSession:self.avSession];
-  [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-
-  UIButton *cancelButton =
-    [UIButton buttonWithType:UIButtonTypeRoundedRect];
-  NSString *cancelString = @"Cancel";
-  cancelButton.accessibilityLabel = @"Cancel";
-  CGFloat height = [UIFont systemFontSize];
-  CGSize size
-    = [cancelString sizeWithFont:[UIFont systemFontOfSize:height]];
-  [cancelButton setTitle:cancelString forState:UIControlStateNormal];
-
-  UIViewController *previewController
-    = [[UIViewController alloc] init];
-  [previewController.view.layer addSublayer:previewLayer];
-
-  CGRect frame = previewController.view.bounds;
-  previewLayer.frame = frame;
-  OTPScannerOverlayView *overlayView
-    = [[OTPScannerOverlayView alloc] initWithFrame:frame];
-  [previewController.view addSubview:overlayView];
-
-  // Center the cancel button horizontally, and put it
-  // kBottomPadding from the bottom of the view.
-  static const int kBottomPadding = 10;
-  static const int kInternalXMargin = 10;
-  static const int kInternalYMargin = 10;
-  frame = CGRectMake(CGRectGetMidX(frame)
-                            - ((size.width / 2) + kInternalXMargin),
-                            CGRectGetHeight(frame)
-                            - (height + (2 * kInternalYMargin) + kBottomPadding),
-                            (2  * kInternalXMargin) + size.width,
-                            height + (2 * kInternalYMargin));
-  [cancelButton setFrame:frame];
-
-  // Set it up so that if the view should resize, the cancel button stays
-  // h-centered and v-bottom-fixed in the view.
-  cancelButton.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin |
-                                   UIViewAutoresizingFlexibleLeftMargin |
-                                   UIViewAutoresizingFlexibleRightMargin);
-  [cancelButton addTarget:self
-                   action:@selector(cancel:)
-         forControlEvents:UIControlEventTouchUpInside];
-  [overlayView addSubview:cancelButton];
-
-  [self presentViewController:previewController animated:NO completion:nil];
-  self.handleCapture = YES;
-  [self.avSession startRunning];
-}
-
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
-       fromConnection:(AVCaptureConnection *)connection {
-  if (!self.handleCapture) return;
-  @autoreleasepool {
-  CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-  if (imageBuffer) {
-    CVReturn ret = CVPixelBufferLockBaseAddress(imageBuffer, 0);
-    if (ret == kCVReturnSuccess) {
-      uint8_t *base = (uint8_t *)CVPixelBufferGetBaseAddress(imageBuffer);
-      size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
-      size_t width = CVPixelBufferGetWidth(imageBuffer);
-      size_t height = CVPixelBufferGetHeight(imageBuffer);
-      CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-      CGContextRef context
-        = CGBitmapContextCreate(base, width, height, 8, bytesPerRow, colorSpace,
-                                kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
-      CGColorSpaceRelease(colorSpace);
-      CGImageRef cgImage = CGBitmapContextCreateImage(context);
-      CGContextRelease(context);
-        ZXLuminanceSource* source = [[ZXCGImageLuminanceSource alloc] initWithCGImage:cgImage];
-        ZXBinaryBitmap* bitmap = [ZXBinaryBitmap binaryBitmapWithBinarizer:[ZXHybridBinarizer binarizerWithSource:source]];
-      CFRelease(cgImage);
-      CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
-        
-        NSError* error = nil;
-        
-        // There are a number of hints we can give to the reader, including
-        // possible formats, allowed lengths, and the string encoding.
-        ZXDecodeHints* hints = [ZXDecodeHints hints];
-        [hints addPossibleFormat:kBarcodeFormatQRCode];
-        
-        ZXResult* result = [self.decoder decode:bitmap
-                                          hints:hints
-                                          error:&error];
-        if (result) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self didDecodeImageWithResult:result];
-            });
-        }
-    } else {
-      NSLog(@"Unable to lock buffer %d", ret);
-    }
-  } else {
-    NSLog(@"Unable to get imageBuffer from %@", sampleBuffer);
-  }
-  }
 }
 
 
@@ -375,43 +236,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
   self.activeTextField = nil;
-}
-
-
-#pragma mark - DecoderDelegate
-
-- (void)didDecodeImageWithResult:(ZXResult *)twoDResult
-{
-  if (self.handleCapture) {
-    self.handleCapture = NO;
-    NSString *urlString = twoDResult.text;
-    NSURL *url = [NSURL URLWithString:urlString];
-    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url
-                                              secret:nil];
-    [self.avSession stopRunning];
-    if (authURL) {
-      [self.delegate entryController:self didCreateAuthURL:authURL];
-      [self dismissViewControllerAnimated:NO completion:nil];
-    } else {
-      NSString *title = @"Invalid Barcode";
-      NSString *message = [NSString stringWithFormat: @"The barcode '%@' is not a valid authentication token barcode.", urlString];
-      NSString *button = @"Try Again";
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                       message:message
-                                                      delegate:self
-                                             cancelButtonTitle:button
-                                             otherButtonTitles:nil];
-      [alert show];
-    }
-  }
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView
-    didDismissWithButtonIndex:(NSInteger)buttonIndex {
-  self.handleCapture = YES;
-  [self.avSession startRunning];
 }
 
 @end
