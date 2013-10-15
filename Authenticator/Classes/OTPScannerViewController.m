@@ -27,7 +27,7 @@
 #import "OTPScannerOverlayView.h"
 
 
-@interface OTPScannerViewController ()
+@interface OTPScannerViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
@@ -90,6 +90,13 @@
         AVCaptureDeviceInput *captureInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:nil];
         [captureSession addInput:captureInput];
 
+        AVCaptureVideoDataOutput *captureOutput = [[AVCaptureVideoDataOutput alloc] init];
+        dispatch_queue_t sampleBufferQueue = dispatch_queue_create("OTPScannerViewController sampleBufferQueue", NULL);
+        [captureOutput setSampleBufferDelegate:self queue:sampleBufferQueue];
+        captureOutput.alwaysDiscardsLateVideoFrames = YES;
+        captureOutput.videoSettings = @{(NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA)};
+        [captureSession addOutput:captureOutput];
+
         [captureSession startRunning];
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -97,6 +104,39 @@
             self.videoLayer.session = captureSession;
         });
     });
+}
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
+{
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    if (!imageBuffer) return;
+
+    CVReturn resultCode = CVPixelBufferLockBaseAddress(imageBuffer, 0);
+    if (resultCode == kCVReturnSuccess) {
+        void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+        size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+        size_t width = CVPixelBufferGetWidth(imageBuffer);
+        size_t height = CVPixelBufferGetHeight(imageBuffer);
+
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        if (colorSpace) {
+            CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8, bytesPerRow, colorSpace,
+                                                         (kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst));
+            if (context) {
+                CGImageRef cgImage = CGBitmapContextCreateImage(context);
+                if (cgImage) {
+                    // Decode the image
+                    //[self readBarcodeFromCGImage:cgImage];
+
+                    // Clean up
+                    CGImageRelease(cgImage);
+                }
+                CGContextRelease(context);
+            }
+            CGColorSpaceRelease(colorSpace);
+        }
+        CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+    }
 }
 
 @end
