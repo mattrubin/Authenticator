@@ -20,6 +20,7 @@
 #import "OTPEntryController.h"
 #import "OTPAuthURL.h"
 #import "OTPScannerOverlayView.h"
+#import "OTPScannerViewController.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
@@ -228,6 +229,10 @@
 }
 
 - (IBAction)scanBarcode:(id)sender {
+    OTPScannerViewController *scanner = [[OTPScannerViewController alloc] init];
+    [self.navigationController pushViewController:scanner animated:YES];
+    return;
+
   if (!self.avSession) {
     self.avSession = [[AVCaptureSession alloc] init];
     AVCaptureDevice *device =
