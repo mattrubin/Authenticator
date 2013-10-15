@@ -26,11 +26,18 @@
 #import <AVFoundation/AVFoundation.h>
 #import "OTPScannerOverlayView.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
+#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#import <ZXingObjC/ZXingObjC.h>
+#pragma clang diagnostic pop
+
 
 @interface OTPScannerViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
+@property (nonatomic, strong) id <ZXReader> barcodeReader;
 
 @end
 
@@ -42,6 +49,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [self createCaptureSession];
+        self.barcodeReader = [ZXMultiFormatReader reader];
     }
     return self;
 }
@@ -126,7 +134,7 @@
                 CGImageRef cgImage = CGBitmapContextCreateImage(context);
                 if (cgImage) {
                     // Decode the image
-                    //[self readBarcodeFromCGImage:cgImage];
+                    [self readBarcodeFromCGImage:cgImage];
 
                     // Clean up
                     CGImageRelease(cgImage);
@@ -137,6 +145,29 @@
         }
         CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
     }
+}
+- (void)readBarcodeFromCGImage:(CGImageRef)imageToDecode
+{
+    ZXLuminanceSource* source = [[ZXCGImageLuminanceSource alloc] initWithCGImage:imageToDecode];
+    ZXBinaryBitmap* bitmap = [ZXBinaryBitmap binaryBitmapWithBinarizer:[ZXHybridBinarizer binarizerWithSource:source]];
+
+    NSError* error = nil;
+
+    // There are a number of hints we can give to the reader, including
+    // possible formats, allowed lengths, and the string encoding.
+    ZXDecodeHints* hints = [ZXDecodeHints hints];
+    [hints addPossibleFormat:kBarcodeFormatQRCode];
+
+    ZXResult* result = [self.barcodeReader decode:bitmap
+                                            hints:hints
+                                            error:&error];
+    if (result) {
+        [self handleDecodedText:result.text];
+    }
+}
+
+- (void)handleDecodedText:(NSString *)decodedText
+{
 }
 
 @end
