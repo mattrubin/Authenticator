@@ -27,6 +27,8 @@
 
 @interface OTPTokenEntryViewController ()
 
+@property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
+
 @end
 
 
@@ -36,6 +38,30 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor otpBackgroundColor];
+
+    self.title = @"Add Token";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+
+    self.doneButtonItem = self.navigationItem.rightBarButtonItem;
+    self.doneButtonItem.enabled = NO;
+}
+
+
+#pragma mark - Target Actions
+
+- (void)cancel
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)done
+{
+    // TODO: create a token and return it to the delegate
+    OTPAuthURL *token = nil;
+
+    id <OTPTokenSourceDelegate> delegate = self.delegate;
+    [delegate tokenSource:self didCreateToken:token];
 }
 
 @end
