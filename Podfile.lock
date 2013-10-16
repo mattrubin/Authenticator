@@ -1,12 +1,10 @@
 PODS:
   - google-toolbox-for-authenticator (446)
   - SVProgressHUD (0.9)
-  - ZXingObjC (2.2.2)
 
 DEPENDENCIES:
   - google-toolbox-for-authenticator (from `google-toolbox-for-authenticator.podspec`)
   - SVProgressHUD (= 0.9)
-  - ZXingObjC (= 2.2.2)
 
 EXTERNAL SOURCES:
   google-toolbox-for-authenticator:
@@ -15,6 +13,5 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   google-toolbox-for-authenticator: 836595666ed3588c82e1d28e691125887b475cbd
   SVProgressHUD: 03d4845ec8e64591726428a08236c6a5489d45f8
-  ZXingObjC: f31f6b5a7479d48a753531a0fab0e0bb5aa92ab4
 
 COCOAPODS: 0.26.2

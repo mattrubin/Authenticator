@@ -28,18 +28,11 @@
 #import "OTPAuthURL.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
-#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#import <ZXingObjC/ZXingObjC.h>
-#pragma clang diagnostic pop
-
 
 @interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate>
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
-@property (nonatomic, strong) id <ZXReader> barcodeReader;
 
 @end
 
@@ -51,7 +44,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [self createCaptureSession];
-        self.barcodeReader = [ZXMultiFormatReader reader];
     }
     return self;
 }
