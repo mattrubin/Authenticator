@@ -99,7 +99,7 @@
         
         alert.clickedButtonHandler = ^(UIAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == alertView.firstOtherButtonIndex) {
-                [self.rootViewController entryController:nil didCreateAuthURL:authURL];
+                [self.rootViewController tokenSource:self didCreateToken:authURL];
             }
         };
 
