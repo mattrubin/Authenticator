@@ -28,19 +28,11 @@
 #import "OTPAuthURL.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
-#pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#import <ZXingObjC/ZXingObjC.h>
-#pragma clang diagnostic pop
 
-
-@interface OTPScannerViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
+@interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate>
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
-@property (nonatomic, strong) id <ZXReader> barcodeReader;
-@property (atomic, assign) BOOL paused;
 
 @end
 
@@ -52,7 +44,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [self createCaptureSession];
-        self.barcodeReader = [ZXMultiFormatReader reader];
     }
     return self;
 }
@@ -98,15 +89,23 @@
         AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
 
         AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        AVCaptureDeviceInput *captureInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:nil];
+        NSError *error = nil;
+        AVCaptureDeviceInput *captureInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
+        if (!captureInput) {
+            NSLog(@"Error: %@", error);
+            [self showErrorWithStatus:@"Capture Failed"];
+            return;
+        }
         [captureSession addInput:captureInput];
 
-        AVCaptureVideoDataOutput *captureOutput = [[AVCaptureVideoDataOutput alloc] init];
-        dispatch_queue_t sampleBufferQueue = dispatch_queue_create("OTPScannerViewController sampleBufferQueue", NULL);
-        [captureOutput setSampleBufferDelegate:self queue:sampleBufferQueue];
-        captureOutput.alwaysDiscardsLateVideoFrames = YES;
-        captureOutput.videoSettings = @{(NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA)};
+        AVCaptureMetadataOutput *captureOutput = [[AVCaptureMetadataOutput alloc] init];
         [captureSession addOutput:captureOutput];
+        if (![captureOutput.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeQRCode]) {
+            [self showErrorWithStatus:@"Not Supported"];
+            return;
+        }
+        captureOutput.metadataObjectTypes = @[AVMetadataObjectTypeQRCode];
+        [captureOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
 
         [captureSession startRunning];
 
@@ -117,68 +116,31 @@
     });
 }
 
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
+- (void)showErrorWithStatus:(NSString *)statusString
 {
-    if (self.paused) return;
-
-    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    if (!imageBuffer) return;
-
-    CVReturn resultCode = CVPixelBufferLockBaseAddress(imageBuffer, 0);
-    if (resultCode == kCVReturnSuccess) {
-        void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
-        size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
-        size_t width = CVPixelBufferGetWidth(imageBuffer);
-        size_t height = CVPixelBufferGetHeight(imageBuffer);
-
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        if (colorSpace) {
-            CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8, bytesPerRow, colorSpace,
-                                                         (kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst));
-            if (context) {
-                CGImageRef cgImage = CGBitmapContextCreateImage(context);
-                if (cgImage) {
-                    // Decode the image
-                    [self readBarcodeFromCGImage:cgImage];
-
-                    // Clean up
-                    CGImageRelease(cgImage);
-                }
-                CGContextRelease(context);
-            }
-            CGColorSpaceRelease(colorSpace);
-        }
-        CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
-    }
+    // Ensure this executes on the main thread
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD showErrorWithStatus:statusString];
+    });
 }
 
-- (void)readBarcodeFromCGImage:(CGImageRef)imageToDecode
+
+#pragma mark - AVCaptureMetadataOutputObjectsDelegate
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
-    ZXLuminanceSource* source = [[ZXCGImageLuminanceSource alloc] initWithCGImage:imageToDecode];
-    ZXBinaryBitmap* bitmap = [ZXBinaryBitmap binaryBitmapWithBinarizer:[ZXHybridBinarizer binarizerWithSource:source]];
-
-    NSError* error = nil;
-
-    // There are a number of hints we can give to the reader, including
-    // possible formats, allowed lengths, and the string encoding.
-    ZXDecodeHints* hints = [ZXDecodeHints hints];
-    [hints addPossibleFormat:kBarcodeFormatQRCode];
-
-    ZXResult* result = [self.barcodeReader decode:bitmap
-                                            hints:hints
-                                            error:&error];
-    if (result) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self handleDecodedText:result.text];
-        });
+    NSString *decodedText = nil;
+    for (AVMetadataObject *metadata in metadataObjects) {
+        if ([metadata.type isEqualToString:AVMetadataObjectTypeQRCode]) {
+            decodedText = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
+            break;
+        }
     }
+    [self handleDecodedText:decodedText];
 }
 
 - (void)handleDecodedText:(NSString *)decodedText
 {
-    // Pause decoding while deciding what to do with this decoded string
-    self.paused = YES;
-
     // Attempt to create an auth URL from the decoded text
     NSURL *url = [NSURL URLWithString:decodedText];
     OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
@@ -193,12 +155,6 @@
     } else {
         // Show an error message
         [SVProgressHUD showErrorWithStatus:@"Invalid Token"];
-
-        // Wait a second, then resume decoding
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            self.paused = NO;
-        });
     }
 }
 
