@@ -31,5 +31,6 @@
 @protocol OTPTokenSourceDelegate <NSObject>
 
 - (void)tokenSource:(id)tokenSource didCreateToken:(OTPAuthURL *)token;
+- (void)tokenSourceDidCancel:(id)tokenSource;
 
 @end

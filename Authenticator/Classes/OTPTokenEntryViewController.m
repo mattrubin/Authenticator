@@ -66,7 +66,8 @@
 
 - (void)cancel
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    id <OTPTokenSourceDelegate> delegate = self.delegate;
+    [delegate tokenSourceDidCancel:self];
 }
 
 - (void)createToken

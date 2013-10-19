@@ -147,6 +147,13 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     [self.tableView reloadData];
 }
 
+- (void)tokenSourceDidCancel:(id)tokenSource
+{
+    if ([tokenSource isKindOfClass:[OTPTokenEntryViewController class]]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
 
 #pragma mark - UITableViewDataSource
 
