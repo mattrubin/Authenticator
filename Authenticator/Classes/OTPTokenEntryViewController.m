@@ -30,13 +30,15 @@
 
 
 @interface OTPTokenEntryViewController ()
-    <UITextFieldDelegate>
+    <UITextFieldDelegate, OTPTokenSourceDelegate>
 
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
 
 @property (nonatomic, strong) IBOutlet UISegmentedControl *tokenTypeControl;
 @property (nonatomic, strong) IBOutlet UITextField *accountNameField;
 @property (nonatomic, strong) IBOutlet UITextField *secretKeyField;
+
+@property (nonatomic, strong) IBOutlet UIButton *scanBarcodeButton;
 
 @end
 
@@ -94,6 +96,13 @@
     [SVProgressHUD showErrorWithStatus:@"Invalid Token"];
 }
 
+- (IBAction)scanBarcode:(id)sender
+{
+    OTPScannerViewController *scanner = [[OTPScannerViewController alloc] init];
+    scanner.delegate = self;
+    [self.navigationController pushViewController:scanner animated:YES];
+}
+
 
 #pragma mark - UITextFieldDelegate
 
@@ -121,6 +130,15 @@
     }
 
     return YES;
+}
+
+
+#pragma mark - OTPTokenSourceDelegate
+
+- (void)tokenSource:(id)tokenSource didCreateToken:(OTPAuthURL *)token
+{
+    id <OTPTokenSourceDelegate> delegate = self.delegate;
+    [delegate tokenSource:self didCreateToken:token];
 }
 
 @end

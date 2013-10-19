@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OTPTokenEntryViewController">
             <connections>
                 <outlet property="accountNameField" destination="hab-zc-vOY" id="fzK-0I-91h"/>
+                <outlet property="scanBarcodeButton" destination="5zL-pD-2vO" id="3Ss-nH-E4b"/>
                 <outlet property="secretKeyField" destination="cf5-jv-Y9N" id="cr2-Md-PVZ"/>
                 <outlet property="tokenTypeControl" destination="fPn-iF-1jV" id="V19-TO-1iX"/>
                 <outlet property="view" destination="1" id="NK0-Rn-dom"/>
@@ -128,6 +129,17 @@
                         <constraint firstItem="kMH-o8-4c6" firstAttribute="height" secondItem="s8G-lD-PdH" secondAttribute="height" id="yse-YJ-WSS"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5zL-pD-2vO">
+                    <rect key="frame" x="20" y="395" width="280" height="35"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="Scan Barcode">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="scanBarcode:" destination="-1" eventType="touchUpInside" id="Ijs-Kw-GXh"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
