@@ -36,6 +36,7 @@
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
 		C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */; };
 		C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */; };
+		C99069E1180E5B4100BAEF53 /* OTPTokenEntryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */; };
 		C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */; };
 		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
 		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
@@ -95,6 +96,7 @@
 		C99069D2180E07A100BAEF53 /* OTPTokenEntryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenEntryViewController.h; sourceTree = "<group>"; };
 		C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenEntryViewController.m; sourceTree = "<group>"; };
 		C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTPTokenSourceDelegate.h; sourceTree = "<group>"; };
+		C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTPTokenEntryViewController.xib; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */,
 				C99069D2180E07A100BAEF53 /* OTPTokenEntryViewController.h */,
 				C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */,
+				C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */,
 				C99069CF180CBAC900BAEF53 /* OTPScannerViewController.h */,
 				C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */,
 				8B0028B311EB75920092DE18 /* OTPScannerOverlayView.h */,
@@ -387,6 +390,7 @@
 				8BF51058118748C7005C936F /* OTPEntryController.xib in Resources */,
 				8B00365311ECD2390092DE18 /* Default.png in Resources */,
 				8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */,
+				C99069E1180E5B4100BAEF53 /* OTPTokenEntryViewController.xib in Resources */,
 				8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */,
 				8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */,
 				C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */,

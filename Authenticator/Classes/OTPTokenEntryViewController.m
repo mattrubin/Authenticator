@@ -23,11 +23,17 @@
 //
 
 #import "OTPTokenEntryViewController.h"
+#import "OTPScannerViewController.h"
 
 
 @interface OTPTokenEntryViewController ()
+    <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
+
+@property (nonatomic, strong) IBOutlet UISegmentedControl *tokenTypeControl;
+@property (nonatomic, strong) IBOutlet UITextField *accountNameField;
+@property (nonatomic, strong) IBOutlet UITextField *secretKeyField;
 
 @end
 
@@ -45,6 +51,11 @@
 
     self.doneButtonItem = self.navigationItem.rightBarButtonItem;
     self.doneButtonItem.enabled = NO;
+
+    // Style UI elements
+    self.tokenTypeControl.tintColor = [UIColor otpBarColor];
+    self.accountNameField.tintColor = [UIColor otpBarColor];
+    self.secretKeyField.tintColor   = [UIColor otpBarColor];
 }
 
 
@@ -62,6 +73,19 @@
 
     id <OTPTokenSourceDelegate> delegate = self.delegate;
     [delegate tokenSource:self didCreateToken:token];
+}
+
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == self.accountNameField) {
+        [self.secretKeyField becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder];
+    }
+    return NO;
 }
 
 @end
