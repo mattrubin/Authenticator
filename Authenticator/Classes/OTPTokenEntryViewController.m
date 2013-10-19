@@ -24,6 +24,9 @@
 
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
+#import "OTPAuthURL.h"
+
+#import <SVProgressHUD/SVProgressHUD.h>
 
 
 @interface OTPTokenEntryViewController ()
@@ -72,11 +75,22 @@
         return;
     }
 
-    // TODO: create a token and return it to the delegate
-    OTPAuthURL *token = nil;
+    NSData *secretKey = [OTPAuthURL base32Decode:self.secretKeyField.text];
 
-    id <OTPTokenSourceDelegate> delegate = self.delegate;
-    [delegate tokenSource:self didCreateToken:token];
+    if (secretKey.length) {
+        Class tokenClass = (self.tokenTypeControl.selectedSegmentIndex == 0) ? [TOTPAuthURL class] : [HOTPAuthURL class];
+        OTPAuthURL *token = [[tokenClass alloc] initWithSecret:secretKey
+                                                          name:self.accountNameField.text];
+
+        if (token.checkCode) {
+            id <OTPTokenSourceDelegate> delegate = self.delegate;
+            [delegate tokenSource:self didCreateToken:token];
+            return;
+        }
+    }
+
+    // If the method hasn't returned by this point, token creation failed
+    [SVProgressHUD showErrorWithStatus:@"Invalid Token"];
 }
 
 

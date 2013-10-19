@@ -137,6 +137,9 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (void)tokenSource:(id)tokenSource didCreateToken:(OTPAuthURL *)authURL
 {
+    if ([tokenSource isKindOfClass:[OTPTokenEntryViewController class]]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
     [authURL saveToKeychain];
     [self.authURLs addObject:authURL];
     [self saveKeychainArray];
