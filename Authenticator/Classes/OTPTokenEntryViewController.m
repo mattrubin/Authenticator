@@ -47,7 +47,7 @@
 
     self.title = @"Add Token";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(createToken)];
 
     self.doneButtonItem = self.navigationItem.rightBarButtonItem;
     self.doneButtonItem.enabled = NO;
@@ -66,8 +66,12 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)done
+- (void)createToken
 {
+    if (!self.accountNameField.text.length || !self.secretKeyField.text.length) {
+        return;
+    }
+
     // TODO: create a token and return it to the delegate
     OTPAuthURL *token = nil;
 
@@ -82,10 +86,26 @@
 {
     if (textField == self.accountNameField) {
         [self.secretKeyField becomeFirstResponder];
+        return NO;
     } else {
         [textField resignFirstResponder];
+        [self createToken];
+        return NO;
     }
-    return NO;
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    // Ensure both fields (will) have text in them
+    NSString *newText = [[textField.text mutableCopy] stringByReplacingCharactersInRange:range withString:string];
+    if (textField == self.accountNameField) {
+        self.doneButtonItem.enabled = newText.length && self.secretKeyField.text.length;
+    } else if (textField == self.secretKeyField) {
+        self.doneButtonItem.enabled = newText.length && self.accountNameField.text.length;
+    }
+
+    return YES;
 }
 
 @end
