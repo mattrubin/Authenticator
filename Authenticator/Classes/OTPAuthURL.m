@@ -34,6 +34,8 @@
 #import "HOTPGenerator.h"
 #import "TOTPGenerator.h"
 
+#import "OTPToken.h"
+
 static NSString *const kOTPAuthScheme = @"otpauth";
 static NSString *const kTOTPAuthScheme = @"totp";
 static NSString *const kOTPService = @"com.google.otp.authentication";
@@ -161,18 +163,8 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 
 + (OTPAuthURL *)authURLWithKeychainItemRef:(NSData *)data {
   OTPAuthURL *authURL = nil;
-  NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:
-                         (__bridge id)kSecClassGenericPassword, kSecClass,
-                         data, (__bridge id)kSecValuePersistentRef,
-                         (id)kCFBooleanTrue, kSecReturnAttributes,
-                         (id)kCFBooleanTrue, kSecReturnData,
-                         nil];
-  NSDictionary *result = nil;
-  CFDictionaryRef cf_result = NULL;
-  OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query,
-                                        (CFTypeRef*)&cf_result);
-  result = (__bridge_transfer NSDictionary *)cf_result;
-  if (status == noErr) {
+  NSDictionary *result = [OTPToken keychainDictionaryForPersistentRef:data];
+  if (result) {
     authURL = [self authURLWithKeychainDictionary:result];
     [authURL setKeychainItemRef:data];
   }
