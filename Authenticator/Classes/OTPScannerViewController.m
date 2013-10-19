@@ -202,4 +202,12 @@
     }
 }
 
+
+#pragma mark - Class Methods
+
++ (BOOL)deviceCanScan
+{
+    return !![AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+}
+
 @end

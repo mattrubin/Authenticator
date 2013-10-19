@@ -61,6 +61,10 @@
     self.tokenTypeControl.tintColor = [UIColor otpBarColor];
     self.accountNameField.tintColor = [UIColor otpBarColor];
     self.secretKeyField.tintColor   = [UIColor otpBarColor];
+    self.scanBarcodeButton.tintColor = [UIColor otpBarColor];
+
+    // Only show the scan button if the device is capable of scanning
+    self.scanBarcodeButton.hidden = ![OTPScannerViewController deviceCanScan];
 }
 
 
