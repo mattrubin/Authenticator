@@ -140,18 +140,14 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     if ([tokenSource isKindOfClass:[OTPTokenEntryViewController class]]) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
+
+    if (!authURL) return;
+
     [authURL saveToKeychain];
     [self.authURLs addObject:authURL];
     [self saveKeychainArray];
     [self updateUI];
     [self.tableView reloadData];
-}
-
-- (void)tokenSourceDidCancel:(id)tokenSource
-{
-    if ([tokenSource isKindOfClass:[OTPTokenEntryViewController class]]) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
 }
 
 
