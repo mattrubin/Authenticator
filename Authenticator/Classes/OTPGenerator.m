@@ -80,7 +80,7 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
          [algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]);
     if (!goodAlgorithm || self.digits > 8 || self.digits < 6 || !self.secret) {
       _GTMDevLog(@"Bad args digits(min 6, max 8): %d secret: %@ algorithm: %@",
-                 digits_, self.secret, self.algorithm);
+                 _digits, self.secret, self.algorithm);
       self = nil;
     }
   }
@@ -134,8 +134,8 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
   _GTMDevLog(@"counter: %llu", counter);
   _GTMDevLog(@"hash: %@", hash);
   _GTMDevLog(@"offset: %d", offset);
-  _GTMDevLog(@"truncatedHash: %d", truncatedHash);
-  _GTMDevLog(@"pinValue: %d", pinValue);
+  _GTMDevLog(@"truncatedHash: %lu", truncatedHash);
+  _GTMDevLog(@"pinValue: %lu", pinValue);
 
   return [NSString stringWithFormat:@"%0*ld", self.digits, pinValue];
 }
