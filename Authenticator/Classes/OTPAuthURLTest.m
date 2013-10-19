@@ -17,7 +17,13 @@
 //  the License.
 //
 
-#import "GTMSenTestCase.h"
+#import <XCTest/XCTest.h>
+
+#define STAssertEqualObjects XCTAssertEqualObjects
+#define STAssertEquals XCTAssertEqual
+#define STAssertTrue XCTAssertTrue
+#define STAssertFalse XCTAssertFalse
+#define STAssertNil XCTAssertNil
 
 #import "GTMStringEncoding.h"
 #import "GTMNSDictionary+URLArguments.h"
@@ -70,7 +76,7 @@ static NSString *const kValidHOTPURL =
     @"&counter=18446744073709551615"
     @"&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4";
 
-@interface OTPAuthURLTest : GTMTestCase
+@interface OTPAuthURLTest : XCTestCase
 - (void)testInitWithKeychainDictionary;
 - (void)testInitWithTOTPURL;
 - (void)testInitWithHOTPURL;
@@ -221,8 +227,8 @@ static NSString *const kValidHOTPURL =
   NSURL *url = [NSURL URLWithString:kValidTOTPURL];
   OTPAuthURL *authURL1 = [OTPAuthURL authURLWithURL:url secret:nil];
   OTPAuthURL *authURL2 = [OTPAuthURL authURLWithURL:url secret:nil];
-  STAssertTrue([authURL1 saveToKeychain], nil);
-  STAssertTrue([authURL2 saveToKeychain], nil);
+  STAssertTrue([authURL1 saveToKeychain], @"");
+  STAssertTrue([authURL2 saveToKeychain], @"");
   STAssertTrue([authURL1 removeFromKeychain],
                @"Your keychain may now have an invalid entry %@", authURL1);
   STAssertTrue([authURL2 removeFromKeychain],

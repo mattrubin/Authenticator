@@ -28,6 +28,10 @@
 		8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E5128B5DB500A0E8F2 /* Icon-72.png */; };
 		8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E6128B5DB500A0E8F2 /* Icon.png */; };
 		8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */; };
+		C9015FCF18125A9C00F6A2AA /* HOTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B73DCEF1182656200861C87 /* HOTPGenerator.m */; };
+		C9015FD118125AF800F6A2AA /* OTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B6E4E1187AC6B00437315 /* OTPGenerator.m */; };
+		C9015FD3181261DF00F6A2AA /* TOTPGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9015FD2181261DF00F6A2AA /* TOTPGeneratorTests.m */; };
+		C9015FD41812625F00F6A2AA /* TOTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B73DCF31182656200861C87 /* TOTPGenerator.m */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
 		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
 		C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */; };
@@ -35,11 +39,28 @@
 		C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */; };
 		C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */; };
 		C99069E1180E5B4100BAEF53 /* OTPTokenEntryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */; };
+		C9906A301812522100BAEF53 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9906A2F1812522100BAEF53 /* XCTest.framework */; };
+		C9906A311812522100BAEF53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8776118B903000437315 /* Foundation.framework */; };
+		C9906A321812522100BAEF53 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B86FD118B8FA000437315 /* UIKit.framework */; };
+		C9906A381812522100BAEF53 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9906A361812522100BAEF53 /* InfoPlist.strings */; };
+		C9906A421812529400BAEF53 /* HOTPGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9906A411812529400BAEF53 /* HOTPGeneratorTests.m */; };
 		C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */; };
 		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
 		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
 		C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */; };
+		C9C8B01A1812742400911E8B /* OTPAuthURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B73DCF11182656200861C87 /* OTPAuthURL.m */; };
+		C9C8B01B1812744F00911E8B /* OTPAuthURLTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B89BE118B968900437315 /* OTPAuthURLTest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C9906A3C1812522100BAEF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
+			remoteInfo = Authenticator;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1D3623240D0F684500981E51 /* OTPAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAppDelegate.h; sourceTree = "<group>"; };
@@ -60,9 +81,7 @@
 		8B2B8754118B902200437315 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8B2B8776118B903000437315 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8B2B877C118B904000437315 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		8B2B89B6118B967A00437315 /* HOTPGeneratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOTPGeneratorTest.m; sourceTree = "<group>"; };
-		8B2B89B7118B967A00437315 /* TOTPGeneratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOTPGeneratorTest.m; sourceTree = "<group>"; };
-		8B2B89BE118B968900437315 /* OTPAuthURLTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthURLTest.m; sourceTree = "<group>"; };
+		8B2B89BE118B968900437315 /* OTPAuthURLTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTPAuthURLTest.m; path = ../Authenticator/Classes/OTPAuthURLTest.m; sourceTree = "<group>"; };
 		8B2B8AE1118BA49F00437315 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8B3F0F59122F2003009A6409 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8B45557611932B5D00ABD707 /* OTPClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPClock.h; sourceTree = "<group>"; };
@@ -81,6 +100,7 @@
 		8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+OTP.m"; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* Authenticator-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Authenticator-Info.plist"; sourceTree = "<group>"; };
 		9B03839CF35E4014987A36CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9015FD2181261DF00F6A2AA /* TOTPGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOTPGeneratorTests.m; sourceTree = "<group>"; };
 		C948F01517D70080008FCA41 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
@@ -92,6 +112,12 @@
 		C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenEntryViewController.m; sourceTree = "<group>"; };
 		C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTPTokenSourceDelegate.h; sourceTree = "<group>"; };
 		C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTPTokenEntryViewController.xib; sourceTree = "<group>"; };
+		C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9906A2F1812522100BAEF53 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		C9906A351812522100BAEF53 /* AuthenticatorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AuthenticatorTests-Info.plist"; sourceTree = "<group>"; };
+		C9906A371812522100BAEF53 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C9906A3B1812522100BAEF53 /* AuthenticatorTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AuthenticatorTests-Prefix.pch"; sourceTree = "<group>"; };
+		C9906A411812529400BAEF53 /* HOTPGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOTPGeneratorTests.m; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -116,6 +142,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C9906A2B1812522100BAEF53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9906A301812522100BAEF53 /* XCTest.framework in Frameworks */,
+				C9906A321812522100BAEF53 /* UIKit.framework in Frameworks */,
+				C9906A311812522100BAEF53 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -136,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* Authenticator.app */,
+				C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -145,6 +182,7 @@
 			children = (
 				8B2B8AE1118BA49F00437315 /* README.md */,
 				C97B68CB17D964D4005D1FE0 /* Authenticator */,
+				C9906A331812522100BAEF53 /* AuthenticatorTests */,
 				C98C1C4F17D2F16800A07D3F /* Config */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -183,6 +221,7 @@
 				8B2B86FD118B8FA000437315 /* UIKit.framework */,
 				C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */,
 				9B03839CF35E4014987A36CA /* libPods.a */,
+				C9906A2F1812522100BAEF53 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -226,7 +265,6 @@
 			children = (
 				8B73DCF01182656200861C87 /* OTPAuthURL.h */,
 				8B73DCF11182656200861C87 /* OTPAuthURL.m */,
-				8B2B89BE118B968900437315 /* OTPAuthURLTest.m */,
 				C9A4FA2717D1189600CD5EDC /* Generators */,
 			);
 			name = Core;
@@ -287,12 +325,32 @@
 			name = Config;
 			sourceTree = "<group>";
 		};
+		C9906A331812522100BAEF53 /* AuthenticatorTests */ = {
+			isa = PBXGroup;
+			children = (
+				C9906A411812529400BAEF53 /* HOTPGeneratorTests.m */,
+				C9015FD2181261DF00F6A2AA /* TOTPGeneratorTests.m */,
+				8B2B89BE118B968900437315 /* OTPAuthURLTest.m */,
+				C9906A341812522100BAEF53 /* Supporting Files */,
+			);
+			path = AuthenticatorTests;
+			sourceTree = "<group>";
+		};
+		C9906A341812522100BAEF53 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C9906A351812522100BAEF53 /* AuthenticatorTests-Info.plist */,
+				C9906A361812522100BAEF53 /* InfoPlist.strings */,
+				C9906A3B1812522100BAEF53 /* AuthenticatorTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		C9A4FA2517D116B700CD5EDC /* TOTP */ = {
 			isa = PBXGroup;
 			children = (
 				8B73DCEE1182656200861C87 /* TOTPGenerator.h */,
 				8B73DCF31182656200861C87 /* TOTPGenerator.m */,
-				8B2B89B7118B967A00437315 /* TOTPGeneratorTest.m */,
 			);
 			name = TOTP;
 			sourceTree = "<group>";
@@ -302,7 +360,6 @@
 			children = (
 				8B73DCF21182656200861C87 /* HOTPGenerator.h */,
 				8B73DCEF1182656200861C87 /* HOTPGenerator.m */,
-				8B2B89B6118B967A00437315 /* HOTPGeneratorTest.m */,
 			);
 			name = HOTP;
 			sourceTree = "<group>";
@@ -340,6 +397,24 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* Authenticator.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C9906A2D1812522100BAEF53 /* AuthenticatorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9906A401812522200BAEF53 /* Build configuration list for PBXNativeTarget "AuthenticatorTests" */;
+			buildPhases = (
+				C9906A2A1812522100BAEF53 /* Sources */,
+				C9906A2B1812522100BAEF53 /* Frameworks */,
+				C9906A2C1812522100BAEF53 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C9906A3D1812522100BAEF53 /* PBXTargetDependency */,
+			);
+			name = AuthenticatorTests;
+			productName = AuthenticatorTests;
+			productReference = C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -349,6 +424,11 @@
 				CLASSPREFIX = OTP;
 				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Matt Rubin";
+				TargetAttributes = {
+					C9906A2D1812522100BAEF53 = {
+						TestTargetID = 1D6058900D05DD3D006BFB54;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Authenticator" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -362,6 +442,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Authenticator */,
+				C9906A2D1812522100BAEF53 /* AuthenticatorTests */,
 			);
 		};
 /* End PBXProject section */
@@ -381,6 +462,14 @@
 				C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */,
 				C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */,
 				C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9906A2C1812522100BAEF53 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9906A381812522100BAEF53 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,7 +530,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C9906A2A1812522100BAEF53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9015FD118125AF800F6A2AA /* OTPGenerator.m in Sources */,
+				C9015FCF18125A9C00F6A2AA /* HOTPGenerator.m in Sources */,
+				C9906A421812529400BAEF53 /* HOTPGeneratorTests.m in Sources */,
+				C9015FD41812625F00F6A2AA /* TOTPGenerator.m in Sources */,
+				C9015FD3181261DF00F6A2AA /* TOTPGeneratorTests.m in Sources */,
+				C9C8B01A1812742400911E8B /* OTPAuthURL.m in Sources */,
+				C9C8B01B1812744F00911E8B /* OTPAuthURLTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C9906A3D1812522100BAEF53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D6058900D05DD3D006BFB54 /* Authenticator */;
+			targetProxy = C9906A3C1812522100BAEF53 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C9906A361812522100BAEF53 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9906A371812522100BAEF53 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
@@ -492,6 +614,104 @@
 			};
 			name = Release;
 		};
+		C9906A3E1812522100BAEF53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AuthenticatorTests/AuthenticatorTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "AuthenticatorTests/AuthenticatorTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-gnu",
+					"-Wno-variadic-macros",
+					"-Wno-auto-import",
+				);
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		C9906A3F1812522100BAEF53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AuthenticatorTests/AuthenticatorTests-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "AuthenticatorTests/AuthenticatorTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-gnu",
+					"-Wno-variadic-macros",
+					"-Wno-auto-import",
+				);
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -509,6 +729,15 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9906A401812522200BAEF53 /* Build configuration list for PBXNativeTarget "AuthenticatorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9906A3E1812522100BAEF53 /* Debug */,
+				C9906A3F1812522100BAEF53 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
