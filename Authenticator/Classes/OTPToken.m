@@ -28,7 +28,7 @@
 
 @implementation OTPToken
 
-+ (NSDictionary *)keychainDictionaryForPersistentRef:(NSData *)persistentRef
++ (NSDictionary *)keychainItemForPersistentRef:(NSData *)persistentRef
 {
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecValuePersistentRef: persistentRef,
@@ -41,6 +41,18 @@
     OSStatus resultCode = SecItemCopyMatching(query, &result);
 
     return (resultCode == errSecSuccess) ? (__bridge NSDictionary *)(result) : nil;
+}
+
++ (BOOL)deleteKeychainItemForPersistentRef:(NSData *)persistentRef
+{
+    NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+                                (__bridge id)kSecValuePersistentRef: persistentRef,
+                                };
+
+    CFDictionaryRef query = (__bridge CFDictionaryRef)(queryDict);
+    OSStatus resultCode = SecItemDelete(query);
+
+    return (resultCode == errSecSuccess);
 }
 
 @end

@@ -27,6 +27,8 @@
 
 @interface OTPToken : NSObject
 
-+ (NSDictionary *)keychainDictionaryForPersistentRef:(NSData *)persistentRef;
++ (NSDictionary *)keychainItemForPersistentRef:(NSData *)persistentRef;
+
++ (BOOL)deleteKeychainItemForPersistentRef:(NSData *)persistentRef;
 
 @end

@@ -163,7 +163,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 
 + (OTPAuthURL *)authURLWithKeychainItemRef:(NSData *)data {
   OTPAuthURL *authURL = nil;
-  NSDictionary *result = [OTPToken keychainDictionaryForPersistentRef:data];
+  NSDictionary *result = [OTPToken keychainItemForPersistentRef:data];
   if (result) {
     authURL = [self authURLWithKeychainDictionary:result];
     [authURL setKeychainItemRef:data];
@@ -277,18 +277,12 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   if (![self isInKeychain]) {
     return NO;
   }
-  NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:
-                         (__bridge id)kSecClassGenericPassword, (__bridge id)kSecClass,
-                         [self keychainItemRef], (__bridge id)kSecValuePersistentRef,
-                         nil];
-  OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
+  BOOL success = [OTPToken deleteKeychainItemForPersistentRef:self.keychainItemRef];
 
-  _GTMDevLog(@"SecItemDelete(%@) = %ld", query, status);
-
-  if (status == noErr) {
+  if (success) {
     [self setKeychainItemRef:nil];
   }
-  return status == noErr;
+  return success;
 }
 
 - (BOOL)isInKeychain {
