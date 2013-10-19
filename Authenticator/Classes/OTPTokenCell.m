@@ -24,7 +24,11 @@
 
 #import "OTPTokenCell.h"
 @import MobileCoreServices;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wauto-import"
 #import <SVProgressHUD/SVProgressHUD.h>
+#pragma clang diagnostic pop
 
 
 @interface OTPTokenCell () <UITextFieldDelegate>

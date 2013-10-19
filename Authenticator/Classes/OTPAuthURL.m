@@ -21,17 +21,14 @@
 
 @import Security;
 
-#import "GTMNSDictionary+URLArguments.h"
-#import "GTMNSString+URLArguments.h"
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
-#import "GTMNSScanner+Unsigned.h"
-#pragma clang diagnostic pop
-
-#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
-#import "GTMStringEncoding.h"
+#pragma clang diagnostic ignored "-Wauto-import"
+#import <GTMNSDictionary+URLArguments.h>
+#import <GTMNSString+URLArguments.h>
+#import <GTMNSScanner+Unsigned.h>
+#import <GTMStringEncoding.h>
 #pragma clang diagnostic pop
 
 #import "HOTPGenerator.h"

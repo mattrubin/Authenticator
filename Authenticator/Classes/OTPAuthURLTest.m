@@ -28,10 +28,12 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
-#import "GTMStringEncoding.h"
+#pragma clang diagnostic ignored "-Wauto-import"
+#import <GTMStringEncoding.h>
+#import <GTMNSDictionary+URLArguments.h>
+#import <GTMNSString+URLArguments.h>
 #pragma clang diagnostic pop
-#import "GTMNSDictionary+URLArguments.h"
-#import "GTMNSString+URLArguments.h"
+
 #import "HOTPGenerator.h"
 #import "OTPAuthURL.h"
 #import "TOTPGenerator.h"

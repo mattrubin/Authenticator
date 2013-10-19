@@ -26,7 +26,10 @@
 #import "OTPScannerViewController.h"
 #import "OTPAuthURL.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wauto-import"
 #import <SVProgressHUD/SVProgressHUD.h>
+#pragma clang diagnostic pop
 
 
 @interface OTPTokenEntryViewController ()
