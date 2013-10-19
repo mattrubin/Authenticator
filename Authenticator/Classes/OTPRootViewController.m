@@ -23,6 +23,7 @@
 #import "TOTPGenerator.h"
 #import "UIColor+OTP.h"
 #import "OTPClock.h"
+#import "OTPTokenEntryViewController.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
@@ -101,7 +102,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 {
     [self setEditing:NO animated:NO];
     
-    OTPEntryController *entryController = [[OTPEntryController alloc] init];
+    OTPTokenEntryViewController *entryController = [[OTPTokenEntryViewController alloc] init];
     entryController.delegate = self;
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:entryController];
     
@@ -132,10 +133,16 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 
-#pragma mark - OTPEntryControllerDelegate
+#pragma mark - OTPTokenSourceDelegate
 
-- (void)entryController:(OTPEntryController *)controller didCreateAuthURL:(OTPAuthURL *)authURL
+- (void)tokenSource:(id)tokenSource didCreateToken:(OTPAuthURL *)authURL
 {
+    if ([tokenSource isKindOfClass:[OTPTokenEntryViewController class]]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+
+    if (!authURL) return;
+
     [authURL saveToKeychain];
     [self.authURLs addObject:authURL];
     [self saveKeychainArray];

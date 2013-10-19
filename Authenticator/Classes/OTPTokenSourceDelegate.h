@@ -1,5 +1,5 @@
 //
-//  OTPScannerViewController.h
+//  OTPTokenSourceDelegate.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,14 +22,14 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import "OTPTokenSourceDelegate.h"
+#import <Foundation/Foundation.h>
 
 
-@interface OTPScannerViewController : UIViewController
+@class OTPAuthURL;
 
-@property (nonatomic, weak) id <OTPTokenSourceDelegate> delegate;
 
-+ (BOOL)deviceCanScan;
+@protocol OTPTokenSourceDelegate <NSObject>
+
+- (void)tokenSource:(id)tokenSource didCreateToken:(OTPAuthURL *)token;
 
 @end

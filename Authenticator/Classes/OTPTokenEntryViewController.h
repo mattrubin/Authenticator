@@ -1,5 +1,5 @@
 //
-//  OTPScannerViewController.h
+//  OTPTokenEntryViewController.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -26,10 +26,8 @@
 #import "OTPTokenSourceDelegate.h"
 
 
-@interface OTPScannerViewController : UIViewController
+@interface OTPTokenEntryViewController : UIViewController
 
 @property (nonatomic, weak) id <OTPTokenSourceDelegate> delegate;
-
-+ (BOOL)deviceCanScan;
 
 @end

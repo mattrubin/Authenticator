@@ -18,9 +18,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OTPEntryController.h"
+#import "OTPTokenSourceDelegate.h"
 
 
-@interface OTPRootViewController : UITableViewController <OTPEntryControllerDelegate>
+@interface OTPRootViewController : UITableViewController <OTPTokenSourceDelegate>
 
 @end
