@@ -41,7 +41,6 @@
 		C9906A311812522100BAEF53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8776118B903000437315 /* Foundation.framework */; };
 		C9906A321812522100BAEF53 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B86FD118B8FA000437315 /* UIKit.framework */; };
 		C9906A381812522100BAEF53 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9906A361812522100BAEF53 /* InfoPlist.strings */; };
-		C9906A3A1812522100BAEF53 /* AuthenticatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9906A391812522100BAEF53 /* AuthenticatorTests.m */; };
 		C9906A421812529400BAEF53 /* HOTPGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9906A411812529400BAEF53 /* HOTPGeneratorTests.m */; };
 		C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */; };
 		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
@@ -113,7 +112,6 @@
 		C9906A2F1812522100BAEF53 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C9906A351812522100BAEF53 /* AuthenticatorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AuthenticatorTests-Info.plist"; sourceTree = "<group>"; };
 		C9906A371812522100BAEF53 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C9906A391812522100BAEF53 /* AuthenticatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuthenticatorTests.m; sourceTree = "<group>"; };
 		C9906A3B1812522100BAEF53 /* AuthenticatorTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AuthenticatorTests-Prefix.pch"; sourceTree = "<group>"; };
 		C9906A411812529400BAEF53 /* HOTPGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOTPGeneratorTests.m; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
@@ -327,7 +325,6 @@
 		C9906A331812522100BAEF53 /* AuthenticatorTests */ = {
 			isa = PBXGroup;
 			children = (
-				C9906A391812522100BAEF53 /* AuthenticatorTests.m */,
 				C9906A411812529400BAEF53 /* HOTPGeneratorTests.m */,
 				C9906A341812522100BAEF53 /* Supporting Files */,
 			);
@@ -536,7 +533,6 @@
 				C9015FD118125AF800F6A2AA /* OTPGenerator.m in Sources */,
 				C9015FCF18125A9C00F6A2AA /* HOTPGenerator.m in Sources */,
 				C9906A421812529400BAEF53 /* HOTPGeneratorTests.m in Sources */,
-				C9906A3A1812522100BAEF53 /* AuthenticatorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
