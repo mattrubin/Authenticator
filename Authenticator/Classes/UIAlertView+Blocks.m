@@ -22,7 +22,7 @@
 //
 
 #import "UIAlertView+Blocks.h"
-#import <objc/runtime.h>
+@import ObjectiveC.runtime;
 
 
 @implementation UIAlertView (Blocks)

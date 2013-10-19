@@ -17,7 +17,7 @@
 //  the License.
 //
 
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 #define STAssertEqualObjects XCTAssertEqualObjects
 #define STAssertEquals XCTAssertEqual

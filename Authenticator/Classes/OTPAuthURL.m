@@ -19,7 +19,7 @@
 
 #import "OTPAuthURL.h"
 
-#import <Security/Security.h>
+@import Security;
 
 #import "GTMNSDictionary+URLArguments.h"
 #import "GTMNSString+URLArguments.h"

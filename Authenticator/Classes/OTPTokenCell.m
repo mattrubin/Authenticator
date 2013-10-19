@@ -23,7 +23,7 @@
 //
 
 #import "OTPTokenCell.h"
-#import <MobileCoreServices/MobileCoreServices.h>
+@import MobileCoreServices;
 #import <SVProgressHUD/SVProgressHUD.h>
 
 

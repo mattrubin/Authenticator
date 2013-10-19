@@ -17,7 +17,7 @@
 //  the License.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "OTPGenerator.h"
 
 // The TOTPGenerator class generates a one-time password (OTP) using

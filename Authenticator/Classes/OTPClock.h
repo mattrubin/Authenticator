@@ -17,7 +17,7 @@
 //  the License.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 
 @interface OTPClock : UIView

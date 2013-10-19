@@ -23,7 +23,7 @@
 //
 
 #import "OTPScannerViewController.h"
-#import <AVFoundation/AVFoundation.h>
+@import AVFoundation;
 #import "OTPScannerOverlayView.h"
 #import "OTPAuthURL.h"
 #import <SVProgressHUD/SVProgressHUD.h>

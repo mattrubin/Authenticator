@@ -17,7 +17,7 @@
 //  the License.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 // The OTPGenerator class generates a one-time password (OTP) using
 // the HMAC-Based One-Time Password Algorithm described in RFC4226:
