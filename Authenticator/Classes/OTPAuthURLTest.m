@@ -25,7 +25,11 @@
 #define STAssertFalse XCTAssertFalse
 #define STAssertNil XCTAssertNil
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 #import "GTMStringEncoding.h"
+#pragma clang diagnostic pop
 #import "GTMNSDictionary+URLArguments.h"
 #import "GTMNSString+URLArguments.h"
 #import "HOTPGenerator.h"
@@ -34,7 +38,7 @@
 
 @interface OTPAuthURL ()
 
-@property(readonly,retain,nonatomic) id generator;
+@property(readonly,nonatomic) id generator;
 
 + (OTPAuthURL *)authURLWithKeychainDictionary:(NSDictionary *)dict;
 - (id)initWithOTPGenerator:(id)generator name:(NSString *)name;
