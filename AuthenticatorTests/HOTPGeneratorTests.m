@@ -33,7 +33,7 @@
 @implementation HOTPGeneratorTests
 
 // The values in this test are found in Appendix D of the HOTP RFC
-// http://www.ietf.org/rfc/rfc4226.txt
+// https://tools.ietf.org/html/rfc4226#appendix-D
 - (void)testRFCValues
 {
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
