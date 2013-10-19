@@ -17,7 +17,7 @@
 //  the License.
 //
 
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 #define STAssertEqualObjects XCTAssertEqualObjects
 #define STAssertEquals XCTAssertEqual
@@ -25,16 +25,22 @@
 #define STAssertFalse XCTAssertFalse
 #define STAssertNil XCTAssertNil
 
-#import "GTMStringEncoding.h"
-#import "GTMNSDictionary+URLArguments.h"
-#import "GTMNSString+URLArguments.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
+#pragma clang diagnostic ignored "-Wauto-import"
+#import <GTMStringEncoding.h>
+#import <GTMNSDictionary+URLArguments.h>
+#import <GTMNSString+URLArguments.h>
+#pragma clang diagnostic pop
+
 #import "HOTPGenerator.h"
 #import "OTPAuthURL.h"
 #import "TOTPGenerator.h"
 
 @interface OTPAuthURL ()
 
-@property(readonly,retain,nonatomic) id generator;
+@property(readonly,nonatomic) id generator;
 
 + (OTPAuthURL *)authURLWithKeychainDictionary:(NSDictionary *)dict;
 - (id)initWithOTPGenerator:(id)generator name:(NSString *)name;

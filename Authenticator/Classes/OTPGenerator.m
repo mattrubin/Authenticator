@@ -24,7 +24,8 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
-#import "GTMDefines.h"
+#pragma clang diagnostic ignored "-Wauto-import"
+#import <GTMDefines.h>
 #pragma clang diagnostic pop
 
 

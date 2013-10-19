@@ -17,7 +17,7 @@
 //  the License.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 // This class encapsulates the parsing of otpauth:// urls, the creation of
 // either HOTPGenerator or TOTPGenerator objects, and the persistence of the
