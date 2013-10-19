@@ -659,7 +659,6 @@
 				WARNING_CFLAGS = (
 					"$(inherited)",
 					"-Wno-gnu",
-					"-Wno-variadic-macros",
 				);
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -704,7 +703,6 @@
 				WARNING_CFLAGS = (
 					"$(inherited)",
 					"-Wno-gnu",
-					"-Wno-variadic-macros",
 				);
 				WRAPPER_EXTENSION = xctest;
 			};
