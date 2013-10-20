@@ -159,7 +159,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   NSDictionary *result = [OTPToken keychainItemForPersistentRef:data];
   if (result) {
     authURL = [self authURLWithKeychainDictionary:result];
-    [authURL setKeychainItemRef:data];
+    authURL.token.keychainItemRef = data;
   }
   return authURL;
 }
@@ -220,7 +220,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@ %p> Name: %@ ref: %p checkCode: %@",
-          [self class], self, self.token.name, self.keychainItemRef, self.checkCode];
+          [self class], self, self.token.name, self.token.keychainItemRef, self.checkCode];
 }
 
 
@@ -238,11 +238,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 - (NSData *)keychainItemRef DEPRECATED_ATTRIBUTE
 {
     return [self.token keychainItemRef];
-}
-
-- (void)setKeychainItemRef:(NSData *)keychainItemRef DEPRECATED_ATTRIBUTE
-{
-    [self.token setKeychainItemRef:keychainItemRef];
 }
 
 - (NSString *)name
