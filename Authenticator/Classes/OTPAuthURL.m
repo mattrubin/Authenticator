@@ -94,7 +94,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 @end
 
 @implementation OTPAuthURL
-@synthesize name = name_;
 @synthesize generator = generator_;
 @dynamic otpCode;
 
@@ -182,7 +181,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
       self = nil;
     } else {
       self.generator = generator;
-      self.name = name;
+      self.token.name = name;
     }
   }
   return self;
@@ -221,7 +220,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@ %p> Name: %@ ref: %p checkCode: %@",
-          [self class], self, self.name, self.keychainItemRef, self.checkCode];
+          [self class], self, self.token.name, self.keychainItemRef, self.checkCode];
 }
 
 
@@ -244,6 +243,16 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 - (void)setKeychainItemRef:(NSData *)keychainItemRef DEPRECATED_ATTRIBUTE
 {
     [self.token setKeychainItemRef:keychainItemRef];
+}
+
+- (NSString *)name
+{
+    return [self.token name];
+}
+
+- (void)setName:(NSString *)name
+{
+    [self.token setName:name];
 }
 
 
@@ -398,7 +407,7 @@ static NSString *const TOTPAuthURLTimerNotification
 
   return [NSURL URLWithString:[NSString stringWithFormat:@"%@://totp/%@?%@",
                                kOTPAuthScheme,
-                               [self.name gtm_stringByEscapingForURLArgument],
+                               [self.token.name gtm_stringByEscapingForURLArgument],
                                [query gtm_httpArgumentsString]]];
 }
 
@@ -486,7 +495,7 @@ static NSString *const TOTPAuthURLTimerNotification
 
   return [NSURL URLWithString:[NSString stringWithFormat:@"%@://hotp/%@?%@",
                                kOTPAuthScheme,
-                               [[self name] gtm_stringByEscapingForURLArgument],
+                               [self.token.name gtm_stringByEscapingForURLArgument],
                                [query gtm_httpArgumentsString]]];
 }
 

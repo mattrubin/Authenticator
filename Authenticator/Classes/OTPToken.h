@@ -32,6 +32,8 @@
 
 @property (nonatomic, weak) OTPAuthURL *dataSource; // TEMPORARY
 
+@property (nonatomic, copy) NSString *name;
+
 @property (nonatomic, strong) NSData *keychainItemRef;
 @property (nonatomic, readonly) BOOL isInKeychain;
 
