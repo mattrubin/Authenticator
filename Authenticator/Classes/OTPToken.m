@@ -28,6 +28,23 @@
 
 @implementation OTPToken
 
+- (BOOL)isInKeychain
+{
+    return !!self.keychainItemRef;
+}
+
+- (BOOL)removeFromKeychain
+{
+    if (!self.isInKeychain) return NO;
+
+    BOOL success = [OTPToken deleteKeychainItemForPersistentRef:self.keychainItemRef];
+
+    if (success) {
+        [self setKeychainItemRef:nil];
+    }
+    return success;
+}
+
 @end
 
 

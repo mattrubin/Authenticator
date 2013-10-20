@@ -247,19 +247,11 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 }
 
 - (BOOL)removeFromKeychain {
-  if (![self isInKeychain]) {
-    return NO;
-  }
-  BOOL success = [OTPToken deleteKeychainItemForPersistentRef:self.keychainItemRef];
-
-  if (success) {
-    [self setKeychainItemRef:nil];
-  }
-  return success;
+  return [self.token removeFromKeychain];
 }
 
 - (BOOL)isInKeychain {
-  return self.keychainItemRef != nil;
+  return self.token.isInKeychain;
 }
 
 - (void)generateNextOTPCode {

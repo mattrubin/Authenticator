@@ -28,6 +28,9 @@
 @interface OTPToken : NSObject
 
 @property (nonatomic, strong) NSData *keychainItemRef;
+@property (nonatomic, readonly) BOOL isInKeychain;
+
+- (BOOL)removeFromKeychain;
 
 @end
 
