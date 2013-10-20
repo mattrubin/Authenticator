@@ -36,11 +36,28 @@
                                 (__bridge id)kSecReturnData: (id)kCFBooleanTrue
                                 };
 
-    CFDictionaryRef query = (__bridge CFDictionaryRef)(queryDict);
     CFTypeRef result = NULL;
-    OSStatus resultCode = SecItemCopyMatching(query, &result);
+    OSStatus resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)(queryDict),
+                                              &result);
 
     return (resultCode == errSecSuccess) ? (__bridge NSDictionary *)(result) : nil;
+}
+
++ (NSData *)addKeychainItemWithAttributes:(NSDictionary *)attributes
+{
+    NSMutableDictionary *mutableAttributes = [attributes mutableCopy];
+    mutableAttributes[(__bridge __strong id)kSecClass] = (__bridge id)kSecClassGenericPassword;
+    mutableAttributes[(__bridge __strong id)kSecReturnPersistentRef] = (__bridge id)kCFBooleanTrue;
+    // Set a random string for the account name.
+    // We never query by or display this value, but the keychain requires it to be unique.
+    if (!mutableAttributes[(__bridge __strong id)kSecAttrAccount])
+        mutableAttributes[(__bridge __strong id)kSecAttrAccount] = [[NSUUID UUID] UUIDString];
+
+    CFTypeRef result = NULL;
+    OSStatus resultCode = SecItemAdd((__bridge CFDictionaryRef)(mutableAttributes),
+                                     &result);
+
+    return (resultCode == errSecSuccess) ? (__bridge NSData *)(result) : nil;
 }
 
 + (BOOL)updateKeychainItemForPersistentRef:(NSData *)persistentRef withAttributes:(NSDictionary *)attributesToUpdate
@@ -49,8 +66,8 @@
                                 (__bridge id)kSecValuePersistentRef: persistentRef,
                                 };
 
-    CFDictionaryRef query = (__bridge CFDictionaryRef)(queryDict);
-    OSStatus resultCode = SecItemUpdate(query, (__bridge CFDictionaryRef)(attributesToUpdate));
+    OSStatus resultCode = SecItemUpdate((__bridge CFDictionaryRef)(queryDict),
+                                        (__bridge CFDictionaryRef)(attributesToUpdate));
 
     return (resultCode == errSecSuccess);
 }
@@ -61,8 +78,7 @@
                                 (__bridge id)kSecValuePersistentRef: persistentRef,
                                 };
 
-    CFDictionaryRef query = (__bridge CFDictionaryRef)(queryDict);
-    OSStatus resultCode = SecItemDelete(query);
+    OSStatus resultCode = SecItemDelete((__bridge CFDictionaryRef)(queryDict));
 
     return (resultCode == errSecSuccess);
 }

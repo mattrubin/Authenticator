@@ -29,6 +29,8 @@
 
 + (NSDictionary *)keychainItemForPersistentRef:(NSData *)persistentRef;
 
++ (NSData *)addKeychainItemWithAttributes:(NSDictionary *)attributes;
+
 + (BOOL)updateKeychainItemForPersistentRef:(NSData *)persistentRef withAttributes:(NSDictionary *)attributesToUpdate;
 
 + (BOOL)deleteKeychainItemForPersistentRef:(NSData *)persistentRef;

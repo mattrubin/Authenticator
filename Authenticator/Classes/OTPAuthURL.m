@@ -234,32 +234,11 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
     status = [OTPToken updateKeychainItemForPersistentRef:self.keychainItemRef
                                            withAttributes:attributes];
   } else {
-    [attributes setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
-    [attributes setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnPersistentRef];
     [attributes setObject:self.generator.secret forKey:(__bridge id)kSecValueData];
     [attributes setObject:kOTPService forKey:(__bridge id)kSecAttrService];
-    NSData *ref = nil;
-    CFDataRef cf_ref = NULL;
+    NSData *ref = [OTPToken addKeychainItemWithAttributes:attributes];
 
-    // The name here has to be unique or else we will get a errSecDuplicateItem
-    // so if we have two items with the same name, we will just append a
-    // random number on the end until we get success. We will try at max of
-    // 1000 times so as to not hang in shut down.
-    // We do not display this name to the user, so anything will do.
-    NSString *name = self.name;
-    for (int i = 0; i < 1000; i++) {
-      [attributes setObject:name forKey:(__bridge id)kSecAttrAccount];
-      status = SecItemAdd((__bridge CFDictionaryRef)attributes, (CFTypeRef *)&cf_ref);
-      ref = (__bridge_transfer NSData *)cf_ref;
-      if (status == errSecDuplicateItem) {
-        name = [NSString stringWithFormat:@"%@.%ld", self.name, random()];
-      } else {
-        break;
-      }
-    }
-    _GTMDevLog(@"SecItemAdd(%@, %@) = %ld", attributes, ref, status);
-
-    if (status == noErr) {
+    if (ref) {
       self.keychainItemRef = ref;
     }
   }
