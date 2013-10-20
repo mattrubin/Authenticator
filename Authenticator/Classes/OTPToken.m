@@ -28,6 +28,11 @@
 
 @implementation OTPToken
 
+@end
+
+
+@implementation OTPToken (KeychainItems)
+
 + (NSDictionary *)keychainItemForPersistentRef:(NSData *)persistentRef
 {
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,

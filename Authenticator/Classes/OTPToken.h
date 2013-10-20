@@ -27,6 +27,13 @@
 
 @interface OTPToken : NSObject
 
+@property (nonatomic, strong) NSData *keychainItemRef;
+
+@end
+
+
+@interface OTPToken (KeychainItems)
+
 + (NSDictionary *)keychainItemForPersistentRef:(NSData *)persistentRef;
 
 + (NSData *)addKeychainItemWithAttributes:(NSDictionary *)attributes;

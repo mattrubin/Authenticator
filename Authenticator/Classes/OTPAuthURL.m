@@ -62,7 +62,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 @interface OTPAuthURL ()
 
 // re-declare readwrite
-@property(readwrite, strong, nonatomic) NSData *keychainItemRef;
+@property (nonatomic, strong) OTPToken *token;
 @property(readwrite, strong, nonatomic) OTPGenerator *generator;
 
 // Initialize an OTPAuthURL with a dictionary of attributes from a keychain.
@@ -100,7 +100,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 
 @implementation OTPAuthURL
 @synthesize name = name_;
-@synthesize keychainItemRef = keychainItemRef_;
 @synthesize generator = generator_;
 @dynamic otpCode;
 
@@ -276,8 +275,27 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
           [self class], self, self.name, self.keychainItemRef, self.checkCode];
 }
 
-#pragma mark -
-#pragma mark URL Validation
+
+#pragma mark - Internal Token
+
+- (OTPToken *)token
+{
+    if (!_token) {
+        _token = [[OTPToken alloc] init];
+    }
+    return _token;
+}
+
+- (NSData *)keychainItemRef DEPRECATED_ATTRIBUTE
+{
+    return [self.token keychainItemRef];
+}
+
+- (void)setKeychainItemRef:(NSData *)keychainItemRef DEPRECATED_ATTRIBUTE
+{
+    [self.token setKeychainItemRef:keychainItemRef];
+}
+
 
 
 @end
