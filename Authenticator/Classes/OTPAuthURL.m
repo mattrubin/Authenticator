@@ -28,13 +28,13 @@
 #import <GTMNSDictionary+URLArguments.h>
 #import <GTMNSString+URLArguments.h>
 #import <GTMNSScanner+Unsigned.h>
-#import <GTMStringEncoding.h>
 #pragma clang diagnostic pop
 
 #import "HOTPGenerator.h"
 #import "TOTPGenerator.h"
 
 #import "OTPToken.h"
+#import "NSData+Base32.h"
 
 static NSString *const kOTPAuthScheme = @"otpauth";
 static NSString *const kTOTPAuthScheme = @"totp";
@@ -45,10 +45,6 @@ static NSString *const kQueryCounterKey = @"counter";
 static NSString *const kQueryDigitsKey = @"digits";
 static NSString *const kQueryPeriodKey = @"period";
 
-static NSString *const kBase32Charset = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
-static NSString *const kBase32Synonyms =
-    @"AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-static NSString *const kBase32Sep = @" -";
 
 static const NSTimeInterval kTOTPDefaultSecondsBeforeChange = 5;
 NSString *const OTPAuthURLWillGenerateNewOTPWarningNotification
@@ -129,7 +125,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
       if (!secret) {
         // Required secret=Base32EncodedKey
         NSString *secretString = [query objectForKey:kQuerySecretKey];
-        secret = [OTPAuthURL base32Decode:secretString];
+        secret = [secretString base32DecodedData];
       }
       // Optional digits=[68] defaults to 8
       NSString *digitString = [query objectForKey:kQueryDigitsKey];
@@ -176,22 +172,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
                                                encoding:NSUTF8StringEncoding];
   NSURL *url = [NSURL URLWithString:urlString];
   return  [self authURLWithURL:url secret:secretData];
-}
-
-+ (NSData *)base32Decode:(NSString *)string {
-  GTMStringEncoding *coder =
-    [GTMStringEncoding stringEncodingWithString:kBase32Charset];
-  [coder addDecodeSynonyms:kBase32Synonyms];
-  [coder ignoreCharacters:kBase32Sep];
-  return [coder decode:string];
-}
-
-+ (NSString *)encodeBase32:(NSData *)data {
-  GTMStringEncoding *coder =
-    [GTMStringEncoding stringEncodingWithString:kBase32Charset];
-  [coder addDecodeSynonyms:kBase32Synonyms];
-  [coder ignoreCharacters:kBase32Sep];
-  return [coder encode:data];
 }
 
 - (id)initWithOTPGenerator:(OTPGenerator *)generator
@@ -331,7 +311,7 @@ static NSString *const TOTPAuthURLTimerNotification
     [name appendFormat:@"@%@", [url host]];
   }
 
-  NSData *secret = [OTPAuthURL base32Decode:[url fragment]];
+  NSData *secret = [url.fragment base32DecodedData];
   return [self initWithSecret:secret name:name];
 }
 

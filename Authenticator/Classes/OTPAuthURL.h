@@ -32,15 +32,6 @@
 @property(readonly, nonatomic) NSString *otpCode;
 @property(readonly, nonatomic) NSString *checkCode;
 
-// Standard base32 alphabet.
-// Input is case insensitive.
-// No padding is used.
-// Ignore space and hyphen (-).
-// For details on use, see android app:
-// http://google3/security/strongauth/mobile/android/StrongAuth/src/org/strongauth/Base32String.java
-+ (NSData *)base32Decode:(NSString *)string;
-+ (NSString *)encodeBase32:(NSData *)data;
-
 + (OTPAuthURL *)authURLWithURL:(NSURL *)url
                         secret:(NSData *)secret;
 + (OTPAuthURL *)authURLWithKeychainItemRef:(NSData *)keychainItemRef;

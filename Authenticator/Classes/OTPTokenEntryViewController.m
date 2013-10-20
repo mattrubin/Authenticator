@@ -25,6 +25,7 @@
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
 #import "OTPAuthURL.h"
+#import "NSData+Base32.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
@@ -84,7 +85,7 @@
         return;
     }
 
-    NSData *secretKey = [OTPAuthURL base32Decode:self.secretKeyField.text];
+    NSData *secretKey = [self.secretKeyField.text base32DecodedData];
 
     if (secretKey.length) {
         Class tokenClass = (self.tokenTypeControl.selectedSegmentIndex == 0) ? [TOTPAuthURL class] : [HOTPAuthURL class];
