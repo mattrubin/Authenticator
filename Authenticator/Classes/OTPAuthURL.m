@@ -228,10 +228,10 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   NSMutableDictionary *attributes =
    [NSMutableDictionary dictionaryWithObject:urlData
                                       forKey:(__bridge id)kSecAttrGeneric];
-  OSStatus status = noErr;
+  BOOL success = NO;
 
   if ([self isInKeychain]) {
-    status = [OTPToken updateKeychainItemForPersistentRef:self.keychainItemRef
+    success = [OTPToken updateKeychainItemForPersistentRef:self.keychainItemRef
                                            withAttributes:attributes];
   } else {
     [attributes setObject:self.generator.secret forKey:(__bridge id)kSecValueData];
@@ -240,10 +240,11 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 
     if (ref) {
       self.keychainItemRef = ref;
+      success = YES;
     }
   }
 
-  return status == noErr;
+  return success;
 }
 
 - (BOOL)removeFromKeychain {
