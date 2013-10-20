@@ -25,11 +25,17 @@
 @import Foundation;
 
 
+@class OTPAuthURL;
+
+
 @interface OTPToken : NSObject
+
+@property (nonatomic, weak) OTPAuthURL *dataSource; // TEMPORARY
 
 @property (nonatomic, strong) NSData *keychainItemRef;
 @property (nonatomic, readonly) BOOL isInKeychain;
 
+- (BOOL)saveToKeychain;
 - (BOOL)removeFromKeychain;
 
 @end

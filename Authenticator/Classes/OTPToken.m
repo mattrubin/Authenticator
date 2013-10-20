@@ -25,12 +25,43 @@
 #import "OTPToken.h"
 @import Security;
 
+#import "OTPAuthURL.h" // TEMPORARY
+#import "OTPGenerator.h" // TEMPORARY
+#pragma clang diagnostic ignored "-Wreceiver-is-weak" // TEMPORARY
+#pragma clang diagnostic ignored "-Warc-repeated-use-of-weak" // TEMPORARY
+@interface OTPAuthURL () // TEMPORARY
+@property (nonatomic, strong) OTPGenerator *generator;
+@end
+
+
+static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
+
 
 @implementation OTPToken
 
 - (BOOL)isInKeychain
 {
     return !!self.keychainItemRef;
+}
+
+- (BOOL)saveToKeychain
+{
+    NSData *urlData = [self.dataSource.url.absoluteString dataUsingEncoding:NSUTF8StringEncoding];
+
+    NSMutableDictionary *attributes = [@{(__bridge id)kSecAttrGeneric: urlData} mutableCopy];
+
+    if (self.isInKeychain) {
+        return [OTPToken updateKeychainItemForPersistentRef:self.keychainItemRef
+                                             withAttributes:attributes];
+    } else {
+        attributes[(__bridge id)kSecValueData] = self.dataSource.generator.secret;
+        attributes[(__bridge id)kSecAttrService] = kOTPService;
+
+        NSData *persistentRef = [OTPToken addKeychainItemWithAttributes:attributes];
+
+        self.keychainItemRef = persistentRef;
+        return !!persistentRef;
+    }
 }
 
 - (BOOL)removeFromKeychain

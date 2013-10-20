@@ -38,7 +38,6 @@
 
 static NSString *const kOTPAuthScheme = @"otpauth";
 static NSString *const kTOTPAuthScheme = @"totp";
-static NSString *const kOTPService = @"com.google.otp.authentication";
 // These are keys in the otpauth:// query string.
 static NSString *const kQueryAlgorithmKey = @"algorithm";
 static NSString *const kQuerySecretKey = @"secret";
@@ -221,29 +220,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 }
 
 - (BOOL)saveToKeychain {
-  NSString *urlString = [[self url] absoluteString];
-  NSData *urlData = [urlString dataUsingEncoding:NSUTF8StringEncoding];
-
-  NSMutableDictionary *attributes =
-   [NSMutableDictionary dictionaryWithObject:urlData
-                                      forKey:(__bridge id)kSecAttrGeneric];
-  BOOL success = NO;
-
-  if ([self isInKeychain]) {
-    success = [OTPToken updateKeychainItemForPersistentRef:self.keychainItemRef
-                                           withAttributes:attributes];
-  } else {
-    [attributes setObject:self.generator.secret forKey:(__bridge id)kSecValueData];
-    [attributes setObject:kOTPService forKey:(__bridge id)kSecAttrService];
-    NSData *ref = [OTPToken addKeychainItemWithAttributes:attributes];
-
-    if (ref) {
-      self.keychainItemRef = ref;
-      success = YES;
-    }
-  }
-
-  return success;
+  return [self.token saveToKeychain];
 }
 
 - (BOOL)removeFromKeychain {
@@ -274,6 +251,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 {
     if (!_token) {
         _token = [[OTPToken alloc] init];
+        _token.dataSource = self;
     }
     return _token;
 }
