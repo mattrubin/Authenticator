@@ -231,14 +231,8 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   OSStatus status = noErr;
 
   if ([self isInKeychain]) {
-    NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:
-                           (__bridge id)kSecClassGenericPassword, (__bridge id)kSecClass,
-                           self.keychainItemRef, (__bridge id)kSecValuePersistentRef,
-                           nil];
-
-    status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)attributes);
-
-    _GTMDevLog(@"SecItemUpdate(%@, %@) = %ld", query, attributes, status);
+    status = [OTPToken updateKeychainItemForPersistentRef:self.keychainItemRef
+                                           withAttributes:attributes];
   } else {
     [attributes setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
     [attributes setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnPersistentRef];

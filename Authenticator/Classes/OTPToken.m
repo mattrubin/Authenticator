@@ -43,6 +43,18 @@
     return (resultCode == errSecSuccess) ? (__bridge NSDictionary *)(result) : nil;
 }
 
++ (BOOL)updateKeychainItemForPersistentRef:(NSData *)persistentRef withAttributes:(NSDictionary *)attributesToUpdate
+{
+    NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+                                (__bridge id)kSecValuePersistentRef: persistentRef,
+                                };
+
+    CFDictionaryRef query = (__bridge CFDictionaryRef)(queryDict);
+    OSStatus resultCode = SecItemUpdate(query, (__bridge CFDictionaryRef)(attributesToUpdate));
+
+    return (resultCode == errSecSuccess);
+}
+
 + (BOOL)deleteKeychainItemForPersistentRef:(NSData *)persistentRef
 {
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
