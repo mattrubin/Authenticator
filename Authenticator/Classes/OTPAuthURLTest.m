@@ -37,10 +37,11 @@
 #import "HOTPGenerator.h"
 #import "OTPAuthURL.h"
 #import "TOTPGenerator.h"
+#import "OTPToken.h"
 
 @interface OTPAuthURL ()
 
-@property(readonly,nonatomic) id generator;
+@property (nonatomic, readonly) OTPToken *token;
 
 + (OTPAuthURL *)authURLWithKeychainDictionary:(NSDictionary *)dict;
 - (id)initWithOTPGenerator:(id)generator name:(NSString *)name;
@@ -108,7 +109,7 @@ static NSString *const kValidHOTPURL =
 
   STAssertEqualObjects([url name], kValidLabel, @"Léon");
 
-  TOTPGenerator *generator = [url generator];
+  TOTPGenerator *generator = (TOTPGenerator *)[url.token generator];
   STAssertEqualObjects([generator secret], secret, @"");
   STAssertEqualObjects([generator algorithm], kValidAlgorithm, @"");
   STAssertEquals([generator period], kValidPeriod, @"");
@@ -127,7 +128,7 @@ static NSString *const kValidHOTPURL =
 
   STAssertEqualObjects([url name], kValidLabel, @"Léon");
 
-  TOTPGenerator *generator = [url generator];
+  TOTPGenerator *generator = (TOTPGenerator *)[url.token generator];
   STAssertEqualObjects([generator secret], secret, @"");
   STAssertEqualObjects([generator algorithm], kValidAlgorithm, @"");
   STAssertEquals([generator period], kValidPeriod, @"");
@@ -144,7 +145,7 @@ static NSString *const kValidHOTPURL =
 
   STAssertEqualObjects([url name], kValidLabel, @"Léon");
 
-  HOTPGenerator *generator = [url generator];
+  HOTPGenerator *generator = (HOTPGenerator *)[url.token generator];
   STAssertEqualObjects([generator secret], secret, @"");
   STAssertEqualObjects([generator algorithm], kValidAlgorithm, @"");
   STAssertEquals([generator counter], kValidCounter, @"");
@@ -187,7 +188,7 @@ static NSString *const kValidHOTPURL =
                                                          name:kValidLabel]
                      autorelease];
 
-  STAssertEquals([url generator], generator, @"");
+  STAssertEquals([url.token generator], generator, @"");
   STAssertEqualObjects([url name], kValidLabel, @"");
   STAssertFalse([url isInKeychain], @"");
 }

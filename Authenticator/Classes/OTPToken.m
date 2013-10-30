@@ -29,9 +29,6 @@
 #import "OTPGenerator.h" // TEMPORARY
 #pragma clang diagnostic ignored "-Wreceiver-is-weak" // TEMPORARY
 #pragma clang diagnostic ignored "-Warc-repeated-use-of-weak" // TEMPORARY
-@interface OTPAuthURL () // TEMPORARY
-@property (nonatomic, strong) OTPGenerator *generator;
-@end
 
 
 static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
@@ -54,7 +51,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
         return [OTPToken updateKeychainItemForPersistentRef:self.keychainItemRef
                                              withAttributes:attributes];
     } else {
-        attributes[(__bridge id)kSecValueData] = self.dataSource.generator.secret;
+        attributes[(__bridge id)kSecValueData] = self.generator.secret;
         attributes[(__bridge id)kSecAttrService] = kOTPService;
 
         NSData *persistentRef = [OTPToken addKeychainItemWithAttributes:attributes];

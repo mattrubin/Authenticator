@@ -26,6 +26,7 @@
 
 
 @class OTPAuthURL;
+@class OTPGenerator;
 
 
 @interface OTPToken : NSObject
@@ -33,6 +34,7 @@
 @property (nonatomic, weak) OTPAuthURL *dataSource; // TEMPORARY
 
 @property (nonatomic, copy) NSString *name;
+@property (nonatomic, strong) OTPGenerator *generator;
 
 @property (nonatomic, strong) NSData *keychainItemRef;
 @property (nonatomic, readonly) BOOL isInKeychain;

@@ -58,7 +58,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 
 // re-declare readwrite
 @property (nonatomic, strong) OTPToken *token;
-@property(readwrite, strong, nonatomic) OTPGenerator *generator;
 
 // Initialize an OTPAuthURL with a dictionary of attributes from a keychain.
 + (OTPAuthURL *)authURLWithKeychainDictionary:(NSDictionary *)dict;
@@ -94,7 +93,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 @end
 
 @implementation OTPAuthURL
-@synthesize generator = generator_;
 @dynamic otpCode;
 
 + (OTPAuthURL *)authURLWithURL:(NSURL *)url
@@ -180,7 +178,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
       _GTMDevLog(@"Bad Args Generator:%@ Name:%@", generator, name);
       self = nil;
     } else {
-      self.generator = generator;
+      self.token.generator = generator;
       self.token.name = name;
     }
   }
@@ -215,7 +213,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 }
 
 - (NSString*)checkCode {
-  return [self.generator generateOTPForCounter:0];
+  return [self.token.generator generateOTPForCounter:0];
 }
 
 - (NSString *)description {
@@ -350,11 +348,11 @@ static NSString *const TOTPAuthURLTimerNotification
 }
 
 - (NSString *)otpCode {
-  return [self.generator generateOTP];
+  return [self.token.generator generateOTP];
 }
 
 - (void)totpTimer:(NSTimer *)timer {
-  TOTPGenerator *generator = (TOTPGenerator *)[self generator];
+  TOTPGenerator *generator = (TOTPGenerator *)self.token.generator;
   NSTimeInterval delta = [[NSDate date] timeIntervalSince1970];
   NSTimeInterval period = [generator period];
   uint64_t progress = (uint64_t)delta % (uint64_t)period;
@@ -380,7 +378,7 @@ static NSString *const TOTPAuthURLTimerNotification
 - (NSURL *)url {
 
   NSMutableDictionary *query = [NSMutableDictionary dictionary];
-  TOTPGenerator *generator = (TOTPGenerator *)[self generator];
+  TOTPGenerator *generator = (TOTPGenerator *)self.token.generator;
   Class generatorClass = [generator class];
 
   NSString *algorithm = [generator algorithm];
@@ -461,7 +459,7 @@ static NSString *const TOTPAuthURLTimerNotification
 
 
 - (void)generateNextOTPCode {
-  self.otpCode = [[self generator] generateOTP];
+  self.otpCode = [self.token.generator generateOTP];
   [self saveToKeychain];
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:OTPAuthURLDidGenerateNewOTPNotification object:self];
@@ -470,7 +468,7 @@ static NSString *const TOTPAuthURLTimerNotification
 - (NSURL *)url {
   NSMutableDictionary *query = [NSMutableDictionary dictionary];
 
-  HOTPGenerator *generator = (HOTPGenerator *)[self generator];
+  HOTPGenerator *generator = (HOTPGenerator *)self.token.generator;
   Class generatorClass = [generator class];
 
   NSString *algorithm = [generator algorithm];
