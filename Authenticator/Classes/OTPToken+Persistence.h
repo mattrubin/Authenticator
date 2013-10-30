@@ -1,5 +1,5 @@
 //
-//  OTPToken.m
+//  OTPToken+Persistence.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -25,6 +25,25 @@
 #import "OTPToken.h"
 
 
-@implementation OTPToken
+@interface OTPToken (Persistence)
+
+@property (nonatomic, strong) NSData *keychainItemRef;
+@property (nonatomic, readonly) BOOL isInKeychain;
+
+- (BOOL)saveToKeychain;
+- (BOOL)removeFromKeychain;
+
+@end
+
+
+@interface OTPToken (KeychainItems)
+
++ (NSDictionary *)keychainItemForPersistentRef:(NSData *)persistentRef;
+
++ (NSData *)addKeychainItemWithAttributes:(NSDictionary *)attributes;
+
++ (BOOL)updateKeychainItemForPersistentRef:(NSData *)persistentRef withAttributes:(NSDictionary *)attributesToUpdate;
+
++ (BOOL)deleteKeychainItemForPersistentRef:(NSData *)persistentRef;
 
 @end

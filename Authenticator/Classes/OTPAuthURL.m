@@ -33,7 +33,7 @@
 #import "HOTPGenerator.h"
 #import "TOTPGenerator.h"
 
-#import "OTPToken.h"
+#import "OTPToken+Persistence.h"
 #import "NSData+Base32.h"
 
 static NSString *const kOTPAuthScheme = @"otpauth";

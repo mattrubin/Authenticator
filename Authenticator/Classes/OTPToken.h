@@ -36,23 +36,4 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) OTPGenerator *generator;
 
-@property (nonatomic, strong) NSData *keychainItemRef;
-@property (nonatomic, readonly) BOOL isInKeychain;
-
-- (BOOL)saveToKeychain;
-- (BOOL)removeFromKeychain;
-
-@end
-
-
-@interface OTPToken (KeychainItems)
-
-+ (NSDictionary *)keychainItemForPersistentRef:(NSData *)persistentRef;
-
-+ (NSData *)addKeychainItemWithAttributes:(NSDictionary *)attributes;
-
-+ (BOOL)updateKeychainItemForPersistentRef:(NSData *)persistentRef withAttributes:(NSDictionary *)attributesToUpdate;
-
-+ (BOOL)deleteKeychainItemForPersistentRef:(NSData *)persistentRef;
-
 @end
