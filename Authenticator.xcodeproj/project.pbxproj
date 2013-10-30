@@ -34,6 +34,8 @@
 		C9015FD41812625F00F6A2AA /* TOTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B73DCF31182656200861C87 /* TOTPGenerator.m */; };
 		C9044FC31821BD63002C3C3F /* OTPToken+Persistence.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FC21821BD63002C3C3F /* OTPToken+Persistence.m */; };
 		C9044FC41821C074002C3C3F /* OTPToken+Persistence.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FC21821BD63002C3C3F /* OTPToken+Persistence.m */; };
+		C9044FC71821C466002C3C3F /* OTPToken+Serialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FC61821C466002C3C3F /* OTPToken+Serialization.m */; };
+		C9044FC81821C466002C3C3F /* OTPToken+Serialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FC61821C466002C3C3F /* OTPToken+Serialization.m */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
 		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
 		C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */; };
@@ -108,6 +110,8 @@
 		C9015FD2181261DF00F6A2AA /* TOTPGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOTPGeneratorTests.m; sourceTree = "<group>"; };
 		C9044FC11821BD63002C3C3F /* OTPToken+Persistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Persistence.h"; sourceTree = "<group>"; };
 		C9044FC21821BD63002C3C3F /* OTPToken+Persistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OTPToken+Persistence.m"; sourceTree = "<group>"; };
+		C9044FC51821C466002C3C3F /* OTPToken+Serialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Serialization.h"; sourceTree = "<group>"; };
+		C9044FC61821C466002C3C3F /* OTPToken+Serialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OTPToken+Serialization.m"; sourceTree = "<group>"; };
 		C948F01517D70080008FCA41 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
@@ -279,6 +283,8 @@
 				C9A4FA2717D1189600CD5EDC /* Generators */,
 				C999C691181344F40013C1C6 /* OTPToken.h */,
 				C999C692181344F40013C1C6 /* OTPToken.m */,
+				C9044FC51821C466002C3C3F /* OTPToken+Serialization.h */,
+				C9044FC61821C466002C3C3F /* OTPToken+Serialization.m */,
 				C9044FC11821BD63002C3C3F /* OTPToken+Persistence.h */,
 				C9044FC21821BD63002C3C3F /* OTPToken+Persistence.m */,
 			);
@@ -536,6 +542,7 @@
 				28C286E10D94DF7D0034E888 /* OTPRootViewController.m in Sources */,
 				C999C693181344F40013C1C6 /* OTPToken.m in Sources */,
 				8B73DCF41182656200861C87 /* HOTPGenerator.m in Sources */,
+				C9044FC71821C466002C3C3F /* OTPToken+Serialization.m in Sources */,
 				8B73DCF51182656200861C87 /* OTPAuthURL.m in Sources */,
 				8B73DCF61182656200861C87 /* TOTPGenerator.m in Sources */,
 				C9044FC31821BD63002C3C3F /* OTPToken+Persistence.m in Sources */,
@@ -562,6 +569,7 @@
 				C9015FD41812625F00F6A2AA /* TOTPGenerator.m in Sources */,
 				C9015FD3181261DF00F6A2AA /* TOTPGeneratorTests.m in Sources */,
 				C9C8B01A1812742400911E8B /* OTPAuthURL.m in Sources */,
+				C9044FC81821C466002C3C3F /* OTPToken+Serialization.m in Sources */,
 				C9C8B01B1812744F00911E8B /* OTPAuthURLTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

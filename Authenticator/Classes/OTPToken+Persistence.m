@@ -23,12 +23,10 @@
 //
 
 #import "OTPToken+Persistence.h"
+#import "OTPToken+Serialization.h"
 @import ObjectiveC.runtime;
 
-#import "OTPAuthURL.h" // TEMPORARY
 #import "OTPGenerator.h" // TEMPORARY
-#pragma clang diagnostic ignored "-Wreceiver-is-weak" // TEMPORARY
-#pragma clang diagnostic ignored "-Warc-repeated-use-of-weak" // TEMPORARY
 
 
 static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
@@ -53,7 +51,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 - (BOOL)saveToKeychain
 {
-    NSData *urlData = [self.dataSource.url.absoluteString dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *urlData = [self.url.absoluteString dataUsingEncoding:NSUTF8StringEncoding];
 
     NSMutableDictionary *attributes = [@{(__bridge id)kSecAttrGeneric: urlData} mutableCopy];
 
