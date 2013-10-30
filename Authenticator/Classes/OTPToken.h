@@ -34,6 +34,8 @@
 @property (nonatomic, weak) OTPAuthURL *dataSource; // TEMPORARY
 
 @property (nonatomic, copy) NSString *name;
+@property (nonatomic, readonly) NSData *secret;
+
 @property (nonatomic, strong) OTPGenerator *generator;
 
 @end

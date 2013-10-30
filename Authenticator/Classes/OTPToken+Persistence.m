@@ -26,8 +26,6 @@
 #import "OTPToken+Serialization.h"
 @import ObjectiveC.runtime;
 
-#import "OTPGenerator.h" // TEMPORARY
-
 
 static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
@@ -59,7 +57,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
         return [OTPToken updateKeychainItemForPersistentRef:self.keychainItemRef
                                              withAttributes:attributes];
     } else {
-        attributes[(__bridge id)kSecValueData] = self.generator.secret;
+        attributes[(__bridge id)kSecValueData] = self.secret;
         attributes[(__bridge id)kSecAttrService] = kOTPService;
 
         NSData *persistentRef = [OTPToken addKeychainItemWithAttributes:attributes];
