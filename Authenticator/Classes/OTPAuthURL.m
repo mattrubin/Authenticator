@@ -72,14 +72,10 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 
 + (void)totpTimer:(NSTimer *)timer;
 - (id)initWithTOTPURL:(NSURL *)url;
-- (id)initWithToken:(OTPToken *)token
-             query:(NSDictionary *)query;
 @end
 
 @interface HOTPAuthURL ()
 + (BOOL)isValidCounter:(NSString *)counter;
-- (id)initWithToken:(OTPToken *)token
-             query:(NSDictionary *)query;
 @property(readwrite, copy, nonatomic) NSString *otpCode;
 
 @end
@@ -134,12 +130,35 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
       NSString *type = [url host];
       if ([type isEqualToString:@"hotp"]) {
           token.type = OTPTokenTypeCounter;
-        authURL = [[HOTPAuthURL alloc] initWithToken:token
-                                               query:query];
+
+          NSString *counterString = [query objectForKey:kQueryCounterKey];
+          if ([HOTPAuthURL isValidCounter:counterString]) {
+              NSScanner *scanner = [NSScanner scannerWithString:counterString];
+              uint64_t counter;
+              BOOL goodScan = [scanner gtm_scanUnsignedLongLong:&counter];
+              // Good scan should always be good based on the isValidCounter check above.
+              _GTMDevAssert(goodScan, @"goodscan should be true: %c", goodScan);
+
+              token.counter = counter;
+              authURL = [[HOTPAuthURL alloc] initWithToken:token];
+          } else {
+              _GTMDevLog(@"invalid counter: %@", counterString);
+              authURL = nil;
+          }
       } else if ([type isEqualToString:@"totp"]) {
           token.type = OTPTokenTypeTimer;
-        authURL = [[TOTPAuthURL alloc] initWithToken:token
-                                               query:query];
+
+          NSString *periodString = [query objectForKey:kQueryPeriodKey];
+          NSTimeInterval period = 0;
+          if (periodString) {
+              period = [periodString doubleValue];
+          } else {
+              period = [OTPToken defaultPeriod];
+          }
+          
+          token.period = period;
+
+        authURL = [[TOTPAuthURL alloc] initWithToken:token];
       }
     }
   }
@@ -277,6 +296,7 @@ static NSString *const TOTPAuthURLTimerNotification
                                              selector:@selector(totpTimer:)
                                                  name:TOTPAuthURLTimerNotification
                                                object:nil];
+      self.lastProgress = token.period;
   }
   return self;
 }
@@ -303,24 +323,6 @@ static NSString *const TOTPAuthURLTimerNotification
 
   NSData *secret = [url.fragment base32DecodedData];
   return [self initWithSecret:secret name:name];
-}
-
-- (id)initWithToken:(OTPToken *)token
-             query:(NSDictionary *)query {
-  NSString *periodString = [query objectForKey:kQueryPeriodKey];
-  NSTimeInterval period = 0;
-  if (periodString) {
-    period = [periodString doubleValue];
-  } else {
-    period = [OTPToken defaultPeriod];
-  }
-
-    token.period = period;
-
-  if ((self = [self initWithToken:token])) {
-    self.lastProgress = period;
-  }
-  return self;
 }
 
 - (void)dealloc {
@@ -377,27 +379,6 @@ static NSString *const TOTPAuthURLTimerNotification
     token.secret = secret;
   return [self initWithToken:token];
 }
-
-- (id)initWithToken:(OTPToken *)token
-             query:(NSDictionary *)query {
-  NSString *counterString = [query objectForKey:kQueryCounterKey];
-  if ([[self class] isValidCounter:counterString]) {
-    NSScanner *scanner = [NSScanner scannerWithString:counterString];
-    uint64_t counter;
-    BOOL goodScan = [scanner gtm_scanUnsignedLongLong:&counter];
-    // Good scan should always be good based on the isValidCounter check above.
-    _GTMDevAssert(goodScan, @"goodscan should be true: %c", goodScan);
-
-      token.counter = counter;
-    self = [self initWithToken:token];
-  } else {
-    _GTMDevLog(@"invalid counter: %@", counterString);
-    self = nil;
-  }
-
-  return self;
-}
-
 
 - (void)generateNextOTPCode {
   self.otpCode = [self.token.generator generateOTP];
