@@ -42,10 +42,6 @@ static NSUInteger kPinModTable[] = {
   100000000,
 };
 
-NSString *const kOTPGeneratorSHA1Algorithm = @"SHA1";
-NSString *const kOTPGeneratorSHA256Algorithm = @"SHA256";
-NSString *const kOTPGeneratorSHA512Algorithm = @"SHA512";
-NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
 
 @interface OTPGenerator ()
 @end
@@ -53,7 +49,7 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
 @implementation OTPGenerator
 
 + (NSString *)defaultAlgorithm {
-  return kOTPGeneratorSHA1Algorithm;
+  return kOTPAlgorithmSHA1;
 }
 
 - (id)init {
@@ -67,10 +63,10 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
     self.token = token;
 
     BOOL goodAlgorithm
-      = ([token.algorithm isEqualToString:kOTPGeneratorSHA1Algorithm] ||
-         [token.algorithm isEqualToString:kOTPGeneratorSHA256Algorithm] ||
-         [token.algorithm isEqualToString:kOTPGeneratorSHA512Algorithm] ||
-         [token.algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]);
+      = ([token.algorithm isEqualToString:kOTPAlgorithmSHA1] ||
+         [token.algorithm isEqualToString:kOTPAlgorithmSHA256] ||
+         [token.algorithm isEqualToString:kOTPAlgorithmSHA512] ||
+         [token.algorithm isEqualToString:kOTPAlgorithmMD5]);
     if (!goodAlgorithm || token.digits > 8 || token.digits < 6 || !token.secret) {
       _GTMDevLog(@"Bad args digits(min 6, max 8): %d secret: %@ algorithm: %@",
                  token.digits, token.secret, token.algorithm);
@@ -94,16 +90,16 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
     NSAssert(token.algorithm, @"The token must have an algorithm");
   CCHmacAlgorithm alg;
   NSUInteger hashLength = 0;
-  if ([token.algorithm isEqualToString:kOTPGeneratorSHA1Algorithm]) {
+  if ([token.algorithm isEqualToString:kOTPAlgorithmSHA1]) {
     alg = kCCHmacAlgSHA1;
     hashLength = CC_SHA1_DIGEST_LENGTH;
-  } else if ([token.algorithm isEqualToString:kOTPGeneratorSHA256Algorithm]) {
+  } else if ([token.algorithm isEqualToString:kOTPAlgorithmSHA256]) {
     alg = kCCHmacAlgSHA256;
     hashLength = CC_SHA256_DIGEST_LENGTH;
-  } else if ([token.algorithm isEqualToString:kOTPGeneratorSHA512Algorithm]) {
+  } else if ([token.algorithm isEqualToString:kOTPAlgorithmSHA512]) {
     alg = kCCHmacAlgSHA512;
     hashLength = CC_SHA512_DIGEST_LENGTH;
-  } else if ([token.algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]) {
+  } else if ([token.algorithm isEqualToString:kOTPAlgorithmMD5]) {
     alg = kCCHmacAlgMD5;
     hashLength = CC_MD5_DIGEST_LENGTH;
   } else {

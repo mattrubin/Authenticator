@@ -70,8 +70,3 @@
 - (NSString *)generateOTP;
 
 @end
-
-extern NSString *const kOTPGeneratorSHA1Algorithm;
-extern NSString *const kOTPGeneratorSHA256Algorithm;
-extern NSString *const kOTPGeneratorSHA512Algorithm;
-extern NSString *const kOTPGeneratorSHAMD5Algorithm;

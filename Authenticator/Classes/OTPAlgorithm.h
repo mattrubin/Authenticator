@@ -1,5 +1,5 @@
 //
-//  OTPToken.h
+//  OTPAlgorithm.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,25 +22,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import Foundation;
-#import "OTPAlgorithm.h"
-
-
-@class OTPAuthURL;
-@class OTPGenerator;
-
-
-@interface OTPToken : NSObject
-
-@property (nonatomic, weak) OTPAuthURL *dataSource; // TEMPORARY
-
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSData *secret;
-@property (nonatomic, copy) NSString *algorithm;
-@property (nonatomic) NSUInteger digits;
-
-@property (nonatomic, strong) OTPGenerator *generator;
-
-+ (NSUInteger)defaultDigits;
-
-@end
+extern NSString *const kOTPAlgorithmSHA1;
+extern NSString *const kOTPAlgorithmSHA256;
+extern NSString *const kOTPAlgorithmSHA512;
+extern NSString *const kOTPAlgorithmMD5;
