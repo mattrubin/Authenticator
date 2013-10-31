@@ -51,7 +51,6 @@
 
 // Some default values.
 + (NSString *)defaultAlgorithm;
-+ (NSUInteger)defaultDigits;
 
 // Designated initializer.
 - (id)initWithToken:(OTPToken *)token;

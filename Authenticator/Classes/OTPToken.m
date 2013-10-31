@@ -27,4 +27,18 @@
 
 @implementation OTPToken
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.digits = [self.class defaultDigits];
+    }
+    return self;
+}
+
++ (NSUInteger)defaultDigits
+{
+    return 6;
+}
+
 @end

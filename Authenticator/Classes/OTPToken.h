@@ -40,4 +40,6 @@
 
 @property (nonatomic, strong) OTPGenerator *generator;
 
++ (NSUInteger)defaultDigits;
+
 @end

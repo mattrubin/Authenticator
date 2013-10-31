@@ -56,10 +56,6 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
   return kOTPGeneratorSHA1Algorithm;
 }
 
-+ (NSUInteger)defaultDigits {
-  return 6;
-}
-
 - (id)init {
   [self doesNotRecognizeSelector:_cmd];
   return nil;

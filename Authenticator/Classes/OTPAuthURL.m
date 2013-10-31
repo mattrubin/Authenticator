@@ -128,7 +128,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
       NSString *digitString = [query objectForKey:kQueryDigitsKey];
       NSUInteger digits = 0;
       if (!digitString) {
-        digits = [OTPGenerator defaultDigits];
+        digits = [OTPToken defaultDigits];
       } else {
         digits = [digitString intValue];
       }
@@ -293,7 +293,6 @@ static NSString *const TOTPAuthURLTimerNotification
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name {
     self.token.secret = secret;
     self.token.algorithm = [TOTPGenerator defaultAlgorithm];
-    self.token.digits = [TOTPGenerator defaultDigits];
   TOTPGenerator *generator
     = [[TOTPGenerator alloc] initWithToken:self.token
                                       period:[TOTPGenerator defaultPeriod]];
@@ -395,7 +394,6 @@ static NSString *const TOTPAuthURLTimerNotification
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name {
     self.token.secret = secret;
     self.token.algorithm = [HOTPGenerator defaultAlgorithm];
-    self.token.digits = [HOTPGenerator defaultDigits];
   HOTPGenerator *generator
     = [[HOTPGenerator alloc] initWithToken:self.token
                                      counter:[HOTPGenerator defaultInitialCounter]];

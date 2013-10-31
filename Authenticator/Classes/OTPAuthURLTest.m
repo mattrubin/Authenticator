@@ -181,7 +181,6 @@ static NSString *const kValidHOTPURL =
     OTPToken *token = [[OTPToken alloc] init];
     token.secret = [NSData data];
     token.algorithm = [OTPGenerator defaultAlgorithm];
-    token.digits = [OTPGenerator defaultDigits];
   TOTPGenerator *generator
     = [[[TOTPGenerator alloc] initWithToken:token]
        autorelease];
