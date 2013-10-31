@@ -23,14 +23,69 @@
 //
 
 #import "OTPToken.h"
-#import "OTPGenerator.h" // TEMPORARY
+#import "OTPGenerator.h"
 
 
 @implementation OTPToken
 
-- (NSData *)secret
+- (id)init
 {
-    return self.generator.secret;
+    self = [super init];
+    if (self) {
+        self.algorithm = [self.class defaultAlgorithm];
+        self.digits = [self.class defaultDigits];
+        self.counter = [self.class defaultInitialCounter];
+        self.period = [self.class defaultPeriod];
+    }
+    return self;
 }
 
++ (NSString *)defaultAlgorithm
+{
+    return kOTPAlgorithmSHA1;
+}
+
++ (NSUInteger)defaultDigits
+{
+    return 6;
+}
+
++ (uint64_t)defaultInitialCounter
+{
+    return 1;
+}
+
++ (NSTimeInterval)defaultPeriod
+{
+    return 30;
+}
+
+
+#pragma mark - Validation
+
+- (BOOL)validate
+{
+    BOOL validType = (self.type == OTPTokenTypeCounter) || (self.type == OTPTokenTypeTimer);
+    BOOL validSecret = !!self.secret;
+    BOOL validAlgorithm = ([self.algorithm isEqualToString:kOTPAlgorithmSHA1] ||
+                           [self.algorithm isEqualToString:kOTPAlgorithmSHA256] ||
+                           [self.algorithm isEqualToString:kOTPAlgorithmSHA512] ||
+                           [self.algorithm isEqualToString:kOTPAlgorithmMD5]);
+    BOOL validDigits = (self.digits <= 8) && (self.digits >= 6);
+
+    BOOL validPeriod = (self.period > 0) && (self.period <= 300);
+
+    return validType && validSecret && validAlgorithm && validDigits && validPeriod;
+}
+
+
+#pragma mark - Generation
+
+- (OTPGenerator *)generator
+{
+    if (!_generator) {
+        _generator = [[OTPGenerator alloc] initWithToken:self];
+    }
+    return _generator;
+}
 @end

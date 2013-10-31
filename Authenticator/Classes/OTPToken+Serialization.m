@@ -24,9 +24,6 @@
 
 #import "OTPToken+Serialization.h"
 
-#import "TOTPGenerator.h"
-#import "HOTPGenerator.h"
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
 #import <GTMNSString+URLArguments.h>
@@ -50,15 +47,15 @@ static NSString *const kQueryPeriodKey = @"period";
     NSMutableDictionary *query = [NSMutableDictionary dictionary];
     NSString *typeString;
 
-    query[kQueryAlgorithmKey] = self.generator.algorithm;
-    query[kQueryDigitsKey] = @(self.generator.digits);
+    query[kQueryAlgorithmKey] = self.algorithm;
+    query[kQueryDigitsKey] = @(self.digits);
 
-    if ([self.generator isKindOfClass:[TOTPGenerator class]]) {
-        query[kQueryPeriodKey] = @([(TOTPGenerator *)self.generator period]);
+    if (self.type == OTPTokenTypeTimer) {
+        query[kQueryPeriodKey] = @(self.period);
 
         typeString = @"totp";
-    } else if ([self.generator isKindOfClass:[HOTPGenerator class]]) {
-        query[kQueryCounterKey] = @([(HOTPGenerator *)self.generator counter]);
+    } else if (self.type == OTPTokenTypeCounter) {
+        query[kQueryCounterKey] = @(self.counter);
 
         typeString = @"hotp";
     }

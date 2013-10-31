@@ -1,5 +1,5 @@
 //
-//  OTPToken.h
+//  OTPAlgorithm.m
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,45 +22,9 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import Foundation;
 #import "OTPAlgorithm.h"
 
-
-@class OTPAuthURL;
-@class OTPGenerator;
-
-
-typedef NS_ENUM(NSUInteger, OTPTokenType) {
-    OTPTokenTypeUndefined = 0,
-    OTPTokenTypeCounter,
-    OTPTokenTypeTimer,
-};
-
-
-@interface OTPToken : NSObject
-
-@property (nonatomic, weak) OTPAuthURL *dataSource; // TEMPORARY
-
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic) OTPTokenType type;
-@property (nonatomic, copy) NSData *secret;
-@property (nonatomic, copy) NSString *algorithm;
-@property (nonatomic) NSUInteger digits;
-
-@property (nonatomic, strong) OTPGenerator *generator;
-
-+ (NSString *)defaultAlgorithm;
-+ (NSUInteger)defaultDigits;
-
-// HOTP
-@property (nonatomic) uint64_t counter;
-+ (uint64_t)defaultInitialCounter;
-
-// TOTP
-@property (nonatomic) NSTimeInterval period;
-+ (NSTimeInterval)defaultPeriod;
-
-// Validation
-- (BOOL)validate;
-
-@end
+NSString *const kOTPAlgorithmSHA1 = @"SHA1";
+NSString *const kOTPAlgorithmSHA256 = @"SHA256";
+NSString *const kOTPAlgorithmSHA512 = @"SHA512";
+NSString *const kOTPAlgorithmMD5 = @"MD5";

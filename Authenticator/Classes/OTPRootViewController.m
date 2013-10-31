@@ -20,7 +20,7 @@
 #import "OTPRootViewController.h"
 #import "OTPAuthURL.h"
 #import "OTPTokenCell.h"
-#import "TOTPGenerator.h"
+#import "OTPToken.h"
 #import "UIColor+OTP.h"
 #import "OTPClock.h"
 #import "OTPTokenEntryViewController.h"
@@ -55,7 +55,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     self.title = @"Authenticator";
     
     self.clock = [[OTPClock alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    self.clock.period = [TOTPGenerator defaultPeriod];
+    self.clock.period = [OTPToken defaultPeriod];
     UIBarButtonItem *clockItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
     [self.navigationItem setLeftBarButtonItem:clockItem animated:NO];
     
