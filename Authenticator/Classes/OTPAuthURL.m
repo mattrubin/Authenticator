@@ -72,19 +72,13 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 
 + (void)totpTimer:(NSTimer *)timer;
 - (id)initWithTOTPURL:(NSURL *)url;
-- (id)initWithName:(NSString *)name
-            secret:(NSData *)secret
-         algorithm:(NSString *)algorithm
-            digits:(NSUInteger)digits
+- (id)initWithToken:(OTPToken *)token
              query:(NSDictionary *)query;
 @end
 
 @interface HOTPAuthURL ()
 + (BOOL)isValidCounter:(NSString *)counter;
-- (id)initWithName:(NSString *)name
-            secret:(NSData *)secret
-         algorithm:(NSString *)algorithm
-            digits:(NSUInteger)digits
+- (id)initWithToken:(OTPToken *)token
              query:(NSDictionary *)query;
 @property(readwrite, copy, nonatomic) NSString *otpCode;
 
@@ -106,6 +100,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   } else {
     NSString *path = [url path];
     if ([path length] > 1) {
+        OTPToken *token = [[OTPToken alloc] init];
       // Optional UTF-8 encoded human readable description (skip leading "/")
       NSString *name = [[url path] substringFromIndex:1];
 
@@ -131,18 +126,19 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
         digits = [digitString intValue];
       }
 
+        token.name = name;
+        token.secret = secret;
+        token.algorithm = [algorithm algorithmValue];
+        token.digits = digits;
+
       NSString *type = [url host];
       if ([type isEqualToString:@"hotp"]) {
-        authURL = [[HOTPAuthURL alloc] initWithName:name
-                                              secret:secret
-                                           algorithm:algorithm
-                                              digits:digits
+          token.type = OTPTokenTypeCounter;
+        authURL = [[HOTPAuthURL alloc] initWithToken:token
                                                query:query];
       } else if ([type isEqualToString:@"totp"]) {
-        authURL = [[TOTPAuthURL alloc] initWithName:name
-                                              secret:secret
-                                           algorithm:algorithm
-                                              digits:digits
+          token.type = OTPTokenTypeTimer;
+        authURL = [[TOTPAuthURL alloc] initWithToken:token
                                                query:query];
       }
     }
@@ -309,10 +305,7 @@ static NSString *const TOTPAuthURLTimerNotification
   return [self initWithSecret:secret name:name];
 }
 
-- (id)initWithName:(NSString *)name
-            secret:(NSData *)secret
-         algorithm:(NSString *)algorithm
-            digits:(NSUInteger)digits
+- (id)initWithToken:(OTPToken *)token
              query:(NSDictionary *)query {
   NSString *periodString = [query objectForKey:kQueryPeriodKey];
   NSTimeInterval period = 0;
@@ -322,12 +315,6 @@ static NSString *const TOTPAuthURLTimerNotification
     period = [OTPToken defaultPeriod];
   }
 
-    OTPToken *token = [[OTPToken alloc] init];
-    token.type = OTPTokenTypeTimer;
-    token.name = name;
-    token.secret = secret;
-    token.algorithm = [algorithm algorithmValue];
-    token.digits = digits;
     token.period = period;
 
   if ((self = [self initWithToken:token])) {
@@ -391,10 +378,7 @@ static NSString *const TOTPAuthURLTimerNotification
   return [self initWithToken:token];
 }
 
-- (id)initWithName:(NSString *)name
-            secret:(NSData *)secret
-         algorithm:(NSString *)algorithm
-            digits:(NSUInteger)digits
+- (id)initWithToken:(OTPToken *)token
              query:(NSDictionary *)query {
   NSString *counterString = [query objectForKey:kQueryCounterKey];
   if ([[self class] isValidCounter:counterString]) {
@@ -404,12 +388,6 @@ static NSString *const TOTPAuthURLTimerNotification
     // Good scan should always be good based on the isValidCounter check above.
     _GTMDevAssert(goodScan, @"goodscan should be true: %c", goodScan);
 
-      OTPToken *token = [[OTPToken alloc] init];
-      token.type = OTPTokenTypeCounter;
-      token.name = name;
-      token.secret = secret;
-      token.algorithm = [algorithm algorithmValue];
-      token.digits = digits;
       token.counter = counter;
     self = [self initWithToken:token];
   } else {
