@@ -39,8 +39,6 @@ typedef NS_ENUM(NSUInteger, OTPTokenType) {
 
 @interface OTPToken : NSObject
 
-@property (nonatomic, weak) OTPAuthURL *dataSource; // TEMPORARY
-
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic) OTPTokenType type;
 @property (nonatomic, copy) NSData *secret;

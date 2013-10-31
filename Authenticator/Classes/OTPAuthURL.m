@@ -224,7 +224,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 {
     if (!_token) {
         _token = [[OTPToken alloc] init];
-        _token.dataSource = self;
     }
     return _token;
 }
