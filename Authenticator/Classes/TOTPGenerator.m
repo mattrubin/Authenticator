@@ -37,11 +37,11 @@
   return 30;
 }
 
-- (id)initWithSecret:(NSData *)secret
+- (id)initWithToken:(OTPToken *)token
            algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits
               period:(NSTimeInterval)period {
-  if ((self = [super initWithSecret:secret
+  if ((self = [super initWithToken:token
                           algorithm:algorithm
                              digits:digits])) {
 

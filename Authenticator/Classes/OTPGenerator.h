@@ -18,6 +18,7 @@
 //
 
 @import Foundation;
+@class OTPToken;
 
 // The OTPGenerator class generates a one-time password (OTP) using
 // the HMAC-Based One-Time Password Algorithm described in RFC4226:
@@ -46,8 +47,9 @@
 // endian.
 @interface OTPGenerator : NSObject
 
+@property (nonatomic, weak) OTPToken *token;
+
 @property (readonly, nonatomic, copy) NSString *algorithm;
-@property (readonly, nonatomic, copy) NSData *secret;
 @property (readonly, nonatomic) NSUInteger digits;
 
 // Some default values.
@@ -55,7 +57,7 @@
 + (NSUInteger)defaultDigits;
 
 // Designated initializer.
-- (id)initWithSecret:(NSData *)secret
+- (id)initWithToken:(OTPToken *)token
            algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits;
 

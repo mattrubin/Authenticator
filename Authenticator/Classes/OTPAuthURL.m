@@ -291,8 +291,9 @@ static NSString *const TOTPAuthURLTimerNotification
 }
 
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name {
+    self.token.secret = secret;
   TOTPGenerator *generator
-    = [[TOTPGenerator alloc] initWithSecret:secret
+    = [[TOTPGenerator alloc] initWithToken:self.token
                                    algorithm:[TOTPGenerator defaultAlgorithm]
                                       digits:[TOTPGenerator defaultDigits]
                                       period:[TOTPGenerator defaultPeriod]];
@@ -329,8 +330,9 @@ static NSString *const TOTPAuthURLTimerNotification
     period = [TOTPGenerator defaultPeriod];
   }
 
+    self.token.secret = secret;
   TOTPGenerator *generator
-    = [[TOTPGenerator alloc] initWithSecret:secret
+    = [[TOTPGenerator alloc] initWithToken:self.token
                                    algorithm:algorithm
                                       digits:digits
                                       period:period];
@@ -391,8 +393,9 @@ static NSString *const TOTPAuthURLTimerNotification
 
 
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name {
+    self.token.secret = secret;
   HOTPGenerator *generator
-    = [[HOTPGenerator alloc] initWithSecret:secret
+    = [[HOTPGenerator alloc] initWithToken:self.token
                                    algorithm:[HOTPGenerator defaultAlgorithm]
                                       digits:[HOTPGenerator defaultDigits]
                                      counter:[HOTPGenerator defaultInitialCounter]];
@@ -411,8 +414,9 @@ static NSString *const TOTPAuthURLTimerNotification
     BOOL goodScan = [scanner gtm_scanUnsignedLongLong:&counter];
     // Good scan should always be good based on the isValidCounter check above.
     _GTMDevAssert(goodScan, @"goodscan should be true: %c", goodScan);
+      self.token.secret = secret;
     HOTPGenerator *generator
-      = [[HOTPGenerator alloc] initWithSecret:secret
+      = [[HOTPGenerator alloc] initWithToken:self.token
                                      algorithm:algorithm
                                         digits:digits
                                        counter:counter];

@@ -26,7 +26,7 @@
 
 + (uint64_t)defaultInitialCounter;
 
-- (id)initWithSecret:(NSData *)secret
+- (id)initWithToken:(OTPToken *)token
            algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits
              counter:(uint64_t)counter;

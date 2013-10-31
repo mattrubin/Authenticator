@@ -45,7 +45,7 @@
 + (NSTimeInterval)defaultPeriod;
 
 // Designated initializer.
-- (id)initWithSecret:(NSData *)secret
+- (id)initWithToken:(OTPToken *)token
            algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits
               period:(NSTimeInterval)period;

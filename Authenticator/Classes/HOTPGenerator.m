@@ -27,11 +27,11 @@
   return 1;
 }
 
-- (id)initWithSecret:(NSData *)secret
+- (id)initWithToken:(OTPToken *)token
            algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits
              counter:(uint64_t)counter {
-  if ((self = [super initWithSecret:secret
+  if ((self = [super initWithToken:token
                           algorithm:algorithm
                              digits:digits])) {
     counter_ = counter;

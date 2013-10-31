@@ -18,6 +18,7 @@
 //
 
 #import "OTPGenerator.h"
+#import "OTPToken.h"
 
 #import <CommonCrypto/CommonHMAC.h>
 #import <CommonCrypto/CommonDigest.h>
@@ -48,7 +49,6 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
 
 @interface OTPGenerator ()
 @property (readwrite, nonatomic, copy) NSString *algorithm;
-@property (readwrite, nonatomic, copy) NSData *secret;
 @end
 
 @implementation OTPGenerator
@@ -66,12 +66,12 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
   return nil;
 }
 
-- (id)initWithSecret:(NSData *)secret
+- (id)initWithToken:(OTPToken *)token
            algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits {
   if ((self = [super init])) {
     self.algorithm = algorithm;
-    self.secret = secret;
+    self.token = token;
     _digits = digits;
 
     BOOL goodAlgorithm
@@ -79,9 +79,9 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
          [algorithm isEqualToString:kOTPGeneratorSHA256Algorithm] ||
          [algorithm isEqualToString:kOTPGeneratorSHA512Algorithm] ||
          [algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]);
-    if (!goodAlgorithm || self.digits > 8 || self.digits < 6 || !self.secret) {
+    if (!goodAlgorithm || self.digits > 8 || self.digits < 6 || !token.secret) {
       _GTMDevLog(@"Bad args digits(min 6, max 8): %d secret: %@ algorithm: %@",
-                 _digits, self.secret, self.algorithm);
+                 _digits, token.secret, self.algorithm);
       self = nil;
     }
   }
@@ -96,6 +96,9 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
 }
 
 - (NSString *)generateOTPForCounter:(uint64_t)counter {
+    OTPToken *token = self.token;
+    NSAssert(token, @"The generator must have a token");
+    NSAssert(token.secret, @"The token must have a secret");
   CCHmacAlgorithm alg;
   NSUInteger hashLength = 0;
   if ([self.algorithm isEqualToString:kOTPGeneratorSHA1Algorithm]) {
@@ -121,7 +124,7 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
   NSData *counterData = [NSData dataWithBytes:&counter
                                        length:sizeof(counter)];
   CCHmacContext ctx;
-  CCHmacInit(&ctx, alg, [self.secret bytes], [self.secret length]);
+  CCHmacInit(&ctx, alg, [token.secret bytes], [token.secret length]);
   CCHmacUpdate(&ctx, [counterData bytes], [counterData length]);
   CCHmacFinal(&ctx, [hash mutableBytes]);
 
@@ -131,7 +134,7 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
     NSSwapBigLongToHost(*((unsigned long *)&ptr[offset])) & 0x7fffffff;
   unsigned long pinValue = truncatedHash % kPinModTable[self.digits];
 
-  _GTMDevLog(@"secret: %@", self.secret);
+  _GTMDevLog(@"secret: %@", token.secret);
   _GTMDevLog(@"counter: %llu", counter);
   _GTMDevLog(@"hash: %@", hash);
   _GTMDevLog(@"offset: %d", offset);

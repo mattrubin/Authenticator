@@ -23,14 +23,8 @@
 //
 
 #import "OTPToken.h"
-#import "OTPGenerator.h" // TEMPORARY
 
 
 @implementation OTPToken
-
-- (NSData *)secret
-{
-    return self.generator.secret;
-}
 
 @end

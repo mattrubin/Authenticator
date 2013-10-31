@@ -24,6 +24,7 @@
 
 @import XCTest;
 #import "TOTPGenerator.h"
+#import "OTPToken.h"
 
 
 @interface TOTPGeneratorTests : XCTestCase
@@ -53,7 +54,9 @@
 
     for (NSString *algorithm in secretKeys) {
         NSData *secret = [secretKeys[algorithm] dataUsingEncoding:NSASCIIStringEncoding];
-        TOTPGenerator *generator = [[TOTPGenerator alloc] initWithSecret:secret
+        OTPToken *token = [[OTPToken alloc] init];
+        token.secret = secret;
+        TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token
                                                                algorithm:algorithm
                                                                   digits:8
                                                                   period:30];
@@ -85,7 +88,9 @@
 
     for (NSUInteger i = 0, j = 0; i < sizeof(intervals)/sizeof(*intervals); i++) {
         for (NSString *algorithm in algorithms) {
-            TOTPGenerator *generator = [[TOTPGenerator alloc] initWithSecret:secret
+            OTPToken *token = [[OTPToken alloc] init];
+            token.secret = secret;
+            TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token
                                                                    algorithm:algorithm
                                                                       digits:6
                                                                       period:30];

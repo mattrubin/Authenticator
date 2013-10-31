@@ -24,6 +24,7 @@
 
 @import XCTest;
 #import "HOTPGenerator.h"
+#import "OTPToken.h"
 
 
 @interface HOTPGeneratorTests : XCTestCase
@@ -37,7 +38,9 @@
 - (void)testRFCValues
 {
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
-    HOTPGenerator *generator = [[HOTPGenerator alloc] initWithSecret:secret
+    OTPToken *token = [[OTPToken alloc] init];
+    token.secret = secret;
+    HOTPGenerator *generator = [[HOTPGenerator alloc] initWithToken:token
                                                            algorithm:kOTPGeneratorSHA1Algorithm
                                                               digits:6
                                                              counter:0];
