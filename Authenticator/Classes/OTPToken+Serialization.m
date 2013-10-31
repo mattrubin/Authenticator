@@ -50,26 +50,15 @@ static NSString *const kQueryPeriodKey = @"period";
     NSMutableDictionary *query = [NSMutableDictionary dictionary];
     NSString *typeString;
 
-    NSString *algorithm = self.generator.algorithm;
-    if (![algorithm isEqualToString:[self.generator.class defaultAlgorithm]]) {
-        query[kQueryAlgorithmKey] = algorithm;
-    }
-
-    NSUInteger digits = self.generator.digits;
-    if (digits != [self.generator.class defaultDigits]) {
-        query[kQueryDigitsKey] = @(digits);
-    }
+    query[kQueryAlgorithmKey] = self.generator.algorithm;
+    query[kQueryDigitsKey] = @(self.generator.digits);
 
     if ([self.generator isKindOfClass:[TOTPGenerator class]]) {
-        NSTimeInterval period = [(TOTPGenerator *)self.generator period];
-        if (fpclassify(period - [self.generator.class defaultPeriod]) != FP_ZERO) {
-            query[kQueryPeriodKey] = @(period);
-        }
+        query[kQueryPeriodKey] = @([(TOTPGenerator *)self.generator period]);
 
         typeString = @"totp";
     } else if ([self.generator isKindOfClass:[HOTPGenerator class]]) {
-        uint64_t counter = [(HOTPGenerator *)self.generator counter];
-        query[kQueryCounterKey] = @(counter);
+        query[kQueryCounterKey] = @([(HOTPGenerator *)self.generator counter]);
 
         typeString = @"hotp";
     }
