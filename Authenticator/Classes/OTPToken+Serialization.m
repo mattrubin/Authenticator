@@ -26,13 +26,85 @@
 
 #import "OTPAuthURL.h" // TEMPORARY
 #pragma clang diagnostic ignored "-Wreceiver-is-weak" // TEMPORARY
+#pragma clang diagnostic ignored "-Warc-repeated-use-of-weak" // TEMPORARY
+
+#import "TOTPGenerator.h"
+#import "HOTPGenerator.h"
+
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wauto-import"
+#import <GTMNSString+URLArguments.h>
+#import <GTMNSDictionary+URLArguments.h>
+#pragma clang diagnostic pop
+
+
+static NSString *const kOTPAuthScheme = @"otpauth";
+static NSString *const kTOTPAuthScheme = @"totp";
+static NSString *const kQueryAlgorithmKey = @"algorithm";
+static NSString *const kQuerySecretKey = @"secret";
+static NSString *const kQueryCounterKey = @"counter";
+static NSString *const kQueryDigitsKey = @"digits";
+static NSString *const kQueryPeriodKey = @"period";
 
 
 @implementation OTPToken (Serialization)
 
 - (NSURL *)url
 {
-    return self.dataSource.url; // TEMPORARY
+    if ([self.dataSource isKindOfClass:[TOTPAuthURL class]]) {
+        NSMutableDictionary *query = [NSMutableDictionary dictionary];
+        TOTPGenerator *generator = (TOTPGenerator *)self.generator;
+        Class generatorClass = [generator class];
+
+        NSString *algorithm = [generator algorithm];
+        if (![algorithm isEqualToString:[generatorClass defaultAlgorithm]]) {
+            [query setObject:algorithm forKey:kQueryAlgorithmKey];
+        }
+
+        NSUInteger digits = [generator digits];
+        if (digits != [generatorClass defaultDigits]) {
+            id val = [NSNumber numberWithUnsignedInteger:digits];
+            [query setObject:val forKey:kQueryDigitsKey];
+        }
+
+        NSTimeInterval period = [generator period];
+        if (fpclassify(period - [generatorClass defaultPeriod]) != FP_ZERO) {
+            id val = [NSNumber numberWithDouble:period];
+            [query setObject:val forKey:kQueryPeriodKey];
+        }
+
+        return [NSURL URLWithString:[NSString stringWithFormat:@"%@://totp/%@?%@",
+                                     kOTPAuthScheme,
+                                     [self.name gtm_stringByEscapingForURLArgument],
+                                     [query gtm_httpArgumentsString]]];
+    } else if ([self.dataSource isKindOfClass:[HOTPAuthURL class]]) {
+        NSMutableDictionary *query = [NSMutableDictionary dictionary];
+
+        HOTPGenerator *generator = (HOTPGenerator *)self.generator;
+        Class generatorClass = [generator class];
+
+        NSString *algorithm = [generator algorithm];
+        if (![algorithm isEqualToString:[generatorClass defaultAlgorithm]]) {
+            [query setObject:algorithm forKey:kQueryAlgorithmKey];
+        }
+
+        NSUInteger digits = [generator digits];
+        if (digits != [generatorClass defaultDigits]) {
+            id val = [NSNumber numberWithUnsignedInteger:digits];
+            [query setObject:val forKey:kQueryDigitsKey];
+        }
+
+        uint64_t counter = [generator counter];
+        id val = [NSNumber numberWithUnsignedLongLong:counter];
+        [query setObject:val forKey:kQueryCounterKey];
+
+        return [NSURL URLWithString:[NSString stringWithFormat:@"%@://hotp/%@?%@",
+                                     kOTPAuthScheme,
+                                     [self.name gtm_stringByEscapingForURLArgument],
+                                     [query gtm_httpArgumentsString]]];
+    }
+    return nil;
 }
 
 @end
