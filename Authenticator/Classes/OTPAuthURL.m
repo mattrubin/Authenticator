@@ -383,7 +383,7 @@ static NSString *const TOTPAuthURLTimerNotification
 - (id)initWithOTPGenerator:(OTPGenerator *)generator
                name:(NSString *)name {
   if ((self = [super initWithOTPGenerator:generator name:name])) {
-    uint64_t counter = [(HOTPGenerator *)generator counter];
+    uint64_t counter = [generator.token counter];
     self.otpCode = [generator generateOTPForCounter:counter];
   }
   return self;
@@ -393,8 +393,7 @@ static NSString *const TOTPAuthURLTimerNotification
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name {
     self.token.secret = secret;
   HOTPGenerator *generator
-    = [[HOTPGenerator alloc] initWithToken:self.token
-                                     counter:[HOTPGenerator defaultInitialCounter]];
+    = [[HOTPGenerator alloc] initWithToken:self.token];
   return [self initWithOTPGenerator:generator name:name];
 }
 
@@ -413,9 +412,9 @@ static NSString *const TOTPAuthURLTimerNotification
       self.token.secret = secret;
       self.token.algorithm = algorithm;
       self.token.digits = digits;
+      self.token.counter = counter;
     HOTPGenerator *generator
-      = [[HOTPGenerator alloc] initWithToken:self.token
-                                       counter:counter];
+      = [[HOTPGenerator alloc] initWithToken:self.token];
     self = [self initWithOTPGenerator:generator
                                  name:name];
   } else {

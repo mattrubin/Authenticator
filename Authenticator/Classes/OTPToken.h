@@ -44,4 +44,8 @@
 + (NSString *)defaultAlgorithm;
 + (NSUInteger)defaultDigits;
 
+// HOTP
+@property (nonatomic) uint64_t counter;
++ (uint64_t)defaultInitialCounter;
+
 @end

@@ -148,7 +148,7 @@ static NSString *const kValidHOTPURL =
   HOTPGenerator *generator = (HOTPGenerator *)[url.token generator];
   STAssertEqualObjects([generator.token secret], secret, @"");
   STAssertEqualObjects([generator.token algorithm], kValidAlgorithm, @"");
-  STAssertEquals([generator counter], kValidCounter, @"");
+  STAssertEquals([generator.token counter], kValidCounter, @"");
   STAssertEquals([generator.token digits], kValidDigits, @"");
 }
 

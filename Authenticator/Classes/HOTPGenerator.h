@@ -21,11 +21,4 @@
 
 @interface HOTPGenerator : OTPGenerator
 
-// The counter, incremented on each generated OTP.
-@property(assign, nonatomic) uint64_t counter;
-
-+ (uint64_t)defaultInitialCounter;
-
-- (id)initWithToken:(OTPToken *)token
-             counter:(uint64_t)counter;
 @end

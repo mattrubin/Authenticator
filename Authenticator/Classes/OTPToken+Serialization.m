@@ -58,7 +58,7 @@ static NSString *const kQueryPeriodKey = @"period";
 
         typeString = @"totp";
     } else if ([self.generator isKindOfClass:[HOTPGenerator class]]) {
-        query[kQueryCounterKey] = @([(HOTPGenerator *)self.generator counter]);
+        query[kQueryCounterKey] = @(self.counter);
 
         typeString = @"hotp";
     }

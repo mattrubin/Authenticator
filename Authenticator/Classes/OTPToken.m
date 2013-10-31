@@ -33,6 +33,7 @@
     if (self) {
         self.algorithm = [self.class defaultAlgorithm];
         self.digits = [self.class defaultDigits];
+        self.counter = [self.class defaultInitialCounter];
     }
     return self;
 }
@@ -45,6 +46,11 @@
 + (NSUInteger)defaultDigits
 {
     return 6;
+}
+
++ (uint64_t)defaultInitialCounter
+{
+    return 1;
 }
 
 @end

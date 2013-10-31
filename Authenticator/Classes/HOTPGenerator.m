@@ -18,28 +18,18 @@
 //
 
 #import "HOTPGenerator.h"
+#import "OTPToken.h"
 
 
 @implementation HOTPGenerator
-@synthesize counter = counter_;
-
-+ (uint64_t)defaultInitialCounter {
-  return 1;
-}
-
-- (id)initWithToken:(OTPToken *)token
-             counter:(uint64_t)counter {
-  if ((self = [super initWithToken:token])) {
-    counter_ = counter;
-  }
-  return self;
-}
 
 - (NSString *)generateOTP {
-  uint64_t counter = [self counter];
+    OTPToken *token = self.token;
+    NSAssert(token, @"The generator must have a token");
+  uint64_t counter = [token counter];
   counter += 1;
   NSString *otp = [super generateOTPForCounter:counter];
-  [self setCounter:counter];
+  [token setCounter:counter];
   return otp;
 }
 
