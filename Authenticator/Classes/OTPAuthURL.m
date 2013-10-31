@@ -31,9 +31,6 @@
 #import "OTPToken+Persistence.h"
 
 
-NSString *const OTPAuthURLDidGenerateNewOTPNotification
-  = @"OTPAuthURLDidGenerateNewOTPNotification";
-
 @interface OTPAuthURL ()
 
 // re-declare readwrite
@@ -45,10 +42,6 @@ NSString *const OTPAuthURLDidGenerateNewOTPNotification
 // Initialize an OTPAuthURL object with an otpauth:// NSURL object.
 - (id)initWithToken:(OTPToken *)token;
 
-@end
-
-@interface TOTPAuthURL ()
-+ (void)totpTimer:(NSTimer *)timer;
 @end
 
 @interface HOTPAuthURL ()
@@ -176,33 +169,13 @@ NSString *const OTPAuthURLDidGenerateNewOTPNotification
 @end
 
 @implementation TOTPAuthURL
-static NSString *const TOTPAuthURLTimerNotification
-  = @"TOTPAuthURLTimerNotification";
-
-+ (void)initialize {
-  static NSTimer *sTOTPTimer = nil;
-  if (!sTOTPTimer) {
-    @autoreleasepool {
-      sTOTPTimer = [NSTimer scheduledTimerWithTimeInterval:.01
-                                                    target:self
-                                                  selector:@selector(totpTimer:)
-                                                  userInfo:nil
-                                                   repeats:YES];
-    }
-  }
-}
-
-+ (void)totpTimer:(NSTimer *)timer {
-  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-  [nc postNotificationName:TOTPAuthURLTimerNotification object:self];
-}
 
 - (id)initWithToken:(OTPToken *)token
 {
   if ((self = [super initWithToken:token])) {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(totpTimer:)
-                                                 name:TOTPAuthURLTimerNotification
+                                                 name:@"OTPTokenTimerNotification"
                                                object:nil];
   }
   return self;
@@ -219,9 +192,8 @@ static NSString *const TOTPAuthURLTimerNotification
 - (void)totpTimer:(NSTimer *)timer {
   NSTimeInterval delta = [[NSDate date] timeIntervalSince1970];
   uint64_t progress = (uint64_t)delta % (uint64_t)self.token.period;
-  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   if (progress == 0 || progress > self.token.period) {
-    [nc postNotificationName:OTPAuthURLDidGenerateNewOTPNotification object:self];
+      [self.token updatePassword];
   }
 }
 
@@ -243,8 +215,7 @@ static NSString *const TOTPAuthURLTimerNotification
 - (void)generateNextOTPCode {
   self.otpCode = [self.token.generator generateOTP];
   [self saveToKeychain];
-  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-  [nc postNotificationName:OTPAuthURLDidGenerateNewOTPNotification object:self];
+    [self.token updatePassword];
 }
 
 @end

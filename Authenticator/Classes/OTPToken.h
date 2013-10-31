@@ -36,6 +36,9 @@ typedef NS_ENUM(NSUInteger, OTPTokenType) {
 };
 
 
+extern NSString * const OTPTokenDidUpdateNotification;
+
+
 @interface OTPToken : NSObject
 
 @property (nonatomic, copy) NSString *name;
@@ -59,5 +62,7 @@ typedef NS_ENUM(NSUInteger, OTPTokenType) {
 
 // Validation
 - (BOOL)validate;
+
+- (void)updatePassword;
 
 @end

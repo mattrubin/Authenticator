@@ -119,18 +119,18 @@
         [self refresh];
         
         OTPAuthURL *oldObject = change[NSKeyValueChangeOldKey];
-        if (oldObject) {
+        if (oldObject && ![oldObject isKindOfClass:[NSNull class]]) {
             [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:OTPAuthURLDidGenerateNewOTPNotification
-                                                          object:oldObject];
+                                                            name:OTPTokenDidUpdateNotification
+                                                          object:oldObject.token];
         }
         
         OTPAuthURL *newObject = change[NSKeyValueChangeNewKey];
-        if (newObject) {
+        if (newObject && ![newObject isKindOfClass:[NSNull class]]) {
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(refresh)
-                                                         name:OTPAuthURLDidGenerateNewOTPNotification
-                                                       object:newObject];
+                                                         name:OTPTokenDidUpdateNotification
+                                                       object:newObject.token];
         }
     }
 }

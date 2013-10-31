@@ -28,6 +28,8 @@
 // re-constructed URL is stored in an attribute.
 @interface OTPAuthURL : NSObject
 
+@property (nonatomic, readonly) OTPToken *token; //TEMPORARY
+
 // |name| is an arbitrary UTF8 text string extracted from the url path.
 @property(readwrite, copy, nonatomic) NSString *name;
 @property(readonly, nonatomic) NSString *otpCode;
@@ -64,6 +66,3 @@
 @interface HOTPAuthURL : OTPAuthURL
 - (void)generateNextOTPCode;
 @end
-
-
-extern NSString *const OTPAuthURLDidGenerateNewOTPNotification;

@@ -26,6 +26,9 @@
 #import "OTPGenerator.h"
 
 
+NSString * const OTPTokenDidUpdateNotification = @"OTPTokenDidUpdateNotification";
+
+
 @implementation OTPToken
 
 - (id)init
@@ -88,4 +91,10 @@
     }
     return _generator;
 }
+
+- (void)updatePassword
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:OTPTokenDidUpdateNotification object:self];
+}
+
 @end

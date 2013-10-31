@@ -40,8 +40,6 @@
 
 @interface OTPAuthURL ()
 
-@property (nonatomic, readonly) OTPToken *token;
-
 + (OTPAuthURL *)authURLWithKeychainDictionary:(NSDictionary *)dict;
 - (id)initWithToken:(OTPToken *)token;
 
