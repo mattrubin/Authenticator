@@ -293,9 +293,9 @@ static NSString *const TOTPAuthURLTimerNotification
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name {
     self.token.secret = secret;
     self.token.algorithm = [TOTPGenerator defaultAlgorithm];
+    self.token.digits = [TOTPGenerator defaultDigits];
   TOTPGenerator *generator
     = [[TOTPGenerator alloc] initWithToken:self.token
-                                      digits:[TOTPGenerator defaultDigits]
                                       period:[TOTPGenerator defaultPeriod]];
   return [self initWithOTPGenerator:generator
                                name:name];
@@ -332,9 +332,9 @@ static NSString *const TOTPAuthURLTimerNotification
 
     self.token.secret = secret;
     self.token.algorithm = algorithm;
+    self.token.digits = digits;
   TOTPGenerator *generator
     = [[TOTPGenerator alloc] initWithToken:self.token
-                                      digits:digits
                                       period:period];
 
   if ((self = [self initWithOTPGenerator:generator
@@ -395,9 +395,9 @@ static NSString *const TOTPAuthURLTimerNotification
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name {
     self.token.secret = secret;
     self.token.algorithm = [HOTPGenerator defaultAlgorithm];
+    self.token.digits = [HOTPGenerator defaultDigits];
   HOTPGenerator *generator
     = [[HOTPGenerator alloc] initWithToken:self.token
-                                      digits:[HOTPGenerator defaultDigits]
                                      counter:[HOTPGenerator defaultInitialCounter]];
   return [self initWithOTPGenerator:generator name:name];
 }
@@ -416,9 +416,9 @@ static NSString *const TOTPAuthURLTimerNotification
     _GTMDevAssert(goodScan, @"goodscan should be true: %c", goodScan);
       self.token.secret = secret;
       self.token.algorithm = algorithm;
+      self.token.digits = digits;
     HOTPGenerator *generator
       = [[HOTPGenerator alloc] initWithToken:self.token
-                                        digits:digits
                                        counter:counter];
     self = [self initWithOTPGenerator:generator
                                  name:name];

@@ -41,8 +41,8 @@
     OTPToken *token = [[OTPToken alloc] init];
     token.secret = secret;
     token.algorithm = kOTPGeneratorSHA1Algorithm;
+    token.digits = 6;
     HOTPGenerator *generator = [[HOTPGenerator alloc] initWithToken:token
-                                                              digits:6
                                                              counter:0];
 
     XCTAssertNotNil(generator, @"The generator should not be nil.");

@@ -28,10 +28,8 @@
 }
 
 - (id)initWithToken:(OTPToken *)token
-              digits:(NSUInteger)digits
              counter:(uint64_t)counter {
-  if ((self = [super initWithToken:token
-                             digits:digits])) {
+  if ((self = [super initWithToken:token])) {
     counter_ = counter;
   }
   return self;

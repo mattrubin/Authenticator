@@ -49,15 +49,12 @@
 
 @property (nonatomic, weak) OTPToken *token;
 
-@property (readonly, nonatomic) NSUInteger digits;
-
 // Some default values.
 + (NSString *)defaultAlgorithm;
 + (NSUInteger)defaultDigits;
 
 // Designated initializer.
-- (id)initWithToken:(OTPToken *)token
-              digits:(NSUInteger)digits;
+- (id)initWithToken:(OTPToken *)token;
 
 
 // Instance method to generate an OTP using the |algorithm|, |secret|,

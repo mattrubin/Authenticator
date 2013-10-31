@@ -38,10 +38,8 @@
 }
 
 - (id)initWithToken:(OTPToken *)token
-              digits:(NSUInteger)digits
               period:(NSTimeInterval)period {
-  if ((self = [super initWithToken:token
-                             digits:digits])) {
+  if ((self = [super initWithToken:token])) {
 
     if (period <= 0 || period > 300) {
       _GTMDevLog(@"Bad Period: %f", period);

@@ -57,8 +57,8 @@
         OTPToken *token = [[OTPToken alloc] init];
         token.secret = secret;
         token.algorithm = algorithm;
+        token.digits = 8;
         TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token
-                                                                  digits:8
                                                                   period:30];
         XCTAssertNotNil(generator, @"The generator should not be nil.");
 
@@ -91,8 +91,8 @@
             OTPToken *token = [[OTPToken alloc] init];
             token.secret = secret;
             token.algorithm = algorithm;
+            token.digits = 6;
             TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token
-                                                                      digits:6
                                                                       period:30];
 
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:intervals[i]];

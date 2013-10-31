@@ -36,6 +36,7 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSData *secret;
 @property (nonatomic, copy) NSString *algorithm;
+@property (nonatomic) NSUInteger digits;
 
 @property (nonatomic, strong) OTPGenerator *generator;
 

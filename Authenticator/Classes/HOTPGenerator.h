@@ -27,6 +27,5 @@
 + (uint64_t)defaultInitialCounter;
 
 - (id)initWithToken:(OTPToken *)token
-              digits:(NSUInteger)digits
              counter:(uint64_t)counter;
 @end

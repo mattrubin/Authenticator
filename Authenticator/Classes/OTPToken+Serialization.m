@@ -51,7 +51,7 @@ static NSString *const kQueryPeriodKey = @"period";
     NSString *typeString;
 
     query[kQueryAlgorithmKey] = self.algorithm;
-    query[kQueryDigitsKey] = @(self.generator.digits);
+    query[kQueryDigitsKey] = @(self.digits);
 
     if ([self.generator isKindOfClass:[TOTPGenerator class]]) {
         query[kQueryPeriodKey] = @([(TOTPGenerator *)self.generator period]);

@@ -66,19 +66,18 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
 }
 
 - (id)initWithToken:(OTPToken *)token
-              digits:(NSUInteger)digits {
+{
   if ((self = [super init])) {
     self.token = token;
-    _digits = digits;
 
     BOOL goodAlgorithm
       = ([token.algorithm isEqualToString:kOTPGeneratorSHA1Algorithm] ||
          [token.algorithm isEqualToString:kOTPGeneratorSHA256Algorithm] ||
          [token.algorithm isEqualToString:kOTPGeneratorSHA512Algorithm] ||
          [token.algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]);
-    if (!goodAlgorithm || self.digits > 8 || self.digits < 6 || !token.secret) {
+    if (!goodAlgorithm || token.digits > 8 || token.digits < 6 || !token.secret) {
       _GTMDevLog(@"Bad args digits(min 6, max 8): %d secret: %@ algorithm: %@",
-                 _digits, token.secret, token.algorithm);
+                 token.digits, token.secret, token.algorithm);
       self = nil;
     }
   }
@@ -130,7 +129,7 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
   unsigned char offset = ptr[hashLength-1] & 0x0f;
   unsigned long truncatedHash =
     NSSwapBigLongToHost(*((unsigned long *)&ptr[offset])) & 0x7fffffff;
-  unsigned long pinValue = truncatedHash % kPinModTable[self.digits];
+  unsigned long pinValue = truncatedHash % kPinModTable[token.digits];
 
   _GTMDevLog(@"secret: %@", token.secret);
   _GTMDevLog(@"counter: %llu", counter);
@@ -139,7 +138,7 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
   _GTMDevLog(@"truncatedHash: %lu", truncatedHash);
   _GTMDevLog(@"pinValue: %lu", pinValue);
 
-  return [NSString stringWithFormat:@"%0*ld", self.digits, pinValue];
+  return [NSString stringWithFormat:@"%0*ld", token.digits, pinValue];
 }
 
 @end

@@ -46,7 +46,6 @@
 
 // Designated initializer.
 - (id)initWithToken:(OTPToken *)token
-              digits:(NSUInteger)digits
               period:(NSTimeInterval)period;
 
 // Instance method to generate an OTP using the |algorithm|, |secret|,
