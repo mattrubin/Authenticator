@@ -293,8 +293,7 @@ static NSString *const TOTPAuthURLTimerNotification
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name {
     self.token.secret = secret;
   TOTPGenerator *generator
-    = [[TOTPGenerator alloc] initWithToken:self.token
-                                      period:[TOTPGenerator defaultPeriod]];
+    = [[TOTPGenerator alloc] initWithToken:self.token];
   return [self initWithOTPGenerator:generator
                                name:name];
 }
@@ -325,15 +324,15 @@ static NSString *const TOTPAuthURLTimerNotification
   if (periodString) {
     period = [periodString doubleValue];
   } else {
-    period = [TOTPGenerator defaultPeriod];
+    period = [OTPToken defaultPeriod];
   }
 
     self.token.secret = secret;
     self.token.algorithm = algorithm;
     self.token.digits = digits;
+    self.token.period = period;
   TOTPGenerator *generator
-    = [[TOTPGenerator alloc] initWithToken:self.token
-                                      period:period];
+    = [[TOTPGenerator alloc] initWithToken:self.token];
 
   if ((self = [self initWithOTPGenerator:generator
                                     name:name])) {
@@ -351,9 +350,8 @@ static NSString *const TOTPAuthURLTimerNotification
 }
 
 - (void)totpTimer:(NSTimer *)timer {
-  TOTPGenerator *generator = (TOTPGenerator *)self.token.generator;
   NSTimeInterval delta = [[NSDate date] timeIntervalSince1970];
-  NSTimeInterval period = [generator period];
+  NSTimeInterval period = self.token.period;
   uint64_t progress = (uint64_t)delta % (uint64_t)period;
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   if (progress == 0 || progress > self.lastProgress) {

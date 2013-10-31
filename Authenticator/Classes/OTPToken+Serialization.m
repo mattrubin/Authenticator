@@ -54,7 +54,7 @@ static NSString *const kQueryPeriodKey = @"period";
     query[kQueryDigitsKey] = @(self.digits);
 
     if ([self.generator isKindOfClass:[TOTPGenerator class]]) {
-        query[kQueryPeriodKey] = @([(TOTPGenerator *)self.generator period]);
+        query[kQueryPeriodKey] = @(self.period);
 
         typeString = @"totp";
     } else if ([self.generator isKindOfClass:[HOTPGenerator class]]) {

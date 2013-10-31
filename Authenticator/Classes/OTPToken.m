@@ -34,6 +34,7 @@
         self.algorithm = [self.class defaultAlgorithm];
         self.digits = [self.class defaultDigits];
         self.counter = [self.class defaultInitialCounter];
+        self.period = [self.class defaultPeriod];
     }
     return self;
 }
@@ -51,6 +52,11 @@
 + (uint64_t)defaultInitialCounter
 {
     return 1;
+}
+
++ (NSTimeInterval)defaultPeriod
+{
+    return 30;
 }
 
 @end

@@ -18,6 +18,7 @@
 //
 
 #import "TOTPGenerator.h"
+#import "OTPToken.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
@@ -26,26 +27,14 @@
 #pragma clang diagnostic pop
 
 
-@interface TOTPGenerator ()
-@property(assign, nonatomic, readwrite) NSTimeInterval period;
-@end
-
 @implementation TOTPGenerator
-@synthesize period = period_;
-
-+ (NSTimeInterval)defaultPeriod {
-  return 30;
-}
 
 - (id)initWithToken:(OTPToken *)token
-              period:(NSTimeInterval)period {
+{
   if ((self = [super initWithToken:token])) {
-
-    if (period <= 0 || period > 300) {
-      _GTMDevLog(@"Bad Period: %f", period);
+    if (token.period <= 0 || token.period > 300) {
+      _GTMDevLog(@"Bad Period: %f", token.period);
       self = nil;
-    } else {
-      self.period = period;
     }
   }
   return self;
@@ -56,13 +45,15 @@
 }
 
 - (NSString *)generateOTPForDate:(NSDate *)date {
+    OTPToken *token = self.token;
+    NSAssert(token, @"The generator must have a token");
   if (!date) {
     // If no now date specified, use the current date.
     date = [NSDate date];
   }
 
   NSTimeInterval seconds = [date timeIntervalSince1970];
-  uint64_t counter = (uint64_t)(seconds / self.period);
+  uint64_t counter = (uint64_t)(seconds / token.period);
   return [super generateOTPForCounter:counter];
 }
 

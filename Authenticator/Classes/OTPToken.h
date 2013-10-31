@@ -48,4 +48,8 @@
 @property (nonatomic) uint64_t counter;
 + (uint64_t)defaultInitialCounter;
 
+// TOTP
+@property (nonatomic) NSTimeInterval period;
++ (NSTimeInterval)defaultPeriod;
+
 @end

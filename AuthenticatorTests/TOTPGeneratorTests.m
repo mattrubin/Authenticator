@@ -58,8 +58,8 @@
         token.secret = secret;
         token.algorithm = algorithm;
         token.digits = 8;
-        TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token
-                                                                  period:30];
+        token.period = 30;
+        TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token];
         XCTAssertNotNil(generator, @"The generator should not be nil.");
 
         for (NSUInteger i = 0; i < times.count; i++) {
@@ -92,8 +92,8 @@
             token.secret = secret;
             token.algorithm = algorithm;
             token.digits = 6;
-            TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token
-                                                                      period:30];
+            token.period = 30;
+            TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token];
 
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:intervals[i]];
 

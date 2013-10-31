@@ -112,7 +112,7 @@ static NSString *const kValidHOTPURL =
   TOTPGenerator *generator = (TOTPGenerator *)[url.token generator];
   STAssertEqualObjects([generator.token secret], secret, @"");
   STAssertEqualObjects([generator.token algorithm], kValidAlgorithm, @"");
-  STAssertEquals([generator period], kValidPeriod, @"");
+  STAssertEquals([generator.token period], kValidPeriod, @"");
   STAssertEquals([generator.token digits], kValidDigits, @"");
 
   STAssertFalse([url isInKeychain], @"");
@@ -131,7 +131,7 @@ static NSString *const kValidHOTPURL =
   TOTPGenerator *generator = (TOTPGenerator *)[url.token generator];
   STAssertEqualObjects([generator.token secret], secret, @"");
   STAssertEqualObjects([generator.token algorithm], kValidAlgorithm, @"");
-  STAssertEquals([generator period], kValidPeriod, @"");
+  STAssertEquals([generator.token period], kValidPeriod, @"");
   STAssertEquals([generator.token digits], kValidDigits, @"");
 }
 
