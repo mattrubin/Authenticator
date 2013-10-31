@@ -167,30 +167,6 @@
 @end
 
 @implementation TOTPAuthURL
-
-- (id)initWithToken:(OTPToken *)token
-{
-  if ((self = [super initWithToken:token])) {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(totpTimer:)
-                                                 name:@"OTPTokenTimerNotification"
-                                               object:nil];
-  }
-  return self;
-}
-
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)totpTimer:(NSTimer *)timer {
-  NSTimeInterval delta = [[NSDate date] timeIntervalSince1970];
-  uint64_t progress = (uint64_t)delta % (uint64_t)self.token.period;
-  if (progress == 0 || progress > self.token.period) {
-      [self.token updatePassword];
-  }
-}
-
 @end
 
 @implementation HOTPAuthURL

@@ -28,6 +28,7 @@
 
 
 NSString * const OTPTokenDidUpdateNotification = @"OTPTokenDidUpdateNotification";
+static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTimerNotification";
 
 
 @implementation OTPToken
@@ -40,9 +41,24 @@ NSString * const OTPTokenDidUpdateNotification = @"OTPTokenDidUpdateNotification
         self.digits = [self.class defaultDigits];
         self.counter = [self.class defaultInitialCounter];
         self.period = [self.class defaultPeriod];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(updatePasswordIfNeeded)
+                                                     name:OTPTokenInternalTimerNotification
+                                                   object:nil];
     }
     return self;
 }
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:OTPTokenInternalTimerNotification
+                                                  object:nil];
+}
+
+
+#pragma mark - Defaults
 
 + (OTPAlgorithm)defaultAlgorithm
 {
@@ -114,6 +130,37 @@ NSString * const OTPTokenDidUpdateNotification = @"OTPTokenDidUpdateNotification
         [self saveToKeychain];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:OTPTokenDidUpdateNotification object:self];
+}
+
+
+#pragma mark - Timed update
+
++ (void)load
+{
+    static NSTimer *sharedTimer = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedTimer = [NSTimer scheduledTimerWithTimeInterval:.01
+                                                       target:self
+                                                     selector:@selector(updateAllTokens)
+                                                     userInfo:nil
+                                                      repeats:YES];
+    });
+}
+
++ (void)updateAllTokens
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:OTPTokenInternalTimerNotification object:self];
+}
+
+- (void)updatePasswordIfNeeded
+{
+    NSTimeInterval allTime = [NSDate date].timeIntervalSince1970;
+    uint64_t newCount = (uint64_t)allTime / (uint64_t)self.period;
+    if (newCount > self.counter) {
+        self.counter = newCount;
+        [self updatePassword];
+    }
 }
 
 @end
