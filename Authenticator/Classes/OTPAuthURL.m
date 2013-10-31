@@ -86,22 +86,13 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 }
 
 + (OTPAuthURL *)authURLWithKeychainItemRef:(NSData *)data {
-  OTPAuthURL *authURL = nil;
-  NSDictionary *result = [OTPToken keychainItemForPersistentRef:data];
-  if (result) {
-    authURL = [self authURLWithKeychainDictionary:result];
-    authURL.token.keychainItemRef = data;
-  }
-  return authURL;
+    OTPToken *token = [OTPToken tokenWithKeychainItemRef:data];
+    return [[self alloc] initWithToken:token];
 }
 
 + (OTPAuthURL *)authURLWithKeychainDictionary:(NSDictionary *)dict {
-  NSData *urlData = [dict objectForKey:(__bridge id)kSecAttrGeneric];
-  NSData *secretData = [dict objectForKey:(__bridge id)kSecValueData];
-  NSString *urlString = [[NSString alloc] initWithData:urlData
-                                               encoding:NSUTF8StringEncoding];
-  NSURL *url = [NSURL URLWithString:urlString];
-  return  [self authURLWithURL:url secret:secretData];
+    OTPToken *token = [OTPToken tokenWithKeychainDictionary:dict];
+    return [[self alloc] initWithToken:token];
 }
 
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name type:(OTPTokenType)type
@@ -121,6 +112,12 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
       self = nil;
     } else {
       self.token = token;
+
+        // Check that it's the right subclass (temporary)
+        Class authURLClass = (token.type == OTPTokenTypeTimer) ? [TOTPAuthURL class] : [HOTPAuthURL class];
+        if (self && ![self isKindOfClass:authURLClass]) {
+            self = [[authURLClass alloc] initWithToken:token];
+        }
     }
   }
   return self;

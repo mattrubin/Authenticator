@@ -30,7 +30,38 @@
 static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 
+@interface OTPToken ()
+
+@property (nonatomic, strong) NSData *keychainItemRef;
+
+@end
+
+
 @implementation OTPToken (Persistence)
+
++ (instancetype)tokenWithKeychainItemRef:(NSData *)keychainItemRef
+{
+    OTPToken *token = nil;
+    NSDictionary *result = [self keychainItemForPersistentRef:keychainItemRef];
+    if (result) {
+        token = [self tokenWithKeychainDictionary:result];
+        token.keychainItemRef = keychainItemRef;
+    }
+    return token;
+}
+
++ (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary
+{
+    NSData *urlData = [keychainDictionary objectForKey:(__bridge id)kSecAttrGeneric];
+    NSData *secretData = [keychainDictionary objectForKey:(__bridge id)kSecValueData];
+    NSString *urlString = [[NSString alloc] initWithData:urlData
+                                                encoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:urlString];
+    return [self tokenWithURL:url secret:secretData];
+}
+
+
+#pragma mark - 
 
 - (NSData *)keychainItemRef
 {
@@ -79,10 +110,8 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     return success;
 }
 
-@end
 
-
-@implementation OTPToken (KeychainItems)
+#pragma mark - Keychain Items
 
 + (NSDictionary *)keychainItemForPersistentRef:(NSData *)persistentRef
 {
