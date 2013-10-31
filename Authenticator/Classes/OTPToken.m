@@ -23,6 +23,7 @@
 //
 
 #import "OTPToken.h"
+#import "OTPGenerator.h"
 
 
 @implementation OTPToken
@@ -77,4 +78,14 @@
     return validType && validSecret && validAlgorithm && validDigits && validPeriod;
 }
 
+
+#pragma mark - Generation
+
+- (OTPGenerator *)generator
+{
+    if (!_generator) {
+        _generator = [[OTPGenerator alloc] initWithToken:self];
+    }
+    return _generator;
+}
 @end
