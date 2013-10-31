@@ -18,6 +18,7 @@
 //
 
 @import Foundation;
+#import "OTPToken.h"
 
 // This class encapsulates the parsing of otpauth:// urls, the creation of
 // either HOTPGenerator or TOTPGenerator objects, and the persistence of the
@@ -52,18 +53,18 @@
 // |generator| state.
 - (BOOL)isInKeychain;
 
+
+- (id)initWithSecret:(NSData *)secret name:(NSString *)name type:(OTPTokenType)type;
+
 @end
 
 @interface TOTPAuthURL : OTPAuthURL
 
 @property(readwrite, assign, nonatomic) NSTimeInterval generationAdvanceWarning;
 
-- (id)initWithSecret:(NSData *)secret name:(NSString *)name;
-
 @end
 
 @interface HOTPAuthURL : OTPAuthURL
-- (id)initWithSecret:(NSData *)secret name:(NSString *)name;
 - (void)generateNextOTPCode;
 @end
 

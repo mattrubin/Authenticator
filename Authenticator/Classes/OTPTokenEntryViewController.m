@@ -89,8 +89,10 @@
 
     if (secretKey.length) {
         Class tokenClass = (self.tokenTypeControl.selectedSegmentIndex == 0) ? [TOTPAuthURL class] : [HOTPAuthURL class];
+        OTPTokenType tokenType = (self.tokenTypeControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         OTPAuthURL *token = [[tokenClass alloc] initWithSecret:secretKey
-                                                          name:self.accountNameField.text];
+                                                          name:self.accountNameField.text
+                                                          type:tokenType];
 
         if (token.checkCode) {
             id <OTPTokenSourceDelegate> delegate = self.delegate;
