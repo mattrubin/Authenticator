@@ -18,26 +18,8 @@
 //
 
 #import "TOTPGenerator.h"
-#import "OTPToken.h"
 
 
 @implementation TOTPGenerator
-
-- (NSString *)generateOTP {
-  return [self generateOTPForDate:[NSDate date]];
-}
-
-- (NSString *)generateOTPForDate:(NSDate *)date {
-    OTPToken *token = self.token;
-    NSAssert(token, @"The generator must have a token");
-  if (!date) {
-    // If no now date specified, use the current date.
-    date = [NSDate date];
-  }
-
-  NSTimeInterval seconds = [date timeIntervalSince1970];
-  uint64_t counter = (uint64_t)(seconds / token.period);
-  return [super generateOTPForCounter:counter];
-}
 
 @end

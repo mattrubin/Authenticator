@@ -291,6 +291,7 @@ static NSString *const TOTPAuthURLTimerNotification
 }
 
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name {
+    self.token.type = OTPTokenTypeTimer;
     self.token.secret = secret;
   TOTPGenerator *generator
     = [[TOTPGenerator alloc] initWithToken:self.token];
@@ -327,6 +328,7 @@ static NSString *const TOTPAuthURLTimerNotification
     period = [OTPToken defaultPeriod];
   }
 
+    self.token.type = OTPTokenTypeTimer;
     self.token.secret = secret;
     self.token.algorithm = algorithm;
     self.token.digits = digits;
@@ -389,6 +391,7 @@ static NSString *const TOTPAuthURLTimerNotification
 
 
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name {
+    self.token.type = OTPTokenTypeCounter;
     self.token.secret = secret;
   HOTPGenerator *generator
     = [[HOTPGenerator alloc] initWithToken:self.token];
@@ -407,6 +410,7 @@ static NSString *const TOTPAuthURLTimerNotification
     BOOL goodScan = [scanner gtm_scanUnsignedLongLong:&counter];
     // Good scan should always be good based on the isValidCounter check above.
     _GTMDevAssert(goodScan, @"goodscan should be true: %c", goodScan);
+      self.token.type = OTPTokenTypeCounter;
       self.token.secret = secret;
       self.token.algorithm = algorithm;
       self.token.digits = digits;

@@ -39,6 +39,7 @@
 {
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
     OTPToken *token = [[OTPToken alloc] init];
+    token.type = OTPTokenTypeCounter;
     token.secret = secret;
     token.algorithm = kOTPAlgorithmSHA1;
     token.digits = 6;

@@ -64,6 +64,7 @@
 
 - (BOOL)validate
 {
+    BOOL validType = (self.type == OTPTokenTypeCounter) || (self.type == OTPTokenTypeTimer);
     BOOL validSecret = !!self.secret;
     BOOL validAlgorithm = ([self.algorithm isEqualToString:kOTPAlgorithmSHA1] ||
                            [self.algorithm isEqualToString:kOTPAlgorithmSHA256] ||
@@ -73,7 +74,7 @@
 
     BOOL validPeriod = (self.period > 0) && (self.period <= 300);
 
-    return validSecret && validAlgorithm && validDigits && validPeriod;
+    return validType && validSecret && validAlgorithm && validDigits && validPeriod;
 }
 
 @end

@@ -179,6 +179,7 @@ static NSString *const kValidHOTPURL =
 
 - (void)testInitWithOTPGeneratorLabel {
     OTPToken *token = [[OTPToken alloc] init];
+    token.type = OTPTokenTypeTimer;
     token.secret = [NSData data];
   TOTPGenerator *generator
     = [[[TOTPGenerator alloc] initWithToken:token]

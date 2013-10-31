@@ -55,6 +55,7 @@
     for (NSString *algorithm in secretKeys) {
         NSData *secret = [secretKeys[algorithm] dataUsingEncoding:NSASCIIStringEncoding];
         OTPToken *token = [[OTPToken alloc] init];
+        token.type = OTPTokenTypeTimer;
         token.secret = secret;
         token.algorithm = algorithm;
         token.digits = 8;
@@ -89,6 +90,7 @@
     for (NSUInteger i = 0, j = 0; i < sizeof(intervals)/sizeof(*intervals); i++) {
         for (NSString *algorithm in algorithms) {
             OTPToken *token = [[OTPToken alloc] init];
+            token.type = OTPTokenTypeTimer;
             token.secret = secret;
             token.algorithm = algorithm;
             token.digits = 6;

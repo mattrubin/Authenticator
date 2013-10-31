@@ -67,10 +67,34 @@ static NSUInteger kPinModTable[] = {
 }
 
 
-// Must be overriden by subclass.
 - (NSString *)generateOTP {
+    OTPToken *token = self.token;
+    NSAssert(token, @"The generator must have a token");
+    if (token.type == OTPTokenTypeCounter) {
+        uint64_t counter = [token counter];
+        counter += 1;
+        NSString *otp = [self generateOTPForCounter:counter];
+        [token setCounter:counter];
+        return otp;
+    } else if (token.type == OTPTokenTypeTimer) {
+        return [self generateOTPForDate:[NSDate date]];
+    }
+    // If type is undefined, fail
   [self doesNotRecognizeSelector:_cmd];
   return nil;
+}
+
+- (NSString *)generateOTPForDate:(NSDate *)date {
+    OTPToken *token = self.token;
+    NSAssert(token, @"The generator must have a token");
+    if (!date) {
+        // If no now date specified, use the current date.
+        date = [NSDate date];
+    }
+
+    NSTimeInterval seconds = [date timeIntervalSince1970];
+    uint64_t counter = (uint64_t)(seconds / token.period);
+    return [self generateOTPForCounter:counter];
 }
 
 - (NSString *)generateOTPForCounter:(uint64_t)counter {
