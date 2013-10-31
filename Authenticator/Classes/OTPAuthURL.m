@@ -44,13 +44,8 @@
 
 @end
 
-@interface HOTPAuthURL ()
-@property(readwrite, copy, nonatomic) NSString *otpCode;
-
-@end
 
 @implementation OTPAuthURL
-@dynamic otpCode;
 
 + (OTPAuthURL *)authURLWithURL:(NSURL *)url
                         secret:(NSData *)secret {
@@ -164,7 +159,10 @@
     [self.token setName:name];
 }
 
-
+- (NSString *)otpCode
+{
+    return self.token.password;
+}
 
 @end
 
@@ -185,10 +183,6 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (NSString *)otpCode {
-  return [self.token.generator generateOTP];
-}
-
 - (void)totpTimer:(NSTimer *)timer {
   NSTimeInterval delta = [[NSDate date] timeIntervalSince1970];
   uint64_t progress = (uint64_t)delta % (uint64_t)self.token.period;
@@ -201,20 +195,7 @@
 
 @implementation HOTPAuthURL
 
-@synthesize otpCode = otpCode_;
-
-- (id)initWithToken:(OTPToken *)token
-{
-  if ((self = [super initWithToken:token])) {
-    uint64_t counter = [token counter];
-    self.otpCode = [token.generator generateOTPForCounter:counter];
-  }
-  return self;
-}
-
 - (void)generateNextOTPCode {
-  self.otpCode = [self.token.generator generateOTP];
-  [self saveToKeychain];
     [self.token updatePassword];
 }
 

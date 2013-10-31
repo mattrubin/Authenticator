@@ -23,6 +23,7 @@
 //
 
 #import "OTPToken.h"
+#import "OTPToken+Persistence.h"
 #import "OTPGenerator.h"
 
 
@@ -92,8 +93,26 @@ NSString * const OTPTokenDidUpdateNotification = @"OTPTokenDidUpdateNotification
     return _generator;
 }
 
+- (NSString *)password
+{
+    if (!_password) {
+        if (self.type == OTPTokenTypeTimer) {
+            _password = [self.generator generateOTP];
+        } else if (self.type == OTPTokenTypeCounter) {
+            _password = [self.generator generateOTPForCounter:self.counter];
+        }
+    }
+    return _password;
+}
+
 - (void)updatePassword
 {
+    // If this is a counter-based token, the generator's generateOTP method will increment the counter.
+    // A timer-based token will simply regenerate the password for the current time.
+    self.password = [self.generator generateOTP];
+    if (self.type == OTPTokenTypeCounter) {
+        [self saveToKeychain];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:OTPTokenDidUpdateNotification object:self];
 }
 

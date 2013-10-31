@@ -63,6 +63,8 @@ extern NSString * const OTPTokenDidUpdateNotification;
 // Validation
 - (BOOL)validate;
 
+// Password
+@property (nonatomic, strong) NSString *password; // TODO: readonly
 - (void)updatePassword;
 
 @end
