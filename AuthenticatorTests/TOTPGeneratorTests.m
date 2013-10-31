@@ -56,8 +56,8 @@
         NSData *secret = [secretKeys[algorithm] dataUsingEncoding:NSASCIIStringEncoding];
         OTPToken *token = [[OTPToken alloc] init];
         token.secret = secret;
+        token.algorithm = algorithm;
         TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token
-                                                               algorithm:algorithm
                                                                   digits:8
                                                                   period:30];
         XCTAssertNotNil(generator, @"The generator should not be nil.");
@@ -90,8 +90,8 @@
         for (NSString *algorithm in algorithms) {
             OTPToken *token = [[OTPToken alloc] init];
             token.secret = secret;
+            token.algorithm = algorithm;
             TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token
-                                                                   algorithm:algorithm
                                                                       digits:6
                                                                       period:30];
 

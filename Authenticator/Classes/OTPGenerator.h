@@ -49,7 +49,6 @@
 
 @property (nonatomic, weak) OTPToken *token;
 
-@property (readonly, nonatomic, copy) NSString *algorithm;
 @property (readonly, nonatomic) NSUInteger digits;
 
 // Some default values.
@@ -58,7 +57,6 @@
 
 // Designated initializer.
 - (id)initWithToken:(OTPToken *)token
-           algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits;
 
 

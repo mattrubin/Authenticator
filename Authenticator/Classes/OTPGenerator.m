@@ -48,7 +48,6 @@ NSString *const kOTPGeneratorSHA512Algorithm = @"SHA512";
 NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
 
 @interface OTPGenerator ()
-@property (readwrite, nonatomic, copy) NSString *algorithm;
 @end
 
 @implementation OTPGenerator
@@ -67,21 +66,19 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
 }
 
 - (id)initWithToken:(OTPToken *)token
-           algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits {
   if ((self = [super init])) {
-    self.algorithm = algorithm;
     self.token = token;
     _digits = digits;
 
     BOOL goodAlgorithm
-      = ([algorithm isEqualToString:kOTPGeneratorSHA1Algorithm] ||
-         [algorithm isEqualToString:kOTPGeneratorSHA256Algorithm] ||
-         [algorithm isEqualToString:kOTPGeneratorSHA512Algorithm] ||
-         [algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]);
+      = ([token.algorithm isEqualToString:kOTPGeneratorSHA1Algorithm] ||
+         [token.algorithm isEqualToString:kOTPGeneratorSHA256Algorithm] ||
+         [token.algorithm isEqualToString:kOTPGeneratorSHA512Algorithm] ||
+         [token.algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]);
     if (!goodAlgorithm || self.digits > 8 || self.digits < 6 || !token.secret) {
       _GTMDevLog(@"Bad args digits(min 6, max 8): %d secret: %@ algorithm: %@",
-                 _digits, token.secret, self.algorithm);
+                 _digits, token.secret, token.algorithm);
       self = nil;
     }
   }
@@ -99,18 +96,19 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
     OTPToken *token = self.token;
     NSAssert(token, @"The generator must have a token");
     NSAssert(token.secret, @"The token must have a secret");
+    NSAssert(token.algorithm, @"The token must have an algorithm");
   CCHmacAlgorithm alg;
   NSUInteger hashLength = 0;
-  if ([self.algorithm isEqualToString:kOTPGeneratorSHA1Algorithm]) {
+  if ([token.algorithm isEqualToString:kOTPGeneratorSHA1Algorithm]) {
     alg = kCCHmacAlgSHA1;
     hashLength = CC_SHA1_DIGEST_LENGTH;
-  } else if ([self.algorithm isEqualToString:kOTPGeneratorSHA256Algorithm]) {
+  } else if ([token.algorithm isEqualToString:kOTPGeneratorSHA256Algorithm]) {
     alg = kCCHmacAlgSHA256;
     hashLength = CC_SHA256_DIGEST_LENGTH;
-  } else if ([self.algorithm isEqualToString:kOTPGeneratorSHA512Algorithm]) {
+  } else if ([token.algorithm isEqualToString:kOTPGeneratorSHA512Algorithm]) {
     alg = kCCHmacAlgSHA512;
     hashLength = CC_SHA512_DIGEST_LENGTH;
-  } else if ([self.algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]) {
+  } else if ([token.algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]) {
     alg = kCCHmacAlgMD5;
     hashLength = CC_MD5_DIGEST_LENGTH;
   } else {

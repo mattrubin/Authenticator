@@ -40,8 +40,8 @@
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
     OTPToken *token = [[OTPToken alloc] init];
     token.secret = secret;
+    token.algorithm = kOTPGeneratorSHA1Algorithm;
     HOTPGenerator *generator = [[HOTPGenerator alloc] initWithToken:token
-                                                           algorithm:kOTPGeneratorSHA1Algorithm
                                                               digits:6
                                                              counter:0];
 

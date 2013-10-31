@@ -46,7 +46,6 @@
 
 // Designated initializer.
 - (id)initWithToken:(OTPToken *)token
-           algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits
               period:(NSTimeInterval)period;
 

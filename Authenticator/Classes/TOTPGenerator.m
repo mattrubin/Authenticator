@@ -38,11 +38,9 @@
 }
 
 - (id)initWithToken:(OTPToken *)token
-           algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits
               period:(NSTimeInterval)period {
   if ((self = [super initWithToken:token
-                          algorithm:algorithm
                              digits:digits])) {
 
     if (period <= 0 || period > 300) {

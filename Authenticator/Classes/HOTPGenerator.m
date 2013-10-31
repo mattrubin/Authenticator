@@ -28,11 +28,9 @@
 }
 
 - (id)initWithToken:(OTPToken *)token
-           algorithm:(NSString *)algorithm
               digits:(NSUInteger)digits
              counter:(uint64_t)counter {
   if ((self = [super initWithToken:token
-                          algorithm:algorithm
                              digits:digits])) {
     counter_ = counter;
   }
