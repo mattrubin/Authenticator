@@ -24,13 +24,8 @@
 
 #import "OTPToken+Serialization.h"
 
-#import "OTPAuthURL.h" // TEMPORARY
-#pragma clang diagnostic ignored "-Wreceiver-is-weak" // TEMPORARY
-#pragma clang diagnostic ignored "-Warc-repeated-use-of-weak" // TEMPORARY
-
 #import "TOTPGenerator.h"
 #import "HOTPGenerator.h"
-
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
@@ -52,59 +47,38 @@ static NSString *const kQueryPeriodKey = @"period";
 
 - (NSURL *)url
 {
-    if ([self.dataSource isKindOfClass:[TOTPAuthURL class]]) {
-        NSMutableDictionary *query = [NSMutableDictionary dictionary];
-        TOTPGenerator *generator = (TOTPGenerator *)self.generator;
-        Class generatorClass = [generator class];
+    NSMutableDictionary *query = [NSMutableDictionary dictionary];
+    NSString *typeString;
 
-        NSString *algorithm = [generator algorithm];
-        if (![algorithm isEqualToString:[generatorClass defaultAlgorithm]]) {
-            [query setObject:algorithm forKey:kQueryAlgorithmKey];
-        }
-
-        NSUInteger digits = [generator digits];
-        if (digits != [generatorClass defaultDigits]) {
-            id val = [NSNumber numberWithUnsignedInteger:digits];
-            [query setObject:val forKey:kQueryDigitsKey];
-        }
-
-        NSTimeInterval period = [generator period];
-        if (fpclassify(period - [generatorClass defaultPeriod]) != FP_ZERO) {
-            id val = [NSNumber numberWithDouble:period];
-            [query setObject:val forKey:kQueryPeriodKey];
-        }
-
-        return [NSURL URLWithString:[NSString stringWithFormat:@"%@://totp/%@?%@",
-                                     kOTPAuthScheme,
-                                     [self.name gtm_stringByEscapingForURLArgument],
-                                     [query gtm_httpArgumentsString]]];
-    } else if ([self.dataSource isKindOfClass:[HOTPAuthURL class]]) {
-        NSMutableDictionary *query = [NSMutableDictionary dictionary];
-
-        HOTPGenerator *generator = (HOTPGenerator *)self.generator;
-        Class generatorClass = [generator class];
-
-        NSString *algorithm = [generator algorithm];
-        if (![algorithm isEqualToString:[generatorClass defaultAlgorithm]]) {
-            [query setObject:algorithm forKey:kQueryAlgorithmKey];
-        }
-
-        NSUInteger digits = [generator digits];
-        if (digits != [generatorClass defaultDigits]) {
-            id val = [NSNumber numberWithUnsignedInteger:digits];
-            [query setObject:val forKey:kQueryDigitsKey];
-        }
-
-        uint64_t counter = [generator counter];
-        id val = [NSNumber numberWithUnsignedLongLong:counter];
-        [query setObject:val forKey:kQueryCounterKey];
-
-        return [NSURL URLWithString:[NSString stringWithFormat:@"%@://hotp/%@?%@",
-                                     kOTPAuthScheme,
-                                     [self.name gtm_stringByEscapingForURLArgument],
-                                     [query gtm_httpArgumentsString]]];
+    NSString *algorithm = self.generator.algorithm;
+    if (![algorithm isEqualToString:[self.generator.class defaultAlgorithm]]) {
+        query[kQueryAlgorithmKey] = algorithm;
     }
-    return nil;
+
+    NSUInteger digits = self.generator.digits;
+    if (digits != [self.generator.class defaultDigits]) {
+        query[kQueryDigitsKey] = @(digits);
+    }
+
+    if ([self.generator isKindOfClass:[TOTPGenerator class]]) {
+        NSTimeInterval period = [(TOTPGenerator *)self.generator period];
+        if (fpclassify(period - [self.generator.class defaultPeriod]) != FP_ZERO) {
+            query[kQueryPeriodKey] = @(period);
+        }
+
+        typeString = @"totp";
+    } else if ([self.generator isKindOfClass:[HOTPGenerator class]]) {
+        uint64_t counter = [(HOTPGenerator *)self.generator counter];
+        query[kQueryCounterKey] = @(counter);
+
+        typeString = @"hotp";
+    }
+
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/%@?%@",
+                                 kOTPAuthScheme,
+                                 typeString,
+                                 [self.name gtm_stringByEscapingForURLArgument],
+                                 [query gtm_httpArgumentsString]]];
 }
 
 @end
