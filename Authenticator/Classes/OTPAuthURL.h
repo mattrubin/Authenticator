@@ -59,19 +59,11 @@
 @end
 
 @interface TOTPAuthURL : OTPAuthURL
-
-@property(readwrite, assign, nonatomic) NSTimeInterval generationAdvanceWarning;
-
 @end
 
 @interface HOTPAuthURL : OTPAuthURL
 - (void)generateNextOTPCode;
 @end
 
-// Notification sent out |otpGenerationAdvanceWarning_| before a new OTP is
-// generated. Only applies to TOTP Generators. Has a
-// |OTPAuthURLSecondsBeforeNewOTPKey| key which is a NSNumber with the
-// number of seconds remaining before the new OTP is generated.
-extern NSString *const OTPAuthURLWillGenerateNewOTPWarningNotification;
-extern NSString *const OTPAuthURLSecondsBeforeNewOTPKey;
+
 extern NSString *const OTPAuthURLDidGenerateNewOTPNotification;

@@ -19,30 +19,20 @@
 
 #import "OTPAuthURL.h"
 
-@import Security;
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
-#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 #pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMNSDictionary+URLArguments.h>
-#import <GTMNSScanner+Unsigned.h>
+#import <GTMDefines.h>
 #pragma clang diagnostic pop
 
 #import "OTPGenerator.h"
 
 #import "OTPToken+Serialization.h"
 #import "OTPToken+Persistence.h"
-#import "NSData+Base32.h"
 
 
-static const NSTimeInterval kTOTPDefaultSecondsBeforeChange = 5;
-NSString *const OTPAuthURLWillGenerateNewOTPWarningNotification
-  = @"OTPAuthURLWillGenerateNewOTPWarningNotification";
 NSString *const OTPAuthURLDidGenerateNewOTPNotification
   = @"OTPAuthURLDidGenerateNewOTPNotification";
-NSString *const OTPAuthURLSecondsBeforeNewOTPKey
-  = @"OTPAuthURLSecondsBeforeNewOTP";
 
 @interface OTPAuthURL ()
 
@@ -58,9 +48,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 @end
 
 @interface TOTPAuthURL ()
-@property (nonatomic, readwrite, assign) NSTimeInterval lastProgress;
-@property (nonatomic, readwrite, assign) BOOL warningSent;
-
 + (void)totpTimer:(NSTimer *)timer;
 @end
 
@@ -192,10 +179,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 static NSString *const TOTPAuthURLTimerNotification
   = @"TOTPAuthURLTimerNotification";
 
-@synthesize generationAdvanceWarning = generationAdvanceWarning_;
-@synthesize lastProgress = lastProgress_;
-@synthesize warningSent = warningSent_;
-
 + (void)initialize {
   static NSTimer *sTOTPTimer = nil;
   if (!sTOTPTimer) {
@@ -217,12 +200,10 @@ static NSString *const TOTPAuthURLTimerNotification
 - (id)initWithToken:(OTPToken *)token
 {
   if ((self = [super initWithToken:token])) {
-    [self setGenerationAdvanceWarning:kTOTPDefaultSecondsBeforeChange];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(totpTimer:)
                                                  name:TOTPAuthURLTimerNotification
                                                object:nil];
-      self.lastProgress = token.period;
   }
   return self;
 }
@@ -237,24 +218,10 @@ static NSString *const TOTPAuthURLTimerNotification
 
 - (void)totpTimer:(NSTimer *)timer {
   NSTimeInterval delta = [[NSDate date] timeIntervalSince1970];
-  NSTimeInterval period = self.token.period;
-  uint64_t progress = (uint64_t)delta % (uint64_t)period;
+  uint64_t progress = (uint64_t)delta % (uint64_t)self.token.period;
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-  if (progress == 0 || progress > self.lastProgress) {
+  if (progress == 0 || progress > self.token.period) {
     [nc postNotificationName:OTPAuthURLDidGenerateNewOTPNotification object:self];
-    self.lastProgress = period;
-    self.warningSent = NO;
-  } else if (progress > period - self.generationAdvanceWarning
-             && !self.warningSent) {
-    NSNumber *warning = [NSNumber numberWithDouble:ceil(period - progress)];
-    NSDictionary *userInfo
-      = [NSDictionary dictionaryWithObject:warning
-                                    forKey:OTPAuthURLSecondsBeforeNewOTPKey];
-
-    [nc postNotificationName:OTPAuthURLWillGenerateNewOTPWarningNotification
-                      object:self
-                    userInfo:userInfo];
-    self.warningSent = YES;
   }
 }
 
