@@ -23,7 +23,7 @@
 //
 
 @import XCTest;
-#import "TOTPGenerator.h"
+#import "OTPGenerator.h"
 #import "OTPToken.h"
 
 
@@ -60,7 +60,7 @@
         token.algorithm = algorithm;
         token.digits = 8;
         token.period = 30;
-        TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token];
+        OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];
         XCTAssertNotNil(generator, @"The generator should not be nil.");
 
         for (NSUInteger i = 0; i < times.count; i++) {
@@ -95,7 +95,7 @@
             token.algorithm = algorithm;
             token.digits = 6;
             token.period = 30;
-            TOTPGenerator *generator = [[TOTPGenerator alloc] initWithToken:token];
+            OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];
 
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:intervals[i]];
 

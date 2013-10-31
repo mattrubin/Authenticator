@@ -29,8 +29,7 @@
 #import <GTMNSScanner+Unsigned.h>
 #pragma clang diagnostic pop
 
-#import "HOTPGenerator.h"
-#import "TOTPGenerator.h"
+#import "OTPGenerator.h"
 
 #import "OTPToken+Serialization.h"
 #import "OTPToken+Persistence.h"

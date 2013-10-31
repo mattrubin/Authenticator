@@ -23,7 +23,7 @@
 //
 
 @import XCTest;
-#import "HOTPGenerator.h"
+#import "OTPGenerator.h"
 #import "OTPToken.h"
 
 
@@ -44,7 +44,7 @@
     token.algorithm = kOTPAlgorithmSHA1;
     token.digits = 6;
     token.counter = 0;
-    HOTPGenerator *generator = [[HOTPGenerator alloc] initWithToken:token];
+    OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];
 
     XCTAssertNotNil(generator, @"The generator should not be nil.");
 
