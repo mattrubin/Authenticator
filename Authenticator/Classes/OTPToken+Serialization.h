@@ -27,6 +27,7 @@
 
 @interface OTPToken (Serialization)
 
++ (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret;
 - (NSURL *)url;
 
 @end

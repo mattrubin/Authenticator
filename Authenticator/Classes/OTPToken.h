@@ -26,7 +26,6 @@
 #import "OTPAlgorithm.h"
 
 
-@class OTPAuthURL;
 @class OTPGenerator;
 
 

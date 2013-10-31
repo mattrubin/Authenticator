@@ -35,15 +35,6 @@
 #import "OTPToken+Persistence.h"
 #import "NSData+Base32.h"
 
-static NSString *const kOTPAuthScheme = @"otpauth";
-static NSString *const kTOTPAuthScheme = @"totp";
-// These are keys in the otpauth:// query string.
-static NSString *const kQueryAlgorithmKey = @"algorithm";
-static NSString *const kQuerySecretKey = @"secret";
-static NSString *const kQueryCounterKey = @"counter";
-static NSString *const kQueryDigitsKey = @"digits";
-static NSString *const kQueryPeriodKey = @"period";
-
 
 static const NSTimeInterval kTOTPDefaultSecondsBeforeChange = 5;
 NSString *const OTPAuthURLWillGenerateNewOTPWarningNotification
@@ -75,7 +66,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 @end
 
 @interface HOTPAuthURL ()
-+ (BOOL)isValidCounter:(NSString *)counter;
 @property(readwrite, copy, nonatomic) NSString *otpCode;
 
 @end
@@ -86,82 +76,13 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 + (OTPAuthURL *)authURLWithURL:(NSURL *)url
                         secret:(NSData *)secret {
   OTPAuthURL *authURL = nil;
-  NSString *urlScheme = [url scheme];
-  if ([urlScheme isEqualToString:kTOTPAuthScheme]) {
-    // Convert totp:// into otpauth://
-    authURL = [[TOTPAuthURL alloc] initWithTOTPURL:url];
-  } else if (![urlScheme isEqualToString:kOTPAuthScheme]) {
-    // Required (otpauth://)
-    _GTMDevLog(@"invalid scheme: %@", [url scheme]);
-  } else {
-    NSString *path = [url path];
-    if ([path length] > 1) {
-        OTPToken *token = [[OTPToken alloc] init];
-      // Optional UTF-8 encoded human readable description (skip leading "/")
-      NSString *name = [[url path] substringFromIndex:1];
+    OTPToken *token = [OTPToken tokenWithURL:url secret:secret];
 
-      NSDictionary *query =
-        [NSDictionary gtm_dictionaryWithHttpArgumentsString:[url query]];
-
-      // Optional algorithm=(SHA1|SHA256|SHA512|MD5) defaults to SHA1
-      NSString *algorithm = [query objectForKey:kQueryAlgorithmKey];
-      if (!algorithm) {
-        algorithm = [NSString stringForAlgorithm:[OTPToken defaultAlgorithm]];
-      }
-      if (!secret) {
-        // Required secret=Base32EncodedKey
-        NSString *secretString = [query objectForKey:kQuerySecretKey];
-        secret = [secretString base32DecodedData];
-      }
-      // Optional digits=[68] defaults to 8
-      NSString *digitString = [query objectForKey:kQueryDigitsKey];
-      NSUInteger digits = 0;
-      if (!digitString) {
-        digits = [OTPToken defaultDigits];
-      } else {
-        digits = [digitString intValue];
-      }
-
-        token.name = name;
-        token.secret = secret;
-        token.algorithm = [algorithm algorithmValue];
-        token.digits = digits;
-
-      NSString *type = [url host];
-      if ([type isEqualToString:@"hotp"]) {
-          token.type = OTPTokenTypeCounter;
-
-          NSString *counterString = [query objectForKey:kQueryCounterKey];
-          if ([HOTPAuthURL isValidCounter:counterString]) {
-              NSScanner *scanner = [NSScanner scannerWithString:counterString];
-              uint64_t counter;
-              BOOL goodScan = [scanner gtm_scanUnsignedLongLong:&counter];
-              // Good scan should always be good based on the isValidCounter check above.
-              _GTMDevAssert(goodScan, @"goodscan should be true: %c", goodScan);
-
-              token.counter = counter;
-              authURL = [[HOTPAuthURL alloc] initWithToken:token];
-          } else {
-              _GTMDevLog(@"invalid counter: %@", counterString);
-              authURL = nil;
-          }
-      } else if ([type isEqualToString:@"totp"]) {
-          token.type = OTPTokenTypeTimer;
-
-          NSString *periodString = [query objectForKey:kQueryPeriodKey];
-          NSTimeInterval period = 0;
-          if (periodString) {
-              period = [periodString doubleValue];
-          } else {
-              period = [OTPToken defaultPeriod];
-          }
-          
-          token.period = period;
-
+    if (token.type == OTPTokenTypeCounter) {
+        authURL = [[HOTPAuthURL alloc] initWithToken:token];
+    } else if (token.type == OTPTokenTypeTimer) {
         authURL = [[TOTPAuthURL alloc] initWithToken:token];
-      }
     }
-  }
   return authURL;
 }
 
@@ -377,13 +298,6 @@ static NSString *const TOTPAuthURLTimerNotification
   [self saveToKeychain];
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:OTPAuthURLDidGenerateNewOTPNotification object:self];
-}
-
-+ (BOOL)isValidCounter:(NSString *)counter {
-  NSCharacterSet *nonDigits =
-    [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-  NSRange pos = [counter rangeOfCharacterFromSet:nonDigits];
-  return pos.location == NSNotFound;
 }
 
 @end
