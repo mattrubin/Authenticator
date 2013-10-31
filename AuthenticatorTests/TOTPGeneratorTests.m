@@ -52,12 +52,12 @@
                                      kOTPAlgorithmSHA256: @[@"46119246", @"68084774", @"67062674", @"91819424", @"90698825", @"77737706"],
                                      kOTPAlgorithmSHA512: @[@"90693936", @"25091201", @"99943326", @"93441116", @"38618901", @"47863826"]};
 
-    for (NSString *algorithm in secretKeys) {
-        NSData *secret = [secretKeys[algorithm] dataUsingEncoding:NSASCIIStringEncoding];
+    for (NSString *algorithmKey in secretKeys) {
+        NSData *secret = [secretKeys[algorithmKey] dataUsingEncoding:NSASCIIStringEncoding];
         OTPToken *token = [[OTPToken alloc] init];
         token.type = OTPTokenTypeTimer;
         token.secret = secret;
-        token.algorithm = algorithm;
+        token.algorithm = [algorithmKey algorithmValue];
         token.digits = 8;
         token.period = 30;
         OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];
@@ -65,7 +65,7 @@
 
         for (NSUInteger i = 0; i < times.count; i++) {
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:[times[i] doubleValue]];
-            NSString *password = expectedValues[algorithm][i];
+            NSString *password = expectedValues[algorithmKey][i];
             XCTAssertEqualObjects([generator generateOTPForDate:date], password, @"The generator did not produce the expected OTP.");
         }
     }
@@ -88,11 +88,11 @@
                          ];
 
     for (NSUInteger i = 0, j = 0; i < sizeof(intervals)/sizeof(*intervals); i++) {
-        for (NSString *algorithm in algorithms) {
+        for (NSString *algorithmKey in algorithms) {
             OTPToken *token = [[OTPToken alloc] init];
             token.type = OTPTokenTypeTimer;
             token.secret = secret;
-            token.algorithm = algorithm;
+            token.algorithm = [algorithmKey algorithmValue];
             token.digits = 6;
             token.period = 30;
             OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];
@@ -101,7 +101,7 @@
 
             XCTAssertEqualObjects([results objectAtIndex:j],
                                   [generator generateOTPForDate:date],
-                                  @"Invalid result %d, %@, %@", i, algorithm, date);
+                                  @"Invalid result %d, %@, %@", i, algorithmKey, date);
             j++;
         }
     }

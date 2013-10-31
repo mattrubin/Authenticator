@@ -22,7 +22,29 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#import <CommonCrypto/CommonHMAC.h>
+
+
+typedef NS_ENUM(CCHmacAlgorithm, OTPAlgorithm) {
+    OTPAlgorithmSHA1   = kCCHmacAlgSHA1,
+    OTPAlgorithmSHA256 = kCCHmacAlgSHA256,
+    OTPAlgorithmSHA512 = kCCHmacAlgSHA512,
+    OTPAlgorithmMD5    = kCCHmacAlgMD5,
+};
+
+extern OTPAlgorithm OTPAlgorithmUnknown;
+
+
 extern NSString *const kOTPAlgorithmSHA1;
 extern NSString *const kOTPAlgorithmSHA256;
 extern NSString *const kOTPAlgorithmSHA512;
 extern NSString *const kOTPAlgorithmMD5;
+
+
+@interface NSString (OTPAlgorithm)
+
++ (instancetype)stringForAlgorithm:(OTPAlgorithm)algorithm;
+
+- (OTPAlgorithm)algorithmValue;
+
+@end

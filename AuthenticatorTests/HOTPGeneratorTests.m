@@ -41,7 +41,7 @@
     OTPToken *token = [[OTPToken alloc] init];
     token.type = OTPTokenTypeCounter;
     token.secret = secret;
-    token.algorithm = kOTPAlgorithmSHA1;
+    token.algorithm = OTPAlgorithmSHA1;
     token.digits = 6;
     token.counter = 0;
     OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];

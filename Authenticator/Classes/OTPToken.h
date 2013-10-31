@@ -44,12 +44,12 @@ typedef NS_ENUM(NSUInteger, OTPTokenType) {
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic) OTPTokenType type;
 @property (nonatomic, copy) NSData *secret;
-@property (nonatomic, copy) NSString *algorithm;
+@property (nonatomic) OTPAlgorithm algorithm;
 @property (nonatomic) NSUInteger digits;
 
 @property (nonatomic, strong) OTPGenerator *generator;
 
-+ (NSString *)defaultAlgorithm;
++ (OTPAlgorithm)defaultAlgorithm;
 + (NSUInteger)defaultDigits;
 
 // HOTP

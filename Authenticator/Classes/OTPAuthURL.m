@@ -115,7 +115,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
       // Optional algorithm=(SHA1|SHA256|SHA512|MD5) defaults to SHA1
       NSString *algorithm = [query objectForKey:kQueryAlgorithmKey];
       if (!algorithm) {
-        algorithm = [OTPToken defaultAlgorithm];
+        algorithm = [NSString stringForAlgorithm:[OTPToken defaultAlgorithm]];
       }
       if (!secret) {
         // Required secret=Base32EncodedKey
@@ -327,7 +327,7 @@ static NSString *const TOTPAuthURLTimerNotification
     token.type = OTPTokenTypeTimer;
     token.name = name;
     token.secret = secret;
-    token.algorithm = algorithm;
+    token.algorithm = [algorithm algorithmValue];
     token.digits = digits;
     token.period = period;
 
@@ -409,7 +409,7 @@ static NSString *const TOTPAuthURLTimerNotification
       token.type = OTPTokenTypeCounter;
       token.name = name;
       token.secret = secret;
-      token.algorithm = algorithm;
+      token.algorithm = [algorithm algorithmValue];
       token.digits = digits;
       token.counter = counter;
     self = [self initWithToken:token];

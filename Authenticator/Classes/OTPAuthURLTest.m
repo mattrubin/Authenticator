@@ -110,7 +110,7 @@ static NSString *const kValidHOTPURL =
 
   OTPGenerator *generator = url.token.generator;
   STAssertEqualObjects([generator.token secret], secret, @"");
-  STAssertEqualObjects([generator.token algorithm], kValidAlgorithm, @"");
+  STAssertEqualObjects([NSString stringForAlgorithm:generator.token.algorithm], kValidAlgorithm, @"");
   STAssertEquals([generator.token period], kValidPeriod, @"");
   STAssertEquals([generator.token digits], kValidDigits, @"");
 
@@ -129,7 +129,7 @@ static NSString *const kValidHOTPURL =
 
   OTPGenerator *generator = url.token.generator;
   STAssertEqualObjects([generator.token secret], secret, @"");
-  STAssertEqualObjects([generator.token algorithm], kValidAlgorithm, @"");
+  STAssertEqualObjects([NSString stringForAlgorithm:generator.token.algorithm], kValidAlgorithm, @"");
   STAssertEquals([generator.token period], kValidPeriod, @"");
   STAssertEquals([generator.token digits], kValidDigits, @"");
 }
@@ -146,7 +146,7 @@ static NSString *const kValidHOTPURL =
 
   OTPGenerator *generator = url.token.generator;
   STAssertEqualObjects([generator.token secret], secret, @"");
-  STAssertEqualObjects([generator.token algorithm], kValidAlgorithm, @"");
+  STAssertEqualObjects([NSString stringForAlgorithm:generator.token.algorithm], kValidAlgorithm, @"");
   STAssertEquals([generator.token counter], kValidCounter, @"");
   STAssertEquals([generator.token digits], kValidDigits, @"");
 }

@@ -99,35 +99,19 @@ static NSUInteger kPinModTable[] = {
 
 - (NSString *)generateOTPForCounter:(uint64_t)counter {
     OTPToken *token = self.token;
-    NSAssert(token, @"The generator must have a token");
-    NSAssert(token.secret, @"The token must have a secret");
-    NSAssert(token.algorithm, @"The token must have an algorithm");
-  CCHmacAlgorithm alg;
-  NSUInteger hashLength = 0;
-  if ([token.algorithm isEqualToString:kOTPAlgorithmSHA1]) {
-    alg = kCCHmacAlgSHA1;
-    hashLength = CC_SHA1_DIGEST_LENGTH;
-  } else if ([token.algorithm isEqualToString:kOTPAlgorithmSHA256]) {
-    alg = kCCHmacAlgSHA256;
-    hashLength = CC_SHA256_DIGEST_LENGTH;
-  } else if ([token.algorithm isEqualToString:kOTPAlgorithmSHA512]) {
-    alg = kCCHmacAlgSHA512;
-    hashLength = CC_SHA512_DIGEST_LENGTH;
-  } else if ([token.algorithm isEqualToString:kOTPAlgorithmMD5]) {
-    alg = kCCHmacAlgMD5;
-    hashLength = CC_MD5_DIGEST_LENGTH;
-  } else {
-    _GTMDevAssert(NO, @"Unknown algorithm");
-    return nil;
-  }
+    NSAssert([token validate], @"The generator must have a valid token");
+    if (![token validate]) {
+        return nil;
+    }
 
+    NSUInteger hashLength = [self hashLengthForAlgorithm:token.algorithm];
   NSMutableData *hash = [NSMutableData dataWithLength:hashLength];
 
   counter = NSSwapHostLongLongToBig(counter);
   NSData *counterData = [NSData dataWithBytes:&counter
                                        length:sizeof(counter)];
   CCHmacContext ctx;
-  CCHmacInit(&ctx, alg, [token.secret bytes], [token.secret length]);
+  CCHmacInit(&ctx, token.algorithm, [token.secret bytes], [token.secret length]);
   CCHmacUpdate(&ctx, [counterData bytes], [counterData length]);
   CCHmacFinal(&ctx, [hash mutableBytes]);
 
@@ -145,6 +129,20 @@ static NSUInteger kPinModTable[] = {
   _GTMDevLog(@"pinValue: %lu", pinValue);
 
   return [NSString stringWithFormat:@"%0*ld", token.digits, pinValue];
+}
+
+- (NSUInteger)hashLengthForAlgorithm:(OTPAlgorithm)algorithm
+{
+    switch (algorithm) {
+        case OTPAlgorithmSHA1:
+            return CC_SHA1_DIGEST_LENGTH;
+        case OTPAlgorithmSHA256:
+            return CC_SHA256_DIGEST_LENGTH;
+        case OTPAlgorithmSHA512:
+            return CC_SHA512_DIGEST_LENGTH;
+        case OTPAlgorithmMD5:
+            return CC_MD5_DIGEST_LENGTH;
+    }
 }
 
 @end

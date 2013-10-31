@@ -40,9 +40,9 @@
     return self;
 }
 
-+ (NSString *)defaultAlgorithm
++ (OTPAlgorithm)defaultAlgorithm
 {
-    return kOTPAlgorithmSHA1;
+    return OTPAlgorithmSHA1;
 }
 
 + (NSUInteger)defaultDigits
@@ -67,10 +67,10 @@
 {
     BOOL validType = (self.type == OTPTokenTypeCounter) || (self.type == OTPTokenTypeTimer);
     BOOL validSecret = !!self.secret;
-    BOOL validAlgorithm = ([self.algorithm isEqualToString:kOTPAlgorithmSHA1] ||
-                           [self.algorithm isEqualToString:kOTPAlgorithmSHA256] ||
-                           [self.algorithm isEqualToString:kOTPAlgorithmSHA512] ||
-                           [self.algorithm isEqualToString:kOTPAlgorithmMD5]);
+    BOOL validAlgorithm = (self.algorithm == OTPAlgorithmSHA1 ||
+                           self.algorithm == OTPAlgorithmSHA256 ||
+                           self.algorithm == OTPAlgorithmSHA512 ||
+                           self.algorithm == OTPAlgorithmMD5);
     BOOL validDigits = (self.digits <= 8) && (self.digits >= 6);
 
     BOOL validPeriod = (self.period > 0) && (self.period <= 300);

@@ -47,7 +47,7 @@ static NSString *const kQueryPeriodKey = @"period";
     NSMutableDictionary *query = [NSMutableDictionary dictionary];
     NSString *typeString;
 
-    query[kQueryAlgorithmKey] = self.algorithm;
+    query[kQueryAlgorithmKey] = [NSString stringForAlgorithm:self.algorithm];
     query[kQueryDigitsKey] = @(self.digits);
 
     if (self.type == OTPTokenTypeTimer) {

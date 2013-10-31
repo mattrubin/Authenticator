@@ -24,7 +24,45 @@
 
 #import "OTPAlgorithm.h"
 
+
+OTPAlgorithm OTPAlgorithmUnknown = UINT32_MAX;
+
+
 NSString *const kOTPAlgorithmSHA1 = @"SHA1";
 NSString *const kOTPAlgorithmSHA256 = @"SHA256";
 NSString *const kOTPAlgorithmSHA512 = @"SHA512";
 NSString *const kOTPAlgorithmMD5 = @"MD5";
+
+
+@implementation NSString (OTPAlgorithm)
+
++ (instancetype)stringForAlgorithm:(OTPAlgorithm)algorithm
+{
+    switch (algorithm) {
+        case OTPAlgorithmSHA1:
+            return kOTPAlgorithmSHA1;
+        case OTPAlgorithmSHA256:
+            return kOTPAlgorithmSHA256;
+        case OTPAlgorithmSHA512:
+            return kOTPAlgorithmSHA512;
+        case OTPAlgorithmMD5:
+            return kOTPAlgorithmMD5;
+    }
+}
+
+- (OTPAlgorithm)algorithmValue
+{
+    if ([self isEqualToString:kOTPAlgorithmSHA1]) {
+        return kCCHmacAlgSHA1;
+    } else if ([self isEqualToString:kOTPAlgorithmSHA256]) {
+        return kCCHmacAlgSHA256;
+    } else if ([self isEqualToString:kOTPAlgorithmSHA512]) {
+        return kCCHmacAlgSHA512;
+    } else if ([self isEqualToString:kOTPAlgorithmMD5]) {
+        return kCCHmacAlgMD5;
+    }
+    
+    return OTPAlgorithmUnknown;
+}
+
+@end
