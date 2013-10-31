@@ -31,9 +31,15 @@
 {
     self = [super init];
     if (self) {
+        self.algorithm = [self.class defaultAlgorithm];
         self.digits = [self.class defaultDigits];
     }
     return self;
+}
+
++ (NSString *)defaultAlgorithm
+{
+    return kOTPAlgorithmSHA1;
 }
 
 + (NSUInteger)defaultDigits

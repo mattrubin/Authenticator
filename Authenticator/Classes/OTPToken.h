@@ -41,6 +41,7 @@
 
 @property (nonatomic, strong) OTPGenerator *generator;
 
++ (NSString *)defaultAlgorithm;
 + (NSUInteger)defaultDigits;
 
 @end

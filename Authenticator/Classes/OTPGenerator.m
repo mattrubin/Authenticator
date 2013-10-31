@@ -48,10 +48,6 @@ static NSUInteger kPinModTable[] = {
 
 @implementation OTPGenerator
 
-+ (NSString *)defaultAlgorithm {
-  return kOTPAlgorithmSHA1;
-}
-
 - (id)init {
   [self doesNotRecognizeSelector:_cmd];
   return nil;

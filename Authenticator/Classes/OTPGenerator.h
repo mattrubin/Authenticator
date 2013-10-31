@@ -49,9 +49,6 @@
 
 @property (nonatomic, weak) OTPToken *token;
 
-// Some default values.
-+ (NSString *)defaultAlgorithm;
-
 // Designated initializer.
 - (id)initWithToken:(OTPToken *)token;
 
