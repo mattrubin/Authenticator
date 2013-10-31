@@ -52,4 +52,7 @@
 @property (nonatomic) NSTimeInterval period;
 + (NSTimeInterval)defaultPeriod;
 
+// Validation
+- (BOOL)validate;
+
 @end

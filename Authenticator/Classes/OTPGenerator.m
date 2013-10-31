@@ -58,14 +58,8 @@ static NSUInteger kPinModTable[] = {
   if ((self = [super init])) {
     self.token = token;
 
-    BOOL goodAlgorithm
-      = ([token.algorithm isEqualToString:kOTPAlgorithmSHA1] ||
-         [token.algorithm isEqualToString:kOTPAlgorithmSHA256] ||
-         [token.algorithm isEqualToString:kOTPAlgorithmSHA512] ||
-         [token.algorithm isEqualToString:kOTPAlgorithmMD5]);
-    if (!goodAlgorithm || token.digits > 8 || token.digits < 6 || !token.secret) {
-      _GTMDevLog(@"Bad args digits(min 6, max 8): %d secret: %@ algorithm: %@",
-                 token.digits, token.secret, token.algorithm);
+    if (![token validate]) {
+      NSLog(@"Attempted to initialize generator with invalid token: %@", token);
       self = nil;
     }
   }

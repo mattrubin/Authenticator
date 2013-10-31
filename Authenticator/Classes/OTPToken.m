@@ -59,4 +59,21 @@
     return 30;
 }
 
+
+#pragma mark - Validation
+
+- (BOOL)validate
+{
+    BOOL validSecret = !!self.secret;
+    BOOL validAlgorithm = ([self.algorithm isEqualToString:kOTPAlgorithmSHA1] ||
+                           [self.algorithm isEqualToString:kOTPAlgorithmSHA256] ||
+                           [self.algorithm isEqualToString:kOTPAlgorithmSHA512] ||
+                           [self.algorithm isEqualToString:kOTPAlgorithmMD5]);
+    BOOL validDigits = (self.digits <= 8) && (self.digits >= 6);
+
+    BOOL validPeriod = (self.period > 0) && (self.period <= 300);
+
+    return validSecret && validAlgorithm && validDigits && validPeriod;
+}
+
 @end

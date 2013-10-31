@@ -20,25 +20,8 @@
 #import "TOTPGenerator.h"
 #import "OTPToken.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundef"
-#pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMDefines.h>
-#pragma clang diagnostic pop
-
 
 @implementation TOTPGenerator
-
-- (id)initWithToken:(OTPToken *)token
-{
-  if ((self = [super initWithToken:token])) {
-    if (token.period <= 0 || token.period > 300) {
-      _GTMDevLog(@"Bad Period: %f", token.period);
-      self = nil;
-    }
-  }
-  return self;
-}
 
 - (NSString *)generateOTP {
   return [self generateOTPForDate:[NSDate date]];
