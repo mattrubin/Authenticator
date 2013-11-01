@@ -58,11 +58,12 @@
 
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name type:(OTPTokenType)type;
 
+- (void)generateNextOTPCode;
+
 @end
 
 @interface TOTPAuthURL : OTPAuthURL
 @end
 
 @interface HOTPAuthURL : OTPAuthURL
-- (void)generateNextOTPCode;
 @end

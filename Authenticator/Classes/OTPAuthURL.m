@@ -121,7 +121,11 @@
 }
 
 - (void)generateNextOTPCode {
-  _GTMDevLog(@"Called generateNextOTPCode on a non-HOTP generator");
+    if (self.token.type == OTPTokenTypeCounter) {
+        [self.token updatePassword];
+    } else {
+        _GTMDevLog(@"Called generateNextOTPCode on a non-HOTP generator");
+    }
 }
 
 - (NSString*)checkCode {
@@ -170,10 +174,5 @@
 @end
 
 @implementation HOTPAuthURL
-
-- (void)generateNextOTPCode {
-    [self.token updatePassword];
-}
-
 @end
 
