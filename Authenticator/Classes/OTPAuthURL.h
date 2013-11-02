@@ -61,9 +61,3 @@
 - (void)generateNextOTPCode;
 
 @end
-
-@interface TOTPAuthURL : OTPAuthURL
-@end
-
-@interface HOTPAuthURL : OTPAuthURL
-@end

@@ -51,12 +51,7 @@
                         secret:(NSData *)secret {
   OTPAuthURL *authURL = nil;
     OTPToken *token = [OTPToken tokenWithURL:url secret:secret];
-
-    if (token.type == OTPTokenTypeCounter) {
-        authURL = [[HOTPAuthURL alloc] initWithToken:token];
-    } else if (token.type == OTPTokenTypeTimer) {
-        authURL = [[TOTPAuthURL alloc] initWithToken:token];
-    }
+    authURL = [[OTPAuthURL alloc] initWithToken:token];
   return authURL;
 }
 
@@ -87,12 +82,6 @@
       self = nil;
     } else {
       self.token = token;
-
-        // Check that it's the right subclass (temporary)
-        Class authURLClass = (token.type == OTPTokenTypeTimer) ? [TOTPAuthURL class] : [HOTPAuthURL class];
-        if (self && ![self isKindOfClass:authURLClass]) {
-            self = [[authURLClass alloc] initWithToken:token];
-        }
     }
   }
   return self;
@@ -169,10 +158,3 @@
 }
 
 @end
-
-@implementation TOTPAuthURL
-@end
-
-@implementation HOTPAuthURL
-@end
-

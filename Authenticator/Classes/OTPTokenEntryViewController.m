@@ -88,9 +88,8 @@
     NSData *secretKey = [self.secretKeyField.text base32DecodedData];
 
     if (secretKey.length) {
-        Class tokenClass = (self.tokenTypeControl.selectedSegmentIndex == 0) ? [TOTPAuthURL class] : [HOTPAuthURL class];
         OTPTokenType tokenType = (self.tokenTypeControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
-        OTPAuthURL *token = [[tokenClass alloc] initWithSecret:secretKey
+        OTPAuthURL *token = [[OTPAuthURL alloc] initWithSecret:secretKey
                                                           name:self.accountNameField.text
                                                           type:tokenType];
 

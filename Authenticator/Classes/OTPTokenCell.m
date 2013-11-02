@@ -189,8 +189,8 @@
 
 - (void)generateNextPassword
 {
-    if ([self.token isKindOfClass:[HOTPAuthURL class]]) {
-        [(HOTPAuthURL *)self.token generateNextOTPCode];
+    if (self.token.token.type == OTPTokenTypeCounter) {
+        [self.token generateNextOTPCode];
     }
 }
 

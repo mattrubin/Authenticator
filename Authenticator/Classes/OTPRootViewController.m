@@ -86,7 +86,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 {
     BOOL hidden = YES;
     for (OTPAuthURL *url in self.authURLs) {
-        if ([url isMemberOfClass:[TOTPAuthURL class]]) {
+        if (url.token.type == OTPTokenTypeTimer) {
             hidden = NO;
             break;
         }
@@ -169,9 +169,9 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     Class cellClass = Nil;
     
     OTPAuthURL *url = (self.authURLs)[indexPath.row];
-    if ([url isMemberOfClass:[HOTPAuthURL class]]) {
+    if (url.token.type == OTPTokenTypeCounter) {
         cellClass = [HOTPTokenCell class];
-    } else if ([url isMemberOfClass:[TOTPAuthURL class]]) {
+    } else if (url.token.type == OTPTokenTypeTimer) {
         cellClass = [TOTPTokenCell class];
     }
     NSString *cellIdentifier = NSStringFromClass(cellClass);
