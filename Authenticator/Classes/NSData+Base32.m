@@ -25,27 +25,16 @@
 #import "NSData+Base32.h"
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundef"
-#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 #pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMStringEncoding.h>
+#import <Base32/MF_Base32Additions.h>
 #pragma clang diagnostic pop
-
-
-
-static NSString *const kBase32Charset = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
-static NSString *const kBase32Synonyms = @"AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-static NSString *const kBase32Sep = @" -=";
 
 
 @implementation NSData (Base32)
 
 - (NSString *)base32EncodedString
 {
-    GTMStringEncoding *coder = [GTMStringEncoding stringEncodingWithString:kBase32Charset];
-    [coder addDecodeSynonyms:kBase32Synonyms];
-    [coder ignoreCharacters:kBase32Sep];
-    return [coder encode:self];
+    return [self base32String];
 }
 
 @end
@@ -55,10 +44,7 @@ static NSString *const kBase32Sep = @" -=";
 
 - (NSData *)base32DecodedData
 {
-    GTMStringEncoding *coder = [GTMStringEncoding stringEncodingWithString:kBase32Charset];
-    [coder addDecodeSynonyms:kBase32Synonyms];
-    [coder ignoreCharacters:kBase32Sep];
-    return [coder decode:self];
+    return [NSData dataWithBase32String:self];
 }
 
 @end

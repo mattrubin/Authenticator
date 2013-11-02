@@ -29,7 +29,6 @@
 #pragma clang diagnostic ignored "-Wundef"
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 #pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMStringEncoding.h>
 #import <GTMNSDictionary+URLArguments.h>
 #import <GTMNSString+URLArguments.h>
 #pragma clang diagnostic pop
