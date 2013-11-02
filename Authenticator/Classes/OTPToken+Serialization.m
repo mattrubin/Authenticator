@@ -121,7 +121,8 @@ static NSString *const kQueryPeriodKey = @"period";
             }
         }
     }
-
+    if (![token validate])
+        return nil;
     return token;
 }
 
