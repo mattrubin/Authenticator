@@ -88,9 +88,9 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    OTPToken *authURL = [OTPToken tokenWithURL:url secret:nil];
-    if (authURL) {
-        NSString *message = [NSString stringWithFormat: @"Do you want to add a token for “%@”?", [authURL name]];
+    OTPToken *token = [OTPToken tokenWithURL:url secret:nil];
+    if (token) {
+        NSString *message = [NSString stringWithFormat: @"Do you want to add a token for “%@”?", token.name];
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Token"
                                                         message:message
@@ -99,13 +99,13 @@
         
         alert.clickedButtonHandler = ^(UIAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == alertView.firstOtherButtonIndex) {
-                [self.rootViewController tokenSource:self didCreateToken:authURL];
+                [self.rootViewController tokenSource:self didCreateToken:token];
             }
         };
 
         [alert show];
     }
-    return !authURL;
+    return !token; // TODO: check that this return value is correct
 }
 
 @end
