@@ -24,6 +24,7 @@
 
 #import "OTPToken+Serialization.h"
 #import "NSString+PercentEncoding.h"
+#import "NSDictionary+QueryString.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
@@ -176,7 +177,7 @@ static NSString *const kQueryPeriodKey = @"period";
                                  kOTPAuthScheme,
                                  typeString,
                                  [self.name percentEncodedString],
-                                 [query gtm_httpArgumentsString]]];
+                                 [query queryString]]];
 }
 
 @end

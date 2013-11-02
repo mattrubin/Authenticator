@@ -35,6 +35,7 @@
 		C9044FD018224D32002C3C3F /* OTPAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FCE18224D32002C3C3F /* OTPAlgorithm.m */; };
 		C9044FD61824CDE7002C3C3F /* OTPBase32Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FD51824CDE7002C3C3F /* OTPBase32Tests.m */; };
 		C9044FD91824E05E002C3C3F /* NSString+PercentEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FD81824E05E002C3C3F /* NSString+PercentEncoding.m */; };
+		C9044FDC1824E711002C3C3F /* NSDictionary+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
 		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
 		C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */; };
@@ -108,6 +109,8 @@
 		C9044FD51824CDE7002C3C3F /* OTPBase32Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPBase32Tests.m; sourceTree = "<group>"; };
 		C9044FD71824E05E002C3C3F /* NSString+PercentEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PercentEncoding.h"; sourceTree = "<group>"; };
 		C9044FD81824E05E002C3C3F /* NSString+PercentEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PercentEncoding.m"; sourceTree = "<group>"; };
+		C9044FDA1824E711002C3C3F /* NSDictionary+QueryString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+QueryString.h"; sourceTree = "<group>"; };
+		C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QueryString.m"; sourceTree = "<group>"; };
 		C948F01517D70080008FCA41 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
@@ -330,6 +333,8 @@
 				C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */,
 				C9044FD71824E05E002C3C3F /* NSString+PercentEncoding.h */,
 				C9044FD81824E05E002C3C3F /* NSString+PercentEncoding.m */,
+				C9044FDA1824E711002C3C3F /* NSDictionary+QueryString.h */,
+				C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -519,6 +524,7 @@
 				C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */,
 				C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */,
 				C9044FCF18224D32002C3C3F /* OTPAlgorithm.m in Sources */,
+				C9044FDC1824E711002C3C3F /* NSDictionary+QueryString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
