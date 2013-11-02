@@ -28,5 +28,6 @@
 @interface NSString (PercentEncoding)
 
 - (NSString *)percentEncodedString;
+- (NSString *)percentDecodedString;
 
 @end

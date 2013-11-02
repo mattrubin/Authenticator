@@ -25,6 +25,10 @@
 #import "NSString+PercentEncoding.h"
 
 
+// For alternate implementations, see:
+// https://github.com/Singly/iOS-SDK/blob/master/SinglySDK/SinglySDK/NSString%2BURLEncoding.m
+// https://code.google.com/p/google-toolbox-for-mac/source/browse/trunk/Foundation/GTMNSString%2BURLArguments.m
+
 @implementation NSString (PercentEncoding)
 
 // NSString's stringByAddingPercentEscapesUsingEncoding: doesn't percent-encode the reserved
@@ -40,6 +44,21 @@
                                                                         CFSTR(":/?#[]@!$&'()*+,;=%"),
                                                                         kCFStringEncodingUTF8);
     return CFBridgingRelease(escapedString);
+}
+
+// This method unescapes all percent-encoded characters to convert a string from a URL into a human-
+// readable format. Prior to unescaping, it also converts all instances of '+' to spaces.
+
+- (NSString *)percentDecodedString
+{
+    // If a "+" exists in this string, it represents a space, since a literal "+" should have been converted to "%2B"
+    NSString *stringWithSpaces = [self stringByReplacingOccurrencesOfString:@"+" withString:@" " options:NSLiteralSearch range:NSMakeRange(0, self.length)];
+    // Convert all percent-encoded characters back to their readable equivalents
+    CFStringRef decodedString = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL,
+                                                                                        (__bridge CFStringRef)(stringWithSpaces),
+                                                                                        CFSTR(""),
+                                                                                        kCFStringEncodingUTF8);
+    return CFBridgingRelease(decodedString);
 }
 
 @end

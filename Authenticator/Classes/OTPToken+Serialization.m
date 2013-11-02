@@ -31,12 +31,6 @@
 #import <Base32/MF_Base32Additions.h>
 #pragma clang diagnostic pop
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundef"
-#pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMNSDictionary+URLArguments.h>
-#pragma clang diagnostic pop
-
 
 static NSString *const kOTPAuthScheme = @"otpauth";
 static NSString *const kTOTPAuthScheme = @"totp";
@@ -67,7 +61,7 @@ static NSString *const kQueryPeriodKey = @"period";
             NSString *name = [[url path] substringFromIndex:1];
 
             NSDictionary *query =
-            [NSDictionary gtm_dictionaryWithHttpArgumentsString:[url query]];
+            [NSDictionary dictionaryWithQueryString:[url query]];
 
             // Optional algorithm=(SHA1|SHA256|SHA512|MD5) defaults to SHA1
             NSString *algorithm = [query objectForKey:kQueryAlgorithmKey];
