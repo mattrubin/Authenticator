@@ -35,7 +35,7 @@
 
 static NSString *const kBase32Charset = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 static NSString *const kBase32Synonyms = @"AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-static NSString *const kBase32Sep = @" -";
+static NSString *const kBase32Sep = @" -=";
 
 
 @implementation NSData (Base32)

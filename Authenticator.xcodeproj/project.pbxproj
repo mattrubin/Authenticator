@@ -33,6 +33,7 @@
 		C9044FC81821C466002C3C3F /* OTPToken+Serialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FC61821C466002C3C3F /* OTPToken+Serialization.m */; };
 		C9044FCF18224D32002C3C3F /* OTPAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FCE18224D32002C3C3F /* OTPAlgorithm.m */; };
 		C9044FD018224D32002C3C3F /* OTPAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FCE18224D32002C3C3F /* OTPAlgorithm.m */; };
+		C9044FD61824CDE7002C3C3F /* OTPBase32Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FD51824CDE7002C3C3F /* OTPBase32Tests.m */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
 		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
 		C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */; };
@@ -104,6 +105,7 @@
 		C9044FC61821C466002C3C3F /* OTPToken+Serialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OTPToken+Serialization.m"; sourceTree = "<group>"; };
 		C9044FCD18224D32002C3C3F /* OTPAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAlgorithm.h; sourceTree = "<group>"; };
 		C9044FCE18224D32002C3C3F /* OTPAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAlgorithm.m; sourceTree = "<group>"; };
+		C9044FD51824CDE7002C3C3F /* OTPBase32Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPBase32Tests.m; sourceTree = "<group>"; };
 		C948F01517D70080008FCA41 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 				C9906A411812529400BAEF53 /* HOTPGeneratorTests.m */,
 				C9015FD2181261DF00F6A2AA /* TOTPGeneratorTests.m */,
 				8B2B89BE118B968900437315 /* OTPAuthURLTest.m */,
+				C9044FD51824CDE7002C3C3F /* OTPBase32Tests.m */,
 				C9906A341812522100BAEF53 /* Supporting Files */,
 			);
 			path = AuthenticatorTests;
@@ -526,6 +529,7 @@
 				C9044FD018224D32002C3C3F /* OTPAlgorithm.m in Sources */,
 				C9015FD118125AF800F6A2AA /* OTPGenerator.m in Sources */,
 				C999C6941813500B0013C1C6 /* OTPToken.m in Sources */,
+				C9044FD61824CDE7002C3C3F /* OTPBase32Tests.m in Sources */,
 				C9044FC41821C074002C3C3F /* OTPToken+Persistence.m in Sources */,
 				C9906A421812529400BAEF53 /* HOTPGeneratorTests.m in Sources */,
 				C9015FD3181261DF00F6A2AA /* TOTPGeneratorTests.m in Sources */,
