@@ -105,7 +105,7 @@
 
 - (void)copyPassword
 {
-    [[UIPasteboard generalPasteboard] setValue:self.token.otpCode forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
+    [[UIPasteboard generalPasteboard] setValue:self.token.password forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
 
     [SVProgressHUD showSuccessWithStatus:@"Copied"];
 }
@@ -138,7 +138,7 @@
 - (void)refresh
 {
     self.nameLabel.text = self.token.name;
-    self.passwordLabel.text = self.token.otpCode;
+    self.passwordLabel.text = self.token.password;
 }
 
 
@@ -190,7 +190,7 @@
 - (void)generateNextPassword
 {
     if (self.token.token.type == OTPTokenTypeCounter) {
-        [self.token generateNextOTPCode];
+        [self.token updatePassword];
     }
 }
 

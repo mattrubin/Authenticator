@@ -147,7 +147,7 @@
 {
     // Attempt to create an auth URL from the decoded text
     NSURL *url = [NSURL URLWithString:decodedText];
-    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
+    OTPAuthURL *authURL = [OTPAuthURL tokenWithURL:url secret:nil];
 
     if (authURL) {
         // Halt the video capture

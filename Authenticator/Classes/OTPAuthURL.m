@@ -38,26 +38,26 @@
 
 @implementation OTPAuthURL
 
-+ (OTPAuthURL *)authURLWithURL:(NSURL *)url
++ (OTPAuthURL *)tokenWithURL:(NSURL *)url
                         secret:(NSData *)secret {
     OTPToken *token = [OTPToken tokenWithURL:url secret:secret];
     return [[self alloc] initWithToken:token];
 }
 
-+ (OTPAuthURL *)authURLWithKeychainItemRef:(NSData *)data {
++ (OTPAuthURL *)tokenWithKeychainItemRef:(NSData *)data {
     OTPToken *token = [OTPToken tokenWithKeychainItemRef:data];
     return [[self alloc] initWithToken:token];
 }
 
-+ (OTPAuthURL *)authURLWithKeychainDictionary:(NSDictionary *)dict {
++ (OTPAuthURL *)tokenWithKeychainDictionary:(NSDictionary *)dict {
     OTPToken *token = [OTPToken tokenWithKeychainDictionary:dict];
     return [[self alloc] initWithToken:token];
 }
 
-- (id)initWithSecret:(NSData *)secret name:(NSString *)name type:(OTPTokenType)type
++ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name
 {
     OTPToken *token = [OTPToken tokenWithType:type secret:secret name:name];
-    return [self initWithToken:token];
+    return [[self alloc] initWithToken:token];
 }
 
 - (id)initWithToken:(OTPToken *)token
@@ -95,11 +95,11 @@
   return self.token.isInKeychain;
 }
 
-- (void)generateNextOTPCode {
+- (void)updatePassword {
     [self.token updatePassword];
 }
 
-- (NSString*)checkCode {
+- (NSString*)verificationCode {
     return self.token.verificationCode;
 }
 
@@ -125,7 +125,7 @@
     [self.token setName:name];
 }
 
-- (NSString *)otpCode
+- (NSString *)password
 {
     return self.token.password;
 }

@@ -126,7 +126,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     NSArray *savedKeychainReferences = [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
     self.authURLs = [NSMutableArray arrayWithCapacity:[savedKeychainReferences count]];
     for (NSData *keychainRef in savedKeychainReferences) {
-        OTPAuthURL *authURL = [OTPAuthURL authURLWithKeychainItemRef:keychainRef];
+        OTPAuthURL *authURL = [OTPAuthURL tokenWithKeychainItemRef:keychainRef];
         if (authURL) {
             [self.authURLs addObject:authURL];
         }

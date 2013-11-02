@@ -32,12 +32,13 @@
 
 // |name| is an arbitrary UTF8 text string extracted from the url path.
 @property(readwrite, copy, nonatomic) NSString *name;
-@property(readonly, nonatomic) NSString *otpCode;
-@property(readonly, nonatomic) NSString *checkCode;
+@property(readonly, nonatomic) NSString *password;
+@property(readonly, nonatomic) NSString *verificationCode;
 
-+ (OTPAuthURL *)authURLWithURL:(NSURL *)url
++ (OTPAuthURL *)tokenWithURL:(NSURL *)url
                         secret:(NSData *)secret;
-+ (OTPAuthURL *)authURLWithKeychainItemRef:(NSData *)keychainItemRef;
++ (OTPAuthURL *)tokenWithKeychainItemRef:(NSData *)keychainItemRef;
++ (OTPAuthURL *)tokenWithKeychainDictionary:(NSDictionary *)dict;
 
 // Returns a reconstructed NSURL object representing the current state of the
 // |generator|.
@@ -56,8 +57,8 @@
 - (BOOL)isInKeychain;
 
 
-- (id)initWithSecret:(NSData *)secret name:(NSString *)name type:(OTPTokenType)type;
++ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name;
 
-- (void)generateNextOTPCode;
+- (void)updatePassword;
 
 @end

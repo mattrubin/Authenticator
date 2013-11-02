@@ -88,7 +88,7 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
+    OTPAuthURL *authURL = [OTPAuthURL tokenWithURL:url secret:nil];
     if (authURL) {
         NSString *message = [NSString stringWithFormat: @"Do you want to add a token for “%@”?", [authURL name]];
         

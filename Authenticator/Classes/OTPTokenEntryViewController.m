@@ -89,11 +89,11 @@
 
     if (secretKey.length) {
         OTPTokenType tokenType = (self.tokenTypeControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
-        OTPAuthURL *token = [[OTPAuthURL alloc] initWithSecret:secretKey
-                                                          name:self.accountNameField.text
-                                                          type:tokenType];
+        OTPAuthURL *token = [OTPAuthURL tokenWithType:tokenType
+                                               secret:secretKey
+                                                 name:self.accountNameField.text];
 
-        if (token.checkCode) {
+        if (token.verificationCode) {
             id <OTPTokenSourceDelegate> delegate = self.delegate;
             [delegate tokenSource:self didCreateToken:token];
             return;
