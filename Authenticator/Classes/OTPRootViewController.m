@@ -152,6 +152,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 
 #pragma mark - UITableViewDataSource
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -215,6 +217,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         }
     }
 }
+
+#pragma clang diagnostic pop
 
 
 #pragma mark - UITableViewDelegate
