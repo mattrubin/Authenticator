@@ -24,12 +24,6 @@
 #import "OTPClock.h"
 #import "OTPTokenEntryViewController.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundef"
-#pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMDefines.h>
-#pragma clang diagnostic pop
-
 
 static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 

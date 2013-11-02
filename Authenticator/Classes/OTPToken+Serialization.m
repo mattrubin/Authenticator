@@ -54,7 +54,7 @@ static NSString *const kQueryPeriodKey = @"period";
         token = [self tokenWithTOTPURL:url];
     } else if (![urlScheme isEqualToString:kOTPAuthScheme]) {
         // Required (otpauth://)
-        _GTMDevLog(@"invalid scheme: %@", [url scheme]);
+        NSLog(@"invalid scheme: %@", [url scheme]);
     } else {
         NSString *path = [url path];
         if ([path length] > 1) {
@@ -103,7 +103,7 @@ static NSString *const kQueryPeriodKey = @"period";
 
                     token.counter = counter;
                 } else {
-                    _GTMDevLog(@"invalid counter: %@", counterString);
+                    NSLog(@"invalid counter: %@", counterString);
                     token = nil;
                 }
             } else if ([type isEqualToString:@"totp"]) {
