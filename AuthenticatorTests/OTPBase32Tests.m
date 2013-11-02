@@ -23,7 +23,11 @@
 //
 
 @import XCTest;
-#import "NSData+Base32.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wauto-import"
+#import <Base32/MF_Base32Additions.h>
+#pragma clang diagnostic pop
 
 
 @interface OTPBase32Tests : XCTestCase
@@ -66,10 +70,10 @@
 
         // We don't actually need to test encoding, and there are padding discrepancies between
         // different Base32 implementations, so this will remain commented out for now.
-//        NSString *encryptedPlaintext = [[plaintext dataUsingEncoding:NSUTF8StringEncoding] base32EncodedString];
+//        NSString *encryptedPlaintext = [[plaintext dataUsingEncoding:NSUTF8StringEncoding] base32String];
 //        XCTAssertEqualObjects(encryptedPlaintext, ciphertext, @"");
 
-        NSString *decryptedCiphertext = [[NSString alloc] initWithData:[ciphertext base32DecodedData] encoding:NSUTF8StringEncoding];
+        NSString *decryptedCiphertext = [[NSString alloc] initWithData:[NSData dataWithBase32String:ciphertext] encoding:NSUTF8StringEncoding];
         XCTAssertEqualObjects(decryptedCiphertext, plaintext, @"");
     }
 }

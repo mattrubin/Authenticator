@@ -23,7 +23,11 @@
 //
 
 #import "OTPToken+Serialization.h"
-#import "NSData+Base32.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wauto-import"
+#import <Base32/MF_Base32Additions.h>
+#pragma clang diagnostic pop
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
@@ -73,7 +77,7 @@ static NSString *const kQueryPeriodKey = @"period";
             if (!secret) {
                 // Required secret=Base32EncodedKey
                 NSString *secretString = [query objectForKey:kQuerySecretKey];
-                secret = [secretString base32DecodedData];
+                secret = [NSData dataWithBase32String:secretString];
             }
             // Optional digits=[68] defaults to 8
             NSString *digitString = [query objectForKey:kQueryDigitsKey];
@@ -139,7 +143,7 @@ static NSString *const kQueryPeriodKey = @"period";
     if (url.host.length)
         [name appendString:url.host];
 
-    NSData *secret = [url.fragment base32DecodedData];
+    NSData *secret = [NSData dataWithBase32String:url.fragment];
 
     OTPToken *token = [[OTPToken alloc] init];
     token.type = OTPTokenTypeTimer;
