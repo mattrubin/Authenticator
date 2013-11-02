@@ -26,9 +26,6 @@
 #import "OTPAlgorithm.h"
 
 
-@class OTPGenerator;
-
-
 typedef NS_ENUM(NSUInteger, OTPTokenType) {
     OTPTokenTypeUndefined = 0,
     OTPTokenTypeCounter,
@@ -49,8 +46,6 @@ extern NSString * const OTPTokenDidUpdateNotification;
 @property (nonatomic) OTPAlgorithm algorithm;
 @property (nonatomic) NSUInteger digits;
 
-@property (nonatomic, strong) OTPGenerator *generator;
-
 + (OTPAlgorithm)defaultAlgorithm;
 + (NSUInteger)defaultDigits;
 
@@ -66,7 +61,7 @@ extern NSString * const OTPTokenDidUpdateNotification;
 - (BOOL)validate;
 
 // Password
-@property (nonatomic, strong) NSString *password; // TODO: readonly
+@property (nonatomic, readonly) NSString *password;
 - (void)updatePassword;
 
 @property (nonatomic, readonly) NSString *verificationCode;

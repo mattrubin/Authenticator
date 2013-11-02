@@ -31,6 +31,14 @@ NSString * const OTPTokenDidUpdateNotification = @"OTPTokenDidUpdateNotification
 static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTimerNotification";
 
 
+@interface OTPToken ()
+
+@property (nonatomic, strong) OTPGenerator *generator;
+@property (nonatomic, strong) NSString *password;
+
+@end
+
+
 @implementation OTPToken
 
 - (id)init
@@ -59,8 +67,8 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@ %p> type: %u name: %@ ref: %p verification: %@",
-            self.class, self, self.type, self.name, self.keychainItemRef, self.verificationCode];
+    return [NSString stringWithFormat:@"<%@ %p> type: %u, name: %@, verification: %@",
+            self.class, self, self.type, self.name, self.verificationCode];
 }
 
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name

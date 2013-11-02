@@ -73,6 +73,14 @@ static NSString *const kValidHOTPURL =
     @"&counter=18446744073709551615"
     @"&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4";
 
+@interface OTPToken ()
+
++ (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary;
+@property (nonatomic, readonly) BOOL isInKeychain;
+@property (nonatomic, readonly) OTPGenerator *generator;
+
+@end
+
 @interface OTPAuthURLTest : XCTestCase
 - (void)testInitWithKeychainDictionary;
 - (void)testInitWithTOTPURL;

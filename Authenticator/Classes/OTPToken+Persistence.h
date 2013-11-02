@@ -28,10 +28,6 @@
 @interface OTPToken (Persistence)
 
 + (instancetype)tokenWithKeychainItemRef:(NSData *)keychainItemRef;
-+ (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary; // TODO: private
-
-@property (nonatomic, readonly) NSData *keychainItemRef;
-@property (nonatomic, readonly) BOOL isInKeychain;
 
 - (BOOL)saveToKeychain;
 - (BOOL)removeFromKeychain;
