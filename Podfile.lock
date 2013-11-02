@@ -1,8 +1,10 @@
 PODS:
+  - Base32 (1.0.1)
   - google-toolbox-for-authenticator (446)
   - SVProgressHUD (0.9)
 
 DEPENDENCIES:
+  - Base32 (~> 1.0.1)
   - google-toolbox-for-authenticator (from `google-toolbox-for-authenticator.podspec`)
   - SVProgressHUD (= 0.9)
 
@@ -11,7 +13,8 @@ EXTERNAL SOURCES:
     :podspec: google-toolbox-for-authenticator.podspec
 
 SPEC CHECKSUMS:
-  google-toolbox-for-authenticator: 836595666ed3588c82e1d28e691125887b475cbd
+  Base32: ccb38da4a8cdc41e8d4d7fe7af21dc01ef83fe52
+  google-toolbox-for-authenticator: de33e5baf0715edc0bc8be1cfee55b1ab3400aa9
   SVProgressHUD: 03d4845ec8e64591726428a08236c6a5489d45f8
 
 COCOAPODS: 0.26.2

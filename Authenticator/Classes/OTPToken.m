@@ -109,7 +109,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 - (BOOL)validate
 {
     BOOL validType = (self.type == OTPTokenTypeCounter) || (self.type == OTPTokenTypeTimer);
-    BOOL validSecret = !!self.secret;
+    BOOL validSecret = !!self.secret.length;
     BOOL validAlgorithm = (self.algorithm == OTPAlgorithmSHA1 ||
                            self.algorithm == OTPAlgorithmSHA256 ||
                            self.algorithm == OTPAlgorithmSHA512 ||
