@@ -1,5 +1,5 @@
 //
-//  NSData+Base32.m
+//  NSDictionary+QueryString.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,43 +22,13 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "NSData+Base32.h"
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundef"
-#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
-#pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMStringEncoding.h>
-#pragma clang diagnostic pop
+@import Foundation;
 
 
+@interface NSDictionary (QueryString)
 
-static NSString *const kBase32Charset = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
-static NSString *const kBase32Synonyms = @"AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-static NSString *const kBase32Sep = @" -";
++ (instancetype)dictionaryWithQueryString:(NSString *)queryString;
 
-
-@implementation NSData (Base32)
-
-- (NSString *)base32EncodedString
-{
-    GTMStringEncoding *coder = [GTMStringEncoding stringEncodingWithString:kBase32Charset];
-    [coder addDecodeSynonyms:kBase32Synonyms];
-    [coder ignoreCharacters:kBase32Sep];
-    return [coder encode:self];
-}
-
-@end
-
-
-@implementation NSString (Base32)
-
-- (NSData *)base32DecodedData
-{
-    GTMStringEncoding *coder = [GTMStringEncoding stringEncodingWithString:kBase32Charset];
-    [coder addDecodeSynonyms:kBase32Synonyms];
-    [coder ignoreCharacters:kBase32Sep];
-    return [coder decode:self];
-}
+- (NSString *)queryString;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  NSData+Base32.h
+//  NSString+PercentEncoding.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -25,15 +25,9 @@
 @import Foundation;
 
 
-@interface NSData (Base32)
+@interface NSString (PercentEncoding)
 
-- (NSString *)base32EncodedString;
-
-@end
-
-
-@interface NSString (Base32)
-
-- (NSData *)base32DecodedData;
+- (NSString *)percentEncodedString;
+- (NSString *)percentDecodedString;
 
 @end

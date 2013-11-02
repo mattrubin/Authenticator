@@ -25,18 +25,10 @@
 #define STAssertFalse XCTAssertFalse
 #define STAssertNil XCTAssertNil
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundef"
-#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
-#pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMStringEncoding.h>
-#import <GTMNSDictionary+URLArguments.h>
-#import <GTMNSString+URLArguments.h>
-#pragma clang diagnostic pop
-
 #import "OTPGenerator.h"
 #import "OTPToken+Serialization.h"
 #import "OTPToken+Persistence.h"
+#import "NSDictionary+QueryString.h"
 
 static NSString *const kOTPAuthScheme = @"otpauth";
 
@@ -202,7 +194,7 @@ static NSString *const kValidHOTPURL =
        kValidDigitsString, kQueryDigitsKey,
        kValidPeriodString, kQueryPeriodKey,
        nil];
-  STAssertEqualObjects([NSDictionary gtm_dictionaryWithHttpArgumentsString:
+  STAssertEqualObjects([NSDictionary dictionaryWithQueryString:
                         [[token url] query]],
                        result,
                        @"");
@@ -217,7 +209,7 @@ static NSString *const kValidHOTPURL =
        kValidDigitsString, kQueryDigitsKey,
        kValidCounterString, kQueryCounterKey,
        nil];
-  STAssertEqualObjects([NSDictionary gtm_dictionaryWithHttpArgumentsString:
+  STAssertEqualObjects([NSDictionary dictionaryWithQueryString:
                         [[token2 url] query]],
                        resultForHOTP,
                        @"");

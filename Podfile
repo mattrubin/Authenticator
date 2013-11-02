@@ -1,7 +1,7 @@
 platform :ios, '7.0'
 
 pod 'SVProgressHUD', '0.9'
-pod 'google-toolbox-for-authenticator', :podspec => 'google-toolbox-for-authenticator.podspec'
+pod 'Base32', '~> 1.0.1'
 
 post_install do | installer |
   require 'fileutils'

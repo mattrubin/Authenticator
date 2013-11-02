@@ -23,14 +23,12 @@
 //
 
 #import "OTPToken+Serialization.h"
-#import "NSData+Base32.h"
+#import "NSString+PercentEncoding.h"
+#import "NSDictionary+QueryString.h"
 
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundef"
 #pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMNSString+URLArguments.h>
-#import <GTMNSDictionary+URLArguments.h>
-#import <GTMNSScanner+Unsigned.h>
+#import <Base32/MF_Base32Additions.h>
 #pragma clang diagnostic pop
 
 
@@ -54,7 +52,7 @@ static NSString *const kQueryPeriodKey = @"period";
         token = [self tokenWithTOTPURL:url];
     } else if (![urlScheme isEqualToString:kOTPAuthScheme]) {
         // Required (otpauth://)
-        _GTMDevLog(@"invalid scheme: %@", [url scheme]);
+        NSLog(@"invalid scheme: %@", [url scheme]);
     } else {
         NSString *path = [url path];
         if ([path length] > 1) {
@@ -63,7 +61,7 @@ static NSString *const kQueryPeriodKey = @"period";
             NSString *name = [[url path] substringFromIndex:1];
 
             NSDictionary *query =
-            [NSDictionary gtm_dictionaryWithHttpArgumentsString:[url query]];
+            [NSDictionary dictionaryWithQueryString:[url query]];
 
             // Optional algorithm=(SHA1|SHA256|SHA512|MD5) defaults to SHA1
             NSString *algorithm = [query objectForKey:kQueryAlgorithmKey];
@@ -73,7 +71,7 @@ static NSString *const kQueryPeriodKey = @"period";
             if (!secret) {
                 // Required secret=Base32EncodedKey
                 NSString *secretString = [query objectForKey:kQuerySecretKey];
-                secret = [secretString base32DecodedData];
+                secret = [NSData dataWithBase32String:secretString];
             }
             // Optional digits=[68] defaults to 8
             NSString *digitString = [query objectForKey:kQueryDigitsKey];
@@ -95,15 +93,9 @@ static NSString *const kQueryPeriodKey = @"period";
 
                 NSString *counterString = [query objectForKey:kQueryCounterKey];
                 if ([self isValidCounter:counterString]) {
-                    NSScanner *scanner = [NSScanner scannerWithString:counterString];
-                    uint64_t counter;
-                    BOOL goodScan = [scanner gtm_scanUnsignedLongLong:&counter];
-                    // Good scan should always be good based on the isValidCounter check above.
-                    NSAssert(goodScan, @"goodscan should be true: %c", goodScan);
-
-                    token.counter = counter;
+                    token.counter = strtoull([counterString UTF8String], NULL, 10);
                 } else {
-                    _GTMDevLog(@"invalid counter: %@", counterString);
+                    NSLog(@"invalid counter: %@", counterString);
                     token = nil;
                 }
             } else if ([type isEqualToString:@"totp"]) {
@@ -139,7 +131,7 @@ static NSString *const kQueryPeriodKey = @"period";
     if (url.host.length)
         [name appendString:url.host];
 
-    NSData *secret = [url.fragment base32DecodedData];
+    NSData *secret = [NSData dataWithBase32String:url.fragment];
 
     OTPToken *token = [[OTPToken alloc] init];
     token.type = OTPTokenTypeTimer;
@@ -178,8 +170,8 @@ static NSString *const kQueryPeriodKey = @"period";
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/%@?%@",
                                  kOTPAuthScheme,
                                  typeString,
-                                 [self.name gtm_stringByEscapingForURLArgument],
-                                 [query gtm_httpArgumentsString]]];
+                                 [self.name percentEncodedString],
+                                 [query queryString]]];
 }
 
 @end

@@ -25,11 +25,11 @@
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
 #import "OTPToken.h"
-#import "NSData+Base32.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import <Base32/MF_Base32Additions.h>
 #pragma clang diagnostic pop
 
 
@@ -85,12 +85,12 @@
         return;
     }
 
-    NSData *secretKey = [self.secretKeyField.text base32DecodedData];
+    NSData *secret = [NSData dataWithBase32String:self.secretKeyField.text];
 
-    if (secretKey.length) {
+    if (secret.length) {
         OTPTokenType tokenType = (self.tokenTypeControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         OTPToken *token = [OTPToken tokenWithType:tokenType
-                                               secret:secretKey
+                                               secret:secret
                                                  name:self.accountNameField.text];
 
         if (token.verificationCode) {

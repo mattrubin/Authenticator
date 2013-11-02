@@ -23,12 +23,6 @@
 #import <CommonCrypto/CommonHMAC.h>
 #import <CommonCrypto/CommonDigest.h>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundef"
-#pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMDefines.h>
-#pragma clang diagnostic pop
-
 
 static NSUInteger kPinModTable[] = {
   0,
@@ -121,12 +115,14 @@ static NSUInteger kPinModTable[] = {
     NSSwapBigLongToHost(*((unsigned long *)&ptr[offset])) & 0x7fffffff;
   unsigned long pinValue = truncatedHash % kPinModTable[token.digits];
 
-  _GTMDevLog(@"secret: %@", token.secret);
-  _GTMDevLog(@"counter: %llu", counter);
-  _GTMDevLog(@"hash: %@", hash);
-  _GTMDevLog(@"offset: %d", offset);
-  _GTMDevLog(@"truncatedHash: %lu", truncatedHash);
-  _GTMDevLog(@"pinValue: %lu", pinValue);
+#ifdef DEBUG
+    NSLog(@"secret: %@", token.secret);
+    NSLog(@"counter: %llu", counter);
+    NSLog(@"hash: %@", hash);
+    NSLog(@"offset: %d", offset);
+    NSLog(@"truncatedHash: %lu", truncatedHash);
+    NSLog(@"pinValue: %lu", pinValue);
+#endif
 
   return [NSString stringWithFormat:@"%0*ld", token.digits, pinValue];
 }
