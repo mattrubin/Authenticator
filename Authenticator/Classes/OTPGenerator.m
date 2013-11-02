@@ -18,6 +18,7 @@
 //
 
 #import "OTPGenerator.h"
+#import "OTPToken.h"
 
 #import <CommonCrypto/CommonHMAC.h>
 #import <CommonCrypto/CommonDigest.h>
@@ -41,47 +42,24 @@ static NSUInteger kPinModTable[] = {
   100000000,
 };
 
-NSString *const kOTPGeneratorSHA1Algorithm = @"SHA1";
-NSString *const kOTPGeneratorSHA256Algorithm = @"SHA256";
-NSString *const kOTPGeneratorSHA512Algorithm = @"SHA512";
-NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
 
 @interface OTPGenerator ()
-@property (readwrite, nonatomic, copy) NSString *algorithm;
-@property (readwrite, nonatomic, copy) NSData *secret;
 @end
 
 @implementation OTPGenerator
-
-+ (NSString *)defaultAlgorithm {
-  return kOTPGeneratorSHA1Algorithm;
-}
-
-+ (NSUInteger)defaultDigits {
-  return 6;
-}
 
 - (id)init {
   [self doesNotRecognizeSelector:_cmd];
   return nil;
 }
 
-- (id)initWithSecret:(NSData *)secret
-           algorithm:(NSString *)algorithm
-              digits:(NSUInteger)digits {
+- (id)initWithToken:(OTPToken *)token
+{
   if ((self = [super init])) {
-    self.algorithm = algorithm;
-    self.secret = secret;
-    _digits = digits;
+    self.token = token;
 
-    BOOL goodAlgorithm
-      = ([algorithm isEqualToString:kOTPGeneratorSHA1Algorithm] ||
-         [algorithm isEqualToString:kOTPGeneratorSHA256Algorithm] ||
-         [algorithm isEqualToString:kOTPGeneratorSHA512Algorithm] ||
-         [algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]);
-    if (!goodAlgorithm || self.digits > 8 || self.digits < 6 || !self.secret) {
-      _GTMDevLog(@"Bad args digits(min 6, max 8): %d secret: %@ algorithm: %@",
-                 _digits, self.secret, self.algorithm);
+    if (![token validate]) {
+      NSLog(@"Attempted to initialize generator with invalid token: %@", token);
       self = nil;
     }
   }
@@ -89,39 +67,51 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
 }
 
 
-// Must be overriden by subclass.
 - (NSString *)generateOTP {
+    OTPToken *token = self.token;
+    NSAssert(token, @"The generator must have a token");
+    if (token.type == OTPTokenTypeCounter) {
+        uint64_t counter = [token counter];
+        counter += 1;
+        NSString *otp = [self generateOTPForCounter:counter];
+        [token setCounter:counter];
+        return otp;
+    } else if (token.type == OTPTokenTypeTimer) {
+        return [self generateOTPForDate:[NSDate date]];
+    }
+    // If type is undefined, fail
   [self doesNotRecognizeSelector:_cmd];
   return nil;
 }
 
-- (NSString *)generateOTPForCounter:(uint64_t)counter {
-  CCHmacAlgorithm alg;
-  NSUInteger hashLength = 0;
-  if ([self.algorithm isEqualToString:kOTPGeneratorSHA1Algorithm]) {
-    alg = kCCHmacAlgSHA1;
-    hashLength = CC_SHA1_DIGEST_LENGTH;
-  } else if ([self.algorithm isEqualToString:kOTPGeneratorSHA256Algorithm]) {
-    alg = kCCHmacAlgSHA256;
-    hashLength = CC_SHA256_DIGEST_LENGTH;
-  } else if ([self.algorithm isEqualToString:kOTPGeneratorSHA512Algorithm]) {
-    alg = kCCHmacAlgSHA512;
-    hashLength = CC_SHA512_DIGEST_LENGTH;
-  } else if ([self.algorithm isEqualToString:kOTPGeneratorSHAMD5Algorithm]) {
-    alg = kCCHmacAlgMD5;
-    hashLength = CC_MD5_DIGEST_LENGTH;
-  } else {
-    _GTMDevAssert(NO, @"Unknown algorithm");
-    return nil;
-  }
+- (NSString *)generateOTPForDate:(NSDate *)date {
+    OTPToken *token = self.token;
+    NSAssert(token, @"The generator must have a token");
+    if (!date) {
+        // If no now date specified, use the current date.
+        date = [NSDate date];
+    }
 
+    NSTimeInterval seconds = [date timeIntervalSince1970];
+    uint64_t counter = (uint64_t)(seconds / token.period);
+    return [self generateOTPForCounter:counter];
+}
+
+- (NSString *)generateOTPForCounter:(uint64_t)counter {
+    OTPToken *token = self.token;
+    NSAssert([token validate], @"The generator must have a valid token");
+    if (![token validate]) {
+        return nil;
+    }
+
+    NSUInteger hashLength = [self hashLengthForAlgorithm:token.algorithm];
   NSMutableData *hash = [NSMutableData dataWithLength:hashLength];
 
   counter = NSSwapHostLongLongToBig(counter);
   NSData *counterData = [NSData dataWithBytes:&counter
                                        length:sizeof(counter)];
   CCHmacContext ctx;
-  CCHmacInit(&ctx, alg, [self.secret bytes], [self.secret length]);
+  CCHmacInit(&ctx, token.algorithm, [token.secret bytes], [token.secret length]);
   CCHmacUpdate(&ctx, [counterData bytes], [counterData length]);
   CCHmacFinal(&ctx, [hash mutableBytes]);
 
@@ -129,16 +119,30 @@ NSString *const kOTPGeneratorSHAMD5Algorithm = @"MD5";
   unsigned char offset = ptr[hashLength-1] & 0x0f;
   unsigned long truncatedHash =
     NSSwapBigLongToHost(*((unsigned long *)&ptr[offset])) & 0x7fffffff;
-  unsigned long pinValue = truncatedHash % kPinModTable[self.digits];
+  unsigned long pinValue = truncatedHash % kPinModTable[token.digits];
 
-  _GTMDevLog(@"secret: %@", self.secret);
+  _GTMDevLog(@"secret: %@", token.secret);
   _GTMDevLog(@"counter: %llu", counter);
   _GTMDevLog(@"hash: %@", hash);
   _GTMDevLog(@"offset: %d", offset);
   _GTMDevLog(@"truncatedHash: %lu", truncatedHash);
   _GTMDevLog(@"pinValue: %lu", pinValue);
 
-  return [NSString stringWithFormat:@"%0*ld", self.digits, pinValue];
+  return [NSString stringWithFormat:@"%0*ld", token.digits, pinValue];
+}
+
+- (NSUInteger)hashLengthForAlgorithm:(OTPAlgorithm)algorithm
+{
+    switch (algorithm) {
+        case OTPAlgorithmSHA1:
+            return CC_SHA1_DIGEST_LENGTH;
+        case OTPAlgorithmSHA256:
+            return CC_SHA256_DIGEST_LENGTH;
+        case OTPAlgorithmSHA512:
+            return CC_SHA512_DIGEST_LENGTH;
+        case OTPAlgorithmMD5:
+            return CC_MD5_DIGEST_LENGTH;
+    }
 }
 
 @end

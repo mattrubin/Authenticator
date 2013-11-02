@@ -25,7 +25,7 @@
 #import "OTPScannerViewController.h"
 @import AVFoundation;
 #import "OTPScannerOverlayView.h"
-#import "OTPAuthURL.h"
+#import "OTPToken+Serialization.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
@@ -145,17 +145,17 @@
 
 - (void)handleDecodedText:(NSString *)decodedText
 {
-    // Attempt to create an auth URL from the decoded text
+    // Attempt to create a token from the decoded text
     NSURL *url = [NSURL URLWithString:decodedText];
-    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:url secret:nil];
+    OTPToken *token = [OTPToken tokenWithURL:url secret:nil];
 
-    if (authURL) {
+    if (token) {
         // Halt the video capture
         [self.captureSession stopRunning];
 
         // Inform the delegate that an auth URL was captured
         id <OTPTokenSourceDelegate> delegate = self.delegate;
-        [delegate tokenSource:self didCreateToken:authURL];
+        [delegate tokenSource:self didCreateToken:token];
     } else {
         // Show an error message
         [SVProgressHUD showErrorWithStatus:@"Invalid Token"];

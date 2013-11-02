@@ -1,5 +1,5 @@
 //
-//  OTPTokenSourceDelegate.h
+//  NSData+Base32.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -23,11 +23,17 @@
 //
 
 @import Foundation;
-@class OTPToken;
 
 
-@protocol OTPTokenSourceDelegate <NSObject>
+@interface NSData (Base32)
 
-- (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token;
+- (NSString *)base32EncodedString;
+
+@end
+
+
+@interface NSString (Base32)
+
+- (NSData *)base32DecodedData;
 
 @end

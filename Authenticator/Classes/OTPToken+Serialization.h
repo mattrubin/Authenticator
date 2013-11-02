@@ -1,5 +1,5 @@
 //
-//  OTPTokenSourceDelegate.h
+//  OTPToken+Serialization.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,12 +22,12 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import Foundation;
-@class OTPToken;
+#import "OTPToken.h"
 
 
-@protocol OTPTokenSourceDelegate <NSObject>
+@interface OTPToken (Serialization)
 
-- (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token;
++ (instancetype)tokenWithURL:(NSURL *)url secret:(NSData *)secret;
+- (NSURL *)url;
 
 @end

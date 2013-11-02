@@ -23,7 +23,8 @@
 //
 
 @import XCTest;
-#import "HOTPGenerator.h"
+#import "OTPGenerator.h"
+#import "OTPToken.h"
 
 
 @interface HOTPGeneratorTests : XCTestCase
@@ -37,10 +38,13 @@
 - (void)testRFCValues
 {
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
-    HOTPGenerator *generator = [[HOTPGenerator alloc] initWithSecret:secret
-                                                           algorithm:kOTPGeneratorSHA1Algorithm
-                                                              digits:6
-                                                             counter:0];
+    OTPToken *token = [[OTPToken alloc] init];
+    token.type = OTPTokenTypeCounter;
+    token.secret = secret;
+    token.algorithm = OTPAlgorithmSHA1;
+    token.digits = 6;
+    token.counter = 0;
+    OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];
 
     XCTAssertNotNil(generator, @"The generator should not be nil.");
 

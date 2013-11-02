@@ -24,6 +24,7 @@
 
 #import "OTPTokenCell.h"
 @import MobileCoreServices;
+#import "OTPToken+Persistence.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
@@ -105,7 +106,7 @@
 
 - (void)copyPassword
 {
-    [[UIPasteboard generalPasteboard] setValue:self.token.otpCode forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
+    [[UIPasteboard generalPasteboard] setValue:self.token.password forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
 
     [SVProgressHUD showSuccessWithStatus:@"Copied"];
 }
@@ -118,18 +119,18 @@
     if ((object == self) && [keyPath isEqualToString:@"token"]) {
         [self refresh];
         
-        OTPAuthURL *oldObject = change[NSKeyValueChangeOldKey];
-        if (oldObject) {
+        OTPToken *oldObject = change[NSKeyValueChangeOldKey];
+        if (oldObject && ![oldObject isKindOfClass:[NSNull class]]) {
             [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:OTPAuthURLDidGenerateNewOTPNotification
+                                                            name:OTPTokenDidUpdateNotification
                                                           object:oldObject];
         }
         
-        OTPAuthURL *newObject = change[NSKeyValueChangeNewKey];
-        if (newObject) {
+        OTPToken *newObject = change[NSKeyValueChangeNewKey];
+        if (newObject && ![newObject isKindOfClass:[NSNull class]]) {
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(refresh)
-                                                         name:OTPAuthURLDidGenerateNewOTPNotification
+                                                         name:OTPTokenDidUpdateNotification
                                                        object:newObject];
         }
     }
@@ -138,7 +139,7 @@
 - (void)refresh
 {
     self.nameLabel.text = self.token.name;
-    self.passwordLabel.text = self.token.otpCode;
+    self.passwordLabel.text = self.token.password;
 }
 
 
@@ -189,8 +190,8 @@
 
 - (void)generateNextPassword
 {
-    if ([self.token isKindOfClass:[HOTPAuthURL class]]) {
-        [(HOTPAuthURL *)self.token generateNextOTPCode];
+    if (self.token.type == OTPTokenTypeCounter) {
+        [self.token updatePassword];
     }
 }
 

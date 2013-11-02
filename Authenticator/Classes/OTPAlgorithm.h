@@ -1,5 +1,5 @@
 //
-//  OTPTokenSourceDelegate.h
+//  OTPAlgorithm.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,12 +22,29 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import Foundation;
-@class OTPToken;
+#import <CommonCrypto/CommonHMAC.h>
 
 
-@protocol OTPTokenSourceDelegate <NSObject>
+typedef NS_ENUM(CCHmacAlgorithm, OTPAlgorithm) {
+    OTPAlgorithmSHA1   = kCCHmacAlgSHA1,
+    OTPAlgorithmSHA256 = kCCHmacAlgSHA256,
+    OTPAlgorithmSHA512 = kCCHmacAlgSHA512,
+    OTPAlgorithmMD5    = kCCHmacAlgMD5,
+};
 
-- (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token;
+extern OTPAlgorithm OTPAlgorithmUnknown;
+
+
+extern NSString *const kOTPAlgorithmSHA1;
+extern NSString *const kOTPAlgorithmSHA256;
+extern NSString *const kOTPAlgorithmSHA512;
+extern NSString *const kOTPAlgorithmMD5;
+
+
+@interface NSString (OTPAlgorithm)
+
++ (instancetype)stringForAlgorithm:(OTPAlgorithm)algorithm;
+
+- (OTPAlgorithm)algorithmValue;
 
 @end

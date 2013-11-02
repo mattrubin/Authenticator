@@ -24,7 +24,8 @@
 
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
-#import "OTPAuthURL.h"
+#import "OTPToken.h"
+#import "NSData+Base32.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
@@ -84,14 +85,15 @@
         return;
     }
 
-    NSData *secretKey = [OTPAuthURL base32Decode:self.secretKeyField.text];
+    NSData *secretKey = [self.secretKeyField.text base32DecodedData];
 
     if (secretKey.length) {
-        Class tokenClass = (self.tokenTypeControl.selectedSegmentIndex == 0) ? [TOTPAuthURL class] : [HOTPAuthURL class];
-        OTPAuthURL *token = [[tokenClass alloc] initWithSecret:secretKey
-                                                          name:self.accountNameField.text];
+        OTPTokenType tokenType = (self.tokenTypeControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
+        OTPToken *token = [OTPToken tokenWithType:tokenType
+                                               secret:secretKey
+                                                 name:self.accountNameField.text];
 
-        if (token.checkCode) {
+        if (token.verificationCode) {
             id <OTPTokenSourceDelegate> delegate = self.delegate;
             [delegate tokenSource:self didCreateToken:token];
             return;
@@ -141,7 +143,7 @@
 
 #pragma mark - OTPTokenSourceDelegate
 
-- (void)tokenSource:(id)tokenSource didCreateToken:(OTPAuthURL *)token
+- (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token
 {
     id <OTPTokenSourceDelegate> delegate = self.delegate;
     [delegate tokenSource:self didCreateToken:token];
