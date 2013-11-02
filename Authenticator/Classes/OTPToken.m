@@ -57,6 +57,21 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
                                                   object:nil];
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p> type: %u name: %@ ref: %p verification: %@",
+            self.class, self, self.type, self.name, self.keychainItemRef, self.verificationCode];
+}
+
++ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name
+{
+    OTPToken *token = [[OTPToken alloc] init];
+    token.type = type;
+    token.secret = secret;
+    token.name = name;
+    return token;
+}
+
 
 #pragma mark - Defaults
 
@@ -130,6 +145,11 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
         [self saveToKeychain];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:OTPTokenDidUpdateNotification object:self];
+}
+
+- (NSString *)verificationCode
+{
+    return [self.generator generateOTPForCounter:0];
 }
 
 

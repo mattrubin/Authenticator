@@ -25,22 +25,13 @@
 #import <GTMDefines.h>
 #pragma clang diagnostic pop
 
-#import "OTPGenerator.h"
-
 #import "OTPToken+Serialization.h"
 #import "OTPToken+Persistence.h"
 
 
 @interface OTPAuthURL ()
 
-// re-declare readwrite
 @property (nonatomic, strong) OTPToken *token;
-
-// Initialize an OTPAuthURL with a dictionary of attributes from a keychain.
-+ (OTPAuthURL *)authURLWithKeychainDictionary:(NSDictionary *)dict;
-
-// Initialize an OTPAuthURL object with an otpauth:// NSURL object.
-- (id)initWithToken:(OTPToken *)token;
 
 @end
 
@@ -49,10 +40,8 @@
 
 + (OTPAuthURL *)authURLWithURL:(NSURL *)url
                         secret:(NSData *)secret {
-  OTPAuthURL *authURL = nil;
     OTPToken *token = [OTPToken tokenWithURL:url secret:secret];
-    authURL = [[OTPAuthURL alloc] initWithToken:token];
-  return authURL;
+    return [[self alloc] initWithToken:token];
 }
 
 + (OTPAuthURL *)authURLWithKeychainItemRef:(NSData *)data {
@@ -67,10 +56,7 @@
 
 - (id)initWithSecret:(NSData *)secret name:(NSString *)name type:(OTPTokenType)type
 {
-    OTPToken *token = [[OTPToken alloc] init];
-    token.type = type;
-    token.name = name;
-    token.secret = secret;
+    OTPToken *token = [OTPToken tokenWithType:type secret:secret name:name];
     return [self initWithToken:token];
 }
 
@@ -110,32 +96,19 @@
 }
 
 - (void)generateNextOTPCode {
-    if (self.token.type == OTPTokenTypeCounter) {
-        [self.token updatePassword];
-    } else {
-        _GTMDevLog(@"Called generateNextOTPCode on a non-HOTP generator");
-    }
+    [self.token updatePassword];
 }
 
 - (NSString*)checkCode {
-  return [self.token.generator generateOTPForCounter:0];
+    return self.token.verificationCode;
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> Name: %@ ref: %p checkCode: %@",
-          [self class], self, self.token.name, self.token.keychainItemRef, self.checkCode];
+  return self.token.description;
 }
 
 
 #pragma mark - Internal Token
-
-- (OTPToken *)token
-{
-    if (!_token) {
-        _token = [[OTPToken alloc] init];
-    }
-    return _token;
-}
 
 - (NSData *)keychainItemRef DEPRECATED_ATTRIBUTE
 {

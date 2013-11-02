@@ -41,6 +41,8 @@ extern NSString * const OTPTokenDidUpdateNotification;
 
 @interface OTPToken : NSObject
 
++ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name;
+
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic) OTPTokenType type;
 @property (nonatomic, copy) NSData *secret;
@@ -66,5 +68,7 @@ extern NSString * const OTPTokenDidUpdateNotification;
 // Password
 @property (nonatomic, strong) NSString *password; // TODO: readonly
 - (void)updatePassword;
+
+@property (nonatomic, readonly) NSString *verificationCode;
 
 @end
