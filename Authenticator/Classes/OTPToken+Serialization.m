@@ -81,7 +81,7 @@ static NSString *const kQueryPeriodKey = @"period";
             if (!digitString) {
                 digits = [OTPToken defaultDigits];
             } else {
-                digits = [digitString intValue];
+                digits = (NSUInteger)[digitString integerValue];
             }
 
             token.name = name;
