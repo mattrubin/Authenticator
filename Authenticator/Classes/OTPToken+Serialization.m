@@ -23,6 +23,7 @@
 //
 
 #import "OTPToken+Serialization.h"
+#import "NSString+PercentEncoding.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
@@ -32,7 +33,6 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundef"
 #pragma clang diagnostic ignored "-Wauto-import"
-#import <GTMNSString+URLArguments.h>
 #import <GTMNSDictionary+URLArguments.h>
 #pragma clang diagnostic pop
 
@@ -175,7 +175,7 @@ static NSString *const kQueryPeriodKey = @"period";
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/%@?%@",
                                  kOTPAuthScheme,
                                  typeString,
-                                 [self.name gtm_stringByEscapingForURLArgument],
+                                 [self.name percentEncodedString],
                                  [query gtm_httpArgumentsString]]];
 }
 
