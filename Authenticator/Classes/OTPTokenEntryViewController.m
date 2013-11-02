@@ -24,7 +24,7 @@
 
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
-#import "OTPAuthURL.h"
+#import "OTPToken.h"
 #import "NSData+Base32.h"
 
 #pragma clang diagnostic push
@@ -89,7 +89,7 @@
 
     if (secretKey.length) {
         OTPTokenType tokenType = (self.tokenTypeControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
-        OTPAuthURL *token = [OTPAuthURL tokenWithType:tokenType
+        OTPToken *token = [OTPToken tokenWithType:tokenType
                                                secret:secretKey
                                                  name:self.accountNameField.text];
 
@@ -143,7 +143,7 @@
 
 #pragma mark - OTPTokenSourceDelegate
 
-- (void)tokenSource:(id)tokenSource didCreateToken:(OTPAuthURL *)token
+- (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token
 {
     id <OTPTokenSourceDelegate> delegate = self.delegate;
     [delegate tokenSource:self didCreateToken:token];

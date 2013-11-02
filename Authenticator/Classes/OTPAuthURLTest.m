@@ -35,12 +35,8 @@
 #pragma clang diagnostic pop
 
 #import "OTPGenerator.h"
-#import "OTPAuthURL.h"
-#import "OTPToken.h"
-
-@interface OTPAuthURL ()
-- (id)initWithToken:(OTPToken *)token;
-@end
+#import "OTPToken+Serialization.h"
+#import "OTPToken+Persistence.h"
 
 static NSString *const kOTPAuthScheme = @"otpauth";
 
@@ -95,7 +91,7 @@ static NSString *const kValidHOTPURL =
   NSData *urlData = [kValidTOTPURLWithoutSecret
                      dataUsingEncoding:NSUTF8StringEncoding];
 
-  OTPAuthURL *url = [OTPAuthURL tokenWithKeychainDictionary:
+  OTPToken *url = [OTPToken tokenWithKeychainDictionary:
                      [NSDictionary dictionaryWithObjectsAndKeys:
                       urlData, (id)kSecAttrGeneric,
                       secret, (id)kSecValueData,
@@ -103,7 +99,7 @@ static NSString *const kValidHOTPURL =
 
   STAssertEqualObjects([url name], kValidLabel, @"Léon");
 
-  OTPGenerator *generator = url.token.generator;
+  OTPGenerator *generator = url.generator;
   STAssertEqualObjects([generator.token secret], secret, @"");
   STAssertEqualObjects([NSString stringForAlgorithm:generator.token.algorithm], kValidAlgorithm, @"");
   STAssertEquals([generator.token period], kValidPeriod, @"");
@@ -116,13 +112,13 @@ static NSString *const kValidHOTPURL =
   NSData *secret = [NSData dataWithBytes:kValidSecret
                                   length:sizeof(kValidSecret)];
 
-  OTPAuthURL *url
-    = [OTPAuthURL tokenWithURL:[NSURL URLWithString:kValidTOTPURL]
+  OTPToken *url
+    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidTOTPURL]
                           secret:nil];
 
   STAssertEqualObjects([url name], kValidLabel, @"Léon");
 
-  OTPGenerator *generator = url.token.generator;
+  OTPGenerator *generator = url.generator;
   STAssertEqualObjects([generator.token secret], secret, @"");
   STAssertEqualObjects([NSString stringForAlgorithm:generator.token.algorithm], kValidAlgorithm, @"");
   STAssertEquals([generator.token period], kValidPeriod, @"");
@@ -133,13 +129,13 @@ static NSString *const kValidHOTPURL =
   NSData *secret = [NSData dataWithBytes:kValidSecret
                                   length:sizeof(kValidSecret)];
 
-  OTPAuthURL *url
-    = [OTPAuthURL tokenWithURL:[NSURL URLWithString:kValidHOTPURL]
+  OTPToken *url
+    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidHOTPURL]
                           secret:nil];
 
   STAssertEqualObjects([url name], kValidLabel, @"Léon");
 
-  OTPGenerator *generator = url.token.generator;
+  OTPGenerator *generator = url.generator;
   STAssertEqualObjects([generator.token secret], secret, @"");
   STAssertEqualObjects([NSString stringForAlgorithm:generator.token.algorithm], kValidAlgorithm, @"");
   STAssertEquals([generator.token counter], kValidCounter, @"");
@@ -165,8 +161,8 @@ static NSString *const kValidHOTPURL =
       nil];
 
   for (NSString *badUrl in badUrls) {
-    OTPAuthURL *url
-      = [OTPAuthURL tokenWithURL:[NSURL URLWithString:badUrl] secret:nil];
+    OTPToken *url
+      = [OTPToken tokenWithURL:[NSURL URLWithString:badUrl] secret:nil];
     STAssertNil(url, @"invalid url (%@) generated %@", badUrl, url);
   }
 }
@@ -177,17 +173,14 @@ static NSString *const kValidHOTPURL =
     token.type = OTPTokenTypeTimer;
     token.secret = [NSData data];
 
-  OTPAuthURL *url = [[[OTPAuthURL alloc] initWithToken:token]
-                     autorelease];
-
-  STAssertEquals([url.token generator], token.generator, @"");
-  STAssertEqualObjects([url name], kValidLabel, @"");
-  STAssertFalse([url isInKeychain], @"");
+  STAssertEquals([token generator], token.generator, @"");
+  STAssertEqualObjects([token name], kValidLabel, @"");
+  STAssertFalse([token isInKeychain], @"");
 }
 
 - (void)testURL {
-  OTPAuthURL *url
-    = [OTPAuthURL tokenWithURL:[NSURL URLWithString:kValidTOTPURL]
+  OTPToken *url
+    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidTOTPURL]
                           secret:nil];
 
   STAssertEqualObjects([[url url] scheme], kOTPAuthScheme, @"");
@@ -206,8 +199,8 @@ static NSString *const kValidHOTPURL =
                        result,
                        @"");
 
-  OTPAuthURL *url2
-    = [OTPAuthURL tokenWithURL:[NSURL URLWithString:kValidHOTPURL]
+  OTPToken *url2
+    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidHOTPURL]
                           secret:nil];
 
   NSDictionary *resultForHOTP =
@@ -224,8 +217,8 @@ static NSString *const kValidHOTPURL =
 
 - (void)testDuplicateURLs {
   NSURL *url = [NSURL URLWithString:kValidTOTPURL];
-  OTPAuthURL *authURL1 = [OTPAuthURL tokenWithURL:url secret:nil];
-  OTPAuthURL *authURL2 = [OTPAuthURL tokenWithURL:url secret:nil];
+  OTPToken *authURL1 = [OTPToken tokenWithURL:url secret:nil];
+  OTPToken *authURL2 = [OTPToken tokenWithURL:url secret:nil];
   STAssertTrue([authURL1 saveToKeychain], @"");
   STAssertTrue([authURL2 saveToKeychain], @"");
   STAssertTrue([authURL1 removeFromKeychain],

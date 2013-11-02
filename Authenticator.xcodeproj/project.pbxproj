@@ -20,7 +20,6 @@
 		8B2B8777118B903000437315 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8776118B903000437315 /* Foundation.framework */; };
 		8B3F0F5A122F2003009A6409 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B3F0F59122F2003009A6409 /* AVFoundation.framework */; };
 		8B45557811932B5D00ABD707 /* OTPClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B45557711932B5D00ABD707 /* OTPClock.m */; };
-		8B73DCF51182656200861C87 /* OTPAuthURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B73DCF11182656200861C87 /* OTPAuthURL.m */; };
 		8BBC772113BA945D006B3033 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B877C118B904000437315 /* Security.framework */; };
 		8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E4128B5DB500A0E8F2 /* Icon@2x.png */; };
 		8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E5128B5DB500A0E8F2 /* Icon-72.png */; };
@@ -53,7 +52,6 @@
 		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
 		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
 		C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */; };
-		C9C8B01A1812742400911E8B /* OTPAuthURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B73DCF11182656200861C87 /* OTPAuthURL.m */; };
 		C9C8B01B1812744F00911E8B /* OTPAuthURLTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B89BE118B968900437315 /* OTPAuthURLTest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
@@ -91,8 +89,6 @@
 		8B3F0F59122F2003009A6409 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8B45557611932B5D00ABD707 /* OTPClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPClock.h; sourceTree = "<group>"; };
 		8B45557711932B5D00ABD707 /* OTPClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPClock.m; sourceTree = "<group>"; };
-		8B73DCF01182656200861C87 /* OTPAuthURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthURL.h; sourceTree = "<group>"; };
-		8B73DCF11182656200861C87 /* OTPAuthURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthURL.m; sourceTree = "<group>"; };
 		8BC958E4128B5DB500A0E8F2 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		8BC958E5128B5DB500A0E8F2 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		8BC958E6128B5DB500A0E8F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -274,8 +270,6 @@
 		C98C1C4817D2F01A00A07D3F /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				8B73DCF01182656200861C87 /* OTPAuthURL.h */,
-				8B73DCF11182656200861C87 /* OTPAuthURL.m */,
 				C9A4FA2717D1189600CD5EDC /* Generators */,
 				C999C691181344F40013C1C6 /* OTPToken.h */,
 				C999C692181344F40013C1C6 /* OTPToken.m */,
@@ -520,7 +514,6 @@
 				28C286E10D94DF7D0034E888 /* OTPRootViewController.m in Sources */,
 				C999C693181344F40013C1C6 /* OTPToken.m in Sources */,
 				C9044FC71821C466002C3C3F /* OTPToken+Serialization.m in Sources */,
-				8B73DCF51182656200861C87 /* OTPAuthURL.m in Sources */,
 				C9044FC31821BD63002C3C3F /* OTPToken+Persistence.m in Sources */,
 				8B2B6E501187AC6B00437315 /* OTPGenerator.m in Sources */,
 				8B45557811932B5D00ABD707 /* OTPClock.m in Sources */,
@@ -544,7 +537,6 @@
 				C9044FC41821C074002C3C3F /* OTPToken+Persistence.m in Sources */,
 				C9906A421812529400BAEF53 /* HOTPGeneratorTests.m in Sources */,
 				C9015FD3181261DF00F6A2AA /* TOTPGeneratorTests.m in Sources */,
-				C9C8B01A1812742400911E8B /* OTPAuthURL.m in Sources */,
 				C9044FC81821C466002C3C3F /* OTPToken+Serialization.m in Sources */,
 				C9C8B01B1812744F00911E8B /* OTPAuthURLTest.m in Sources */,
 			);

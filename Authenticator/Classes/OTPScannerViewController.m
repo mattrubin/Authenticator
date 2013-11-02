@@ -25,7 +25,7 @@
 #import "OTPScannerViewController.h"
 @import AVFoundation;
 #import "OTPScannerOverlayView.h"
-#import "OTPAuthURL.h"
+#import "OTPToken+Serialization.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
@@ -147,7 +147,7 @@
 {
     // Attempt to create an auth URL from the decoded text
     NSURL *url = [NSURL URLWithString:decodedText];
-    OTPAuthURL *authURL = [OTPAuthURL tokenWithURL:url secret:nil];
+    OTPToken *authURL = [OTPToken tokenWithURL:url secret:nil];
 
     if (authURL) {
         // Halt the video capture

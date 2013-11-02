@@ -23,7 +23,7 @@
 //
 
 #import "OTPAppDelegate.h"
-#import "OTPAuthURL.h"
+#import "OTPToken+Serialization.h"
 #import "OTPRootViewController.h"
 #import "UIAlertView+Blocks.h"
 
@@ -88,7 +88,7 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    OTPAuthURL *authURL = [OTPAuthURL tokenWithURL:url secret:nil];
+    OTPToken *authURL = [OTPToken tokenWithURL:url secret:nil];
     if (authURL) {
         NSString *message = [NSString stringWithFormat: @"Do you want to add a token for “%@”?", [authURL name]];
         

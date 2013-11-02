@@ -18,9 +18,8 @@
 //
 
 #import "OTPRootViewController.h"
-#import "OTPAuthURL.h"
 #import "OTPTokenCell.h"
-#import "OTPToken.h"
+#import "OTPToken+Persistence.h"
 #import "UIColor+OTP.h"
 #import "OTPClock.h"
 #import "OTPTokenEntryViewController.h"
@@ -85,8 +84,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 - (void)updateUI
 {
     BOOL hidden = YES;
-    for (OTPAuthURL *url in self.authURLs) {
-        if (url.token.type == OTPTokenTypeTimer) {
+    for (OTPToken *url in self.authURLs) {
+        if (url.type == OTPTokenTypeTimer) {
             hidden = NO;
             break;
         }
@@ -126,7 +125,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     NSArray *savedKeychainReferences = [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
     self.authURLs = [NSMutableArray arrayWithCapacity:[savedKeychainReferences count]];
     for (NSData *keychainRef in savedKeychainReferences) {
-        OTPAuthURL *authURL = [OTPAuthURL tokenWithKeychainItemRef:keychainRef];
+        OTPToken *authURL = [OTPToken tokenWithKeychainItemRef:keychainRef];
         if (authURL) {
             [self.authURLs addObject:authURL];
         }
@@ -136,7 +135,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 #pragma mark - OTPTokenSourceDelegate
 
-- (void)tokenSource:(id)tokenSource didCreateToken:(OTPAuthURL *)authURL
+- (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)authURL
 {
     if ([tokenSource isKindOfClass:[OTPTokenEntryViewController class]]) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -168,10 +167,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 {
     Class cellClass = Nil;
     
-    OTPAuthURL *url = (self.authURLs)[indexPath.row];
-    if (url.token.type == OTPTokenTypeCounter) {
+    OTPToken *url = (self.authURLs)[indexPath.row];
+    if (url.type == OTPTokenTypeCounter) {
         cellClass = [HOTPTokenCell class];
-    } else if (url.token.type == OTPTokenTypeTimer) {
+    } else if (url.type == OTPTokenTypeTimer) {
         cellClass = [TOTPTokenCell class];
     }
     NSString *cellIdentifier = NSStringFromClass(cellClass);
@@ -203,7 +202,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         NSIndexPath *path = [NSIndexPath indexPathForRow:idx inSection:0];
         [tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationFade];
         
-        OTPAuthURL *authURL = (self.authURLs)[idx];
+        OTPToken *authURL = (self.authURLs)[idx];
         [authURL removeFromKeychain];
         [self.authURLs removeObjectAtIndex:idx];
         [self saveKeychainArray];

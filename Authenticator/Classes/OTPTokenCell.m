@@ -24,6 +24,7 @@
 
 #import "OTPTokenCell.h"
 @import MobileCoreServices;
+#import "OTPToken+Persistence.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"
@@ -118,19 +119,19 @@
     if ((object == self) && [keyPath isEqualToString:@"token"]) {
         [self refresh];
         
-        OTPAuthURL *oldObject = change[NSKeyValueChangeOldKey];
+        OTPToken *oldObject = change[NSKeyValueChangeOldKey];
         if (oldObject && ![oldObject isKindOfClass:[NSNull class]]) {
             [[NSNotificationCenter defaultCenter] removeObserver:self
                                                             name:OTPTokenDidUpdateNotification
-                                                          object:oldObject.token];
+                                                          object:oldObject];
         }
         
-        OTPAuthURL *newObject = change[NSKeyValueChangeNewKey];
+        OTPToken *newObject = change[NSKeyValueChangeNewKey];
         if (newObject && ![newObject isKindOfClass:[NSNull class]]) {
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(refresh)
                                                          name:OTPTokenDidUpdateNotification
-                                                       object:newObject.token];
+                                                       object:newObject];
         }
     }
 }
@@ -189,7 +190,7 @@
 
 - (void)generateNextPassword
 {
-    if (self.token.token.type == OTPTokenTypeCounter) {
+    if (self.token.type == OTPTokenTypeCounter) {
         [self.token updatePassword];
     }
 }

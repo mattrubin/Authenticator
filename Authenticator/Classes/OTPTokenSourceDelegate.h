@@ -23,13 +23,11 @@
 //
 
 @import Foundation;
-
-
-@class OTPAuthURL;
+@class OTPToken;
 
 
 @protocol OTPTokenSourceDelegate <NSObject>
 
-- (void)tokenSource:(id)tokenSource didCreateToken:(OTPAuthURL *)token;
+- (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token;
 
 @end

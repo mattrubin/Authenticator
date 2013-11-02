@@ -23,12 +23,12 @@
 //
 
 @import UIKit;
-#import "OTPAuthURL.h"
+@class OTPToken;
 
 
 @interface OTPTokenCell : UITableViewCell
 
-@property (nonatomic, strong) OTPAuthURL *token;
+@property (nonatomic, strong) OTPToken *token;
 
 @end
 
