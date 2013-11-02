@@ -14,7 +14,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Base32: ccb38da4a8cdc41e8d4d7fe7af21dc01ef83fe52
-  google-toolbox-for-authenticator: de33e5baf0715edc0bc8be1cfee55b1ab3400aa9
+  google-toolbox-for-authenticator: 1deca1a8d67bb61c491f1428bd4855d4ff9f985b
   SVProgressHUD: 03d4845ec8e64591726428a08236c6a5489d45f8
 
 COCOAPODS: 0.26.2

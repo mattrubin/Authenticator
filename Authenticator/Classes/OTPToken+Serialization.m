@@ -34,7 +34,6 @@
 #pragma clang diagnostic ignored "-Wauto-import"
 #import <GTMNSString+URLArguments.h>
 #import <GTMNSDictionary+URLArguments.h>
-#import <GTMNSScanner+Unsigned.h>
 #pragma clang diagnostic pop
 
 
@@ -99,13 +98,7 @@ static NSString *const kQueryPeriodKey = @"period";
 
                 NSString *counterString = [query objectForKey:kQueryCounterKey];
                 if ([self isValidCounter:counterString]) {
-                    NSScanner *scanner = [NSScanner scannerWithString:counterString];
-                    uint64_t counter;
-                    BOOL goodScan = [scanner gtm_scanUnsignedLongLong:&counter];
-                    // Good scan should always be good based on the isValidCounter check above.
-                    NSAssert(goodScan, @"goodscan should be true: %c", goodScan);
-
-                    token.counter = counter;
+                    token.counter = strtoull([counterString UTF8String], NULL, 10);
                 } else {
                     NSLog(@"invalid counter: %@", counterString);
                     token = nil;
