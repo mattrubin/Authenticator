@@ -98,8 +98,7 @@ static NSUInteger kPinModTable[] = {
         return nil;
     }
 
-    NSUInteger hashLength = [self hashLengthForAlgorithm:token.algorithm];
-  NSMutableData *hash = [NSMutableData dataWithLength:hashLength];
+  NSMutableData *hash = [NSMutableData dataWithLength:digestLengthForAlgorithm(token.algorithm)];
 
   counter = NSSwapHostLongLongToBig(counter);
   NSData *counterData = [NSData dataWithBytes:&counter
@@ -110,7 +109,7 @@ static NSUInteger kPinModTable[] = {
   CCHmacFinal(&ctx, [hash mutableBytes]);
 
   const char *ptr = [hash bytes];
-  unsigned char offset = ptr[hashLength-1] & 0x0f;
+  unsigned char offset = ptr[hash.length-1] & 0x0f;
   unsigned long truncatedHash =
     NSSwapBigLongToHost(*((unsigned long *)&ptr[offset])) & 0x7fffffff;
   unsigned long pinValue = truncatedHash % kPinModTable[token.digits];
@@ -125,20 +124,6 @@ static NSUInteger kPinModTable[] = {
 #endif
 
   return [NSString stringWithFormat:@"%0*ld", token.digits, pinValue];
-}
-
-- (NSUInteger)hashLengthForAlgorithm:(OTPAlgorithm)algorithm
-{
-    switch (algorithm) {
-        case OTPAlgorithmSHA1:
-            return CC_SHA1_DIGEST_LENGTH;
-        case OTPAlgorithmSHA256:
-            return CC_SHA256_DIGEST_LENGTH;
-        case OTPAlgorithmSHA512:
-            return CC_SHA512_DIGEST_LENGTH;
-        case OTPAlgorithmMD5:
-            return CC_MD5_DIGEST_LENGTH;
-    }
 }
 
 @end
