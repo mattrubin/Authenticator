@@ -95,24 +95,10 @@
 {
     if (self.type == OTPTokenTypeCounter) {
         self.counter++;
-        return [self.generator generateOTPForCounter:self.counter];
     } else if (self.type == OTPTokenTypeTimer) {
-        return [self generatePasswordForDate:[NSDate date]];
+        self.counter = ([NSDate date].timeIntervalSince1970 / self.period);
     }
-    // If type is undefined, fail
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
-- (NSString *)generatePasswordForDate:(NSDate *)date {
-    if (!date) {
-        // If no now date specified, use the current date.
-        date = [NSDate date];
-    }
-
-    NSTimeInterval seconds = [date timeIntervalSince1970];
-    uint64_t counter = (uint64_t)(seconds / self.period);
-    return [self.generator generateOTPForCounter:counter];
+    return [self.generator generateOTPForCounter:self.counter];
 }
 
 @end

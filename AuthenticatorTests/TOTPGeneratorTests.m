@@ -28,7 +28,7 @@
 
 
 @interface OTPToken ()
-- (NSString *)generatePasswordForDate:(NSDate *)date;
+@property (nonatomic, readonly) OTPGenerator *generator;
 @end
 
 
@@ -67,9 +67,9 @@
         token.period = 30;
 
         for (NSUInteger i = 0; i < times.count; i++) {
-            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[times[i] doubleValue]];
             NSString *password = expectedValues[algorithmKey][i];
-            XCTAssertEqualObjects([token generatePasswordForDate:date], password, @"The generator did not produce the expected OTP.");
+            token.counter = ([times[i] doubleValue] / token.period);
+            XCTAssertEqualObjects([token.generator generateOTPForCounter:token.counter], password, @"The generator did not produce the expected OTP.");
         }
     }
 }
@@ -98,12 +98,11 @@
             token.algorithm = [algorithmKey algorithmValue];
             token.digits = 6;
             token.period = 30;
-
-            NSDate *date = [NSDate dateWithTimeIntervalSince1970:intervals[i]];
+            token.counter = (intervals[i] / token.period);
 
             XCTAssertEqualObjects([results objectAtIndex:j],
-                                  [token generatePasswordForDate:date],
-                                  @"Invalid result %d, %@, %@", i, algorithmKey, date);
+                                  [token.generator generateOTPForCounter:token.counter],
+                                  @"Invalid result %d, %@, %f", i, algorithmKey, intervals[i]);
             j++;
         }
     }
