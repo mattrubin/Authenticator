@@ -37,6 +37,7 @@
 
 @property (nonatomic, strong) UITextField *nameLabel;
 @property (nonatomic, strong) UILabel *passwordLabel;
+@property (nonatomic, strong) UIButton *nextPasswordButton;
 
 @end
 
@@ -56,6 +57,12 @@
         [self createSubviews];
         
         [self addObserver:self forKeyPath:@"token.password" options:0 context:nil];
+
+        // Ensure that TOTPs are updated when the app returns from the background
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(refresh)
+                                                     name:UIApplicationWillEnterForegroundNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -70,6 +77,8 @@
 
 - (void)createSubviews
 {
+    self.backgroundColor = [UIColor otpBackgroundColor];
+
     self.nameLabel = [UITextField new];
     self.nameLabel.font = [UIFont systemFontOfSize:15];
     self.nameLabel.returnKeyType = UIReturnKeyDone;
@@ -78,7 +87,6 @@
     
     self.passwordLabel = [UILabel new];
     self.passwordLabel.font = [UIFont systemFontOfSize:50];
-    self.passwordLabel.backgroundColor = [UIColor otpBackgroundColor];
     
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.passwordLabel];
@@ -91,6 +99,15 @@
     
     self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.passwordLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
+    self.nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    [self.nextPasswordButton addTarget:self action:@selector(generateNextPassword) forControlEvents:UIControlEventTouchUpInside];
+    self.accessoryView = self.nextPasswordButton;
+}
+
+- (void)generateNextPassword
+{
+    [self.token updatePassword];
 }
 
 
@@ -124,6 +141,7 @@
 {
     self.nameLabel.text = self.token.name;
     self.passwordLabel.text = self.token.password;
+    self.nextPasswordButton.hidden = self.token.type != OTPTokenTypeCounter;
 }
 
 
@@ -156,46 +174,4 @@
     return YES;
 }
 
-@end
-
-
-#pragma mark -
-
-@implementation HOTPTokenCell
-
-- (void)createSubviews
-{
-    [super createSubviews];
-    
-    UIButton *nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    [nextPasswordButton addTarget:self action:@selector(generateNextPassword) forControlEvents:UIControlEventTouchUpInside];
-    self.accessoryView = nextPasswordButton;
-}
-
-- (void)generateNextPassword
-{
-    if (self.token.type == OTPTokenTypeCounter) {
-        [self.token updatePassword];
-    }
-}
-
-@end
-
-
-#pragma mark -
-
-@implementation TOTPTokenCell
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Ensure that TOTPs are updated when the app returns from the background
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(refresh)
-                                                     name:UIApplicationWillEnterForegroundNotification
-                                                   object:nil];
-    }
-    return self;
-}
 @end
