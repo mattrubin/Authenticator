@@ -25,7 +25,6 @@
 #define STAssertFalse XCTAssertFalse
 #define STAssertNil XCTAssertNil
 
-#import "OTPGenerator.h"
 #import "OTPToken+Serialization.h"
 #import "OTPToken+Persistence.h"
 #import "NSDictionary+QueryString.h"
@@ -69,7 +68,6 @@ static NSString *const kValidHOTPURL =
 
 + (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary;
 @property (nonatomic, readonly) BOOL isInKeychain;
-@property (nonatomic, readonly) OTPGenerator *generator;
 
 @end
 
@@ -99,11 +97,10 @@ static NSString *const kValidHOTPURL =
 
   STAssertEqualObjects([token name], kValidLabel, @"Léon");
 
-  OTPGenerator *generator = token.generator;
-  STAssertEqualObjects([generator.token secret], secret, @"");
-  STAssertEqualObjects([NSString stringForAlgorithm:generator.token.algorithm], kValidAlgorithm, @"");
-  STAssertEquals([generator.token period], kValidPeriod, @"");
-  STAssertEquals([generator.token digits], kValidDigits, @"");
+  STAssertEqualObjects([token secret], secret, @"");
+  STAssertEqualObjects([NSString stringForAlgorithm:token.algorithm], kValidAlgorithm, @"");
+  STAssertEquals([token period], kValidPeriod, @"");
+  STAssertEquals([token digits], kValidDigits, @"");
 
   STAssertFalse([token isInKeychain], @"");
 }
@@ -118,11 +115,10 @@ static NSString *const kValidHOTPURL =
 
   STAssertEqualObjects(token.name, kValidLabel, @"Léon");
 
-  OTPGenerator *generator = token.generator;
-  STAssertEqualObjects([generator.token secret], secret, @"");
-  STAssertEqualObjects([NSString stringForAlgorithm:generator.token.algorithm], kValidAlgorithm, @"");
-  STAssertEquals([generator.token period], kValidPeriod, @"");
-  STAssertEquals([generator.token digits], kValidDigits, @"");
+  STAssertEqualObjects([token secret], secret, @"");
+  STAssertEqualObjects([NSString stringForAlgorithm:token.algorithm], kValidAlgorithm, @"");
+  STAssertEquals([token period], kValidPeriod, @"");
+  STAssertEquals([token digits], kValidDigits, @"");
 }
 
 - (void)testInitWithHOTPURL {
@@ -135,11 +131,10 @@ static NSString *const kValidHOTPURL =
 
   STAssertEqualObjects([token name], kValidLabel, @"Léon");
 
-  OTPGenerator *generator = token.generator;
-  STAssertEqualObjects([generator.token secret], secret, @"");
-  STAssertEqualObjects([NSString stringForAlgorithm:generator.token.algorithm], kValidAlgorithm, @"");
-  STAssertEquals([generator.token counter], kValidCounter, @"");
-  STAssertEquals([generator.token digits], kValidDigits, @"");
+  STAssertEqualObjects([token secret], secret, @"");
+  STAssertEqualObjects([NSString stringForAlgorithm:token.algorithm], kValidAlgorithm, @"");
+  STAssertEquals([token counter], kValidCounter, @"");
+  STAssertEquals([token digits], kValidDigits, @"");
 }
 
 - (void)testInitWithInvalidURLS {
@@ -173,7 +168,6 @@ static NSString *const kValidHOTPURL =
     token.type = OTPTokenTypeTimer;
     token.secret = [NSData data];
 
-  STAssertEquals([token generator], token.generator, @"");
   STAssertEqualObjects([token name], kValidLabel, @"");
   STAssertFalse([token isInKeychain], @"");
 }

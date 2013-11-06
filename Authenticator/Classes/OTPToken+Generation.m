@@ -24,7 +24,6 @@
 
 #import "OTPToken+Generation.h"
 #import "OTPToken+Persistence.h"
-#import "OTPGenerator.h"
 @import ObjectiveC.runtime;
 
 
@@ -43,29 +42,12 @@ static NSUInteger kPinModTable[] = {
 
 @interface OTPToken ()
 
-@property (nonatomic, strong) OTPGenerator *generator;
 @property (nonatomic, strong) NSString *password;
 
 @end
 
 
 @implementation OTPToken (Generation)
-
-#pragma mark - Generation
-
-- (OTPGenerator *)generator
-{
-    OTPGenerator *_generator = objc_getAssociatedObject(self, @selector(generator));
-    if (!_generator) {
-        _generator = [[OTPGenerator alloc] initWithToken:self];
-    }
-    return _generator;
-}
-
-- (void)setGenerator:(OTPGenerator *)generator
-{
-    objc_setAssociatedObject(self, @selector(generator), generator, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
 
 - (NSString *)password
 {
@@ -87,7 +69,7 @@ static NSUInteger kPinModTable[] = {
 
 - (void)updatePassword
 {
-    // If this is a counter-based token, the generator's generateOTP method will increment the counter.
+    // If this is a counter-based token, the generatePassword method will increment the counter.
     // A timer-based token will simply regenerate the password for the current time.
     self.password = [self generatePassword];
     if (self.type == OTPTokenTypeCounter) {

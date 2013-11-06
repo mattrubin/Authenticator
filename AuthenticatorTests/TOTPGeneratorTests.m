@@ -23,7 +23,6 @@
 //
 
 @import XCTest;
-#import "OTPGenerator.h"
 #import "OTPToken.h"
 
 

@@ -23,7 +23,6 @@
 //
 
 @import XCTest;
-#import "OTPGenerator.h"
 #import "OTPToken.h"
 
 @interface OTPToken ()
@@ -49,9 +48,6 @@
     token.algorithm = OTPAlgorithmSHA1;
     token.digits = 6;
     token.counter = 0;
-    OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];
-
-    XCTAssertNotNil(generator, @"The generator should not be nil.");
 
     XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The 0th OTP should be the expected string.");
     XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The generatePasswordForCounter: method should be idempotent.");
