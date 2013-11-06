@@ -43,6 +43,10 @@ static NSUInteger kPinModTable[] = {
 
 - (NSString *)password
 {
+    if (self.type == OTPTokenTypeTimer) {
+        self.counter = ([NSDate date].timeIntervalSince1970 / self.period);
+    }
+    
     return [self generatePasswordForCounter:self.counter];
 }
 
