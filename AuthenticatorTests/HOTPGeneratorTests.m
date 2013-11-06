@@ -26,6 +26,10 @@
 #import "OTPGenerator.h"
 #import "OTPToken.h"
 
+@interface OTPToken ()
+- (NSString *)generatePassword;
+@end
+
 
 @interface HOTPGeneratorTests : XCTestCase
 @end
@@ -62,7 +66,7 @@
                                 @"520489"];
 
     for (NSString *password in expectedValues) {
-        XCTAssertEqualObjects([generator generateOTP], password, @"The generator did not produce the expected OTP.");
+        XCTAssertEqualObjects([token generatePassword], password, @"The generator did not produce the expected OTP.");
     }
 }
 

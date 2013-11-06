@@ -59,7 +59,7 @@
     NSString *_password = objc_getAssociatedObject(self, @selector(password));
     if (!_password) {
         if (self.type == OTPTokenTypeTimer) {
-            _password = [self.generator generateOTP];
+            _password = [self generatePassword];
         } else if (self.type == OTPTokenTypeCounter) {
             _password = [self.generator generateOTPForCounter:self.counter];
         }
@@ -76,7 +76,7 @@
 {
     // If this is a counter-based token, the generator's generateOTP method will increment the counter.
     // A timer-based token will simply regenerate the password for the current time.
-    self.password = [self.generator generateOTP];
+    self.password = [self generatePassword];
     if (self.type == OTPTokenTypeCounter) {
         [self saveToKeychain];
     }
@@ -86,6 +86,22 @@
 - (NSString *)verificationCode
 {
     return [self.generator generateOTPForCounter:0];
+}
+
+
+#pragma mark - Generator
+
+- (NSString *)generatePassword
+{
+    if (self.type == OTPTokenTypeCounter) {
+        self.counter++;
+        return [self.generator generateOTPForCounter:self.counter];
+    } else if (self.type == OTPTokenTypeTimer) {
+        return [self.generator generateOTPForDate:[NSDate date]];
+    }
+    // If type is undefined, fail
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 @end
