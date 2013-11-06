@@ -31,11 +31,3 @@
 @property (nonatomic, strong) OTPToken *token;
 
 @end
-
-
-@interface HOTPTokenCell : OTPTokenCell
-@end
-
-
-@interface TOTPTokenCell : OTPTokenCell
-@end

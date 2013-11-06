@@ -61,6 +61,9 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     self.navigationController.toolbarHidden = NO;
     
     [self fetchKeychainArray];
+
+    // Prepare table view
+    [self.tableView registerClass:[OTPTokenCell class] forCellReuseIdentifier:NSStringFromClass([OTPTokenCell class])];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -161,22 +164,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Class cellClass = Nil;
-    
-    OTPToken *token = (self.tokens)[indexPath.row];
-    if (token.type == OTPTokenTypeCounter) {
-        cellClass = [HOTPTokenCell class];
-    } else if (token.type == OTPTokenTypeTimer) {
-        cellClass = [TOTPTokenCell class];
-    }
-    NSString *cellIdentifier = NSStringFromClass(cellClass);
-    
-    OTPTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
-        cell = [[cellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
-    cell.token = token;
+    OTPTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([OTPTokenCell class]) forIndexPath:indexPath];
+    cell.token = self.tokens[indexPath.row];
     return cell;
 }
 

@@ -175,19 +175,3 @@
 }
 
 @end
-
-
-#pragma mark -
-
-@implementation HOTPTokenCell
-
-
-
-@end
-
-
-#pragma mark -
-
-@implementation TOTPTokenCell
-
-@end
