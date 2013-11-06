@@ -118,11 +118,13 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
     static NSTimer *sharedTimer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedTimer = [NSTimer scheduledTimerWithTimeInterval:.01
+        sharedTimer = [NSTimer scheduledTimerWithTimeInterval:1
                                                        target:self
                                                      selector:@selector(updateAllTokens)
                                                      userInfo:nil
                                                       repeats:YES];
+        // Ensure this timer fires right at the beginning of every second
+        sharedTimer.fireDate = [NSDate dateWithTimeIntervalSince1970:floor(sharedTimer.fireDate.timeIntervalSince1970)+.01];
     });
 }
 
