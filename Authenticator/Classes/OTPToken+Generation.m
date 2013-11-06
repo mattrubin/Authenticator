@@ -53,11 +53,7 @@ static NSUInteger kPinModTable[] = {
 {
     NSString *_password = objc_getAssociatedObject(self, @selector(password));
     if (!_password) {
-        if (self.type == OTPTokenTypeTimer) {
-            _password = [self generatePassword];
-        } else if (self.type == OTPTokenTypeCounter) {
-            _password = [self generatePasswordForCounter:self.counter];
-        }
+        _password = [self generatePasswordForCounter:self.counter];
     }
     return _password;
 }
@@ -69,12 +65,16 @@ static NSUInteger kPinModTable[] = {
 
 - (void)updatePassword
 {
-    // If this is a counter-based token, the generatePassword method will increment the counter.
-    // A timer-based token will simply regenerate the password for the current time.
-    self.password = [self generatePassword];
+    // Update counter
     if (self.type == OTPTokenTypeCounter) {
+        self.counter++;
         [self saveToKeychain];
+    } else if (self.type == OTPTokenTypeTimer) {
+        self.counter = ([NSDate date].timeIntervalSince1970 / self.period);
     }
+
+    self.password = [self generatePasswordForCounter:self.counter];
+
     [[NSNotificationCenter defaultCenter] postNotificationName:OTPTokenDidUpdateNotification object:self];
 }
 
@@ -85,16 +85,6 @@ static NSUInteger kPinModTable[] = {
 
 
 #pragma mark - Generator
-
-- (NSString *)generatePassword
-{
-    if (self.type == OTPTokenTypeCounter) {
-        self.counter++;
-    } else if (self.type == OTPTokenTypeTimer) {
-        self.counter = ([NSDate date].timeIntervalSince1970 / self.period);
-    }
-    return [self generatePasswordForCounter:self.counter];
-}
 
 - (NSString *)generatePasswordForCounter:(uint64_t)counter
 {
