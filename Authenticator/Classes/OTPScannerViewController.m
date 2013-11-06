@@ -147,7 +147,7 @@
 {
     // Attempt to create a token from the decoded text
     NSURL *url = [NSURL URLWithString:decodedText];
-    OTPToken *token = [OTPToken tokenWithURL:url secret:nil];
+    OTPToken *token = [OTPToken tokenWithURL:url];
 
     if (token) {
         // Halt the video capture

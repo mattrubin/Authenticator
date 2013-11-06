@@ -110,8 +110,7 @@ static NSString *const kValidHOTPURL =
                                   length:sizeof(kValidSecret)];
 
   OTPToken *token
-    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidTOTPURL]
-                          secret:nil];
+    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidTOTPURL]];
 
   STAssertEqualObjects(token.name, kValidLabel, @"Léon");
 
@@ -126,8 +125,7 @@ static NSString *const kValidHOTPURL =
                                   length:sizeof(kValidSecret)];
 
   OTPToken *token
-    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidHOTPURL]
-                          secret:nil];
+    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidHOTPURL]];
 
   STAssertEqualObjects([token name], kValidLabel, @"Léon");
 
@@ -155,7 +153,7 @@ static NSString *const kValidHOTPURL =
 
   for (NSString *badUrl in badUrls) {
     OTPToken *token
-      = [OTPToken tokenWithURL:[NSURL URLWithString:badUrl] secret:nil];
+      = [OTPToken tokenWithURL:[NSURL URLWithString:badUrl]];
     STAssertNil(token, @"invalid url (%@) generated %@", badUrl, token);
   }
 }
@@ -172,8 +170,7 @@ static NSString *const kValidHOTPURL =
 
 - (void)testURL {
   OTPToken *token
-    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidTOTPURL]
-                          secret:nil];
+    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidTOTPURL]];
 
   STAssertEqualObjects([[token url] scheme], kOTPAuthScheme, @"");
   STAssertEqualObjects([[token url] host], kValidType, @"");
@@ -192,8 +189,7 @@ static NSString *const kValidHOTPURL =
                        @"");
 
   OTPToken *token2
-    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidHOTPURL]
-                          secret:nil];
+    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidHOTPURL]];
 
   NSDictionary *resultForHOTP =
       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -209,8 +205,8 @@ static NSString *const kValidHOTPURL =
 
 - (void)testDuplicateURLs {
   NSURL *url = [NSURL URLWithString:kValidTOTPURL];
-  OTPToken *token1 = [OTPToken tokenWithURL:url secret:nil];
-  OTPToken *token2 = [OTPToken tokenWithURL:url secret:nil];
+  OTPToken *token1 = [OTPToken tokenWithURL:url];
+  OTPToken *token2 = [OTPToken tokenWithURL:url];
   STAssertTrue([token1 saveToKeychain], @"");
   STAssertTrue([token2 saveToKeychain], @"");
   STAssertTrue([token1 removeFromKeychain],
