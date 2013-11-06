@@ -28,6 +28,19 @@
 @import ObjectiveC.runtime;
 
 
+static NSUInteger kPinModTable[] = {
+    0,
+    10,
+    100,
+    1000,
+    10000,
+    100000,
+    1000000,
+    10000000,
+    100000000,
+};
+
+
 @interface OTPToken ()
 
 @property (nonatomic, strong) OTPGenerator *generator;
@@ -61,7 +74,7 @@
         if (self.type == OTPTokenTypeTimer) {
             _password = [self generatePassword];
         } else if (self.type == OTPTokenTypeCounter) {
-            _password = [self.generator generateOTPForCounter:self.counter];
+            _password = [self generatePasswordForCounter:self.counter];
         }
     }
     return _password;
@@ -85,7 +98,7 @@
 
 - (NSString *)verificationCode
 {
-    return [self.generator generateOTPForCounter:0];
+    return [self generatePasswordForCounter:0];
 }
 
 
@@ -98,7 +111,28 @@
     } else if (self.type == OTPTokenTypeTimer) {
         self.counter = ([NSDate date].timeIntervalSince1970 / self.period);
     }
-    return [self.generator generateOTPForCounter:self.counter];
+    return [self generatePasswordForCounter:self.counter];
+}
+
+- (NSString *)generatePasswordForCounter:(uint64_t)counter
+{
+    if (![self validate]) return nil;
+
+    NSMutableData *hash = [NSMutableData dataWithLength:digestLengthForAlgorithm(self.algorithm)];
+
+    counter = NSSwapHostLongLongToBig(counter);
+
+    CCHmacContext context;
+    CCHmacInit(&context, self.algorithm, self.secret.bytes, self.secret.length);
+    CCHmacUpdate(&context, &counter, sizeof(counter));
+    CCHmacFinal(&context, hash.mutableBytes);
+
+    const char *ptr = hash.bytes;
+    unsigned char offset = ptr[hash.length-1] & 0x0f;
+    unsigned long truncatedHash = NSSwapBigLongToHost(*((unsigned long *)&ptr[offset])) & 0x7fffffff;
+    unsigned long pinValue = truncatedHash % kPinModTable[self.digits];
+
+    return [NSString stringWithFormat:@"%0*ld", self.digits, pinValue];
 }
 
 @end

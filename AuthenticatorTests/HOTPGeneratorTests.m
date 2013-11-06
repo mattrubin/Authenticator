@@ -28,6 +28,7 @@
 
 @interface OTPToken ()
 - (NSString *)generatePassword;
+- (NSString *)generatePasswordForCounter:(uint64_t)counter;
 @end
 
 
@@ -52,8 +53,8 @@
 
     XCTAssertNotNil(generator, @"The generator should not be nil.");
 
-    XCTAssertEqualObjects(@"755224", [generator generateOTPForCounter:0], @"The 0th OTP should be the expected string.");
-    XCTAssertEqualObjects(@"755224", [generator generateOTPForCounter:0], @"The generateOTPForCounter: method should be idempotent.");
+    XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The 0th OTP should be the expected string.");
+    XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The generatePasswordForCounter: method should be idempotent.");
 
     NSArray *expectedValues = @[@"287082",
                                 @"359152",

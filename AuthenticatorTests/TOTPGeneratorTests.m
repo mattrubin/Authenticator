@@ -28,7 +28,7 @@
 
 
 @interface OTPToken ()
-@property (nonatomic, readonly) OTPGenerator *generator;
+- (NSString *)generatePasswordForCounter:(uint64_t)counter;
 @end
 
 
@@ -69,7 +69,7 @@
         for (NSUInteger i = 0; i < times.count; i++) {
             NSString *password = expectedValues[algorithmKey][i];
             token.counter = ([times[i] doubleValue] / token.period);
-            XCTAssertEqualObjects([token.generator generateOTPForCounter:token.counter], password, @"The generator did not produce the expected OTP.");
+            XCTAssertEqualObjects([token generatePasswordForCounter:token.counter], password, @"The generator did not produce the expected OTP.");
         }
     }
 }
@@ -101,7 +101,7 @@
             token.counter = (intervals[i] / token.period);
 
             XCTAssertEqualObjects([results objectAtIndex:j],
-                                  [token.generator generateOTPForCounter:token.counter],
+                                  [token generatePasswordForCounter:token.counter],
                                   @"Invalid result %d, %@, %f", i, algorithmKey, intervals[i]);
             j++;
         }
