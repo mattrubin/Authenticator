@@ -147,8 +147,6 @@ static NSString *const kValidHOTPURL =
       @"otpauth://totp/bar",
       // invalid period
       @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&period=0",
-      // missing counter
-      @"otpauth://hotp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4",
       // invalid algorithm
       @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&algorithm=RC4",
       // invalid digits
