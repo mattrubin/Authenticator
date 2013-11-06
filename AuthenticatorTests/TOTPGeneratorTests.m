@@ -27,6 +27,11 @@
 #import "OTPToken.h"
 
 
+@interface OTPToken ()
+- (NSString *)generatePasswordForDate:(NSDate *)date;
+@end
+
+
 @interface TOTPGeneratorTests : XCTestCase
 @end
 
@@ -60,13 +65,11 @@
         token.algorithm = [algorithmKey algorithmValue];
         token.digits = 8;
         token.period = 30;
-        OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];
-        XCTAssertNotNil(generator, @"The generator should not be nil.");
 
         for (NSUInteger i = 0; i < times.count; i++) {
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:[times[i] doubleValue]];
             NSString *password = expectedValues[algorithmKey][i];
-            XCTAssertEqualObjects([generator generateOTPForDate:date], password, @"The generator did not produce the expected OTP.");
+            XCTAssertEqualObjects([token generatePasswordForDate:date], password, @"The generator did not produce the expected OTP.");
         }
     }
 }
@@ -95,12 +98,11 @@
             token.algorithm = [algorithmKey algorithmValue];
             token.digits = 6;
             token.period = 30;
-            OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];
 
             NSDate *date = [NSDate dateWithTimeIntervalSince1970:intervals[i]];
 
             XCTAssertEqualObjects([results objectAtIndex:j],
-                                  [generator generateOTPForDate:date],
+                                  [token generatePasswordForDate:date],
                                   @"Invalid result %d, %@, %@", i, algorithmKey, date);
             j++;
         }

@@ -60,19 +60,6 @@ static NSUInteger kPinModTable[] = {
   return self;
 }
 
-- (NSString *)generateOTPForDate:(NSDate *)date {
-    OTPToken *token = self.token;
-    NSAssert(token, @"The generator must have a token");
-    if (!date) {
-        // If no now date specified, use the current date.
-        date = [NSDate date];
-    }
-
-    NSTimeInterval seconds = [date timeIntervalSince1970];
-    uint64_t counter = (uint64_t)(seconds / token.period);
-    return [self generateOTPForCounter:counter];
-}
-
 - (NSString *)generateOTPForCounter:(uint64_t)counter {
     OTPToken *token = self.token;
     NSAssert([token validate], @"The generator must have a valid token");

@@ -77,10 +77,4 @@
 // zero-padding as required.
 - (NSString *)generateOTPForCounter:(uint64_t)counter;
 
-// Instance method to generate an OTP using the |algorithm|, |secret|,
-// |digits|, |period| and |now| values configured on the object.
-// The return value is an NSString of |digits| length, with leading
-// zero-padding as required.
-- (NSString *)generateOTPForDate:(NSDate *)date;
-
 @end
