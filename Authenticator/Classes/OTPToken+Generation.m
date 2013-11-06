@@ -24,7 +24,6 @@
 
 #import "OTPToken+Generation.h"
 #import "OTPToken+Persistence.h"
-@import ObjectiveC.runtime;
 
 
 static NSUInteger kPinModTable[] = {
@@ -40,40 +39,21 @@ static NSUInteger kPinModTable[] = {
 };
 
 
-@interface OTPToken ()
-
-@property (nonatomic, strong) NSString *password;
-
-@end
-
-
 @implementation OTPToken (Generation)
 
 - (NSString *)password
 {
-    NSString *_password = objc_getAssociatedObject(self, @selector(password));
-    if (!_password) {
-        _password = [self generatePasswordForCounter:self.counter];
-    }
-    return _password;
-}
-
-- (void)setPassword:(NSString *)password
-{
-    objc_setAssociatedObject(self, @selector(password), password, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return [self generatePasswordForCounter:self.counter];
 }
 
 - (void)updatePassword
 {
-    // Update counter
     if (self.type == OTPTokenTypeCounter) {
         self.counter++;
         [self saveToKeychain];
     } else if (self.type == OTPTokenTypeTimer) {
         self.counter = ([NSDate date].timeIntervalSince1970 / self.period);
     }
-
-    self.password = [self generatePasswordForCounter:self.counter];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:OTPTokenDidUpdateNotification object:self];
 }
