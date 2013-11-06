@@ -71,11 +71,6 @@ static NSUInteger kPinModTable[] = {
     }
 }
 
-- (NSString *)verificationCode
-{
-    return [self generatePasswordForCounter:0];
-}
-
 
 #pragma mark - Generator
 

@@ -1,5 +1,5 @@
 //
-//  OTPToken.h
+//  OTPTokenType.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -23,31 +23,23 @@
 //
 
 @import Foundation;
-#import "OTPTokenType.h"
-#import "OTPAlgorithm.h"
 
-@interface OTPToken : NSObject
 
-+ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name;
+typedef NS_ENUM(NSUInteger, OTPTokenType) {
+    OTPTokenTypeUndefined = 0,
+    OTPTokenTypeCounter,
+    OTPTokenTypeTimer,
+};
 
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic) OTPTokenType type;
-@property (nonatomic, copy) NSData *secret;
-@property (nonatomic) OTPAlgorithm algorithm;
-@property (nonatomic) NSUInteger digits;
 
-+ (OTPAlgorithm)defaultAlgorithm;
-+ (NSUInteger)defaultDigits;
+extern NSString *const kOTPTokenTypeCounter;
+extern NSString *const kOTPTokenTypeTimer;
 
-// HOTP
-@property (nonatomic) uint64_t counter;
-+ (uint64_t)defaultInitialCounter;
 
-// TOTP
-@property (nonatomic) NSTimeInterval period;
-+ (NSTimeInterval)defaultPeriod;
+@interface NSString (OTPTokenType)
 
-// Validation
-- (BOOL)validate;
++ (instancetype)stringForTokenType:(OTPTokenType)tokenType;
+
+- (OTPTokenType)tokenTypeValue;
 
 @end

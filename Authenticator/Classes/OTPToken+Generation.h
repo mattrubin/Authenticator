@@ -28,8 +28,7 @@
 @interface OTPToken (Generation)
 
 @property (nonatomic, readonly) NSString *password;
-- (void)updatePassword;
 
-@property (nonatomic, readonly) NSString *verificationCode;
+- (void)updatePassword;
 
 @end
