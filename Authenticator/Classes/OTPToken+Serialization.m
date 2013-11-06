@@ -55,6 +55,7 @@ static NSString *const kQueryPeriodKey = @"period";
         if (url.path.length > 1) {
             token = [[OTPToken alloc] init];
 
+            token.type = [url.host tokenTypeValue];
             token.name = [url.path substringFromIndex:1]; // Skip the leading "/"
 
             NSDictionary *query = [NSDictionary dictionaryWithQueryString:url.query];
@@ -73,13 +74,6 @@ static NSString *const kQueryPeriodKey = @"period";
 
             NSString *periodString = query[kQueryPeriodKey];
             token.period = periodString ? [periodString doubleValue] : [OTPToken defaultPeriod];
-
-            NSString *type = url.host;
-            if ([type isEqualToString:@"hotp"]) {
-                token.type = OTPTokenTypeCounter;
-            } else if ([type isEqualToString:@"totp"]) {
-                token.type = OTPTokenTypeTimer;
-            }
         }
     }
 
@@ -114,24 +108,19 @@ static NSString *const kQueryPeriodKey = @"period";
 - (NSURL *)url
 {
     NSMutableDictionary *query = [NSMutableDictionary dictionary];
-    NSString *typeString;
 
     query[kQueryAlgorithmKey] = [NSString stringForAlgorithm:self.algorithm];
     query[kQueryDigitsKey] = @(self.digits);
 
     if (self.type == OTPTokenTypeTimer) {
         query[kQueryPeriodKey] = @(self.period);
-
-        typeString = @"totp";
     } else if (self.type == OTPTokenTypeCounter) {
         query[kQueryCounterKey] = @(self.counter);
-
-        typeString = @"hotp";
     }
 
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/%@?%@",
                                  kOTPAuthScheme,
-                                 typeString,
+                                 [NSString stringForTokenType:self.type],
                                  [self.name percentEncodedString],
                                  [query queryString]]];
 }

@@ -1,5 +1,5 @@
 //
-//  OTPToken.h
+//  OTPTokenType.m
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,32 +22,36 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import Foundation;
 #import "OTPTokenType.h"
-#import "OTPAlgorithm.h"
 
-@interface OTPToken : NSObject
 
-+ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name;
+NSString *const kOTPTokenTypeCounter = @"hotp";
+NSString *const kOTPTokenTypeTimer = @"totp";
 
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic) OTPTokenType type;
-@property (nonatomic, copy) NSData *secret;
-@property (nonatomic) OTPAlgorithm algorithm;
-@property (nonatomic) NSUInteger digits;
 
-+ (OTPAlgorithm)defaultAlgorithm;
-+ (NSUInteger)defaultDigits;
+@implementation NSString (OTPTokenType)
 
-// HOTP
-@property (nonatomic) uint64_t counter;
-+ (uint64_t)defaultInitialCounter;
++ (instancetype)stringForTokenType:(OTPTokenType)tokenType
+{
+    switch (tokenType) {
+        case OTPTokenTypeCounter:
+            return kOTPTokenTypeCounter;
+        case OTPTokenTypeTimer:
+            return kOTPTokenTypeTimer;
+        case OTPTokenTypeUndefined:
+            return nil;
+    }
+}
 
-// TOTP
-@property (nonatomic) NSTimeInterval period;
-+ (NSTimeInterval)defaultPeriod;
+- (OTPTokenType)tokenTypeValue
+{
+    if ([self isEqualToString:kOTPTokenTypeCounter]) {
+        return OTPTokenTypeCounter;
+    } else if ([self isEqualToString:kOTPTokenTypeTimer]) {
+        return OTPTokenTypeTimer;
+    }
 
-// Validation
-- (BOOL)validate;
+    return OTPTokenTypeUndefined;
+}
 
 @end
