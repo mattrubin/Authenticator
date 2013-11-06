@@ -93,7 +93,7 @@
                                                secret:secret
                                                  name:self.accountNameField.text];
 
-        if (token.verificationCode) {
+        if (token.password) {
             id <OTPTokenSourceDelegate> delegate = self.delegate;
             [delegate tokenSource:self didCreateToken:token];
             return;
