@@ -24,7 +24,7 @@
 
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
-#import "OTPToken.h"
+#import "OTPToken+Generation.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wauto-import"

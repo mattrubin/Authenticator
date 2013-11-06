@@ -38,6 +38,8 @@
 		C9044FDC1824E711002C3C3F /* NSDictionary+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
 		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
+		C958CC4D1829DB9E00DD47D0 /* OTPToken+Generation.m in Sources */ = {isa = PBXBuildFile; fileRef = C958CC4C1829DB9E00DD47D0 /* OTPToken+Generation.m */; };
+		C958CC4E1829DB9E00DD47D0 /* OTPToken+Generation.m in Sources */ = {isa = PBXBuildFile; fileRef = C958CC4C1829DB9E00DD47D0 /* OTPToken+Generation.m */; };
 		C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
 		C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */; };
@@ -113,6 +115,8 @@
 		C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QueryString.m"; sourceTree = "<group>"; };
 		C948F01517D70080008FCA41 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
+		C958CC4B1829DB9E00DD47D0 /* OTPToken+Generation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Generation.h"; sourceTree = "<group>"; };
+		C958CC4C1829DB9E00DD47D0 /* OTPToken+Generation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OTPToken+Generation.m"; sourceTree = "<group>"; };
 		C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
 		C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		C97B68C617D9226D005D1FE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -281,6 +285,8 @@
 				C9044FC61821C466002C3C3F /* OTPToken+Serialization.m */,
 				C9044FC11821BD63002C3C3F /* OTPToken+Persistence.h */,
 				C9044FC21821BD63002C3C3F /* OTPToken+Persistence.m */,
+				C958CC4B1829DB9E00DD47D0 /* OTPToken+Generation.h */,
+				C958CC4C1829DB9E00DD47D0 /* OTPToken+Generation.m */,
 				C9044FCD18224D32002C3C3F /* OTPAlgorithm.h */,
 				C9044FCE18224D32002C3C3F /* OTPAlgorithm.m */,
 				8B2B6E4F1187AC6B00437315 /* OTPGenerator.h */,
@@ -513,6 +519,7 @@
 				1D3623260D0F684500981E51 /* OTPAppDelegate.m in Sources */,
 				28C286E10D94DF7D0034E888 /* OTPRootViewController.m in Sources */,
 				C999C693181344F40013C1C6 /* OTPToken.m in Sources */,
+				C958CC4D1829DB9E00DD47D0 /* OTPToken+Generation.m in Sources */,
 				C9044FC71821C466002C3C3F /* OTPToken+Serialization.m in Sources */,
 				C9044FC31821BD63002C3C3F /* OTPToken+Persistence.m in Sources */,
 				8B2B6E501187AC6B00437315 /* OTPGenerator.m in Sources */,
@@ -539,6 +546,7 @@
 				C9044FC41821C074002C3C3F /* OTPToken+Persistence.m in Sources */,
 				C9906A421812529400BAEF53 /* HOTPGeneratorTests.m in Sources */,
 				C9015FD3181261DF00F6A2AA /* TOTPGeneratorTests.m in Sources */,
+				C958CC4E1829DB9E00DD47D0 /* OTPToken+Generation.m in Sources */,
 				C9044FC81821C466002C3C3F /* OTPToken+Serialization.m in Sources */,
 				C9C8B01B1812744F00911E8B /* OTPAuthURLTest.m in Sources */,
 			);
