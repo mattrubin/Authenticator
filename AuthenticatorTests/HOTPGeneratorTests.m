@@ -23,8 +23,11 @@
 //
 
 @import XCTest;
-#import "OTPGenerator.h"
-#import "OTPToken.h"
+#import "OTPToken+Generation.h"
+
+@interface OTPToken ()
+- (NSString *)generatePasswordForCounter:(uint64_t)counter;
+@end
 
 
 @interface HOTPGeneratorTests : XCTestCase
@@ -44,12 +47,9 @@
     token.algorithm = OTPAlgorithmSHA1;
     token.digits = 6;
     token.counter = 0;
-    OTPGenerator *generator = [[OTPGenerator alloc] initWithToken:token];
 
-    XCTAssertNotNil(generator, @"The generator should not be nil.");
-
-    XCTAssertEqualObjects(@"755224", [generator generateOTPForCounter:0], @"The 0th OTP should be the expected string.");
-    XCTAssertEqualObjects(@"755224", [generator generateOTPForCounter:0], @"The generateOTPForCounter: method should be idempotent.");
+    XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The 0th OTP should be the expected string.");
+    XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The generatePasswordForCounter: method should be idempotent.");
 
     NSArray *expectedValues = @[@"287082",
                                 @"359152",
@@ -61,8 +61,9 @@
                                 @"399871",
                                 @"520489"];
 
-    for (NSString *password in expectedValues) {
-        XCTAssertEqualObjects([generator generateOTP], password, @"The generator did not produce the expected OTP.");
+    for (NSString *expectedPassword in expectedValues) {
+        [token updatePassword];
+        XCTAssertEqualObjects(token.password, expectedPassword, @"The generator did not produce the expected OTP.");
     }
 }
 

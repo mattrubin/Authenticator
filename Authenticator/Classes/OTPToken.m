@@ -23,20 +23,9 @@
 //
 
 #import "OTPToken.h"
-#import "OTPToken+Persistence.h"
-#import "OTPGenerator.h"
 
 
-NSString * const OTPTokenDidUpdateNotification = @"OTPTokenDidUpdateNotification";
 static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTimerNotification";
-
-
-@interface OTPToken ()
-
-@property (nonatomic, strong) OTPGenerator *generator;
-@property (nonatomic, strong) NSString *password;
-
-@end
 
 
 @implementation OTPToken
@@ -67,8 +56,8 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@ %p> type: %u, name: %@, verification: %@",
-            self.class, self, self.type, self.name, self.verificationCode];
+    return [NSString stringWithFormat:@"<%@ %p> type: %u, name: %@, algorithm: %@, digits: %lu",
+            self.class, self, self.type, self.name, [NSString stringForAlgorithm:self.algorithm], (unsigned long)self.digits];
 }
 
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name
@@ -122,45 +111,6 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 }
 
 
-#pragma mark - Generation
-
-- (OTPGenerator *)generator
-{
-    if (!_generator) {
-        _generator = [[OTPGenerator alloc] initWithToken:self];
-    }
-    return _generator;
-}
-
-- (NSString *)password
-{
-    if (!_password) {
-        if (self.type == OTPTokenTypeTimer) {
-            _password = [self.generator generateOTP];
-        } else if (self.type == OTPTokenTypeCounter) {
-            _password = [self.generator generateOTPForCounter:self.counter];
-        }
-    }
-    return _password;
-}
-
-- (void)updatePassword
-{
-    // If this is a counter-based token, the generator's generateOTP method will increment the counter.
-    // A timer-based token will simply regenerate the password for the current time.
-    self.password = [self.generator generateOTP];
-    if (self.type == OTPTokenTypeCounter) {
-        [self saveToKeychain];
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:OTPTokenDidUpdateNotification object:self];
-}
-
-- (NSString *)verificationCode
-{
-    return [self.generator generateOTPForCounter:0];
-}
-
-
 #pragma mark - Timed update
 
 + (void)load
@@ -168,11 +118,13 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
     static NSTimer *sharedTimer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedTimer = [NSTimer scheduledTimerWithTimeInterval:.01
+        sharedTimer = [NSTimer scheduledTimerWithTimeInterval:1
                                                        target:self
                                                      selector:@selector(updateAllTokens)
                                                      userInfo:nil
                                                       repeats:YES];
+        // Ensure this timer fires right at the beginning of every second
+        sharedTimer.fireDate = [NSDate dateWithTimeIntervalSince1970:floor(sharedTimer.fireDate.timeIntervalSince1970)+.01];
     });
 }
 
@@ -189,7 +141,6 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
     uint64_t newCount = (uint64_t)allTime / (uint64_t)self.period;
     if (newCount > self.counter) {
         self.counter = newCount;
-        [self updatePassword];
     }
 }
 

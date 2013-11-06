@@ -27,6 +27,22 @@
 
 OTPAlgorithm OTPAlgorithmUnknown = UINT32_MAX;
 
+NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm)
+{
+    switch (algorithm) {
+        case OTPAlgorithmSHA1:
+            return CC_SHA1_DIGEST_LENGTH;
+        case OTPAlgorithmSHA256:
+            return CC_SHA256_DIGEST_LENGTH;
+        case OTPAlgorithmSHA512:
+            return CC_SHA512_DIGEST_LENGTH;
+        case OTPAlgorithmMD5:
+            return CC_MD5_DIGEST_LENGTH;
+    }
+}
+
+
+#pragma mark - String Representations
 
 NSString *const kOTPAlgorithmSHA1 = @"SHA1";
 NSString *const kOTPAlgorithmSHA256 = @"SHA256";
