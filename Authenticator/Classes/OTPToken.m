@@ -23,10 +23,8 @@
 //
 
 #import "OTPToken.h"
-#import "OTPToken+Generation.h"
 
 
-NSString * const OTPTokenDidUpdateNotification = @"OTPTokenDidUpdateNotification";
 static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTimerNotification";
 
 
@@ -58,8 +56,8 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@ %p> type: %u, name: %@, verification: %@",
-            self.class, self, self.type, self.name, self.verificationCode];
+    return [NSString stringWithFormat:@"<%@ %p> type: %u, name: %@, algorithm: %@, digits: %lu",
+            self.class, self, self.type, self.name, [NSString stringForAlgorithm:self.algorithm], (unsigned long)self.digits];
 }
 
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name
@@ -141,7 +139,6 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
     uint64_t newCount = (uint64_t)allTime / (uint64_t)self.period;
     if (newCount > self.counter) {
         self.counter = newCount;
-        [self updatePassword];
     }
 }
 

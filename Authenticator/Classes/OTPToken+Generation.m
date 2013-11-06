@@ -41,10 +41,21 @@ static NSUInteger kPinModTable[] = {
 
 @implementation OTPToken (Generation)
 
++ (NSSet *)keyPathsForValuesAffectingPassword
+{
+    return [NSSet setWithArray:@[@"secret",
+                                 @"algorithm",
+                                 @"digits",
+                                 @"counter"]];
+}
+
 - (NSString *)password
 {
     if (self.type == OTPTokenTypeTimer) {
-        self.counter = ([NSDate date].timeIntervalSince1970 / self.period);
+        uint64_t newCounter = (uint64_t)([NSDate date].timeIntervalSince1970 / self.period);
+        if (self.counter != newCounter) {
+            self.counter = newCounter;
+        }
     }
     
     return [self generatePasswordForCounter:self.counter];
@@ -58,8 +69,6 @@ static NSUInteger kPinModTable[] = {
     } else if (self.type == OTPTokenTypeTimer) {
         self.counter = ([NSDate date].timeIntervalSince1970 / self.period);
     }
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:OTPTokenDidUpdateNotification object:self];
 }
 
 - (NSString *)verificationCode

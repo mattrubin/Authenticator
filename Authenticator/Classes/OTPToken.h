@@ -33,9 +33,6 @@ typedef NS_ENUM(NSUInteger, OTPTokenType) {
 };
 
 
-extern NSString * const OTPTokenDidUpdateNotification;
-
-
 @interface OTPToken : NSObject
 
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name;

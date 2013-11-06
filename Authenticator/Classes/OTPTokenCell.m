@@ -55,14 +55,14 @@
         
         [self createSubviews];
         
-        [self addObserver:self forKeyPath:@"token" options:(NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew) context:nil];
+        [self addObserver:self forKeyPath:@"token.password" options:0 context:nil];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [self removeObserver:self forKeyPath:@"token"];
+    [self removeObserver:self forKeyPath:@"token.password"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -117,24 +117,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ((object == self) && [keyPath isEqualToString:@"token"]) {
-        [self refresh];
-        
-        OTPToken *oldObject = change[NSKeyValueChangeOldKey];
-        if (oldObject && ![oldObject isKindOfClass:[NSNull class]]) {
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:OTPTokenDidUpdateNotification
-                                                          object:oldObject];
-        }
-        
-        OTPToken *newObject = change[NSKeyValueChangeNewKey];
-        if (newObject && ![newObject isKindOfClass:[NSNull class]]) {
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(refresh)
-                                                         name:OTPTokenDidUpdateNotification
-                                                       object:newObject];
-        }
-    }
+    [self refresh];
 }
 
 - (void)refresh
