@@ -125,7 +125,8 @@ static NSString *const kQueryPeriodKey = @"period";
     NSURLComponents *urlComponents = [NSURLComponents new];
     urlComponents.scheme = kOTPAuthScheme;
     urlComponents.host = [NSString stringForTokenType:self.type];
-    urlComponents.path = [@"/" stringByAppendingString:self.name];
+    if (self.name)
+        urlComponents.path = [@"/" stringByAppendingString:self.name];
     urlComponents.query = [query queryString];
 
     return urlComponents.URL;
