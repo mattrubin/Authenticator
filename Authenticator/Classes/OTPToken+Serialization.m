@@ -52,11 +52,10 @@ static NSString *const kQueryPeriodKey = @"period";
 {
     OTPToken *token = nil;
 
-    NSString *urlScheme = url.scheme;
-    if ([urlScheme isEqualToString:kTOTPAuthScheme]) {
+    if ([url.scheme isEqualToString:kTOTPAuthScheme]) {
         // Legacy totp:// URL
         token = [self tokenWithTOTPURL:url];
-    } else if ([urlScheme isEqualToString:kOTPAuthScheme]) {
+    } else if ([url.scheme isEqualToString:kOTPAuthScheme]) {
         // Modern otpauth:// URL
         token = [self tokenWithOTPAuthURL:url];
     }
@@ -123,11 +122,14 @@ static NSString *const kQueryPeriodKey = @"period";
         query[kQueryCounterKey] = @(self.counter);
     }
 
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/%@?%@",
-                                 kOTPAuthScheme,
-                                 [NSString stringForTokenType:self.type],
-                                 [self.name percentEncodedString],
-                                 [query queryString]]];
+    NSURLComponents *urlComponents = [NSURLComponents new];
+    urlComponents.scheme = kOTPAuthScheme;
+    urlComponents.host = [NSString stringForTokenType:self.type];
+    if (self.name)
+        urlComponents.path = [@"/" stringByAppendingString:self.name];
+    urlComponents.query = [query queryString];
+
+    return urlComponents.URL;
 }
 
 @end
