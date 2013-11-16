@@ -25,6 +25,7 @@
 @import XCTest;
 #import "OTPToken+Serialization.h"
 #import "NSDictionary+QueryString.h"
+#import <Base32/MF_Base32Additions.h>
 
 
 static NSString * const kOTPScheme = @"otpauth";
@@ -65,6 +66,59 @@ static NSArray *counterNumbers;
 
 - (void)test_tokenWithURL
 {
+    for (NSNumber *typeNumber in typeNumbers) {
+        for (NSString *name in names) {
+            for (NSString *secretString in secretStrings) {
+                for (NSNumber *algorithmNumber in algorithmNumbers) {
+                    for (NSNumber *digitNumber in digitNumbers) {
+                        for (NSNumber *periodNumber in periodNumbers) {
+                            for (NSNumber *counterNumber in counterNumbers) {
+                                // Construct the URL
+                                NSMutableDictionary *query = [NSMutableDictionary dictionary];
+                                query[@"algorithm"] = [NSString stringForAlgorithm:[algorithmNumber unsignedIntValue]];
+                                query[@"digits"] = digitNumber;
+                                query[@"secret"] = [[[secretString dataUsingEncoding:NSASCIIStringEncoding] base32String] stringByReplacingOccurrencesOfString:@"=" withString:@""];
+                                query[@"period"] = [periodNumber isEqual:kRandomKey] ? @(arc4random()%299 + 1) : periodNumber;
+                                query[@"counter"] = [counterNumber isEqual:kRandomKey] ? @(arc4random() + ((uint64_t)arc4random() << 32)) : counterNumber;
+
+                                NSURLComponents *urlComponents = [NSURLComponents new];
+                                urlComponents.scheme = kOTPScheme;
+                                urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedIntegerValue]];
+                                urlComponents.path = [@"/" stringByAppendingString:name];
+                                urlComponents.query = [query queryString];
+
+                                // Create the token
+                                OTPToken *token = [OTPToken tokenWithURL:[urlComponents URL]];
+
+                                // Note: [OTPToken tokenWithURL:] will return nil if the token described by the URL is invalid.
+                                if (token) {
+                                    XCTAssertEqual(token.type, [typeNumber unsignedIntegerValue], @"Incorrect token type");
+                                    XCTAssertEqualObjects(token.name, [name isEqualToString:@""] ? nil : name, @"Incorrect token name");
+                                    XCTAssertEqualObjects(token.secret, [secretString dataUsingEncoding:NSASCIIStringEncoding], @"Incorrect token secret");
+                                    XCTAssertEqual(token.algorithm, [algorithmNumber unsignedIntValue], @"Incorrect token algorithm");
+                                    XCTAssertEqual(token.digits, [digitNumber unsignedIntegerValue], @"Incorrect token digits");
+                                    XCTAssertEqual(token.period, [query[@"period"] doubleValue], @"Incorrect token period");
+                                    XCTAssertEqual(token.counter, [query[@"counter"] unsignedLongLongValue], @"Incorrect token counter");
+                                } else {
+                                    // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
+                                    OTPToken *invalidToken = [OTPToken new];
+                                    invalidToken.type = [typeNumber unsignedIntegerValue];
+                                    invalidToken.name = name;
+                                    invalidToken.secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
+                                    invalidToken.algorithm = [algorithmNumber unsignedIntValue];
+                                    invalidToken.digits = [digitNumber unsignedIntegerValue];
+                                    invalidToken.period = [query[@"period"] doubleValue];
+                                    invalidToken.counter = [query[@"counter"] unsignedLongLongValue];
+
+                                    XCTAssertFalse([invalidToken validate], @"The token should be invalid");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 - (void)test_tokenWithURL_secret
