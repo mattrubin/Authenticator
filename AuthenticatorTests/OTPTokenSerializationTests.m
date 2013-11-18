@@ -25,7 +25,11 @@
 @import XCTest;
 #import "OTPToken+Serialization.h"
 #import "NSDictionary+QueryString.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wauto-import"
 #import <Base32/MF_Base32Additions.h>
+#pragma clang diagnostic pop
 
 
 static NSString * const kOTPScheme = @"otpauth";
@@ -64,7 +68,7 @@ static NSArray *counterNumbers;
 
 }
 
-- (void)test_tokenWithURL
+- (void)testDeserialization
 {
     for (NSNumber *typeNumber in typeNumbers) {
         for (NSString *name in names) {
@@ -133,7 +137,7 @@ static NSArray *counterNumbers;
 {
 }
 
-- (void)test_url
+- (void)testSerialization
 {
     for (NSNumber *typeNumber in typeNumbers) {
         for (NSString *name in names) {
@@ -156,7 +160,6 @@ static NSArray *counterNumbers;
                                 } else {
                                     counter = [counterNumber unsignedLongLongValue];
                                 }
-
 
                                 // Create the token
                                 OTPToken *token = [OTPToken new];
@@ -209,8 +212,10 @@ static NSArray *counterNumbers;
                                     XCTAssertEqualObjects(queryArguments[@"counter"], expectedCounterString,
                                                           @"The counter value should be \"%@\"", expectedCounterString);
                                 } else {
-                                    XCTAssertNil(queryArguments[@"countet"], @"The url query string should not contain the counter");
+                                    XCTAssertNil(queryArguments[@"counter"], @"The url query string should not contain the counter");
                                 }
+
+                                XCTAssertEqual(queryArguments.count, (NSUInteger)3, @"There shouldn't be any unexpected query arguments");
 
                                 // Check url again
                                 NSURL *checkURL = token.url;
