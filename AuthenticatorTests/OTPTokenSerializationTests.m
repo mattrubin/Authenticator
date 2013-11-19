@@ -237,6 +237,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 // From Google Authenticator for iOS
 // https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/OTPAuthURLTest.m
 
+#pragma mark Deserialization
 
 - (void)testTokenWithTOTPURL
 {
@@ -278,6 +279,38 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
         OTPToken *token = [OTPToken tokenWithURL:[NSURL URLWithString:badURL]];
         XCTAssertNil(token, @"Invalid url (%@) generated %@", badURL, token);
     }
+}
+
+#pragma mark Serialization
+
+- (void)testTOTPURL
+{
+    OTPToken *token = [OTPToken tokenWithURL:[NSURL URLWithString:@"otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4"]];
+    NSURL *url = token.url;
+
+    XCTAssertEqualObjects(url.scheme, @"otpauth");
+    XCTAssertEqualObjects(url.host, @"totp");
+    XCTAssertEqualObjects([url.path substringFromIndex:1], @"Léon");
+
+    NSDictionary *expectedQueryString = @{@"algorithm": @"SHA256",
+                                          @"digits": @"8",
+                                          @"period": @"45"};
+    XCTAssertEqualObjects([NSDictionary dictionaryWithQueryString:url.query], expectedQueryString);
+}
+
+- (void)testHOTPURL
+{
+    OTPToken *token = [OTPToken tokenWithURL:[NSURL URLWithString:@"otpauth://hotp/L%C3%A9on?algorithm=SHA256&digits=8&counter=18446744073709551615&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4"]];
+    NSURL *url = token.url;
+
+    XCTAssertEqualObjects(url.scheme, @"otpauth");
+    XCTAssertEqualObjects(url.host, @"hotp");
+    XCTAssertEqualObjects([url.path substringFromIndex:1], @"Léon");
+
+    NSDictionary *expectedQueryString = @{@"algorithm": @"SHA256",
+                                          @"digits": @"8",
+                                          @"counter": @"18446744073709551615"};
+    XCTAssertEqualObjects([NSDictionary dictionaryWithQueryString:url.query], expectedQueryString);
 }
 
 @end

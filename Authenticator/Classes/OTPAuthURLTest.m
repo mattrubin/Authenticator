@@ -116,40 +116,6 @@ static NSString *const kValidHOTPURL =
   STAssertFalse([token isInKeychain], @"");
 }
 
-- (void)testURL {
-  OTPToken *token
-    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidTOTPURL]];
-
-  STAssertEqualObjects([[token url] scheme], kOTPAuthScheme, @"");
-  STAssertEqualObjects([[token url] host], kValidType, @"");
-  STAssertEqualObjects([[[token url] path] substringFromIndex:1],
-                       kValidLabel,
-                       @"");
-  NSDictionary *result =
-      [NSDictionary dictionaryWithObjectsAndKeys:
-       kValidAlgorithm, kQueryAlgorithmKey,
-       kValidDigitsString, kQueryDigitsKey,
-       kValidPeriodString, kQueryPeriodKey,
-       nil];
-  STAssertEqualObjects([NSDictionary dictionaryWithQueryString:
-                        [[token url] query]],
-                       result,
-                       @"");
-
-  OTPToken *token2
-    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidHOTPURL]];
-
-  NSDictionary *resultForHOTP =
-      [NSDictionary dictionaryWithObjectsAndKeys:
-       kValidAlgorithm, kQueryAlgorithmKey,
-       kValidDigitsString, kQueryDigitsKey,
-       kValidCounterString, kQueryCounterKey,
-       nil];
-  STAssertEqualObjects([NSDictionary dictionaryWithQueryString:
-                        [[token2 url] query]],
-                       resultForHOTP,
-                       @"");
-}
 
 - (void)testDuplicateURLs {
   NSURL *url = [NSURL URLWithString:kValidTOTPURL];
