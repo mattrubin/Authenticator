@@ -45,6 +45,9 @@ static NSArray *digitNumbers;
 static NSArray *periodNumbers;
 static NSArray *counterNumbers;
 
+static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+                                              0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f };
+
 
 @interface OTPTokenSerializationTests : XCTestCase
 
@@ -226,6 +229,54 @@ static NSArray *counterNumbers;
                 }
             }
         }
+    }
+}
+
+
+#pragma mark - Test with specific URLs
+// From Google Authenticator for iOS
+// https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/OTPAuthURLTest.m
+
+
+- (void)testTokenWithTOTPURL
+{
+    NSData *secret = [NSData dataWithBytes:kValidSecret length:sizeof(kValidSecret)];
+    OTPToken *token = [OTPToken tokenWithURL:[NSURL URLWithString:@"otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4"]];
+
+    XCTAssertEqualObjects(token.name, @"Léon");
+    XCTAssertEqualObjects(token.secret, secret);
+    XCTAssertEqual(token.type, OTPTokenTypeTimer);
+    XCTAssertEqual(token.algorithm, OTPAlgorithmSHA256);
+    XCTAssertEqual(token.period, 45.0);
+    XCTAssertEqual(token.digits, 8U);
+}
+
+- (void)testTokenWithHOTPURL
+{
+    NSData *secret = [NSData dataWithBytes:kValidSecret length:sizeof(kValidSecret)];
+    OTPToken *token = [OTPToken tokenWithURL:[NSURL URLWithString:@"otpauth://hotp/L%C3%A9on?algorithm=SHA256&digits=8&counter=18446744073709551615&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4"]];
+
+    XCTAssertEqualObjects(token.name, @"Léon");
+    XCTAssertEqualObjects(token.secret, secret);
+    XCTAssertEqual(token.type, OTPTokenTypeCounter);
+    XCTAssertEqual(token.algorithm, OTPAlgorithmSHA256);
+    XCTAssertEqual(token.counter, 18446744073709551615ULL);
+    XCTAssertEqual(token.digits, 8U);
+}
+
+- (void)testTokenWithInvalidURLs
+{
+    NSArray *badURLs = @[@"http://foo", // invalid scheme
+                         @"otpauth://foo", // invalid type
+                         @"otpauth://totp/bar", // missing secret
+                         @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&period=0", // invalid period
+                         @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&algorithm=RC4", // invalid algorithm
+                         @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&digits=2", // invalid digits
+                         ];
+
+    for (NSString *badURL in badURLs) {
+        OTPToken *token = [OTPToken tokenWithURL:[NSURL URLWithString:badURL]];
+        XCTAssertNil(token, @"Invalid url (%@) generated %@", badURL, token);
     }
 }
 

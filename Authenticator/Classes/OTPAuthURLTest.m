@@ -105,58 +105,6 @@ static NSString *const kValidHOTPURL =
   STAssertFalse([token isInKeychain], @"");
 }
 
-- (void)testInitWithTOTPURL {
-  NSData *secret = [NSData dataWithBytes:kValidSecret
-                                  length:sizeof(kValidSecret)];
-
-  OTPToken *token
-    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidTOTPURL]];
-
-  STAssertEqualObjects(token.name, kValidLabel, @"Léon");
-
-  STAssertEqualObjects([token secret], secret, @"");
-  STAssertEqualObjects([NSString stringForAlgorithm:token.algorithm], kValidAlgorithm, @"");
-  STAssertEquals([token period], kValidPeriod, @"");
-  STAssertEquals([token digits], kValidDigits, @"");
-}
-
-- (void)testInitWithHOTPURL {
-  NSData *secret = [NSData dataWithBytes:kValidSecret
-                                  length:sizeof(kValidSecret)];
-
-  OTPToken *token
-    = [OTPToken tokenWithURL:[NSURL URLWithString:kValidHOTPURL]];
-
-  STAssertEqualObjects([token name], kValidLabel, @"Léon");
-
-  STAssertEqualObjects([token secret], secret, @"");
-  STAssertEqualObjects([NSString stringForAlgorithm:token.algorithm], kValidAlgorithm, @"");
-  STAssertEquals([token counter], kValidCounter, @"");
-  STAssertEquals([token digits], kValidDigits, @"");
-}
-
-- (void)testInitWithInvalidURLS {
-  NSArray *badUrls = [NSArray arrayWithObjects:
-      // invalid scheme
-      @"http://foo",
-      // invalid type
-      @"otpauth://foo",
-      // missing secret
-      @"otpauth://totp/bar",
-      // invalid period
-      @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&period=0",
-      // invalid algorithm
-      @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&algorithm=RC4",
-      // invalid digits
-      @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&digits=2",
-      nil];
-
-  for (NSString *badUrl in badUrls) {
-    OTPToken *token
-      = [OTPToken tokenWithURL:[NSURL URLWithString:badUrl]];
-    STAssertNil(token, @"invalid url (%@) generated %@", badUrl, token);
-  }
-}
 
 - (void)testInitWithOTPGeneratorLabel {
     OTPToken *token = [[OTPToken alloc] init];
