@@ -18,12 +18,6 @@
 //
 
 @import XCTest;
-
-#define STAssertEqualObjects XCTAssertEqualObjects
-#define STAssertEquals XCTAssertEqual
-#define STAssertTrue XCTAssertTrue
-#define STAssertFalse XCTAssertFalse
-
 #import "OTPToken+Serialization.h"
 #import "OTPToken+Persistence.h"
 
@@ -67,14 +61,14 @@ static NSString *const kValidTOTPURL =
                       secret, (id)kSecValueData,
                       nil]];
 
-  STAssertEqualObjects([token name], kValidLabel, @"Léon");
+  XCTAssertEqualObjects([token name], kValidLabel, @"Léon");
 
-  STAssertEqualObjects([token secret], secret, @"");
-  STAssertEqualObjects([NSString stringForAlgorithm:token.algorithm], kValidAlgorithm, @"");
-  STAssertEquals([token period], kValidPeriod, @"");
-  STAssertEquals([token digits], kValidDigits, @"");
+  XCTAssertEqualObjects([token secret], secret);
+  XCTAssertEqualObjects([NSString stringForAlgorithm:token.algorithm], kValidAlgorithm);
+  XCTAssertEqual([token period], kValidPeriod);
+  XCTAssertEqual([token digits], kValidDigits);
 
-  STAssertFalse([token isInKeychain], @"");
+  XCTAssertFalse([token isInKeychain]);
 }
 
 
@@ -84,8 +78,8 @@ static NSString *const kValidTOTPURL =
     token.type = OTPTokenTypeTimer;
     token.secret = [NSData data];
 
-  STAssertEqualObjects([token name], kValidLabel, @"");
-  STAssertFalse([token isInKeychain], @"");
+    XCTAssertEqualObjects([token name], kValidLabel);
+    XCTAssertFalse([token isInKeychain]);
 }
 
 
@@ -93,11 +87,11 @@ static NSString *const kValidTOTPURL =
   NSURL *url = [NSURL URLWithString:kValidTOTPURL];
   OTPToken *token1 = [OTPToken tokenWithURL:url];
   OTPToken *token2 = [OTPToken tokenWithURL:url];
-  STAssertTrue([token1 saveToKeychain], @"");
-  STAssertTrue([token2 saveToKeychain], @"");
-  STAssertTrue([token1 removeFromKeychain],
+  XCTAssertTrue([token1 saveToKeychain]);
+  XCTAssertTrue([token2 saveToKeychain]);
+  XCTAssertTrue([token1 removeFromKeychain],
                @"Your keychain may now have an invalid entry %@", token1);
-  STAssertTrue([token2 removeFromKeychain],
+  XCTAssertTrue([token2 removeFromKeychain],
                @"Your keychain may now have an invalid entry %@", token2);
 }
 
