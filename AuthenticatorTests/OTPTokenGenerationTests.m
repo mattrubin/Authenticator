@@ -104,6 +104,8 @@
     }
 }
 
+// From Google Authenticator for iOS
+// https://code.google.com/p/google-authenticator/source/browse/mobile/ios/Classes/TOTPGeneratorTest.m
 - (void)testTOTPGoogleValues
 {
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];

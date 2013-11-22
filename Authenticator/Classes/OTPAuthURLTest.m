@@ -23,34 +23,17 @@
 #define STAssertEquals XCTAssertEqual
 #define STAssertTrue XCTAssertTrue
 #define STAssertFalse XCTAssertFalse
-#define STAssertNil XCTAssertNil
 
 #import "OTPToken+Serialization.h"
 #import "OTPToken+Persistence.h"
-#import "NSDictionary+QueryString.h"
 
-static NSString *const kOTPAuthScheme = @"otpauth";
-
-// These are keys in the otpauth:// query string.
-static NSString *const kQueryAlgorithmKey = @"algorithm";
-static NSString *const kQuerySecretKey = @"secret";
-static NSString *const kQueryCounterKey = @"counter";
-static NSString *const kQueryDigitsKey = @"digits";
-static NSString *const kQueryPeriodKey = @"period";
-
-static NSString *const kValidType = @"totp";
 static NSString *const kValidLabel = @"Léon";
 static NSString *const kValidAlgorithm = @"SHA256";
 static const unsigned char kValidSecret[] =
     { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
       0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f };
-static NSString *const  kValidBase32Secret = @"AAAQEAYEAUDAOCAJBIFQYDIOB4";
-static const unsigned long long kValidCounter = 18446744073709551615ULL;
-static NSString *const kValidCounterString = @"18446744073709551615";
 static const NSUInteger kValidDigits = 8;
-static NSString *const kValidDigitsString = @"8";
 static const NSTimeInterval kValidPeriod = 45;
-static NSString *const kValidPeriodString = @"45";
 
 static NSString *const kValidTOTPURLWithoutSecret =
     @"otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45";
@@ -59,10 +42,6 @@ static NSString *const kValidTOTPURL =
     @"otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45"
     @"&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4";
 
-static NSString *const kValidHOTPURL =
-    @"otpauth://hotp/L%C3%A9on?algorithm=SHA256&digits=8"
-    @"&counter=18446744073709551615"
-    @"&secret=AAAQEAYEAUDAOCAJBIFQYDIOB4";
 
 @interface OTPToken ()
 
@@ -72,13 +51,6 @@ static NSString *const kValidHOTPURL =
 @end
 
 @interface OTPAuthURLTest : XCTestCase
-- (void)testInitWithKeychainDictionary;
-- (void)testInitWithTOTPURL;
-- (void)testInitWithHOTPURL;
-- (void)testInitWithInvalidURLS;
-- (void)testInitWithOTPGeneratorLabel;
-- (void)testURL;
-
 @end
 
 @implementation OTPAuthURLTest
