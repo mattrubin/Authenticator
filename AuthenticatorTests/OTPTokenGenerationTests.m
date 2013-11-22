@@ -1,5 +1,5 @@
 //
-//  TOTPGeneratorTests.m
+//  OTPTokenGenerationTests.m
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -23,7 +23,7 @@
 //
 
 @import XCTest;
-#import "OTPToken.h"
+#import "OTPToken+Generation.h"
 
 
 @interface OTPToken ()
@@ -31,15 +31,46 @@
 @end
 
 
-@interface TOTPGeneratorTests : XCTestCase
+@interface OTPTokenGenerationTests : XCTestCase
 @end
 
 
-@implementation TOTPGeneratorTests
+@implementation OTPTokenGenerationTests
+
+// The values in this test are found in Appendix D of the HOTP RFC
+// https://tools.ietf.org/html/rfc4226#appendix-D
+- (void)testHOTPRFCValues
+{
+    NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
+    OTPToken *token = [[OTPToken alloc] init];
+    token.type = OTPTokenTypeCounter;
+    token.secret = secret;
+    token.algorithm = OTPAlgorithmSHA1;
+    token.digits = 6;
+    token.counter = 0;
+
+    XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The 0th OTP should be the expected string.");
+    XCTAssertEqualObjects(@"755224", [token generatePasswordForCounter:0], @"The generatePasswordForCounter: method should be idempotent.");
+
+    NSArray *expectedValues = @[@"287082",
+                                @"359152",
+                                @"969429",
+                                @"338314",
+                                @"254676",
+                                @"287922",
+                                @"162583",
+                                @"399871",
+                                @"520489"];
+
+    for (NSString *expectedPassword in expectedValues) {
+        [token updatePassword];
+        XCTAssertEqualObjects(token.password, expectedPassword, @"The generator did not produce the expected OTP.");
+    }
+}
 
 // The values in this test are found in Appendix B of the TOTP RFC
 // https://tools.ietf.org/html/rfc6238#appendix-B
-- (void)testRFCValues
+- (void)testTOTPRFCValues
 {
     NSDictionary *secretKeys = @{kOTPAlgorithmSHA1:   @"12345678901234567890",
                                  kOTPAlgorithmSHA256: @"12345678901234567890123456789012",
@@ -73,7 +104,7 @@
     }
 }
 
-- (void)testGoogleValues
+- (void)testTOTPGoogleValues
 {
     NSData *secret = [@"12345678901234567890" dataUsingEncoding:NSASCIIStringEncoding];
 

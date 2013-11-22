@@ -24,7 +24,6 @@
 		8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E5128B5DB500A0E8F2 /* Icon-72.png */; };
 		8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BC958E6128B5DB500A0E8F2 /* Icon.png */; };
 		8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */; };
-		C9015FD3181261DF00F6A2AA /* TOTPGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9015FD2181261DF00F6A2AA /* TOTPGeneratorTests.m */; };
 		C9044FC31821BD63002C3C3F /* OTPToken+Persistence.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FC21821BD63002C3C3F /* OTPToken+Persistence.m */; };
 		C9044FC41821C074002C3C3F /* OTPToken+Persistence.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FC21821BD63002C3C3F /* OTPToken+Persistence.m */; };
 		C9044FC71821C466002C3C3F /* OTPToken+Serialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FC61821C466002C3C3F /* OTPToken+Serialization.m */; };
@@ -34,6 +33,7 @@
 		C9044FD61824CDE7002C3C3F /* OTPBase32Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FD51824CDE7002C3C3F /* OTPBase32Tests.m */; };
 		C9044FD91824E05E002C3C3F /* NSString+PercentEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FD81824E05E002C3C3F /* NSString+PercentEncoding.m */; };
 		C9044FDC1824E711002C3C3F /* NSDictionary+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */; };
+		C940A981183EEFA300F7D04A /* OTPTokenGenerationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C940A980183EEFA300F7D04A /* OTPTokenGenerationTests.m */; };
 		C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01517D70080008FCA41 /* Icon-72@2x.png */; };
 		C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */; };
 		C958CC4D1829DB9E00DD47D0 /* OTPToken+Generation.m in Sources */ = {isa = PBXBuildFile; fileRef = C958CC4C1829DB9E00DD47D0 /* OTPToken+Generation.m */; };
@@ -50,7 +50,6 @@
 		C9906A311812522100BAEF53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8776118B903000437315 /* Foundation.framework */; };
 		C9906A321812522100BAEF53 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B86FD118B8FA000437315 /* UIKit.framework */; };
 		C9906A381812522100BAEF53 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9906A361812522100BAEF53 /* InfoPlist.strings */; };
-		C9906A421812529400BAEF53 /* HOTPGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9906A411812529400BAEF53 /* HOTPGeneratorTests.m */; };
 		C999C693181344F40013C1C6 /* OTPToken.m in Sources */ = {isa = PBXBuildFile; fileRef = C999C692181344F40013C1C6 /* OTPToken.m */; };
 		C999C6941813500B0013C1C6 /* OTPToken.m in Sources */ = {isa = PBXBuildFile; fileRef = C999C692181344F40013C1C6 /* OTPToken.m */; };
 		C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */; };
@@ -100,7 +99,6 @@
 		8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+OTP.m"; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* Authenticator-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Authenticator-Info.plist"; sourceTree = "<group>"; };
 		9B03839CF35E4014987A36CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9015FD2181261DF00F6A2AA /* TOTPGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOTPGeneratorTests.m; sourceTree = "<group>"; };
 		C9044FC11821BD63002C3C3F /* OTPToken+Persistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Persistence.h"; sourceTree = "<group>"; };
 		C9044FC21821BD63002C3C3F /* OTPToken+Persistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OTPToken+Persistence.m"; sourceTree = "<group>"; };
 		C9044FC51821C466002C3C3F /* OTPToken+Serialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Serialization.h"; sourceTree = "<group>"; };
@@ -112,6 +110,7 @@
 		C9044FD81824E05E002C3C3F /* NSString+PercentEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PercentEncoding.m"; sourceTree = "<group>"; };
 		C9044FDA1824E711002C3C3F /* NSDictionary+QueryString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+QueryString.h"; sourceTree = "<group>"; };
 		C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QueryString.m"; sourceTree = "<group>"; };
+		C940A980183EEFA300F7D04A /* OTPTokenGenerationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenGenerationTests.m; sourceTree = "<group>"; };
 		C948F01517D70080008FCA41 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		C958CC4B1829DB9E00DD47D0 /* OTPToken+Generation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OTPToken+Generation.h"; sourceTree = "<group>"; };
@@ -133,7 +132,6 @@
 		C9906A351812522100BAEF53 /* AuthenticatorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AuthenticatorTests-Info.plist"; sourceTree = "<group>"; };
 		C9906A371812522100BAEF53 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C9906A3B1812522100BAEF53 /* AuthenticatorTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AuthenticatorTests-Prefix.pch"; sourceTree = "<group>"; };
-		C9906A411812529400BAEF53 /* HOTPGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOTPGeneratorTests.m; sourceTree = "<group>"; };
 		C999C691181344F40013C1C6 /* OTPToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPToken.h; sourceTree = "<group>"; };
 		C999C692181344F40013C1C6 /* OTPToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPToken.m; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
@@ -359,12 +357,11 @@
 		C9906A331812522100BAEF53 /* AuthenticatorTests */ = {
 			isa = PBXGroup;
 			children = (
-				C9906A411812529400BAEF53 /* HOTPGeneratorTests.m */,
-				C9015FD2181261DF00F6A2AA /* TOTPGeneratorTests.m */,
 				8B2B89BE118B968900437315 /* OTPAuthURLTest.m */,
 				C9044FD51824CDE7002C3C3F /* OTPBase32Tests.m */,
 				C9906A341812522100BAEF53 /* Supporting Files */,
 				C958CC53183043A600DD47D0 /* OTPTokenSerializationTests.m */,
+				C940A980183EEFA300F7D04A /* OTPTokenGenerationTests.m */,
 			);
 			path = AuthenticatorTests;
 			sourceTree = "<group>";
@@ -545,11 +542,10 @@
 				C9044FD018224D32002C3C3F /* OTPAlgorithm.m in Sources */,
 				C999C6941813500B0013C1C6 /* OTPToken.m in Sources */,
 				C9044FD61824CDE7002C3C3F /* OTPBase32Tests.m in Sources */,
+				C940A981183EEFA300F7D04A /* OTPTokenGenerationTests.m in Sources */,
 				C958CC54183043A600DD47D0 /* OTPTokenSerializationTests.m in Sources */,
 				C958CC52182A1FDD00DD47D0 /* OTPTokenType.m in Sources */,
 				C9044FC41821C074002C3C3F /* OTPToken+Persistence.m in Sources */,
-				C9906A421812529400BAEF53 /* HOTPGeneratorTests.m in Sources */,
-				C9015FD3181261DF00F6A2AA /* TOTPGeneratorTests.m in Sources */,
 				C958CC4E1829DB9E00DD47D0 /* OTPToken+Generation.m in Sources */,
 				C9044FC81821C466002C3C3F /* OTPToken+Serialization.m in Sources */,
 				C9C8B01B1812744F00911E8B /* OTPAuthURLTest.m in Sources */,
