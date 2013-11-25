@@ -47,6 +47,7 @@
 		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
 		C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */; };
+		C9F75CA21843F9BE00B6FA14 /* OTPTokenListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75CA11843F9BE00B6FA14 /* OTPTokenListViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,8 @@
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenManager.h; sourceTree = "<group>"; };
 		C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenManager.m; sourceTree = "<group>"; };
+		C9F75CA01843F9BE00B6FA14 /* OTPTokenListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenListViewController.h; sourceTree = "<group>"; };
+		C9F75CA11843F9BE00B6FA14 /* OTPTokenListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenListViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +293,8 @@
 				8B45557611932B5D00ABD707 /* OTPClock.h */,
 				8B45557711932B5D00ABD707 /* OTPClock.m */,
 				C98C1C4517D2EDF500A07D3F /* Table View */,
+				C9F75CA01843F9BE00B6FA14 /* OTPTokenListViewController.h */,
+				C9F75CA11843F9BE00B6FA14 /* OTPTokenListViewController.m */,
 				C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */,
 				C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */,
 			);
@@ -493,6 +498,7 @@
 				C958CC4D1829DB9E00DD47D0 /* OTPToken+Generation.m in Sources */,
 				C9044FC71821C466002C3C3F /* OTPToken+Serialization.m in Sources */,
 				C958CC51182A1FDD00DD47D0 /* OTPTokenType.m in Sources */,
+				C9F75CA21843F9BE00B6FA14 /* OTPTokenListViewController.m in Sources */,
 				C9044FC31821BD63002C3C3F /* OTPToken+Persistence.m in Sources */,
 				8B45557811932B5D00ABD707 /* OTPClock.m in Sources */,
 				C9C6CCA518430493000100C2 /* NSData+Base32.m in Sources */,
