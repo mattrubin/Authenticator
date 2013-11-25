@@ -25,11 +25,7 @@
 @import XCTest;
 #import "OTPToken+Serialization.h"
 #import "NSDictionary+QueryString.h"
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wauto-import"
-#import <Base32/MF_Base32Additions.h>
-#pragma clang diagnostic pop
+#import "NSData+Base32.h"
 
 
 static NSString * const kOTPScheme = @"otpauth";

@@ -50,6 +50,7 @@
 		C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */; };
 		C9C6CC841842C5BC000100C2 /* OTPTokenPersistenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */; };
 		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
+		C9C6CCA518430493000100C2 /* NSData+Base32.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6CCA418430493000100C2 /* NSData+Base32.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,8 @@
 		C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenPersistenceTests.m; sourceTree = "<group>"; };
 		C9C6CCA11842E331000100C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		C9C6CCA318430493000100C2 /* NSData+Base32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base32.h"; sourceTree = "<group>"; };
+		C9C6CCA418430493000100C2 /* NSData+Base32.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base32.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,6 +305,8 @@
 				C9044FD81824E05E002C3C3F /* NSString+PercentEncoding.m */,
 				C9044FDA1824E711002C3C3F /* NSDictionary+QueryString.h */,
 				C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */,
+				C9C6CCA318430493000100C2 /* NSData+Base32.h */,
+				C9C6CCA418430493000100C2 /* NSData+Base32.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -478,6 +483,7 @@
 				C958CC51182A1FDD00DD47D0 /* OTPTokenType.m in Sources */,
 				C9044FC31821BD63002C3C3F /* OTPToken+Persistence.m in Sources */,
 				8B45557811932B5D00ABD707 /* OTPClock.m in Sources */,
+				C9C6CCA518430493000100C2 /* NSData+Base32.m in Sources */,
 				C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */,
 				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */,
 				8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */,

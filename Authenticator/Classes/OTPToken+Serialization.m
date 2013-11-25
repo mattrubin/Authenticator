@@ -25,11 +25,7 @@
 #import "OTPToken+Serialization.h"
 #import "NSString+PercentEncoding.h"
 #import "NSDictionary+QueryString.h"
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wauto-import"
-#import <Base32/MF_Base32Additions.h>
-#pragma clang diagnostic pop
+#import "NSData+Base32.h"
 
 
 static NSString *const kOTPAuthScheme = @"otpauth";
@@ -78,7 +74,7 @@ static NSString *const kQueryPeriodKey = @"period";
     token.algorithm = algorithmString ? [algorithmString algorithmValue] : [OTPToken defaultAlgorithm];
 
     NSString *secretString = query[kQuerySecretKey];
-    token.secret = [NSData dataWithBase32String:secretString];;
+    token.secret = [NSData dataWithBase32EncodedString:secretString];;
 
     NSString *digitString = query[kQueryDigitsKey];
     token.digits = digitString ? [digitString integerValue] : [OTPToken defaultDigits];
@@ -104,7 +100,7 @@ static NSString *const kQueryPeriodKey = @"period";
     if (url.host.length)
         [name appendString:url.host];
 
-    NSData *secret = [NSData dataWithBase32String:url.fragment];
+    NSData *secret = [NSData dataWithBase32EncodedString:url.fragment];
 
     return [OTPToken tokenWithType:OTPTokenTypeTimer secret:secret name:name];
 }

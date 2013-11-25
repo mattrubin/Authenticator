@@ -23,11 +23,7 @@
 //
 
 @import XCTest;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wauto-import"
-#import <Base32/MF_Base32Additions.h>
-#pragma clang diagnostic pop
+#import "NSData+Base32.h"
 
 
 @interface OTPBase32Tests : XCTestCase
@@ -47,7 +43,8 @@
                               @"foob":   @"MZXW6YQ=",
                               @"fooba":  @"MZXW6YTB",
                               @"foobar": @"MZXW6YTBOI======"};
-    [self _testVectors:vectors];
+    [self _testEncodingWithVectors:vectors];
+    [self _testDecodingWithVectors:vectors];
 }
 
 - (void)testUnpaddedRFCValues
@@ -59,21 +56,38 @@
                               @"foob":   @"MZXW6YQ",
                               @"fooba":  @"MZXW6YTB",
                               @"foobar": @"MZXW6YTBOI"};
-    [self _testVectors:vectors];
+    [self _testDecodingWithVectors:vectors];
+}
+
+- (void)testUnpaddedLowercaseRFCValues
+{
+    NSDictionary *vectors = @{@"":       @"",
+                              @"f":      @"my",
+                              @"fo":     @"mzxq",
+                              @"foo":    @"mzxw6",
+                              @"foob":   @"mzxw6yq",
+                              @"fooba":  @"mzxw6ytb",
+                              @"foobar": @"mzxw6ytboi"};
+    [self _testDecodingWithVectors:vectors];
 }
 
 
-- (void)_testVectors:(NSDictionary *)vectors
+- (void)_testEncodingWithVectors:(NSDictionary *)vectors
 {
     for (NSString *plaintext in vectors) {
         NSString *ciphertext = vectors[plaintext];
 
-        // We don't actually need to test encoding, and there are padding discrepancies between
-        // different Base32 implementations, so this will remain commented out for now.
-//        NSString *encryptedPlaintext = [[plaintext dataUsingEncoding:NSUTF8StringEncoding] base32String];
-//        XCTAssertEqualObjects(encryptedPlaintext, ciphertext, @"");
+        NSString *encryptedPlaintext = [[plaintext dataUsingEncoding:NSUTF8StringEncoding] base32String];
+        XCTAssertEqualObjects(encryptedPlaintext, ciphertext, @"");
+    }
+}
 
-        NSString *decryptedCiphertext = [[NSString alloc] initWithData:[NSData dataWithBase32String:ciphertext] encoding:NSUTF8StringEncoding];
+- (void)_testDecodingWithVectors:(NSDictionary *)vectors
+{
+    for (NSString *plaintext in vectors) {
+        NSString *ciphertext = vectors[plaintext];
+
+        NSString *decryptedCiphertext = [[NSString alloc] initWithData:[NSData dataWithBase32EncodedString:ciphertext] encoding:NSUTF8StringEncoding];
         XCTAssertEqualObjects(decryptedCiphertext, plaintext, @"");
     }
 }
