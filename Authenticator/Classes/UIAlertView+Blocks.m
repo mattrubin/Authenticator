@@ -1,5 +1,6 @@
 //
 //  UIAlertView+Blocks.m
+//  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
 //

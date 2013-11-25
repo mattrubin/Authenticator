@@ -1,5 +1,6 @@
 //
 //  Authenticator.pch
+//  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
 //
@@ -22,7 +23,9 @@
 //
 
 //
-// Prefix header for all source files of the 'Authenticator' target in the 'Authenticator' project
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
 //
 
 @import Darwin.Availability;
