@@ -20,7 +20,7 @@
 #import "OTPRootViewController.h"
 #import "OTPTokenManager.h"
 #import "OTPTokenCell.h"
-#import "OTPToken+Persistence.h"
+#import "OTPToken.h"
 #import "UIColor+OTP.h"
 #import "OTPClock.h"
 #import "OTPTokenEntryViewController.h"
@@ -164,11 +164,8 @@
         NSIndexPath *path = [NSIndexPath indexPathForRow:idx inSection:0];
         [tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationFade];
         
-        OTPToken *token = (self.tokenManager.tokens)[idx];
-        [token removeFromKeychain];
-        [self.tokenManager.tokens removeObjectAtIndex:idx];
-        [self.tokenManager saveTokensToKeychain];
-        
+        [self.tokenManager removeTokenAtIndex:idx];
+
         [tableView endUpdates];
         
         [self updateUI];

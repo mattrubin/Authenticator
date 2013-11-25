@@ -36,5 +36,6 @@
 - (BOOL)saveTokensToKeychain;
 
 - (BOOL)addToken:(OTPToken *)token;
+- (BOOL)removeTokenAtIndex:(NSUInteger)index;
 
 @end
