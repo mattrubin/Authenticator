@@ -1,5 +1,5 @@
 //
-//  OTPTokenCell.h
+//  OTPTableViewCell.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,12 +22,15 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPTableViewCell.h"
-@class OTPToken;
+@import UIKit;
 
 
-@interface OTPTokenCell : OTPTableViewCell
+@interface OTPTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) OTPToken *token;
++ (NSString *)reuseIdentifier;
++ (UITableViewCellStyle)cellStyle;
+
++ (instancetype)cell;
++ (instancetype)cellForTableView:(UITableView *)tableView;
 
 @end
