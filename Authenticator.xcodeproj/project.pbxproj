@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* OTPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* OTPAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		28C286E10D94DF7D0034E888 /* OTPRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* OTPRootViewController.m */; };
 		43B5E4365C6C4081AEF41717 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B03839CF35E4014987A36CA /* libPods.a */; };
 		8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0028B411EB75920092DE18 /* OTPScannerOverlayView.m */; };
 		8B2B86FE118B8FA000437315 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B86FD118B8FA000437315 /* UIKit.framework */; };
@@ -66,8 +65,6 @@
 		1D3623250D0F684500981E51 /* OTPAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Authenticator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authenticator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28A0AAE50D9B0CCF005BE974 /* Authenticator.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authenticator.pch; sourceTree = "<group>"; };
-		28C286DF0D94DF7D0034E888 /* OTPRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPRootViewController.h; sourceTree = "<group>"; };
-		28C286E00D94DF7D0034E888 /* OTPRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPRootViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		8B0028B311EB75920092DE18 /* OTPScannerOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPScannerOverlayView.h; sourceTree = "<group>"; };
@@ -169,7 +166,7 @@
 			children = (
 				1D3623240D0F684500981E51 /* OTPAppDelegate.h */,
 				1D3623250D0F684500981E51 /* OTPAppDelegate.m */,
-				C98C1C4917D2F03400A07D3F /* Root */,
+				C98C1C4917D2F03400A07D3F /* Display */,
 				C98C1C4617D2EE6500A07D3F /* Entry */,
 				C98C1C4817D2F01A00A07D3F /* Core */,
 				C98C1C4E17D2F14500A07D3F /* Categories */,
@@ -245,7 +242,7 @@
 			path = Authenticator;
 			sourceTree = "<group>";
 		};
-		C98C1C4517D2EDF500A07D3F /* Table View */ = {
+		C98C1C4517D2EDF500A07D3F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				C9F75CA31844009100B6FA14 /* OTPTableViewCell.h */,
@@ -253,7 +250,7 @@
 				C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */,
 				C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */,
 			);
-			name = "Table View";
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		C98C1C4617D2EE6500A07D3F /* Entry */ = {
@@ -290,20 +287,18 @@
 			name = Core;
 			sourceTree = "<group>";
 		};
-		C98C1C4917D2F03400A07D3F /* Root */ = {
+		C98C1C4917D2F03400A07D3F /* Display */ = {
 			isa = PBXGroup;
 			children = (
-				28C286DF0D94DF7D0034E888 /* OTPRootViewController.h */,
-				28C286E00D94DF7D0034E888 /* OTPRootViewController.m */,
-				8B45557611932B5D00ABD707 /* OTPClock.h */,
-				8B45557711932B5D00ABD707 /* OTPClock.m */,
-				C98C1C4517D2EDF500A07D3F /* Table View */,
 				C9F75CA01843F9BE00B6FA14 /* OTPTokenListViewController.h */,
 				C9F75CA11843F9BE00B6FA14 /* OTPTokenListViewController.m */,
 				C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */,
 				C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */,
+				8B45557611932B5D00ABD707 /* OTPClock.h */,
+				8B45557711932B5D00ABD707 /* OTPClock.m */,
+				C98C1C4517D2EDF500A07D3F /* Cells */,
 			);
-			name = Root;
+			name = Display;
 			sourceTree = "<group>";
 		};
 		C98C1C4E17D2F14500A07D3F /* Categories */ = {
@@ -498,7 +493,6 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* OTPAppDelegate.m in Sources */,
 				C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */,
-				28C286E10D94DF7D0034E888 /* OTPRootViewController.m in Sources */,
 				C999C693181344F40013C1C6 /* OTPToken.m in Sources */,
 				C958CC4D1829DB9E00DD47D0 /* OTPToken+Generation.m in Sources */,
 				C9044FC71821C466002C3C3F /* OTPToken+Serialization.m in Sources */,
