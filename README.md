@@ -2,31 +2,11 @@
 ### Two-Factor Authentication Client for iOS.
 
 
-This app generates and displays one time passwords for logging in to systems which use two-factor authentication, or any other system which supports [HOTP](http://tools.ietf.org/html/rfc4226) or [TOTP](http://tools.ietf.org/html/rfc6238). This is a fork of the open-source [Google Authenticator](https://code.google.com/p/google-authenticator/) client for iOS.
+This app generates and displays one-time passwords for logging into systems which use two-factor authentication, or any other system which supports [counter-based](http://tools.ietf.org/html/rfc4226) or [time-based](http://tools.ietf.org/html/rfc6238) OTPs. The goal of this project is to create a free, simple, open-source alternative to Google Authenticator. This project was based on the neglected open-source [Google Authenticator](https://code.google.com/p/google-authenticator/) client for iOS, and has been rewritten to create a clean code-base using modern APIs.
 
-## Configuration
+OTP keys can be entered into the app manually, via an iOS cross-app URL scheme, or by scanning a QR code with the in-app QR reader. The [format for key URIs](https://code.google.com/p/google-authenticator/wiki/KeyUriFormat) is supported by many OTP apps and is often presented to the user as a QR code when they are activating two-factor authentication for an online service.
 
-It is designed to be configured via a URL handler, as follows:
 
-    otpauth://TYPE/LABEL?PARAMETERS
+## License
 
-where `TYPE` is "`hotp`" or "`totp`" and `LABEL` is a human readable label to help distinguish multiple otp generators.
-
-The supported `PARAMETERS` are:
-
-```
-  algorithm=(SHA1|SHA256|SHA512|MD5)
-    OPTIONAL, defaults to SHA1.
-
-  secret=[websafe Base64 encoded secret key, no padding]
-    REQUIRED, 128 bits or more.
-
-  digits=(6|8)
-    OPTIONAL, defaults to 6.
-
-  counter=N  (hotp specific)
-    REQUIRED
-
-  period=N  (totp specific)
-    OPTIONAL, defaults to 30.
-```
+This project is made available under the terms of the [MIT License](http://opensource.org/licenses/MIT). The original project on which it is based is licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0). Files present in the earlier project still bear the original license in their header comments. Files which are new or have been entirely rewritten contain the new license in their headers.
