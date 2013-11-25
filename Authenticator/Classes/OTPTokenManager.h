@@ -28,7 +28,7 @@
 
 @interface OTPTokenManager : NSObject
 
-@property (nonatomic, strong) NSMutableArray *tokens;
+@property (nonatomic, readonly) NSArray *tokens;
 
 + (instancetype)sharedManager;
 

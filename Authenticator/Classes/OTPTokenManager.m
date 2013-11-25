@@ -29,6 +29,13 @@
 static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 
+@interface OTPTokenManager ()
+
+@property (nonatomic, strong) NSMutableArray *mutableTokens;
+
+@end
+
+
 @implementation OTPTokenManager
 
 + (instancetype)sharedManager
@@ -47,10 +54,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 - (void)fetchTokensFromKeychain
 {
     NSArray *keychainReferences = [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
-    self.tokens = [NSMutableArray arrayWithCapacity:keychainReferences.count];
+    self.mutableTokens = [NSMutableArray arrayWithCapacity:keychainReferences.count];
     for (NSData *keychainItemRef in keychainReferences) {
         OTPToken *token = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
-        if (token) [self.tokens addObject:token];
+        if (token) [self.mutableTokens addObject:token];
     }
 }
 
@@ -64,10 +71,15 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 #pragma mark - Tokens
 
+- (NSArray *)tokens
+{
+    return self.mutableTokens;
+}
+
 - (BOOL)addToken:(OTPToken *)token
 {
     if (token && [token saveToKeychain]) {
-        [self.tokens addObject:token];
+        [self.mutableTokens addObject:token];
         return [self saveTokensToKeychain];
     }
     return NO;
@@ -77,7 +89,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 {
     OTPToken *token = self.tokens[index];
     if ([token removeFromKeychain]) {
-        [self.tokens removeObjectAtIndex:index];
+        [self.mutableTokens removeObjectAtIndex:index];
         return [self saveTokensToKeychain];
     }
     return NO;
@@ -87,8 +99,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 {
     OTPToken *token = self.tokens[source];
 
-    [self.tokens removeObjectAtIndex:source];
-    [self.tokens insertObject:token atIndex:destination];
+    [self.mutableTokens removeObjectAtIndex:source];
+    [self.mutableTokens insertObject:token atIndex:destination];
 
     return [self saveTokensToKeychain];
 }
