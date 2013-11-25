@@ -26,7 +26,6 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>otpauth</string>
-				<string>totp</string>
 			</array>
 		</dict>
 	</array>
