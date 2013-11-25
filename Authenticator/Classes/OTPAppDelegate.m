@@ -49,9 +49,12 @@
     [[UIToolbar appearance] setTintColor:[UIColor whiteColor]];
 
     self.rootViewController = [[OTPRootViewController alloc] init];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
+    navController.navigationBar.translucent = NO;
+    navController.toolbar.translucent = NO;
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
+    self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     return YES;
 }
