@@ -81,6 +81,8 @@
             break;
         }
     }
+
+    self.editButtonItem.enabled = !!self.tokenManager.tokens.count;
 }
 
 
@@ -109,6 +111,10 @@
         if ([self.tokenManager removeTokenAtIndex:(NSUInteger)indexPath.row]) {
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             [self update];
+
+            if (!self.tokenManager.tokens.count) {
+                [self setEditing:NO animated:YES];
+            }
         }
     }
 }
