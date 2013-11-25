@@ -48,6 +48,15 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return sharedManager;
 }
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self fetchTokensFromKeychain];
+    }
+    return self;
+}
+
 
 #pragma mark - Keychain
 

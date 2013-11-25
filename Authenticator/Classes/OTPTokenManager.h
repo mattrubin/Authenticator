@@ -32,9 +32,6 @@
 
 + (instancetype)sharedManager;
 
-- (BOOL)fetchTokensFromKeychain;
-- (BOOL)saveTokensToKeychain;
-
 - (BOOL)addToken:(OTPToken *)token;
 - (BOOL)removeTokenAtIndex:(NSUInteger)index;
 - (BOOL)moveTokenFromIndex:(NSUInteger)source toIndex:(NSUInteger)destination;

@@ -62,7 +62,6 @@
     
     self.tokenManager = [OTPTokenManager sharedManager];
 
-    [self.tokenManager fetchTokensFromKeychain];
     [self updateUI];
 
     // Prepare table view
