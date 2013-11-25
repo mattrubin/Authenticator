@@ -148,11 +148,7 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)source toIndexPath:(NSIndexPath *)destination
 {
-    id object = (self.tokenManager.tokens)[source.row];
-    [self.tokenManager.tokens removeObjectAtIndex:source.row];
-    [self.tokenManager.tokens insertObject:object atIndex:destination.row];
-    
-    [self.tokenManager saveTokensToKeychain];
+    [self.tokenManager moveTokenFromIndex:source.row toIndex:destination.row];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
