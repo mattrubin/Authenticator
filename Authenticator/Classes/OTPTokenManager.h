@@ -23,6 +23,7 @@
 //
 
 @import Foundation;
+@class OTPToken;
 
 
 @interface OTPTokenManager : NSObject
@@ -32,6 +33,8 @@
 + (instancetype)sharedManager;
 
 - (void)fetchTokensFromKeychain;
-- (void)saveTokensToKeychain;
+- (BOOL)saveTokensToKeychain;
+
+- (BOOL)addToken:(OTPToken *)token;
 
 @end

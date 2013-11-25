@@ -118,13 +118,10 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 
-    if (!token) return;
-
-    [token saveToKeychain];
-    [self.tokenManager.tokens addObject:token];
-    [self.tokenManager saveTokensToKeychain];
-    [self updateUI];
-    [self.tableView reloadData];
+    if ([self.tokenManager addToken:token]) {
+        [self updateUI];
+        [self.tableView reloadData];
+    }
 }
 
 
