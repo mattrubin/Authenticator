@@ -30,7 +30,7 @@
 #import "OTPTokenEntryViewController.h"
 
 
-@interface OTPTokenListViewController () <OTPTokenSourceDelegate>
+@interface OTPTokenListViewController ()
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
 @property (nonatomic, strong) OTPClock *clock;
