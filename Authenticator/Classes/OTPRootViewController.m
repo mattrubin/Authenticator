@@ -26,9 +26,6 @@
 #import "OTPTokenEntryViewController.h"
 
 
-static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
-
-
 @interface OTPRootViewController ()
 
 @property (nonatomic, strong) OTPClock *clock;
@@ -65,7 +62,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     
     self.tokenManager = [OTPTokenManager sharedManager];
 
-    [self fetchKeychainArray];
+    [self.tokenManager fetchTokensFromKeychain];
     [self updateUI];
 
     // Prepare table view
@@ -113,29 +110,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 
-#pragma mark - Keychain
-
-- (void)saveKeychainArray
-{
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSArray *keychainReferences = [self valueForKeyPath:@"tokens.keychainItemRef"];
-    [ud setObject:keychainReferences forKey:kOTPKeychainEntriesArray];
-    [ud synchronize];
-}
-
-- (void)fetchKeychainArray
-{
-    NSArray *savedKeychainReferences = [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
-    self.tokenManager.tokens = [NSMutableArray arrayWithCapacity:[savedKeychainReferences count]];
-    for (NSData *keychainRef in savedKeychainReferences) {
-        OTPToken *token = [OTPToken tokenWithKeychainItemRef:keychainRef];
-        if (token) {
-            [self.tokenManager.tokens addObject:token];
-        }
-    }
-}
-
-
 #pragma mark - OTPTokenSourceDelegate
 
 - (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token
@@ -148,7 +122,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
     [token saveToKeychain];
     [self.tokenManager.tokens addObject:token];
-    [self saveKeychainArray];
+    [self.tokenManager saveTokensToKeychain];
     [self updateUI];
     [self.tableView reloadData];
 }
@@ -181,7 +155,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     [self.tokenManager.tokens removeObjectAtIndex:source.row];
     [self.tokenManager.tokens insertObject:object atIndex:destination.row];
     
-    [self saveKeychainArray];
+    [self.tokenManager saveTokensToKeychain];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -196,7 +170,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         OTPToken *token = (self.tokenManager.tokens)[idx];
         [token removeFromKeychain];
         [self.tokenManager.tokens removeObjectAtIndex:idx];
-        [self saveKeychainArray];
+        [self.tokenManager saveTokensToKeychain];
         
         [tableView endUpdates];
         

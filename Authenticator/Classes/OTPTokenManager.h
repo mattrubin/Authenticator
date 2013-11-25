@@ -31,4 +31,7 @@
 
 + (instancetype)sharedManager;
 
+- (void)fetchTokensFromKeychain;
+- (void)saveTokensToKeychain;
+
 @end

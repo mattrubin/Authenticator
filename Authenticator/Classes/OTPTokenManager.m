@@ -23,6 +23,10 @@
 //
 
 #import "OTPTokenManager.h"
+#import "OTPToken+Persistence.h"
+
+
+static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 
 @implementation OTPTokenManager
@@ -36,5 +40,26 @@
     });
     return sharedManager;
 }
+
+
+#pragma mark - Keychain
+
+- (void)fetchTokensFromKeychain
+{
+    NSArray *keychainReferences = [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
+    self.tokens = [NSMutableArray arrayWithCapacity:keychainReferences.count];
+    for (NSData *keychainItemRef in keychainReferences) {
+        OTPToken *token = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
+        if (token) [self.tokens addObject:token];
+    }
+}
+
+- (void)saveTokensToKeychain
+{
+    NSArray *keychainReferences = [self valueForKeyPath:@"tokens.keychainItemRef"];
+    [[NSUserDefaults standardUserDefaults] setObject:keychainReferences forKey:kOTPKeychainEntriesArray];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 @end
