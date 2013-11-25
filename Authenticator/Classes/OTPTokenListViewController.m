@@ -67,13 +67,22 @@
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                           self.addButtonItem];
     self.navigationController.toolbarHidden = NO;
+
+    [self update];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)update
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    // Show the countdown clock only if a time-based token is active
+    self.clock.hidden = YES;
+    for (OTPToken *token in self.tokenManager.tokens) {
+        if (token.type == OTPTokenTypeTimer) {
+            self.clock.hidden = NO;
+            break;
+        }
+    }
 }
+
 
 #pragma mark - Table view data source
 
@@ -99,6 +108,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         if ([self.tokenManager removeTokenAtIndex:(NSUInteger)indexPath.row]) {
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self update];
         }
     }
 }
@@ -134,9 +144,10 @@
 - (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-    
+
     if ([self.tokenManager addToken:token]) {
         [self.tableView reloadData];
+        [self update];
     }
 }
 
