@@ -32,4 +32,7 @@
 - (BOOL)saveToKeychain;
 - (BOOL)removeFromKeychain;
 
+@property (nonatomic, readonly) BOOL isInKeychain;
+@property (nonatomic, readonly) NSData *keychainItemRef;
+
 @end
