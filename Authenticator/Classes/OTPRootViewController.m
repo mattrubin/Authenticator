@@ -43,6 +43,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+
     self.view.backgroundColor = [UIColor otpBackgroundColor];
     
     self.title = @"Authenticator";
@@ -61,6 +63,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     self.navigationController.toolbarHidden = NO;
     
     [self fetchKeychainArray];
+    [self updateUI];
 
     // Prepare table view
     [self.tableView registerClass:[OTPTokenCell class] forCellReuseIdentifier:NSStringFromClass([OTPTokenCell class])];

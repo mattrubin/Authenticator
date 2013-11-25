@@ -40,7 +40,7 @@
 
 @implementation UIColor (OTP)
 
-STATIC_RGB(otpBarColor, 0, 125, 210)
+STATIC_RGB(otpBarColor, 28, 139, 215)
 STATIC_RGB(otpBackgroundColor, 250, 253, 255)
 STATIC_RGB(otpCellTextColor, 30, 60, 90)
 
