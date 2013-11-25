@@ -18,6 +18,7 @@
 //
 
 #import "OTPRootViewController.h"
+#import "OTPTokenManager.h"
 #import "OTPTokenCell.h"
 #import "OTPToken+Persistence.h"
 #import "UIColor+OTP.h"
@@ -33,6 +34,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 @property (nonatomic, strong) OTPClock *clock;
 @property (nonatomic, strong) UIBarButtonItem *addButtonItem;
 @property (nonatomic, strong) NSMutableArray *tokens;
+@property (nonatomic, strong) OTPTokenManager *tokenManager;
 
 @end
 
@@ -62,6 +64,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
                           self.addButtonItem];
     self.navigationController.toolbarHidden = NO;
     
+    self.tokenManager = [OTPTokenManager sharedManager];
+
     [self fetchKeychainArray];
     [self updateUI];
 

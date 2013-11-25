@@ -46,6 +46,7 @@
 		C9C6CCA518430493000100C2 /* NSData+Base32.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6CCA418430493000100C2 /* NSData+Base32.m */; };
 		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
+		C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,8 @@
 		C9C6CCA418430493000100C2 /* NSData+Base32.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base32.m"; sourceTree = "<group>"; };
 		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
+		C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenManager.h; sourceTree = "<group>"; };
+		C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,6 +290,8 @@
 				8B45557611932B5D00ABD707 /* OTPClock.h */,
 				8B45557711932B5D00ABD707 /* OTPClock.m */,
 				C98C1C4517D2EDF500A07D3F /* Table View */,
+				C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */,
+				C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */,
 			);
 			name = Root;
 			sourceTree = "<group>";
@@ -482,6 +487,7 @@
 				C9044FD91824E05E002C3C3F /* NSString+PercentEncoding.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* OTPAppDelegate.m in Sources */,
+				C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */,
 				28C286E10D94DF7D0034E888 /* OTPRootViewController.m in Sources */,
 				C999C693181344F40013C1C6 /* OTPToken.m in Sources */,
 				C958CC4D1829DB9E00DD47D0 /* OTPToken+Generation.m in Sources */,
