@@ -25,11 +25,14 @@
 #import "OTPTokenListViewController.h"
 #import "OTPTokenManager.h"
 #import "OTPTokenCell.h"
+#import "OTPClock.h"
+#import "OTPToken.h"
 
 
 @interface OTPTokenListViewController ()
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
+@property (nonatomic, strong) OTPClock *clock;
 
 @end
 
@@ -48,6 +51,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.title = @"Authenticator";
+    self.view.backgroundColor = [UIColor otpBackgroundColor];
+
+    self.clock = [[OTPClock alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    self.clock.period = [OTPToken defaultPeriod];
+    UIBarButtonItem *clockBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
+    self.navigationItem.leftBarButtonItem = clockBarItem;
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
