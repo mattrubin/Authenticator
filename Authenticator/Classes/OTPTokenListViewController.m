@@ -27,12 +27,14 @@
 #import "OTPTokenCell.h"
 #import "OTPClock.h"
 #import "OTPToken.h"
+#import "OTPTokenEntryViewController.h"
 
 
-@interface OTPTokenListViewController ()
+@interface OTPTokenListViewController () <OTPTokenSourceDelegate>
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
 @property (nonatomic, strong) OTPClock *clock;
+@property (nonatomic, strong) UIBarButtonItem *addButtonItem;
 
 @end
 
@@ -60,7 +62,10 @@
     UIBarButtonItem *clockBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
     self.navigationItem.leftBarButtonItem = clockBarItem;
 
-    self.toolbarItems = @[self.editButtonItem];
+    self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addToken)];
+    self.toolbarItems = @[self.editButtonItem,
+                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                          self.addButtonItem];
     self.navigationController.toolbarHidden = NO;
 }
 
@@ -109,6 +114,30 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80;
+}
+
+
+#pragma mark - Target actions
+
+- (void)addToken
+{
+    OTPTokenEntryViewController *entryController = [OTPTokenEntryViewController new];
+    entryController.delegate = self;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:entryController];
+
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
+
+#pragma mark - Token source delegate
+
+- (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    if ([self.tokenManager addToken:token]) {
+        [self.tableView reloadData];
+    }
 }
 
 @end
