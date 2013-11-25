@@ -43,7 +43,8 @@
                               @"foob":   @"MZXW6YQ=",
                               @"fooba":  @"MZXW6YTB",
                               @"foobar": @"MZXW6YTBOI======"};
-    [self _testVectors:vectors];
+    [self _testEncodingWithVectors:vectors];
+    [self _testDecodingWithVectors:vectors];
 }
 
 - (void)testUnpaddedRFCValues
@@ -55,7 +56,7 @@
                               @"foob":   @"MZXW6YQ",
                               @"fooba":  @"MZXW6YTB",
                               @"foobar": @"MZXW6YTBOI"};
-    [self _testVectors:vectors];
+    [self _testDecodingWithVectors:vectors];
 }
 
 - (void)testUnpaddedLowercaseRFCValues
@@ -67,19 +68,24 @@
                               @"foob":   @"mzxw6yq",
                               @"fooba":  @"mzxw6ytb",
                               @"foobar": @"mzxw6ytboi"};
-    [self _testVectors:vectors];
+    [self _testDecodingWithVectors:vectors];
 }
 
 
-- (void)_testVectors:(NSDictionary *)vectors
+- (void)_testEncodingWithVectors:(NSDictionary *)vectors
 {
     for (NSString *plaintext in vectors) {
         NSString *ciphertext = vectors[plaintext];
 
-        // We don't actually need to test encoding, and there are padding discrepancies between
-        // different Base32 implementations, so this will remain commented out for now.
-//        NSString *encryptedPlaintext = [[plaintext dataUsingEncoding:NSUTF8StringEncoding] base32String];
-//        XCTAssertEqualObjects(encryptedPlaintext, ciphertext, @"");
+        NSString *encryptedPlaintext = [[plaintext dataUsingEncoding:NSUTF8StringEncoding] base32String];
+        XCTAssertEqualObjects(encryptedPlaintext, ciphertext, @"");
+    }
+}
+
+- (void)_testDecodingWithVectors:(NSDictionary *)vectors
+{
+    for (NSString *plaintext in vectors) {
+        NSString *ciphertext = vectors[plaintext];
 
         NSString *decryptedCiphertext = [[NSString alloc] initWithData:[NSData dataWithBase32EncodedString:ciphertext] encoding:NSUTF8StringEncoding];
         XCTAssertEqualObjects(decryptedCiphertext, plaintext, @"");
