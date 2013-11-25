@@ -44,6 +44,8 @@
 		C9C6CC841842C5BC000100C2 /* OTPTokenPersistenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */; };
 		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
 		C9C6CCA518430493000100C2 /* NSData+Base32.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6CCA418430493000100C2 /* NSData+Base32.m */; };
+		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
+		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +122,8 @@
 		C9C6CCA11842E331000100C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9C6CCA318430493000100C2 /* NSData+Base32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base32.h"; sourceTree = "<group>"; };
 		C9C6CCA418430493000100C2 /* NSData+Base32.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base32.m"; sourceTree = "<group>"; };
+		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
+		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				C9C6CCA11842E331000100C2 /* Images.xcassets */,
+				C9F75C921843CFFD00B6FA14 /* iTunes Artwork */,
 				C97B68C617D9226D005D1FE0 /* Settings.bundle */,
 			);
 			path = Resources;
@@ -333,6 +338,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		C9F75C921843CFFD00B6FA14 /* iTunes Artwork */ = {
+			isa = PBXGroup;
+			children = (
+				C9F75C931843D01500B6FA14 /* iTunesArtwork */,
+				C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */,
+			);
+			name = "iTunes Artwork";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -411,7 +425,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C99069E1180E5B4100BAEF53 /* OTPTokenEntryViewController.xib in Resources */,
+				C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */,
 				C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */,
+				C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */,
 				C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
