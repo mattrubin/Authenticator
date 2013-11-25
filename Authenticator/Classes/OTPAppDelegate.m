@@ -24,13 +24,13 @@
 
 #import "OTPAppDelegate.h"
 #import "OTPToken+Serialization.h"
-#import "OTPRootViewController.h"
+#import "OTPTokenListViewController.h"
 #import "UIAlertView+Blocks.h"
 
 
 @interface OTPAppDelegate ()
 
-@property (nonatomic, strong) OTPRootViewController *rootViewController;
+@property (nonatomic, strong) OTPTokenListViewController *rootViewController;
 
 @end
 
@@ -48,7 +48,7 @@
     [[UIToolbar appearance] setBarTintColor:[UIColor otpBarColor]];
     [[UIToolbar appearance] setTintColor:[UIColor whiteColor]];
 
-    self.rootViewController = [[OTPRootViewController alloc] init];
+    self.rootViewController = [OTPTokenListViewController new];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
     navController.navigationBar.translucent = NO;
     navController.toolbar.translucent = NO;
