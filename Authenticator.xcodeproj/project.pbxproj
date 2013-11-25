@@ -12,7 +12,6 @@
 		28C286E10D94DF7D0034E888 /* OTPRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* OTPRootViewController.m */; };
 		43B5E4365C6C4081AEF41717 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B03839CF35E4014987A36CA /* libPods.a */; };
 		8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0028B411EB75920092DE18 /* OTPScannerOverlayView.m */; };
-		8B00365311ECD2390092DE18 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B00365211ECD2390092DE18 /* Default.png */; };
 		8B2B86FE118B8FA000437315 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B86FD118B8FA000437315 /* UIKit.framework */; };
 		8B2B8728118B900E00437315 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8727118B900E00437315 /* CoreFoundation.framework */; };
 		8B2B8755118B902200437315 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8754118B902200437315 /* CoreGraphics.framework */; };
@@ -52,11 +51,10 @@
 		C9906A381812522100BAEF53 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9906A361812522100BAEF53 /* InfoPlist.strings */; };
 		C999C693181344F40013C1C6 /* OTPToken.m in Sources */ = {isa = PBXBuildFile; fileRef = C999C692181344F40013C1C6 /* OTPToken.m */; };
 		C999C6941813500B0013C1C6 /* OTPToken.m in Sources */ = {isa = PBXBuildFile; fileRef = C999C692181344F40013C1C6 /* OTPToken.m */; };
-		C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */; };
-		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
 		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
 		C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */; };
 		C9C6CC841842C5BC000100C2 /* OTPTokenPersistenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */; };
+		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,7 +78,6 @@
 		6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		8B0028B311EB75920092DE18 /* OTPScannerOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPScannerOverlayView.h; sourceTree = "<group>"; };
 		8B0028B411EB75920092DE18 /* OTPScannerOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPScannerOverlayView.m; sourceTree = "<group>"; };
-		8B00365211ECD2390092DE18 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		8B2B86FD118B8FA000437315 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8B2B8727118B900E00437315 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		8B2B8754118B902200437315 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -134,12 +131,11 @@
 		C999C691181344F40013C1C6 /* OTPToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPToken.h; sourceTree = "<group>"; };
 		C999C692181344F40013C1C6 /* OTPToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPToken.m; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
-		C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenCell.h; sourceTree = "<group>"; };
 		C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenCell.m; sourceTree = "<group>"; };
 		C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenPersistenceTests.m; sourceTree = "<group>"; };
+		C9C6CCA11842E331000100C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,8 +215,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C9C6CCA11842E331000100C2 /* Images.xcassets */,
 				C98C1C4A17D2F08400A07D3F /* Icons */,
-				C98C1C4D17D2F0A800A07D3F /* Launch Images */,
 				C97B68C617D9226D005D1FE0 /* Settings.bundle */,
 			);
 			path = Resources;
@@ -318,16 +314,6 @@
 				C948F01C17D7027F008FCA41 /* iTunesArtwork@2x.png */,
 			);
 			name = Icons;
-			sourceTree = "<group>";
-		};
-		C98C1C4D17D2F0A800A07D3F /* Launch Images */ = {
-			isa = PBXGroup;
-			children = (
-				8B00365211ECD2390092DE18 /* Default.png */,
-				C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */,
-				C9A4FA2117CFB85600CD5EDC /* Default-568h@2x.png */,
-			);
-			name = "Launch Images";
 			sourceTree = "<group>";
 		};
 		C98C1C4E17D2F14500A07D3F /* Categories */ = {
@@ -453,13 +439,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B00365311ECD2390092DE18 /* Default.png in Resources */,
 				8BC958E8128B5DB500A0E8F2 /* Icon@2x.png in Resources */,
 				C99069E1180E5B4100BAEF53 /* OTPTokenEntryViewController.xib in Resources */,
 				8BC958E9128B5DB500A0E8F2 /* Icon-72.png in Resources */,
+				C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */,
 				8BC958EA128B5DB500A0E8F2 /* Icon.png in Resources */,
-				C9A4FA2217CFB85600CD5EDC /* Default-568h@2x.png in Resources */,
-				C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */,
 				C948F01617D70080008FCA41 /* Icon-72@2x.png in Resources */,
 				C948F01D17D7027F008FCA41 /* iTunesArtwork@2x.png in Resources */,
 				C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */,
@@ -578,6 +562,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
 				PRODUCT_NAME = Authenticator;
@@ -588,6 +574,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
 				PRODUCT_NAME = Authenticator;
