@@ -52,7 +52,7 @@
     UIBarButtonItem *clockItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
     [self.navigationItem setLeftBarButtonItem:clockItem animated:NO];
     
-    self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addToken:)];
+    self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addToken)];
     self.addButtonItem.style = UIBarButtonItemStyleBordered;
     
     self.toolbarItems = @[self.editButtonItem,
@@ -98,7 +98,7 @@
 
 #pragma mark - Actions
 
-- (void)addToken:(id)sender
+- (void)addToken
 {
     [self setEditing:NO animated:NO];
     
