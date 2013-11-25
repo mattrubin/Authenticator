@@ -18,21 +18,19 @@
 //
 
 #import "OTPRootViewController.h"
+#import "OTPTokenManager.h"
 #import "OTPTokenCell.h"
-#import "OTPToken+Persistence.h"
+#import "OTPToken.h"
 #import "UIColor+OTP.h"
 #import "OTPClock.h"
 #import "OTPTokenEntryViewController.h"
-
-
-static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 
 @interface OTPRootViewController ()
 
 @property (nonatomic, strong) OTPClock *clock;
 @property (nonatomic, strong) UIBarButtonItem *addButtonItem;
-@property (nonatomic, strong) NSMutableArray *tokens;
+@property (nonatomic, strong) OTPTokenManager *tokenManager;
 
 @end
 
@@ -54,7 +52,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     UIBarButtonItem *clockItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
     [self.navigationItem setLeftBarButtonItem:clockItem animated:NO];
     
-    self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addToken:)];
+    self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addToken)];
     self.addButtonItem.style = UIBarButtonItemStyleBordered;
     
     self.toolbarItems = @[self.editButtonItem,
@@ -62,7 +60,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
                           self.addButtonItem];
     self.navigationController.toolbarHidden = NO;
     
-    [self fetchKeychainArray];
+    self.tokenManager = [OTPTokenManager sharedManager];
+
     [self updateUI];
 
     // Prepare table view
@@ -84,7 +83,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 - (void)updateUI
 {
     BOOL hidden = YES;
-    for (OTPToken *token in self.tokens) {
+    for (OTPToken *token in self.tokenManager.tokens) {
         if (token.type == OTPTokenTypeTimer) {
             hidden = NO;
             break;
@@ -92,13 +91,13 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     }
     self.clock.hidden = hidden;
     
-    self.editButtonItem.enabled = (self.tokens.count > 0);
+    self.editButtonItem.enabled = (self.tokenManager.tokens.count > 0);
 }
 
 
 #pragma mark - Actions
 
-- (void)addToken:(id)sender
+- (void)addToken
 {
     [self setEditing:NO animated:NO];
     
@@ -110,29 +109,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 
-#pragma mark - Keychain
-
-- (void)saveKeychainArray
-{
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSArray *keychainReferences = [self valueForKeyPath:@"tokens.keychainItemRef"];
-    [ud setObject:keychainReferences forKey:kOTPKeychainEntriesArray];
-    [ud synchronize];
-}
-
-- (void)fetchKeychainArray
-{
-    NSArray *savedKeychainReferences = [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
-    self.tokens = [NSMutableArray arrayWithCapacity:[savedKeychainReferences count]];
-    for (NSData *keychainRef in savedKeychainReferences) {
-        OTPToken *token = [OTPToken tokenWithKeychainItemRef:keychainRef];
-        if (token) {
-            [self.tokens addObject:token];
-        }
-    }
-}
-
-
 #pragma mark - OTPTokenSourceDelegate
 
 - (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token
@@ -141,13 +117,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 
-    if (!token) return;
-
-    [token saveToKeychain];
-    [self.tokens addObject:token];
-    [self saveKeychainArray];
-    [self updateUI];
-    [self.tableView reloadData];
+    if ([self.tokenManager addToken:token]) {
+        [self updateUI];
+        [self.tableView reloadData];
+    }
 }
 
 
@@ -162,23 +135,19 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.tokens.count;
+    return self.tokenManager.tokens.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OTPTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([OTPTokenCell class]) forIndexPath:indexPath];
-    cell.token = self.tokens[indexPath.row];
+    cell.token = self.tokenManager.tokens[indexPath.row];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)source toIndexPath:(NSIndexPath *)destination
 {
-    id object = (self.tokens)[source.row];
-    [self.tokens removeObjectAtIndex:source.row];
-    [self.tokens insertObject:object atIndex:destination.row];
-    
-    [self saveKeychainArray];
+    [self.tokenManager moveTokenFromIndex:source.row toIndex:destination.row];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -190,15 +159,12 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         NSIndexPath *path = [NSIndexPath indexPathForRow:idx inSection:0];
         [tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationFade];
         
-        OTPToken *token = (self.tokens)[idx];
-        [token removeFromKeychain];
-        [self.tokens removeObjectAtIndex:idx];
-        [self saveKeychainArray];
-        
+        [self.tokenManager removeTokenAtIndex:idx];
+
         [tableView endUpdates];
         
         [self updateUI];
-        if (!self.tokens.count) {
+        if (!self.tokenManager.tokens.count) {
             [self setEditing:NO animated:YES];
         }
     }
