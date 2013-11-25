@@ -1,5 +1,5 @@
 //
-//  OTPTokenCell.h
+//  OTPTokenListViewController.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,12 +22,10 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPTableViewCell.h"
-@class OTPToken;
+@import UIKit;
+#import "OTPTokenSourceDelegate.h"
 
 
-@interface OTPTokenCell : OTPTableViewCell
-
-@property (nonatomic, strong) OTPToken *token;
+@interface OTPTokenListViewController : UITableViewController <OTPTokenSourceDelegate>
 
 @end

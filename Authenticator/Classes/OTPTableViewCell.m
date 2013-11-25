@@ -1,5 +1,5 @@
 //
-//  OTPTokenCell.h
+//  OTPTableViewCell.m
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -23,11 +23,28 @@
 //
 
 #import "OTPTableViewCell.h"
-@class OTPToken;
 
 
-@interface OTPTokenCell : OTPTableViewCell
+@implementation OTPTableViewCell
 
-@property (nonatomic, strong) OTPToken *token;
++ (NSString *)reuseIdentifier
+{
+    return NSStringFromClass(self);
+}
+
++ (UITableViewCellStyle)cellStyle
+{
+    return UITableViewCellStyleDefault;
+}
+
++ (instancetype)cell
+{
+    return [[self alloc] initWithStyle:self.cellStyle reuseIdentifier:self.reuseIdentifier];
+}
+
++ (instancetype)cellForTableView:(UITableView *)tableView
+{
+    return [tableView dequeueReusableCellWithIdentifier:self.reuseIdentifier] ?: [self cell];
+}
 
 @end
