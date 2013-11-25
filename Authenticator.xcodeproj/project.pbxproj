@@ -56,7 +56,7 @@
 		C9A4FA2417CFB9F400CD5EDC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9A4FA2317CFB9F400CD5EDC /* Default@2x.png */; };
 		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
 		C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */; };
-		C9C8B01B1812744F00911E8B /* OTPAuthURLTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B89BE118B968900437315 /* OTPAuthURLTest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C9C6CC841842C5BC000100C2 /* OTPTokenPersistenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,7 +86,6 @@
 		8B2B8754118B902200437315 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8B2B8776118B903000437315 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8B2B877C118B904000437315 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		8B2B89BE118B968900437315 /* OTPAuthURLTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTPAuthURLTest.m; path = ../Authenticator/Classes/OTPAuthURLTest.m; sourceTree = "<group>"; };
 		8B2B8AE1118BA49F00437315 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8B3F0F59122F2003009A6409 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8B45557611932B5D00ABD707 /* OTPClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPClock.h; sourceTree = "<group>"; };
@@ -140,6 +139,7 @@
 		C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenCell.h; sourceTree = "<group>"; };
 		C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenCell.m; sourceTree = "<group>"; };
 		C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenPersistenceTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,11 +357,11 @@
 		C9906A331812522100BAEF53 /* AuthenticatorTests */ = {
 			isa = PBXGroup;
 			children = (
-				8B2B89BE118B968900437315 /* OTPAuthURLTest.m */,
+				C958CC53183043A600DD47D0 /* OTPTokenSerializationTests.m */,
+				C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */,
+				C940A980183EEFA300F7D04A /* OTPTokenGenerationTests.m */,
 				C9044FD51824CDE7002C3C3F /* OTPBase32Tests.m */,
 				C9906A341812522100BAEF53 /* Supporting Files */,
-				C958CC53183043A600DD47D0 /* OTPTokenSerializationTests.m */,
-				C940A980183EEFA300F7D04A /* OTPTokenGenerationTests.m */,
 			);
 			path = AuthenticatorTests;
 			sourceTree = "<group>";
@@ -548,7 +548,7 @@
 				C9044FC41821C074002C3C3F /* OTPToken+Persistence.m in Sources */,
 				C958CC4E1829DB9E00DD47D0 /* OTPToken+Generation.m in Sources */,
 				C9044FC81821C466002C3C3F /* OTPToken+Serialization.m in Sources */,
-				C9C8B01B1812744F00911E8B /* OTPAuthURLTest.m in Sources */,
+				C9C6CC841842C5BC000100C2 /* OTPTokenPersistenceTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
