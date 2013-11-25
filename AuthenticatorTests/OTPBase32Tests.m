@@ -23,11 +23,7 @@
 //
 
 @import XCTest;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wauto-import"
-#import <Base32/MF_Base32Additions.h>
-#pragma clang diagnostic pop
+#import "NSData+Base32.h"
 
 
 @interface OTPBase32Tests : XCTestCase
@@ -62,6 +58,18 @@
     [self _testVectors:vectors];
 }
 
+- (void)testUnpaddedLowercaseRFCValues
+{
+    NSDictionary *vectors = @{@"":       @"",
+                              @"f":      @"my",
+                              @"fo":     @"mzxq",
+                              @"foo":    @"mzxw6",
+                              @"foob":   @"mzxw6yq",
+                              @"fooba":  @"mzxw6ytb",
+                              @"foobar": @"mzxw6ytboi"};
+    [self _testVectors:vectors];
+}
+
 
 - (void)_testVectors:(NSDictionary *)vectors
 {
@@ -73,7 +81,7 @@
 //        NSString *encryptedPlaintext = [[plaintext dataUsingEncoding:NSUTF8StringEncoding] base32String];
 //        XCTAssertEqualObjects(encryptedPlaintext, ciphertext, @"");
 
-        NSString *decryptedCiphertext = [[NSString alloc] initWithData:[NSData dataWithBase32String:ciphertext] encoding:NSUTF8StringEncoding];
+        NSString *decryptedCiphertext = [[NSString alloc] initWithData:[NSData dataWithBase32EncodedString:ciphertext] encoding:NSUTF8StringEncoding];
         XCTAssertEqualObjects(decryptedCiphertext, plaintext, @"");
     }
 }
