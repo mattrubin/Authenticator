@@ -32,7 +32,7 @@
 
 + (instancetype)sharedManager;
 
-- (void)fetchTokensFromKeychain;
+- (BOOL)fetchTokensFromKeychain;
 - (BOOL)saveTokensToKeychain;
 
 - (BOOL)addToken:(OTPToken *)token;

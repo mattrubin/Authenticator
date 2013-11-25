@@ -51,14 +51,18 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 #pragma mark - Keychain
 
-- (void)fetchTokensFromKeychain
+- (BOOL)fetchTokensFromKeychain
 {
     NSArray *keychainReferences = [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
-    self.mutableTokens = [NSMutableArray arrayWithCapacity:keychainReferences.count];
-    for (NSData *keychainItemRef in keychainReferences) {
-        OTPToken *token = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
-        if (token) [self.mutableTokens addObject:token];
+    if (keychainReferences) {
+        self.mutableTokens = [NSMutableArray arrayWithCapacity:keychainReferences.count];
+        for (NSData *keychainItemRef in keychainReferences) {
+            OTPToken *token = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
+            if (token) [self.mutableTokens addObject:token];
+        }
+        return YES;
     }
+    return NO;
 }
 
 - (BOOL)saveTokensToKeychain
