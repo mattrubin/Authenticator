@@ -47,7 +47,6 @@
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
 		C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */; };
 		C9F75CA21843F9BE00B6FA14 /* OTPTokenListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75CA11843F9BE00B6FA14 /* OTPTokenListViewController.m */; };
-		C9F75CA51844009100B6FA14 /* OTPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75CA41844009100B6FA14 /* OTPTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,8 +127,6 @@
 		C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenManager.m; sourceTree = "<group>"; };
 		C9F75CA01843F9BE00B6FA14 /* OTPTokenListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenListViewController.h; sourceTree = "<group>"; };
 		C9F75CA11843F9BE00B6FA14 /* OTPTokenListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenListViewController.m; sourceTree = "<group>"; };
-		C9F75CA31844009100B6FA14 /* OTPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTableViewCell.h; sourceTree = "<group>"; };
-		C9F75CA41844009100B6FA14 /* OTPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,8 +242,6 @@
 		C98C1C4517D2EDF500A07D3F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				C9F75CA31844009100B6FA14 /* OTPTableViewCell.h */,
-				C9F75CA41844009100B6FA14 /* OTPTableViewCell.m */,
 				C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */,
 				C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */,
 			);
@@ -509,7 +504,6 @@
 				C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */,
 				C9044FCF18224D32002C3C3F /* OTPAlgorithm.m in Sources */,
 				C9044FDC1824E711002C3C3F /* NSDictionary+QueryString.m in Sources */,
-				C9F75CA51844009100B6FA14 /* OTPTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
