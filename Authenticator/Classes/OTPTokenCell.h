@@ -22,11 +22,11 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPTableViewCell.h"
+#import <MRX/MRXTableViewCell.h>
 @class OTPToken;
 
 
-@interface OTPTokenCell : OTPTableViewCell
+@interface OTPTokenCell : MRXTableViewCell
 
 @property (nonatomic, strong) OTPToken *token;
 

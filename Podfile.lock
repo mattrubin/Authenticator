@@ -1,13 +1,20 @@
 PODS:
   - Base32 (1.0.1)
+  - MRX (0.0.1)
   - SVProgressHUD (0.9)
 
 DEPENDENCIES:
   - Base32 (~> 1.0.1)
+  - MRX (from `https://github.com/mattrubin/MRX.git`)
   - SVProgressHUD (= 0.9)
+
+EXTERNAL SOURCES:
+  MRX:
+    :git: https://github.com/mattrubin/MRX.git
 
 SPEC CHECKSUMS:
   Base32: ccb38da4a8cdc41e8d4d7fe7af21dc01ef83fe52
+  MRX: e6a1bbf7c2f2b1349d039f2da0aa8da71fb08d9a
   SVProgressHUD: 03d4845ec8e64591726428a08236c6a5489d45f8
 
-COCOAPODS: 0.26.2
+COCOAPODS: 0.28.0
