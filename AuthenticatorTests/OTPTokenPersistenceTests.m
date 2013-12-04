@@ -55,9 +55,11 @@ static NSURL *kValidTokenURL;
 {
     NSData *secret = [NSData dataWithBytes:kValidSecret length:sizeof(kValidSecret)];
     NSData *urlData = [@"otpauth://totp/L%C3%A9on?algorithm=SHA256&digits=8&period=45" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *keychainItemRef = [[NSData alloc] initWithBase64EncodedString:@"Z2VucAAAAAAAAAAQ" options:NSDataBase64DecodingIgnoreUnknownCharacters];
 
     OTPToken *token = [OTPToken tokenWithKeychainDictionary:@{(__bridge id)kSecAttrGeneric: urlData,
                                                               (__bridge id)kSecValueData: secret,
+                                                              (__bridge id)kSecValuePersistentRef: keychainItemRef,
                                                               }];
 
     XCTAssertEqual(token.type, OTPTokenTypeTimer);
@@ -68,7 +70,8 @@ static NSURL *kValidTokenURL;
 
     XCTAssertEqualObjects(token.secret, secret);
 
-    XCTAssertFalse(token.isInKeychain);
+    XCTAssertEqualObjects(token.keychainItemRef, keychainItemRef);
+    XCTAssertTrue(token.isInKeychain);
 }
 
 - (void)testTokenWithKeychainItemRef
@@ -106,6 +109,7 @@ static NSURL *kValidTokenURL;
 
     XCTAssertEqualObjects(secondToken.secret, [NSData dataWithBytes:kValidSecret length:sizeof(kValidSecret)]);
 
+    XCTAssertEqualObjects(secondToken.keychainItemRef, token.keychainItemRef);
     XCTAssertTrue(secondToken.isInKeychain);
 
     // Remove the token

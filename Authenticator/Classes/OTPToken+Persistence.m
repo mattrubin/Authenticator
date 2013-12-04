@@ -45,7 +45,6 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     NSDictionary *result = [self keychainItemForPersistentRef:keychainItemRef];
     if (result) {
         token = [self tokenWithKeychainDictionary:result];
-        token.keychainItemRef = keychainItemRef;
     }
     return token;
 }
@@ -57,7 +56,9 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     NSString *urlString = [[NSString alloc] initWithData:urlData
                                                 encoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:urlString];
-    return [self tokenWithURL:url secret:secretData];
+    OTPToken *token = [self tokenWithURL:url secret:secretData];
+    token.keychainItemRef = keychainDictionary[(__bridge id)(kSecValuePersistentRef)];
+    return token;
 }
 
 
@@ -117,6 +118,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 {
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecValuePersistentRef: persistentRef,
+                                (__bridge id)kSecReturnPersistentRef: (id)kCFBooleanTrue,
                                 (__bridge id)kSecReturnAttributes: (id)kCFBooleanTrue,
                                 (__bridge id)kSecReturnData: (id)kCFBooleanTrue
                                 };
