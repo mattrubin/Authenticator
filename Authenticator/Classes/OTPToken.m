@@ -23,7 +23,6 @@
 //
 
 #import "OTPToken.h"
-#import "OTPToken+Serialization.h"
 
 
 static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTimerNotification";
@@ -91,33 +90,6 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 + (NSTimeInterval)defaultPeriod
 {
     return 30;
-}
-
-
-#pragma mark - Equality
-
-- (BOOL)isEqual:(id)object
-{
-    if (self == object)
-        return YES;
-    if (![object isKindOfClass:[self class]])
-        return NO;
-    
-    OTPToken *otherToken = object;
-    return ((self.type == otherToken.type) &&
-            (self.algorithm == otherToken.algorithm) &&
-            ([self.name isEqualToString:otherToken.name]) &&
-            ([self.secret isEqualToData:otherToken.secret]) &&
-            (self.digits == otherToken.digits) &&
-            (((self.type == OTPTokenTypeCounter) &&
-              (self.counter == otherToken.counter)) ||
-             ((self.type == OTPTokenTypeTimer) &&
-              (fabs(self.period - otherToken.period) < DBL_EPSILON))));
-}
-
-- (NSUInteger)hash
-{
-    return self.url.hash ^ self.secret.hash;
 }
 
 
