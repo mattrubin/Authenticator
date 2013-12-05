@@ -28,6 +28,7 @@
 @interface OTPToken (Persistence)
 
 + (instancetype)tokenWithKeychainItemRef:(NSData *)keychainItemRef;
++ (NSArray *)allTokensInKeychain;
 
 - (BOOL)saveToKeychain;
 - (BOOL)removeFromKeychain;
