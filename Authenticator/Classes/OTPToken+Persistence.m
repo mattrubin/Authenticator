@@ -45,9 +45,19 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     NSDictionary *result = [self keychainItemForPersistentRef:keychainItemRef];
     if (result) {
         token = [self tokenWithKeychainDictionary:result];
-        token.keychainItemRef = keychainItemRef;
     }
     return token;
+}
+
++ (NSArray *)allTokensInKeychain
+{
+    NSArray *keychainItems = [self allKeychainItems];
+    NSMutableArray *tokens = [NSMutableArray array];
+    for (NSDictionary *keychainDict in keychainItems) {
+        OTPToken *token = [self tokenWithKeychainDictionary:keychainDict];
+        [tokens addObject:token];
+    }
+    return tokens;
 }
 
 + (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary
@@ -57,7 +67,9 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     NSString *urlString = [[NSString alloc] initWithData:urlData
                                                 encoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:urlString];
-    return [self tokenWithURL:url secret:secretData];
+    OTPToken *token = [self tokenWithURL:url secret:secretData];
+    token.keychainItemRef = keychainDictionary[(__bridge id)(kSecValuePersistentRef)];
+    return token;
 }
 
 
@@ -117,6 +129,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 {
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecValuePersistentRef: persistentRef,
+                                (__bridge id)kSecReturnPersistentRef: (id)kCFBooleanTrue,
                                 (__bridge id)kSecReturnAttributes: (id)kCFBooleanTrue,
                                 (__bridge id)kSecReturnData: (id)kCFBooleanTrue
                                 };
@@ -126,6 +139,22 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
                                               &result);
 
     return (resultCode == errSecSuccess) ? (__bridge NSDictionary *)(result) : nil;
+}
+
++ (NSArray *)allKeychainItems
+{
+    NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+                                (__bridge id)kSecMatchLimit: (__bridge id)kSecMatchLimitAll,
+                                (__bridge id)kSecReturnPersistentRef: (id)kCFBooleanTrue,
+                                (__bridge id)kSecReturnAttributes: (id)kCFBooleanTrue,
+                                (__bridge id)kSecReturnData: (id)kCFBooleanTrue
+                                };
+    
+    CFTypeRef result = NULL;
+    OSStatus resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)(queryDict),
+                                              &result);
+    
+    return (resultCode == errSecSuccess) ? (__bridge NSArray *)(result) : nil;
 }
 
 + (NSData *)addKeychainItemWithAttributes:(NSDictionary *)attributes
