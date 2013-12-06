@@ -100,6 +100,7 @@
 		C958CC53183043A600DD47D0 /* OTPTokenSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenSerializationTests.m; sourceTree = "<group>"; };
 		C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
 		C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
+		C9776E3318518801003D53CB /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		C97B68C617D9226D005D1FE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C99069CF180CBAC900BAEF53 /* OTPScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPScannerViewController.h; sourceTree = "<group>"; };
 		C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPScannerViewController.m; sourceTree = "<group>"; };
@@ -183,12 +184,12 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				8B2B8AE1118BA49F00437315 /* README.md */,
 				C97B68CB17D964D4005D1FE0 /* Authenticator */,
 				C9906A331812522100BAEF53 /* AuthenticatorTests */,
 				C98C1C4F17D2F16800A07D3F /* Config */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				C9776E32185187E8003D53CB /* Docs */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -227,6 +228,15 @@
 				C9906A2F1812522100BAEF53 /* XCTest.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9776E32185187E8003D53CB /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+				8B2B8AE1118BA49F00437315 /* README.md */,
+				C9776E3318518801003D53CB /* LICENSE.txt */,
+			);
+			name = Docs;
 			sourceTree = "<group>";
 		};
 		C97B68CB17D964D4005D1FE0 /* Authenticator */ = {
