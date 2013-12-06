@@ -62,8 +62,8 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 + (instancetype)tokenWithKeychainDictionary:(NSDictionary *)keychainDictionary
 {
-    NSData *urlData = [keychainDictionary objectForKey:(__bridge id)kSecAttrGeneric];
-    NSData *secretData = [keychainDictionary objectForKey:(__bridge id)kSecValueData];
+    NSData *urlData = keychainDictionary[(__bridge id)kSecAttrGeneric];
+    NSData *secretData = keychainDictionary[(__bridge id)kSecValueData];
     NSString *urlString = [[NSString alloc] initWithData:urlData
                                                 encoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:urlString];

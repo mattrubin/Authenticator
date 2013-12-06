@@ -47,7 +47,7 @@
         if (elements.count == 2) {
             NSString *key = [elements[0] percentDecodedString];
             NSString *value = [elements[1] percentDecodedString];
-            [dictionary setObject:value forKey:key];
+            dictionary[key] = value;
         }
     }
 
