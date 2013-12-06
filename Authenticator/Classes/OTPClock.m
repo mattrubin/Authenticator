@@ -34,7 +34,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.opaque = NO;
-        
+
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(startTimer)
                                                      name:UIApplicationDidBecomeActiveNotification
@@ -43,7 +43,7 @@
                                                  selector:@selector(stopTimer)
                                                      name:UIApplicationWillResignActiveNotification
                                                    object:[UIApplication sharedApplication]];
-        
+
         [self startTimer];
     }
     return self;
@@ -84,15 +84,15 @@
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     // Clear the context
     [[UIColor clearColor] setFill];
     CGContextFillRect(context, rect);
-    
+
     // Set the color
     [[UIColor otpBackgroundColor] setFill];
     [[UIColor otpBackgroundColor] setStroke];
-    
+
     // Get the dimensions
     CGFloat midX = CGRectGetMidX(self.bounds);
     CGFloat midY = CGRectGetMidY(self.bounds);
@@ -100,14 +100,14 @@
 
     NSTimeInterval seconds = fmod([[NSDate date] timeIntervalSince1970], self.period);
     CGFloat percent = (float)(seconds / self.period);
-    
+
     // Draw the wedge
     CGContextMoveToPoint(context, midX, midY);
     CGFloat startAngle = -(float)M_PI_2;
     CGFloat endAngle = startAngle + percent * (float)(2 * M_PI);
     CGContextAddArc(context, midX, midY, radius, startAngle, endAngle, 1);
     CGContextFillPath(context);
-    
+
     // Draw the border
     CGContextMoveToPoint(context, midX + radius , midY);
     CGContextAddArc(context, midX, midY, radius, 0, 2.0 * (float)M_PI, 1);

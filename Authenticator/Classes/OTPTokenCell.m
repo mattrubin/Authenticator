@@ -53,9 +53,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+
         [self createSubviews];
-        
+
         [self addObserver:self forKeyPath:@"token.password" options:0 context:nil];
 
         // Ensure that TOTPs are updated when the app returns from the background
@@ -84,19 +84,19 @@
     self.nameLabel.returnKeyType = UIReturnKeyDone;
     self.nameLabel.delegate = self;
     self.nameLabel.enabled = NO;
-    
+
     self.passwordLabel = [UILabel new];
     self.passwordLabel.font = [UIFont systemFontOfSize:50];
-    
+
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.passwordLabel];
-    
+
     CGRect frame = CGRectInset(self.contentView.bounds, 10, 5);
     frame.size.height = 20;
     self.nameLabel.frame = frame;
     frame.origin.y += frame.size.height;
     self.passwordLabel.frame = frame;
-    
+
     self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.passwordLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
@@ -116,7 +116,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-    
+
     if (selected) {
         [self copyPassword];
     }
@@ -150,17 +150,17 @@
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
-    
+
     self.nameLabel.enabled = editing;
-    
+
     [UIView animateWithDuration:0.3 animations:^{
         self.nameLabel.textColor = editing ? [UIColor blackColor] : [UIColor otpBarColor];
         self.passwordLabel.alpha = !editing ? 1 : 0.2;
     }];
-    
+
     if (!editing) {
         [self.nameLabel resignFirstResponder];
-        
+
         if (![self.token.name isEqualToString:self.nameLabel.text]) {
             self.token.name = self.nameLabel.text;
             [self.token saveToKeychain];

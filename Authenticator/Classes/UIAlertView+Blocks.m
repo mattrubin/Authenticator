@@ -61,7 +61,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     UIAlertViewButtonBlock clickedButtonHandler = self.clickedButtonHandler;
-    
+
     if (clickedButtonHandler) {
         clickedButtonHandler(alertView, buttonIndex);
     }

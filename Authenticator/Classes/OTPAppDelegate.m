@@ -52,7 +52,7 @@
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
     navController.navigationBar.translucent = NO;
     navController.toolbar.translucent = NO;
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
@@ -67,7 +67,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
@@ -94,12 +94,12 @@
     OTPToken *token = [OTPToken tokenWithURL:url];
     if (token) {
         NSString *message = [NSString stringWithFormat: @"Do you want to add a token for “%@”?", token.name];
-        
+
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Token"
                                                         message:message
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:@"OK", nil];
-        
+
         alert.clickedButtonHandler = ^(UIAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == alertView.firstOtherButtonIndex) {
                 [self.rootViewController tokenSource:self didCreateToken:token];

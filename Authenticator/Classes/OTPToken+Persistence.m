@@ -73,7 +73,7 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 }
 
 
-#pragma mark - 
+#pragma mark -
 
 - (NSData *)keychainItemRef
 {
@@ -149,11 +149,11 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
                                 (__bridge id)kSecReturnAttributes: (id)kCFBooleanTrue,
                                 (__bridge id)kSecReturnData: (id)kCFBooleanTrue
                                 };
-    
+
     CFTypeRef result = NULL;
     OSStatus resultCode = SecItemCopyMatching((__bridge CFDictionaryRef)(queryDict),
                                               &result);
-    
+
     return (resultCode == errSecSuccess) ? (__bridge NSArray *)(result) : nil;
 }
 

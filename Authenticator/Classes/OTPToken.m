@@ -136,7 +136,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
 - (void)updatePasswordIfNeeded
 {
     if (self.type != OTPTokenTypeTimer) return;
-    
+
     NSTimeInterval allTime = [NSDate date].timeIntervalSince1970;
     uint64_t newCount = (uint64_t)allTime / (uint64_t)self.period;
     if (newCount > self.counter) {

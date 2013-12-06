@@ -77,7 +77,7 @@ NSString *const kOTPAlgorithmMD5 = @"MD5";
     } else if ([self isEqualToString:kOTPAlgorithmMD5]) {
         return kCCHmacAlgMD5;
     }
-    
+
     return OTPAlgorithmUnknown;
 }
 

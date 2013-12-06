@@ -71,7 +71,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
             if (token) [self.mutableTokens addObject:token];
         }
     }
-    
+
     if ([self recoverLostTokens]) {
         // If lost tokens were found and appended, save the full list of tokens
         [self saveTokensToKeychain];
@@ -91,7 +91,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
             }
             return NO;
         }];
-        
+
         if (indexOfTokenWithSameKeychainItemRef == NSNotFound) {
             [self.mutableTokens addObject:token];
             lostTokenFound = YES;

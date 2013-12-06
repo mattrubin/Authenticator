@@ -174,7 +174,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         invalidToken.digits = [digitNumber unsignedIntegerValue];
                                         invalidToken.period = [query[@"period"] doubleValue];
                                         invalidToken.counter = [query[@"counter"] unsignedLongLongValue];
-                                        
+
                                         XCTAssertFalse([invalidToken validate], @"The token should be invalid");
                                     }
                                 }

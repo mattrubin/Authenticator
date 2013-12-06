@@ -57,7 +57,7 @@ static NSUInteger kPinModTable[] = {
             self.counter = newCounter;
         }
     }
-    
+
     return [self generatePasswordForCounter:self.counter];
 }
 

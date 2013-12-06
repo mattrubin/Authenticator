@@ -124,7 +124,7 @@ static NSURL *kValidTokenURL;
     // Attempt to restore the deleted token
     OTPToken *thirdToken = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
     XCTAssertNil(thirdToken);
-    
+
 }
 
 - (void)testDuplicateURLs
