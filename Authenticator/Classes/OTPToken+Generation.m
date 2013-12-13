@@ -78,18 +78,25 @@ static NSUInteger kPinModTable[] = {
 {
     if (![self validate]) return nil;
 
-    NSMutableData *hash = [NSMutableData dataWithLength:digestLengthForAlgorithm(self.algorithm)];
-
+    // Ensure the counter value is big-endian
     counter = NSSwapHostLongLongToBig(counter);
 
-    CCHmacContext context;
-    CCHmacInit(&context, self.algorithm, self.secret.bytes, self.secret.length);
-    CCHmacUpdate(&context, &counter, sizeof(counter));
-    CCHmacFinal(&context, hash.mutableBytes);
+    // Generate an HMAC value from the key and counter
+    NSMutableData *hash = [NSMutableData dataWithLength:digestLengthForAlgorithm(self.algorithm)];
+    CCHmac(self.algorithm, self.secret.bytes, self.secret.length, &counter, sizeof(counter), hash.mutableBytes);
 
+    // Use the last 4 bits of the hash as an offset (0 <= offset <= 15)
     const char *ptr = hash.bytes;
     unsigned char offset = ptr[hash.length-1] & 0x0f;
-    unsigned long truncatedHash = NSSwapBigLongToHost(*((unsigned long *)&ptr[offset])) & 0x7fffffff;
+
+    // Take 4 bytes from the hash, starting at the given offset
+    const void *truncatedHashPtr = &ptr[offset];
+    unsigned long truncatedHash = *(unsigned long *)truncatedHashPtr;
+    // Ensure the four bytes taken from the hash match the current endian format
+    truncatedHash = NSSwapBigLongToHost(truncatedHash);
+    // Discard the most significant bit
+    truncatedHash &= 0x7fffffff;
+
     unsigned long pinValue = truncatedHash % kPinModTable[self.digits];
 
     return [NSString stringWithFormat:@"%0*ld", self.digits, pinValue];
