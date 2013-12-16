@@ -36,8 +36,6 @@ NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm)
             return CC_SHA256_DIGEST_LENGTH;
         case OTPAlgorithmSHA512:
             return CC_SHA512_DIGEST_LENGTH;
-        case OTPAlgorithmMD5:
-            return CC_MD5_DIGEST_LENGTH;
     }
 }
 
@@ -47,7 +45,6 @@ NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm)
 NSString *const kOTPAlgorithmSHA1 = @"SHA1";
 NSString *const kOTPAlgorithmSHA256 = @"SHA256";
 NSString *const kOTPAlgorithmSHA512 = @"SHA512";
-NSString *const kOTPAlgorithmMD5 = @"MD5";
 
 
 @implementation NSString (OTPAlgorithm)
@@ -61,8 +58,6 @@ NSString *const kOTPAlgorithmMD5 = @"MD5";
             return kOTPAlgorithmSHA256;
         case OTPAlgorithmSHA512:
             return kOTPAlgorithmSHA512;
-        case OTPAlgorithmMD5:
-            return kOTPAlgorithmMD5;
     }
 }
 
@@ -74,8 +69,6 @@ NSString *const kOTPAlgorithmMD5 = @"MD5";
         return kCCHmacAlgSHA256;
     } else if ([self isEqualToString:kOTPAlgorithmSHA512]) {
         return kCCHmacAlgSHA512;
-    } else if ([self isEqualToString:kOTPAlgorithmMD5]) {
-        return kCCHmacAlgMD5;
     }
 
     return OTPAlgorithmUnknown;

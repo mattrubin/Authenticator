@@ -70,7 +70,7 @@ static NSString *const kQueryPeriodKey = @"period";
     token.algorithm = algorithmString ? [algorithmString algorithmValue] : [OTPToken defaultAlgorithm];
 
     NSString *secretString = query[kQuerySecretKey];
-    token.secret = [NSData dataWithBase32EncodedString:secretString];;
+    token.secret = [NSData dataWithBase32EncodedString:secretString];
 
     NSString *digitString = query[kQueryDigitsKey];
     token.digits = digitString ? [digitString integerValue] : [OTPToken defaultDigits];
