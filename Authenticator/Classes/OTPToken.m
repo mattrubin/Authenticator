@@ -101,8 +101,7 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
     BOOL validSecret = !!self.secret.length;
     BOOL validAlgorithm = (self.algorithm == OTPAlgorithmSHA1 ||
                            self.algorithm == OTPAlgorithmSHA256 ||
-                           self.algorithm == OTPAlgorithmSHA512 ||
-                           self.algorithm == OTPAlgorithmMD5);
+                           self.algorithm == OTPAlgorithmSHA512);
     BOOL validDigits = (self.digits <= 8) && (self.digits >= 6);
 
     BOOL validPeriod = (self.period > 0) && (self.period <= 300);

@@ -60,7 +60,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     names = @[@"", @"Login", @"user123@website.com", @"Léon", @":/?#[]@!$&'()*+,;=%\"", [NSNull null]];
     secretStrings = @[@"12345678901234567890", @"12345678901234567890123456789012",
                       @"1234567890123456789012345678901234567890123456789012345678901234", @""];
-    algorithmNumbers = @[@(OTPAlgorithmMD5), @(OTPAlgorithmSHA1), @(OTPAlgorithmSHA256), @(OTPAlgorithmSHA512)];
+    algorithmNumbers = @[@(OTPAlgorithmSHA1), @(OTPAlgorithmSHA256), @(OTPAlgorithmSHA512)];
     digitNumbers = @[@6, @7, @8];
     periodNumbers = @[@0, @1, @([OTPToken defaultPeriod]), kRandomKey];
     counterNumbers = @[@0, @1, @([OTPToken defaultInitialCounter]), kRandomKey];
@@ -329,7 +329,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                          @"otpauth://foo", // invalid type
                          @"otpauth://totp/bar", // missing secret
                          @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&period=0", // invalid period
-                         @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&algorithm=RC4", // invalid algorithm
+                         @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&algorithm=MD5", // invalid algorithm
                          @"otpauth://totp/bar?secret=AAAQEAYEAUDAOCAJBIFQYDIOB4&digits=2", // invalid digits
                          ];
 

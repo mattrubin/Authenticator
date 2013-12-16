@@ -29,7 +29,6 @@ typedef NS_ENUM(CCHmacAlgorithm, OTPAlgorithm) {
     OTPAlgorithmSHA1   = kCCHmacAlgSHA1,
     OTPAlgorithmSHA256 = kCCHmacAlgSHA256,
     OTPAlgorithmSHA512 = kCCHmacAlgSHA512,
-    OTPAlgorithmMD5    = kCCHmacAlgMD5,
 };
 
 extern OTPAlgorithm OTPAlgorithmUnknown;
@@ -42,7 +41,6 @@ NSUInteger digestLengthForAlgorithm(OTPAlgorithm algorithm);
 extern NSString *const kOTPAlgorithmSHA1;
 extern NSString *const kOTPAlgorithmSHA256;
 extern NSString *const kOTPAlgorithmSHA512;
-extern NSString *const kOTPAlgorithmMD5;
 
 @interface NSString (OTPAlgorithm)
 

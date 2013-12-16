@@ -115,11 +115,11 @@
     NSArray *algorithms = @[kOTPAlgorithmSHA1,
                             kOTPAlgorithmSHA256,
                             kOTPAlgorithmSHA512,
-                            kOTPAlgorithmMD5];
-    NSArray *results = @[// SHA1      SHA256     SHA512     MD5
-                         @"050471", @"584430", @"380122", @"275841", // date1
-                         @"005924", @"829826", @"671578", @"280616", // date2
-                         @"279037", @"428693", @"464532", @"090484", // date3
+                            ];
+    NSArray *results = @[// SHA1      SHA256     SHA512
+                         @"050471", @"584430", @"380122", // date1
+                         @"005924", @"829826", @"671578", // date2
+                         @"279037", @"428693", @"464532", // date3
                          ];
 
     for (NSUInteger i = 0, j = 0; i < sizeof(intervals)/sizeof(*intervals); i++) {
