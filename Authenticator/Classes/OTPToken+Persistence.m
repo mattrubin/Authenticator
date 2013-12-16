@@ -55,7 +55,8 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
     NSMutableArray *tokens = [NSMutableArray array];
     for (NSDictionary *keychainDict in keychainItems) {
         OTPToken *token = [self tokenWithKeychainDictionary:keychainDict];
-        [tokens addObject:token];
+        if (token)
+            [tokens addObject:token];
     }
     return tokens;
 }
@@ -127,6 +128,8 @@ static NSString *const kOTPService = @"me.mattrubin.authenticator.token";
 
 + (NSDictionary *)keychainItemForPersistentRef:(NSData *)persistentRef
 {
+    if (!persistentRef) return nil;
+
     NSDictionary *queryDict = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecValuePersistentRef: persistentRef,
                                 (__bridge id)kSecReturnPersistentRef: (id)kCFBooleanTrue,
