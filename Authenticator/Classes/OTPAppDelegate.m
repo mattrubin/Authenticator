@@ -48,6 +48,12 @@
     [[UIToolbar appearance] setBarTintColor:[UIColor otpBarColor]];
     [[UIToolbar appearance] setTintColor:[UIColor whiteColor]];
 
+    // Restore white-on-black style
+    [SVProgressHUD appearance].hudBackgroundColor = [UIColor blackColor];
+    [SVProgressHUD appearance].hudForegroundColor = [UIColor whiteColor];
+    [SVProgressHUD appearance].hudErrorImage   = [UIImage imageNamed:@"SVProgressHUD.bundle/error"];
+    [SVProgressHUD appearance].hudSuccessImage = [UIImage imageNamed:@"SVProgressHUD.bundle/success"];
+
     self.rootViewController = [OTPTokenListViewController new];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
     navController.navigationBar.translucent = NO;
