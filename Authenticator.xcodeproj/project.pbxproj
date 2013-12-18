@@ -11,13 +11,7 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		43B5E4365C6C4081AEF41717 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B03839CF35E4014987A36CA /* libPods.a */; };
 		8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0028B411EB75920092DE18 /* OTPScannerOverlayView.m */; };
-		8B2B86FE118B8FA000437315 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B86FD118B8FA000437315 /* UIKit.framework */; };
-		8B2B8728118B900E00437315 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8727118B900E00437315 /* CoreFoundation.framework */; };
-		8B2B8755118B902200437315 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8754118B902200437315 /* CoreGraphics.framework */; };
-		8B2B8777118B903000437315 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8776118B903000437315 /* Foundation.framework */; };
-		8B3F0F5A122F2003009A6409 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B3F0F59122F2003009A6409 /* AVFoundation.framework */; };
 		8B45557811932B5D00ABD707 /* OTPClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B45557711932B5D00ABD707 /* OTPClock.m */; };
-		8BBC772113BA945D006B3033 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B877C118B904000437315 /* Security.framework */; };
 		8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */; };
 		C9044FC31821BD63002C3C3F /* OTPToken+Persistence.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FC21821BD63002C3C3F /* OTPToken+Persistence.m */; };
 		C9044FC71821C466002C3C3F /* OTPToken+Serialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FC61821C466002C3C3F /* OTPToken+Serialization.m */; };
@@ -34,12 +28,8 @@
 		C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */; };
 		C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */; };
 		C99069E1180E5B4100BAEF53 /* OTPTokenEntryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */; };
-		C9906A301812522100BAEF53 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9906A2F1812522100BAEF53 /* XCTest.framework */; };
-		C9906A311812522100BAEF53 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B8776118B903000437315 /* Foundation.framework */; };
-		C9906A321812522100BAEF53 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2B86FD118B8FA000437315 /* UIKit.framework */; };
 		C999C693181344F40013C1C6 /* OTPToken.m in Sources */ = {isa = PBXBuildFile; fileRef = C999C692181344F40013C1C6 /* OTPToken.m */; };
 		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
-		C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */; };
 		C9C6CC841842C5BC000100C2 /* OTPTokenPersistenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */; };
 		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
 		C9C6CCA518430493000100C2 /* NSData+Base32.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6CCA418430493000100C2 /* NSData+Base32.m */; };
@@ -68,13 +58,7 @@
 		6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		8B0028B311EB75920092DE18 /* OTPScannerOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPScannerOverlayView.h; sourceTree = "<group>"; };
 		8B0028B411EB75920092DE18 /* OTPScannerOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPScannerOverlayView.m; sourceTree = "<group>"; };
-		8B2B86FD118B8FA000437315 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		8B2B8727118B900E00437315 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		8B2B8754118B902200437315 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		8B2B8776118B903000437315 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		8B2B877C118B904000437315 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8B2B8AE1118BA49F00437315 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		8B3F0F59122F2003009A6409 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8B45557611932B5D00ABD707 /* OTPClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPClock.h; sourceTree = "<group>"; };
 		8B45557711932B5D00ABD707 /* OTPClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPClock.m; sourceTree = "<group>"; };
 		8BF23A7013D4EF7000F3FD82 /* UIColor+OTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+OTP.h"; sourceTree = "<group>"; };
@@ -109,7 +93,6 @@
 		C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTPTokenSourceDelegate.h; sourceTree = "<group>"; };
 		C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTPTokenEntryViewController.xib; sourceTree = "<group>"; };
 		C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9906A2F1812522100BAEF53 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C9906A351812522100BAEF53 /* AuthenticatorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AuthenticatorTests-Info.plist"; sourceTree = "<group>"; };
 		C9906A3B1812522100BAEF53 /* AuthenticatorTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AuthenticatorTests-Prefix.pch"; sourceTree = "<group>"; };
 		C999C691181344F40013C1C6 /* OTPToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPToken.h; sourceTree = "<group>"; };
@@ -117,7 +100,6 @@
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenCell.h; sourceTree = "<group>"; };
 		C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenCell.m; sourceTree = "<group>"; };
-		C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenPersistenceTests.m; sourceTree = "<group>"; };
 		C9C6CCA11842E331000100C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9C6CCA318430493000100C2 /* NSData+Base32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base32.h"; sourceTree = "<group>"; };
@@ -135,13 +117,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B2B86FE118B8FA000437315 /* UIKit.framework in Frameworks */,
-				8B2B8728118B900E00437315 /* CoreFoundation.framework in Frameworks */,
-				8B2B8755118B902200437315 /* CoreGraphics.framework in Frameworks */,
-				8B2B8777118B903000437315 /* Foundation.framework in Frameworks */,
-				8B3F0F5A122F2003009A6409 /* AVFoundation.framework in Frameworks */,
-				8BBC772113BA945D006B3033 /* Security.framework in Frameworks */,
-				C9ABDAD217DD5A2B00A86AB5 /* MobileCoreServices.framework in Frameworks */,
 				43B5E4365C6C4081AEF41717 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -150,9 +125,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9906A301812522100BAEF53 /* XCTest.framework in Frameworks */,
-				C9906A321812522100BAEF53 /* UIKit.framework in Frameworks */,
-				C9906A311812522100BAEF53 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,15 +189,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B3F0F59122F2003009A6409 /* AVFoundation.framework */,
-				8B2B877C118B904000437315 /* Security.framework */,
-				8B2B8776118B903000437315 /* Foundation.framework */,
-				8B2B8754118B902200437315 /* CoreGraphics.framework */,
-				8B2B8727118B900E00437315 /* CoreFoundation.framework */,
-				8B2B86FD118B8FA000437315 /* UIKit.framework */,
-				C9ABDAD117DD5A2B00A86AB5 /* MobileCoreServices.framework */,
 				9B03839CF35E4014987A36CA /* libPods.a */,
-				C9906A2F1812522100BAEF53 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -569,6 +533,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -592,6 +557,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
