@@ -94,7 +94,6 @@
 		C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTPTokenEntryViewController.xib; sourceTree = "<group>"; };
 		C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9906A351812522100BAEF53 /* AuthenticatorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AuthenticatorTests-Info.plist"; sourceTree = "<group>"; };
-		C9906A3B1812522100BAEF53 /* AuthenticatorTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AuthenticatorTests-Prefix.pch"; sourceTree = "<group>"; };
 		C999C691181344F40013C1C6 /* OTPToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPToken.h; sourceTree = "<group>"; };
 		C999C692181344F40013C1C6 /* OTPToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPToken.m; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
@@ -312,7 +311,6 @@
 			isa = PBXGroup;
 			children = (
 				C9906A351812522100BAEF53 /* AuthenticatorTests-Info.plist */,
-				C9906A3B1812522100BAEF53 /* AuthenticatorTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -581,7 +579,6 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
-				GCC_PREFIX_HEADER = "AuthenticatorTests/AuthenticatorTests-Prefix.pch";
 				INFOPLIST_FILE = "AuthenticatorTests/AuthenticatorTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -604,7 +601,6 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
-				GCC_PREFIX_HEADER = "AuthenticatorTests/AuthenticatorTests-Prefix.pch";
 				INFOPLIST_FILE = "AuthenticatorTests/AuthenticatorTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
