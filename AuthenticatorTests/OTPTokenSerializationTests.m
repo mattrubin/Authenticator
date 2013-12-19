@@ -339,6 +339,49 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     }
 }
 
+- (void)testTokenWithIssuer
+{
+    OTPToken *simpleToken = [OTPToken tokenWithURL:[NSURL URLWithString:@"otpauth://totp/name?secret=A&issuer=issuer"]];
+    XCTAssertNotNil(simpleToken);
+    XCTAssertEqualObjects(simpleToken.name, @"name");
+    XCTAssertEqualObjects(simpleToken.issuer, @"issuer");
+
+
+    NSArray *urlStrings = @[@"otpauth://totp/issuer:name?secret=A",
+                            @"otpauth://totp/issuer:%20name?secret=A",
+                            @"otpauth://totp/issuer:%20%20%20name?secret=A",
+                            @"otpauth://totp/issuer%3Aname?secret=A",
+                            @"otpauth://totp/issuer%3A%20name?secret=A",
+                            @"otpauth://totp/issuer%3A%20%20%20name?secret=A",
+                            ];
+    for (NSString *urlString in urlStrings) {
+        // If there is no issuer argument, extract the issuer from the name
+        OTPToken *token = [OTPToken tokenWithURL:[NSURL URLWithString:urlString]];
+
+        XCTAssertNotNil(token, @"<%@> did not create a valid token.", urlString);
+        XCTAssertEqualObjects(token.name, @"name");
+        XCTAssertEqualObjects(token.issuer, @"issuer");
+
+        // If there is an issuer argument which matches the one in the name, trim the name
+        OTPToken *token2 = [OTPToken tokenWithURL:[NSURL URLWithString:[urlString stringByAppendingString:@"&issuer=issuer"]]];
+
+        XCTAssertNotNil(token2, @"<%@> did not create a valid token.", urlString);
+        XCTAssertEqualObjects(token2.name, @"name");
+        XCTAssertEqualObjects(token2.issuer, @"issuer");
+
+        // If there is an issuer argument different from the name prefix,
+        // trust the argument and leave the name as it is
+        OTPToken *token3 = [OTPToken tokenWithURL:[NSURL URLWithString:[urlString stringByAppendingString:@"&issuer=test"]]];
+
+        XCTAssertNotNil(token3, @"<%@> did not create a valid token.", urlString);
+        XCTAssertNotEqualObjects(token3.name, @"name");
+        XCTAssertTrue([token3.name rangeOfString:@"issuer"].location == 0, @"The name should begin with \"issuer\"");
+        XCTAssertTrue([token3.name rangeOfString:@"name"].location == token3.name.length-4, @"The name should end with \"name\"");
+        XCTAssertEqualObjects(token3.issuer, @"test");
+    }
+}
+
+
 #pragma mark Serialization
 
 - (void)testTOTPURL

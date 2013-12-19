@@ -34,6 +34,7 @@ static NSString *const kQuerySecretKey = @"secret";
 static NSString *const kQueryCounterKey = @"counter";
 static NSString *const kQueryDigitsKey = @"digits";
 static NSString *const kQueryPeriodKey = @"period";
+static NSString *const kQueryIssuerKey = @"issuer";
 
 
 @implementation OTPToken (Serialization)
@@ -80,6 +81,22 @@ static NSString *const kQueryPeriodKey = @"period";
 
     NSString *periodString = query[kQueryPeriodKey];
     token.period = periodString ? [periodString doubleValue] : [OTPToken defaultPeriod];
+
+    NSString *issuerString = query[kQueryIssuerKey];
+    // If the name is prefixed by the issuer string, trim the name
+    if (issuerString.length &&
+        [token.name rangeOfString:issuerString].location == 0 &&
+        [token.name characterAtIndex:issuerString.length] == ':') {
+        token.name = [[token.name substringFromIndex:issuerString.length+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+    } else if (!issuerString.length) {
+        // If there is no issuer string, try to extract one from the name
+        NSRange colonRange = [token.name rangeOfString:@":"];
+        if (colonRange.location != NSNotFound) {
+            issuerString = [token.name substringToIndex:colonRange.location];
+            token.name = [[token.name substringFromIndex:colonRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+        }
+    }
+    token.issuer = issuerString;
 
     return token;
 }
