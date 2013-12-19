@@ -87,7 +87,7 @@
 
         [alert show];
     }
-    return !token; // TODO: check that this return value is correct
+    return !!token; // Return NO if the url was not a valid token
 }
 
 @end
