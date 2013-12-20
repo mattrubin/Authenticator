@@ -108,16 +108,18 @@
 {
     [super layoutSubviews];
 
-    CGRect frame = CGRectInset(self.contentView.bounds, 10, 5);
+    CGRect insetFrame = CGRectInset(self.contentView.bounds, 10, 5);
+
+    CGRect frame = insetFrame;
     frame.size.height = 20;
-    frame.size.width = self.issuerLabel.text.length ? [self.issuerLabel sizeThatFits:frame.size].width : 0;
+    frame.size.width = (self.issuerLabel.text.length || self.editing) ? [self.issuerLabel sizeThatFits:frame.size].width : 0;
     self.issuerLabel.frame = frame;
 
     frame.origin.x += frame.size.width;
-    frame.size.width = self.contentView.bounds.size.width - frame.origin.x - 10;
+    frame.size.width = CGRectGetMaxX(insetFrame) - frame.origin.x;
     self.nameLabel.frame = frame;
 
-    frame = CGRectInset(self.contentView.bounds, 10, 5);
+    frame = insetFrame;
     frame.origin.y += 20;
     frame.size.height -= 20;
     self.passwordLabel.frame = frame;
@@ -167,6 +169,9 @@
 
     self.nameLabel.enabled = editing;
     self.issuerLabel.enabled = self.nameLabel.enabled;
+
+    self.nameLabel.placeholder = editing ? @"Name" : nil;
+    self.issuerLabel.placeholder = editing ? @"Issuer" : nil;
 
     [UIView animateWithDuration:0.3 animations:^{
         self.nameLabel.textColor = editing ? [UIColor blackColor] : [UIColor otpBarColor];
