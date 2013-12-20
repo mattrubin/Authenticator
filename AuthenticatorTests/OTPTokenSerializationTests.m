@@ -35,6 +35,7 @@ static NSString * const kRandomKey = @"RANDOM";
 
 static NSArray *typeNumbers;
 static NSArray *names;
+static NSArray *issuers;
 static NSArray *secretStrings;
 static NSArray *algorithmNumbers;
 static NSArray *digitNumbers;
@@ -58,6 +59,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
     typeNumbers = @[@(OTPTokenTypeCounter), @(OTPTokenTypeTimer)];
     names = @[@"", @"Login", @"user123@website.com", @"Léon", @":/?#[]@!$&'()*+,;=%\"", [NSNull null]];
+    issuers = @[@"", @"Big Cörpøráçìôn", @":/?#[]@!$&'()*+,;=%\"", [NSNull null]];
     secretStrings = @[@"12345678901234567890", @"12345678901234567890123456789012",
                       @"1234567890123456789012345678901234567890123456789012345678901234", @""];
     algorithmNumbers = @[@(OTPAlgorithmSHA1), @(OTPAlgorithmSHA256), @(OTPAlgorithmSHA512)];
@@ -72,6 +74,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 {
     for (NSNumber *typeNumber in typeNumbers) {
         for (NSString *name in names) {
+        for (NSString *issuer in issuers) {
             for (NSString *secretString in secretStrings) {
                 for (NSNumber *algorithmNumber in algorithmNumbers) {
                     for (NSNumber *digitNumber in digitNumbers) {
@@ -84,13 +87,15 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 query[@"secret"] = [[[secretString dataUsingEncoding:NSASCIIStringEncoding] base32String] stringByReplacingOccurrencesOfString:@"=" withString:@""];
                                 query[@"period"] = [periodNumber isEqual:kRandomKey] ? @(arc4random()%299 + 1) : periodNumber;
                                 query[@"counter"] = [counterNumber isEqual:kRandomKey] ? @(arc4random() + ((uint64_t)arc4random() << 32)) : counterNumber;
+                                if (![issuer isEqual:[NSNull null]])
+                                    query[@"issuer"] = issuer;
 
                                 NSURLComponents *urlComponents = [NSURLComponents new];
                                 urlComponents.scheme = kOTPScheme;
                                 urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedIntegerValue]];
                                 if (![name isEqual:[NSNull null]])
                                     urlComponents.path = [@"/" stringByAppendingString:name];
-                                urlComponents.query = [query queryString];
+                                urlComponents.percentEncodedQuery = [query queryString];
 
                                 // Create the token
                                 OTPToken *token = [OTPToken tokenWithURL:[urlComponents URL]];
@@ -99,6 +104,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 if (token) {
                                     XCTAssertEqual(token.type, [typeNumber unsignedIntegerValue], @"Incorrect token type");
                                     XCTAssertEqualObjects(token.name, ([name isEqual:[NSNull null]] || [name isEqualToString:@""]) ? nil : name, @"Incorrect token name");
+                                    XCTAssertEqualObjects(token.issuer, ([issuer isEqual:[NSNull null]] ? nil : issuer), @"Incorrect token issuer");
                                     XCTAssertEqualObjects(token.secret, [secretString dataUsingEncoding:NSASCIIStringEncoding], @"Incorrect token secret");
                                     XCTAssertEqual(token.algorithm, [algorithmNumber unsignedIntValue], @"Incorrect token algorithm");
                                     XCTAssertEqual(token.digits, [digitNumber unsignedIntegerValue], @"Incorrect token digits");
@@ -109,6 +115,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     OTPToken *invalidToken = [OTPToken new];
                                     invalidToken.type = [typeNumber unsignedIntegerValue];
                                     invalidToken.name = name;
+                                    invalidToken.issuer = issuer;
                                     invalidToken.secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
                                     invalidToken.algorithm = [algorithmNumber unsignedIntValue];
                                     invalidToken.digits = [digitNumber unsignedIntegerValue];
@@ -123,6 +130,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                 }
             }
         }
+        }
     }
 }
 
@@ -130,6 +138,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 {
     for (NSNumber *typeNumber in typeNumbers) {
         for (NSString *name in names) {
+        for (NSString *issuer in issuers) {
             for (NSString *secretString in secretStrings) {
                 for (NSNumber *algorithmNumber in algorithmNumbers) {
                     for (NSNumber *digitNumber in digitNumbers) {
@@ -143,13 +152,15 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     query[@"secret"] = [[[secretString dataUsingEncoding:NSASCIIStringEncoding] base32String] stringByReplacingOccurrencesOfString:@"=" withString:@""];
                                     query[@"period"] = [periodNumber isEqual:kRandomKey] ? @(arc4random()%299 + 1) : periodNumber;
                                     query[@"counter"] = [counterNumber isEqual:kRandomKey] ? @(arc4random() + ((uint64_t)arc4random() << 32)) : counterNumber;
+                                    if (![issuer isEqual:[NSNull null]])
+                                        query[@"issuer"] = issuer;
 
                                     NSURLComponents *urlComponents = [NSURLComponents new];
                                     urlComponents.scheme = kOTPScheme;
                                     urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedIntegerValue]];
                                     if (![name isEqual:[NSNull null]])
                                         urlComponents.path = [@"/" stringByAppendingString:name];
-                                    urlComponents.query = [query queryString];
+                                    urlComponents.percentEncodedQuery = [query queryString];
 
                                     // Create the token
                                     NSData *secret = [secondSecretString dataUsingEncoding:NSASCIIStringEncoding];
@@ -159,6 +170,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     if (token) {
                                         XCTAssertEqual(token.type, [typeNumber unsignedIntegerValue], @"Incorrect token type");
                                         XCTAssertEqualObjects(token.name, ([name isEqual:[NSNull null]] || [name isEqualToString:@""]) ? nil : name, @"Incorrect token name");
+                                        XCTAssertEqualObjects(token.issuer, ([issuer isEqual:[NSNull null]] ? nil : issuer), @"Incorrect token issuer");
                                         XCTAssertEqualObjects(token.secret, secret, @"Incorrect token secret");
                                         XCTAssertEqual(token.algorithm, [algorithmNumber unsignedIntValue], @"Incorrect token algorithm");
                                         XCTAssertEqual(token.digits, [digitNumber unsignedIntegerValue], @"Incorrect token digits");
@@ -169,6 +181,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         OTPToken *invalidToken = [OTPToken new];
                                         invalidToken.type = [typeNumber unsignedIntegerValue];
                                         invalidToken.name = name;
+                                        invalidToken.issuer = issuer;
                                         invalidToken.secret = secret;
                                         invalidToken.algorithm = [algorithmNumber unsignedIntValue];
                                         invalidToken.digits = [digitNumber unsignedIntegerValue];
@@ -184,6 +197,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                 }
             }
         }
+        }
     }
 }
 
@@ -191,6 +205,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 {
     for (NSNumber *typeNumber in typeNumbers) {
         for (NSString *nameValue in names) {
+        for (NSString *issuerValue in issuers) {
             for (NSString *secretString in secretStrings) {
                 for (NSNumber *algorithmNumber in algorithmNumbers) {
                     for (NSNumber *digitNumber in digitNumbers) {
@@ -218,6 +233,13 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     name = nameValue;
                                 }
 
+                                NSString *issuer;
+                                if ([issuerValue isEqual:[NSNull null]]) {
+                                    issuer = nil;
+                                } else {
+                                    issuer = issuerValue;
+                                }
+
                                 // Create the token
                                 OTPToken *token = [OTPToken new];
                                 token.type = [typeNumber unsignedIntegerValue];
@@ -227,6 +249,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 token.digits = [digitNumber unsignedIntegerValue];
                                 token.period = period;
                                 token.counter = counter;
+                                token.issuer = issuer;
 
                                 // Serialize
                                 NSURL *url = token.url;
@@ -276,7 +299,11 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     XCTAssertNil(queryArguments[@"counter"], @"The url query string should not contain the counter");
                                 }
 
-                                XCTAssertEqual(queryArguments.count, (NSUInteger)3, @"There shouldn't be any unexpected query arguments");
+                                // Test issuer
+                                XCTAssertEqualObjects(queryArguments[@"issuer"], issuer,
+                                                      @"The issuer value should be \"%@\"", issuer);
+
+                                XCTAssertEqual(queryArguments.count, (NSUInteger)(issuer ? 4 : 3), @"There shouldn't be any unexpected query arguments");
 
                                 // Check url again
                                 NSURL *checkURL = token.url;
@@ -286,6 +313,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                     }
                 }
             }
+        }
         }
     }
 }
@@ -338,6 +366,49 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
         XCTAssertNil(token, @"Invalid url (%@) generated %@", badURL, token);
     }
 }
+
+- (void)testTokenWithIssuer
+{
+    OTPToken *simpleToken = [OTPToken tokenWithURL:[NSURL URLWithString:@"otpauth://totp/name?secret=A&issuer=issuer"]];
+    XCTAssertNotNil(simpleToken);
+    XCTAssertEqualObjects(simpleToken.name, @"name");
+    XCTAssertEqualObjects(simpleToken.issuer, @"issuer");
+
+
+    NSArray *urlStrings = @[@"otpauth://totp/issu%C3%A9r%20!:name?secret=A",
+                            @"otpauth://totp/issu%C3%A9r%20!:%20name?secret=A",
+                            @"otpauth://totp/issu%C3%A9r%20!:%20%20%20name?secret=A",
+                            @"otpauth://totp/issu%C3%A9r%20!%3Aname?secret=A",
+                            @"otpauth://totp/issu%C3%A9r%20!%3A%20name?secret=A",
+                            @"otpauth://totp/issu%C3%A9r%20!%3A%20%20%20name?secret=A",
+                            ];
+    for (NSString *urlString in urlStrings) {
+        // If there is no issuer argument, extract the issuer from the name
+        OTPToken *token = [OTPToken tokenWithURL:[NSURL URLWithString:urlString]];
+
+        XCTAssertNotNil(token, @"<%@> did not create a valid token.", urlString);
+        XCTAssertEqualObjects(token.name, @"name");
+        XCTAssertEqualObjects(token.issuer, @"issuér !");
+
+        // If there is an issuer argument which matches the one in the name, trim the name
+        OTPToken *token2 = [OTPToken tokenWithURL:[NSURL URLWithString:[urlString stringByAppendingString:@"&issuer=issu%C3%A9r%20!"]]];
+
+        XCTAssertNotNil(token2, @"<%@> did not create a valid token.", urlString);
+        XCTAssertEqualObjects(token2.name, @"name");
+        XCTAssertEqualObjects(token2.issuer, @"issuér !");
+
+        // If there is an issuer argument different from the name prefix,
+        // trust the argument and leave the name as it is
+        OTPToken *token3 = [OTPToken tokenWithURL:[NSURL URLWithString:[urlString stringByAppendingString:@"&issuer=test"]]];
+
+        XCTAssertNotNil(token3, @"<%@> did not create a valid token.", urlString);
+        XCTAssertNotEqualObjects(token3.name, @"name");
+        XCTAssertTrue([token3.name rangeOfString:@"issuér !"].location == 0, @"The name should begin with \"issuér !\"");
+        XCTAssertTrue([token3.name rangeOfString:@"name"].location == token3.name.length-4, @"The name should end with \"name\"");
+        XCTAssertEqualObjects(token3.issuer, @"test");
+    }
+}
+
 
 #pragma mark Serialization
 

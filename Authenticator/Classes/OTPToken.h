@@ -31,6 +31,7 @@
 + (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name;
 
 @property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *issuer;
 @property (nonatomic) OTPTokenType type;
 @property (nonatomic, copy) NSData *secret;
 @property (nonatomic) OTPAlgorithm algorithm;

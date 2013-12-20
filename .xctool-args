@@ -1,0 +1,5 @@
+[
+  "-workspace", "Authenticator.xcworkspace",
+  "-scheme", "Authenticator",
+  "-sdk", "iphonesimulator",
+]

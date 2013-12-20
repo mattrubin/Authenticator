@@ -31,6 +31,7 @@
 @interface OTPTokenCell () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UITextField *nameLabel;
+@property (nonatomic, strong) UITextField *issuerLabel;
 @property (nonatomic, strong) UILabel *passwordLabel;
 @property (nonatomic, strong) UIButton *nextPasswordButton;
 
@@ -80,20 +81,18 @@
     self.nameLabel.delegate = self;
     self.nameLabel.enabled = NO;
 
+    self.issuerLabel = [UITextField new];
+    self.issuerLabel.font = [UIFont boldSystemFontOfSize:15];
+    self.issuerLabel.returnKeyType = UIReturnKeyNext;
+    self.issuerLabel.delegate = self;
+    self.issuerLabel.enabled = NO;
+
     self.passwordLabel = [UILabel new];
     self.passwordLabel.font = [UIFont systemFontOfSize:50];
 
     [self.contentView addSubview:self.nameLabel];
+    [self.contentView addSubview:self.issuerLabel];
     [self.contentView addSubview:self.passwordLabel];
-
-    CGRect frame = CGRectInset(self.contentView.bounds, 10, 5);
-    frame.size.height = 20;
-    self.nameLabel.frame = frame;
-    frame.origin.y += frame.size.height;
-    self.passwordLabel.frame = frame;
-
-    self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.passwordLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
     self.nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
     [self.nextPasswordButton addTarget:self action:@selector(generateNextPassword) forControlEvents:UIControlEventTouchUpInside];
@@ -103,6 +102,27 @@
 - (void)generateNextPassword
 {
     [self.token updatePassword];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    CGRect insetFrame = CGRectInset(self.contentView.bounds, 10, 5);
+
+    CGRect frame = insetFrame;
+    frame.size.height = 20;
+    frame.size.width = (self.issuerLabel.text.length || self.editing) ? [self.issuerLabel sizeThatFits:frame.size].width : 0;
+    self.issuerLabel.frame = frame;
+
+    frame.origin.x += frame.size.width;
+    frame.size.width = CGRectGetMaxX(insetFrame) - frame.origin.x;
+    self.nameLabel.frame = frame;
+
+    frame = insetFrame;
+    frame.origin.y += 20;
+    frame.size.height -= 20;
+    self.passwordLabel.frame = frame;
 }
 
 
@@ -135,6 +155,7 @@
 - (void)refresh
 {
     self.nameLabel.text = self.token.name;
+    self.issuerLabel.text = self.token.issuer;
     self.passwordLabel.text = self.token.password;
     self.nextPasswordButton.hidden = self.token.type != OTPTokenTypeCounter;
 }
@@ -147,26 +168,43 @@
     [super setEditing:editing animated:animated];
 
     self.nameLabel.enabled = editing;
+    self.issuerLabel.enabled = self.nameLabel.enabled;
+
+    self.nameLabel.placeholder = editing ? @"Name" : nil;
+    self.issuerLabel.placeholder = editing ? @"Issuer" : nil;
 
     [UIView animateWithDuration:0.3 animations:^{
         self.nameLabel.textColor = editing ? [UIColor blackColor] : [UIColor otpBarColor];
+        self.issuerLabel.textColor = self.nameLabel.textColor;
         self.passwordLabel.alpha = !editing ? 1 : 0.2;
     }];
 
     if (!editing) {
         [self.nameLabel resignFirstResponder];
+        [self.issuerLabel resignFirstResponder];
 
-        if (![self.token.name isEqualToString:self.nameLabel.text]) {
-            self.token.name = self.nameLabel.text;
-            [self.token saveToKeychain];
-        }
+        [self commitChanges];
+    }
+}
+
+- (void)commitChanges
+{
+    if (![self.token.name isEqualToString:self.nameLabel.text] ||
+        ![self.token.issuer isEqualToString:self.issuerLabel.text]) {
+        self.token.name = self.nameLabel.text;
+        self.token.issuer = self.issuerLabel.text;
+        [self.token saveToKeychain];
     }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
-    return YES;
+    if (textField == self.issuerLabel) {
+        [self.nameLabel becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder];
+    }
+    return NO;
 }
 
 @end

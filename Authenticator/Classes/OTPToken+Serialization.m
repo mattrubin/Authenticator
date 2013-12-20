@@ -34,6 +34,7 @@ static NSString *const kQuerySecretKey = @"secret";
 static NSString *const kQueryCounterKey = @"counter";
 static NSString *const kQueryDigitsKey = @"digits";
 static NSString *const kQueryPeriodKey = @"period";
+static NSString *const kQueryIssuerKey = @"issuer";
 
 
 @implementation OTPToken (Serialization)
@@ -81,6 +82,23 @@ static NSString *const kQueryPeriodKey = @"period";
     NSString *periodString = query[kQueryPeriodKey];
     token.period = periodString ? [periodString doubleValue] : [OTPToken defaultPeriod];
 
+    NSString *issuerString = query[kQueryIssuerKey];
+    // If the name is prefixed by the issuer string, trim the name
+    if (issuerString.length &&
+        token.name.length > issuerString.length &&
+        [token.name rangeOfString:issuerString].location == 0 &&
+        [token.name characterAtIndex:issuerString.length] == ':') {
+        token.name = [[token.name substringFromIndex:issuerString.length+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+    } else if (!issuerString.length && token.name.length) {
+        // If there is no issuer string, try to extract one from the name
+        NSRange colonRange = [token.name rangeOfString:@":"];
+        if (colonRange.location != NSNotFound && colonRange.location > 0) {
+            issuerString = [token.name substringToIndex:colonRange.location];
+            token.name = [[token.name substringFromIndex:colonRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+        }
+    }
+    token.issuer = issuerString;
+
     return token;
 }
 
@@ -97,12 +115,15 @@ static NSString *const kQueryPeriodKey = @"period";
         query[kQueryCounterKey] = @(self.counter);
     }
 
+    if (self.issuer)
+        query[kQueryIssuerKey] = self.issuer;
+
     NSURLComponents *urlComponents = [NSURLComponents new];
     urlComponents.scheme = kOTPAuthScheme;
     urlComponents.host = [NSString stringForTokenType:self.type];
     if (self.name)
         urlComponents.path = [@"/" stringByAppendingString:self.name];
-    urlComponents.query = [query queryString];
+    urlComponents.percentEncodedQuery = [query queryString];
 
     return urlComponents.URL;
 }
