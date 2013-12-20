@@ -85,13 +85,14 @@ static NSString *const kQueryIssuerKey = @"issuer";
     NSString *issuerString = query[kQueryIssuerKey];
     // If the name is prefixed by the issuer string, trim the name
     if (issuerString.length &&
+        token.name.length > issuerString.length &&
         [token.name rangeOfString:issuerString].location == 0 &&
         [token.name characterAtIndex:issuerString.length] == ':') {
         token.name = [[token.name substringFromIndex:issuerString.length+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
-    } else if (!issuerString.length) {
+    } else if (!issuerString.length && token.name.length) {
         // If there is no issuer string, try to extract one from the name
         NSRange colonRange = [token.name rangeOfString:@":"];
-        if (colonRange.location != NSNotFound) {
+        if (colonRange.location != NSNotFound && colonRange.location > 0) {
             issuerString = [token.name substringToIndex:colonRange.location];
             token.name = [[token.name substringFromIndex:colonRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
         }
