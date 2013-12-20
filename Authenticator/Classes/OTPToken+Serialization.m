@@ -114,12 +114,15 @@ static NSString *const kQueryIssuerKey = @"issuer";
         query[kQueryCounterKey] = @(self.counter);
     }
 
+    if (self.issuer)
+        query[kQueryIssuerKey] = self.issuer;
+
     NSURLComponents *urlComponents = [NSURLComponents new];
     urlComponents.scheme = kOTPAuthScheme;
     urlComponents.host = [NSString stringForTokenType:self.type];
     if (self.name)
         urlComponents.path = [@"/" stringByAppendingString:self.name];
-    urlComponents.query = [query queryString];
+    urlComponents.percentEncodedQuery = [query queryString];
 
     return urlComponents.URL;
 }
