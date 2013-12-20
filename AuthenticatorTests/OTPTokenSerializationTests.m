@@ -144,12 +144,11 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                     for (NSNumber *digitNumber in digitNumbers) {
                         for (NSNumber *periodNumber in periodNumbers) {
                             for (NSNumber *counterNumber in counterNumbers) {
-                                for (NSString *secondSecretString in secretStrings) {
                                     // Construct the URL
                                     NSMutableDictionary *query = [NSMutableDictionary dictionary];
                                     query[@"algorithm"] = [NSString stringForAlgorithm:[algorithmNumber unsignedIntValue]];
                                     query[@"digits"] = digitNumber;
-                                    query[@"secret"] = [[[secretString dataUsingEncoding:NSASCIIStringEncoding] base32String] stringByReplacingOccurrencesOfString:@"=" withString:@""];
+                                    query[@"secret"] = @"A";
                                     query[@"period"] = [periodNumber isEqual:kRandomKey] ? @(arc4random()%299 + 1) : periodNumber;
                                     query[@"counter"] = [counterNumber isEqual:kRandomKey] ? @(arc4random() + ((uint64_t)arc4random() << 32)) : counterNumber;
                                     if (![issuer isEqual:[NSNull null]])
@@ -163,7 +162,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     urlComponents.percentEncodedQuery = [query queryString];
 
                                     // Create the token
-                                    NSData *secret = [secondSecretString dataUsingEncoding:NSASCIIStringEncoding];
+                                    NSData *secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
                                     OTPToken *token = [OTPToken tokenWithURL:[urlComponents URL] secret:secret];
 
                                     // Note: [OTPToken tokenWithURL:] will return nil if the token described by the URL is invalid.
@@ -196,7 +195,6 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                     }
                 }
             }
-        }
         }
     }
 }
