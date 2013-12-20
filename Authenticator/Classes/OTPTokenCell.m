@@ -154,8 +154,10 @@
 
 - (void)refresh
 {
-    self.nameLabel.text = self.token.name;
-    self.issuerLabel.text = self.token.issuer;
+    if (!self.editing) {
+        self.nameLabel.text = self.token.name;
+        self.issuerLabel.text = self.token.issuer;
+    }
     self.passwordLabel.text = self.token.password;
     self.nextPasswordButton.hidden = self.token.type != OTPTokenTypeCounter;
 }
