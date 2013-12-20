@@ -347,12 +347,12 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     XCTAssertEqualObjects(simpleToken.issuer, @"issuer");
 
 
-    NSArray *urlStrings = @[@"otpauth://totp/issuer:name?secret=A",
-                            @"otpauth://totp/issuer:%20name?secret=A",
-                            @"otpauth://totp/issuer:%20%20%20name?secret=A",
-                            @"otpauth://totp/issuer%3Aname?secret=A",
-                            @"otpauth://totp/issuer%3A%20name?secret=A",
-                            @"otpauth://totp/issuer%3A%20%20%20name?secret=A",
+    NSArray *urlStrings = @[@"otpauth://totp/issu%C3%A9r%20!:name?secret=A",
+                            @"otpauth://totp/issu%C3%A9r%20!:%20name?secret=A",
+                            @"otpauth://totp/issu%C3%A9r%20!:%20%20%20name?secret=A",
+                            @"otpauth://totp/issu%C3%A9r%20!%3Aname?secret=A",
+                            @"otpauth://totp/issu%C3%A9r%20!%3A%20name?secret=A",
+                            @"otpauth://totp/issu%C3%A9r%20!%3A%20%20%20name?secret=A",
                             ];
     for (NSString *urlString in urlStrings) {
         // If there is no issuer argument, extract the issuer from the name
@@ -360,14 +360,14 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
         XCTAssertNotNil(token, @"<%@> did not create a valid token.", urlString);
         XCTAssertEqualObjects(token.name, @"name");
-        XCTAssertEqualObjects(token.issuer, @"issuer");
+        XCTAssertEqualObjects(token.issuer, @"issuér !");
 
         // If there is an issuer argument which matches the one in the name, trim the name
-        OTPToken *token2 = [OTPToken tokenWithURL:[NSURL URLWithString:[urlString stringByAppendingString:@"&issuer=issuer"]]];
+        OTPToken *token2 = [OTPToken tokenWithURL:[NSURL URLWithString:[urlString stringByAppendingString:@"&issuer=issu%C3%A9r%20!"]]];
 
         XCTAssertNotNil(token2, @"<%@> did not create a valid token.", urlString);
         XCTAssertEqualObjects(token2.name, @"name");
-        XCTAssertEqualObjects(token2.issuer, @"issuer");
+        XCTAssertEqualObjects(token2.issuer, @"issuér !");
 
         // If there is an issuer argument different from the name prefix,
         // trust the argument and leave the name as it is
@@ -375,7 +375,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
         XCTAssertNotNil(token3, @"<%@> did not create a valid token.", urlString);
         XCTAssertNotEqualObjects(token3.name, @"name");
-        XCTAssertTrue([token3.name rangeOfString:@"issuer"].location == 0, @"The name should begin with \"issuer\"");
+        XCTAssertTrue([token3.name rangeOfString:@"issuér !"].location == 0, @"The name should begin with \"issuér !\"");
         XCTAssertTrue([token3.name rangeOfString:@"name"].location == token3.name.length-4, @"The name should end with \"name\"");
         XCTAssertEqualObjects(token3.issuer, @"test");
     }
