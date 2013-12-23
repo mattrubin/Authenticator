@@ -23,26 +23,13 @@
 //
 
 #import "UIColor+OTP.h"
-
-
-#define STATIC_COLOR(NAME, OBJECT) + (instancetype)NAME {\
-    static UIColor *_NAME;\
-    static dispatch_once_t onceToken;\
-    dispatch_once(&onceToken, ^{\
-        _NAME = OBJECT;\
-    });\
-    return _NAME;\
-}\
-
-#define STATIC_RGB(NAME, RED, GREEN, BLUE) STATIC_COLOR(NAME,\
-[UIColor colorWithRed:(RED)/255.f green:(GREEN)/255.f blue:(BLUE)/255.f alpha:1.0])
-
+#import <UIColor+Categories/UIColor+Categories.h>
 
 
 @implementation UIColor (OTP)
 
-STATIC_RGB(otpBarColor, 28, 139, 215)
-STATIC_RGB(otpBackgroundColor, 250, 253, 255)
-STATIC_RGB(otpCellTextColor, 30, 60, 90)
+COLOR(otpBarColor,        [UIColor colorWithIntegerRed:28  green:139 blue:215])
+COLOR(otpBackgroundColor, [UIColor colorWithIntegerRed:250 green:253 blue:255])
+COLOR(otpCellTextColor,   [UIColor colorWithIntegerRed:30  green:60  blue:90 ])
 
 @end

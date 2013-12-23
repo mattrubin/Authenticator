@@ -2,19 +2,24 @@ PODS:
   - Base32 (1.0.1)
   - MRX (0.0.1)
   - SVProgressHUD (1.0)
+  - UIColor+Categories (0.2)
 
 DEPENDENCIES:
   - Base32 (~> 1.0.1)
   - MRX (from `https://github.com/mattrubin/MRX.git`)
   - SVProgressHUD (~> 1.0)
+  - UIColor+Categories (from `https://github.com/mattrubin/UIColor-Categories.git`)
 
 EXTERNAL SOURCES:
   MRX:
     :git: https://github.com/mattrubin/MRX.git
+  UIColor+Categories:
+    :git: https://github.com/mattrubin/UIColor-Categories.git
 
 SPEC CHECKSUMS:
   Base32: ccb38da4a8cdc41e8d4d7fe7af21dc01ef83fe52
   MRX: e6a1bbf7c2f2b1349d039f2da0aa8da71fb08d9a
   SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
+  UIColor+Categories: 4594b0b16f3116d8f63a10e23004d5c9a076d730
 
 COCOAPODS: 0.28.0
