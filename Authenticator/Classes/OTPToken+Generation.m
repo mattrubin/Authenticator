@@ -65,7 +65,8 @@ static NSUInteger kPinModTable[] = {
 {
     if (self.type == OTPTokenTypeCounter) {
         self.counter++;
-        [self saveToKeychain];
+        if (self.isInKeychain)
+            [self saveToKeychain];
     } else if (self.type == OTPTokenTypeTimer) {
         self.counter = ([NSDate date].timeIntervalSince1970 / self.period);
     }
