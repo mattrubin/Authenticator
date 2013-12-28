@@ -23,11 +23,7 @@
 //
 
 #import "NSData+Base32.h"
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wauto-import"
 #import <Base32/MF_Base32Additions.h>
-#pragma clang diagnostic pop
 
 
 @implementation NSData (Base32)
