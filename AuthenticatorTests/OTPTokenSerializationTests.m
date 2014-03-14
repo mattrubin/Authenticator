@@ -108,7 +108,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     XCTAssertEqualObjects(token.secret, [secretString dataUsingEncoding:NSASCIIStringEncoding], @"Incorrect token secret");
                                     XCTAssertEqual(token.algorithm, [algorithmNumber unsignedIntValue], @"Incorrect token algorithm");
                                     XCTAssertEqual(token.digits, [digitNumber unsignedIntegerValue], @"Incorrect token digits");
-                                    XCTAssertEqual(token.period, [query[@"period"] doubleValue], @"Incorrect token period");
+                                    XCTAssertTrue(ABS(token.period - [query[@"period"] doubleValue]) < DBL_EPSILON, @"Incorrect token period");
                                     XCTAssertEqual(token.counter, [query[@"counter"] unsignedLongLongValue], @"Incorrect token counter");
                                 } else {
                                     // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
@@ -173,7 +173,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                         XCTAssertEqualObjects(token.secret, secret, @"Incorrect token secret");
                                         XCTAssertEqual(token.algorithm, [algorithmNumber unsignedIntValue], @"Incorrect token algorithm");
                                         XCTAssertEqual(token.digits, [digitNumber unsignedIntegerValue], @"Incorrect token digits");
-                                        XCTAssertEqual(token.period, [query[@"period"] doubleValue], @"Incorrect token period");
+                                        XCTAssertTrue(ABS(token.period - [query[@"period"] doubleValue]) < DBL_EPSILON, @"Incorrect token period");
                                         XCTAssertEqual(token.counter, [query[@"counter"] unsignedLongLongValue], @"Incorrect token counter");
                                     } else {
                                         // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
@@ -332,7 +332,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
     XCTAssertEqualObjects(token.secret, secret);
     XCTAssertEqual(token.type, OTPTokenTypeTimer);
     XCTAssertEqual(token.algorithm, OTPAlgorithmSHA256);
-    XCTAssertEqual(token.period, 45.0);
+    XCTAssertTrue(ABS(token.period - 45.0) < DBL_EPSILON);
     XCTAssertEqual(token.digits, 8U);
 }
 
