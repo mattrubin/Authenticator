@@ -102,7 +102,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
                                 // Note: [OTPToken tokenWithURL:] will return nil if the token described by the URL is invalid.
                                 if (token) {
-                                    XCTAssertEqual(token.type, [typeNumber unsignedIntegerValue], @"Incorrect token type");
+                                    XCTAssertEqual(token.type, [typeNumber unsignedCharValue], @"Incorrect token type");
                                     XCTAssertEqualObjects(token.name, ([name isEqual:[NSNull null]] || [name isEqualToString:@""]) ? nil : name, @"Incorrect token name");
                                     XCTAssertEqualObjects(token.issuer, ([issuer isEqual:[NSNull null]] ? nil : issuer), @"Incorrect token issuer");
                                     XCTAssertEqualObjects(token.secret, [secretString dataUsingEncoding:NSASCIIStringEncoding], @"Incorrect token secret");
@@ -167,7 +167,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
                                     // Note: [OTPToken tokenWithURL:] will return nil if the token described by the URL is invalid.
                                     if (token) {
-                                        XCTAssertEqual(token.type, [typeNumber unsignedIntegerValue], @"Incorrect token type");
+                                        XCTAssertEqual(token.type, [typeNumber unsignedCharValue], @"Incorrect token type");
                                         XCTAssertEqualObjects(token.name, ([name isEqual:[NSNull null]] || [name isEqualToString:@""]) ? nil : name, @"Incorrect token name");
                                         XCTAssertEqualObjects(token.issuer, ([issuer isEqual:[NSNull null]] ? nil : issuer), @"Incorrect token issuer");
                                         XCTAssertEqualObjects(token.secret, secret, @"Incorrect token secret");
@@ -256,7 +256,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 XCTAssertEqualObjects(url.scheme, kOTPScheme,
                                                       @"The url scheme should be \"%@\"", kOTPScheme);
                                 // Test type
-                                NSString *expectedHost = [typeNumber unsignedIntegerValue] == OTPTokenTypeCounter ? kOTPTokenTypeCounterHost : kOTPTokenTypeTimerHost;
+                                NSString *expectedHost = [typeNumber unsignedCharValue] == OTPTokenTypeCounter ? kOTPTokenTypeCounterHost : kOTPTokenTypeTimerHost;
                                 XCTAssertEqualObjects(url.host, expectedHost,
                                                       @"The url host should be \"%@\"", expectedHost);
                                 // Test name
@@ -281,7 +281,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 XCTAssertNil(queryArguments[@"secret"], @"The url query string should not contain the secret");
 
                                 // Test period
-                                if ([typeNumber unsignedIntegerValue] == OTPTokenTypeTimer) {
+                                if ([typeNumber unsignedCharValue] == OTPTokenTypeTimer) {
                                     NSString *expectedPeriodString = [@(period) stringValue];
                                     XCTAssertEqualObjects(queryArguments[@"period"], expectedPeriodString,
                                                           @"The period value should be \"%@\"", expectedPeriodString);
@@ -289,7 +289,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     XCTAssertNil(queryArguments[@"period"], @"The url query string should not contain the period");
                                 }
                                 // Test counter
-                                if ([typeNumber unsignedIntegerValue] == OTPTokenTypeCounter) {
+                                if ([typeNumber unsignedCharValue] == OTPTokenTypeCounter) {
                                     NSString *expectedCounterString = [@(counter) stringValue];
                                     XCTAssertEqualObjects(queryArguments[@"counter"], expectedCounterString,
                                                           @"The counter value should be \"%@\"", expectedCounterString);
