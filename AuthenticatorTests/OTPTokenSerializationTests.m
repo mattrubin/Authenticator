@@ -92,7 +92,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
                                 NSURLComponents *urlComponents = [NSURLComponents new];
                                 urlComponents.scheme = kOTPScheme;
-                                urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedIntegerValue]];
+                                urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                 if (![name isEqual:[NSNull null]])
                                     urlComponents.path = [@"/" stringByAppendingString:name];
                                 urlComponents.percentEncodedQuery = [query queryString];
@@ -113,7 +113,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                 } else {
                                     // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
                                     OTPToken *invalidToken = [OTPToken new];
-                                    invalidToken.type = [typeNumber unsignedIntegerValue];
+                                    invalidToken.type = [typeNumber unsignedCharValue];
                                     invalidToken.name = name;
                                     invalidToken.issuer = issuer;
                                     invalidToken.secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
@@ -156,7 +156,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
                                     NSURLComponents *urlComponents = [NSURLComponents new];
                                     urlComponents.scheme = kOTPScheme;
-                                    urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedIntegerValue]];
+                                    urlComponents.host = [NSString stringForTokenType:[typeNumber unsignedCharValue]];
                                     if (![name isEqual:[NSNull null]])
                                         urlComponents.path = [@"/" stringByAppendingString:name];
                                     urlComponents.percentEncodedQuery = [query queryString];
@@ -178,7 +178,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
                                     } else {
                                         // If nil was returned from [OTPToken tokenWithURL:], create the same token manually and ensure it's invalid
                                         OTPToken *invalidToken = [OTPToken new];
-                                        invalidToken.type = [typeNumber unsignedIntegerValue];
+                                        invalidToken.type = [typeNumber unsignedCharValue];
                                         invalidToken.name = name;
                                         invalidToken.issuer = issuer;
                                         invalidToken.secret = secret;
@@ -240,7 +240,7 @@ static const unsigned char kValidSecret[] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05
 
                                 // Create the token
                                 OTPToken *token = [OTPToken new];
-                                token.type = [typeNumber unsignedIntegerValue];
+                                token.type = [typeNumber unsignedCharValue];
                                 token.name = name;
                                 token.secret = [secretString dataUsingEncoding:NSASCIIStringEncoding];
                                 token.algorithm = [algorithmNumber unsignedIntValue];
