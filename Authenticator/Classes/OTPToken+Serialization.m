@@ -25,7 +25,7 @@
 #import "OTPToken+Serialization.h"
 #import "NSString+PercentEncoding.h"
 #import "NSDictionary+QueryString.h"
-#import "NSData+Base32.h"
+#import <Base32/MF_Base32Additions.h>
 
 
 static NSString *const kOTPAuthScheme = @"otpauth";
@@ -71,7 +71,7 @@ static NSString *const kQueryIssuerKey = @"issuer";
     token.algorithm = algorithmString ? [algorithmString algorithmValue] : [OTPToken defaultAlgorithm];
 
     NSString *secretString = query[kQuerySecretKey];
-    token.secret = [NSData dataWithBase32EncodedString:secretString];
+    token.secret = [NSData dataWithBase32String:secretString];
 
     NSString *digitString = query[kQueryDigitsKey];
     token.digits = digitString ? (NSUInteger)[digitString integerValue] : [OTPToken defaultDigits];

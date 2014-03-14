@@ -25,7 +25,7 @@
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
 #import "OTPToken+Generation.h"
-#import "NSData+Base32.h"
+#import <Base32/MF_Base32Additions.h>
 
 
 @interface OTPTokenEntryViewController ()
@@ -80,7 +80,7 @@
         return;
     }
 
-    NSData *secret = [NSData dataWithBase32EncodedString:self.secretKeyField.text];
+    NSData *secret = [NSData dataWithBase32String:self.secretKeyField.text];
 
     if (secret.length) {
         OTPTokenType tokenType = (self.tokenTypeControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;

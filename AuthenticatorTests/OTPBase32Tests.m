@@ -23,7 +23,7 @@
 //
 
 @import XCTest;
-#import "NSData+Base32.h"
+#import <Base32/MF_Base32Additions.h>
 
 
 @interface OTPBase32Tests : XCTestCase
@@ -87,7 +87,7 @@
     for (NSString *plaintext in vectors) {
         NSString *ciphertext = vectors[plaintext];
 
-        NSString *decryptedCiphertext = [[NSString alloc] initWithData:[NSData dataWithBase32EncodedString:ciphertext] encoding:NSUTF8StringEncoding];
+        NSString *decryptedCiphertext = [[NSString alloc] initWithData:[NSData dataWithBase32String:ciphertext] encoding:NSUTF8StringEncoding];
         XCTAssertEqualObjects(decryptedCiphertext, plaintext, @"");
     }
 }

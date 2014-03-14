@@ -25,7 +25,7 @@
 @import XCTest;
 #import "OTPToken+Serialization.h"
 #import "NSDictionary+QueryString.h"
-#import "NSData+Base32.h"
+#import <Base32/MF_Base32Additions.h>
 
 
 static NSString * const kOTPScheme = @"otpauth";
