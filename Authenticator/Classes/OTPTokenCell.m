@@ -178,7 +178,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.nameLabel.textColor = editing ? [UIColor blackColor] : [UIColor otpBarColor];
         self.issuerLabel.textColor = self.nameLabel.textColor;
-        self.passwordLabel.alpha = !editing ? 1 : 0.2;
+        self.passwordLabel.alpha = !editing ? 1 : (CGFloat)0.2;
     }];
 
     if (!editing) {

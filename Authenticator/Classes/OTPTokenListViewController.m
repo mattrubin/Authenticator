@@ -101,7 +101,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OTPTokenCell *cell = [OTPTokenCell cellForTableView:tableView];
-    cell.token = self.tokenManager.tokens[indexPath.row];
+    cell.token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
     return cell;
 }
 

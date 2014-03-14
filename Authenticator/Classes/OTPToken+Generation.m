@@ -68,7 +68,7 @@ static NSUInteger kPinModTable[] = {
         if (self.isInKeychain)
             [self saveToKeychain];
     } else if (self.type == OTPTokenTypeTimer) {
-        self.counter = ([NSDate date].timeIntervalSince1970 / self.period);
+        self.counter = (uint64_t)([NSDate date].timeIntervalSince1970 / self.period);
     }
 }
 
@@ -92,15 +92,16 @@ static NSUInteger kPinModTable[] = {
 
     // Take 4 bytes from the hash, starting at the given offset
     const void *truncatedHashPtr = &ptr[offset];
-    unsigned long truncatedHash = *(unsigned long *)truncatedHashPtr;
+    unsigned int truncatedHash = *(unsigned int *)truncatedHashPtr;
+
     // Ensure the four bytes taken from the hash match the current endian format
-    truncatedHash = NSSwapBigLongToHost(truncatedHash);
+    truncatedHash = NSSwapBigIntToHost(truncatedHash);
     // Discard the most significant bit
     truncatedHash &= 0x7fffffff;
 
     unsigned long pinValue = truncatedHash % kPinModTable[self.digits];
 
-    return [NSString stringWithFormat:@"%0*ld", self.digits, pinValue];
+    return [NSString stringWithFormat:@"%0*ld", (int)self.digits, pinValue];
 }
 
 @end

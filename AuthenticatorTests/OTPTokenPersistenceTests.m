@@ -65,7 +65,7 @@ static NSURL *kValidTokenURL;
     XCTAssertEqual(token.type, OTPTokenTypeTimer);
     XCTAssertEqualObjects(token.name, @"Léon");
     XCTAssertEqual(token.algorithm, OTPAlgorithmSHA256);
-    XCTAssertEqual(token.period, 45.0);
+    XCTAssertTrue(ABS(token.period - 45.0) < DBL_EPSILON);
     XCTAssertEqual(token.digits, 8U);
 
     XCTAssertEqualObjects(token.secret, secret);
@@ -82,7 +82,7 @@ static NSURL *kValidTokenURL;
     XCTAssertEqual(token.type, OTPTokenTypeTimer);
     XCTAssertEqualObjects(token.name, @"Léon");
     XCTAssertEqual(token.algorithm, OTPAlgorithmSHA256);
-    XCTAssertEqual(token.period, 45.0);
+    XCTAssertTrue(ABS(token.period - 45.0) < DBL_EPSILON);
     XCTAssertEqual(token.digits, 8U);
 
     XCTAssertEqualObjects(token.secret, [NSData dataWithBytes:kValidSecret length:sizeof(kValidSecret)]);
@@ -104,7 +104,7 @@ static NSURL *kValidTokenURL;
     XCTAssertEqual(secondToken.type, OTPTokenTypeTimer);
     XCTAssertEqualObjects(secondToken.name, @"Léon");
     XCTAssertEqual(secondToken.algorithm, OTPAlgorithmSHA256);
-    XCTAssertEqual(secondToken.period, 45.0);
+    XCTAssertTrue(ABS(secondToken.period - 45.0) < DBL_EPSILON);
     XCTAssertEqual(secondToken.digits, 8U);
 
     XCTAssertEqualObjects(secondToken.secret, [NSData dataWithBytes:kValidSecret length:sizeof(kValidSecret)]);
