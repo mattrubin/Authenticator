@@ -45,7 +45,7 @@
     [[UIColor colorWithWhite:0 alpha:0.5f] setFill];
     [[UIColor colorWithWhite:1 alpha:0.2f] setStroke];
 
-    CGFloat smallestDimension = fminf(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    CGFloat smallestDimension = MIN(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
     CGFloat windowSize = 0.9f * smallestDimension;
     CGRect window = CGRectMake(CGRectGetMidX(rect) - windowSize/2,
                                CGRectGetMidY(rect) - windowSize/2,

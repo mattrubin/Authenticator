@@ -122,7 +122,7 @@
                          @"279037", @"428693", @"464532", // date3
                          ];
 
-    for (NSUInteger i = 0, j = 0; i < sizeof(intervals)/sizeof(*intervals); i++) {
+    for (unsigned int i = 0, j = 0; i < sizeof(intervals)/sizeof(*intervals); i++) {
         for (NSString *algorithmKey in algorithms) {
             OTPToken *token = [[OTPToken alloc] init];
             token.type = OTPTokenTypeTimer;
