@@ -74,7 +74,7 @@ static NSString *const kQueryIssuerKey = @"issuer";
     token.secret = [NSData dataWithBase32EncodedString:secretString];
 
     NSString *digitString = query[kQueryDigitsKey];
-    token.digits = digitString ? [digitString integerValue] : [OTPToken defaultDigits];
+    token.digits = digitString ? (NSUInteger)[digitString integerValue] : [OTPToken defaultDigits];
 
     NSString *counterString = query[kQueryCounterKey];
     token.counter = counterString ? strtoull([counterString UTF8String], NULL, 10) : [OTPToken defaultInitialCounter];

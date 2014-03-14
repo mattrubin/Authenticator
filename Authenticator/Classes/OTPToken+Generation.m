@@ -100,7 +100,7 @@ static NSUInteger kPinModTable[] = {
 
     unsigned long pinValue = truncatedHash % kPinModTable[self.digits];
 
-    return [NSString stringWithFormat:@"%0*ld", self.digits, pinValue];
+    return [NSString stringWithFormat:@"%0*ld", (int)self.digits, pinValue];
 }
 
 @end
