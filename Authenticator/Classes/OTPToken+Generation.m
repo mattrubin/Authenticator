@@ -92,9 +92,10 @@ static NSUInteger kPinModTable[] = {
 
     // Take 4 bytes from the hash, starting at the given offset
     const void *truncatedHashPtr = &ptr[offset];
-    unsigned long truncatedHash = *(unsigned long *)truncatedHashPtr;
+    unsigned int truncatedHash = *(unsigned int *)truncatedHashPtr;
+
     // Ensure the four bytes taken from the hash match the current endian format
-    truncatedHash = NSSwapBigLongToHost(truncatedHash);
+    truncatedHash = NSSwapBigIntToHost(truncatedHash);
     // Discard the most significant bit
     truncatedHash &= 0x7fffffff;
 
