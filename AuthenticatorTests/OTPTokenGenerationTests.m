@@ -98,7 +98,7 @@
 
         for (NSUInteger i = 0; i < times.count; i++) {
             NSString *password = expectedValues[algorithmKey][i];
-            token.counter = ([times[i] doubleValue] / token.period);
+            token.counter = (uint64_t)([times[i] doubleValue] / token.period);
             XCTAssertEqualObjects([token generatePasswordForCounter:token.counter], password, @"The generator did not produce the expected OTP.");
         }
     }
@@ -130,7 +130,7 @@
             token.algorithm = [algorithmKey algorithmValue];
             token.digits = 6;
             token.period = 30;
-            token.counter = (intervals[i] / token.period);
+            token.counter = (uint64_t)(intervals[i] / token.period);
 
             XCTAssertEqualObjects([results objectAtIndex:j],
                                   [token generatePasswordForCounter:token.counter],
