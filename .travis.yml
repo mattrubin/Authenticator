@@ -4,7 +4,7 @@ language: objective-c
 # see https://github.com/travis-ci/travis-ci/issues/1637
 rvm: 1.9.3
 
-install:
+before_install:
   gem update cocoapods
 
 script:
