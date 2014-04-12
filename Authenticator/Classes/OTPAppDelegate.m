@@ -43,10 +43,14 @@
 {
     [[UINavigationBar appearance] setBarTintColor:[UIColor otpBarBackgroundColor]];
     [[UINavigationBar appearance] setTintColor:[UIColor otpBarForegroundColor]];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor otpBarForegroundColor]}];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor otpBarForegroundColor],
+                                                           NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:20]}];
 
     [[UIToolbar appearance] setBarTintColor:[UIColor otpBarBackgroundColor]];
     [[UIToolbar appearance] setTintColor:[UIColor otpBarForegroundColor]];
+
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17]}
+                                                forState:UIControlStateNormal];
 
     // Restore white-on-black style
     [SVProgressHUD appearance].hudBackgroundColor = [UIColor blackColor];

@@ -76,21 +76,21 @@
     self.backgroundColor = [UIColor otpBackgroundColor];
 
     self.nameLabel = [UITextField new];
-    self.nameLabel.font = [UIFont systemFontOfSize:15];
+    self.nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
     self.nameLabel.textColor = [UIColor otpForegroundColor];
     self.nameLabel.returnKeyType = UIReturnKeyDone;
     self.nameLabel.delegate = self;
     self.nameLabel.enabled = NO;
 
     self.issuerLabel = [UITextField new];
-    self.issuerLabel.font = [UIFont boldSystemFontOfSize:15];
+    self.issuerLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
     self.issuerLabel.textColor = [UIColor otpForegroundColor];
     self.issuerLabel.returnKeyType = UIReturnKeyNext;
     self.issuerLabel.delegate = self;
     self.issuerLabel.enabled = NO;
 
     self.passwordLabel = [UILabel new];
-    self.passwordLabel.font = [UIFont systemFontOfSize:50];
+    self.passwordLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:50];
     self.passwordLabel.textColor = [UIColor otpForegroundColor];
 
     [self.contentView addSubview:self.nameLabel];
