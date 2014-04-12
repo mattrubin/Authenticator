@@ -57,10 +57,10 @@
     self.doneButtonItem.enabled = NO;
 
     // Style UI elements
-    self.tokenTypeControl.tintColor = [UIColor otpBarColor];
-    self.accountNameField.tintColor = [UIColor otpBarColor];
-    self.secretKeyField.tintColor   = [UIColor otpBarColor];
-    self.scanBarcodeButton.tintColor = [UIColor otpBarColor];
+    self.tokenTypeControl.tintColor = [UIColor otpBarBackgroundColor];
+    self.accountNameField.tintColor = [UIColor otpBarBackgroundColor];
+    self.secretKeyField.tintColor   = [UIColor otpBarBackgroundColor];
+    self.scanBarcodeButton.tintColor = [UIColor otpBarBackgroundColor];
 
     // Only show the scan button if the device is capable of scanning
     self.scanBarcodeButton.hidden = ![OTPScannerViewController deviceCanScan];

@@ -90,8 +90,8 @@
     CGContextFillRect(context, rect);
 
     // Set the color
-    [[UIColor otpBackgroundColor] setFill];
-    [[UIColor otpBackgroundColor] setStroke];
+    [self.tintColor setFill];
+    [self.tintColor setStroke];
 
     // Get the dimensions
     CGFloat midX = CGRectGetMidX(self.bounds);

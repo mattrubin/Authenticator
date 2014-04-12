@@ -28,8 +28,11 @@
 
 @implementation UIColor (OTP)
 
-COLOR(otpBarColor,        [UIColor colorWithIntegerRed:28  green:139 blue:215])
-COLOR(otpBackgroundColor, [UIColor colorWithIntegerRed:250 green:253 blue:255])
-COLOR(otpCellTextColor,   [UIColor colorWithIntegerRed:30  green:60  blue:90 ])
+COLOR(darkBlueColor, [UIColor colorWithIntegerRed:35 green:35 blue:50])
+
+COLOR(otpBarBackgroundColor, [UIColor darkBlueColor])
+COLOR(otpBarForegroundColor, [UIColor whiteColor])
+COLOR(otpBackgroundColor,    [UIColor darkBlueColor])
+COLOR(otpForegroundColor,    [UIColor whiteColor])
 
 @end
