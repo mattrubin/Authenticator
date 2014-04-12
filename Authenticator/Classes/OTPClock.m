@@ -85,13 +85,8 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    // Clear the context
-    [[UIColor clearColor] setFill];
-    CGContextFillRect(context, rect);
-
-    // Set the color
-    [self.tintColor setFill];
-    [self.tintColor setStroke];
+    // Set the line style
+    CGContextSetLineWidth(context, 1.5);
 
     // Get the dimensions
     CGFloat midX = CGRectGetMidX(self.bounds);
@@ -99,18 +94,18 @@
     CGFloat radius = midY - 4;
 
     NSTimeInterval seconds = fmod([[NSDate date] timeIntervalSince1970], self.period);
-    CGFloat percent = (float)(seconds / self.period);
+    CGFloat percent = (CGFloat)(seconds / self.period);
 
-    // Draw the wedge
-    CGContextMoveToPoint(context, midX, midY);
-    CGFloat startAngle = -(float)M_PI_2;
-    CGFloat endAngle = startAngle + percent * (float)(2 * M_PI);
+    // Draw the time remaining
+    [self.tintColor setStroke];
+    CGFloat startAngle = -(CGFloat)M_PI_2;
+    CGFloat endAngle = startAngle + percent * (CGFloat)(2 * M_PI);
     CGContextAddArc(context, midX, midY, radius, startAngle, endAngle, 1);
-    CGContextFillPath(context);
+    CGContextStrokePath(context);
 
-    // Draw the border
-    CGContextMoveToPoint(context, midX + radius , midY);
-    CGContextAddArc(context, midX, midY, radius, 0, 2.0 * (float)M_PI, 1);
+    // Draw the full circle
+    [[self.tintColor colorWithAlphaComponent:0.2f] setStroke];
+    CGContextAddArc(context, midX, midY, radius, 0, 2.0 * (CGFloat)M_PI, 1);
     CGContextStrokePath(context);
 }
 
