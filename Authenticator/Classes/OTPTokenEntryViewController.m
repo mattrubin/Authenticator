@@ -34,6 +34,10 @@
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
 
 @property (nonatomic, strong) IBOutlet UISegmentedControl *tokenTypeControl;
+
+@property (nonatomic, strong) IBOutlet UILabel *accountNameLabel;
+@property (nonatomic, strong) IBOutlet UILabel *secretKeyLabel;
+
 @property (nonatomic, strong) IBOutlet UITextField *accountNameField;
 @property (nonatomic, strong) IBOutlet UITextField *secretKeyField;
 
@@ -57,13 +61,20 @@
     self.doneButtonItem.enabled = NO;
 
     // Style UI elements
-    self.tokenTypeControl.tintColor = [UIColor otpBarBackgroundColor];
-    self.accountNameField.tintColor = [UIColor otpBarBackgroundColor];
-    self.secretKeyField.tintColor   = [UIColor otpBarBackgroundColor];
-    self.scanBarcodeButton.tintColor = [UIColor otpBarBackgroundColor];
+    self.view.tintColor = [UIColor otpForegroundColor];
+    self.accountNameLabel.textColor = [UIColor otpForegroundColor];
+    self.secretKeyLabel.textColor   = [UIColor otpForegroundColor];
+    self.accountNameField.tintColor = [UIColor otpBackgroundColor];
+    self.secretKeyField.tintColor   = [UIColor otpBackgroundColor];
 
     // Only show the scan button if the device is capable of scanning
     self.scanBarcodeButton.hidden = ![OTPScannerViewController deviceCanScan];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 
