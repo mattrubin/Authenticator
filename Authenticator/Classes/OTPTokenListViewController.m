@@ -57,6 +57,9 @@
     self.title = @"Authenticator";
     self.view.backgroundColor = [UIColor otpBackgroundColor];
 
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+
     self.clock = [[OTPClock alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     self.clock.period = [OTPToken defaultPeriod];
     UIBarButtonItem *clockBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OTPTokenEntryViewController">
             <connections>
                 <outlet property="accountNameField" destination="hab-zc-vOY" id="fzK-0I-91h"/>
+                <outlet property="accountNameLabel" destination="1a3-2C-swD" id="WiO-Wq-ppe"/>
                 <outlet property="scanBarcodeButton" destination="5zL-pD-2vO" id="3Ss-nH-E4b"/>
                 <outlet property="secretKeyField" destination="cf5-jv-Y9N" id="cr2-Md-PVZ"/>
+                <outlet property="secretKeyLabel" destination="ONl-Ct-sHh" id="ZCj-zN-E49"/>
                 <outlet property="tokenTypeControl" destination="fPn-iF-1jV" id="V19-TO-1iX"/>
                 <outlet property="view" destination="1" id="NK0-Rn-dom"/>
             </connections>
@@ -19,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k6Y-9J-3t4">
-                    <rect key="frame" x="0.0" y="60" width="320" height="206"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="206"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c91-dD-8Gd">
@@ -50,7 +52,6 @@
                             <rect key="frame" x="20" y="58" width="280" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="user@example.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hab-zc-vOY">
@@ -94,7 +95,6 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="s8G-lD-PdH" firstAttribute="top" secondItem="cf5-jv-Y9N" secondAttribute="bottom" id="0PP-a7-SWC"/>
                         <constraint firstItem="cf5-jv-Y9N" firstAttribute="top" secondItem="ONl-Ct-sHh" secondAttribute="bottom" constant="8" symbolic="YES" id="0Ue-jA-WAj"/>
@@ -131,7 +131,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5zL-pD-2vO">
-                    <rect key="frame" x="20" y="395" width="280" height="35"/>
+                    <rect key="frame" x="20" y="214" width="280" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="Scan Barcode">
@@ -142,11 +142,10 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="k6Y-9J-3t4" secondAttribute="trailing" id="SM6-n8-Fq1"/>
                 <constraint firstItem="k6Y-9J-3t4" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Soq-Yj-wwT"/>
-                <constraint firstItem="k6Y-9J-3t4" firstAttribute="top" secondItem="1" secondAttribute="top" constant="60" id="ngO-JJ-jpY"/>
+                <constraint firstItem="k6Y-9J-3t4" firstAttribute="top" secondItem="1" secondAttribute="top" id="ngO-JJ-jpY"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

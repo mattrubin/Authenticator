@@ -76,25 +76,29 @@
     self.backgroundColor = [UIColor otpBackgroundColor];
 
     self.nameLabel = [UITextField new];
-    self.nameLabel.font = [UIFont systemFontOfSize:15];
+    self.nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+    self.nameLabel.textColor = [UIColor otpForegroundColor];
     self.nameLabel.returnKeyType = UIReturnKeyDone;
     self.nameLabel.delegate = self;
     self.nameLabel.enabled = NO;
 
     self.issuerLabel = [UITextField new];
-    self.issuerLabel.font = [UIFont boldSystemFontOfSize:15];
+    self.issuerLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
+    self.issuerLabel.textColor = [UIColor otpForegroundColor];
     self.issuerLabel.returnKeyType = UIReturnKeyNext;
     self.issuerLabel.delegate = self;
     self.issuerLabel.enabled = NO;
 
     self.passwordLabel = [UILabel new];
-    self.passwordLabel.font = [UIFont systemFontOfSize:50];
+    self.passwordLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:50];
+    self.passwordLabel.textColor = [UIColor otpForegroundColor];
 
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.issuerLabel];
     [self.contentView addSubview:self.passwordLabel];
 
     self.nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    self.nextPasswordButton.tintColor = [UIColor otpForegroundColor];
     [self.nextPasswordButton addTarget:self action:@selector(generateNextPassword) forControlEvents:UIControlEventTouchUpInside];
     self.accessoryView = self.nextPasswordButton;
 }
@@ -176,8 +180,6 @@
     self.issuerLabel.placeholder = editing ? @"Issuer" : nil;
 
     [UIView animateWithDuration:0.3 animations:^{
-        self.nameLabel.textColor = editing ? [UIColor blackColor] : [UIColor otpBarColor];
-        self.issuerLabel.textColor = self.nameLabel.textColor;
         self.passwordLabel.alpha = !editing ? 1 : (CGFloat)0.2;
     }];
 
