@@ -176,8 +176,16 @@
     self.nameLabel.enabled = editing;
     self.issuerLabel.enabled = self.nameLabel.enabled;
 
-    self.nameLabel.placeholder = editing ? @"Name" : nil;
-    self.issuerLabel.placeholder = editing ? @"Issuer" : nil;
+    NSAttributedString *namePlaceholder, *issuerPlaceholder;
+    if (editing) {
+        UIColor *placeholderColor = [[UIColor otpForegroundColor] colorWithAlphaComponent:0.3];
+        namePlaceholder = [[NSAttributedString alloc] initWithString:@"Name"
+                                                          attributes:@{NSForegroundColorAttributeName: placeholderColor}];
+        issuerPlaceholder = [[NSAttributedString alloc] initWithString:@"Issuer"
+                                                            attributes:@{NSForegroundColorAttributeName: placeholderColor}];
+    }
+    self.nameLabel.attributedPlaceholder = namePlaceholder;
+    self.issuerLabel.attributedPlaceholder = issuerPlaceholder;
 
     [UIView animateWithDuration:0.3 animations:^{
         self.passwordLabel.alpha = !editing ? 1 : (CGFloat)0.2;
