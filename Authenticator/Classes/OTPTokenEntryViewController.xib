@@ -11,7 +11,6 @@
                 <outlet property="scanBarcodeButton" destination="5zL-pD-2vO" id="3Ss-nH-E4b"/>
                 <outlet property="secretKeyField" destination="cf5-jv-Y9N" id="cr2-Md-PVZ"/>
                 <outlet property="secretKeyLabel" destination="ONl-Ct-sHh" id="ZCj-zN-E49"/>
-                <outlet property="tokenTypeControl" destination="fPn-iF-1jV" id="V19-TO-1iX"/>
                 <outlet property="view" destination="1" id="NK0-Rn-dom"/>
             </connections>
         </placeholder>
@@ -25,27 +24,11 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c91-dD-8Gd">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="15"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="XsL-dT-YfN"/>
-                            </constraints>
-                        </view>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fPn-iF-1jV">
-                            <rect key="frame" x="20" y="15" width="280" height="29"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="Time Based"/>
-                                <segment title="Counter Based"/>
-                            </segments>
-                        </segmentedControl>
-                        <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Ne-qr-JlP">
-                            <rect key="frame" x="0.0" y="43" width="320" height="15"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="3Ij-Kr-mNQ"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="58" id="XsL-dT-YfN"/>
                             </constraints>
                         </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1a3-2C-swD">
@@ -100,32 +83,24 @@
                         <constraint firstItem="cf5-jv-Y9N" firstAttribute="top" secondItem="ONl-Ct-sHh" secondAttribute="bottom" constant="8" symbolic="YES" id="0Ue-jA-WAj"/>
                         <constraint firstItem="hab-zc-vOY" firstAttribute="leading" secondItem="k6Y-9J-3t4" secondAttribute="leading" constant="20" symbolic="YES" id="0ud-6x-0nM"/>
                         <constraint firstItem="ONl-Ct-sHh" firstAttribute="leading" secondItem="k6Y-9J-3t4" secondAttribute="leading" constant="20" symbolic="YES" id="3ia-op-bsW"/>
-                        <constraint firstItem="9Ne-qr-JlP" firstAttribute="height" secondItem="c91-dD-8Gd" secondAttribute="height" id="5oB-hL-H9W"/>
+                        <constraint firstItem="1a3-2C-swD" firstAttribute="top" secondItem="c91-dD-8Gd" secondAttribute="bottom" id="5tM-jq-ZVc"/>
                         <constraint firstItem="s8G-lD-PdH" firstAttribute="leading" secondItem="k6Y-9J-3t4" secondAttribute="leading" id="6QT-Wu-Bpq"/>
-                        <constraint firstItem="1a3-2C-swD" firstAttribute="top" secondItem="9Ne-qr-JlP" secondAttribute="bottom" id="7tH-2c-s9i"/>
                         <constraint firstAttribute="trailing" secondItem="c91-dD-8Gd" secondAttribute="trailing" id="8lW-LL-cF6"/>
                         <constraint firstItem="kMH-o8-4c6" firstAttribute="leading" secondItem="k6Y-9J-3t4" secondAttribute="leading" id="C2G-Q3-ohi"/>
-                        <constraint firstItem="9Ne-qr-JlP" firstAttribute="leading" secondItem="k6Y-9J-3t4" secondAttribute="leading" id="Ejx-TQ-IUl"/>
                         <constraint firstAttribute="trailing" secondItem="ONl-Ct-sHh" secondAttribute="trailing" constant="20" symbolic="YES" id="H8h-5f-u60"/>
                         <constraint firstItem="1a3-2C-swD" firstAttribute="leading" secondItem="k6Y-9J-3t4" secondAttribute="leading" constant="20" symbolic="YES" id="LJo-d9-51t"/>
                         <constraint firstAttribute="trailing" secondItem="s8G-lD-PdH" secondAttribute="trailing" id="LaC-cp-SuK"/>
-                        <constraint firstAttribute="trailing" secondItem="9Ne-qr-JlP" secondAttribute="trailing" id="OlN-HX-n4F"/>
                         <constraint firstAttribute="trailing" secondItem="cf5-jv-Y9N" secondAttribute="trailing" constant="20" symbolic="YES" id="Q0L-2A-g3A"/>
                         <constraint firstItem="kMH-o8-4c6" firstAttribute="top" secondItem="hab-zc-vOY" secondAttribute="bottom" id="Qy5-bn-E76"/>
                         <constraint firstAttribute="trailing" secondItem="1a3-2C-swD" secondAttribute="trailing" constant="20" symbolic="YES" id="Sux-hS-IDP"/>
                         <constraint firstAttribute="bottom" secondItem="s8G-lD-PdH" secondAttribute="bottom" id="WFl-Cp-NAD"/>
                         <constraint firstItem="ONl-Ct-sHh" firstAttribute="top" secondItem="kMH-o8-4c6" secondAttribute="bottom" id="YJa-Fa-fNG"/>
-                        <constraint firstAttribute="trailing" secondItem="fPn-iF-1jV" secondAttribute="trailing" constant="20" symbolic="YES" id="ZOk-Gg-Ob1"/>
                         <constraint firstItem="c91-dD-8Gd" firstAttribute="leading" secondItem="k6Y-9J-3t4" secondAttribute="leading" id="c3d-mA-FqY"/>
-                        <constraint firstItem="fPn-iF-1jV" firstAttribute="leading" secondItem="k6Y-9J-3t4" secondAttribute="leading" constant="20" symbolic="YES" id="cSD-Kl-aP7"/>
                         <constraint firstItem="cf5-jv-Y9N" firstAttribute="leading" secondItem="k6Y-9J-3t4" secondAttribute="leading" constant="20" symbolic="YES" id="drw-Qx-WKA"/>
                         <constraint firstItem="c91-dD-8Gd" firstAttribute="top" secondItem="k6Y-9J-3t4" secondAttribute="top" id="fFe-V9-Swj"/>
                         <constraint firstItem="hab-zc-vOY" firstAttribute="top" secondItem="1a3-2C-swD" secondAttribute="bottom" constant="8" symbolic="YES" id="i8a-2N-AuN"/>
-                        <constraint firstItem="fPn-iF-1jV" firstAttribute="top" secondItem="c91-dD-8Gd" secondAttribute="bottom" id="oPu-L9-fSN"/>
                         <constraint firstAttribute="trailing" secondItem="kMH-o8-4c6" secondAttribute="trailing" id="pxz-nz-I9X"/>
                         <constraint firstAttribute="height" constant="206" id="qBs-4e-EgN"/>
-                        <constraint firstItem="kMH-o8-4c6" firstAttribute="height" secondItem="9Ne-qr-JlP" secondAttribute="height" id="vDX-3q-cvl"/>
-                        <constraint firstItem="9Ne-qr-JlP" firstAttribute="top" secondItem="fPn-iF-1jV" secondAttribute="bottom" id="vEQ-qK-ypI"/>
                         <constraint firstAttribute="trailing" secondItem="hab-zc-vOY" secondAttribute="trailing" constant="20" symbolic="YES" id="vaY-ym-wAQ"/>
                         <constraint firstItem="kMH-o8-4c6" firstAttribute="height" secondItem="s8G-lD-PdH" secondAttribute="height" id="yse-YJ-WSS"/>
                     </constraints>

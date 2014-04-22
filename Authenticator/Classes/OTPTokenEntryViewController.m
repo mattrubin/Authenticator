@@ -23,17 +23,20 @@
 //
 
 #import "OTPTokenEntryViewController.h"
+#import "OTPSegmentedControlCell.h"
 #import "OTPScannerViewController.h"
 #import "OTPToken+Generation.h"
 #import <Base32/MF_Base32Additions.h>
 
 
 @interface OTPTokenEntryViewController ()
-    <UITextFieldDelegate, OTPTokenSourceDelegate>
+    <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, OTPTokenSourceDelegate>
+
+@property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
 
-@property (nonatomic, strong) IBOutlet UISegmentedControl *tokenTypeControl;
+@property (nonatomic, strong) OTPSegmentedControlCell *tokenTypeCell;
 
 @property (nonatomic, strong) IBOutlet UILabel *accountNameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *secretKeyLabel;
@@ -53,12 +56,23 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor otpBackgroundColor];
 
+    // Set up top bar
     self.title = @"Add Token";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(createToken)];
 
     self.doneButtonItem = self.navigationItem.rightBarButtonItem;
     self.doneButtonItem.enabled = NO;
+
+    // Set up table view
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 60)];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.tableView.alwaysBounceVertical = NO;
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.tableView];
 
     // Style UI elements
     self.view.tintColor = [UIColor otpForegroundColor];
@@ -94,7 +108,7 @@
     NSData *secret = [NSData dataWithBase32String:self.secretKeyField.text];
 
     if (secret.length) {
-        OTPTokenType tokenType = (self.tokenTypeControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
+        OTPTokenType tokenType = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         OTPToken *token = [OTPToken tokenWithType:tokenType
                                                secret:secret
                                                  name:self.accountNameField.text];
@@ -115,6 +129,38 @@
     OTPScannerViewController *scanner = [[OTPScannerViewController alloc] init];
     scanner.delegate = self;
     [self.navigationController pushViewController:scanner animated:YES];
+}
+
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return self.tokenTypeCell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 59;
+}
+
+
+#pragma mark - Cells
+
+- (OTPSegmentedControlCell *)tokenTypeCell
+{
+    if (!_tokenTypeCell) {
+        _tokenTypeCell = [OTPSegmentedControlCell cellForTableView:self.tableView];
+        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Time Based" atIndex:0 animated:NO];
+        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Counter Based" atIndex:1 animated:NO];
+        _tokenTypeCell.segmentedControl.selectedSegmentIndex = 0;
+    }
+    return _tokenTypeCell;
 }
 
 
