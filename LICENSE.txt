@@ -47,5 +47,5 @@ the License.
 
 This project uses a number of third-party libraries, as specified in the
 Podfile. These libraries are made available by their developers under their
-own licenses. When the pods are installed, CocoaPods compiles the licences for
+own licenses. When the pods are installed, CocoaPods compiles the licenses for
 these libraries in the file at Pods/Pods-acknowledgements.markdown
