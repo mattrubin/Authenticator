@@ -24,6 +24,7 @@
 
 #import "OTPTokenEntryViewController.h"
 #import "OTPSegmentedControlCell.h"
+#import "OTPTextFieldCell.h"
 #import "OTPScannerViewController.h"
 #import "OTPToken+Generation.h"
 #import <Base32/MF_Base32Additions.h>
@@ -37,11 +38,9 @@
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
 
 @property (nonatomic, strong) OTPSegmentedControlCell *tokenTypeCell;
+@property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 
-@property (nonatomic, strong) IBOutlet UILabel *accountNameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *secretKeyLabel;
-
-@property (nonatomic, strong) IBOutlet UITextField *accountNameField;
 @property (nonatomic, strong) IBOutlet UITextField *secretKeyField;
 
 @property (nonatomic, strong) IBOutlet UIButton *scanBarcodeButton;
@@ -65,7 +64,7 @@
     self.doneButtonItem.enabled = NO;
 
     // Set up table view
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 60)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 118)];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.tableView.alwaysBounceVertical = NO;
     self.tableView.dataSource = self;
@@ -76,9 +75,9 @@
 
     // Style UI elements
     self.view.tintColor = [UIColor otpForegroundColor];
-    self.accountNameLabel.textColor = [UIColor otpForegroundColor];
+    self.accountNameCell.textLabel.textColor = [UIColor otpForegroundColor];
     self.secretKeyLabel.textColor   = [UIColor otpForegroundColor];
-    self.accountNameField.tintColor = [UIColor otpBackgroundColor];
+    self.accountNameCell.textField.tintColor = [UIColor otpBackgroundColor];
     self.secretKeyField.tintColor   = [UIColor otpBackgroundColor];
 
     // Only show the scan button if the device is capable of scanning
@@ -101,7 +100,7 @@
 
 - (void)createToken
 {
-    if (!self.accountNameField.text.length || !self.secretKeyField.text.length) {
+    if (!self.accountNameCell.textField.text.length || !self.secretKeyField.text.length) {
         return;
     }
 
@@ -111,7 +110,7 @@
         OTPTokenType tokenType = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         OTPToken *token = [OTPToken tokenWithType:tokenType
                                                secret:secret
-                                                 name:self.accountNameField.text];
+                                                 name:self.accountNameCell.textField.text];
 
         if (token.password) {
             id <OTPTokenSourceDelegate> delegate = self.delegate;
@@ -136,17 +135,31 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.tokenTypeCell;
+    switch (indexPath.row) {
+        case 0:
+            return self.tokenTypeCell;
+        case 1:
+            return self.accountNameCell;
+        default:
+            return nil;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 59;
+    switch (indexPath.row) {
+        case 0:
+            return 44;
+        case 1:
+            return 74;
+        default:
+            return 0;
+    }
 }
 
 
@@ -163,12 +176,22 @@
     return _tokenTypeCell;
 }
 
+- (OTPTextFieldCell *)accountNameCell
+{
+    if (!_accountNameCell) {
+        _accountNameCell = [OTPTextFieldCell cellForTableView:self.tableView];
+        _accountNameCell.textLabel.text = @"Account Name";
+        _accountNameCell.textField.placeholder = @"user@example.com";
+        _accountNameCell.textField.delegate = self;
+    }
+    return _accountNameCell;
+}
 
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (textField == self.accountNameField) {
+    if (textField == self.accountNameCell.textField) {
         [self.secretKeyField becomeFirstResponder];
         return NO;
     } else {
@@ -183,10 +206,10 @@
 {
     // Ensure both fields (will) have text in them
     NSString *newText = [[textField.text mutableCopy] stringByReplacingCharactersInRange:range withString:string];
-    if (textField == self.accountNameField) {
+    if (textField == self.accountNameCell.textField) {
         self.doneButtonItem.enabled = newText.length && self.secretKeyField.text.length;
     } else if (textField == self.secretKeyField) {
-        self.doneButtonItem.enabled = newText.length && self.accountNameField.text.length;
+        self.doneButtonItem.enabled = newText.length && self.accountNameCell.textField.text.length;
     }
 
     return YES;

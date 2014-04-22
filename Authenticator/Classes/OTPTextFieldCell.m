@@ -1,5 +1,5 @@
 //
-//  OTPSegmentedControlCell.m
+//  OTPTextFieldCell.m
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,17 +22,17 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPSegmentedControlCell.h"
+#import "OTPTextFieldCell.h"
 
 
-@interface OTPSegmentedControlCell ()
+@interface OTPTextFieldCell ()
 
-@property (nonatomic, strong) UISegmentedControl *segmentedControl;
+@property (nonatomic, strong) UITextField *textField;
 
 @end
 
 
-@implementation OTPSegmentedControlCell
+@implementation OTPTextFieldCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -41,8 +41,12 @@
         self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
 
-        self.segmentedControl = [UISegmentedControl new];
-        [self.contentView addSubview:self.segmentedControl];
+        self.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+
+        self.textField = [UITextField new];
+        self.textField.borderStyle = UITextBorderStyleRoundedRect;
+        self.textField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+        [self.contentView addSubview:self.textField];
     }
     return self;
 }
@@ -51,7 +55,8 @@
 {
     [super layoutSubviews];
 
-    self.segmentedControl.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 29);
+    self.textLabel.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 21);
+    self.textField.frame = CGRectMake(20, 44, CGRectGetWidth(self.contentView.bounds) - 40, 30);
 }
 
 @end
