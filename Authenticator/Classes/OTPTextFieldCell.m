@@ -1,5 +1,5 @@
 //
-//  OTPTokenEntryViewController.h
+//  OTPTextFieldCell.m
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,12 +22,38 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import UIKit;
-#import "OTPTokenSourceDelegate.h"
+#import "OTPTextFieldCell.h"
 
 
-@interface OTPTokenEntryViewController : UITableViewController
+@interface OTPTextFieldCell ()
 
-@property (nonatomic, weak) id <OTPTokenSourceDelegate> delegate;
+@property (nonatomic, strong) UITextField *textField;
+
+@end
+
+
+@implementation OTPTextFieldCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+
+        self.textField = [UITextField new];
+        self.textField.borderStyle = UITextBorderStyleRoundedRect;
+        self.textField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+        [self.contentView addSubview:self.textField];
+    }
+    return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    self.textLabel.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 21);
+    self.textField.frame = CGRectMake(20, 44, CGRectGetWidth(self.contentView.bounds) - 40, 30);
+}
 
 @end

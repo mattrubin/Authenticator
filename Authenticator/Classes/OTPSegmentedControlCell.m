@@ -1,5 +1,5 @@
 //
-//  OTPTokenEntryViewController.h
+//  OTPSegmentedControlCell.m
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,12 +22,33 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import UIKit;
-#import "OTPTokenSourceDelegate.h"
+#import "OTPSegmentedControlCell.h"
 
 
-@interface OTPTokenEntryViewController : UITableViewController
+@interface OTPSegmentedControlCell ()
 
-@property (nonatomic, weak) id <OTPTokenSourceDelegate> delegate;
+@property (nonatomic, strong) UISegmentedControl *segmentedControl;
+
+@end
+
+
+@implementation OTPSegmentedControlCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.segmentedControl = [UISegmentedControl new];
+        [self.contentView addSubview:self.segmentedControl];
+    }
+    return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    self.segmentedControl.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 29);
+}
 
 @end

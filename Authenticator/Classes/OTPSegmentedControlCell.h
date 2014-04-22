@@ -1,5 +1,5 @@
 //
-//  OTPTokenEntryViewController.h
+//  OTPSegmentedControlCell.h
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,12 +22,11 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import UIKit;
-#import "OTPTokenSourceDelegate.h"
+#import "MRXTableViewCell.h"
 
 
-@interface OTPTokenEntryViewController : UITableViewController
+@interface OTPSegmentedControlCell : MRXTableViewCell
 
-@property (nonatomic, weak) id <OTPTokenSourceDelegate> delegate;
+@property (nonatomic, readonly) UISegmentedControl *segmentedControl;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  OTPTokenEntryViewController.h
+//  OTPButtonCell.m
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,12 +22,33 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import UIKit;
-#import "OTPTokenSourceDelegate.h"
+#import "OTPButtonCell.h"
 
 
-@interface OTPTokenEntryViewController : UITableViewController
+@interface OTPButtonCell ()
 
-@property (nonatomic, weak) id <OTPTokenSourceDelegate> delegate;
+@property (nonatomic, strong) UIButton *button;
+
+@end
+
+
+@implementation OTPButtonCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.button = [UIButton new];
+        [self.contentView addSubview:self.button];
+    }
+    return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    self.button.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 35);
+}
 
 @end

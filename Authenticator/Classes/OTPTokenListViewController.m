@@ -143,6 +143,7 @@
     OTPTokenEntryViewController *entryController = [OTPTokenEntryViewController new];
     entryController.delegate = self;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:entryController];
+    navController.navigationBar.translucent = NO;
 
     [self presentViewController:navController animated:YES completion:nil];
 }
