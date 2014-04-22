@@ -25,14 +25,12 @@
 #import "OTPTokenEntryViewController.h"
 #import "OTPSegmentedControlCell.h"
 #import "OTPTextFieldCell.h"
-#import "OTPButtonCell.h"
-#import "OTPScannerViewController.h"
 #import "OTPToken+Generation.h"
 #import <Base32/MF_Base32Additions.h>
 
 
 @interface OTPTokenEntryViewController ()
-    <UITextFieldDelegate, OTPTokenSourceDelegate>
+    <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
 
@@ -40,7 +38,6 @@
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 @property (nonatomic, strong) OTPTextFieldCell *secretKeyCell;
-@property (nonatomic, strong) OTPButtonCell *scanBarcodeButtonCell;
 
 @end
 
@@ -61,9 +58,6 @@
 
     self.doneButtonItem = self.navigationItem.rightBarButtonItem;
     self.doneButtonItem.enabled = NO;
-
-    // Only show the scan button if the device is capable of scanning
-    self.scanBarcodeButtonCell.button.hidden = ![OTPScannerViewController deviceCanScan];
 }
 
 
@@ -100,19 +94,12 @@
     [SVProgressHUD showErrorWithStatus:@"Invalid Token"];
 }
 
-- (IBAction)scanBarcode:(id)sender
-{
-    OTPScannerViewController *scanner = [[OTPScannerViewController alloc] init];
-    scanner.delegate = self;
-    [self.navigationController pushViewController:scanner animated:YES];
-}
-
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -126,8 +113,6 @@
             return self.accountNameCell;
         case 3:
             return self.secretKeyCell;
-        case 4:
-            return self.scanBarcodeButtonCell;
     }
     return nil;
 }
@@ -143,8 +128,6 @@
             return 74;
         case 3:
             return 74;
-        case 4:
-            return 50;
     }
     return 0;
 }
@@ -204,16 +187,6 @@
     return _secretKeyCell;
 }
 
-- (OTPButtonCell *)scanBarcodeButtonCell
-{
-    if (!_scanBarcodeButtonCell) {
-        _scanBarcodeButtonCell = [OTPButtonCell new];
-        [_scanBarcodeButtonCell.button setTitle:@"Scan Barcode" forState:UIControlStateNormal];
-        [_scanBarcodeButtonCell.button addTarget:self action:@selector(scanBarcode:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _scanBarcodeButtonCell;
-}
-
 
 #pragma mark - UITableViewDelegate
 
@@ -255,15 +228,6 @@
     }
 
     return YES;
-}
-
-
-#pragma mark - OTPTokenSourceDelegate
-
-- (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token
-{
-    id <OTPTokenSourceDelegate> delegate = self.delegate;
-    [delegate tokenSource:self didCreateToken:token];
 }
 
 @end
