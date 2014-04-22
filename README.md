@@ -2,7 +2,7 @@
 ### Two-Factor Authentication Client for iOS.
 
 [<img src="https://badge.fury.io/gh/mattrubin%2Fauthenticator@2x.png" alt="GitHub version" height="18px">](http://badge.fury.io/gh/mattrubin%2Fauthenticator)
-[![Build Status](https://travis-ci.org/mattrubin/authenticator.png?branch=master)](https://travis-ci.org/mattrubin/authenticator)
+[![Build Status](https://travis-ci.org/mattrubin/authenticator.svg?branch=master)](https://travis-ci.org/mattrubin/authenticator)
 
 This app generates and displays one-time passwords for logging into systems which use two-factor authentication, or any other system which supports [counter-based](https://tools.ietf.org/html/rfc4226) or [time-based](https://tools.ietf.org/html/rfc6238) OTPs. The goal of this project is to create a free, simple, open-source alternative to Google Authenticator. This project was based on the neglected open-source [Google Authenticator](https://code.google.com/p/google-authenticator/) client for iOS, and has been rewritten to create a clean code-base using modern APIs.
 
