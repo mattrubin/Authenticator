@@ -6,6 +6,5 @@ xcode_sdk: iphonesimulator
 before_install:
   - export LANG=en_US.UTF-8
   - gem update cocoapods
-
-script:
-  - xctool build test -freshInstall -freshSimulator
+  - brew update
+  - brew upgrade xctool
