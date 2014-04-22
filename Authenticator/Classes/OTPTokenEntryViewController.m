@@ -128,9 +128,8 @@
             return self.secretKeyCell;
         case 4:
             return self.scanBarcodeButtonCell;
-        default:
-            return nil;
     }
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -146,9 +145,8 @@
             return 74;
         case 4:
             return 50;
-        default:
-            return 0;
     }
+    return 0;
 }
 
 
@@ -237,16 +235,13 @@
 {
     if (textField == self.issuerCell.textField) {
         [self.accountNameCell.textField becomeFirstResponder];
-        return NO;
     } else if (textField == self.accountNameCell.textField) {
         [self.secretKeyCell.textField becomeFirstResponder];
-        return NO;
     } else {
         [textField resignFirstResponder];
         [self createToken];
-        return NO;
     }
-    return YES;
+    return NO;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
