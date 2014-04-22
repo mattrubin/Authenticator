@@ -25,6 +25,7 @@
 #import "OTPTokenEntryViewController.h"
 #import "OTPSegmentedControlCell.h"
 #import "OTPTextFieldCell.h"
+#import "OTPButtonCell.h"
 #import "OTPScannerViewController.h"
 #import "OTPToken+Generation.h"
 #import <Base32/MF_Base32Additions.h>
@@ -40,8 +41,7 @@
 @property (nonatomic, strong) OTPSegmentedControlCell *tokenTypeCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 @property (nonatomic, strong) OTPTextFieldCell *secretKeyCell;
-
-@property (nonatomic, strong) IBOutlet UIButton *scanBarcodeButton;
+@property (nonatomic, strong) OTPButtonCell *scanBarcodeButtonCell;
 
 @end
 
@@ -62,8 +62,8 @@
     self.doneButtonItem.enabled = NO;
 
     // Set up table view
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 192)];
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.tableView.alwaysBounceVertical = NO;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -79,7 +79,7 @@
     self.secretKeyCell.textField.tintColor   = [UIColor otpBackgroundColor];
 
     // Only show the scan button if the device is capable of scanning
-    self.scanBarcodeButton.hidden = ![OTPScannerViewController deviceCanScan];
+    self.scanBarcodeButtonCell.button.hidden = ![OTPScannerViewController deviceCanScan];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -133,7 +133,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -145,6 +145,8 @@
             return self.accountNameCell;
         case 2:
             return self.secretKeyCell;
+        case 3:
+            return self.scanBarcodeButtonCell;
         default:
             return nil;
     }
@@ -159,6 +161,8 @@
             return 74;
         case 2:
             return 74;
+        case 3:
+            return 50;
         default:
             return 0;
     }
@@ -205,6 +209,16 @@
         _secretKeyCell.textField.returnKeyType = UIReturnKeyDone;
     }
     return _secretKeyCell;
+}
+
+- (OTPButtonCell *)scanBarcodeButtonCell
+{
+    if (!_scanBarcodeButtonCell) {
+        _scanBarcodeButtonCell = [OTPButtonCell new];
+        [_scanBarcodeButtonCell.button setTitle:@"Scan Barcode" forState:UIControlStateNormal];
+        [_scanBarcodeButtonCell.button addTarget:self action:@selector(scanBarcode:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _scanBarcodeButtonCell;
 }
 
 

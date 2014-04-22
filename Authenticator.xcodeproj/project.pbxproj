@@ -27,13 +27,13 @@
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
 		C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */; };
 		C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */; };
-		C99069E1180E5B4100BAEF53 /* OTPTokenEntryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */; };
 		C999C693181344F40013C1C6 /* OTPToken.m in Sources */ = {isa = PBXBuildFile; fileRef = C999C692181344F40013C1C6 /* OTPToken.m */; };
 		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
 		C9C6CC841842C5BC000100C2 /* OTPTokenPersistenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */; };
 		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
 		C9D6C83F1906BD68004F0E08 /* OTPSegmentedControlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* OTPSegmentedControlCell.m */; };
 		C9D6C8461906CD54004F0E08 /* OTPTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.m */; };
+		C9D6C8491906DC62004F0E08 /* OTPButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8481906DC62004F0E08 /* OTPButtonCell.m */; };
 		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
 		C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */; };
@@ -92,7 +92,6 @@
 		C99069D2180E07A100BAEF53 /* OTPTokenEntryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenEntryViewController.h; sourceTree = "<group>"; };
 		C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenEntryViewController.m; sourceTree = "<group>"; };
 		C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTPTokenSourceDelegate.h; sourceTree = "<group>"; };
-		C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTPTokenEntryViewController.xib; sourceTree = "<group>"; };
 		C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C999C691181344F40013C1C6 /* OTPToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPToken.h; sourceTree = "<group>"; };
 		C999C692181344F40013C1C6 /* OTPToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPToken.m; sourceTree = "<group>"; };
@@ -105,6 +104,8 @@
 		C9D6C83E1906BD68004F0E08 /* OTPSegmentedControlCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPSegmentedControlCell.m; sourceTree = "<group>"; };
 		C9D6C8441906CD54004F0E08 /* OTPTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTextFieldCell.h; sourceTree = "<group>"; };
 		C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTextFieldCell.m; sourceTree = "<group>"; };
+		C9D6C8471906DC62004F0E08 /* OTPButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPButtonCell.h; sourceTree = "<group>"; };
+		C9D6C8481906DC62004F0E08 /* OTPButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPButtonCell.m; sourceTree = "<group>"; };
 		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenManager.h; sourceTree = "<group>"; };
@@ -229,7 +230,6 @@
 				C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */,
 				C99069D2180E07A100BAEF53 /* OTPTokenEntryViewController.h */,
 				C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */,
-				C99069E0180E5B4100BAEF53 /* OTPTokenEntryViewController.xib */,
 				C9D6C8401906BD6F004F0E08 /* Cells */,
 				C99069CF180CBAC900BAEF53 /* OTPScannerViewController.h */,
 				C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */,
@@ -314,6 +314,8 @@
 				C9D6C83E1906BD68004F0E08 /* OTPSegmentedControlCell.m */,
 				C9D6C8441906CD54004F0E08 /* OTPTextFieldCell.h */,
 				C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.m */,
+				C9D6C8471906DC62004F0E08 /* OTPButtonCell.h */,
+				C9D6C8481906DC62004F0E08 /* OTPButtonCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -404,7 +406,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C99069E1180E5B4100BAEF53 /* OTPTokenEntryViewController.xib in Resources */,
 				C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */,
 				C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */,
 				C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */,
@@ -474,6 +475,7 @@
 				C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */,
 				C9D6C83F1906BD68004F0E08 /* OTPSegmentedControlCell.m in Sources */,
 				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */,
+				C9D6C8491906DC62004F0E08 /* OTPButtonCell.m in Sources */,
 				8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */,
 				C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */,
 				C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */,
