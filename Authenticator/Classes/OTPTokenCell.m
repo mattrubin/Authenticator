@@ -117,6 +117,9 @@
     CGRect frame = insetFrame;
     frame.size.height = 20;
     frame.size.width = (self.issuerLabel.text.length || self.editing) ? [self.issuerLabel sizeThatFits:frame.size].width : 0;
+    if (self.editing && frame.size.width < 80) {
+        frame.size.width = 80;
+    }
     self.issuerLabel.frame = frame;
 
     frame.origin.x += frame.size.width;
