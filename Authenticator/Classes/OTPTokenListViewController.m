@@ -28,6 +28,7 @@
 #import "OTPClock.h"
 #import "OTPToken.h"
 #import "OTPTokenEntryViewController.h"
+#import "OTPScannerViewController.h"
 
 
 @interface OTPTokenListViewController ()
@@ -140,8 +141,14 @@
 
 - (void)addToken
 {
-    OTPTokenEntryViewController *entryController = [OTPTokenEntryViewController new];
-    entryController.delegate = self;
+    UIViewController *entryController;
+    if ([OTPScannerViewController deviceCanScan]) {
+        entryController = [OTPScannerViewController new];
+        ((OTPScannerViewController *)entryController).delegate = self;
+    } else {
+         entryController = [OTPTokenEntryViewController new];
+        ((OTPTokenEntryViewController *)entryController).delegate = self;
+    }
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:entryController];
     navController.navigationBar.translucent = NO;
 

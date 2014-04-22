@@ -55,6 +55,9 @@
 
     self.view.backgroundColor = [UIColor blackColor];
 
+    self.title = @"Scan Token";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+
     self.videoLayer = [AVCaptureVideoPreviewLayer layer];
     self.videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.view.layer addSublayer:self.videoLayer];
@@ -76,6 +79,14 @@
     [super viewDidDisappear:animated];
 
     [self.captureSession stopRunning];
+}
+
+
+#pragma mark - Target Actions
+
+- (void)cancel
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
