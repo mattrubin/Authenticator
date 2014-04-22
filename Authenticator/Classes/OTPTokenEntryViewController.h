@@ -26,7 +26,7 @@
 #import "OTPTokenSourceDelegate.h"
 
 
-@interface OTPTokenEntryViewController : UIViewController
+@interface OTPTokenEntryViewController : UITableViewController
 
 @property (nonatomic, weak) id <OTPTokenSourceDelegate> delegate;
 

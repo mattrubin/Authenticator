@@ -32,9 +32,7 @@
 
 
 @interface OTPTokenEntryViewController ()
-    <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, OTPTokenSourceDelegate>
-
-@property (nonatomic, strong) UITableView *tableView;
+    <UITextFieldDelegate, OTPTokenSourceDelegate>
 
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
 
@@ -53,6 +51,7 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor otpBackgroundColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     // Set up top bar
     self.title = @"Add Token";
@@ -61,16 +60,6 @@
 
     self.doneButtonItem = self.navigationItem.rightBarButtonItem;
     self.doneButtonItem.enabled = NO;
-
-    // Set up table view
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.tableView.alwaysBounceVertical = NO;
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.tableView];
 
     // Style UI elements
     self.view.tintColor = [UIColor otpForegroundColor];
@@ -193,7 +182,7 @@
 - (OTPTextFieldCell *)issuerCell
 {
     if (!_issuerCell) {
-        _issuerCell = [OTPTextFieldCell new];
+        _issuerCell = [OTPTextFieldCell cellForTableView:self.tableView];
         _issuerCell.textLabel.text = @"Issuer";
         _issuerCell.textField.placeholder = @"Some Website";
         _issuerCell.textField.delegate = self;
