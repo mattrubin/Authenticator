@@ -5,7 +5,6 @@ xcode_scheme: Authenticator
 xcode_sdk:
   - iphonesimulator7.0
   - iphonesimulator7.1
-  - iphoneos7.1
 
 before_install:
   - export LANG=en_US.UTF-8
