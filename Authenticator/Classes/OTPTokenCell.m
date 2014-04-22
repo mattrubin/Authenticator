@@ -181,7 +181,7 @@
 
     NSAttributedString *namePlaceholder, *issuerPlaceholder;
     if (editing) {
-        UIColor *placeholderColor = [[UIColor otpForegroundColor] colorWithAlphaComponent:0.3];
+        UIColor *placeholderColor = [[UIColor otpForegroundColor] colorWithAlphaComponent:(CGFloat)0.3];
         namePlaceholder = [[NSAttributedString alloc] initWithString:@"Name"
                                                           attributes:@{NSForegroundColorAttributeName: placeholderColor}];
         issuerPlaceholder = [[NSAttributedString alloc] initWithString:@"Issuer"
