@@ -51,6 +51,7 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor otpBackgroundColor];
+    self.view.tintColor = [UIColor otpForegroundColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     // Set up top bar
@@ -60,15 +61,6 @@
 
     self.doneButtonItem = self.navigationItem.rightBarButtonItem;
     self.doneButtonItem.enabled = NO;
-
-    // Style UI elements
-    self.view.tintColor = [UIColor otpForegroundColor];
-    self.issuerCell.textLabel.textColor      = [UIColor otpForegroundColor];
-    self.accountNameCell.textLabel.textColor = [UIColor otpForegroundColor];
-    self.secretKeyCell.textLabel.textColor   = [UIColor otpForegroundColor];
-    self.issuerCell.textField.tintColor      = [UIColor otpBackgroundColor];
-    self.accountNameCell.textField.tintColor = [UIColor otpBackgroundColor];
-    self.secretKeyCell.textField.tintColor   = [UIColor otpBackgroundColor];
 
     // Only show the scan button if the device is capable of scanning
     self.scanBarcodeButtonCell.button.hidden = ![OTPScannerViewController deviceCanScan];
@@ -237,6 +229,11 @@
 {
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    cell.textLabel.textColor = [UIColor otpForegroundColor];
+    if ([cell isKindOfClass:[OTPTextFieldCell class]]) {
+        ((OTPTextFieldCell *)cell).textField.tintColor = [UIColor otpBackgroundColor];
+    }
 }
 
 
