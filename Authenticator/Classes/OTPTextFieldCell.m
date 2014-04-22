@@ -38,9 +38,6 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-
         self.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
 
         self.textField = [UITextField new];

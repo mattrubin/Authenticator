@@ -38,9 +38,6 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-
         self.segmentedControl = [UISegmentedControl new];
         [self.contentView addSubview:self.segmentedControl];
     }
