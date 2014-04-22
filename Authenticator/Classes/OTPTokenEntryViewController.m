@@ -39,6 +39,7 @@
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
 
 @property (nonatomic, strong) OTPSegmentedControlCell *tokenTypeCell;
+@property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 @property (nonatomic, strong) OTPTextFieldCell *secretKeyCell;
 @property (nonatomic, strong) OTPButtonCell *scanBarcodeButtonCell;
@@ -73,8 +74,10 @@
 
     // Style UI elements
     self.view.tintColor = [UIColor otpForegroundColor];
+    self.issuerCell.textLabel.textColor      = [UIColor otpForegroundColor];
     self.accountNameCell.textLabel.textColor = [UIColor otpForegroundColor];
     self.secretKeyCell.textLabel.textColor   = [UIColor otpForegroundColor];
+    self.issuerCell.textField.tintColor      = [UIColor otpBackgroundColor];
     self.accountNameCell.textField.tintColor = [UIColor otpBackgroundColor];
     self.secretKeyCell.textField.tintColor   = [UIColor otpBackgroundColor];
 
@@ -109,6 +112,7 @@
         OTPToken *token = [OTPToken tokenWithType:tokenType
                                                secret:secret
                                                  name:self.accountNameCell.textField.text];
+        token.issuer = self.issuerCell.textField.text;
 
         if (token.password) {
             id <OTPTokenSourceDelegate> delegate = self.delegate;
@@ -133,7 +137,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -142,10 +146,12 @@
         case 0:
             return self.tokenTypeCell;
         case 1:
-            return self.accountNameCell;
+            return self.issuerCell;
         case 2:
-            return self.secretKeyCell;
+            return self.accountNameCell;
         case 3:
+            return self.secretKeyCell;
+        case 4:
             return self.scanBarcodeButtonCell;
         default:
             return nil;
@@ -162,6 +168,8 @@
         case 2:
             return 74;
         case 3:
+            return 74;
+        case 4:
             return 50;
         default:
             return 0;
@@ -180,6 +188,18 @@
         _tokenTypeCell.segmentedControl.selectedSegmentIndex = 0;
     }
     return _tokenTypeCell;
+}
+
+- (OTPTextFieldCell *)issuerCell
+{
+    if (!_issuerCell) {
+        _issuerCell = [OTPTextFieldCell new];
+        _issuerCell.textLabel.text = @"Issuer";
+        _issuerCell.textField.placeholder = @"Some Website";
+        _issuerCell.textField.delegate = self;
+        _issuerCell.textField.returnKeyType = UIReturnKeyNext;
+    }
+    return _issuerCell;
 }
 
 - (OTPTextFieldCell *)accountNameCell
@@ -226,7 +246,10 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (textField == self.accountNameCell.textField) {
+    if (textField == self.issuerCell.textField) {
+        [self.accountNameCell.textField becomeFirstResponder];
+        return NO;
+    } else if (textField == self.accountNameCell.textField) {
         [self.secretKeyCell.textField becomeFirstResponder];
         return NO;
     } else {
