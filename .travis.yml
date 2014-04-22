@@ -3,9 +3,8 @@ xcode_workspace: Authenticator.xcworkspace
 xcode_scheme: Authenticator
 xcode_sdk: iphonesimulator
 
-# Pin to ruby 1.9, cocoapods is broken in ruby 2.0
-# see https://github.com/travis-ci/travis-ci/issues/1637
-rvm: 1.9.3
-
 before_install:
-  gem update cocoapods
+  - export LANG=en_US.UTF-8
+  - gem update cocoapods
+  - brew update
+  - brew upgrade xctool
