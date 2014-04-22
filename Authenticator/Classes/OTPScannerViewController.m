@@ -26,6 +26,7 @@
 @import AVFoundation;
 #import "OTPScannerOverlayView.h"
 #import "OTPToken+Serialization.h"
+#import "OTPTokenEntryViewController.h"
 
 
 @interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate>
@@ -55,6 +56,10 @@
 
     self.view.backgroundColor = [UIColor blackColor];
 
+    self.title = @"Scan Token";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(addTokenManually)];
+
     self.videoLayer = [AVCaptureVideoPreviewLayer layer];
     self.videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.view.layer addSublayer:self.videoLayer];
@@ -76,6 +81,21 @@
     [super viewDidDisappear:animated];
 
     [self.captureSession stopRunning];
+}
+
+
+#pragma mark - Target Actions
+
+- (void)cancel
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)addTokenManually
+{
+    OTPTokenEntryViewController *entryController = [[OTPTokenEntryViewController alloc] init];
+    entryController.delegate = self.delegate;
+    [self.navigationController pushViewController:entryController animated:YES];
 }
 
 
