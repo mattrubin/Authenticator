@@ -60,12 +60,13 @@ static NSString *const OTPTokenInternalTimerNotification = @"OTPTokenInternalTim
             self.class, self, self.type, self.name, [NSString stringForAlgorithm:self.algorithm], (unsigned long)self.digits];
 }
 
-+ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name
++ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer
 {
     OTPToken *token = [[OTPToken alloc] init];
     token.type = type;
     token.secret = secret;
     token.name = name;
+    token.issuer = issuer;
     return token;
 }
 

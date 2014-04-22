@@ -79,9 +79,9 @@
     if (secret.length) {
         OTPTokenType tokenType = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         OTPToken *token = [OTPToken tokenWithType:tokenType
-                                               secret:secret
-                                                 name:self.accountNameCell.textField.text];
-        token.issuer = self.issuerCell.textField.text;
+                                           secret:secret
+                                             name:self.accountNameCell.textField.text
+                                           issuer:self.issuerCell.textField.text];
 
         if (token.password) {
             id <OTPTokenSourceDelegate> delegate = self.delegate;

@@ -28,7 +28,7 @@
 
 @interface OTPToken : NSObject
 
-+ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name;
++ (instancetype)tokenWithType:(OTPTokenType)type secret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer;
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *issuer;
