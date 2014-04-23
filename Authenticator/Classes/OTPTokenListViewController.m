@@ -61,7 +61,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
 
-    self.ring = [[OTPProgressRing alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    self.ring = [[OTPProgressRing alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
     self.ring.period = [OTPToken defaultPeriod];
     UIBarButtonItem *ringBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.ring];
     self.navigationItem.leftBarButtonItem = ringBarItem;

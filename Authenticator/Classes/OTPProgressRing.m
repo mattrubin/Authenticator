@@ -25,6 +25,9 @@
 #import "OTPProgressRing.h"
 
 
+static const CGFloat OTPProgressRingLineWidth = 1.5;
+
+
 @implementation OTPProgressRing
 
 - (id)initWithFrame:(CGRect)frame
@@ -40,9 +43,21 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    CGContextSetStrokeColorWithColor(context, self.tintColor.CGColor);
+    CGContextSetLineWidth(context, OTPProgressRingLineWidth);
+    CGRect ringRect = CGRectInset(self.bounds, OTPProgressRingLineWidth/2, OTPProgressRingLineWidth/2);
 
-    CGContextStrokeEllipseInRect(context, self.bounds);
+    CGContextSetStrokeColorWithColor(context, [self.tintColor colorWithAlphaComponent:(CGFloat)0.2].CGColor);
+    CGContextStrokeEllipseInRect(context, ringRect);
+
+    CGContextSetStrokeColorWithColor(context, self.tintColor.CGColor);
+    CGContextAddArc(context,
+                    CGRectGetMidX(ringRect),
+                    CGRectGetMidY(ringRect),
+                    CGRectGetWidth(ringRect)/2,
+                    -(CGFloat)M_PI_2,
+                    (CGFloat)M_PI_2,
+                    1);
+    CGContextStrokePath(context);
 }
 
 @end
