@@ -28,6 +28,13 @@
 static const CGFloat OTPProgressRingLineWidth = 1.5;
 
 
+@interface OTPProgressRing ()
+
+@property (nonatomic, strong) NSTimer *timer;
+
+@end
+
+
 @implementation OTPProgressRing
 
 - (id)initWithFrame:(CGRect)frame
@@ -35,8 +42,23 @@ static const CGFloat OTPProgressRingLineWidth = 1.5;
     self = [super initWithFrame:frame];
     if (self) {
         self.opaque = NO;
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01
+                                                      target:self
+                                                    selector:@selector(update)
+                                                    userInfo:nil
+                                                     repeats:YES];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [self.timer invalidate];
+}
+
+- (void)update
+{
+    [super setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -49,13 +71,15 @@ static const CGFloat OTPProgressRingLineWidth = 1.5;
     CGContextSetStrokeColorWithColor(context, [self.tintColor colorWithAlphaComponent:(CGFloat)0.2].CGColor);
     CGContextStrokeEllipseInRect(context, ringRect);
 
+    CGFloat progress = (CGFloat)(fmod([NSDate date].timeIntervalSince1970, self.period) / self.period);
+
     CGContextSetStrokeColorWithColor(context, self.tintColor.CGColor);
     CGContextAddArc(context,
                     CGRectGetMidX(ringRect),
                     CGRectGetMidY(ringRect),
                     CGRectGetWidth(ringRect)/2,
-                    -(CGFloat)M_PI_2,
-                    (CGFloat)M_PI_2,
+                    (CGFloat) - M_PI_2,
+                    (CGFloat)(2 * M_PI * progress - M_PI_2),
                     1);
     CGContextStrokePath(context);
 }
