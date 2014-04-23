@@ -90,7 +90,7 @@
     self.nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
     self.nextPasswordButton.tintColor = [UIColor otpForegroundColor];
     [self.nextPasswordButton addTarget:self action:@selector(generateNextPassword) forControlEvents:UIControlEventTouchUpInside];
-    self.accessoryView = self.nextPasswordButton;
+    [self.contentView addSubview:self.nextPasswordButton];
 }
 
 - (void)generateNextPassword
@@ -113,6 +113,9 @@
     frame.origin.y += 20;
     frame.size.height -= 30;
     self.passwordLabel.frame = frame;
+
+    self.nextPasswordButton.center = CGPointMake(CGRectGetMaxX(insetFrame) - 25,
+                                                 CGRectGetMidY(self.passwordLabel.frame));
 }
 
 
@@ -170,6 +173,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.titleLabel.alpha = !editing ? 1 : (CGFloat)0.2;
         self.passwordLabel.alpha = !editing ? 1 : (CGFloat)0.2;
+        self.nextPasswordButton.alpha = !editing ? 1 : 0;
     }];
 }
 
