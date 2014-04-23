@@ -30,6 +30,7 @@
 
 @interface OTPTokenCell ()
 
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *passwordLabel;
 @property (nonatomic, strong) UIButton *nextPasswordButton;
 
@@ -73,15 +74,17 @@
 {
     self.backgroundColor = [UIColor otpBackgroundColor];
 
-    self.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
-    self.textLabel.textColor = [UIColor otpForegroundColor];
-    self.textLabel.textAlignment = NSTextAlignmentCenter;
+    self.titleLabel = [UILabel new];
+    self.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+    self.titleLabel.textColor = [UIColor otpForegroundColor];
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
 
     self.passwordLabel = [UILabel new];
     self.passwordLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:50];
     self.passwordLabel.textColor = [UIColor otpForegroundColor];
     self.passwordLabel.textAlignment = NSTextAlignmentCenter;
 
+    [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.passwordLabel];
 
     self.nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
@@ -104,7 +107,7 @@
 
     CGRect frame = insetFrame;
     frame.size.height = 20;
-    self.textLabel.frame = frame;
+    self.titleLabel.frame = frame;
 
     frame = insetFrame;
     frame.origin.y += 20;
@@ -151,7 +154,7 @@
     if (self.token.name.length) {
         [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:self.token.name]];
     }
-    self.textLabel.attributedText = titleString;
+    self.titleLabel.attributedText = titleString;
 
     self.passwordLabel.text = self.token.password;
     self.nextPasswordButton.hidden = self.token.type != OTPTokenTypeCounter;
@@ -165,7 +168,7 @@
     [super setEditing:editing animated:animated];
 
     [UIView animateWithDuration:0.3 animations:^{
-        self.textLabel.alpha = !editing ? 1 : (CGFloat)0.2;
+        self.titleLabel.alpha = !editing ? 1 : (CGFloat)0.2;
         self.passwordLabel.alpha = !editing ? 1 : (CGFloat)0.2;
     }];
 }
