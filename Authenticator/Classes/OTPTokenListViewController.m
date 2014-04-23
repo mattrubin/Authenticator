@@ -33,7 +33,7 @@
 #import "OTPTokenEditViewController.h"
 
 
-@interface OTPTokenListViewController ()
+@interface OTPTokenListViewController () <OTPTokenEditorDelegate>
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
 @property (nonatomic, strong) OTPProgressRing *ring;
@@ -144,6 +144,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.isEditing) {
+        self.editing = NO;
+
         OTPTokenEditViewController *editController = [OTPTokenEditViewController new];
         editController.token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
         editController.delegate = self;
@@ -189,6 +191,15 @@
         [self.tableView reloadData];
         [self update];
     }
+}
+
+
+#pragma mark - OTPTokenEditorDelegate
+
+- (void)tokenSource:(id)tokenSource didEditToken:(OTPToken *)token
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.tableView reloadData];
 }
 
 @end

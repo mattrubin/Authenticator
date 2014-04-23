@@ -24,7 +24,7 @@
 
 #import "OTPTokenEditViewController.h"
 #import "OTPTextFieldCell.h"
-#import "OTPToken.h"
+#import "OTPToken+Persistence.h"
 
 
 @interface OTPTokenEntryViewController () <UITextFieldDelegate>
@@ -71,8 +71,17 @@
 
 - (void)updateToken
 {
-    NSLog(@"!!!");
+    if (!self.formIsValid) return;
 
+    if (![self.token.name isEqualToString:self.accountNameCell.textField.text] ||
+        ![self.token.issuer isEqualToString:self.issuerCell.textField.text]) {
+        self.token.name = self.accountNameCell.textField.text;
+        self.token.issuer = self.issuerCell.textField.text;
+        [self.token saveToKeychain];
+    }
+
+    id <OTPTokenEditorDelegate> delegate = self.delegate;
+    [delegate tokenSource:self didEditToken:self.token];
 }
 
 

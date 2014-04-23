@@ -25,7 +25,16 @@
 #import "OTPTokenEntryViewController.h"
 
 
+@protocol OTPTokenEditorDelegate <OTPTokenSourceDelegate>
+
+- (void)tokenSource:(id)tokenSource didEditToken:(OTPToken *)token;
+
+@end
+
+
 @interface OTPTokenEditViewController : OTPTokenEntryViewController
+
+@property (nonatomic, weak) id <OTPTokenEditorDelegate> delegate;
 
 @property (nonatomic, strong) OTPToken *token;
 
