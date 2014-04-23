@@ -28,10 +28,8 @@
 #import "OTPToken+Generation.h"
 
 
-@interface OTPTokenCell () <UITextFieldDelegate>
+@interface OTPTokenCell ()
 
-@property (nonatomic, strong) UITextField *nameLabel;
-@property (nonatomic, strong) UITextField *issuerLabel;
 @property (nonatomic, strong) UILabel *passwordLabel;
 @property (nonatomic, strong) UIButton *nextPasswordButton;
 
@@ -75,26 +73,13 @@
 {
     self.backgroundColor = [UIColor otpBackgroundColor];
 
-    self.nameLabel = [UITextField new];
-    self.nameLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
-    self.nameLabel.textColor = [UIColor otpForegroundColor];
-    self.nameLabel.returnKeyType = UIReturnKeyDone;
-    self.nameLabel.delegate = self;
-    self.nameLabel.enabled = NO;
-
-    self.issuerLabel = [UITextField new];
-    self.issuerLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
-    self.issuerLabel.textColor = [UIColor otpForegroundColor];
-    self.issuerLabel.returnKeyType = UIReturnKeyNext;
-    self.issuerLabel.delegate = self;
-    self.issuerLabel.enabled = NO;
+    self.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+    self.textLabel.textColor = [UIColor otpForegroundColor];
 
     self.passwordLabel = [UILabel new];
     self.passwordLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:50];
     self.passwordLabel.textColor = [UIColor otpForegroundColor];
 
-    [self.contentView addSubview:self.nameLabel];
-    [self.contentView addSubview:self.issuerLabel];
     [self.contentView addSubview:self.passwordLabel];
 
     self.nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
@@ -116,15 +101,7 @@
 
     CGRect frame = insetFrame;
     frame.size.height = 20;
-    frame.size.width = (self.issuerLabel.text.length || self.editing) ? [self.issuerLabel sizeThatFits:frame.size].width : 0;
-    if (self.editing && frame.size.width < 80) {
-        frame.size.width = 80;
-    }
-    self.issuerLabel.frame = frame;
-
-    frame.origin.x += frame.size.width;
-    frame.size.width = CGRectGetMaxX(insetFrame) - frame.origin.x;
-    self.nameLabel.frame = frame;
+    self.textLabel.frame = frame;
 
     frame = insetFrame;
     frame.origin.y += 20;
@@ -161,10 +138,18 @@
 
 - (void)refresh
 {
-    if (!self.editing) {
-        self.nameLabel.text = self.token.name;
-        self.issuerLabel.text = self.token.issuer;
+    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
+    if (self.token.issuer.length) {
+        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:self.token.issuer attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15]}]];
     }
+    if (self.token.issuer.length && self.token.name.length) {
+        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+    }
+    if (self.token.name.length) {
+        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:self.token.name]];
+    }
+    self.textLabel.attributedText = titleString;
+
     self.passwordLabel.text = self.token.password;
     self.nextPasswordButton.hidden = self.token.type != OTPTokenTypeCounter;
 }
@@ -176,50 +161,10 @@
 {
     [super setEditing:editing animated:animated];
 
-    self.nameLabel.enabled = editing;
-    self.issuerLabel.enabled = self.nameLabel.enabled;
-
-    NSAttributedString *namePlaceholder, *issuerPlaceholder;
-    if (editing) {
-        UIColor *placeholderColor = [[UIColor otpForegroundColor] colorWithAlphaComponent:(CGFloat)0.3];
-        namePlaceholder = [[NSAttributedString alloc] initWithString:@"Name"
-                                                          attributes:@{NSForegroundColorAttributeName: placeholderColor}];
-        issuerPlaceholder = [[NSAttributedString alloc] initWithString:@"Issuer"
-                                                            attributes:@{NSForegroundColorAttributeName: placeholderColor}];
-    }
-    self.nameLabel.attributedPlaceholder = namePlaceholder;
-    self.issuerLabel.attributedPlaceholder = issuerPlaceholder;
-
     [UIView animateWithDuration:0.3 animations:^{
+        self.textLabel.alpha = !editing ? 1 : (CGFloat)0.2;
         self.passwordLabel.alpha = !editing ? 1 : (CGFloat)0.2;
     }];
-
-    if (!editing) {
-        [self.nameLabel resignFirstResponder];
-        [self.issuerLabel resignFirstResponder];
-
-        [self commitChanges];
-    }
-}
-
-- (void)commitChanges
-{
-    if (![self.token.name isEqualToString:self.nameLabel.text] ||
-        ![self.token.issuer isEqualToString:self.issuerLabel.text]) {
-        self.token.name = self.nameLabel.text;
-        self.token.issuer = self.issuerLabel.text;
-        [self.token saveToKeychain];
-    }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    if (textField == self.issuerLabel) {
-        [self.nameLabel becomeFirstResponder];
-    } else {
-        [textField resignFirstResponder];
-    }
-    return NO;
 }
 
 @end
