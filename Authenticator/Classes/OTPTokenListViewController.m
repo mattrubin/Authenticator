@@ -72,6 +72,7 @@
                           self.addButtonItem];
     self.navigationController.toolbarHidden = NO;
 
+    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
     [self update];
 }
 
@@ -133,7 +134,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    return 85;
 }
 
 

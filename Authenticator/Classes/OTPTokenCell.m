@@ -75,10 +75,12 @@
 
     self.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
     self.textLabel.textColor = [UIColor otpForegroundColor];
+    self.textLabel.textAlignment = NSTextAlignmentCenter;
 
     self.passwordLabel = [UILabel new];
     self.passwordLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:50];
     self.passwordLabel.textColor = [UIColor otpForegroundColor];
+    self.passwordLabel.textAlignment = NSTextAlignmentCenter;
 
     [self.contentView addSubview:self.passwordLabel];
 
@@ -97,7 +99,8 @@
 {
     [super layoutSubviews];
 
-    CGRect insetFrame = CGRectInset(self.contentView.bounds, 10, 5);
+    CGRect insetFrame = [self convertRect:self.bounds toView:self.contentView];
+    insetFrame.origin.x = MIN(insetFrame.origin.x, self.contentView.bounds.origin.x);
 
     CGRect frame = insetFrame;
     frame.size.height = 20;
@@ -105,7 +108,7 @@
 
     frame = insetFrame;
     frame.origin.y += 20;
-    frame.size.height -= 20;
+    frame.size.height -= 30;
     self.passwordLabel.frame = frame;
 }
 
