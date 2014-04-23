@@ -25,7 +25,7 @@
 #import "OTPTokenListViewController.h"
 #import "OTPTokenManager.h"
 #import "OTPTokenCell.h"
-#import "OTPClock.h"
+#import "OTPProgressRing.h"
 #import "OTPToken.h"
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
@@ -34,7 +34,7 @@
 @interface OTPTokenListViewController ()
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
-@property (nonatomic, strong) OTPClock *clock;
+@property (nonatomic, strong) OTPProgressRing *ring;
 @property (nonatomic, strong) UIBarButtonItem *addButtonItem;
 
 @end
@@ -61,10 +61,10 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
 
-    self.clock = [[OTPClock alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    self.clock.period = [OTPToken defaultPeriod];
-    UIBarButtonItem *clockBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.clock];
-    self.navigationItem.leftBarButtonItem = clockBarItem;
+    self.ring = [[OTPProgressRing alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
+    self.ring.period = [OTPToken defaultPeriod];
+    UIBarButtonItem *ringBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.ring];
+    self.navigationItem.leftBarButtonItem = ringBarItem;
 
     self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addToken)];
     self.toolbarItems = @[self.editButtonItem,
@@ -77,11 +77,11 @@
 
 - (void)update
 {
-    // Show the countdown clock only if a time-based token is active
-    self.clock.hidden = YES;
+    // Show the countdown ring only if a time-based token is active
+    self.ring.hidden = YES;
     for (OTPToken *token in self.tokenManager.tokens) {
         if (token.type == OTPTokenTypeTimer) {
-            self.clock.hidden = NO;
+            self.ring.hidden = NO;
             break;
         }
     }
