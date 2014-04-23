@@ -57,7 +57,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(createToken)];
 
     self.doneButtonItem = self.navigationItem.rightBarButtonItem;
-    self.doneButtonItem.enabled = NO;
+    [self validateForm];
 }
 
 
@@ -70,9 +70,7 @@
 
 - (void)createToken
 {
-    if (!self.accountNameCell.textField.text.length || !self.secretKeyCell.textField.text.length) {
-        return;
-    }
+    if (!self.formIsValid) return;
 
     NSData *secret = [NSData dataWithBase32String:self.secretKeyCell.textField.text];
 
@@ -219,15 +217,26 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    // Ensure both fields (will) have text in them
-    NSString *newText = [[textField.text mutableCopy] stringByReplacingCharactersInRange:range withString:string];
-    if (textField == self.accountNameCell.textField) {
-        self.doneButtonItem.enabled = newText.length && self.secretKeyCell.textField.text.length;
-    } else if (textField == self.secretKeyCell.textField) {
-        self.doneButtonItem.enabled = newText.length && self.accountNameCell.textField.text.length;
-    }
+    // Delay validation slightly to allow the text field time to commit the new value
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self validateForm];
+    });
 
     return YES;
+}
+
+
+#pragma mark - Validation
+
+- (void)validateForm
+{
+    self.doneButtonItem.enabled = self.formIsValid;
+}
+
+- (BOOL)formIsValid
+{
+    return (self.accountNameCell.textField.text.length &&
+            self.secretKeyCell.textField.text.length);
 }
 
 @end
