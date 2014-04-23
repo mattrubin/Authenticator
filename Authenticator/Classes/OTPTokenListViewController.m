@@ -30,6 +30,7 @@
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
 @import MobileCoreServices;
+#import "OTPTokenEditViewController.h"
 
 
 @interface OTPTokenListViewController ()
@@ -74,6 +75,8 @@
     self.navigationController.toolbarHidden = NO;
 
     self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+    self.tableView.allowsSelectionDuringEditing = YES;
+
     [self update];
 }
 
@@ -140,9 +143,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
-    [[UIPasteboard generalPasteboard] setValue:token.password forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
-    [SVProgressHUD showSuccessWithStatus:@"Copied"];
+    if (self.isEditing) {
+        OTPTokenEditViewController *editController = [OTPTokenEditViewController new];
+        editController.token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        editController.delegate = self;
+
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editController];
+        navController.navigationBar.translucent = NO;
+
+        [self presentViewController:navController animated:YES completion:nil];
+    } else {
+        OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        [[UIPasteboard generalPasteboard] setValue:token.password forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
+        [SVProgressHUD showSuccessWithStatus:@"Copied"];
+    }
 }
 
 
