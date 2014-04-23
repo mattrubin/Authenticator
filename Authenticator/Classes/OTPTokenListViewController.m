@@ -26,9 +26,10 @@
 #import "OTPTokenManager.h"
 #import "OTPTokenCell.h"
 #import "OTPProgressRing.h"
-#import "OTPToken.h"
+#import "OTPToken+Generation.h"
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
+@import MobileCoreServices;
 
 
 @interface OTPTokenListViewController ()
@@ -135,6 +136,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 85;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+    [[UIPasteboard generalPasteboard] setValue:token.password forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
+    [SVProgressHUD showSuccessWithStatus:@"Copied"];
 }
 
 

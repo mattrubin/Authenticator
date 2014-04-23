@@ -23,7 +23,6 @@
 //
 
 #import "OTPTokenCell.h"
-@import MobileCoreServices;
 #import "OTPToken+Persistence.h"
 #import "OTPToken+Generation.h"
 
@@ -116,25 +115,6 @@
 
     self.nextPasswordButton.center = CGPointMake(CGRectGetMaxX(insetFrame) - 25,
                                                  CGRectGetMidY(self.passwordLabel.frame));
-}
-
-
-#pragma mark - Copying
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    if (selected) {
-        [self copyPassword];
-    }
-}
-
-- (void)copyPassword
-{
-    [[UIPasteboard generalPasteboard] setValue:self.token.password forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
-
-    [SVProgressHUD showSuccessWithStatus:@"Copied"];
 }
 
 
