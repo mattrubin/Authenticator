@@ -199,7 +199,8 @@
 
     cell.textLabel.textColor = [UIColor otpForegroundColor];
     if ([cell isKindOfClass:[OTPTextFieldCell class]]) {
-        ((OTPTextFieldCell *)cell).textField.tintColor = [UIColor otpBackgroundColor];
+        ((OTPTextFieldCell *)cell).textField.backgroundColor = [UIColor otpLightColor];
+        ((OTPTextFieldCell *)cell).textField.tintColor = [UIColor otpDarkColor];
     }
 }
 

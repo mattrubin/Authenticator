@@ -27,6 +27,7 @@
 
 @interface UIColor (OTP)
 
++ (instancetype)otpDarkColor;
 + (instancetype)otpLightColor;
 
 + (instancetype)otpBarBackgroundColor;
