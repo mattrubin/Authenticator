@@ -14,12 +14,14 @@
        cx="10"
        cy="10"
        r="7"
-       stroke="white"
+       stroke="#FAFAF0"
+       stroke-width="1.5"
        fill="none"
        opacity="0.2" />
     <path
        d="M 10,3
           a 7,7 0 1,0 4.95,11.95"
-       stroke="white"
+       stroke="#FAFAF0"
+       stroke-width="1.5"
        fill="none" />
 </svg>
