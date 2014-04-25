@@ -26,12 +26,14 @@
 #import "OTPTokenManager.h"
 #import "OTPTokenCell.h"
 #import "OTPProgressRing.h"
-#import "OTPToken.h"
+#import "OTPToken+Generation.h"
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
+@import MobileCoreServices;
+#import "OTPTokenEditViewController.h"
 
 
-@interface OTPTokenListViewController ()
+@interface OTPTokenListViewController () <OTPTokenEditorDelegate>
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
 @property (nonatomic, strong) OTPProgressRing *ring;
@@ -73,6 +75,8 @@
     self.navigationController.toolbarHidden = NO;
 
     self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+    self.tableView.allowsSelectionDuringEditing = YES;
+
     [self update];
 }
 
@@ -137,6 +141,26 @@
     return 85;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.isEditing) {
+        self.editing = NO;
+
+        OTPTokenEditViewController *editController = [OTPTokenEditViewController new];
+        editController.token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        editController.delegate = self;
+
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editController];
+        navController.navigationBar.translucent = NO;
+
+        [self presentViewController:navController animated:YES completion:nil];
+    } else {
+        OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        [[UIPasteboard generalPasteboard] setValue:token.password forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
+        [SVProgressHUD showSuccessWithStatus:@"Copied"];
+    }
+}
+
 
 #pragma mark - Target actions
 
@@ -167,6 +191,15 @@
         [self.tableView reloadData];
         [self update];
     }
+}
+
+
+#pragma mark - OTPTokenEditorDelegate
+
+- (void)tokenEditor:(id)tokenEditor didEditToken:(OTPToken *)token
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.tableView reloadData];
 }
 
 @end
