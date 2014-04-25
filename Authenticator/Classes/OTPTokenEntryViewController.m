@@ -239,7 +239,8 @@
 
 - (BOOL)formIsValid
 {
-    return (self.accountNameCell.textField.text.length &&
+    return ((self.issuerCell.textField.text.length ||
+             self.accountNameCell.textField.text.length) &&
             self.secretKeyCell.textField.text.length);
 }
 
