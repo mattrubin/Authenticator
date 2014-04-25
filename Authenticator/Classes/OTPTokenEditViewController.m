@@ -81,7 +81,7 @@
     }
 
     id <OTPTokenEditorDelegate> delegate = self.delegate;
-    [delegate tokenSource:self didEditToken:self.token];
+    [delegate tokenEditor:self didEditToken:self.token];
 }
 
 

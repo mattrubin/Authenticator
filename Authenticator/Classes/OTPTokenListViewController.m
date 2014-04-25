@@ -196,7 +196,7 @@
 
 #pragma mark - OTPTokenEditorDelegate
 
-- (void)tokenSource:(id)tokenSource didEditToken:(OTPToken *)token
+- (void)tokenEditor:(id)tokenEditor didEditToken:(OTPToken *)token
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.tableView reloadData];

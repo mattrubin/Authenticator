@@ -27,7 +27,7 @@
 
 @protocol OTPTokenEditorDelegate <OTPTokenSourceDelegate>
 
-- (void)tokenSource:(id)tokenSource didEditToken:(OTPToken *)token;
+- (void)tokenEditor:(id)tokenEditor didEditToken:(OTPToken *)token;
 
 @end
 
