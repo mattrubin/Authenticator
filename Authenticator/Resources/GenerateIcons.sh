@@ -1,5 +1,8 @@
 #!/bin/bash
 
+hash inkscape 2>/dev/null || { echo >&2 "Icon generation requires inkscape. Using existing icons instead."; exit 0; }
+hash pngcrush 2>/dev/null || { echo >&2 "Icon generation requires pngcrush. Using existing icons instead."; exit 0; }
+
 # Generate App Icons
 inkscape -z -e "Icon-29@2x.png" -w 58 "Icon.svg";
 inkscape -z -e "Icon-40@2x.png" -w 80 "Icon.svg";
