@@ -139,7 +139,7 @@
     }
     self.titleLabel.attributedText = titleString;
 
-    self.passwordLabel.text = self.token.password;
+    self.passwordLabel.attributedText = [[NSAttributedString alloc] initWithString:self.token.password attributes:@{NSKernAttributeName: @2}];
     self.nextPasswordButton.hidden = self.token.type != OTPTokenTypeCounter;
 }
 
