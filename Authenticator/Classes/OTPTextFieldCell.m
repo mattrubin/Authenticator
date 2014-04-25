@@ -43,6 +43,7 @@
         self.textField = [UITextField new];
         self.textField.borderStyle = UITextBorderStyleRoundedRect;
         self.textField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+        self.textField.backgroundColor = [UIColor otpLightColor];
         [self.contentView addSubview:self.textField];
     }
     return self;
