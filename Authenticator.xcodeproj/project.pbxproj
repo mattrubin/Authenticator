@@ -81,6 +81,7 @@
 		C958CC4F182A1FDD00DD47D0 /* OTPTokenType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenType.h; sourceTree = "<group>"; };
 		C958CC50182A1FDD00DD47D0 /* OTPTokenType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenType.m; sourceTree = "<group>"; };
 		C958CC53183043A600DD47D0 /* OTPTokenSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenSerializationTests.m; sourceTree = "<group>"; };
+		C959A63C190A69120042DEC0 /* icon.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = icon.svg; sourceTree = "<group>"; };
 		C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
 		C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		C9776E3318518801003D53CB /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -181,6 +182,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C959A63C190A69120042DEC0 /* icon.svg */,
 				C9C6CCA11842E331000100C2 /* Images.xcassets */,
 				C9F75C921843CFFD00B6FA14 /* iTunes Artwork */,
 				C97B68C617D9226D005D1FE0 /* Settings.bundle */,
