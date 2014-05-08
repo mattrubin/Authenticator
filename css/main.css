@@ -9,6 +9,12 @@ textarea {
     color: #FAFAF0;
 }
 
+a,
+a:hover,
+a:visited {
+    color: inherit;
+}
+
 html {
     font-size: 1em;
     line-height: 1.4;
@@ -101,13 +107,6 @@ nav a {
     text-align: center;
     text-decoration: none;
     font-weight: bold;
-
-    color: #FAFAF0;
-}
-
-nav a:hover,
-nav a:visited {
-    color: #FAFAF0;
 }
 
 nav a:hover {
