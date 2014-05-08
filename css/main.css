@@ -182,14 +182,14 @@ body>footer {
     }
 }
 
-@media only screen and (min-width: 1140px) {
+@media only screen and (min-width: 800px) {
 
 /* ===============
     Maximal Width
    =============== */
 
     .wrapper {
-        width: 1026px; /* 1140px - 10% for margins */
+        width: 720px; /* 800px - 10% for margins */
         margin: 0 auto;
     }
 }
