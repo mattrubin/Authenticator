@@ -1,3 +1,0 @@
-# The problem with MD5
-
-This is a test...
