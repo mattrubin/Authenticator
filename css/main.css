@@ -5,7 +5,8 @@ button,
 input,
 select,
 textarea {
-    color: #222;
+    background-color: #232332;
+    color: #FAFAF0;
 }
 
 html {
@@ -75,22 +76,12 @@ body {
    =================== */
 
 .header-container {
-    border-bottom: 20px solid #e44d26;
+    border-bottom: 1px solid #FAFAF0;
 }
 
 .footer-container,
 .main aside {
-    border-top: 20px solid #e44d26;
-}
-
-.header-container,
-.footer-container,
-.main aside {
-    background: #f16529;
-}
-
-.title {
-    color: white;
+    border-top: 1px solid #FAFAF0;
 }
 
 /* ==============
@@ -111,13 +102,12 @@ nav a {
     text-decoration: none;
     font-weight: bold;
 
-    color: white;
-    background: #e44d26;
+    color: #FAFAF0;
 }
 
 nav a:hover,
 nav a:visited {
-    color: white;
+    color: #FAFAF0;
 }
 
 nav a:hover {
@@ -137,12 +127,10 @@ nav a:hover {
 }
 
 .main aside {
-    color: white;
     padding: 0px 5% 10px;
 }
 
 .footer-container footer {
-    color: white;
     padding: 20px 0;
 }
 
@@ -212,17 +200,6 @@ nav a:hover {
 }
 
 @media only screen and (min-width: 768px) {
-
-/* ====================
-    WIDE: CSS3 Effects
-   ==================== */
-
-    .header-container,
-    .main aside {
-        -webkit-box-shadow: 0 5px 10px #aaa;
-           -moz-box-shadow: 0 5px 10px #aaa;
-                box-shadow: 0 5px 10px #aaa;
-    }
 
 /* ============
     WIDE: Menu
