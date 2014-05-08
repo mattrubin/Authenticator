@@ -16,7 +16,7 @@ a:visited {
 }
 
 html {
-    font-size: 1.2em;
+    font-size: 1em;
     line-height: 1.4;
 }
 
@@ -125,12 +125,17 @@ main li {
     margin: 0.5em 0;
 }
 
+header img {
+    margin: 5px;
+}
+
 header h1 {
-    margin-bottom: 0;
+    font-size: 2.4em;
+    margin: 0;
 }
 
 header h2 {
-    font-size: 1em;
+    font-size: 1.2em;
     margin-top: 0;
 }
 
