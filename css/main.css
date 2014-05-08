@@ -74,12 +74,12 @@ body {
     ALL: Orange Theme
    =================== */
 
-.header-container {
+header {
     border-bottom: 1px solid #FAFAF0;
 }
 
-.footer-container,
-.main aside {
+footer,
+aside {
     border-top: 1px solid #FAFAF0;
 }
 
@@ -110,19 +110,19 @@ nav a:hover {
     MOBILE: Main
    ============== */
 
-.main {
+main {
     padding: 30px 0;
 }
 
-.main article h1 {
+main article h1 {
     font-size: 2em;
 }
 
-.main aside {
+main aside {
     padding: 0px 5% 10px;
 }
 
-.footer-container footer {
+body>footer {
     padding: 20px 0;
 }
 
@@ -210,12 +210,12 @@ nav a:hover {
     WIDE: Main
    ============ */
 
-    .main article {
+    main article {
         float: left;
         width: 57%;
     }
 
-    .main aside {
+    main aside {
         float: right;
         width: 28%;
     }
