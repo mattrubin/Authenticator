@@ -16,7 +16,7 @@ a:visited {
 }
 
 html {
-    font-size: 1em;
+    font-size: 1.2em;
     line-height: 1.4;
 }
 
@@ -62,12 +62,18 @@ textarea {
    ========================================================================== */
 
 body {
-    font: 16px/26px Helvetica, Helvetica Neue, Arial;
+    font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+    font-weight: lighter;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: inherit;
 }
 
 .wrapper {
     width: 90%;
     margin: 0 5%;
+    padding: 20px 0;
 }
 
 /* ===================
@@ -103,31 +109,10 @@ nav a {
 
     text-align: center;
     text-decoration: none;
-    font-weight: bold;
 }
 
 nav a:hover {
     text-decoration: underline;
-}
-
-/* ==============
-    MOBILE: Main
-   ============== */
-
-main {
-    padding: 30px 0;
-}
-
-main article h1 {
-    font-size: 2em;
-}
-
-main aside {
-    padding: 0px 5% 10px;
-}
-
-body>footer {
-    padding: 20px 0;
 }
 
 
@@ -136,9 +121,18 @@ body>footer {
    ========================================================================== */
 
 
+main li {
+    margin: 0.5em 0;
+}
 
+header h1 {
+    margin-bottom: 0;
+}
 
-
+header h2 {
+    font-size: 1em;
+    margin-top: 0;
+}
 
 
 
