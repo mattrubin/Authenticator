@@ -139,13 +139,12 @@ header h2 {
     margin-top: 0;
 }
 
-
-
-
-
-
-
-
+img.screenshot {
+    border: 1px solid rgba(255,255,255,0.2);
+    max-width: 200px;
+    display: inline-block;
+    margin: 15px;
+}
 
 
 /* ==========================================================================
