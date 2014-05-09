@@ -208,6 +208,13 @@
     if ([self.tokenManager addToken:token]) {
         [self.tableView reloadData];
         [self update];
+
+        // Scroll to the new token (added at the bottom)
+        NSInteger section = [self numberOfSectionsInTableView:self.tableView] - 1;
+        NSInteger row = [self tableView:self.tableView numberOfRowsInSection:section] - 1;
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section]
+                              atScrollPosition:UITableViewScrollPositionMiddle
+                                      animated:YES];
     }
 }
 
