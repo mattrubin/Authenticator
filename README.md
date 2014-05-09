@@ -1,7 +1,7 @@
 # Authenticator
 ### Two-Factor Authentication Client for iOS.
 
-[<img src="https://badge.fury.io/gh/mattrubin%2Fauthenticator@2x.png" alt="GitHub version" height="18px">](http://badge.fury.io/gh/mattrubin%2Fauthenticator)
+[![GitHub version](https://badge.fury.io/gh/mattrubin%2Fauthenticator.svg)](http://badge.fury.io/gh/mattrubin%2Fauthenticator)
 [![Build Status](https://travis-ci.org/mattrubin/authenticator.svg?branch=master)](https://travis-ci.org/mattrubin/authenticator)
 
 
