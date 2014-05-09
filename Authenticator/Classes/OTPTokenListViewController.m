@@ -37,6 +37,7 @@
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
 @property (nonatomic, strong) OTPProgressRing *ring;
+@property (nonatomic, strong) UILabel *noTokensLabel;
 @property (nonatomic, strong) UIBarButtonItem *addButtonItem;
 
 @end
@@ -77,6 +78,22 @@
     self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
     self.tableView.allowsSelectionDuringEditing = YES;
 
+    self.noTokensLabel = [UILabel new];
+    self.noTokensLabel.numberOfLines = 2;
+    NSMutableAttributedString *noTokenString = [[NSMutableAttributedString alloc] initWithString:@"No Tokens\n"
+                                                                                      attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:20]}];
+    [noTokenString appendAttributedString:[[NSAttributedString alloc] initWithString:@"Tap + to add a new token"
+                                                                          attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17]}]];
+    [noTokenString addAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:25]}
+                           range:[noTokenString.string rangeOfString:@"+"]];
+    self.noTokensLabel.attributedText = noTokenString;
+    self.noTokensLabel.textAlignment = NSTextAlignmentCenter;
+    self.noTokensLabel.textColor = [UIColor otpForegroundColor];
+    self.noTokensLabel.frame = CGRectMake(0, 0,
+                                          self.view.bounds.size.width,
+                                          self.view.bounds.size.height * 0.6f);
+    [self.view addSubview:self.noTokensLabel];
+
     [self update];
 }
 
@@ -92,6 +109,7 @@
     }
 
     self.editButtonItem.enabled = !!self.tokenManager.tokens.count;
+    self.noTokensLabel.hidden = !!self.tokenManager.tokens.count;
 }
 
 
