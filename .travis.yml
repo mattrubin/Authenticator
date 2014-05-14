@@ -8,6 +8,6 @@ xcode_sdk:
 
 before_install:
   - export LANG=en_US.UTF-8
-  - gem update cocoapods
+  - gem update cocoapods --no-document
   - brew update
   - brew upgrade xctool
