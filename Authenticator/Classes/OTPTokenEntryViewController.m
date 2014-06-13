@@ -49,6 +49,23 @@ typedef enum : NSUInteger {
     OTPNumberOfTokenEntryAdvancedRows,
 } OTPTokenEntryAdvancedRow;
 
+typedef enum : NSUInteger {
+    OTPTokenTypeIndexTimer,
+    OTPTokenTypeIndexCounter,
+} OTPTokenTypeIndex;
+
+typedef enum : NSUInteger {
+    OTPTokenDigitsIndex6,
+    OTPTokenDigitsIndex7,
+    OTPTokenDigitsIndex8,
+} OTPTokenDigitsIndex;
+
+typedef enum : NSUInteger {
+    OTPTokenAlgorithmIndexSHA1,
+    OTPTokenAlgorithmIndexSHA256,
+    OTPTokenAlgorithmIndexSHA512,
+} OTPTokenAlgorithmIndex;
+
 
 @interface OTPTokenEntryViewController ()
     <UITextFieldDelegate>
@@ -104,32 +121,32 @@ typedef enum : NSUInteger {
     NSData *secret = [NSData dataWithBase32String:self.secretKeyCell.textField.text];
 
     if (secret.length) {
-        OTPTokenType tokenType = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
+        OTPTokenType tokenType = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == OTPTokenTypeIndexTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         OTPToken *token = [OTPToken tokenWithType:tokenType
                                            secret:secret
                                              name:self.accountNameCell.textField.text
                                            issuer:self.issuerCell.textField.text];
 
         switch (self.digitCountCell.segmentedControl.selectedSegmentIndex) {
-            case 0:
+            case OTPTokenDigitsIndex6:
                 token.digits = 6;
                 break;
-            case 1:
+            case OTPTokenDigitsIndex7:
                 token.digits = 7;
                 break;
-            case 2:
+            case OTPTokenDigitsIndex8:
                 token.digits = 8;
                 break;
         }
 
         switch (self.algorithmCell.segmentedControl.selectedSegmentIndex) {
-            case 0:
+            case OTPTokenAlgorithmIndexSHA1:
                 token.algorithm = OTPAlgorithmSHA1;
                 break;
-            case 1:
+            case OTPTokenAlgorithmIndexSHA256:
                 token.algorithm = OTPAlgorithmSHA256;
                 break;
-            case 2:
+            case OTPTokenAlgorithmIndexSHA512:
                 token.algorithm = OTPAlgorithmSHA512;
                 break;
         }
@@ -222,9 +239,9 @@ typedef enum : NSUInteger {
 {
     if (!_tokenTypeCell) {
         _tokenTypeCell = [OTPSegmentedControlCell cell];
-        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Time Based" atIndex:0 animated:NO];
-        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Counter Based" atIndex:1 animated:NO];
-        _tokenTypeCell.segmentedControl.selectedSegmentIndex = 0;
+        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Time Based" atIndex:OTPTokenTypeIndexTimer animated:NO];
+        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Counter Based" atIndex:OTPTokenTypeIndexCounter animated:NO];
+        _tokenTypeCell.segmentedControl.selectedSegmentIndex = OTPTokenTypeIndexTimer;
     }
     return _tokenTypeCell;
 }
@@ -274,10 +291,10 @@ typedef enum : NSUInteger {
 {
     if (!_digitCountCell) {
         _digitCountCell = [OTPSegmentedControlCell cell];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"6 Digits" atIndex:0 animated:NO];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"7 Digits" atIndex:1 animated:NO];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"8 Digits" atIndex:2 animated:NO];
-        _digitCountCell.segmentedControl.selectedSegmentIndex = 0;
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"6 Digits" atIndex:OTPTokenDigitsIndex6 animated:NO];
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"7 Digits" atIndex:OTPTokenDigitsIndex7 animated:NO];
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"8 Digits" atIndex:OTPTokenDigitsIndex8 animated:NO];
+        _digitCountCell.segmentedControl.selectedSegmentIndex = OTPTokenDigitsIndex6;
     }
     return _digitCountCell;
 }
@@ -286,10 +303,10 @@ typedef enum : NSUInteger {
 {
     if (!_algorithmCell) {
         _algorithmCell = [OTPSegmentedControlCell cell];
-        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-1" atIndex:0 animated:NO];
-        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-256" atIndex:1 animated:NO];
-        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-512" atIndex:2 animated:NO];
-        _algorithmCell.segmentedControl.selectedSegmentIndex = 0;
+        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-1"   atIndex:OTPTokenAlgorithmIndexSHA1   animated:NO];
+        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-256" atIndex:OTPTokenAlgorithmIndexSHA256 animated:NO];
+        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-512" atIndex:OTPTokenAlgorithmIndexSHA512 animated:NO];
+        _algorithmCell.segmentedControl.selectedSegmentIndex = OTPTokenAlgorithmIndexSHA1;
     }
     return _algorithmCell;
 }
