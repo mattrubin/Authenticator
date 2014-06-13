@@ -29,6 +29,27 @@
 #import <Base32/MF_Base32Additions.h>
 
 
+typedef enum : NSUInteger {
+    OTPTokenEntrySectionBasic,
+    OTPTokenEntrySectionAdvanced,
+    OTPNumberOfTokenEntrySections,
+} OTPTokenEntrySection;
+
+typedef enum : NSUInteger {
+    OTPTokenEntryBasicRowType,
+    OTPTokenEntryBasicRowIssuer,
+    OTPTokenEntryBasicRowName,
+    OTPTokenEntryBasicRowSecret,
+    OTPNumberOfTokenEntryBasicRows,
+} OTPTokenEntryBasicRow;
+
+typedef enum : NSUInteger {
+    OTPTokenEntryAdvancedRowDigits,
+    OTPTokenEntryAdvancedRowAlgorithm,
+    OTPNumberOfTokenEntryAdvancedRows,
+} OTPTokenEntryAdvancedRow;
+
+
 @interface OTPTokenEntryViewController ()
     <UITextFieldDelegate>
 
@@ -129,41 +150,40 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return OTPNumberOfTokenEntrySections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     switch (section) {
-        case 0:
-            return 4;
-        case 1:
-            return self.showsAdvancedOptions ? 2 : 0;
-        default:
-            return 0;
+        case OTPTokenEntrySectionBasic:
+            return OTPNumberOfTokenEntryBasicRows;
+        case OTPTokenEntrySectionAdvanced:
+            return self.showsAdvancedOptions ? OTPNumberOfTokenEntryAdvancedRows : 0;
     }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
-        case 0:
+        case OTPTokenEntrySectionBasic:
             switch (indexPath.row) {
-                case 0:
+                case OTPTokenEntryBasicRowType:
                     return self.tokenTypeCell;
-                case 1:
+                case OTPTokenEntryBasicRowIssuer:
                     return self.issuerCell;
-                case 2:
+                case OTPTokenEntryBasicRowName:
                     return self.accountNameCell;
-                case 3:
+                case OTPTokenEntryBasicRowSecret:
                     return self.secretKeyCell;
             }
             break;
-        case 1:
+        case OTPTokenEntrySectionAdvanced:
             switch (indexPath.row) {
-                case 0:
+                case OTPTokenEntryAdvancedRowDigits:
                     return self.digitCountCell;
-                case 1:
+                case OTPTokenEntryAdvancedRowAlgorithm:
                     return self.algorithmCell;
             }
             break;
@@ -174,24 +194,21 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
-        case 0:
+        case OTPTokenEntrySectionBasic:
             switch (indexPath.row) {
-                case 0:
+                case OTPTokenEntryBasicRowType:
                     return 44;
-                case 1:
-                    return 74;
-                case 2:
-                    return 74;
-                case 3:
+                case OTPTokenEntryBasicRowIssuer:
+                case OTPTokenEntryBasicRowName:
+                case OTPTokenEntryBasicRowSecret:
                     return 74;
             }
             break;
-        case 1:
+        case OTPTokenEntrySectionAdvanced:
             switch (indexPath.row) {
-                case 0:
-                    return 44;
-                case 1:
-                    return 44;
+                case OTPTokenEntryAdvancedRowDigits:
+                case OTPTokenEntryAdvancedRowAlgorithm:
+                    return 54;
             }
             break;
     }
@@ -257,9 +274,9 @@
 {
     if (!_digitCountCell) {
         _digitCountCell = [OTPSegmentedControlCell cell];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"6" atIndex:0 animated:NO];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"7" atIndex:1 animated:NO];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"8" atIndex:2 animated:NO];
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"6 Digits" atIndex:0 animated:NO];
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"7 Digits" atIndex:1 animated:NO];
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"8 Digits" atIndex:2 animated:NO];
         _digitCountCell.segmentedControl.selectedSegmentIndex = 0;
     }
     return _digitCountCell;
@@ -294,7 +311,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 1) {
+    if (section == OTPTokenEntrySectionAdvanced) {
         return 54;
     }
     return 0;
@@ -302,7 +319,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == 1) {
+    if (section == OTPTokenEntrySectionAdvanced) {
         UIButton *headerView = [UIButton new];
         [headerView setTitle:@"Advanced Options" forState:UIControlStateNormal];
         headerView.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -318,8 +335,10 @@
 {
     if (!self.showsAdvancedOptions) {
         self.showsAdvancedOptions = YES;
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:OTPTokenEntrySectionAdvanced] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(OTPNumberOfTokenEntryAdvancedRows - 1)
+                                                                  inSection:OTPTokenEntrySectionAdvanced]
+                              atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
 }
 
