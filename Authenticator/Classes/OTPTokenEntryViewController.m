@@ -29,6 +29,44 @@
 #import <Base32/MF_Base32Additions.h>
 
 
+typedef enum : NSUInteger {
+    OTPTokenEntrySectionBasic,
+    OTPTokenEntrySectionAdvanced,
+    OTPNumberOfTokenEntrySections,
+} OTPTokenEntrySection;
+
+typedef enum : NSUInteger {
+    OTPTokenEntryBasicRowType,
+    OTPTokenEntryBasicRowIssuer,
+    OTPTokenEntryBasicRowName,
+    OTPTokenEntryBasicRowSecret,
+    OTPNumberOfTokenEntryBasicRows,
+} OTPTokenEntryBasicRow;
+
+typedef enum : NSUInteger {
+    OTPTokenEntryAdvancedRowDigits,
+    OTPTokenEntryAdvancedRowAlgorithm,
+    OTPNumberOfTokenEntryAdvancedRows,
+} OTPTokenEntryAdvancedRow;
+
+typedef enum : NSUInteger {
+    OTPTokenTypeIndexTimer,
+    OTPTokenTypeIndexCounter,
+} OTPTokenTypeIndex;
+
+typedef enum : NSUInteger {
+    OTPTokenDigitsIndex6,
+    OTPTokenDigitsIndex7,
+    OTPTokenDigitsIndex8,
+} OTPTokenDigitsIndex;
+
+typedef enum : NSUInteger {
+    OTPTokenAlgorithmIndexSHA1,
+    OTPTokenAlgorithmIndexSHA256,
+    OTPTokenAlgorithmIndexSHA512,
+} OTPTokenAlgorithmIndex;
+
+
 @interface OTPTokenEntryViewController ()
     <UITextFieldDelegate>
 
@@ -39,10 +77,19 @@
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 @property (nonatomic, strong) OTPTextFieldCell *secretKeyCell;
 
+@property (nonatomic) BOOL showsAdvancedOptions;
+@property (nonatomic, strong) OTPSegmentedControlCell *digitCountCell;
+@property (nonatomic, strong) OTPSegmentedControlCell *algorithmCell;
+
 @end
 
 
 @implementation OTPTokenEntryViewController
+
+- (instancetype)init
+{
+    return [super initWithStyle:UITableViewStyleGrouped];
+}
 
 - (void)viewDidLoad
 {
@@ -79,11 +126,35 @@
     NSData *secret = [NSData dataWithBase32String:self.secretKeyCell.textField.text];
 
     if (secret.length) {
-        OTPTokenType tokenType = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == 0) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
+        OTPTokenType tokenType = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == OTPTokenTypeIndexTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         OTPToken *token = [OTPToken tokenWithType:tokenType
                                            secret:secret
                                              name:self.accountNameCell.textField.text
                                            issuer:self.issuerCell.textField.text];
+
+        switch (self.digitCountCell.segmentedControl.selectedSegmentIndex) {
+            case OTPTokenDigitsIndex6:
+                token.digits = 6;
+                break;
+            case OTPTokenDigitsIndex7:
+                token.digits = 7;
+                break;
+            case OTPTokenDigitsIndex8:
+                token.digits = 8;
+                break;
+        }
+
+        switch (self.algorithmCell.segmentedControl.selectedSegmentIndex) {
+            case OTPTokenAlgorithmIndexSHA1:
+                token.algorithm = OTPAlgorithmSHA1;
+                break;
+            case OTPTokenAlgorithmIndexSHA256:
+                token.algorithm = OTPAlgorithmSHA256;
+                break;
+            case OTPTokenAlgorithmIndexSHA512:
+                token.algorithm = OTPAlgorithmSHA512;
+                break;
+        }
 
         if (token.password) {
             id <OTPTokenSourceDelegate> delegate = self.delegate;
@@ -99,37 +170,69 @@
 
 #pragma mark - UITableViewDataSource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return OTPNumberOfTokenEntrySections;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    switch (section) {
+        case OTPTokenEntrySectionBasic:
+            return OTPNumberOfTokenEntryBasicRows;
+        case OTPTokenEntrySectionAdvanced:
+            return self.showsAdvancedOptions ? OTPNumberOfTokenEntryAdvancedRows : 0;
+    }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row) {
-        case 0:
-            return self.tokenTypeCell;
-        case 1:
-            return self.issuerCell;
-        case 2:
-            return self.accountNameCell;
-        case 3:
-            return self.secretKeyCell;
+    switch (indexPath.section) {
+        case OTPTokenEntrySectionBasic:
+            switch (indexPath.row) {
+                case OTPTokenEntryBasicRowType:
+                    return self.tokenTypeCell;
+                case OTPTokenEntryBasicRowIssuer:
+                    return self.issuerCell;
+                case OTPTokenEntryBasicRowName:
+                    return self.accountNameCell;
+                case OTPTokenEntryBasicRowSecret:
+                    return self.secretKeyCell;
+            }
+            break;
+        case OTPTokenEntrySectionAdvanced:
+            switch (indexPath.row) {
+                case OTPTokenEntryAdvancedRowDigits:
+                    return self.digitCountCell;
+                case OTPTokenEntryAdvancedRowAlgorithm:
+                    return self.algorithmCell;
+            }
+            break;
     }
     return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row) {
-        case 0:
-            return 44;
-        case 1:
-            return 74;
-        case 2:
-            return 74;
-        case 3:
-            return 74;
+    switch (indexPath.section) {
+        case OTPTokenEntrySectionBasic:
+            switch (indexPath.row) {
+                case OTPTokenEntryBasicRowType:
+                    return 44;
+                case OTPTokenEntryBasicRowIssuer:
+                case OTPTokenEntryBasicRowName:
+                case OTPTokenEntryBasicRowSecret:
+                    return 74;
+            }
+            break;
+        case OTPTokenEntrySectionAdvanced:
+            switch (indexPath.row) {
+                case OTPTokenEntryAdvancedRowDigits:
+                case OTPTokenEntryAdvancedRowAlgorithm:
+                    return 54;
+            }
+            break;
     }
     return 0;
 }
@@ -140,10 +243,10 @@
 - (OTPSegmentedControlCell *)tokenTypeCell
 {
     if (!_tokenTypeCell) {
-        _tokenTypeCell = [OTPSegmentedControlCell cellForTableView:self.tableView];
-        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Time Based" atIndex:0 animated:NO];
-        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Counter Based" atIndex:1 animated:NO];
-        _tokenTypeCell.segmentedControl.selectedSegmentIndex = 0;
+        _tokenTypeCell = [OTPSegmentedControlCell cell];
+        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Time Based" atIndex:OTPTokenTypeIndexTimer animated:NO];
+        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Counter Based" atIndex:OTPTokenTypeIndexCounter animated:NO];
+        _tokenTypeCell.segmentedControl.selectedSegmentIndex = OTPTokenTypeIndexTimer;
     }
     return _tokenTypeCell;
 }
@@ -151,7 +254,7 @@
 - (OTPTextFieldCell *)issuerCell
 {
     if (!_issuerCell) {
-        _issuerCell = [OTPTextFieldCell cellForTableView:self.tableView];
+        _issuerCell = [OTPTextFieldCell cell];
         _issuerCell.textLabel.text = @"Issuer";
         _issuerCell.textField.placeholder = @"Some Website";
         _issuerCell.textField.delegate = self;
@@ -163,7 +266,7 @@
 - (OTPTextFieldCell *)accountNameCell
 {
     if (!_accountNameCell) {
-        _accountNameCell = [OTPTextFieldCell cellForTableView:self.tableView];
+        _accountNameCell = [OTPTextFieldCell cell];
         _accountNameCell.textLabel.text = @"Account Name";
         _accountNameCell.textField.placeholder = @"user@example.com";
         _accountNameCell.textField.delegate = self;
@@ -178,7 +281,7 @@
 - (OTPTextFieldCell *)secretKeyCell
 {
     if (!_secretKeyCell) {
-        _secretKeyCell = [OTPTextFieldCell cellForTableView:self.tableView];
+        _secretKeyCell = [OTPTextFieldCell cell];
         _secretKeyCell.textLabel.text = @"Secret Key";
         _secretKeyCell.textField.placeholder = @"•••• •••• •••• ••••";
         _secretKeyCell.textField.delegate = self;
@@ -187,6 +290,30 @@
         _secretKeyCell.textField.returnKeyType = UIReturnKeyDone;
     }
     return _secretKeyCell;
+}
+
+- (OTPSegmentedControlCell *)digitCountCell
+{
+    if (!_digitCountCell) {
+        _digitCountCell = [OTPSegmentedControlCell cell];
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"6 Digits" atIndex:OTPTokenDigitsIndex6 animated:NO];
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"7 Digits" atIndex:OTPTokenDigitsIndex7 animated:NO];
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"8 Digits" atIndex:OTPTokenDigitsIndex8 animated:NO];
+        _digitCountCell.segmentedControl.selectedSegmentIndex = OTPTokenDigitsIndex6;
+    }
+    return _digitCountCell;
+}
+
+- (OTPSegmentedControlCell *)algorithmCell
+{
+    if (!_algorithmCell) {
+        _algorithmCell = [OTPSegmentedControlCell cell];
+        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-1"   atIndex:OTPTokenAlgorithmIndexSHA1   animated:NO];
+        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-256" atIndex:OTPTokenAlgorithmIndexSHA256 animated:NO];
+        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-512" atIndex:OTPTokenAlgorithmIndexSHA512 animated:NO];
+        _algorithmCell.segmentedControl.selectedSegmentIndex = OTPTokenAlgorithmIndexSHA1;
+    }
+    return _algorithmCell;
 }
 
 
@@ -201,6 +328,39 @@
     if ([cell isKindOfClass:[OTPTextFieldCell class]]) {
         ((OTPTextFieldCell *)cell).textField.backgroundColor = [UIColor otpLightColor];
         ((OTPTextFieldCell *)cell).textField.tintColor = [UIColor otpDarkColor];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == OTPTokenEntrySectionAdvanced) {
+        return 54;
+    }
+    return 1;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == OTPTokenEntrySectionAdvanced) {
+        UIButton *headerView = [UIButton new];
+        [headerView setTitle:@"Advanced Options" forState:UIControlStateNormal];
+        headerView.titleLabel.textAlignment = NSTextAlignmentCenter;
+        headerView.titleLabel.textColor = [UIColor otpForegroundColor];
+        headerView.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+        [headerView addTarget:self action:@selector(revealAdvancedOptions) forControlEvents:UIControlEventTouchUpInside];
+        return headerView;
+    }
+    return nil;
+}
+
+- (void)revealAdvancedOptions
+{
+    if (!self.showsAdvancedOptions) {
+        self.showsAdvancedOptions = YES;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:OTPTokenEntrySectionAdvanced] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(OTPNumberOfTokenEntryAdvancedRows - 1)
+                                                                  inSection:OTPTokenEntrySectionAdvanced]
+                              atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
 }
 
