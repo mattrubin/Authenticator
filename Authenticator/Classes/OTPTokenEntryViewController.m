@@ -336,7 +336,7 @@ typedef enum : NSUInteger {
     if (section == OTPTokenEntrySectionAdvanced) {
         return 54;
     }
-    return 0;
+    return 1;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
