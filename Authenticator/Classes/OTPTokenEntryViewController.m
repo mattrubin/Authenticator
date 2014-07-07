@@ -36,7 +36,6 @@ typedef enum : NSUInteger {
 } OTPTokenEntrySection;
 
 typedef enum : NSUInteger {
-    OTPTokenEntryBasicRowType,
     OTPTokenEntryBasicRowIssuer,
     OTPTokenEntryBasicRowName,
     OTPTokenEntryBasicRowSecret,
@@ -44,6 +43,7 @@ typedef enum : NSUInteger {
 } OTPTokenEntryBasicRow;
 
 typedef enum : NSUInteger {
+    OTPTokenEntryAdvancedRowType,
     OTPTokenEntryAdvancedRowDigits,
     OTPTokenEntryAdvancedRowAlgorithm,
     OTPNumberOfTokenEntryAdvancedRows,
@@ -72,12 +72,12 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
 
-@property (nonatomic, strong) OTPSegmentedControlCell *tokenTypeCell;
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 @property (nonatomic, strong) OTPTextFieldCell *secretKeyCell;
 
 @property (nonatomic) BOOL showsAdvancedOptions;
+@property (nonatomic, strong) OTPSegmentedControlCell *tokenTypeCell;
 @property (nonatomic, strong) OTPSegmentedControlCell *digitCountCell;
 @property (nonatomic, strong) OTPSegmentedControlCell *algorithmCell;
 
@@ -191,8 +191,6 @@ typedef enum : NSUInteger {
     switch (indexPath.section) {
         case OTPTokenEntrySectionBasic:
             switch (indexPath.row) {
-                case OTPTokenEntryBasicRowType:
-                    return self.tokenTypeCell;
                 case OTPTokenEntryBasicRowIssuer:
                     return self.issuerCell;
                 case OTPTokenEntryBasicRowName:
@@ -203,6 +201,8 @@ typedef enum : NSUInteger {
             break;
         case OTPTokenEntrySectionAdvanced:
             switch (indexPath.row) {
+                case OTPTokenEntryAdvancedRowType:
+                    return self.tokenTypeCell;
                 case OTPTokenEntryAdvancedRowDigits:
                     return self.digitCountCell;
                 case OTPTokenEntryAdvancedRowAlgorithm:
@@ -217,22 +217,9 @@ typedef enum : NSUInteger {
 {
     switch (indexPath.section) {
         case OTPTokenEntrySectionBasic:
-            switch (indexPath.row) {
-                case OTPTokenEntryBasicRowType:
-                    return 44;
-                case OTPTokenEntryBasicRowIssuer:
-                case OTPTokenEntryBasicRowName:
-                case OTPTokenEntryBasicRowSecret:
-                    return 74;
-            }
-            break;
+            return 74;
         case OTPTokenEntrySectionAdvanced:
-            switch (indexPath.row) {
-                case OTPTokenEntryAdvancedRowDigits:
-                case OTPTokenEntryAdvancedRowAlgorithm:
-                    return 54;
-            }
-            break;
+            return 54;
     }
     return 0;
 }
