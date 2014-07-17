@@ -13,8 +13,8 @@
 		8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0028B411EB75920092DE18 /* OTPScannerOverlayView.m */; };
 		8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */; };
 		C9044FD61824CDE7002C3C3F /* OTPBase32Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FD51824CDE7002C3C3F /* OTPBase32Tests.m */; };
-		C9044FD91824E05E002C3C3F /* NSString+PercentEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FD81824E05E002C3C3F /* NSString+PercentEncoding.m */; };
-		C9044FDC1824E711002C3C3F /* NSDictionary+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */; };
+		C93AF8DD1977B0F100853591 /* NSString+PercentEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FD81824E05E002C3C3F /* NSString+PercentEncoding.m */; };
+		C93AF8DE1977B0F500853591 /* NSDictionary+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */; };
 		C940A981183EEFA300F7D04A /* OTPTokenGenerationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C940A980183EEFA300F7D04A /* OTPTokenGenerationTests.m */; };
 		C958CC54183043A600DD47D0 /* OTPTokenSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C958CC53183043A600DD47D0 /* OTPTokenSerializationTests.m */; };
 		C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */; };
@@ -245,10 +245,6 @@
 				8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */,
 				C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */,
 				C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */,
-				C9044FD71824E05E002C3C3F /* NSString+PercentEncoding.h */,
-				C9044FD81824E05E002C3C3F /* NSString+PercentEncoding.m */,
-				C9044FDA1824E711002C3C3F /* NSDictionary+QueryString.h */,
-				C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -265,6 +261,10 @@
 		C9906A331812522100BAEF53 /* AuthenticatorTests */ = {
 			isa = PBXGroup;
 			children = (
+				C9044FD71824E05E002C3C3F /* NSString+PercentEncoding.h */,
+				C9044FD81824E05E002C3C3F /* NSString+PercentEncoding.m */,
+				C9044FDA1824E711002C3C3F /* NSDictionary+QueryString.h */,
+				C9044FDB1824E711002C3C3F /* NSDictionary+QueryString.m */,
 				C958CC53183043A600DD47D0 /* OTPTokenSerializationTests.m */,
 				C9C6CC831842C5BC000100C2 /* OTPTokenPersistenceTests.m */,
 				C940A980183EEFA300F7D04A /* OTPTokenGenerationTests.m */,
@@ -442,7 +442,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9044FD91824E05E002C3C3F /* NSString+PercentEncoding.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* OTPAppDelegate.m in Sources */,
 				C9D6C8461906CD54004F0E08 /* OTPTextFieldCell.m in Sources */,
@@ -457,7 +456,6 @@
 				C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */,
 				C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */,
 				C9777A021908064500B4A7F5 /* OTPTokenEditViewController.m in Sources */,
-				C9044FDC1824E711002C3C3F /* NSDictionary+QueryString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,8 +465,10 @@
 			files = (
 				C9044FD61824CDE7002C3C3F /* OTPBase32Tests.m in Sources */,
 				C940A981183EEFA300F7D04A /* OTPTokenGenerationTests.m in Sources */,
+				C93AF8DE1977B0F500853591 /* NSDictionary+QueryString.m in Sources */,
 				C958CC54183043A600DD47D0 /* OTPTokenSerializationTests.m in Sources */,
 				C9C6CC841842C5BC000100C2 /* OTPTokenPersistenceTests.m in Sources */,
+				C93AF8DD1977B0F100853591 /* NSString+PercentEncoding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
