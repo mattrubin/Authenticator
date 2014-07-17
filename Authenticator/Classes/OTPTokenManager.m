@@ -23,7 +23,7 @@
 //
 
 #import "OTPTokenManager.h"
-#import "OTPToken+Persistence.h"
+#import <OneTimePassword/OneTimePassword.h>
 
 
 static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";

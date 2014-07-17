@@ -24,7 +24,7 @@
 
 #import "OTPTokenEditViewController.h"
 #import "OTPTextFieldCell.h"
-#import "OTPToken+Persistence.h"
+#import <OneTimePassword/OneTimePassword.h>
 
 
 @interface OTPTokenEntryViewController () <UITextFieldDelegate>

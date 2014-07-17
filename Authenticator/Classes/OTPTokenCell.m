@@ -23,8 +23,7 @@
 //
 
 #import "OTPTokenCell.h"
-#import "OTPToken+Persistence.h"
-#import "OTPToken+Generation.h"
+#import <OneTimePassword/OneTimePassword.h>
 
 
 @interface OTPTokenCell ()

@@ -23,7 +23,7 @@
 //
 
 @import XCTest;
-#import "OTPToken+Generation.h"
+#import <OneTimePassword/OneTimePassword.h>
 
 
 @interface OTPToken ()

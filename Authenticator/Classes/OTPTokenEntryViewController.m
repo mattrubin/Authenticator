@@ -25,7 +25,7 @@
 #import "OTPTokenEntryViewController.h"
 #import "OTPSegmentedControlCell.h"
 #import "OTPTextFieldCell.h"
-#import "OTPToken+Generation.h"
+#import <OneTimePassword/OneTimePassword.h>
 #import <Base32/MF_Base32Additions.h>
 
 
