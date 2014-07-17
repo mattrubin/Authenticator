@@ -1,12 +1,15 @@
 PODS:
   - Base32 (1.0.2)
   - MRX (0.0.1)
+  - OneTimePassword (1.0.0):
+    - Base32 (~> 1.0.2)
   - SVProgressHUD (1.0)
   - UIColor+Categories (0.2)
 
 DEPENDENCIES:
   - Base32 (~> 1.0.1)
   - MRX (from `https://github.com/mattrubin/MRX.git`)
+  - OneTimePassword (~> 1.0)
   - SVProgressHUD (~> 1.0)
   - UIColor+Categories (~> 0.2)
 
@@ -15,9 +18,10 @@ EXTERNAL SOURCES:
     :git: https://github.com/mattrubin/MRX.git
 
 SPEC CHECKSUMS:
-  Base32: 448ba467c707ab67968377fe53adc0a6f5b9f141
+  Base32: a0ef6e90e721130c474cc970a4d98a6cbf16ce85
   MRX: e6a1bbf7c2f2b1349d039f2da0aa8da71fb08d9a
-  SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
-  UIColor+Categories: 4594b0b16f3116d8f63a10e23004d5c9a076d730
+  OneTimePassword: 5948ec8303247b449532fc553f7e01defc0e72e6
+  SVProgressHUD: 5034c6e22b8c2ca3e09402e48d41ed0340aa1c50
+  UIColor+Categories: 9770206090196452ff5d115b3e3dbdfcdedbc2f3
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.33.1

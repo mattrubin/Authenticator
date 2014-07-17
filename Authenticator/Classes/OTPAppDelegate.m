@@ -23,7 +23,7 @@
 //
 
 #import "OTPAppDelegate.h"
-#import "OTPToken+Serialization.h"
+#import <OneTimePassword/OneTimePassword.h>
 #import "OTPTokenListViewController.h"
 #import "UIAlertView+Blocks.h"
 
