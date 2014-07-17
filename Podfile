@@ -1,6 +1,6 @@
 platform :ios, '7.0'
 
-pod 'OneTimePassword', :path => '../OneTimePassword'
+pod 'OneTimePassword', '~> 1.0'
 pod 'SVProgressHUD', '~> 1.0'
 pod 'Base32', '~> 1.0.1'
 pod 'UIColor+Categories', '~> 0.2'
