@@ -22,10 +22,10 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "MRXTableViewCell.h"
+@import UIKit;
 
 
-@interface OTPSegmentedControlCell : MRXTableViewCell
+@interface OTPSegmentedControlCell : UITableViewCell
 
 @property (nonatomic, readonly) UISegmentedControl *segmentedControl;
 
