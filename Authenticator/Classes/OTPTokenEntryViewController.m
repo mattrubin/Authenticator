@@ -230,7 +230,7 @@ typedef enum : NSUInteger {
 - (OTPSegmentedControlCell *)tokenTypeCell
 {
     if (!_tokenTypeCell) {
-        _tokenTypeCell = [OTPSegmentedControlCell cell];
+        _tokenTypeCell = [OTPSegmentedControlCell new];
         [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Time Based" atIndex:OTPTokenTypeIndexTimer animated:NO];
         [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Counter Based" atIndex:OTPTokenTypeIndexCounter animated:NO];
         _tokenTypeCell.segmentedControl.selectedSegmentIndex = OTPTokenTypeIndexTimer;
@@ -241,7 +241,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)issuerCell
 {
     if (!_issuerCell) {
-        _issuerCell = [OTPTextFieldCell cell];
+        _issuerCell = [OTPTextFieldCell new];
         _issuerCell.textLabel.text = @"Issuer";
         _issuerCell.textField.placeholder = @"Some Website";
         _issuerCell.textField.delegate = self;
@@ -253,7 +253,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)accountNameCell
 {
     if (!_accountNameCell) {
-        _accountNameCell = [OTPTextFieldCell cell];
+        _accountNameCell = [OTPTextFieldCell new];
         _accountNameCell.textLabel.text = @"Account Name";
         _accountNameCell.textField.placeholder = @"user@example.com";
         _accountNameCell.textField.delegate = self;
@@ -268,7 +268,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)secretKeyCell
 {
     if (!_secretKeyCell) {
-        _secretKeyCell = [OTPTextFieldCell cell];
+        _secretKeyCell = [OTPTextFieldCell new];
         _secretKeyCell.textLabel.text = @"Secret Key";
         _secretKeyCell.textField.placeholder = @"•••• •••• •••• ••••";
         _secretKeyCell.textField.delegate = self;
@@ -282,7 +282,7 @@ typedef enum : NSUInteger {
 - (OTPSegmentedControlCell *)digitCountCell
 {
     if (!_digitCountCell) {
-        _digitCountCell = [OTPSegmentedControlCell cell];
+        _digitCountCell = [OTPSegmentedControlCell new];
         [_digitCountCell.segmentedControl insertSegmentWithTitle:@"6 Digits" atIndex:OTPTokenDigitsIndex6 animated:NO];
         [_digitCountCell.segmentedControl insertSegmentWithTitle:@"7 Digits" atIndex:OTPTokenDigitsIndex7 animated:NO];
         [_digitCountCell.segmentedControl insertSegmentWithTitle:@"8 Digits" atIndex:OTPTokenDigitsIndex8 animated:NO];
@@ -294,7 +294,7 @@ typedef enum : NSUInteger {
 - (OTPSegmentedControlCell *)algorithmCell
 {
     if (!_algorithmCell) {
-        _algorithmCell = [OTPSegmentedControlCell cell];
+        _algorithmCell = [OTPSegmentedControlCell new];
         [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-1"   atIndex:OTPTokenAlgorithmIndexSHA1   animated:NO];
         [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-256" atIndex:OTPTokenAlgorithmIndexSHA256 animated:NO];
         [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-512" atIndex:OTPTokenAlgorithmIndexSHA512 animated:NO];

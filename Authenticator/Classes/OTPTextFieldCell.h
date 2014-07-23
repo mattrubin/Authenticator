@@ -22,10 +22,10 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "MRXTableViewCell.h"
+@import UIKit;
 
 
-@interface OTPTextFieldCell : MRXTableViewCell
+@interface OTPTextFieldCell : UITableViewCell
 
 @property (nonatomic, readonly) UITextField *textField;
 

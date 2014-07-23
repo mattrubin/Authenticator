@@ -61,6 +61,8 @@
     self.title = @"Authenticator";
     self.view.backgroundColor = [UIColor otpBackgroundColor];
 
+    [self.tableView registerClass:[OTPTokenCell class] forCellReuseIdentifier:NSStringFromClass([OTPTokenCell class])];
+
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
 
@@ -127,7 +129,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OTPTokenCell *cell = [OTPTokenCell cellForTableView:tableView];
+    OTPTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([OTPTokenCell class]) forIndexPath:indexPath];
     cell.token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
     return cell;
 }
