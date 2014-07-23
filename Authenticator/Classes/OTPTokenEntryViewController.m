@@ -26,7 +26,6 @@
 #import "OTPSegmentedControlCell.h"
 #import "OTPTextFieldCell.h"
 #import <OneTimePassword/OneTimePassword.h>
-#import <Base32/MF_Base32Additions.h>
 
 
 typedef enum : NSUInteger {
@@ -123,7 +122,7 @@ typedef enum : NSUInteger {
 {
     if (!self.formIsValid) return;
 
-    NSData *secret = [NSData dataWithBase32String:self.secretKeyCell.textField.text];
+    NSData *secret = [NSData secretWithString:self.secretKeyCell.textField.text];
 
     if (secret.length) {
         OTPTokenType tokenType = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == OTPTokenTypeIndexTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
