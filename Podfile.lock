@@ -7,7 +7,6 @@ PODS:
   - UIColor+Categories (0.2)
 
 DEPENDENCIES:
-  - Base32 (~> 1.0.1)
   - MRX (from `https://github.com/mattrubin/MRX.git`)
   - OneTimePassword (~> 1.0)
   - SVProgressHUD (~> 1.0)
