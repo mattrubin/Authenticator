@@ -464,7 +464,6 @@
 			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
 				PRODUCT_NAME = Authenticator;
@@ -476,7 +475,6 @@
 			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
 				PRODUCT_NAME = Authenticator;
