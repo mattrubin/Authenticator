@@ -2,7 +2,7 @@
 ### Two-Factor Authentication Client for iOS.
 
 [![Build Status](https://travis-ci.org/mattrubin/authenticator.svg?branch=master)](https://travis-ci.org/mattrubin/authenticator)
-[![Latest Release](http://img.shields.io/badge/release-1.1.1-blue.svg)](https://github.com/mattrubin/authenticator/releases)
+[![Latest Release](http://img.shields.io/badge/release-1.1.2-blue.svg)](https://github.com/mattrubin/authenticator/releases)
 [![MIT License](http://img.shields.io/badge/license-mit-blue.svg)](https://github.com/mattrubin/authenticator/blob/master/LICENSE.txt)
 
 
