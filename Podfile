@@ -1,4 +1,4 @@
-platform :ios, '7.0'
+platform :ios, '8.0'
 
 pod 'OneTimePassword', '~> 1.1'
 pod 'SVProgressHUD', '~> 1.0'
