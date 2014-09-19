@@ -13,9 +13,9 @@ Authenticator is a simple, free, and open source [two-factor authentication](htt
 - Compatible: Full support for [time-based](https://tools.ietf.org/html/rfc6238) and [counter-based](https://tools.ietf.org/html/rfc4226) one-time passwords as standardized in RFC 4226 and 6238
 - Off the Grid: The app never connects to the internet, and your secret keys never leave your device.
 
-<img src="Screenshots/ScreenshotMain.png" width="160" alt="Authenticator Screenshot" /> &nbsp;
-<img src="Screenshots/ScreenshotScanToken.png" width="160" alt="Authenticator Screenshot" /> &nbsp;
-<img src="Screenshots/ScreenshotAddToken.png" width="160" alt="Authenticator Screenshot" />
+<img src="Screenshots/ScreenshotMain4.0.png" width="160" alt="Authenticator Screenshot" /> &nbsp;
+<img src="Screenshots/ScreenshotScanToken4.0.png" width="160" alt="Authenticator Screenshot" /> &nbsp;
+<img src="Screenshots/ScreenshotAddToken4.0.png" width="160" alt="Authenticator Screenshot" />
 
 
 ## License
