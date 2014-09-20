@@ -25,10 +25,9 @@
 #import "OTPAppDelegate.h"
 #import <OneTimePassword/OneTimePassword.h>
 #import "OTPTokenListViewController.h"
-#import "UIAlertView+Blocks.h"
 
 
-@interface OTPAppDelegate ()
+@interface OTPAppDelegate () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) OTPTokenListViewController *rootViewController;
 
@@ -72,6 +71,9 @@
 
 #pragma mark - URL Handling
 
+// FIXME: this global is bad
+static OTPToken *tokenForAlert;
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     OTPToken *token = [OTPToken tokenWithURL:url];
@@ -80,18 +82,22 @@
 
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Token"
                                                         message:message
+                                                       delegate:self
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:@"OK", nil];
 
-        alert.clickedButtonHandler = ^(UIAlertView *alertView, NSInteger buttonIndex) {
-            if (buttonIndex == alertView.firstOtherButtonIndex) {
-                [self.rootViewController tokenSource:self didCreateToken:token];
-            }
-        };
+        tokenForAlert = token;
 
         [alert show];
     }
     return !!token; // Return NO if the url was not a valid token
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.firstOtherButtonIndex) {
+        [self.rootViewController tokenSource:self didCreateToken:tokenForAlert];
+    }
 }
 
 @end
