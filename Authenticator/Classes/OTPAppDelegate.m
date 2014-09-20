@@ -25,7 +25,6 @@
 #import "OTPAppDelegate.h"
 #import <OneTimePassword/OneTimePassword.h>
 #import "OTPTokenListViewController.h"
-#import "UIAlertView+Blocks.h"
 
 
 @interface OTPAppDelegate ()
@@ -78,18 +77,15 @@
     if (token) {
         NSString *message = [NSString stringWithFormat: @"Do you want to add a token for “%@”?", token.name];
 
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Token"
-                                                        message:message
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"OK", nil];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add Token"
+                                                                       message:message
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self.rootViewController tokenSource:self didCreateToken:token];
+        }]];
 
-        alert.clickedButtonHandler = ^(UIAlertView *alertView, NSInteger buttonIndex) {
-            if (buttonIndex == alertView.firstOtherButtonIndex) {
-                [self.rootViewController tokenSource:self didCreateToken:token];
-            }
-        };
-
-        [alert show];
+        [self.rootViewController presentViewController:alert animated:YES completion:nil];
     }
     return !!token; // Return NO if the url was not a valid token
 }
