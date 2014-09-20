@@ -22,7 +22,7 @@
 		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
 		C9D6C83F1906BD68004F0E08 /* OTPSegmentedControlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* OTPSegmentedControlCell.m */; };
 		C9D6C8461906CD54004F0E08 /* OTPTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.m */; };
-		C9D6C84C19075044004F0E08 /* OTPProgressRing.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.m */; };
+		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
 		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
 		C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */; };
@@ -74,8 +74,7 @@
 		C9D6C83E1906BD68004F0E08 /* OTPSegmentedControlCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPSegmentedControlCell.m; sourceTree = "<group>"; };
 		C9D6C8441906CD54004F0E08 /* OTPTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTextFieldCell.h; sourceTree = "<group>"; };
 		C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTextFieldCell.m; sourceTree = "<group>"; };
-		C9D6C84A19075044004F0E08 /* OTPProgressRing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPProgressRing.h; sourceTree = "<group>"; };
-		C9D6C84B19075044004F0E08 /* OTPProgressRing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPProgressRing.m; sourceTree = "<group>"; };
+		C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPProgressRing.swift; sourceTree = "<group>"; };
 		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenManager.h; sourceTree = "<group>"; };
@@ -219,8 +218,7 @@
 				C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */,
 				C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */,
 				C98C1C4517D2EDF500A07D3F /* Cells */,
-				C9D6C84A19075044004F0E08 /* OTPProgressRing.h */,
-				C9D6C84B19075044004F0E08 /* OTPProgressRing.m */,
+				C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */,
 			);
 			name = Display;
 			sourceTree = "<group>";
@@ -426,7 +424,7 @@
 				C9D6C8461906CD54004F0E08 /* OTPTextFieldCell.m in Sources */,
 				C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */,
 				C9F75CA21843F9BE00B6FA14 /* OTPTokenListViewController.m in Sources */,
-				C9D6C84C19075044004F0E08 /* OTPProgressRing.m in Sources */,
+				C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */,
 				C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */,
 				C9D6C83F1906BD68004F0E08 /* OTPSegmentedControlCell.m in Sources */,
 				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.swift in Sources */,

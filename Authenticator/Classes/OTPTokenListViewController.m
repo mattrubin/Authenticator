@@ -25,7 +25,6 @@
 #import "OTPTokenListViewController.h"
 #import "OTPTokenManager.h"
 #import "OTPTokenCell.h"
-#import "OTPProgressRing.h"
 #import <OneTimePassword/OneTimePassword.h>
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
