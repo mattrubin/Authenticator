@@ -79,7 +79,7 @@
 
 - (void)generateNextPassword
 {
-    // FIXME: [self.token updatePassword];
+    [self.delegate buttonTappedForCell:self];
 }
 
 - (void)layoutSubviews

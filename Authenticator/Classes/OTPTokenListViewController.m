@@ -32,7 +32,7 @@
 #import "OTPTokenEditViewController.h"
 
 
-@interface OTPTokenListViewController () <OTPTokenEditorDelegate>
+@interface OTPTokenListViewController () <OTPTokenCellDelegate, OTPTokenEditorDelegate>
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
 @property (nonatomic, strong) NSTimer *timer;
@@ -152,6 +152,8 @@
 {
     OTPTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([OTPTokenCell class]) forIndexPath:indexPath];
 
+    cell.delegate = self;
+
     OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
     [cell setName:token.name issuer:token.issuer];
     [cell setPassword:token.password];
@@ -243,6 +245,19 @@
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section]
                               atScrollPosition:UITableViewScrollPositionMiddle
                                       animated:YES];
+    }
+}
+
+
+#pragma mark - OTPTokenCellDelegate
+
+- (void)buttonTappedForCell:(UITableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    if (indexPath) {
+        OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        [token updatePassword];
+        [self.tableView reloadData];
     }
 }
 
