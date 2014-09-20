@@ -27,15 +27,11 @@ import UIKit
 class OTPScannerOverlayView: UIView {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        configureView()
+        self.layer.needsDisplayOnBoundsChange = true
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureView()
-    }
-
-    private func configureView() {
         self.opaque = false
         self.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         self.layer.needsDisplayOnBoundsChange = true
