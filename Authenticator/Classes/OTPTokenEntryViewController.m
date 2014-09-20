@@ -23,8 +23,6 @@
 //
 
 #import "OTPTokenEntryViewController.h"
-#import "OTPSegmentedControlCell.h"
-#import "OTPTextFieldCell.h"
 #import <OneTimePassword/OneTimePassword.h>
 
 

@@ -25,7 +25,6 @@
 #import "OTPTokenListViewController.h"
 #import "OTPTokenManager.h"
 #import "OTPTokenCell.h"
-#import "OTPProgressRing.h"
 #import <OneTimePassword/OneTimePassword.h>
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
@@ -36,6 +35,7 @@
 @interface OTPTokenListViewController () <OTPTokenEditorDelegate>
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
+@property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) OTPProgressRing *ring;
 @property (nonatomic, strong) UILabel *noTokensLabel;
 @property (nonatomic, strong) UIBarButtonItem *addButtonItem;
@@ -67,7 +67,6 @@
     self.tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
 
     self.ring = [[OTPProgressRing alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
-    self.ring.period = [OTPToken defaultPeriod];
     UIBarButtonItem *ringBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.ring];
     self.navigationItem.leftBarButtonItem = ringBarItem;
 
@@ -99,6 +98,22 @@
     [self update];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01
+                                                  target:self
+                                                selector:@selector(updateRing)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.timer invalidate];
+}
+
 - (void)update
 {
     // Show the countdown ring only if a time-based token is active
@@ -112,6 +127,12 @@
 
     self.editButtonItem.enabled = !!self.tokenManager.tokens.count;
     self.noTokensLabel.hidden = !!self.tokenManager.tokens.count;
+}
+
+- (void)updateRing
+{
+    NSTimeInterval period = [OTPToken defaultPeriod];
+    self.ring.progress = fmod([NSDate date].timeIntervalSince1970, period) / period;
 }
 
 

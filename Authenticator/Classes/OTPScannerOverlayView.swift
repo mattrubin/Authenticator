@@ -1,5 +1,5 @@
 //
-//  OTPScannerOverlayView.m
+//  OTPScannerOverlayView.Swift
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,39 +22,36 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPScannerOverlayView.h"
+import UIKit
 
-
-@implementation OTPScannerOverlayView
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.opaque = NO;
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.layer.needsDisplayOnBoundsChange = YES;
+class OTPScannerOverlayView: UIView {
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.layer.needsDisplayOnBoundsChange = true
     }
-    return self;
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.opaque = false
+        self.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        self.layer.needsDisplayOnBoundsChange = true
+    }
+
+    override func drawRect(rect: CGRect) {
+        let context = UIGraphicsGetCurrentContext()
+
+        UIColor(white: 0, alpha: 0.5).setFill()
+        UIColor(white: 1, alpha: 0.2).setStroke()
+
+        let smallestDimension = min(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))
+        let windowSize = 0.9 * smallestDimension
+        let window = CGRectMake(CGRectGetMidX(rect) - windowSize/2,
+                                CGRectGetMidY(rect) - windowSize/2,
+                                windowSize,
+                                windowSize)
+
+        CGContextFillRect(context, rect)
+        CGContextClearRect(context, window)
+        CGContextStrokeRect(context, window)
+    }
 }
-
-- (void)drawRect:(CGRect)rect
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
-    [[UIColor colorWithWhite:0 alpha:0.5f] setFill];
-    [[UIColor colorWithWhite:1 alpha:0.2f] setStroke];
-
-    CGFloat smallestDimension = MIN(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
-    CGFloat windowSize = 0.9f * smallestDimension;
-    CGRect window = CGRectMake(CGRectGetMidX(rect) - windowSize/2,
-                               CGRectGetMidY(rect) - windowSize/2,
-                               windowSize,
-                               windowSize);
-
-    CGContextFillRect(context, rect);
-    CGContextClearRect(context, window);
-    CGContextStrokeRect(context, window);
-}
-
-@end
