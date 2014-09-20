@@ -1,5 +1,5 @@
 //
-//  OTPSegmentedControlCell.h
+//  OTPSegmentedControlCell.swift
 //  Authenticator
 //
 //  Copyright (c) 2014 Matt Rubin
@@ -22,11 +22,30 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import UIKit;
+import UIKit
 
+class OTPSegmentedControlCell: UITableViewCell {
+    let segmentedControl = UISegmentedControl()
 
-@interface OTPSegmentedControlCell : UITableViewCell
+    override init() {
+        super.init()
+    }
 
-@property (nonatomic, readonly) UISegmentedControl *segmentedControl;
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
 
-@end
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.contentView.addSubview(self.segmentedControl)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.segmentedControl.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 29)
+    }
+}
