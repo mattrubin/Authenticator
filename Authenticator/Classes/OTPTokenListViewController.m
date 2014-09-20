@@ -151,7 +151,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OTPTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([OTPTokenCell class]) forIndexPath:indexPath];
-    cell.token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+    [cell updateWithToken:self.tokenManager.tokens[(NSUInteger)indexPath.row]];
     return cell;
 }
 

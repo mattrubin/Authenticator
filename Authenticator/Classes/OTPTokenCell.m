@@ -48,23 +48,10 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
 
         [self createSubviews];
-
-        [self addObserver:self forKeyPath:@"token.password" options:0 context:nil];
-
-        // Ensure that TOTPs are updated when the app returns from the background
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(refresh)
-                                                     name:UIApplicationWillEnterForegroundNotification
-                                                   object:nil];
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [self removeObserver:self forKeyPath:@"token.password"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 #pragma mark - Subviews
 
@@ -93,7 +80,7 @@
 
 - (void)generateNextPassword
 {
-    [self.token updatePassword];
+    // FIXME: [self.token updatePassword];
 }
 
 - (void)layoutSubviews
@@ -117,29 +104,24 @@
 }
 
 
-#pragma mark - KVO
+#pragma mark - Update
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    [self refresh];
-}
-
-- (void)refresh
+- (void)updateWithToken:(OTPToken *)token
 {
     NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
-    if (self.token.issuer.length) {
-        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:self.token.issuer attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15]}]];
+    if (token.issuer.length) {
+        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:token.issuer attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15]}]];
     }
-    if (self.token.issuer.length && self.token.name.length) {
+    if (token.issuer.length && token.name.length) {
         [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     }
-    if (self.token.name.length) {
-        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:self.token.name]];
+    if (token.name.length) {
+        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:token.name]];
     }
     self.titleLabel.attributedText = titleString;
 
-    self.passwordLabel.attributedText = [[NSAttributedString alloc] initWithString:self.token.password attributes:@{NSKernAttributeName: @2}];
-    self.nextPasswordButton.hidden = self.token.type != OTPTokenTypeCounter;
+    self.passwordLabel.attributedText = [[NSAttributedString alloc] initWithString:token.password attributes:@{NSKernAttributeName: @2}];
+    self.nextPasswordButton.hidden = token.type != OTPTokenTypeCounter;
 }
 
 

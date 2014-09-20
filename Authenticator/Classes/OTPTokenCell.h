@@ -28,6 +28,6 @@
 
 @interface OTPTokenCell : UITableViewCell
 
-@property (nonatomic, strong) OTPToken *token;
+- (void)updateWithToken:(OTPToken *)token;
 
 @end
