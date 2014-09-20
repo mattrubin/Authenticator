@@ -1,5 +1,5 @@
 //
-//  OTPScannerOverlayView.h
+//  OTPScannerOverlayView.Swift
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,8 +22,36 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import UIKit;
+import UIKit
 
+class OTPScannerOverlayView: UIView {
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
 
-@interface OTPScannerOverlayView : UIView
-@end
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        self.opaque = false
+        self.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        self.layer.needsDisplayOnBoundsChange = true
+    }
+
+    override func drawRect(rect: CGRect) {
+        let context = UIGraphicsGetCurrentContext()
+
+        UIColor(white: 0, alpha: 0.5).setFill()
+        UIColor(white: 1, alpha: 0.2).setStroke()
+
+        let smallestDimension = min(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))
+        let windowSize = 0.9 * smallestDimension
+        let window = CGRectMake(CGRectGetMidX(rect) - windowSize/2,
+                                CGRectGetMidY(rect) - windowSize/2,
+                                windowSize,
+                                windowSize)
+
+        CGContextFillRect(context, rect)
+        CGContextClearRect(context, window)
+        CGContextStrokeRect(context, window)
+    }
+}

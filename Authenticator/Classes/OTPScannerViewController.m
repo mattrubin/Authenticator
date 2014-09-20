@@ -24,7 +24,6 @@
 
 #import "OTPScannerViewController.h"
 @import AVFoundation;
-#import "OTPScannerOverlayView.h"
 #import <OneTimePassword/OneTimePassword.h>
 #import "OTPTokenEntryViewController.h"
 
