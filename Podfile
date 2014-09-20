@@ -2,7 +2,6 @@ platform :ios, '8.0'
 
 pod 'OneTimePassword', '~> 1.1'
 pod 'SVProgressHUD', '~> 1.0'
-pod 'UIColor+Categories', '~> 0.2'
 
 post_install do | installer |
   require 'fileutils'
