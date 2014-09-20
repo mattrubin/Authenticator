@@ -29,21 +29,26 @@ private let OTPProgressRingLineWidth: CGFloat = 1.5
 
 
 class OTPProgressRing: UIView {
-    var period: NSTimeInterval = 30
-    private var timer: NSTimer?
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        configureView()
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureView()
+    }
+
+    var period: NSTimeInterval = 30
+    private var timer: NSTimer?
+
+    private func configureView() {
         self.opaque = false
         self.timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "setNeedsDisplay", userInfo: nil, repeats: true)
     }
 
     deinit {
         self.timer?.invalidate()
-    }
-
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
 
     override func drawRect(rect: CGRect) {
