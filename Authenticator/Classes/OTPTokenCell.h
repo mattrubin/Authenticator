@@ -23,11 +23,12 @@
 //
 
 @import UIKit;
-@class OTPToken;
 
 
 @interface OTPTokenCell : UITableViewCell
 
-- (void)updateWithToken:(OTPToken *)token;
+- (void)setName:(NSString *)name issuer:(NSString *)issuer;
+- (void)setPassword:(NSString *)password;
+- (void)setShowsButton:(BOOL)showsButton;
 
 @end

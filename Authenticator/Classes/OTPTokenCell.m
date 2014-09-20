@@ -23,7 +23,6 @@
 //
 
 #import "OTPTokenCell.h"
-#import <OneTimePassword/OneTimePassword.h>
 
 
 @interface OTPTokenCell ()
@@ -106,22 +105,29 @@
 
 #pragma mark - Update
 
-- (void)updateWithToken:(OTPToken *)token
+- (void)setName:(NSString *)name issuer:(NSString *)issuer
 {
     NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
-    if (token.issuer.length) {
-        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:token.issuer attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15]}]];
+    if (issuer.length) {
+        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:issuer attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15]}]];
     }
-    if (token.issuer.length && token.name.length) {
+    if (issuer.length && name.length) {
         [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     }
-    if (token.name.length) {
-        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:token.name]];
+    if (name.length) {
+        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:name]];
     }
     self.titleLabel.attributedText = titleString;
+}
 
-    self.passwordLabel.attributedText = [[NSAttributedString alloc] initWithString:token.password attributes:@{NSKernAttributeName: @2}];
-    self.nextPasswordButton.hidden = token.type != OTPTokenTypeCounter;
+- (void)setPassword:(NSString *)password
+{
+    self.passwordLabel.attributedText = [[NSAttributedString alloc] initWithString:password attributes:@{NSKernAttributeName: @2}];
+}
+
+- (void)setShowsButton:(BOOL)showsButton
+{
+    self.nextPasswordButton.hidden = !showsButton;
 }
 
 
