@@ -27,7 +27,7 @@
 #import "OTPTokenListViewController.h"
 
 
-@interface OTPAppDelegate () <UIAlertViewDelegate>
+@interface OTPAppDelegate ()
 
 @property (nonatomic, strong) OTPTokenListViewController *rootViewController;
 
@@ -71,33 +71,23 @@
 
 #pragma mark - URL Handling
 
-// FIXME: this global is bad
-static OTPToken *tokenForAlert;
-
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     OTPToken *token = [OTPToken tokenWithURL:url];
     if (token) {
         NSString *message = [NSString stringWithFormat: @"Do you want to add a token for “%@”?", token.name];
 
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Token"
-                                                        message:message
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"OK", nil];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add Token"
+                                                                       message:message
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self.rootViewController tokenSource:self didCreateToken:token];
+        }]];
 
-        tokenForAlert = token;
-
-        [alert show];
+        [self.rootViewController presentViewController:alert animated:YES completion:nil];
     }
     return !!token; // Return NO if the url was not a valid token
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == alertView.firstOtherButtonIndex) {
-        [self.rootViewController tokenSource:self didCreateToken:tokenForAlert];
-    }
 }
 
 @end
