@@ -33,7 +33,6 @@ class OTPTextFieldCell: UITableViewCell {
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        configureView()
     }
 
     override init(frame: CGRect) {
@@ -42,16 +41,12 @@ class OTPTextFieldCell: UITableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureView()
-    }
 
-    private func configureView() {
         self.textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 17)
 
         self.textField.borderStyle = .RoundedRect
         self.textField.font = UIFont(name: "HelveticaNeue-Light", size: 16)
         self.contentView.addSubview(self.textField)
-
     }
 
     override func layoutSubviews() {
