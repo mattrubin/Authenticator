@@ -31,24 +31,17 @@ private let OTPProgressRingLineWidth: CGFloat = 1.5
 class OTPProgressRing: UIView {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        configureView()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureView()
-    }
-
-    var period: NSTimeInterval = 30
-    private var timer: NSTimer?
-
-    private func configureView() {
         self.opaque = false
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "setNeedsDisplay", userInfo: nil, repeats: true)
     }
 
-    deinit {
-        self.timer?.invalidate()
+    var progress: Double = 0 {
+        didSet {
+            self.setNeedsDisplay()
+        }
     }
 
     override func drawRect(rect: CGRect) {
@@ -60,15 +53,13 @@ class OTPProgressRing: UIView {
         CGContextSetStrokeColorWithColor(context, self.tintColor.colorWithAlphaComponent(0.2).CGColor)
         CGContextStrokeEllipseInRect(context, ringRect);
 
-        let progress = fmod(NSDate().timeIntervalSince1970, self.period) / self.period
-
         CGContextSetStrokeColorWithColor(context, self.tintColor.CGColor);
         CGContextAddArc(context,
             CGRectGetMidX(ringRect),
             CGRectGetMidY(ringRect),
             CGRectGetWidth(ringRect)/2,
             CGFloat(-M_PI_2),
-            CGFloat(2 * M_PI * progress - M_PI_2),
+            CGFloat(2 * M_PI * self.progress - M_PI_2),
             1);
         CGContextStrokePath(context);
     }
