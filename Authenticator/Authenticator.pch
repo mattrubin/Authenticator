@@ -35,4 +35,8 @@
 
 #import <SVProgressHUD/SVProgressHUD.h>
 
-#import "UIColor+OTP.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wauto-import"
+#import "Authenticator-Swift.h"
+#pragma clang diagnostic pop

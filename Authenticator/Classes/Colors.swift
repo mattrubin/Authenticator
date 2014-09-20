@@ -1,8 +1,8 @@
 //
-//  UIColor+OTP.m
+//  Colors.swift
 //  Authenticator
 //
-//  Copyright (c) 2013 Matt Rubin
+//  Copyright (c) 2014 Matt Rubin
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -22,18 +22,27 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "UIColor+OTP.h"
-#import <UIColor+Categories/UIColor+Categories.h>
+import UIKit
 
+extension UIColor {
+    private convenience init(r: Int, g: Int, b: Int) {
+        let divisor: CGFloat = 255
+        let red   = CGFloat(r) / divisor
+        let green = CGFloat(g) / divisor
+        let blue  = CGFloat(b) / divisor
+        self.init(red: red, green: green, blue: blue, alpha: 1)
+    }
 
-@implementation UIColor (OTP)
+    private struct OTP {
+        static let darkColor  = UIColor(r: 35,  g: 35,  b: 50)
+        static let lightColor = UIColor(r: 250, g: 248, b: 240)
+    }
 
-COLOR(otpDarkColor,  [UIColor colorWithIntegerRed:35  green:35  blue:50 ])
-COLOR(otpLightColor, [UIColor colorWithIntegerRed:250 green:248 blue:240])
+    class var otpDarkColor: UIColor { return OTP.darkColor }
+    class var otpLightColor: UIColor { return OTP.lightColor }
 
-COLOR(otpBarBackgroundColor, [UIColor otpDarkColor])
-COLOR(otpBarForegroundColor, [UIColor otpLightColor])
-COLOR(otpBackgroundColor,    [UIColor otpDarkColor])
-COLOR(otpForegroundColor,    [UIColor otpLightColor])
-
-@end
+    class var otpBarBackgroundColor: UIColor { return OTP.darkColor }
+    class var otpBarForegroundColor: UIColor { return OTP.lightColor }
+    class var otpBackgroundColor: UIColor { return OTP.darkColor }
+    class var otpForegroundColor: UIColor { return OTP.lightColor }
+}
