@@ -1,5 +1,5 @@
 //
-//  OTPTextFieldCell.h
+//  OTPTextFieldCell.m
 //  Authenticator
 //
 //  Copyright (c) 2014 Matt Rubin
@@ -22,11 +22,42 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import UIKit;
+import UIKit
 
+class OTPTextFieldCell: UITableViewCell {
+    let textField = UITextField()
 
-@interface OTPTextFieldCell : UITableViewCell
+    override init() {
+        super.init()
+    }
 
-@property (nonatomic, readonly) UITextField *textField;
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        configureView()
+    }
 
-@end
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureView()
+    }
+
+    private func configureView() {
+        self.textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 17)
+
+        self.textField.borderStyle = .RoundedRect
+        self.textField.font = UIFont(name: "HelveticaNeue-Light", size: 16)
+        self.contentView.addSubview(self.textField)
+
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        self.textLabel?.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 21);
+        self.textField.frame = CGRectMake(20, 44, CGRectGetWidth(self.contentView.bounds) - 40, 30);
+    }
+}
