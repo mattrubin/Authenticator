@@ -57,30 +57,24 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-}
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
+        let token: OTPToken? = OTPToken(URL: url)
 
-/*
+        if let token = token {
+            let message = "Do you want to add a token for “\(token.name)”?"
 
-#pragma mark - URL Handling
+            let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    OTPToken *token = [OTPToken tokenWithURL:url];
-    if (token) {
-        NSString *message = [NSString stringWithFormat: @"Do you want to add a token for “%@”?", token.name];
+            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) in
+                self.rootViewController.tokenSource(self, didCreateToken: token)
+            }))
 
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add Token"
-                                                                       message:message
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self.rootViewController tokenSource:self didCreateToken:token];
-        }]];
+            self.rootViewController.presentViewController(alert, animated: true, completion: nil)
 
-        [self.rootViewController presentViewController:alert animated:YES completion:nil];
+            return true
+        }
+
+        return false
     }
-    return !!token; // Return NO if the url was not a valid token
 }
-
-@end
-*/
