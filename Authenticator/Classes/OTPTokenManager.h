@@ -37,6 +37,6 @@
 - (OTPToken *)tokenAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)addToken:(OTPToken *)token;
 - (BOOL)removeTokenAtIndexPath:(NSIndexPath *)indexPath;
-- (BOOL)moveTokenFromIndex:(NSUInteger)source toIndex:(NSUInteger)destination;
+- (BOOL)moveTokenFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
 
 @end

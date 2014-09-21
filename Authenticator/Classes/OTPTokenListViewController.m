@@ -186,7 +186,7 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    [self.tokenManager moveTokenFromIndex:(NSUInteger)fromIndexPath.row toIndex:(NSUInteger)toIndexPath.row];
+    [self.tokenManager moveTokenFromIndexPath:fromIndexPath toIndexPath:toIndexPath];
 }
 
 
