@@ -49,7 +49,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        self.tokenManager = [OTPTokenManager sharedManager];
+        self.tokenManager = [OTPTokenManager new];
     }
     return self;
 }

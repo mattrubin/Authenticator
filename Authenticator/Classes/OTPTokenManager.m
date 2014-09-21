@@ -38,16 +38,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @implementation OTPTokenManager
 
-+ (instancetype)sharedManager
-{
-    static OTPTokenManager *sharedManager;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedManager = [self new];
-    });
-    return sharedManager;
-}
-
 - (id)init
 {
     self = [super init];
