@@ -173,7 +173,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if ([self.tokenManager removeTokenAtIndex:(NSUInteger)indexPath.row]) {
+        if ([self.tokenManager removeTokenAtIndexPath:indexPath]) {
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             [self update];
 
