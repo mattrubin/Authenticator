@@ -116,13 +116,7 @@
 - (void)update
 {
     // Show the countdown ring only if a time-based token is active
-    self.ring.hidden = YES;
-    for (OTPToken *token in self.tokenManager.tokens) {
-        if (token.type == OTPTokenTypeTimer) {
-            self.ring.hidden = NO;
-            break;
-        }
-    }
+    self.ring.hidden = !self.tokenManager.hasTimeBasedTokens;
 
     self.editButtonItem.enabled = !!self.tokenManager.numberOfTokens;
     self.noTokensLabel.hidden = !!self.tokenManager.numberOfTokens;

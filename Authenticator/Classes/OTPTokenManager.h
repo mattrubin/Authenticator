@@ -33,6 +33,7 @@
 + (instancetype)sharedManager;
 
 @property (nonatomic, readonly) NSUInteger numberOfTokens;
+@property (nonatomic, readonly) BOOL hasTimeBasedTokens;
 
 - (OTPToken *)tokenAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)addToken:(OTPToken *)token;

@@ -115,6 +115,16 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return self.mutableTokens.count;
 }
 
+- (BOOL)hasTimeBasedTokens
+{
+    for (OTPToken *token in self.mutableTokens) {
+        if (token.type == OTPTokenTypeTimer) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (NSArray *)tokens
 {
     return self.mutableTokens;
