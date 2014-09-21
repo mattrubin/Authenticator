@@ -125,11 +125,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return NO;
 }
 
-- (NSArray *)tokens
-{
-    return self.mutableTokens;
-}
-
 - (OTPToken *)tokenAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger index = (NSUInteger)indexPath.row;

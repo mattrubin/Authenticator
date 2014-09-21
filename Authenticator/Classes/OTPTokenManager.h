@@ -28,8 +28,6 @@
 
 @interface OTPTokenManager : NSObject
 
-@property (nonatomic, readonly) NSArray *tokens;
-
 + (instancetype)sharedManager;
 
 @property (nonatomic, readonly) NSUInteger numberOfTokens;
