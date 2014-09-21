@@ -23,7 +23,6 @@
 //
 
 @import UIKit;
-#import "OTPAppDelegate.h"
 
 
 int main(int argc, char *argv[])

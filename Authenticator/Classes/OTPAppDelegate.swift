@@ -1,5 +1,5 @@
 //
-//  OTPAppDelegate.m
+//  OTPAppDelegate.swift
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -22,52 +22,44 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPAppDelegate.h"
-#import <OneTimePassword/OneTimePassword.h>
-#import "OTPTokenListViewController.h"
+import UIKit
 
+class OTPAppDelegate: UIResponder, UIApplicationDelegate {
+    let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    let rootViewController = OTPTokenListViewController()
 
-@interface OTPAppDelegate ()
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+        UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
+        UINavigationBar.appearance().tintColor = UIColor.otpBarForegroundColor
+        UINavigationBar.appearance().titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)
+        ]
 
-@property (nonatomic, strong) OTPTokenListViewController *rootViewController;
+        UIToolbar.appearance().barTintColor = UIColor.otpBarBackgroundColor
+        UIToolbar.appearance().tintColor = UIColor.otpBarForegroundColor
 
-@end
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)], forState: .Normal)
 
+        // Restore white-on-black style
+        SVProgressHUD.appearance().hudBackgroundColor = UIColor.blackColor()
+        SVProgressHUD.appearance().hudForegroundColor = UIColor.whiteColor()
+        SVProgressHUD.appearance().hudErrorImage   = UIImage(named: "SVProgressHUD.bundle/error")
+        SVProgressHUD.appearance().hudSuccessImage = UIImage(named: "SVProgressHUD.bundle/success")
 
-@implementation OTPAppDelegate
+        let navController = UINavigationController(rootViewController: self.rootViewController)
+        navController.navigationBar.translucent = false
+        navController.toolbar.translucent = false
 
-#pragma mark - UIApplicationDelegate
+        self.window.rootViewController = navController
+        self.window.makeKeyAndVisible()
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    [[UINavigationBar appearance] setBarTintColor:[UIColor otpBarBackgroundColor]];
-    [[UINavigationBar appearance] setTintColor:[UIColor otpBarForegroundColor]];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor otpBarForegroundColor],
-                                                           NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:20]}];
+        return true
+    }
 
-    [[UIToolbar appearance] setBarTintColor:[UIColor otpBarBackgroundColor]];
-    [[UIToolbar appearance] setTintColor:[UIColor otpBarForegroundColor]];
-
-    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17]}
-                                                forState:UIControlStateNormal];
-
-    // Restore white-on-black style
-    [SVProgressHUD appearance].hudBackgroundColor = [UIColor blackColor];
-    [SVProgressHUD appearance].hudForegroundColor = [UIColor whiteColor];
-    [SVProgressHUD appearance].hudErrorImage   = [UIImage imageNamed:@"SVProgressHUD.bundle/error"];
-    [SVProgressHUD appearance].hudSuccessImage = [UIImage imageNamed:@"SVProgressHUD.bundle/success"];
-
-    self.rootViewController = [OTPTokenListViewController new];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.rootViewController];
-    navController.navigationBar.translucent = NO;
-    navController.toolbar.translucent = NO;
-
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = navController;
-    [self.window makeKeyAndVisible];
-    return YES;
 }
 
+/*
 
 #pragma mark - URL Handling
 
@@ -91,3 +83,4 @@
 }
 
 @end
+*/
