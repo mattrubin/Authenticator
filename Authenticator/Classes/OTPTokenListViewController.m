@@ -49,7 +49,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        self.tokenManager = [OTPTokenManager sharedManager];
+        self.tokenManager = [OTPTokenManager new];
     }
     return self;
 }
@@ -116,16 +116,10 @@
 - (void)update
 {
     // Show the countdown ring only if a time-based token is active
-    self.ring.hidden = YES;
-    for (OTPToken *token in self.tokenManager.tokens) {
-        if (token.type == OTPTokenTypeTimer) {
-            self.ring.hidden = NO;
-            break;
-        }
-    }
+    self.ring.hidden = !self.tokenManager.hasTimeBasedTokens;
 
-    self.editButtonItem.enabled = !!self.tokenManager.tokens.count;
-    self.noTokensLabel.hidden = !!self.tokenManager.tokens.count;
+    self.editButtonItem.enabled = !!self.tokenManager.numberOfTokens;
+    self.noTokensLabel.hidden = !!self.tokenManager.numberOfTokens;
 }
 
 - (void)tick
@@ -134,7 +128,7 @@
     for (OTPTokenCell *cell in self.tableView.visibleCells) {
         if ([cell isKindOfClass:[OTPTokenCell class]]) {
             NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-            OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+            OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
             [cell setPassword:token.password];
         }
     }
@@ -153,7 +147,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (NSInteger) self.tokenManager.tokens.count;
+    return (NSInteger) self.tokenManager.numberOfTokens;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -162,7 +156,7 @@
 
     cell.delegate = self;
 
-    OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+    OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
     [cell setName:token.name issuer:token.issuer];
     [cell setPassword:token.password];
     [cell setShowsButton:(token.type == OTPTokenTypeCounter)];
@@ -173,11 +167,11 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if ([self.tokenManager removeTokenAtIndex:(NSUInteger)indexPath.row]) {
+        if ([self.tokenManager removeTokenAtIndexPath:indexPath]) {
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             [self update];
 
-            if (!self.tokenManager.tokens.count) {
+            if (!self.tokenManager.numberOfTokens) {
                 [self setEditing:NO animated:YES];
             }
         }
@@ -186,7 +180,7 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    [self.tokenManager moveTokenFromIndex:(NSUInteger)fromIndexPath.row toIndex:(NSUInteger)toIndexPath.row];
+    [self.tokenManager moveTokenFromIndexPath:fromIndexPath toIndexPath:toIndexPath];
 }
 
 
@@ -203,7 +197,7 @@
         self.editing = NO;
 
         OTPTokenEditViewController *editController = [OTPTokenEditViewController new];
-        editController.token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        editController.token = [self.tokenManager tokenAtIndexPath:indexPath];
         editController.delegate = self;
 
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editController];
@@ -211,7 +205,7 @@
 
         [self presentViewController:navController animated:YES completion:nil];
     } else {
-        OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
         [[UIPasteboard generalPasteboard] setValue:token.password forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
         [SVProgressHUD showSuccessWithStatus:@"Copied"];
     }
@@ -263,7 +257,7 @@
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     if (indexPath) {
-        OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
         [token updatePassword];
         [self.tableView reloadData];
     }

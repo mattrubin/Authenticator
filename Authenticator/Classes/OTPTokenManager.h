@@ -28,12 +28,12 @@
 
 @interface OTPTokenManager : NSObject
 
-@property (nonatomic, readonly) NSArray *tokens;
+@property (nonatomic, readonly) NSUInteger numberOfTokens;
+@property (nonatomic, readonly) BOOL hasTimeBasedTokens;
 
-+ (instancetype)sharedManager;
-
+- (OTPToken *)tokenAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)addToken:(OTPToken *)token;
-- (BOOL)removeTokenAtIndex:(NSUInteger)index;
-- (BOOL)moveTokenFromIndex:(NSUInteger)source toIndex:(NSUInteger)destination;
+- (BOOL)removeTokenAtIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)moveTokenFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
 
 @end
