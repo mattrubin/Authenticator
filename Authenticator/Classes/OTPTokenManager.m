@@ -102,7 +102,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (BOOL)saveTokensToKeychain
 {
-    NSArray *keychainReferences = [self valueForKeyPath:@"tokens.keychainItemRef"];
+    NSArray *keychainReferences = [self valueForKeyPath:@"mutableTokens.keychainItemRef"];
     [[NSUserDefaults standardUserDefaults] setObject:keychainReferences forKey:kOTPKeychainEntriesArray];
     return [[NSUserDefaults standardUserDefaults] synchronize];
 }
