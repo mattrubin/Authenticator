@@ -102,7 +102,7 @@
 {
     [super viewWillAppear:animated];
 
-    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateRing)];
+    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick)];
     [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
@@ -128,8 +128,17 @@
     self.noTokensLabel.hidden = !!self.tokenManager.tokens.count;
 }
 
-- (void)updateRing
+- (void)tick
 {
+    // TODO: only update cells for tokens whose passwords have changed
+    for (OTPTokenCell *cell in self.tableView.visibleCells) {
+        if ([cell isKindOfClass:[OTPTokenCell class]]) {
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+            OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+            [cell setPassword:token.password];
+        }
+    }
+
     NSTimeInterval period = [OTPToken defaultPeriod];
     self.ring.progress = fmod([NSDate date].timeIntervalSince1970, period) / period;
 }
