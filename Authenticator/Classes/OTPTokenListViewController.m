@@ -32,10 +32,10 @@
 #import "OTPTokenEditViewController.h"
 
 
-@interface OTPTokenListViewController () <OTPTokenEditorDelegate>
+@interface OTPTokenListViewController () <OTPTokenCellDelegate, OTPTokenEditorDelegate>
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
-@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) CADisplayLink *displayLink;
 @property (nonatomic, strong) OTPProgressRing *ring;
 @property (nonatomic, strong) UILabel *noTokensLabel;
 @property (nonatomic, strong) UIBarButtonItem *addButtonItem;
@@ -101,17 +101,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01
-                                                  target:self
-                                                selector:@selector(updateRing)
-                                                userInfo:nil
-                                                 repeats:YES];
+
+    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick)];
+    [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [self.timer invalidate];
+    [self.displayLink invalidate];
+    self.displayLink = nil;
 }
 
 - (void)update
@@ -129,8 +128,17 @@
     self.noTokensLabel.hidden = !!self.tokenManager.tokens.count;
 }
 
-- (void)updateRing
+- (void)tick
 {
+    // TODO: only update cells for tokens whose passwords have changed
+    for (OTPTokenCell *cell in self.tableView.visibleCells) {
+        if ([cell isKindOfClass:[OTPTokenCell class]]) {
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+            OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+            [cell setPassword:token.password];
+        }
+    }
+
     NSTimeInterval period = [OTPToken defaultPeriod];
     self.ring.progress = fmod([NSDate date].timeIntervalSince1970, period) / period;
 }
@@ -151,7 +159,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OTPTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([OTPTokenCell class]) forIndexPath:indexPath];
-    cell.token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+
+    cell.delegate = self;
+
+    OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+    [cell setName:token.name issuer:token.issuer];
+    [cell setPassword:token.password];
+    [cell setShowsButton:(token.type == OTPTokenTypeCounter)];
+
     return cell;
 }
 
@@ -238,6 +253,19 @@
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section]
                               atScrollPosition:UITableViewScrollPositionMiddle
                                       animated:YES];
+    }
+}
+
+
+#pragma mark - OTPTokenCellDelegate
+
+- (void)buttonTappedForCell:(UITableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    if (indexPath) {
+        OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        [token updatePassword];
+        [self.tableView reloadData];
     }
 }
 

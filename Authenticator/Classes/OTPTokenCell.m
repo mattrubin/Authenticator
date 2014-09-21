@@ -23,7 +23,6 @@
 //
 
 #import "OTPTokenCell.h"
-#import <OneTimePassword/OneTimePassword.h>
 
 
 @interface OTPTokenCell ()
@@ -48,23 +47,10 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
 
         [self createSubviews];
-
-        [self addObserver:self forKeyPath:@"token.password" options:0 context:nil];
-
-        // Ensure that TOTPs are updated when the app returns from the background
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(refresh)
-                                                     name:UIApplicationWillEnterForegroundNotification
-                                                   object:nil];
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [self removeObserver:self forKeyPath:@"token.password"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 #pragma mark - Subviews
 
@@ -93,7 +79,8 @@
 
 - (void)generateNextPassword
 {
-    [self.token updatePassword];
+    id<OTPTokenCellDelegate> delegate = self.delegate;
+    [delegate buttonTappedForCell:self];
 }
 
 - (void)layoutSubviews
@@ -117,29 +104,31 @@
 }
 
 
-#pragma mark - KVO
+#pragma mark - Update
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    [self refresh];
-}
-
-- (void)refresh
+- (void)setName:(NSString *)name issuer:(NSString *)issuer
 {
     NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
-    if (self.token.issuer.length) {
-        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:self.token.issuer attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15]}]];
+    if (issuer.length) {
+        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:issuer attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15]}]];
     }
-    if (self.token.issuer.length && self.token.name.length) {
+    if (issuer.length && name.length) {
         [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     }
-    if (self.token.name.length) {
-        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:self.token.name]];
+    if (name.length) {
+        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:name]];
     }
     self.titleLabel.attributedText = titleString;
+}
 
-    self.passwordLabel.attributedText = [[NSAttributedString alloc] initWithString:self.token.password attributes:@{NSKernAttributeName: @2}];
-    self.nextPasswordButton.hidden = self.token.type != OTPTokenTypeCounter;
+- (void)setPassword:(NSString *)password
+{
+    self.passwordLabel.attributedText = [[NSAttributedString alloc] initWithString:password attributes:@{NSKernAttributeName: @2}];
+}
+
+- (void)setShowsButton:(BOOL)showsButton
+{
+    self.nextPasswordButton.hidden = !showsButton;
 }
 
 

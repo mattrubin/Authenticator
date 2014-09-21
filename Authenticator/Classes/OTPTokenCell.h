@@ -23,11 +23,21 @@
 //
 
 @import UIKit;
-@class OTPToken;
+
+
+@protocol OTPTokenCellDelegate <NSObject>
+
+- (void)buttonTappedForCell:(UITableViewCell *)cell;
+
+@end
 
 
 @interface OTPTokenCell : UITableViewCell
 
-@property (nonatomic, strong) OTPToken *token;
+@property (nonatomic, weak) id<OTPTokenCellDelegate> delegate;
+
+- (void)setName:(NSString *)name issuer:(NSString *)issuer;
+- (void)setPassword:(NSString *)password;
+- (void)setShowsButton:(BOOL)showsButton;
 
 @end
