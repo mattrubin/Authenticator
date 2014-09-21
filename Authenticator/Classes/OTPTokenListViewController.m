@@ -134,7 +134,7 @@
     for (OTPTokenCell *cell in self.tableView.visibleCells) {
         if ([cell isKindOfClass:[OTPTokenCell class]]) {
             NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-            OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+            OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
             [cell setPassword:token.password];
         }
     }
@@ -162,7 +162,7 @@
 
     cell.delegate = self;
 
-    OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+    OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
     [cell setName:token.name issuer:token.issuer];
     [cell setPassword:token.password];
     [cell setShowsButton:(token.type == OTPTokenTypeCounter)];
@@ -203,7 +203,7 @@
         self.editing = NO;
 
         OTPTokenEditViewController *editController = [OTPTokenEditViewController new];
-        editController.token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        editController.token = [self.tokenManager tokenAtIndexPath:indexPath];
         editController.delegate = self;
 
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editController];
@@ -211,7 +211,7 @@
 
         [self presentViewController:navController animated:YES completion:nil];
     } else {
-        OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
         [[UIPasteboard generalPasteboard] setValue:token.password forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
         [SVProgressHUD showSuccessWithStatus:@"Copied"];
     }
@@ -263,7 +263,7 @@
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     if (indexPath) {
-        OTPToken *token = self.tokenManager.tokens[(NSUInteger)indexPath.row];
+        OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
         [token updatePassword];
         [self.tableView reloadData];
     }

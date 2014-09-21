@@ -115,6 +115,12 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return self.mutableTokens;
 }
 
+- (OTPToken *)tokenAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSUInteger index = (NSUInteger)indexPath.row;
+    return self.mutableTokens[index];
+}
+
 - (BOOL)addToken:(OTPToken *)token
 {
     if (token && [token saveToKeychain]) {
