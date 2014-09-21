@@ -79,7 +79,8 @@
 
 - (void)generateNextPassword
 {
-    [self.delegate buttonTappedForCell:self];
+    id<OTPTokenCellDelegate> delegate = self.delegate;
+    [delegate buttonTappedForCell:self];
 }
 
 - (void)layoutSubviews
