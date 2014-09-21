@@ -110,6 +110,11 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 #pragma mark - Tokens
 
+- (NSUInteger)numberOfTokens
+{
+    return self.mutableTokens.count;
+}
+
 - (NSArray *)tokens
 {
     return self.mutableTokens;

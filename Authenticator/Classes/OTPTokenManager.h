@@ -32,6 +32,8 @@
 
 + (instancetype)sharedManager;
 
+@property (nonatomic, readonly) NSUInteger numberOfTokens;
+
 - (OTPToken *)tokenAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)addToken:(OTPToken *)token;
 - (BOOL)removeTokenAtIndexPath:(NSIndexPath *)indexPath;

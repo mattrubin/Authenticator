@@ -124,8 +124,8 @@
         }
     }
 
-    self.editButtonItem.enabled = !!self.tokenManager.tokens.count;
-    self.noTokensLabel.hidden = !!self.tokenManager.tokens.count;
+    self.editButtonItem.enabled = !!self.tokenManager.numberOfTokens;
+    self.noTokensLabel.hidden = !!self.tokenManager.numberOfTokens;
 }
 
 - (void)tick
@@ -153,7 +153,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (NSInteger) self.tokenManager.tokens.count;
+    return (NSInteger) self.tokenManager.numberOfTokens;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -177,7 +177,7 @@
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             [self update];
 
-            if (!self.tokenManager.tokens.count) {
+            if (!self.tokenManager.numberOfTokens) {
                 [self setEditing:NO animated:YES];
             }
         }
