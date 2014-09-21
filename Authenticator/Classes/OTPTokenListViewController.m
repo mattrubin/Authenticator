@@ -35,7 +35,7 @@
 @interface OTPTokenListViewController () <OTPTokenCellDelegate, OTPTokenEditorDelegate>
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
-@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) CADisplayLink *displayLink;
 @property (nonatomic, strong) OTPProgressRing *ring;
 @property (nonatomic, strong) UILabel *noTokensLabel;
 @property (nonatomic, strong) UIBarButtonItem *addButtonItem;
@@ -101,17 +101,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01
-                                                  target:self
-                                                selector:@selector(updateRing)
-                                                userInfo:nil
-                                                 repeats:YES];
+
+    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateRing)];
+    [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [self.timer invalidate];
+    [self.displayLink invalidate];
+    self.displayLink = nil;
 }
 
 - (void)update
