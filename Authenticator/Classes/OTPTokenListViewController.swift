@@ -71,4 +71,44 @@ class OTPTokenListViewController: _OTPTokenListViewController {
         self.displayLink = nil;
     }
 
+
+    // MARK: - Table view data source
+
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Int(self.tokenManager.numberOfTokens)
+    }
+
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(OTPTokenCell.self), forIndexPath: indexPath) as OTPTokenCell
+        cell.delegate = self
+
+        let token = self.tokenManager.tokenAtIndexPath(indexPath)
+        cell.setName(token.name, issuer: token.issuer)
+        cell.setPassword(token.password)
+        cell.setShowsButton((token.type == .Counter))
+
+        return cell
+    }
+
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == .Delete) {
+            if self.tokenManager.removeTokenAtIndexPath(indexPath) {
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                self.update()
+
+                if (self.tokenManager.numberOfTokens == 0) {
+                    self.setEditing(false, animated: true)
+                }
+            }
+        }
+    }
+
+    override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        self.tokenManager.moveTokenFromIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
+    }
+
 }

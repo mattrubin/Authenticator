@@ -23,8 +23,6 @@
 //
 
 #import "OTPTokenListViewController.h"
-#import "OTPTokenManager.h"
-#import "OTPTokenCell.h"
 #import <OneTimePassword/OneTimePassword.h>
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
@@ -32,9 +30,8 @@
 #import "OTPTokenEditViewController.h"
 
 
-@interface _OTPTokenListViewController () <OTPTokenCellDelegate, OTPTokenEditorDelegate>
+@interface _OTPTokenListViewController () <OTPTokenEditorDelegate>
 
-@property (nonatomic, strong) OTPTokenManager *tokenManager;
 
 @end
 
@@ -72,52 +69,6 @@
 
     NSTimeInterval period = [OTPToken defaultPeriod];
     self.ring.progress = fmod([NSDate date].timeIntervalSince1970, period) / period;
-}
-
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return (NSInteger) self.tokenManager.numberOfTokens;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    OTPTokenCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([OTPTokenCell class]) forIndexPath:indexPath];
-
-    cell.delegate = self;
-
-    OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
-    [cell setName:token.name issuer:token.issuer];
-    [cell setPassword:token.password];
-    [cell setShowsButton:(token.type == OTPTokenTypeCounter)];
-
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if ([self.tokenManager removeTokenAtIndexPath:indexPath]) {
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self update];
-
-            if (!self.tokenManager.numberOfTokens) {
-                [self setEditing:NO animated:YES];
-            }
-        }
-    }
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-    [self.tokenManager moveTokenFromIndexPath:fromIndexPath toIndexPath:toIndexPath];
 }
 
 
