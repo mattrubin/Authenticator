@@ -25,7 +25,7 @@ class OTPTokenListViewController: _OTPTokenListViewController {
 
         self.ring = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
         let ringBarItem = UIBarButtonItem(customView: self.ring)
-        self.navigationItem.leftBarButtonItem = ringBarItem;
+        self.navigationItem.leftBarButtonItem = ringBarItem
 
         self.addButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "addToken")
         self.toolbarItems = [
@@ -46,12 +46,12 @@ class OTPTokenListViewController: _OTPTokenListViewController {
             attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)]))
         noTokenString.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)],
             range: (noTokenString.string as NSString).rangeOfString("+"))
-        self.noTokensLabel.attributedText = noTokenString;
-        self.noTokensLabel.textAlignment = .Center;
+        self.noTokensLabel.attributedText = noTokenString
+        self.noTokensLabel.textAlignment = .Center
         self.noTokensLabel.textColor = UIColor.otpForegroundColor
         self.noTokensLabel.frame = CGRectMake(0, 0,
             self.view.bounds.size.width,
-            self.view.bounds.size.height * 0.6);
+            self.view.bounds.size.height * 0.6)
         self.view.addSubview(self.noTokensLabel)
 
         self.update()
@@ -68,7 +68,7 @@ class OTPTokenListViewController: _OTPTokenListViewController {
         super.viewDidDisappear(animated)
 
         self.displayLink?.invalidate()
-        self.displayLink = nil;
+        self.displayLink = nil
     }
 
 
