@@ -26,6 +26,6 @@
 #import "OTPTokenSourceDelegate.h"
 
 
-@interface OTPTokenListViewController : UITableViewController <OTPTokenSourceDelegate>
+@interface _OTPTokenListViewController : UITableViewController <OTPTokenSourceDelegate>
 
 @end

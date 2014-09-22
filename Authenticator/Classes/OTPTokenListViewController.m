@@ -32,7 +32,7 @@
 #import "OTPTokenEditViewController.h"
 
 
-@interface OTPTokenListViewController () <OTPTokenCellDelegate, OTPTokenEditorDelegate>
+@interface _OTPTokenListViewController () <OTPTokenCellDelegate, OTPTokenEditorDelegate>
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
 @property (nonatomic, strong) CADisplayLink *displayLink;
@@ -43,7 +43,7 @@
 @end
 
 
-@implementation OTPTokenListViewController
+@implementation _OTPTokenListViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
