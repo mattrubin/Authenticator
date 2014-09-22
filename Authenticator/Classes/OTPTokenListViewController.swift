@@ -82,6 +82,12 @@ class OTPTokenListViewController: UITableViewController {
         self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        self.editing = false
+    }
+
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
 
@@ -182,8 +188,6 @@ extension OTPTokenListViewController: UITableViewDelegate {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
-            self.editing = false
-
             let editController = OTPTokenEditViewController()
             editController.token = self.tokenManager.tokenAtIndexPath(indexPath)
             editController.delegate = self
