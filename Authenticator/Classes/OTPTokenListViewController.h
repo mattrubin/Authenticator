@@ -23,12 +23,8 @@
 //
 
 @import UIKit;
-@class OTPProgressRing;
-#import "OTPTokenManager.h"
 
 
 @interface _OTPTokenListViewController : UITableViewController
-
-@property (nonatomic, strong) OTPTokenManager *tokenManager;
 
 @end

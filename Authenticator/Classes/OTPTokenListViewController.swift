@@ -27,9 +27,10 @@ import MobileCoreServices
 
 class OTPTokenListViewController: _OTPTokenListViewController {
 
+    let tokenManager = OTPTokenManager()
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
-    var noTokensLabel = UILabel()
+    let noTokensLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()

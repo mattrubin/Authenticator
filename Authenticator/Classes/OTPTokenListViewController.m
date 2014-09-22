@@ -23,27 +23,8 @@
 //
 
 #import "OTPTokenListViewController.h"
-#import <OneTimePassword/OneTimePassword.h>
-#import "OTPTokenEntryViewController.h"
-
-
-@interface _OTPTokenListViewController ()
-
-
-@end
 
 
 @implementation _OTPTokenListViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        self.tokenManager = [OTPTokenManager new];
-    }
-    return self;
-}
-
-
 
 @end
