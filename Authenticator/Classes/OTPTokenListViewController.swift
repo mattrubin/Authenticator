@@ -88,6 +88,16 @@ class OTPTokenListViewController: _OTPTokenListViewController {
         self.displayLink = nil
     }
 
+    // MARK: Update
+
+    func update() {
+        // Show the countdown ring only if a time-based token is active
+        self.ring.hidden = !self.tokenManager.hasTimeBasedTokens
+
+        self.editButtonItem().enabled = (self.tokenManager.numberOfTokens > 0)
+        self.noTokensLabel.hidden = (self.tokenManager.numberOfTokens > 0)
+    }
+
     // MARK: Target actions
 
     func addToken() {

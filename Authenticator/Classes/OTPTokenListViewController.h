@@ -35,6 +35,4 @@
 @property (nonatomic, strong) UILabel *noTokensLabel;
 @property (nonatomic, strong) UIBarButtonItem *addButtonItem;
 
-- (void)update;
-
 @end
