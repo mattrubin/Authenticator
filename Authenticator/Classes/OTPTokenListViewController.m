@@ -35,7 +35,6 @@
 @interface _OTPTokenListViewController () <OTPTokenCellDelegate, OTPTokenEditorDelegate>
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
-@property (nonatomic, strong) CADisplayLink *displayLink;
 
 @end
 
@@ -49,21 +48,6 @@
         self.tokenManager = [OTPTokenManager new];
     }
     return self;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick)];
-    [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [self.displayLink invalidate];
-    self.displayLink = nil;
 }
 
 - (void)update
