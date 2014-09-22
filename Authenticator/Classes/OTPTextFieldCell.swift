@@ -52,7 +52,7 @@ class OTPTextFieldCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        self.textLabel?.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 21);
-        self.textField.frame = CGRectMake(20, 44, CGRectGetWidth(self.contentView.bounds) - 40, 30);
+        self.textLabel?.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 21)
+        self.textField.frame = CGRectMake(20, 44, CGRectGetWidth(self.contentView.bounds) - 40, 30)
     }
 }
