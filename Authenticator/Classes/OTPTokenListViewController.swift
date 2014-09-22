@@ -98,6 +98,19 @@ class OTPTokenListViewController: _OTPTokenListViewController {
         self.noTokensLabel.hidden = (self.tokenManager.numberOfTokens > 0)
     }
 
+    func tick() {
+        // TODO: only update cells for tokens whose passwords have changed
+        for cell in self.tableView.visibleCells() as [OTPTokenCell] {
+            if let indexPath = self.tableView.indexPathForCell(cell) {
+                let token = self.tokenManager.tokenAtIndexPath(indexPath)
+                cell.setPassword(token.password)
+            }
+        }
+
+        let period = OTPToken.defaultPeriod()
+        self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period;
+    }
+
     // MARK: Target actions
 
     func addToken() {
