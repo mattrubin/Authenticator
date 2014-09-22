@@ -26,7 +26,7 @@ import UIKit
 
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
-    let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    var window = UIWindow(frame: UIScreen.mainScreen().bounds)
     let rootViewController = OTPTokenListViewController()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
