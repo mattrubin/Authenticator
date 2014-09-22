@@ -28,6 +28,8 @@ import MobileCoreServices
 class OTPTokenListViewController: _OTPTokenListViewController {
 
     var displayLink: CADisplayLink?
+    let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
+    var noTokensLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,22 +42,20 @@ class OTPTokenListViewController: _OTPTokenListViewController {
         self.tableView.separatorStyle = .None
         self.tableView.indicatorStyle = .White
 
-        self.ring = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
         let ringBarItem = UIBarButtonItem(customView: self.ring)
         self.navigationItem.leftBarButtonItem = ringBarItem
 
-        self.addButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addToken"))
+        let addButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addToken"))
         self.toolbarItems = [
             self.editButtonItem(),
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil),
-            self.addButtonItem
+            addButtonItem
         ]
         self.navigationController?.toolbarHidden = false
 
         self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
         self.tableView.allowsSelectionDuringEditing = true
 
-        self.noTokensLabel = UILabel()
         self.noTokensLabel.numberOfLines = 2
         let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
             attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)])

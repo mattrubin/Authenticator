@@ -31,8 +31,4 @@
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
 
-@property (nonatomic, strong) OTPProgressRing *ring;
-@property (nonatomic, strong) UILabel *noTokensLabel;
-@property (nonatomic, strong) UIBarButtonItem *addButtonItem;
-
 @end
