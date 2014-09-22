@@ -172,9 +172,27 @@ extension OTPTokenListViewController: OTPTokenCellDelegate {
 
 extension OTPTokenListViewController: OTPTokenEditorDelegate {
 
-    func tokenEditor(tokenEditor: AnyObject, didEditToken: OTPToken) {
+    func tokenEditor(tokenEditor: AnyObject, didEditToken token: OTPToken) {
         self.dismissViewControllerAnimated(true, completion: nil)
         self.tableView.reloadData()
+    }
+
+}
+
+extension OTPTokenListViewController: OTPTokenSourceDelegate {
+
+    func tokenSource(tokenSource: AnyObject, didCreateToken token: OTPToken) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+
+        if self.tokenManager.addToken(token) {
+            self.tableView.reloadData()
+            self.update()
+
+            // Scroll to the new token (added at the bottom)
+            let section = self.numberOfSectionsInTableView(self.tableView) - 1
+            let row = self.tableView(self.tableView, numberOfRowsInSection: section) - 1
+            self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: row, inSection: section), atScrollPosition: .Middle, animated: true)
+        }
     }
 
 }
