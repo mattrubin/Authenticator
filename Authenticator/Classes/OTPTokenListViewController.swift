@@ -25,7 +25,7 @@
 import UIKit
 import MobileCoreServices
 
-class OTPTokenListViewController: _OTPTokenListViewController {
+class OTPTokenListViewController: UITableViewController {
 
     let tokenManager = OTPTokenManager()
     var displayLink: CADisplayLink?
