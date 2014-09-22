@@ -109,13 +109,4 @@
     }
 }
 
-
-#pragma mark - OTPTokenEditorDelegate
-
-- (void)tokenEditor:(id)tokenEditor didEditToken:(OTPToken *)token
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self.tableView reloadData];
-}
-
 @end

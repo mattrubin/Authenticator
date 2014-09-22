@@ -169,3 +169,12 @@ extension OTPTokenListViewController: OTPTokenCellDelegate {
     }
 
 }
+
+extension OTPTokenListViewController: OTPTokenEditorDelegate {
+
+    func tokenEditor(tokenEditor: AnyObject, didEditToken: OTPToken) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        self.tableView.reloadData()
+    }
+
+}

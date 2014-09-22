@@ -26,10 +26,9 @@
 #import "OTPTokenSourceDelegate.h"
 @class OTPProgressRing;
 #import "OTPTokenManager.h"
-#import "OTPTokenEditViewController.h"
 
 
-@interface _OTPTokenListViewController : UITableViewController <OTPTokenSourceDelegate, OTPTokenEditorDelegate>
+@interface _OTPTokenListViewController : UITableViewController <OTPTokenSourceDelegate>
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
 
