@@ -6,3 +6,4 @@
 #import <OneTimePassword/OneTimePassword.h>
 #import "OTPTokenListViewController.h"
 #import "OTPTokenCell.h"
+#import "OTPTokenEditViewController.h"

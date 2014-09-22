@@ -27,10 +27,9 @@
 #import "OTPTokenEntryViewController.h"
 #import "OTPScannerViewController.h"
 @import MobileCoreServices;
-#import "OTPTokenEditViewController.h"
 
 
-@interface _OTPTokenListViewController () <OTPTokenEditorDelegate>
+@interface _OTPTokenListViewController ()
 
 
 @end
@@ -69,34 +68,6 @@
 
     NSTimeInterval period = [OTPToken defaultPeriod];
     self.ring.progress = fmod([NSDate date].timeIntervalSince1970, period) / period;
-}
-
-
-#pragma mark - Table view delegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 85;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (self.isEditing) {
-        self.editing = NO;
-
-        OTPTokenEditViewController *editController = [OTPTokenEditViewController new];
-        editController.token = [self.tokenManager tokenAtIndexPath:indexPath];
-        editController.delegate = self;
-
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editController];
-        navController.navigationBar.translucent = NO;
-
-        [self presentViewController:navController animated:YES completion:nil];
-    } else {
-        OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
-        [[UIPasteboard generalPasteboard] setValue:token.password forPasteboardType:(__bridge NSString *)kUTTypeUTF8PlainText];
-        [SVProgressHUD showSuccessWithStatus:@"Copied"];
-    }
 }
 
 

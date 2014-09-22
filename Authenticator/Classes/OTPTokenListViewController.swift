@@ -23,6 +23,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 class OTPTokenListViewController: _OTPTokenListViewController {
 
@@ -126,6 +127,33 @@ extension OTPTokenListViewController: UITableViewDataSource {
 
     override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
         self.tokenManager.moveTokenFromIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
+    }
+
+}
+
+extension OTPTokenListViewController: UITableViewDelegate {
+
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 85
+    }
+
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if self.editing {
+            self.editing = false
+
+            let editController = OTPTokenEditViewController()
+            editController.token = self.tokenManager.tokenAtIndexPath(indexPath)
+            editController.delegate = self
+
+            let navController = UINavigationController(rootViewController: editController)
+            navController.navigationBar.translucent = false
+
+            self.presentViewController(navController, animated: true, completion: nil)
+        } else {
+            let token = self.tokenManager.tokenAtIndexPath(indexPath)
+            UIPasteboard.generalPasteboard().setValue(token.password, forPasteboardType: kUTTypeUTF8PlainText as NSString)
+            SVProgressHUD.showSuccessWithStatus("Copied")
+        }
     }
 
 }
