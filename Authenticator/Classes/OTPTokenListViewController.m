@@ -25,8 +25,6 @@
 #import "OTPTokenListViewController.h"
 #import <OneTimePassword/OneTimePassword.h>
 #import "OTPTokenEntryViewController.h"
-#import "OTPScannerViewController.h"
-@import MobileCoreServices;
 
 
 @interface _OTPTokenListViewController ()
@@ -68,25 +66,6 @@
 
     NSTimeInterval period = [OTPToken defaultPeriod];
     self.ring.progress = fmod([NSDate date].timeIntervalSince1970, period) / period;
-}
-
-
-#pragma mark - Target actions
-
-- (void)addToken
-{
-    UIViewController *entryController;
-    if ([OTPScannerViewController deviceCanScan]) {
-        entryController = [OTPScannerViewController new];
-        ((OTPScannerViewController *)entryController).delegate = self;
-    } else {
-         entryController = [OTPTokenEntryViewController new];
-        ((OTPTokenEntryViewController *)entryController).delegate = self;
-    }
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:entryController];
-    navController.navigationBar.translucent = NO;
-
-    [self presentViewController:navController animated:YES completion:nil];
 }
 
 @end

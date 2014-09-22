@@ -7,3 +7,4 @@
 #import "OTPTokenListViewController.h"
 #import "OTPTokenCell.h"
 #import "OTPTokenEditViewController.h"
+#import "OTPScannerViewController.h"

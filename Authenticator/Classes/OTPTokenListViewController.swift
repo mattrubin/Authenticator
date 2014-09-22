@@ -44,7 +44,7 @@ class OTPTokenListViewController: _OTPTokenListViewController {
         let ringBarItem = UIBarButtonItem(customView: self.ring)
         self.navigationItem.leftBarButtonItem = ringBarItem
 
-        self.addButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "addToken")
+        self.addButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addToken"))
         self.toolbarItems = [
             self.editButtonItem(),
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil),
@@ -86,6 +86,25 @@ class OTPTokenListViewController: _OTPTokenListViewController {
 
         self.displayLink?.invalidate()
         self.displayLink = nil
+    }
+
+    // MARK: Target actions
+
+    func addToken() {
+        var entryController: UIViewController
+        if OTPScannerViewController.deviceCanScan() {
+            let scanner = OTPScannerViewController()
+            scanner.delegate = self
+            entryController = scanner
+        } else {
+            let form = OTPTokenEntryViewController()
+            form.delegate = self;
+            entryController = form
+        }
+        let navController = UINavigationController(rootViewController: entryController)
+        navController.navigationBar.translucent = false
+
+        self.presentViewController(navController, animated: true, completion: nil)
     }
 
 }
