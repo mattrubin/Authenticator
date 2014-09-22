@@ -112,3 +112,15 @@ class OTPTokenListViewController: _OTPTokenListViewController {
     }
 
 }
+
+extension OTPTokenListViewController: OTPTokenCellDelegate {
+
+    func buttonTappedForCell(cell: UITableViewCell!) {
+        if let indexPath = self.tableView.indexPathForCell(cell) {
+            let token = self.tokenManager.tokenAtIndexPath(indexPath)
+            token.updatePassword()
+            self.tableView.reloadData()
+        }
+    }
+
+}

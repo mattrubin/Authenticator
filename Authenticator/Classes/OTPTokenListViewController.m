@@ -139,19 +139,6 @@
 }
 
 
-#pragma mark - OTPTokenCellDelegate
-
-- (void)buttonTappedForCell:(UITableViewCell *)cell
-{
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    if (indexPath) {
-        OTPToken *token = [self.tokenManager tokenAtIndexPath:indexPath];
-        [token updatePassword];
-        [self.tableView reloadData];
-    }
-}
-
-
 #pragma mark - OTPTokenEditorDelegate
 
 - (void)tokenEditor:(id)tokenEditor didEditToken:(OTPToken *)token
