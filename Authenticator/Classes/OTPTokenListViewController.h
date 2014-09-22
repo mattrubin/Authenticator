@@ -29,7 +29,6 @@
 
 @interface _OTPTokenListViewController : UITableViewController <OTPTokenSourceDelegate>
 
-@property (nonatomic, strong) CADisplayLink *displayLink;
 @property (nonatomic, strong) OTPProgressRing *ring;
 @property (nonatomic, strong) UILabel *noTokensLabel;
 @property (nonatomic, strong) UIBarButtonItem *addButtonItem;

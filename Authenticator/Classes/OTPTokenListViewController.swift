@@ -10,6 +10,8 @@ import UIKit
 
 class OTPTokenListViewController: _OTPTokenListViewController {
 
+    var displayLink: CADisplayLink?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -59,13 +61,13 @@ class OTPTokenListViewController: _OTPTokenListViewController {
         super.viewWillAppear(animated)
 
         self.displayLink = CADisplayLink(target: self, selector: Selector("tick"))
-        self.displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
+        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
     }
 
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
 
-        self.displayLink.invalidate()
+        self.displayLink?.invalidate()
         self.displayLink = nil;
     }
 
