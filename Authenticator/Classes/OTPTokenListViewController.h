@@ -24,8 +24,15 @@
 
 @import UIKit;
 #import "OTPTokenSourceDelegate.h"
+@class OTPProgressRing;
 
 
 @interface _OTPTokenListViewController : UITableViewController <OTPTokenSourceDelegate>
+
+@property (nonatomic, strong) OTPProgressRing *ring;
+@property (nonatomic, strong) UILabel *noTokensLabel;
+@property (nonatomic, strong) UIBarButtonItem *addButtonItem;
+
+- (void)update;
 
 @end

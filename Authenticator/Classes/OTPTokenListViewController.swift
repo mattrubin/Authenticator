@@ -10,4 +10,49 @@ import UIKit
 
 class OTPTokenListViewController: _OTPTokenListViewController {
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.title = "Authenticator"
+        self.view.backgroundColor = UIColor.otpBackgroundColor
+
+        self.tableView.registerClass(OTPTokenCell.self, forCellReuseIdentifier: NSStringFromClass(OTPTokenCell.self))
+
+        self.tableView.separatorStyle = .None
+        self.tableView.indicatorStyle = .White
+
+        self.ring = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
+        let ringBarItem = UIBarButtonItem(customView: self.ring)
+        self.navigationItem.leftBarButtonItem = ringBarItem;
+
+        self.addButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "addToken")
+        self.toolbarItems = [
+            self.editButtonItem(),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil),
+            self.addButtonItem
+        ]
+        self.navigationController?.toolbarHidden = false
+
+        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
+        self.tableView.allowsSelectionDuringEditing = true
+
+        self.noTokensLabel = UILabel()
+        self.noTokensLabel.numberOfLines = 2
+        let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
+            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)])
+        noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
+            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)]))
+        noTokenString.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)],
+            range: (noTokenString.string as NSString).rangeOfString("+"))
+        self.noTokensLabel.attributedText = noTokenString;
+        self.noTokensLabel.textAlignment = .Center;
+        self.noTokensLabel.textColor = UIColor.otpForegroundColor
+        self.noTokensLabel.frame = CGRectMake(0, 0,
+            self.view.bounds.size.width,
+            self.view.bounds.size.height * 0.6);
+        self.view.addSubview(self.noTokensLabel)
+
+        self.update()
+    }
+
 }

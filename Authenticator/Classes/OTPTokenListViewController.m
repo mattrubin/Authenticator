@@ -36,9 +36,6 @@
 
 @property (nonatomic, strong) OTPTokenManager *tokenManager;
 @property (nonatomic, strong) CADisplayLink *displayLink;
-@property (nonatomic, strong) OTPProgressRing *ring;
-@property (nonatomic, strong) UILabel *noTokensLabel;
-@property (nonatomic, strong) UIBarButtonItem *addButtonItem;
 
 @end
 
@@ -52,50 +49,6 @@
         self.tokenManager = [OTPTokenManager new];
     }
     return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    self.title = @"Authenticator";
-    self.view.backgroundColor = [UIColor otpBackgroundColor];
-
-    [self.tableView registerClass:[OTPTokenCell class] forCellReuseIdentifier:NSStringFromClass([OTPTokenCell class])];
-
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-
-    self.ring = [[OTPProgressRing alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
-    UIBarButtonItem *ringBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.ring];
-    self.navigationItem.leftBarButtonItem = ringBarItem;
-
-    self.addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addToken)];
-    self.toolbarItems = @[self.editButtonItem,
-                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                          self.addButtonItem];
-    self.navigationController.toolbarHidden = NO;
-
-    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
-    self.tableView.allowsSelectionDuringEditing = YES;
-
-    self.noTokensLabel = [UILabel new];
-    self.noTokensLabel.numberOfLines = 2;
-    NSMutableAttributedString *noTokenString = [[NSMutableAttributedString alloc] initWithString:@"No Tokens\n"
-                                                                                      attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:20]}];
-    [noTokenString appendAttributedString:[[NSAttributedString alloc] initWithString:@"Tap + to add a new token"
-                                                                          attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17]}]];
-    [noTokenString addAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:25]}
-                           range:[noTokenString.string rangeOfString:@"+"]];
-    self.noTokensLabel.attributedText = noTokenString;
-    self.noTokensLabel.textAlignment = NSTextAlignmentCenter;
-    self.noTokensLabel.textColor = [UIColor otpForegroundColor];
-    self.noTokensLabel.frame = CGRectMake(0, 0,
-                                          self.view.bounds.size.width,
-                                          self.view.bounds.size.height * 0.6f);
-    [self.view addSubview:self.noTokensLabel];
-
-    [self update];
 }
 
 - (void)viewWillAppear:(BOOL)animated
