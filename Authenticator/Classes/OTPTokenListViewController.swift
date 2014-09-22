@@ -87,8 +87,9 @@ class OTPTokenListViewController: _OTPTokenListViewController {
         self.displayLink = nil
     }
 
+}
 
-    // MARK: - Table view data source
+extension OTPTokenListViewController: UITableViewDataSource {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
