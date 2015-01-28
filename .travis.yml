@@ -3,7 +3,7 @@ language: objective-c
 xcode_workspace: Authenticator.xcworkspace
 xcode_scheme: Authenticator
 xcode_sdk:
-  - iphonesimulator8.0
+  - iphonesimulator8.1
 
 before_install:
   - export LANG=en_US.UTF-8
