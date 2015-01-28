@@ -39,10 +39,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		016D9E3A41F31A4ED2E3794C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		0340D58662A9A26B80FCB523 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* OTPAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPAppDelegate.swift; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Authenticator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authenticator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28A0AAE50D9B0CCF005BE974 /* Authenticator.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authenticator.pch; sourceTree = "<group>"; };
-		6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		8B0028B411EB75920092DE18 /* OTPScannerOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPScannerOverlayView.swift; sourceTree = "<group>"; };
 		8B2B8AE1118BA49F00437315 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* Authenticator-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Authenticator-Info.plist"; sourceTree = "<group>"; };
@@ -107,6 +108,15 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		0C09B63551F376AFE9571169 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				016D9E3A41F31A4ED2E3794C /* Pods.debug.xcconfig */,
+				0340D58662A9A26B80FCB523 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +132,7 @@
 				C97B68CB17D964D4005D1FE0 /* Authenticator */,
 				C9906A331812522100BAEF53 /* AuthenticatorTests */,
 				C98C1C4F17D2F16800A07D3F /* Config */,
+				0C09B63551F376AFE9571169 /* Pods */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				C9776E32185187E8003D53CB /* Docs */,
@@ -225,7 +236,6 @@
 		C98C1C4F17D2F16800A07D3F /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */,
 				C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */,
 			);
 			name = Config;
@@ -382,7 +392,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C959A63F190A6CB10042DEC0 /* Generate Icons */ = {
@@ -443,7 +453,7 @@
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
+			baseConfigurationReference = 016D9E3A41F31A4ED2E3794C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
@@ -456,7 +466,7 @@
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
+			baseConfigurationReference = 0340D58662A9A26B80FCB523 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
@@ -513,7 +523,6 @@
 		};
 		C9906A3E1812522100BAEF53 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
@@ -525,7 +534,6 @@
 		};
 		C9906A3F1812522100BAEF53 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
