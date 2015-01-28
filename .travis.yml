@@ -2,6 +2,8 @@ language: objective-c
 
 xcode_workspace: Authenticator.xcworkspace
 xcode_scheme: Authenticator
+
+osx_image: xcode611
 xcode_sdk:
   - iphonesimulator8.1
 
