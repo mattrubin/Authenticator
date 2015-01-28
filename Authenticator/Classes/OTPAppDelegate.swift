@@ -34,13 +34,13 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor.otpBarForegroundColor
         UINavigationBar.appearance().titleTextAttributes = [
             NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!
         ]
 
         UIToolbar.appearance().barTintColor = UIColor.otpBarBackgroundColor
         UIToolbar.appearance().tintColor = UIColor.otpBarForegroundColor
 
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)], forState: .Normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!], forState: UIControlState.Normal)
 
         // Restore white-on-black style
         SVProgressHUD.appearance().hudBackgroundColor = UIColor.blackColor()
