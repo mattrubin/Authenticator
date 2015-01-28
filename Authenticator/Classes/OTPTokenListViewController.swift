@@ -59,10 +59,10 @@ class OTPTokenListViewController: UITableViewController {
 
         self.noTokensLabel.numberOfLines = 2
         let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
-            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)])
+            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
         noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
-            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)]))
-        noTokenString.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)],
+            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+        noTokenString.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)!],
             range: (noTokenString.string as NSString).rangeOfString("+"))
         self.noTokensLabel.attributedText = noTokenString
         self.noTokensLabel.textAlignment = .Center
