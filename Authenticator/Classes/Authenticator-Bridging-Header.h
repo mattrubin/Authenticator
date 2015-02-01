@@ -3,7 +3,6 @@
 //
 
 #import <SVProgressHUD/SVProgressHUD.h>
-#import <OneTimePassword/OneTimePassword.h>
 #import "OTPTokenCell.h"
 #import "OTPTokenEditViewController.h"
 #import "OTPScannerViewController.h"

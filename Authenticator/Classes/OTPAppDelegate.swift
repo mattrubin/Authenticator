@@ -23,6 +23,7 @@
 //
 
 import UIKit
+import OneTimePasswordLegacy
 
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
@@ -59,7 +60,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
-        let token: OTPToken? = OTPToken(URL: url)
+        let token: OTPToken? = OTPToken.tokenWithURL(url)
 
         if let token = token {
             let message = "Do you want to add a token for “\(token.name)”?"
