@@ -1,6 +1,5 @@
 platform :ios, '8.0'
 
-pod 'OneTimePassword', '~> 1.1'
 pod 'SVProgressHUD', '~> 1.0'
 
 post_install do | installer |

@@ -23,7 +23,7 @@
 //
 
 #import "OTPTokenEditViewController.h"
-#import <OneTimePassword/OneTimePassword.h>
+@import OneTimePasswordLegacy;
 
 
 @interface OTPTokenEntryViewController () <UITextFieldDelegate>

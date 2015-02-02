@@ -1,0 +1,9 @@
+[submodule "Carthage/Checkouts/OneTimePassword"]
+	path = Carthage/Checkouts/OneTimePassword
+	url = https://github.com/mattrubin/OneTimePassword.git
+[submodule "Carthage/Checkouts/xcconfigs"]
+	path = Carthage/Checkouts/xcconfigs
+	url = https://github.com/jspahrsummers/xcconfigs.git
+[submodule "Carthage/Checkouts/Base32"]
+	path = Carthage/Checkouts/Base32
+	url = https://github.com/mattrubin/Base32.git

@@ -24,6 +24,7 @@
 
 import UIKit
 import MobileCoreServices
+import OneTimePasswordLegacy
 
 class OTPTokenListViewController: UITableViewController {
 
@@ -198,8 +199,10 @@ extension OTPTokenListViewController: UITableViewDelegate {
             self.presentViewController(navController, animated: true, completion: nil)
         } else {
             let token = self.tokenManager.tokenAtIndexPath(indexPath)
-            UIPasteboard.generalPasteboard().setValue(token.password, forPasteboardType: kUTTypeUTF8PlainText as NSString)
-            SVProgressHUD.showSuccessWithStatus("Copied")
+            if let password = token.password {
+                UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as NSString)
+                SVProgressHUD.showSuccessWithStatus("Copied")
+            }
         }
     }
 
