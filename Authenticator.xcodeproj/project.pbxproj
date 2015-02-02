@@ -73,6 +73,17 @@
 		C944A5541A7ECA7700E08B1E /* OneTimePasswordLegacy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OneTimePasswordLegacy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5581A7ECB3100E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C944A56A1A7F772600E08B1E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Configurations/Debug.xcconfig; sourceTree = "<group>"; };
+		C944A56B1A7F772600E08B1E /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Profile.xcconfig; path = Configurations/Profile.xcconfig; sourceTree = "<group>"; };
+		C944A56C1A7F772600E08B1E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Configurations/Release.xcconfig; sourceTree = "<group>"; };
+		C944A56D1A7F772600E08B1E /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Test.xcconfig; path = Configurations/Test.xcconfig; sourceTree = "<group>"; };
+		C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
+		C944A5751A7F772600E08B1E /* iOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Framework.xcconfig"; sourceTree = "<group>"; };
+		C944A5761A7F772600E08B1E /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		C944A5781A7F772600E08B1E /* Mac-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Application.xcconfig"; sourceTree = "<group>"; };
+		C944A57A1A7F772600E08B1E /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
+		C944A57B1A7F772600E08B1E /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
+		C944A57C1A7F772600E08B1E /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 		C959A63C190A69120042DEC0 /* Icon.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Icon.svg; sourceTree = "<group>"; };
 		C959A63E190A69E60042DEC0 /* GenerateIcons.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = GenerateIcons.sh; sourceTree = "<group>"; };
 		C9776E3318518801003D53CB /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -156,6 +167,7 @@
 				C98C1C4F17D2F16800A07D3F /* Config */,
 				0C09B63551F376AFE9571169 /* Pods */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				C944A5661A7F772500E08B1E /* xcconfigs */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				C9776E32185187E8003D53CB /* Docs */,
 			);
@@ -192,6 +204,49 @@
 				C944A5541A7ECA7700E08B1E /* OneTimePasswordLegacy.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C944A5661A7F772500E08B1E /* xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				C944A5671A7F772500E08B1E /* Base */,
+				C944A5721A7F772600E08B1E /* iOS */,
+				C944A5771A7F772600E08B1E /* Mac OS X */,
+			);
+			name = xcconfigs;
+			path = Carthage/Checkouts/xcconfigs;
+			sourceTree = "<group>";
+		};
+		C944A5671A7F772500E08B1E /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C944A56A1A7F772600E08B1E /* Debug.xcconfig */,
+				C944A56B1A7F772600E08B1E /* Profile.xcconfig */,
+				C944A56C1A7F772600E08B1E /* Release.xcconfig */,
+				C944A56D1A7F772600E08B1E /* Test.xcconfig */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		C944A5721A7F772600E08B1E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */,
+				C944A5751A7F772600E08B1E /* iOS-Framework.xcconfig */,
+				C944A5761A7F772600E08B1E /* iOS-StaticLibrary.xcconfig */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		C944A5771A7F772600E08B1E /* Mac OS X */ = {
+			isa = PBXGroup;
+			children = (
+				C944A5781A7F772600E08B1E /* Mac-Application.xcconfig */,
+				C944A57A1A7F772600E08B1E /* Mac-DynamicLibrary.xcconfig */,
+				C944A57B1A7F772600E08B1E /* Mac-Framework.xcconfig */,
+				C944A57C1A7F772600E08B1E /* Mac-StaticLibrary.xcconfig */,
+			);
+			path = "Mac OS X";
 			sourceTree = "<group>";
 		};
 		C9776E32185187E8003D53CB /* Docs */ = {
@@ -505,75 +560,53 @@
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */;
+			baseConfigurationReference = C944A56A1A7F772600E08B1E /* Debug.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
 				);
-				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */;
+			baseConfigurationReference = C944A56C1A7F772600E08B1E /* Release.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
 				);
-				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		C9906A3E1812522100BAEF53 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
-				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
 		C9906A3F1812522100BAEF53 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
-				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
