@@ -115,7 +115,7 @@ class OTPTokenListViewController: UITableViewController {
             }
         }
 
-        let period = OTPToken.defaultPeriod()
+        let period = OTPToken.defaultPeriod
         self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period;
     }
 
