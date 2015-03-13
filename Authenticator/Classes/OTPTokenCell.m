@@ -111,10 +111,15 @@
 
 - (void)updateWithRowModel:(TokenRowModel *)rowModel
 {
-    // TODO: only update if the value has actually changed
-    [self setName:rowModel.name issuer:rowModel.issuer];
-    [self setPassword:rowModel.password];
-    [self setShowsButton:rowModel.showsButton];
+    if (rowModel.name != self.rowModel.name || rowModel.issuer != self.rowModel.issuer) {
+        [self setName:rowModel.name issuer:rowModel.issuer];
+    }
+    if (rowModel.password != self.rowModel.password) {
+        [self setPassword:rowModel.password];
+    }
+    if (rowModel.showsButton != self.rowModel.showsButton) {
+        [self setShowsButton:rowModel.showsButton];
+    }
 
     self.rowModel = rowModel;
 }
