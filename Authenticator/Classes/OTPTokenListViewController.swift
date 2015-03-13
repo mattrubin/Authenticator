@@ -108,7 +108,7 @@ class OTPTokenListViewController: UITableViewController {
 
     func tick() {
         // TODO: only update cells for tokens whose passwords have changed
-        for cell in self.tableView.visibleCells() as [OTPTokenCell] {
+        for cell in self.tableView.visibleCells() as! [OTPTokenCell] {
             if let indexPath = self.tableView.indexPathForCell(cell) {
                 let token = self.tokenManager.tokenAtIndexPath(indexPath)
                 cell.setPassword(token.password)
@@ -151,7 +151,7 @@ extension OTPTokenListViewController: UITableViewDataSource {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(OTPTokenCell.self), forIndexPath: indexPath) as OTPTokenCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(OTPTokenCell.self), forIndexPath: indexPath) as! OTPTokenCell
         cell.delegate = self
 
         let token = self.tokenManager.tokenAtIndexPath(indexPath)
@@ -200,7 +200,7 @@ extension OTPTokenListViewController: UITableViewDelegate {
         } else {
             let token = self.tokenManager.tokenAtIndexPath(indexPath)
             if let password = token.password {
-                UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as NSString)
+                UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
                 SVProgressHUD.showSuccessWithStatus("Copied")
             }
         }
