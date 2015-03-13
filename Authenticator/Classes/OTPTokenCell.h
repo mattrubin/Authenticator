@@ -23,6 +23,7 @@
 //
 
 @import UIKit;
+@class TokenRowModel;
 
 
 @protocol OTPTokenCellDelegate <NSObject>
@@ -36,8 +37,6 @@
 
 @property (nonatomic, weak) id<OTPTokenCellDelegate> delegate;
 
-- (void)setName:(NSString *)name issuer:(NSString *)issuer;
-- (void)setPassword:(NSString *)password;
-- (void)setShowsButton:(BOOL)showsButton;
+- (void)updateWithRowModel:(TokenRowModel *)rowModel;
 
 @end

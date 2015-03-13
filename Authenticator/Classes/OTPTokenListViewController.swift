@@ -111,7 +111,7 @@ class OTPTokenListViewController: UITableViewController {
         for cell in self.tableView.visibleCells() as! [OTPTokenCell] {
             if let indexPath = self.tableView.indexPathForCell(cell) {
                 let token = self.tokenManager.tokenAtIndexPath(indexPath)
-                cell.setPassword(token.password)
+                cell.updateWithRowModel(TokenRowModel(token: token))
             }
         }
 
@@ -155,9 +155,7 @@ extension OTPTokenListViewController: UITableViewDataSource {
         cell.delegate = self
 
         let token = self.tokenManager.tokenAtIndexPath(indexPath)
-        cell.setName(token.name, issuer: token.issuer)
-        cell.setPassword(token.password)
-        cell.setShowsButton((token.type == .Counter))
+        cell.updateWithRowModel(TokenRowModel(token: token))
 
         return cell
     }

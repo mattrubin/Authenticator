@@ -106,6 +106,13 @@
 
 #pragma mark - Update
 
+- (void)updateWithRowModel:(TokenRowModel *)rowModel
+{
+    [self setName:rowModel.name issuer:rowModel.issuer];
+    [self setPassword:rowModel.password];
+    [self setShowsButton:rowModel.showsButton];
+}
+
 - (void)setName:(NSString *)name issuer:(NSString *)issuer
 {
     NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
