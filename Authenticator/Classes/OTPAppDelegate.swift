@@ -27,7 +27,7 @@ import OneTimePasswordLegacy
 
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
-    var window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
     let rootViewController = OTPTokenListViewController()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
@@ -53,13 +53,13 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         navController.navigationBar.translucent = false
         navController.toolbar.translucent = false
 
-        self.window.rootViewController = navController
-        self.window.makeKeyAndVisible()
+        self.window?.rootViewController = navController
+        self.window?.makeKeyAndVisible()
 
         return true
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         let token: OTPToken? = OTPToken.tokenWithURL(url)
 
         if let token = token {

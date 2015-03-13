@@ -1,3 +1,3 @@
-github "jspahrsummers/xcconfigs" "0.7.1"
-github "mattrubin/Base32" "d5574cea378863e2b853187c0b91bd3f5a6e6cea"
-github "mattrubin/OneTimePassword" "48bdb8006f0a1fe689ba8bf335ac8b3155c27713"
+github "jspahrsummers/xcconfigs" "0.7.2"
+github "mattrubin/Base32" "2fd38e9b9f7f9dadf08192b912bf13e50faf23d8"
+github "mattrubin/OneTimePassword" "cd4af1b09abdb3a4e421226066ef9ea603fbd473"

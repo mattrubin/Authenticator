@@ -124,11 +124,11 @@ typedef enum : NSUInteger {
     NSData *secret = [NSData dataWithBase32String:self.secretKeyCell.textField.text];
 
     if (secret.length) {
-        OTPTokenType tokenType = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == OTPTokenTypeIndexTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
-        OTPToken *token = [OTPToken tokenWithType:tokenType
-                                           secret:secret
-                                             name:self.accountNameCell.textField.text
-                                           issuer:self.issuerCell.textField.text];
+        OTPToken *token = [OTPToken new];
+        token.type = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == OTPTokenTypeIndexTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
+        token.secret = secret;
+        token.name = self.accountNameCell.textField.text;
+        token.issuer = self.issuerCell.textField.text;
 
         switch (self.digitCountCell.segmentedControl.selectedSegmentIndex) {
             case OTPTokenDigitsIndex6:
