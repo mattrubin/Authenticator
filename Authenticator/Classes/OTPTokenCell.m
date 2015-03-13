@@ -27,6 +27,8 @@
 
 @interface OTPTokenCell ()
 
+@property (nonatomic, strong) TokenRowModel *rowModel;
+
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *passwordLabel;
 @property (nonatomic, strong) UIButton *nextPasswordButton;
@@ -79,8 +81,9 @@
 
 - (void)generateNextPassword
 {
-    id<OTPTokenCellDelegate> delegate = self.delegate;
-    [delegate buttonTappedForCell:self];
+    if (self.rowModel.buttonAction) {
+        self.rowModel.buttonAction();
+    }
 }
 
 - (void)layoutSubviews
@@ -108,9 +111,12 @@
 
 - (void)updateWithRowModel:(TokenRowModel *)rowModel
 {
+    // TODO: only update if the value has actually changed
     [self setName:rowModel.name issuer:rowModel.issuer];
     [self setPassword:rowModel.password];
     [self setShowsButton:rowModel.showsButton];
+
+    self.rowModel = rowModel;
 }
 
 - (void)setName:(NSString *)name issuer:(NSString *)issuer

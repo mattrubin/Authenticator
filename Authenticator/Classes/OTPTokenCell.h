@@ -26,16 +26,7 @@
 @class TokenRowModel;
 
 
-@protocol OTPTokenCellDelegate <NSObject>
-
-- (void)buttonTappedForCell:(UITableViewCell *)cell;
-
-@end
-
-
 @interface OTPTokenCell : UITableViewCell
-
-@property (nonatomic, weak) id<OTPTokenCellDelegate> delegate;
 
 - (void)updateWithRowModel:(TokenRowModel *)rowModel;
 

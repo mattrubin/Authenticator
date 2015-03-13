@@ -110,8 +110,7 @@ class OTPTokenListViewController: UITableViewController {
         // TODO: only update cells for tokens whose passwords have changed
         for cell in self.tableView.visibleCells() as! [OTPTokenCell] {
             if let indexPath = self.tableView.indexPathForCell(cell) {
-                let token = self.tokenManager.tokenAtIndexPath(indexPath)
-                cell.updateWithRowModel(TokenRowModel(token: token))
+                updateCell(cell, forRowAtIndexPath: indexPath)
             }
         }
 
@@ -152,12 +151,17 @@ extension OTPTokenListViewController: UITableViewDataSource {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(OTPTokenCell.self), forIndexPath: indexPath) as! OTPTokenCell
-        cell.delegate = self
-
-        let token = self.tokenManager.tokenAtIndexPath(indexPath)
-        cell.updateWithRowModel(TokenRowModel(token: token))
-
+        updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
+    }
+
+    private func updateCell(cell: OTPTokenCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        let token = self.tokenManager.tokenAtIndexPath(indexPath)
+        let rowModel = TokenRowModel(token: token, buttonAction: {
+            token.updatePassword()
+            self.tableView.reloadData()
+        })
+        cell.updateWithRowModel(rowModel)
     }
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -201,18 +205,6 @@ extension OTPTokenListViewController: UITableViewDelegate {
                 UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
                 SVProgressHUD.showSuccessWithStatus("Copied")
             }
-        }
-    }
-
-}
-
-extension OTPTokenListViewController: OTPTokenCellDelegate {
-
-    func buttonTappedForCell(cell: UITableViewCell!) {
-        if let indexPath = self.tableView.indexPathForCell(cell) {
-            let token = self.tokenManager.tokenAtIndexPath(indexPath)
-            token.updatePassword()
-            self.tableView.reloadData()
         }
     }
 

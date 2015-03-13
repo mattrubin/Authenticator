@@ -14,11 +14,13 @@ class TokenRowModel {
     let issuer: String
     let password: String
     let showsButton: Bool
+    let buttonAction: ()->()
 
-    init(token: OTPToken) {
+    init(token: OTPToken, buttonAction: ()->()) {
         self.name = token.name
         self.issuer = token.issuer
         self.password = token.password ?? ""
         self.showsButton = (token.type == .Counter)
+        self.buttonAction = buttonAction
     }
 }
