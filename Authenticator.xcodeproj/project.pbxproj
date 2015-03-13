@@ -398,7 +398,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = OTP;
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					C9906A2D1812522100BAEF53 = {
@@ -569,6 +569,7 @@
 					"$(BUILT_PRODUCTS_DIR)",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 			};
@@ -585,6 +586,7 @@
 					"$(BUILT_PRODUCTS_DIR)",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 			};
