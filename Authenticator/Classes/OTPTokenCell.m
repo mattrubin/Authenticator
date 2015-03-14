@@ -88,17 +88,4 @@
                                                  CGRectGetMidY(self.passwordLabel.frame));
 }
 
-
-#pragma mark - Editing
-
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated
-{
-    [super setEditing:editing animated:animated];
-
-    [UIView animateWithDuration:0.3 animations:^{
-        self.passwordLabel.alpha = !editing ? 1 : (CGFloat)0.2;
-        self.nextPasswordButton.alpha = !editing ? 1 : 0;
-    }];
-}
-
 @end

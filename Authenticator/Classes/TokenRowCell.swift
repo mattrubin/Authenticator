@@ -68,4 +68,16 @@ class TokenRowCell: OTPTokenCell {
     func generateNextPassword() {
         self.rowModel.buttonAction()
     }
+
+    // MARK: - Editing
+
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+
+        UIView.animateWithDuration(0.3) {
+            self.passwordLabel.alpha = !editing ? 1 : 0.2;
+            self.nextPasswordButton.alpha = !editing ? 1 : 0;
+        }
+    }
+
 }
