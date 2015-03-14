@@ -46,4 +46,11 @@ struct TokenRowModel {
         showsButton = false
         buttonAction = {}
     }
+
+    func isVisuallyEquivalentToRowModel(rowModel: TokenRowModel) -> Bool {
+        return (name == rowModel.name) &&
+            (issuer == rowModel.issuer) &&
+            (password == rowModel.password) &&
+            (showsButton == rowModel.showsButton)
+    }
 }

@@ -49,6 +49,7 @@ class TokenRowCell: UITableViewCell {
         selectionStyle = .None
 
         configureSubviews()
+        updateAppearanceWithRowModel(rowModel)
     }
 
 
@@ -92,16 +93,19 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Update
 
     func updateWithRowModel(rowModel: TokenRowModel) {
-        // Check the current properties and only update the labels if a change has occured
-        if (rowModel.name != self.rowModel.name || rowModel.issuer != self.rowModel.issuer) {
-            setName(rowModel.name, issuer: rowModel.issuer)
+        // Only update the cell appearance if a visual change is necessary.
+        if !self.rowModel.isVisuallyEquivalentToRowModel(rowModel) {
+            updateAppearanceWithRowModel(rowModel)
         }
-        if (rowModel.password != self.rowModel.password) {
-            setPassword(rowModel.password)
-        }
-        nextPasswordButton.hidden = !rowModel.showsButton
 
+        // Always store the latest row model. Even if the visible properties have not changed, the action block might have.
         self.rowModel = rowModel
+    }
+
+    private func updateAppearanceWithRowModel(rowModel: TokenRowModel) {
+        setName(rowModel.name, issuer: rowModel.issuer)
+        setPassword(rowModel.password)
+        nextPasswordButton.hidden = !rowModel.showsButton
     }
 
     private func setName(name: String, issuer: String) {
