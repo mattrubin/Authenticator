@@ -27,9 +27,9 @@ import UIKit
 class TokenRowCell: UITableViewCell {
     private var rowModel = TokenRowModel()
 
-    let titleLabel = UILabel()
-    let passwordLabel = UILabel()
-    let nextPasswordButton = UIButton.buttonWithType(.ContactAdd) as! UIButton
+    private let titleLabel = UILabel()
+    private let passwordLabel = UILabel()
+    private let nextPasswordButton = UIButton.buttonWithType(.ContactAdd) as! UIButton
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,6 +47,7 @@ class TokenRowCell: UITableViewCell {
 
         configureSubviews()
     }
+
 
     // MARK: - Subviews
 
@@ -85,6 +86,7 @@ class TokenRowCell: UITableViewCell {
         CGRectGetMidY(self.passwordLabel.frame))
     }
 
+
     // MARK: - Update
 
     func updateWithRowModel(rowModel: TokenRowModel) {
@@ -102,7 +104,7 @@ class TokenRowCell: UITableViewCell {
         self.rowModel = rowModel
     }
 
-    func setName(name: String, issuer: String) {
+    private func setName(name: String, issuer: String) {
         let titleString = NSMutableAttributedString()
         if (issuer != "") {
             titleString.appendAttributedString(NSAttributedString(string: issuer, attributes:[NSFontAttributeName: UIFont(name:  "HelveticaNeue-Medium", size: 15)!]))
@@ -116,18 +118,14 @@ class TokenRowCell: UITableViewCell {
         self.titleLabel.attributedText = titleString
     }
 
-    func setPassword(password: String) {
+    private func setPassword(password: String) {
         self.passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSKernAttributeName: 2])
     }
 
-    func setShowsButton(showsButton: Bool) {
+    private func setShowsButton(showsButton: Bool) {
         self.nextPasswordButton.hidden = !showsButton
     }
 
-
-    func generateNextPassword() {
-        self.rowModel.buttonAction()
-    }
 
     // MARK: - Editing
 
@@ -138,6 +136,13 @@ class TokenRowCell: UITableViewCell {
             self.passwordLabel.alpha = !editing ? 1 : 0.2
             self.nextPasswordButton.alpha = !editing ? 1 : 0
         }
+    }
+
+
+    // MARK: - Actions
+
+    private func generateNextPassword() {
+        self.rowModel.buttonAction()
     }
 
 }
