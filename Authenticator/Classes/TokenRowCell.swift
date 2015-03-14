@@ -74,19 +74,17 @@ class TokenRowCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        var insetFrame = convertRect(bounds, toView: contentView)
-        insetFrame.origin.x = min(insetFrame.origin.x, contentView.bounds.origin.x)
+        // Keep the contents centered in the full cell even when the contentView shifts in edit mode
+        let fullFrame = convertRect(bounds, toView: contentView)
 
-        var frame = insetFrame
-        frame.size.height = 20
-        titleLabel.frame = frame
+        titleLabel.frame = fullFrame
+        titleLabel.frame.size.height = 20
 
-        frame = insetFrame
-        frame.origin.y += 20
-        frame.size.height -= 30
-        passwordLabel.frame = frame
+        passwordLabel.frame = fullFrame
+        passwordLabel.frame.origin.y += 20
+        passwordLabel.frame.size.height -= 30
 
-        nextPasswordButton.center = CGPointMake(CGRectGetMaxX(insetFrame) - 25, CGRectGetMidY(passwordLabel.frame))
+        nextPasswordButton.center = CGPointMake(CGRectGetMaxX(fullFrame) - 25, CGRectGetMidY(passwordLabel.frame))
     }
 
 
