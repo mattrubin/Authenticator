@@ -27,6 +27,27 @@ import UIKit
 class TokenRowCell: OTPTokenCell {
     private var rowModel = TokenRowModel()
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        var insetFrame = self.convertRect(self.bounds, toView: self.contentView)
+        insetFrame.origin.x = min(insetFrame.origin.x, self.contentView.bounds.origin.x)
+
+        var frame = insetFrame
+        frame.size.height = 20
+        self.titleLabel.frame = frame
+
+        frame = insetFrame
+        frame.origin.y += 20
+        frame.size.height -= 30
+        self.passwordLabel.frame = frame
+
+        self.nextPasswordButton.center = CGPointMake(CGRectGetMaxX(insetFrame) - 25,
+        CGRectGetMidY(self.passwordLabel.frame))
+    }
+
+    // MARK: - Update
+
     func updateWithRowModel(rowModel: TokenRowModel) {
         // Check the current properties and only update the view if a change has occured
         if (rowModel.name != self.rowModel.name || rowModel.issuer != self.rowModel.issuer) {
@@ -75,8 +96,8 @@ class TokenRowCell: OTPTokenCell {
         super.setEditing(editing, animated: animated)
 
         UIView.animateWithDuration(0.3) {
-            self.passwordLabel.alpha = !editing ? 1 : 0.2;
-            self.nextPasswordButton.alpha = !editing ? 1 : 0;
+            self.passwordLabel.alpha = !editing ? 1 : 0.2
+            self.nextPasswordButton.alpha = !editing ? 1 : 0
         }
     }
 

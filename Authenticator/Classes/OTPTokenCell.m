@@ -68,24 +68,4 @@
     [self.contentView addSubview:self.nextPasswordButton];
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-
-    CGRect insetFrame = [self convertRect:self.bounds toView:self.contentView];
-    insetFrame.origin.x = MIN(insetFrame.origin.x, self.contentView.bounds.origin.x);
-
-    CGRect frame = insetFrame;
-    frame.size.height = 20;
-    self.titleLabel.frame = frame;
-
-    frame = insetFrame;
-    frame.origin.y += 20;
-    frame.size.height -= 30;
-    self.passwordLabel.frame = frame;
-
-    self.nextPasswordButton.center = CGPointMake(CGRectGetMaxX(insetFrame) - 25,
-                                                 CGRectGetMidY(self.passwordLabel.frame));
-}
-
 @end
