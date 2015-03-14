@@ -1,8 +1,8 @@
 //
-//  OTPTokenCell.h
+//  TokenRowModel.swift
 //  Authenticator
 //
-//  Copyright (c) 2013 Matt Rubin
+//  Copyright (c) 2015 Matt Rubin
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -22,22 +22,31 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import UIKit;
+import OneTimePasswordLegacy
 
+struct TokenRowModel {
+    let name, issuer, password: String
+    let showsButton: Bool
+    let buttonAction: ()->()
 
-@protocol OTPTokenCellDelegate <NSObject>
+    init(token: OTPToken, buttonAction: ()->()) {
+        self.name = token.name
+        self.issuer = token.issuer
+        self.password = token.password ?? ""
+        self.showsButton = (token.type == .Counter)
+        self.buttonAction = buttonAction
+    }
 
-- (void)buttonTappedForCell:(UITableViewCell *)cell;
+    init() {
+        (name, issuer, password) = ("", "", "")
+        showsButton = false
+        buttonAction = {}
+    }
 
-@end
-
-
-@interface OTPTokenCell : UITableViewCell
-
-@property (nonatomic, weak) id<OTPTokenCellDelegate> delegate;
-
-- (void)setName:(NSString *)name issuer:(NSString *)issuer;
-- (void)setPassword:(NSString *)password;
-- (void)setShowsButton:(BOOL)showsButton;
-
-@end
+    func isVisuallyEquivalentToRowModel(rowModel: TokenRowModel) -> Bool {
+        return (name == rowModel.name) &&
+            (issuer == rowModel.issuer) &&
+            (password == rowModel.password) &&
+            (showsButton == rowModel.showsButton)
+    }
+}
