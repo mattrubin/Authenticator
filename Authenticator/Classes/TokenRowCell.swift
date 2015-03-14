@@ -92,16 +92,14 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Update
 
     func updateWithRowModel(rowModel: TokenRowModel) {
-        // Check the current properties and only update the view if a change has occured
+        // Check the current properties and only update the labels if a change has occured
         if (rowModel.name != self.rowModel.name || rowModel.issuer != self.rowModel.issuer) {
             setName(rowModel.name, issuer: rowModel.issuer)
         }
         if (rowModel.password != self.rowModel.password) {
             setPassword(rowModel.password)
         }
-        if (rowModel.showsButton != self.rowModel.showsButton) {
-            setShowsButton(rowModel.showsButton)
-        }
+        nextPasswordButton.hidden = !rowModel.showsButton
 
         self.rowModel = rowModel
     }
@@ -122,10 +120,6 @@ class TokenRowCell: UITableViewCell {
 
     private func setPassword(password: String) {
         passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSKernAttributeName: 2])
-    }
-
-    private func setShowsButton(showsButton: Bool) {
-        nextPasswordButton.hidden = !showsButton
     }
 
 
