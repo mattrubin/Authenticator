@@ -25,15 +25,6 @@
 #import "OTPTokenCell.h"
 
 
-@interface OTPTokenCell ()
-
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *passwordLabel;
-@property (nonatomic, strong) UIButton *nextPasswordButton;
-
-@end
-
-
 // TODO: Show integrity check for counter-based tokens?
 // TODO: Show warning when a TOTP is about to change?
 
@@ -95,34 +86,6 @@
 
     self.nextPasswordButton.center = CGPointMake(CGRectGetMaxX(insetFrame) - 25,
                                                  CGRectGetMidY(self.passwordLabel.frame));
-}
-
-
-#pragma mark - Update
-
-- (void)setName:(NSString *)name issuer:(NSString *)issuer
-{
-    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
-    if (issuer.length) {
-        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:issuer attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:15]}]];
-    }
-    if (issuer.length && name.length) {
-        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-    }
-    if (name.length) {
-        [titleString appendAttributedString:[[NSAttributedString alloc] initWithString:name]];
-    }
-    self.titleLabel.attributedText = titleString;
-}
-
-- (void)setPassword:(NSString *)password
-{
-    self.passwordLabel.attributedText = [[NSAttributedString alloc] initWithString:password attributes:@{NSKernAttributeName: @2}];
-}
-
-- (void)setShowsButton:(BOOL)showsButton
-{
-    self.nextPasswordButton.hidden = !showsButton;
 }
 
 

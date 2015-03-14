@@ -28,8 +28,8 @@
 
 @interface OTPTokenCell : UITableViewCell
 
-- (void)setName:(NSString *)name issuer:(NSString *)issuer;
-- (void)setPassword:(NSString *)password;
-- (void)setShowsButton:(BOOL)showsButton;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *passwordLabel;
+@property (nonatomic, strong) UIButton *nextPasswordButton;
 
 @end

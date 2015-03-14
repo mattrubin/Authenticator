@@ -42,6 +42,29 @@ class TokenRowCell: OTPTokenCell {
         self.rowModel = rowModel
     }
 
+    func setName(name: String, issuer: String) {
+        let titleString = NSMutableAttributedString()
+        if (issuer != "") {
+            titleString.appendAttributedString(NSAttributedString(string: issuer, attributes:[NSFontAttributeName: UIFont(name:  "HelveticaNeue-Medium", size: 15)!]))
+        }
+        if (issuer != "" && name != "") {
+            titleString.appendAttributedString(NSAttributedString(string: " "))
+        }
+        if (name != "") {
+            titleString.appendAttributedString(NSAttributedString(string: name))
+        }
+        self.titleLabel.attributedText = titleString
+    }
+
+    func setPassword(password: String) {
+        self.passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSKernAttributeName: 2])
+    }
+
+    func setShowsButton(showsButton: Bool) {
+        self.nextPasswordButton.hidden = !showsButton
+    }
+
+
     func generateNextPassword() {
         self.rowModel.buttonAction()
     }
