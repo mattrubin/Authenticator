@@ -24,8 +24,7 @@
 
 import OneTimePasswordLegacy
 
-@objc
-class TokenRowModel {
+struct TokenRowModel {
     let name: String
     let issuer: String
     let password: String
