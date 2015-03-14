@@ -22,7 +22,6 @@
 		C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */; };
 		C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */; };
 		C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */; };
-		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
 		C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */; };
 		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
 		C9D6C83F1906BD68004F0E08 /* OTPSegmentedControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* OTPSegmentedControlCell.swift */; };
@@ -102,8 +101,6 @@
 		C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTPTokenSourceDelegate.h; sourceTree = "<group>"; };
 		C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
-		C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenCell.h; sourceTree = "<group>"; };
-		C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenCell.m; sourceTree = "<group>"; };
 		C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		C9C6CCA11842E331000100C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9D6C83E1906BD68004F0E08 /* OTPSegmentedControlCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPSegmentedControlCell.swift; sourceTree = "<group>"; };
@@ -277,8 +274,6 @@
 			children = (
 				C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */,
 				C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */,
-				C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */,
-				C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -514,7 +509,6 @@
 				C9D6C83F1906BD68004F0E08 /* OTPSegmentedControlCell.swift in Sources */,
 				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.swift in Sources */,
 				C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */,
-				C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */,
 				C92708AC19CFB0750033128B /* OTPTokenListViewController.swift in Sources */,
 				C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */,
 				C9777A021908064500B4A7F5 /* OTPTokenEditViewController.m in Sources */,

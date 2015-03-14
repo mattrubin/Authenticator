@@ -24,7 +24,7 @@
 
 import UIKit
 
-class TokenRowCell: OTPTokenCell {
+class TokenRowCell: UITableViewCell {
     private var rowModel = TokenRowModel()
 
     let titleLabel = UILabel()
