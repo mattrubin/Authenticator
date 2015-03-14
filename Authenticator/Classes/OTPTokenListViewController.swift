@@ -39,7 +39,7 @@ class OTPTokenListViewController: UITableViewController {
         self.title = "Authenticator"
         self.view.backgroundColor = UIColor.otpBackgroundColor
 
-        self.tableView.registerClass(OTPTokenCell.self, forCellReuseIdentifier: NSStringFromClass(OTPTokenCell.self))
+        self.tableView.registerClass(TokenRowCell.self, forCellReuseIdentifier: NSStringFromClass(TokenRowCell.self))
 
         self.tableView.separatorStyle = .None
         self.tableView.indicatorStyle = .White
@@ -108,7 +108,7 @@ class OTPTokenListViewController: UITableViewController {
 
     func tick() {
         // TODO: only update cells for tokens whose passwords have changed
-        for cell in self.tableView.visibleCells() as! [OTPTokenCell] {
+        for cell in self.tableView.visibleCells() as! [TokenRowCell] {
             if let indexPath = self.tableView.indexPathForCell(cell) {
                 updateCell(cell, forRowAtIndexPath: indexPath)
             }
@@ -150,12 +150,12 @@ extension OTPTokenListViewController: UITableViewDataSource {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(OTPTokenCell.self), forIndexPath: indexPath) as! OTPTokenCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(TokenRowCell.self), forIndexPath: indexPath) as! TokenRowCell
         updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
     }
 
-    private func updateCell(cell: OTPTokenCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let token = self.tokenManager.tokenAtIndexPath(indexPath)
         let rowModel = TokenRowModel(token: token, buttonAction: {
             token.updatePassword()
