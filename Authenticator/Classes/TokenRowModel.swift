@@ -25,9 +25,7 @@
 import OneTimePasswordLegacy
 
 struct TokenRowModel {
-    let name: String
-    let issuer: String
-    let password: String
+    let name, issuer, password: String
     let showsButton: Bool
     let buttonAction: ()->()
 
