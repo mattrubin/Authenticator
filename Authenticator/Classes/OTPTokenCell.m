@@ -27,8 +27,6 @@
 
 @interface OTPTokenCell ()
 
-@property (nonatomic, strong) TokenRowModel *rowModel;
-
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *passwordLabel;
 @property (nonatomic, strong) UIButton *nextPasswordButton;
@@ -108,21 +106,6 @@
 
 
 #pragma mark - Update
-
-- (void)updateWithRowModel:(TokenRowModel *)rowModel
-{
-    if (rowModel.name != self.rowModel.name || rowModel.issuer != self.rowModel.issuer) {
-        [self setName:rowModel.name issuer:rowModel.issuer];
-    }
-    if (rowModel.password != self.rowModel.password) {
-        [self setPassword:rowModel.password];
-    }
-    if (rowModel.showsButton != self.rowModel.showsButton) {
-        [self setShowsButton:rowModel.showsButton];
-    }
-
-    self.rowModel = rowModel;
-}
 
 - (void)setName:(NSString *)name issuer:(NSString *)issuer
 {

@@ -28,6 +28,10 @@
 
 @interface OTPTokenCell : UITableViewCell
 
-- (void)updateWithRowModel:(TokenRowModel *)rowModel;
+@property (nonatomic, strong) TokenRowModel *rowModel;
+
+- (void)setName:(NSString *)name issuer:(NSString *)issuer;
+- (void)setPassword:(NSString *)password;
+- (void)setShowsButton:(BOOL)showsButton;
 
 @end

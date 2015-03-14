@@ -25,5 +25,25 @@
 import UIKit
 
 class TokenRowCell: OTPTokenCell {
+    func updateWithRowModel(rowModel: TokenRowModel) {
+        if let currentRowModel = self.rowModel {
+            // Check the current properties and only update the view if a change has occured
+            if (rowModel.name != currentRowModel.name || rowModel.issuer != currentRowModel.issuer) {
+                setName(rowModel.name, issuer: rowModel.issuer)
+            }
+            if (rowModel.password != currentRowModel.password) {
+                setPassword(rowModel.password)
+            }
+            if (rowModel.showsButton != currentRowModel.showsButton) {
+                setShowsButton(rowModel.showsButton)
+            }
+        } else {
+            // If the cell has not yet been configured, set all properties
+            setName(rowModel.name, issuer: rowModel.issuer)
+            setPassword(rowModel.password)
+            setShowsButton(rowModel.showsButton)
+        }
 
+        self.rowModel = rowModel
+    }
 }
