@@ -61,11 +61,6 @@
 
     [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.passwordLabel];
-
-    self.nextPasswordButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    self.nextPasswordButton.tintColor = [UIColor otpForegroundColor];
-    [self.nextPasswordButton addTarget:self action:@selector(generateNextPassword) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:self.nextPasswordButton];
 }
 
 @end

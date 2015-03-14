@@ -27,6 +27,27 @@ import UIKit
 class TokenRowCell: OTPTokenCell {
     private var rowModel = TokenRowModel()
 
+    let nextPasswordButton: UIButton = {
+        let button = UIButton.buttonWithType(.ContactAdd) as! UIButton
+        button.tintColor = UIColor.otpForegroundColor
+        return button
+    }()
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureSubviews()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        configureSubviews()
+    }
+
+    private func configureSubviews() {
+        nextPasswordButton.addTarget(self, action: "generateNextPassword", forControlEvents: .TouchUpInside)
+        contentView.addSubview(nextPasswordButton)
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
 

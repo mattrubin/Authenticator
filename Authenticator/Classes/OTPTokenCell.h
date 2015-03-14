@@ -30,6 +30,5 @@
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *passwordLabel;
-@property (nonatomic, strong) UIButton *nextPasswordButton;
 
 @end
