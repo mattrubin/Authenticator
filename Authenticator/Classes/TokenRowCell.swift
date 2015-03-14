@@ -29,11 +29,7 @@ class TokenRowCell: OTPTokenCell {
 
     let titleLabel = UILabel()
     let passwordLabel = UILabel()
-    let nextPasswordButton: UIButton = {
-        let button = UIButton.buttonWithType(.ContactAdd) as! UIButton
-        button.tintColor = UIColor.otpForegroundColor
-        return button
-    }()
+    let nextPasswordButton = UIButton.buttonWithType(.ContactAdd) as! UIButton
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -56,6 +52,7 @@ class TokenRowCell: OTPTokenCell {
         passwordLabel.textAlignment = .Center
         contentView.addSubview(passwordLabel)
 
+        nextPasswordButton.tintColor = UIColor.otpForegroundColor
         nextPasswordButton.addTarget(self, action: "generateNextPassword", forControlEvents: .TouchUpInside)
         contentView.addSubview(nextPasswordButton)
     }
