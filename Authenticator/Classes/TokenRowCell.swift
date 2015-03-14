@@ -73,20 +73,19 @@ class TokenRowCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        var insetFrame = self.convertRect(self.bounds, toView: self.contentView)
-        insetFrame.origin.x = min(insetFrame.origin.x, self.contentView.bounds.origin.x)
+        var insetFrame = convertRect(bounds, toView: contentView)
+        insetFrame.origin.x = min(insetFrame.origin.x, contentView.bounds.origin.x)
 
         var frame = insetFrame
         frame.size.height = 20
-        self.titleLabel.frame = frame
+        titleLabel.frame = frame
 
         frame = insetFrame
         frame.origin.y += 20
         frame.size.height -= 30
-        self.passwordLabel.frame = frame
+        passwordLabel.frame = frame
 
-        self.nextPasswordButton.center = CGPointMake(CGRectGetMaxX(insetFrame) - 25,
-        CGRectGetMidY(self.passwordLabel.frame))
+        nextPasswordButton.center = CGPointMake(CGRectGetMaxX(insetFrame) - 25, CGRectGetMidY(passwordLabel.frame))
     }
 
 
@@ -118,15 +117,15 @@ class TokenRowCell: UITableViewCell {
         if (name != "") {
             titleString.appendAttributedString(NSAttributedString(string: name))
         }
-        self.titleLabel.attributedText = titleString
+        titleLabel.attributedText = titleString
     }
 
     private func setPassword(password: String) {
-        self.passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSKernAttributeName: 2])
+        passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSKernAttributeName: 2])
     }
 
     private func setShowsButton(showsButton: Bool) {
-        self.nextPasswordButton.hidden = !showsButton
+        nextPasswordButton.hidden = !showsButton
     }
 
 
@@ -145,7 +144,7 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Actions
 
     func generateNextPassword() {
-        self.rowModel.buttonAction()
+        rowModel.buttonAction()
     }
 
 }
