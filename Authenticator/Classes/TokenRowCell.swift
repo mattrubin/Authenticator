@@ -31,6 +31,9 @@ class TokenRowCell: UITableViewCell {
     private let passwordLabel = UILabel()
     private let nextPasswordButton = UIButton.buttonWithType(.ContactAdd) as! UIButton
 
+
+    // MARK: - Setup
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureCell()
@@ -141,7 +144,7 @@ class TokenRowCell: UITableViewCell {
 
     // MARK: - Actions
 
-    private func generateNextPassword() {
+    func generateNextPassword() {
         self.rowModel.buttonAction()
     }
 
