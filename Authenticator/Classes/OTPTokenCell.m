@@ -77,13 +77,6 @@
     [self.contentView addSubview:self.nextPasswordButton];
 }
 
-- (void)generateNextPassword
-{
-    if (self.rowModel.buttonAction) {
-        self.rowModel.buttonAction();
-    }
-}
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];

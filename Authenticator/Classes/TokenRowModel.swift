@@ -39,4 +39,12 @@ class TokenRowModel {
         self.showsButton = (token.type == .Counter)
         self.buttonAction = buttonAction
     }
+
+    init() {
+        name = ""
+        issuer = ""
+        password = ""
+        showsButton = false
+        buttonAction = {}
+    }
 }
