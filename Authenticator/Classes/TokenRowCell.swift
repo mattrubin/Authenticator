@@ -27,6 +27,8 @@ import UIKit
 class TokenRowCell: OTPTokenCell {
     private var rowModel = TokenRowModel()
 
+    let titleLabel = UILabel()
+
     let nextPasswordButton: UIButton = {
         let button = UIButton.buttonWithType(.ContactAdd) as! UIButton
         button.tintColor = UIColor.otpForegroundColor
@@ -44,6 +46,11 @@ class TokenRowCell: OTPTokenCell {
     }
 
     private func configureSubviews() {
+        titleLabel.font = UIFont(name: "HelveticaNeue-Light", size: 15)
+        titleLabel.textColor = UIColor.otpForegroundColor
+        titleLabel.textAlignment = .Center
+        contentView.addSubview(titleLabel)
+
         nextPasswordButton.addTarget(self, action: "generateNextPassword", forControlEvents: .TouchUpInside)
         contentView.addSubview(nextPasswordButton)
     }

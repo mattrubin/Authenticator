@@ -49,17 +49,12 @@
 {
     self.backgroundColor = [UIColor otpBackgroundColor];
 
-    self.titleLabel = [UILabel new];
-    self.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
-    self.titleLabel.textColor = [UIColor otpForegroundColor];
-    self.titleLabel.textAlignment = NSTextAlignmentCenter;
 
     self.passwordLabel = [UILabel new];
     self.passwordLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:50];
     self.passwordLabel.textColor = [UIColor otpForegroundColor];
     self.passwordLabel.textAlignment = NSTextAlignmentCenter;
 
-    [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.passwordLabel];
 }
 
