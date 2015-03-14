@@ -31,25 +31,4 @@
 
 @implementation OTPTokenCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        [self createSubviews];
-    }
-    return self;
-}
-
-
-#pragma mark - Subviews
-
-- (void)createSubviews
-{
-    self.backgroundColor = [UIColor otpBackgroundColor];
-
-
-}
-
 @end

@@ -33,26 +33,35 @@ class TokenRowCell: OTPTokenCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureSubviews()
+        configureCell()
     }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        configureCell()
+    }
+
+    private func configureCell() {
+        backgroundColor = .otpBackgroundColor
+        selectionStyle = .None
+
         configureSubviews()
     }
 
+    // MARK: - Subviews
+
     private func configureSubviews() {
         titleLabel.font = UIFont(name: "HelveticaNeue-Light", size: 15)
-        titleLabel.textColor = UIColor.otpForegroundColor
+        titleLabel.textColor = .otpForegroundColor
         titleLabel.textAlignment = .Center
         contentView.addSubview(titleLabel)
 
         passwordLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 50)
-        passwordLabel.textColor = UIColor.otpForegroundColor
+        passwordLabel.textColor = .otpForegroundColor
         passwordLabel.textAlignment = .Center
         contentView.addSubview(passwordLabel)
 
-        nextPasswordButton.tintColor = UIColor.otpForegroundColor
+        nextPasswordButton.tintColor = .otpForegroundColor
         nextPasswordButton.addTarget(self, action: "generateNextPassword", forControlEvents: .TouchUpInside)
         contentView.addSubview(nextPasswordButton)
     }
