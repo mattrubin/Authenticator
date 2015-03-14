@@ -50,12 +50,6 @@
     self.backgroundColor = [UIColor otpBackgroundColor];
 
 
-    self.passwordLabel = [UILabel new];
-    self.passwordLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:50];
-    self.passwordLabel.textColor = [UIColor otpForegroundColor];
-    self.passwordLabel.textAlignment = NSTextAlignmentCenter;
-
-    [self.contentView addSubview:self.passwordLabel];
 }
 
 @end

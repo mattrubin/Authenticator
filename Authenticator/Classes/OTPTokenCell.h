@@ -28,6 +28,4 @@
 
 @interface OTPTokenCell : UITableViewCell
 
-@property (nonatomic, strong) UILabel *passwordLabel;
-
 @end
