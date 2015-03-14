@@ -40,9 +40,7 @@ struct TokenRowModel {
     }
 
     init() {
-        name = ""
-        issuer = ""
-        password = ""
+        (name, issuer, password) = ("", "", "")
         showsButton = false
         buttonAction = {}
     }

@@ -144,5 +144,4 @@ class TokenRowCell: UITableViewCell {
     func generateNextPassword() {
         rowModel.buttonAction()
     }
-
 }
