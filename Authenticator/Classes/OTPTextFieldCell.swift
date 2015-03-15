@@ -27,24 +27,32 @@ import UIKit
 class OTPTextFieldCell: UITableViewCell {
     let textField = UITextField()
 
+    // MARK: - Init
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        configureSubviews()
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureSubviews()
+    }
 
-        self.textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 17)
+    // MARK: - Subviews
 
-        self.textField.borderStyle = .RoundedRect
-        self.textField.font = UIFont(name: "HelveticaNeue-Light", size: 16)
-        self.contentView.addSubview(self.textField)
+    private func configureSubviews() {
+        textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 17)
+
+        textField.borderStyle = .RoundedRect
+        textField.font = UIFont(name: "HelveticaNeue-Light", size: 16)
+        contentView.addSubview(textField)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        self.textLabel?.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 21)
-        self.textField.frame = CGRectMake(20, 44, CGRectGetWidth(self.contentView.bounds) - 40, 30)
+        textLabel?.frame = CGRectMake(20, 15, CGRectGetWidth(contentView.bounds) - 40, 21)
+        textField.frame = CGRectMake(20, 44, CGRectGetWidth(contentView.bounds) - 40, 30)
     }
 }

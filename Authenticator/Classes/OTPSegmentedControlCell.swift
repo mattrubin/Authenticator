@@ -27,17 +27,26 @@ import UIKit
 class OTPSegmentedControlCell: UITableViewCell {
     let segmentedControl = UISegmentedControl()
 
+    // MARK: - Init
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        configureSubviews()
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.addSubview(self.segmentedControl)
+        configureSubviews()
+    }
+
+    // MARK: - Subviews
+
+    private func configureSubviews() {
+        contentView.addSubview(segmentedControl)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.segmentedControl.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 29)
+        segmentedControl.frame = CGRectMake(20, 15, CGRectGetWidth(contentView.bounds) - 40, 29)
     }
 }
