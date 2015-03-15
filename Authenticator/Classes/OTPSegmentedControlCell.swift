@@ -27,12 +27,21 @@ import UIKit
 class OTPSegmentedControlCell: UITableViewCell {
     let segmentedControl = UISegmentedControl()
 
+    // MARK: - Init
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        configureSubviews()
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureSubviews()
+    }
+
+    // MARK: - Subviews
+
+    private func configureSubviews() {
         self.contentView.addSubview(self.segmentedControl)
     }
 
