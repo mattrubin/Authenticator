@@ -27,13 +27,21 @@ import UIKit
 class OTPTextFieldCell: UITableViewCell {
     let textField = UITextField()
 
+    // MARK: - Init
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        configureSubviews()
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureSubviews()
+    }
 
+    // MARK: - Subviews
+
+    private func configureSubviews() {
         self.textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 17)
 
         self.textField.borderStyle = .RoundedRect
