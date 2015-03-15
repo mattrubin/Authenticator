@@ -42,11 +42,11 @@ class OTPSegmentedControlCell: UITableViewCell {
     // MARK: - Subviews
 
     private func configureSubviews() {
-        self.contentView.addSubview(self.segmentedControl)
+        contentView.addSubview(segmentedControl)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.segmentedControl.frame = CGRectMake(20, 15, CGRectGetWidth(self.contentView.bounds) - 40, 29)
+        segmentedControl.frame = CGRectMake(20, 15, CGRectGetWidth(contentView.bounds) - 40, 29)
     }
 }
