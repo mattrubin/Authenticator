@@ -1,8 +1,8 @@
 //
-//  OTPTokenEntryViewController.h
+//  OTPTokenFormViewController.h
 //  Authenticator
 //
-//  Copyright (c) 2013 Matt Rubin
+//  Copyright (c) 2015 Matt Rubin
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -23,12 +23,8 @@
 //
 
 @import UIKit;
-#import "OTPTokenFormViewController.h"
-#import "OTPTokenSourceDelegate.h"
 
 
-@interface OTPTokenEntryViewController : OTPTokenFormViewController
-
-@property (nonatomic, weak) id <OTPTokenSourceDelegate> delegate;
+@interface OTPTokenFormViewController : UITableViewController
 
 @end
