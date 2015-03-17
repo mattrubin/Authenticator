@@ -267,18 +267,6 @@ typedef enum : NSUInteger {
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cell.backgroundColor = [UIColor clearColor];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    cell.textLabel.textColor = [UIColor otpForegroundColor];
-    if ([cell isKindOfClass:[OTPTextFieldCell class]]) {
-        ((OTPTextFieldCell *)cell).textField.backgroundColor = [UIColor otpLightColor];
-        ((OTPTextFieldCell *)cell).textField.tintColor = [UIColor otpDarkColor];
-    }
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == OTPTokenEntrySectionAdvanced) {
