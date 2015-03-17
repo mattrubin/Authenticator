@@ -59,7 +59,6 @@
 
 - (void)doneAction
 {
-    [super doneAction];
     [self updateToken];
 }
 

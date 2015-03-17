@@ -94,7 +94,6 @@ typedef enum : NSUInteger {
 
 - (void)doneAction
 {
-    [super doneAction];
     [self createToken];
 }
 
