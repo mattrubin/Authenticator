@@ -22,17 +22,18 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPTokenEntryViewController.h"
+#import "OTPTokenFormViewController.h"
+@class OTPToken;
 
 
-@protocol OTPTokenEditorDelegate <OTPTokenSourceDelegate>
+@protocol OTPTokenEditorDelegate
 
 - (void)tokenEditor:(id)tokenEditor didEditToken:(OTPToken *)token;
 
 @end
 
 
-@interface OTPTokenEditViewController : OTPTokenEntryViewController
+@interface OTPTokenEditViewController : OTPTokenFormViewController
 
 @property (nonatomic, weak) id <OTPTokenEditorDelegate> delegate;
 
