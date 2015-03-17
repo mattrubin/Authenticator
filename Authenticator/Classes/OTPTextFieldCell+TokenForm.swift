@@ -13,8 +13,8 @@ struct IssuerRowModel: TextFieldRowModel {
     let placeholder = "Some Website"
 
     let autocapitalizationType =  UITextAutocapitalizationType.Words
-    var autocorrectionType = UITextAutocorrectionType.Default
-    var keyboardType = UIKeyboardType.Default
+    let autocorrectionType = UITextAutocorrectionType.Default
+    let keyboardType = UIKeyboardType.Default
     let returnKeyType = UIReturnKeyType.Next
 }
 
@@ -23,8 +23,8 @@ struct NameRowModel: TextFieldRowModel {
     let placeholder = "user@example.com"
 
     let autocapitalizationType =  UITextAutocapitalizationType.None
-    var autocorrectionType = UITextAutocorrectionType.No
-    var keyboardType = UIKeyboardType.EmailAddress
+    let autocorrectionType = UITextAutocorrectionType.No
+    let keyboardType = UIKeyboardType.EmailAddress
     let returnKeyType = UIReturnKeyType.Next
 }
 
@@ -33,8 +33,8 @@ struct SecretRowModel: TextFieldRowModel {
     let placeholder = "•••• •••• •••• ••••"
 
     let autocapitalizationType =  UITextAutocapitalizationType.None
-    var autocorrectionType = UITextAutocorrectionType.No
-    var keyboardType = UIKeyboardType.Default
+    let autocorrectionType = UITextAutocorrectionType.No
+    let keyboardType = UIKeyboardType.Default
     let returnKeyType = UIReturnKeyType.Done
 }
 
