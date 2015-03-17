@@ -12,30 +12,30 @@ struct IssuerRowModel: TextFieldRowModel {
     let label = "Issuer"
     let placeholder = "Some Website"
 
-    let autocapitalizationType =  UITextAutocapitalizationType.Words
-    let autocorrectionType = UITextAutocorrectionType.Default
-    let keyboardType = UIKeyboardType.Default
-    let returnKeyType = UIReturnKeyType.Next
+    let autocapitalizationType: UITextAutocapitalizationType = .Words
+    let autocorrectionType: UITextAutocorrectionType = .Default
+    let keyboardType: UIKeyboardType = .Default
+    let returnKeyType: UIReturnKeyType = .Next
 }
 
 struct NameRowModel: TextFieldRowModel {
     let label = "Account Name"
     let placeholder = "user@example.com"
 
-    let autocapitalizationType =  UITextAutocapitalizationType.None
-    let autocorrectionType = UITextAutocorrectionType.No
-    let keyboardType = UIKeyboardType.EmailAddress
-    let returnKeyType = UIReturnKeyType.Next
+    let autocapitalizationType: UITextAutocapitalizationType = .None
+    let autocorrectionType: UITextAutocorrectionType = .No
+    let keyboardType: UIKeyboardType = .EmailAddress
+    let returnKeyType: UIReturnKeyType = .Next
 }
 
 struct SecretRowModel: TextFieldRowModel {
     let label = "Secret Key"
     let placeholder = "•••• •••• •••• ••••"
 
-    let autocapitalizationType =  UITextAutocapitalizationType.None
-    let autocorrectionType = UITextAutocorrectionType.No
-    let keyboardType = UIKeyboardType.Default
-    let returnKeyType = UIReturnKeyType.Done
+    let autocapitalizationType: UITextAutocapitalizationType = .None
+    let autocorrectionType: UITextAutocorrectionType = .No
+    let keyboardType: UIKeyboardType = .Default
+    let returnKeyType: UIReturnKeyType = .Done
 }
 
 
