@@ -28,8 +28,6 @@
 
 @interface OTPTokenEntryViewController () <UITextFieldDelegate>
 
-@property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
-
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 
@@ -46,9 +44,6 @@
 
     self.title = @"Edit Token";
 
-    // Override the done button
-    self.doneButtonItem.action = @selector(updateToken);
-
     self.accountNameCell.textField.returnKeyType = UIReturnKeyDone;
 }
 
@@ -56,6 +51,15 @@
 {
     [super viewDidAppear:animated];
     [self.issuerCell.textField becomeFirstResponder];
+}
+
+
+#pragma mark - Target Actions
+
+- (void)doneAction
+{
+    [super doneAction];
+    [self updateToken];
 }
 
 

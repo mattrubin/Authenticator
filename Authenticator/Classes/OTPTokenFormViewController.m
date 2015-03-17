@@ -25,6 +25,39 @@
 #import "OTPTokenFormViewController.h"
 
 
+@interface OTPTokenFormViewController ()
+
+@property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
+
+@end
+
+
 @implementation OTPTokenFormViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor otpBackgroundColor];
+    self.view.tintColor = [UIColor otpForegroundColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+    // Set up top bar
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction)];
+    self.doneButtonItem = self.navigationItem.rightBarButtonItem;
+}
+
+
+#pragma mark - Target Actions
+
+- (void)cancelAction
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)doneAction
+{
+    // Override in subclass
+}
 
 @end

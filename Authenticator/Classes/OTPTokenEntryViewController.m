@@ -68,8 +68,6 @@ typedef enum : NSUInteger {
 @interface OTPTokenEntryViewController ()
     <UITextFieldDelegate>
 
-@property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
-
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 @property (nonatomic, strong) OTPTextFieldCell *secretKeyCell;
@@ -92,15 +90,7 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor otpBackgroundColor];
-    self.view.tintColor = [UIColor otpForegroundColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    // Set up top bar
     self.title = @"Add Token";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(createToken)];
-    self.doneButtonItem = self.navigationItem.rightBarButtonItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -112,9 +102,10 @@ typedef enum : NSUInteger {
 
 #pragma mark - Target Actions
 
-- (void)cancel
+- (void)doneAction
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [super doneAction];
+    [self createToken];
 }
 
 - (void)createToken
