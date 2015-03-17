@@ -15,7 +15,7 @@ struct IssuerRowModel: TextFieldRowModel {
     let autocapitalizationType =  UITextAutocapitalizationType.Words
     var autocorrectionType = UITextAutocorrectionType.Default
     var keyboardType = UIKeyboardType.Default
-    let returnKeyType = UIReturnKeyType.Next;
+    let returnKeyType = UIReturnKeyType.Next
 }
 
 struct NameRowModel: TextFieldRowModel {
@@ -25,7 +25,17 @@ struct NameRowModel: TextFieldRowModel {
     let autocapitalizationType =  UITextAutocapitalizationType.None
     var autocorrectionType = UITextAutocorrectionType.No
     var keyboardType = UIKeyboardType.EmailAddress
-    let returnKeyType = UIReturnKeyType.Next;
+    let returnKeyType = UIReturnKeyType.Next
+}
+
+struct SecretRowModel: TextFieldRowModel {
+    let label = "Secret Key"
+    let placeholder = "•••• •••• •••• ••••"
+
+    let autocapitalizationType =  UITextAutocapitalizationType.None
+    var autocorrectionType = UITextAutocorrectionType.No
+    var keyboardType = UIKeyboardType.Default
+    let returnKeyType = UIReturnKeyType.Done
 }
 
 
@@ -33,7 +43,7 @@ extension OTPTextFieldCell {
     static func issuerCellWithDelegate(delegate: UITextFieldDelegate) -> OTPTextFieldCell {
         let issuerCell = OTPTextFieldCell()
         issuerCell.updateWithRowModel(IssuerRowModel())
-        issuerCell.textField.delegate = delegate;
+        issuerCell.textField.delegate = delegate
         return issuerCell
     }
 
@@ -42,5 +52,12 @@ extension OTPTextFieldCell {
         nameCell.updateWithRowModel(NameRowModel())
         nameCell.textField.delegate = delegate
         return nameCell
+    }
+
+    static func secretCellWithDelegate(delegate: UITextFieldDelegate) -> OTPTextFieldCell {
+        let cell = OTPTextFieldCell()
+        cell.updateWithRowModel(SecretRowModel())
+        cell.textField.delegate = delegate
+        return cell
     }
 }

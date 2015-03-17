@@ -23,7 +23,6 @@
 //
 
 #import "OTPTokenEntryViewController.h"
-#import "OTPTextFieldCell+TokenForm.h"
 @import OneTimePasswordLegacy;
 @import Base32;
 
