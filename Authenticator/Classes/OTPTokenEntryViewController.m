@@ -93,12 +93,6 @@ typedef enum : NSUInteger {
     self.title = @"Add Token";
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self validateForm];
-}
-
 
 #pragma mark - Target Actions
 
@@ -368,11 +362,6 @@ typedef enum : NSUInteger {
 
 
 #pragma mark - Validation
-
-- (void)validateForm
-{
-    self.doneButtonItem.enabled = self.formIsValid;
-}
 
 - (BOOL)formIsValid
 {

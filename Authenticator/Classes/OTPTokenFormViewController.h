@@ -27,9 +27,10 @@
 
 @interface OTPTokenFormViewController : UITableViewController
 
-@property (nonatomic, readonly) UIBarButtonItem *doneButtonItem;
-
 - (void)cancelAction;
 - (void)doneAction;
+
+- (void)validateForm;
+- (BOOL)formIsValid;
 
 @end

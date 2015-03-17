@@ -47,6 +47,12 @@
     self.doneButtonItem = self.navigationItem.rightBarButtonItem;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self validateForm];
+}
+
 
 #pragma mark - Target Actions
 
@@ -58,6 +64,20 @@
 - (void)doneAction
 {
     // Override in subclass
+}
+
+
+#pragma mark - Validation
+
+- (void)validateForm
+{
+    self.doneButtonItem.enabled = self.formIsValid;
+}
+
+- (BOOL)formIsValid
+{
+    // Override in subclass
+    return true;
 }
 
 @end
