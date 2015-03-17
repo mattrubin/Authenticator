@@ -27,7 +27,6 @@
 
 @interface OTPTextFieldCell (TokenForm)
 
-+ (OTPTextFieldCell *)issuerCellWithDelegate:(id<UITextFieldDelegate>)delegate;
 + (OTPTextFieldCell *)accountNameCellWithDelegate:(id<UITextFieldDelegate>)delegate;
 + (OTPTextFieldCell *)secretKeyCellWithDelegate:(id<UITextFieldDelegate>)delegate;
 

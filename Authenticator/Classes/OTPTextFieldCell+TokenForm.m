@@ -27,16 +27,6 @@
 
 @implementation OTPTextFieldCell (TokenForm)
 
-+ (OTPTextFieldCell *)issuerCellWithDelegate:(id<UITextFieldDelegate>)delegate
-{
-    OTPTextFieldCell *issuerCell = [OTPTextFieldCell new];
-    issuerCell.textLabel.text = @"Issuer";
-    issuerCell.textField.placeholder = @"Some Website";
-    issuerCell.textField.delegate = delegate;
-    issuerCell.textField.returnKeyType = UIReturnKeyNext;
-    return issuerCell;
-}
-
 + (OTPTextFieldCell *)accountNameCellWithDelegate:(id<UITextFieldDelegate>)delegate
 {
     OTPTextFieldCell *accountNameCell = [OTPTextFieldCell new];
