@@ -234,7 +234,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)secretKeyCell
 {
     if (!_secretKeyCell) {
-        _secretKeyCell = [OTPTextFieldCell secretKeyCellWithDelegate:self];
+        _secretKeyCell = [OTPTextFieldCell secretCellWithDelegate:self];
     }
     return _secretKeyCell;
 }
