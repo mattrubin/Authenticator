@@ -41,22 +41,20 @@ struct SecretRowModel: TextFieldRowModel {
 
 extension OTPTextFieldCell {
     static func issuerCellWithDelegate(delegate: UITextFieldDelegate) -> OTPTextFieldCell {
-        let issuerCell = OTPTextFieldCell()
-        issuerCell.updateWithRowModel(IssuerRowModel())
-        issuerCell.textField.delegate = delegate
-        return issuerCell
+        return cellWithRowModel(IssuerRowModel(), delegate: delegate)
     }
 
     static func nameCellWithDelegate(delegate: UITextFieldDelegate) -> OTPTextFieldCell {
-        let nameCell = OTPTextFieldCell()
-        nameCell.updateWithRowModel(NameRowModel())
-        nameCell.textField.delegate = delegate
-        return nameCell
+        return cellWithRowModel(NameRowModel(), delegate: delegate)
     }
 
     static func secretCellWithDelegate(delegate: UITextFieldDelegate) -> OTPTextFieldCell {
+        return cellWithRowModel(SecretRowModel(), delegate: delegate)
+    }
+
+    static func cellWithRowModel(rowModel: TextFieldRowModel, delegate: UITextFieldDelegate) -> OTPTextFieldCell {
         let cell = OTPTextFieldCell()
-        cell.updateWithRowModel(SecretRowModel())
+        cell.updateWithRowModel(rowModel)
         cell.textField.delegate = delegate
         return cell
     }
