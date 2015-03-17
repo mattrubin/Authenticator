@@ -82,11 +82,6 @@ typedef enum : NSUInteger {
 
 @implementation OTPTokenEntryViewController
 
-- (instancetype)init
-{
-    return [super initWithStyle:UITableViewStyleGrouped];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

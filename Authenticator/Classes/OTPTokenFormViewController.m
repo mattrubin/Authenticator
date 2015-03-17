@@ -34,6 +34,11 @@
 
 @implementation OTPTokenFormViewController
 
+- (instancetype)init
+{
+    return [super initWithStyle:UITableViewStyleGrouped];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
