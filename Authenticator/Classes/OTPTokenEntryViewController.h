@@ -23,10 +23,11 @@
 //
 
 @import UIKit;
+#import "OTPTokenFormViewController.h"
 #import "OTPTokenSourceDelegate.h"
 
 
-@interface OTPTokenEntryViewController : UITableViewController
+@interface OTPTokenEntryViewController : OTPTokenFormViewController
 
 @property (nonatomic, weak) id <OTPTokenSourceDelegate> delegate;
 

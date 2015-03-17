@@ -23,6 +23,7 @@
 //
 
 #import "OTPTokenEntryViewController.h"
+#import "OTPTextFieldCell+TokenForm.h"
 @import OneTimePasswordLegacy;
 @import Base32;
 
@@ -68,8 +69,6 @@ typedef enum : NSUInteger {
 @interface OTPTokenEntryViewController ()
     <UITextFieldDelegate>
 
-@property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
-
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 @property (nonatomic, strong) OTPTextFieldCell *secretKeyCell;
@@ -84,37 +83,18 @@ typedef enum : NSUInteger {
 
 @implementation OTPTokenEntryViewController
 
-- (instancetype)init
-{
-    return [super initWithStyle:UITableViewStyleGrouped];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor otpBackgroundColor];
-    self.view.tintColor = [UIColor otpForegroundColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    // Set up top bar
     self.title = @"Add Token";
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(createToken)];
-    self.doneButtonItem = self.navigationItem.rightBarButtonItem;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self validateForm];
 }
 
 
 #pragma mark - Target Actions
 
-- (void)cancel
+- (void)doneAction
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self createToken];
 }
 
 - (void)createToken
@@ -239,11 +219,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)issuerCell
 {
     if (!_issuerCell) {
-        _issuerCell = [OTPTextFieldCell new];
-        _issuerCell.textLabel.text = @"Issuer";
-        _issuerCell.textField.placeholder = @"Some Website";
-        _issuerCell.textField.delegate = self;
-        _issuerCell.textField.returnKeyType = UIReturnKeyNext;
+        _issuerCell = [OTPTextFieldCell issuerCellWithDelegate:self];
     }
     return _issuerCell;
 }
@@ -251,14 +227,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)accountNameCell
 {
     if (!_accountNameCell) {
-        _accountNameCell = [OTPTextFieldCell new];
-        _accountNameCell.textLabel.text = @"Account Name";
-        _accountNameCell.textField.placeholder = @"user@example.com";
-        _accountNameCell.textField.delegate = self;
-        _accountNameCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        _accountNameCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-        _accountNameCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-        _accountNameCell.textField.returnKeyType = UIReturnKeyNext;
+        _accountNameCell = [OTPTextFieldCell accountNameCellWithDelegate:self];
     }
     return _accountNameCell;
 }
@@ -266,13 +235,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)secretKeyCell
 {
     if (!_secretKeyCell) {
-        _secretKeyCell = [OTPTextFieldCell new];
-        _secretKeyCell.textLabel.text = @"Secret Key";
-        _secretKeyCell.textField.placeholder = @"•••• •••• •••• ••••";
-        _secretKeyCell.textField.delegate = self;
-        _secretKeyCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        _secretKeyCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-        _secretKeyCell.textField.returnKeyType = UIReturnKeyDone;
+        _secretKeyCell = [OTPTextFieldCell secretKeyCellWithDelegate:self];
     }
     return _secretKeyCell;
 }
@@ -303,18 +266,6 @@ typedef enum : NSUInteger {
 
 
 #pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cell.backgroundColor = [UIColor clearColor];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    cell.textLabel.textColor = [UIColor otpForegroundColor];
-    if ([cell isKindOfClass:[OTPTextFieldCell class]]) {
-        ((OTPTextFieldCell *)cell).textField.backgroundColor = [UIColor otpLightColor];
-        ((OTPTextFieldCell *)cell).textField.tintColor = [UIColor otpDarkColor];
-    }
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -365,23 +316,8 @@ typedef enum : NSUInteger {
     return NO;
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    // Delay validation slightly to allow the text field time to commit the new value
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self validateForm];
-    });
-
-    return YES;
-}
-
 
 #pragma mark - Validation
-
-- (void)validateForm
-{
-    self.doneButtonItem.enabled = self.formIsValid;
-}
 
 - (BOOL)formIsValid
 {

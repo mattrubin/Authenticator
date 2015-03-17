@@ -1,8 +1,8 @@
 //
-//  OTPTokenEditViewController.h
+//  OTPTextFieldCell+TokenForm.h
 //  Authenticator
 //
-//  Copyright (c) 2014 Matt Rubin
+//  Copyright (c) 2015 Matt Rubin
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -22,21 +22,13 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPTokenFormViewController.h"
-@class OTPToken;
+#import "Authenticator-Swift.h"
 
 
-@protocol OTPTokenEditorDelegate
+@interface OTPTextFieldCell (TokenForm)
 
-- (void)tokenEditor:(id)tokenEditor didEditToken:(OTPToken *)token;
-
-@end
-
-
-@interface OTPTokenEditViewController : OTPTokenFormViewController
-
-@property (nonatomic, weak) id <OTPTokenEditorDelegate> delegate;
-
-@property (nonatomic, strong) OTPToken *token;
++ (OTPTextFieldCell *)issuerCellWithDelegate:(id<UITextFieldDelegate>)delegate;
++ (OTPTextFieldCell *)accountNameCellWithDelegate:(id<UITextFieldDelegate>)delegate;
++ (OTPTextFieldCell *)secretKeyCellWithDelegate:(id<UITextFieldDelegate>)delegate;
 
 @end

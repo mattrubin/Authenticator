@@ -23,12 +23,11 @@
 //
 
 #import "OTPTokenEditViewController.h"
+#import "OTPTextFieldCell+TokenForm.h"
 @import OneTimePasswordLegacy;
 
 
-@interface OTPTokenEntryViewController () <UITextFieldDelegate>
-
-@property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
+@interface OTPTokenEditViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
@@ -38,24 +37,24 @@
 
 @implementation OTPTokenEditViewController
 
-@synthesize delegate = _delegate;
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     self.title = @"Edit Token";
-
-    // Override the done button
-    self.doneButtonItem.action = @selector(updateToken);
-
-    self.accountNameCell.textField.returnKeyType = UIReturnKeyDone;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self.issuerCell.textField becomeFirstResponder];
+}
+
+
+#pragma mark - Target Actions
+
+- (void)doneAction
+{
+    [self updateToken];
 }
 
 
@@ -112,6 +111,26 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 74;
+}
+
+
+#pragma mark - Cells
+
+- (OTPTextFieldCell *)issuerCell
+{
+    if (!_issuerCell) {
+        _issuerCell = [OTPTextFieldCell issuerCellWithDelegate:self];
+    }
+    return _issuerCell;
+}
+
+- (OTPTextFieldCell *)accountNameCell
+{
+    if (!_accountNameCell) {
+        _accountNameCell = [OTPTextFieldCell accountNameCellWithDelegate:self];
+        _accountNameCell.textField.returnKeyType = UIReturnKeyDone;
+    }
+    return _accountNameCell;
 }
 
 
