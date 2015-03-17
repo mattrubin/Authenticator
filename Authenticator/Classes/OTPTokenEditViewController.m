@@ -40,10 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     self.title = @"Edit Token";
-
-    self.accountNameCell.textField.returnKeyType = UIReturnKeyDone;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -131,6 +128,7 @@
 {
     if (!_accountNameCell) {
         _accountNameCell = [OTPTextFieldCell accountNameCellWithDelegate:self];
+        _accountNameCell.textField.returnKeyType = UIReturnKeyDone;
     }
     return _accountNameCell;
 }
