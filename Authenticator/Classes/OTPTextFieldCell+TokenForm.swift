@@ -18,11 +18,29 @@ struct IssuerRowModel: TextFieldRowModel {
     let returnKeyType = UIReturnKeyType.Next;
 }
 
+struct NameRowModel: TextFieldRowModel {
+    let label = "Account Name"
+    let placeholder = "user@example.com"
+
+    let autocapitalizationType =  UITextAutocapitalizationType.None
+    var autocorrectionType = UITextAutocorrectionType.No
+    var keyboardType = UIKeyboardType.EmailAddress
+    let returnKeyType = UIReturnKeyType.Next;
+}
+
+
 extension OTPTextFieldCell {
     static func issuerCellWithDelegate(delegate: UITextFieldDelegate) -> OTPTextFieldCell {
         let issuerCell = OTPTextFieldCell()
         issuerCell.updateWithRowModel(IssuerRowModel())
         issuerCell.textField.delegate = delegate;
         return issuerCell
+    }
+
+    static func nameCellWithDelegate(delegate: UITextFieldDelegate) -> OTPTextFieldCell {
+        let nameCell = OTPTextFieldCell()
+        nameCell.updateWithRowModel(NameRowModel())
+        nameCell.textField.delegate = delegate
+        return nameCell
     }
 }

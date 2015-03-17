@@ -27,19 +27,6 @@
 
 @implementation OTPTextFieldCell (TokenForm)
 
-+ (OTPTextFieldCell *)accountNameCellWithDelegate:(id<UITextFieldDelegate>)delegate
-{
-    OTPTextFieldCell *accountNameCell = [OTPTextFieldCell new];
-    accountNameCell.textLabel.text = @"Account Name";
-    accountNameCell.textField.placeholder = @"user@example.com";
-    accountNameCell.textField.delegate = delegate;
-    accountNameCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    accountNameCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    accountNameCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-    accountNameCell.textField.returnKeyType = UIReturnKeyNext;
-    return accountNameCell;
-}
-
 + (OTPTextFieldCell *)secretKeyCellWithDelegate:(id<UITextFieldDelegate>)delegate
 {
     OTPTextFieldCell *secretKeyCell = [OTPTextFieldCell new];
