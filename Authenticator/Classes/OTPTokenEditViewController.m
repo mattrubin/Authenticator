@@ -23,10 +23,11 @@
 //
 
 #import "OTPTokenEditViewController.h"
+#import "OTPTextFieldCell+TokenForm.h"
 @import OneTimePasswordLegacy;
 
 
-@interface OTPTokenEntryViewController () <UITextFieldDelegate>
+@interface OTPTokenEditViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
@@ -116,6 +117,25 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 74;
+}
+
+
+#pragma mark - Cells
+
+- (OTPTextFieldCell *)issuerCell
+{
+    if (!_issuerCell) {
+        _issuerCell = [OTPTextFieldCell issuerCellWithDelegate:self];
+    }
+    return _issuerCell;
+}
+
+- (OTPTextFieldCell *)accountNameCell
+{
+    if (!_accountNameCell) {
+        _accountNameCell = [OTPTextFieldCell accountNameCellWithDelegate:self];
+    }
+    return _accountNameCell;
 }
 
 

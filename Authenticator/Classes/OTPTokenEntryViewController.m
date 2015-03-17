@@ -23,6 +23,7 @@
 //
 
 #import "OTPTokenEntryViewController.h"
+#import "OTPTextFieldCell+TokenForm.h"
 @import OneTimePasswordLegacy;
 @import Base32;
 
@@ -219,11 +220,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)issuerCell
 {
     if (!_issuerCell) {
-        _issuerCell = [OTPTextFieldCell new];
-        _issuerCell.textLabel.text = @"Issuer";
-        _issuerCell.textField.placeholder = @"Some Website";
-        _issuerCell.textField.delegate = self;
-        _issuerCell.textField.returnKeyType = UIReturnKeyNext;
+        _issuerCell = [OTPTextFieldCell issuerCellWithDelegate:self];
     }
     return _issuerCell;
 }
@@ -231,14 +228,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)accountNameCell
 {
     if (!_accountNameCell) {
-        _accountNameCell = [OTPTextFieldCell new];
-        _accountNameCell.textLabel.text = @"Account Name";
-        _accountNameCell.textField.placeholder = @"user@example.com";
-        _accountNameCell.textField.delegate = self;
-        _accountNameCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        _accountNameCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-        _accountNameCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-        _accountNameCell.textField.returnKeyType = UIReturnKeyNext;
+        _accountNameCell = [OTPTextFieldCell accountNameCellWithDelegate:self];
     }
     return _accountNameCell;
 }
@@ -246,13 +236,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)secretKeyCell
 {
     if (!_secretKeyCell) {
-        _secretKeyCell = [OTPTextFieldCell new];
-        _secretKeyCell.textLabel.text = @"Secret Key";
-        _secretKeyCell.textField.placeholder = @"•••• •••• •••• ••••";
-        _secretKeyCell.textField.delegate = self;
-        _secretKeyCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        _secretKeyCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-        _secretKeyCell.textField.returnKeyType = UIReturnKeyDone;
+        _secretKeyCell = [OTPTextFieldCell secretKeyCellWithDelegate:self];
     }
     return _secretKeyCell;
 }
