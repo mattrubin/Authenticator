@@ -36,6 +36,7 @@ protocol TextFieldRowModel {
 
 @objc
 protocol OTPTextFieldCellDelegate: class {
+    func textFieldCellDidChange(textFieldCell: OTPTextFieldCell)
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
 }
 
@@ -66,6 +67,7 @@ class OTPTextFieldCell: UITableViewCell {
         textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 17)
 
         textField.delegate = self
+        textField.addTarget(self, action: Selector("textFieldValueChanged"), forControlEvents: UIControlEvents.EditingChanged)
         textField.borderStyle = .RoundedRect
         textField.font = UIFont(name: "HelveticaNeue-Light", size: 16)
         contentView.addSubview(textField)
@@ -98,6 +100,12 @@ class OTPTextFieldCell: UITableViewCell {
 
     override func resignFirstResponder() -> Bool {
         return textField.resignFirstResponder()
+    }
+
+    // MARK: - Target Action
+
+    func textFieldValueChanged() {
+        delegate?.textFieldCellDidChange(self)
     }
 }
 

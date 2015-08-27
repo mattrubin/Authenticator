@@ -30,6 +30,7 @@
 - (void)cancelAction;
 - (void)doneAction;
 
+- (void)validateForm;
 - (BOOL)formIsValid;
 
 @end

@@ -135,6 +135,11 @@
 
 #pragma mark - OTPTextFieldCellDelegate
 
+- (void)textFieldCellDidChange:(nonnull OTPTextFieldCell *)textFieldCell
+{
+    [self validateForm];
+}
+
 - (void)textFieldCellDidReturn:(nonnull OTPTextFieldCell *)textFieldCell
 {
     if (textFieldCell == self.issuerCell) {
