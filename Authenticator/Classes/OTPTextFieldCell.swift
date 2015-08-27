@@ -84,6 +84,16 @@ class OTPTextFieldCell: UITableViewCell {
         textField.keyboardType = rowModel.keyboardType
         textField.returnKeyType = rowModel.returnKeyType
     }
+
+    // MARK: - UIResponder
+
+    override func becomeFirstResponder() -> Bool {
+        return textField.becomeFirstResponder()
+    }
+
+    override func resignFirstResponder() -> Bool {
+        return textField.resignFirstResponder()
+    }
 }
 
 extension OTPTextFieldCell: UITextFieldDelegate {

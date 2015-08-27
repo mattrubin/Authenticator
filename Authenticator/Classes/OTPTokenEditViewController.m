@@ -45,7 +45,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.issuerCell.textField becomeFirstResponder];
+    [self.issuerCell becomeFirstResponder];
 }
 
 
@@ -138,9 +138,9 @@
 - (void)textFieldCellDidReturn:(nonnull OTPTextFieldCell *)textFieldCell
 {
     if (textFieldCell == self.issuerCell) {
-        [self.accountNameCell.textField becomeFirstResponder];
+        [self.accountNameCell becomeFirstResponder];
     } else if (textFieldCell == self.accountNameCell) {
-        [textFieldCell.textField resignFirstResponder];
+        [textFieldCell resignFirstResponder];
         [self updateToken];
     }
 }

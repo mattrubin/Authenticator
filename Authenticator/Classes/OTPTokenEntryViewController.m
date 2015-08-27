@@ -306,11 +306,11 @@ typedef enum : NSUInteger {
 - (void)textFieldCellDidReturn:(nonnull OTPTextFieldCell *)textFieldCell
 {
     if (textFieldCell == self.issuerCell) {
-        [self.accountNameCell.textField becomeFirstResponder];
+        [self.accountNameCell becomeFirstResponder];
     } else if (textFieldCell == self.accountNameCell) {
-        [self.secretKeyCell.textField becomeFirstResponder];
+        [self.secretKeyCell becomeFirstResponder];
     } else {
-        [textFieldCell.textField resignFirstResponder];
+        [textFieldCell resignFirstResponder];
         [self createToken];
     }
 }
