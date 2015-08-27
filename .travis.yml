@@ -5,12 +5,9 @@ xcode_scheme: Authenticator
 
 osx_image: xcode6.4
 xcode_sdk:
-  - iphoneos8.4
   - iphonesimulator8.4
 
 before_install:
   - export LANG=en_US.UTF-8
   - gem update cocoapods --no-document
-#  - brew update; brew update
-#  - brew upgrade xctool
   - git submodule update --init --recursive
