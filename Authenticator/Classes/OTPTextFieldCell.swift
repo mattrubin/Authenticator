@@ -34,9 +34,14 @@ protocol TextFieldRowModel {
     var returnKeyType: UIReturnKeyType { get }
 }
 
+@objc
+protocol OTPTextFieldCellDelegate: class {
+    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
+}
 
 class OTPTextFieldCell: UITableViewCell {
     let textField = UITextField()
+    weak var delegate: OTPTextFieldCellDelegate?
 
     // MARK: - Init
 
@@ -55,6 +60,7 @@ class OTPTextFieldCell: UITableViewCell {
     private func configureSubviews() {
         textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 17)
 
+        textField.delegate = self
         textField.borderStyle = .RoundedRect
         textField.font = UIFont(name: "HelveticaNeue-Light", size: 16)
         contentView.addSubview(textField)
@@ -77,5 +83,12 @@ class OTPTextFieldCell: UITableViewCell {
         textField.autocorrectionType = rowModel.autocorrectionType
         textField.keyboardType = rowModel.keyboardType
         textField.returnKeyType = rowModel.returnKeyType
+    }
+}
+
+extension OTPTextFieldCell: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        delegate?.textFieldCellDidReturn(self)
+        return false
     }
 }

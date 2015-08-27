@@ -26,7 +26,7 @@
 @import OneTimePasswordLegacy;
 
 
-@interface OTPTokenEditViewController () <UITextFieldDelegate>
+@interface OTPTokenEditViewController () <OTPTextFieldCellDelegate>
 
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
@@ -133,17 +133,16 @@
 }
 
 
-#pragma mark - UITextFieldDelegate
+#pragma mark - OTPTextFieldCellDelegate
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (void)textFieldCellDidReturn:(nonnull OTPTextFieldCell *)textFieldCell
 {
-    if (textField == self.issuerCell.textField) {
+    if (textFieldCell == self.issuerCell) {
         [self.accountNameCell.textField becomeFirstResponder];
-    } else if (textField == self.accountNameCell.textField) {
-        [textField resignFirstResponder];
+    } else if (textFieldCell == self.accountNameCell) {
+        [textFieldCell.textField resignFirstResponder];
         [self updateToken];
     }
-    return NO;
 }
 
 
