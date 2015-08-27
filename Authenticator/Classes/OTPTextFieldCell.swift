@@ -43,6 +43,11 @@ class OTPTextFieldCell: UITableViewCell {
     let textField = UITextField()
     weak var delegate: OTPTextFieldCellDelegate?
 
+    var textValue: String? {
+        get { return textField.text }
+        set { textField.text = newValue }
+    }
+
     // MARK: - Init
 
     required init(coder aDecoder: NSCoder) {
