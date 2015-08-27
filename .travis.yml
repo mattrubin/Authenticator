@@ -4,10 +4,8 @@ xcode_workspace: Authenticator.xcworkspace
 xcode_scheme: Authenticator
 
 osx_image: xcode6.4
-xcode_sdk:
-  - iphonesimulator8.4
+xcode_sdk: iphonesimulator8.4
 
 before_install:
-#  - export LANG=en_US.UTF-8
   - gem update cocoapods --no-document
   - git submodule update --init --recursive
