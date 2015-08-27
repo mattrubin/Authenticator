@@ -11,6 +11,6 @@ xcode_sdk:
 before_install:
   - export LANG=en_US.UTF-8
   - gem update cocoapods --no-document
-  - brew update
+  - brew update; brew update
   - brew upgrade xctool
   - git submodule update --init --recursive
