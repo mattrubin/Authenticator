@@ -8,6 +8,6 @@ xcode_sdk:
   - iphonesimulator8.4
 
 before_install:
-  - export LANG=en_US.UTF-8
+#  - export LANG=en_US.UTF-8
   - gem update cocoapods --no-document
   - git submodule update --init --recursive
