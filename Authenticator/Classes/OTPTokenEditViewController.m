@@ -64,18 +64,18 @@
     if (_token != token) {
         _token = token;
     }
-    self.issuerCell.textValue = token.issuer;
-    self.accountNameCell.textValue = token.name;
+    self.issuerCell.textField.text = token.issuer;
+    self.accountNameCell.textField.text = token.name;
 }
 
 - (void)updateToken
 {
     if (!self.formIsValid) return;
 
-    if (![self.token.name isEqualToString:self.accountNameCell.textValue] ||
-        ![self.token.issuer isEqualToString:self.issuerCell.textValue]) {
-        self.token.name = self.accountNameCell.textValue;
-        self.token.issuer = self.issuerCell.textValue;
+    if (![self.token.name isEqualToString:self.accountNameCell.textField.text] ||
+        ![self.token.issuer isEqualToString:self.issuerCell.textField.text]) {
+        self.token.name = self.accountNameCell.textField.text;
+        self.token.issuer = self.issuerCell.textField.text;
         [self.token saveToKeychain];
     }
 
@@ -155,8 +155,8 @@
 
 - (BOOL)formIsValid
 {
-    return (self.issuerCell.textValue.length ||
-            self.accountNameCell.textValue.length);
+    return (self.issuerCell.textField.text.length ||
+            self.accountNameCell.textField.text.length);
 }
 
 @end

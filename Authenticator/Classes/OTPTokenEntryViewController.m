@@ -100,14 +100,14 @@ typedef enum : NSUInteger {
 {
     if (!self.formIsValid) return;
 
-    NSData *secret = [NSData dataWithBase32String:self.secretKeyCell.textValue];
+    NSData *secret = [NSData dataWithBase32String:self.secretKeyCell.textField.text];
 
     if (secret.length) {
         OTPToken *token = [OTPToken new];
         token.type = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == OTPTokenTypeIndexTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         token.secret = secret;
-        token.name = self.accountNameCell.textValue;
-        token.issuer = self.issuerCell.textValue;
+        token.name = self.accountNameCell.textField.text;
+        token.issuer = self.issuerCell.textField.text;
 
         switch (self.digitCountCell.segmentedControl.selectedSegmentIndex) {
             case OTPTokenDigitsIndex6:
@@ -325,9 +325,9 @@ typedef enum : NSUInteger {
 
 - (BOOL)formIsValid
 {
-    return ((self.issuerCell.textValue.length ||
-             self.accountNameCell.textValue.length) &&
-            self.secretKeyCell.textValue.length);
+    return ((self.issuerCell.textField.text.length ||
+             self.accountNameCell.textField.text.length) &&
+            self.secretKeyCell.textField.text.length);
 }
 
 @end
