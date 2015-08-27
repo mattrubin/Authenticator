@@ -39,7 +39,11 @@ struct NameRowModel: TextFieldRowModel {
     let autocapitalizationType: UITextAutocapitalizationType = .None
     let autocorrectionType: UITextAutocorrectionType = .No
     let keyboardType: UIKeyboardType = .EmailAddress
-    let returnKeyType: UIReturnKeyType = .Next
+    let returnKeyType: UIReturnKeyType
+
+    init(returnKeyType: UIReturnKeyType) {
+        self.returnKeyType = returnKeyType
+    }
 }
 
 struct SecretRowModel: TextFieldRowModel {
@@ -58,8 +62,8 @@ extension OTPTextFieldCell {
         return cellWithRowModel(IssuerRowModel(), delegate: delegate)
     }
 
-    static func nameCellWithDelegate(delegate: UITextFieldDelegate) -> OTPTextFieldCell {
-        return cellWithRowModel(NameRowModel(), delegate: delegate)
+    static func nameCellWithDelegate(delegate: UITextFieldDelegate, returnKeyType: UIReturnKeyType) -> OTPTextFieldCell {
+        return cellWithRowModel(NameRowModel(returnKeyType: returnKeyType), delegate: delegate)
     }
 
     static func secretCellWithDelegate(delegate: UITextFieldDelegate) -> OTPTextFieldCell {

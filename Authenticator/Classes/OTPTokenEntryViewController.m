@@ -226,7 +226,8 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)accountNameCell
 {
     if (!_accountNameCell) {
-        _accountNameCell = [OTPTextFieldCell nameCellWithDelegate:self];
+        _accountNameCell = [OTPTextFieldCell nameCellWithDelegate:self
+                                                    returnKeyType:UIReturnKeyNext];
     }
     return _accountNameCell;
 }

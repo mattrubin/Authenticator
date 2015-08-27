@@ -126,8 +126,8 @@
 - (OTPTextFieldCell *)accountNameCell
 {
     if (!_accountNameCell) {
-        _accountNameCell = [OTPTextFieldCell nameCellWithDelegate:self];
-        _accountNameCell.textField.returnKeyType = UIReturnKeyDone;
+        _accountNameCell = [OTPTextFieldCell nameCellWithDelegate:self
+                                                    returnKeyType:UIReturnKeyDone];
     }
     return _accountNameCell;
 }
