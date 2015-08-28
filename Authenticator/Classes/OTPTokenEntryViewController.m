@@ -47,23 +47,6 @@ typedef enum : NSUInteger {
     OTPNumberOfTokenEntryAdvancedRows,
 } OTPTokenEntryAdvancedRow;
 
-typedef enum : NSUInteger {
-    OTPTokenTypeIndexTimer,
-    OTPTokenTypeIndexCounter,
-} OTPTokenTypeIndex;
-
-typedef enum : NSUInteger {
-    OTPTokenDigitsIndex6,
-    OTPTokenDigitsIndex7,
-    OTPTokenDigitsIndex8,
-} OTPTokenDigitsIndex;
-
-typedef enum : NSUInteger {
-    OTPTokenAlgorithmIndexSHA1,
-    OTPTokenAlgorithmIndexSHA256,
-    OTPTokenAlgorithmIndexSHA512,
-} OTPTokenAlgorithmIndex;
-
 
 @interface OTPTokenEntryViewController ()
     <OTPTextFieldCellDelegate>
@@ -110,13 +93,13 @@ typedef enum : NSUInteger {
         token.issuer = self.issuerCell.textField.text;
 
         switch (self.digitCountCell.segmentedControl.selectedSegmentIndex) {
-            case OTPTokenDigitsIndex6:
+            case OTPTokenDigitsIndexSix:
                 token.digits = 6;
                 break;
-            case OTPTokenDigitsIndex7:
+            case OTPTokenDigitsIndexSeven:
                 token.digits = 7;
                 break;
-            case OTPTokenDigitsIndex8:
+            case OTPTokenDigitsIndexEight:
                 token.digits = 8;
                 break;
         }
@@ -244,10 +227,10 @@ typedef enum : NSUInteger {
 {
     if (!_digitCountCell) {
         _digitCountCell = [OTPSegmentedControlCell new];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"6 Digits" atIndex:OTPTokenDigitsIndex6 animated:NO];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"7 Digits" atIndex:OTPTokenDigitsIndex7 animated:NO];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"8 Digits" atIndex:OTPTokenDigitsIndex8 animated:NO];
-        _digitCountCell.segmentedControl.selectedSegmentIndex = OTPTokenDigitsIndex6;
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"6 Digits" atIndex:OTPTokenDigitsIndexSix animated:NO];
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"7 Digits" atIndex:OTPTokenDigitsIndexSeven animated:NO];
+        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"8 Digits" atIndex:OTPTokenDigitsIndexEight animated:NO];
+        _digitCountCell.segmentedControl.selectedSegmentIndex = OTPTokenDigitsIndexSix;
     }
     return _digitCountCell;
 }
