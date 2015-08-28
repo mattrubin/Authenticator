@@ -23,21 +23,49 @@
 //
 
 @objc
-enum OTPTokenTypeIndex: UInt {
+enum OTPTokenTypeIndex: Int {
     case Timer
     case Counter
 }
 
 @objc
-enum OTPTokenDigitsIndex: UInt {
+enum OTPTokenDigitsIndex: Int {
     case Six
     case Seven
     case Eight
 }
 
 @objc
-enum OTPTokenAlgorithmIndex: UInt {
+enum OTPTokenAlgorithmIndex: Int {
     case SHA1
     case SHA256
     case SHA512
+}
+
+extension OTPSegmentedControlCell {
+    static func tokenTypeCell() -> Self {
+        let cell = self.init()
+        cell.segmentedControl.insertSegmentWithTitle("Time Based", atIndex: OTPTokenTypeIndex.Timer.rawValue, animated: false)
+        cell.segmentedControl.insertSegmentWithTitle("Counter Based", atIndex: OTPTokenTypeIndex.Counter.rawValue, animated: false)
+        cell.segmentedControl.selectedSegmentIndex = OTPTokenTypeIndex.Timer.rawValue;
+        return cell
+    }
+
+    static func digitCountCell() -> Self {
+        let cell = self.init()
+        cell.segmentedControl.insertSegmentWithTitle("6 Digits", atIndex: OTPTokenDigitsIndex.Six.rawValue, animated: false)
+        cell.segmentedControl.insertSegmentWithTitle("7 Digits", atIndex: OTPTokenDigitsIndex.Seven.rawValue, animated: false)
+        cell.segmentedControl.insertSegmentWithTitle("8 Digits", atIndex: OTPTokenDigitsIndex.Eight.rawValue, animated: false)
+        cell.segmentedControl.selectedSegmentIndex = OTPTokenDigitsIndex.Six.rawValue;
+        return cell
+    }
+
+    static func algorithmCell() -> Self {
+        let cell = self.init()
+        cell.segmentedControl.insertSegmentWithTitle("SHA-1", atIndex: OTPTokenAlgorithmIndex.SHA1.rawValue, animated: false)
+        cell.segmentedControl.insertSegmentWithTitle("SHA-256", atIndex: OTPTokenAlgorithmIndex.SHA256.rawValue, animated: false)
+        cell.segmentedControl.insertSegmentWithTitle("SHA-512", atIndex: OTPTokenAlgorithmIndex.SHA512.rawValue, animated: false)
+        cell.segmentedControl.selectedSegmentIndex = OTPTokenAlgorithmIndex.SHA1.rawValue;
+        return cell
+    }
 }
