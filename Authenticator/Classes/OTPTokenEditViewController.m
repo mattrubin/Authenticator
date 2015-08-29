@@ -116,8 +116,8 @@
 
 - (id<TableViewModel>)tableViewModel {
     if (!_tableViewModel) {
-        NSArray *cells = @[ @[ self.issuerCell, self.accountNameCell ] ];
-        _tableViewModel = [[BasicTableViewModel alloc] initWithCells:cells];
+        _tableViewModel = [[TokenEditForm alloc] initWithIssuerCell:self.issuerCell
+                                                    accountNameCell:self.accountNameCell];
     }
     return _tableViewModel;
 }
