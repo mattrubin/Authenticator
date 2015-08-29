@@ -162,8 +162,7 @@
 
 - (BOOL)formIsValid
 {
-    return (self.issuerCell.textField.text.length ||
-            self.accountNameCell.textField.text.length);
+    return self.form.isValid;
 }
 
 @end

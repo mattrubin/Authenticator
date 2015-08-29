@@ -42,4 +42,9 @@ class TokenEditForm: NSObject, TableViewModel {
         if indexPath.row >= sectionCells.endIndex { return nil }
         return sectionCells[indexPath.row]
     }
+
+    var isValid: Bool {
+        return !issuerCell.textField.text.isEmpty ||
+            !accountNameCell.textField.text.isEmpty
+    }
 }
