@@ -47,23 +47,6 @@ typedef enum : NSUInteger {
     OTPNumberOfTokenEntryAdvancedRows,
 } OTPTokenEntryAdvancedRow;
 
-typedef enum : NSUInteger {
-    OTPTokenTypeIndexTimer,
-    OTPTokenTypeIndexCounter,
-} OTPTokenTypeIndex;
-
-typedef enum : NSUInteger {
-    OTPTokenDigitsIndex6,
-    OTPTokenDigitsIndex7,
-    OTPTokenDigitsIndex8,
-} OTPTokenDigitsIndex;
-
-typedef enum : NSUInteger {
-    OTPTokenAlgorithmIndexSHA1,
-    OTPTokenAlgorithmIndexSHA256,
-    OTPTokenAlgorithmIndexSHA512,
-} OTPTokenAlgorithmIndex;
-
 
 @interface OTPTokenEntryViewController ()
     <OTPTextFieldCellDelegate>
@@ -104,31 +87,31 @@ typedef enum : NSUInteger {
 
     if (secret.length) {
         OTPToken *token = [OTPToken new];
-        token.type = (self.tokenTypeCell.segmentedControl.selectedSegmentIndex == OTPTokenTypeIndexTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
+        token.type = (self.tokenTypeCell.value == OTPTokenTypeOptionTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         token.secret = secret;
         token.name = self.accountNameCell.textField.text;
         token.issuer = self.issuerCell.textField.text;
 
-        switch (self.digitCountCell.segmentedControl.selectedSegmentIndex) {
-            case OTPTokenDigitsIndex6:
+        switch (self.digitCountCell.value) {
+            case OTPTokenDigitsOptionSix:
                 token.digits = 6;
                 break;
-            case OTPTokenDigitsIndex7:
+            case OTPTokenDigitsOptionSeven:
                 token.digits = 7;
                 break;
-            case OTPTokenDigitsIndex8:
+            case OTPTokenDigitsOptionEight:
                 token.digits = 8;
                 break;
         }
 
-        switch (self.algorithmCell.segmentedControl.selectedSegmentIndex) {
-            case OTPTokenAlgorithmIndexSHA1:
+        switch (self.algorithmCell.value) {
+            case OTPTokenAlgorithmOptionSHA1:
                 token.algorithm = OTPAlgorithmSHA1;
                 break;
-            case OTPTokenAlgorithmIndexSHA256:
+            case OTPTokenAlgorithmOptionSHA256:
                 token.algorithm = OTPAlgorithmSHA256;
                 break;
-            case OTPTokenAlgorithmIndexSHA512:
+            case OTPTokenAlgorithmOptionSHA512:
                 token.algorithm = OTPAlgorithmSHA512;
                 break;
         }
@@ -207,10 +190,7 @@ typedef enum : NSUInteger {
 - (OTPSegmentedControlCell *)tokenTypeCell
 {
     if (!_tokenTypeCell) {
-        _tokenTypeCell = [OTPSegmentedControlCell new];
-        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Time Based" atIndex:OTPTokenTypeIndexTimer animated:NO];
-        [_tokenTypeCell.segmentedControl insertSegmentWithTitle:@"Counter Based" atIndex:OTPTokenTypeIndexCounter animated:NO];
-        _tokenTypeCell.segmentedControl.selectedSegmentIndex = OTPTokenTypeIndexTimer;
+        _tokenTypeCell = [OTPSegmentedControlCell tokenTypeCell];
     }
     return _tokenTypeCell;
 }
@@ -243,11 +223,7 @@ typedef enum : NSUInteger {
 - (OTPSegmentedControlCell *)digitCountCell
 {
     if (!_digitCountCell) {
-        _digitCountCell = [OTPSegmentedControlCell new];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"6 Digits" atIndex:OTPTokenDigitsIndex6 animated:NO];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"7 Digits" atIndex:OTPTokenDigitsIndex7 animated:NO];
-        [_digitCountCell.segmentedControl insertSegmentWithTitle:@"8 Digits" atIndex:OTPTokenDigitsIndex8 animated:NO];
-        _digitCountCell.segmentedControl.selectedSegmentIndex = OTPTokenDigitsIndex6;
+        _digitCountCell = [OTPSegmentedControlCell digitCountCell];
     }
     return _digitCountCell;
 }
@@ -255,11 +231,7 @@ typedef enum : NSUInteger {
 - (OTPSegmentedControlCell *)algorithmCell
 {
     if (!_algorithmCell) {
-        _algorithmCell = [OTPSegmentedControlCell new];
-        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-1"   atIndex:OTPTokenAlgorithmIndexSHA1   animated:NO];
-        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-256" atIndex:OTPTokenAlgorithmIndexSHA256 animated:NO];
-        [_algorithmCell.segmentedControl insertSegmentWithTitle:@"SHA-512" atIndex:OTPTokenAlgorithmIndexSHA512 animated:NO];
-        _algorithmCell.segmentedControl.selectedSegmentIndex = OTPTokenAlgorithmIndexSHA1;
+        _algorithmCell = [OTPSegmentedControlCell algorithmCell];
     }
     return _algorithmCell;
 }
