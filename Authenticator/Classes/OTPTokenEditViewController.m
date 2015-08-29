@@ -28,6 +28,8 @@
 
 @interface OTPTokenEditViewController () <OTPTextFieldCellDelegate>
 
+@property (nonatomic, strong) id<TableViewModel> tableViewModel;
+
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 
@@ -88,24 +90,21 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.tableViewModel.numberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return [self.tableViewModel numberOfRowsInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row) {
-        case 0:
-            return self.issuerCell;
-        case 1:
-            return self.accountNameCell;
-    }
-    return nil;
+    return [self.tableViewModel cellForRowAtIndexPath:indexPath];
 }
+
+
+#pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -114,6 +113,14 @@
 
 
 #pragma mark - Cells
+
+- (id<TableViewModel>)tableViewModel {
+    if (!_tableViewModel) {
+        NSArray *cells = @[ @[ self.issuerCell, self.accountNameCell ] ];
+        _tableViewModel = [[BasicTableViewModel alloc] initWithCells:cells];
+    }
+    return _tableViewModel;
+}
 
 - (OTPTextFieldCell *)issuerCell
 {

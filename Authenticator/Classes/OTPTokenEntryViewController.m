@@ -33,23 +33,11 @@ typedef enum : NSUInteger {
     OTPNumberOfTokenEntrySections,
 } OTPTokenEntrySection;
 
-typedef enum : NSUInteger {
-    OTPTokenEntryBasicRowIssuer,
-    OTPTokenEntryBasicRowName,
-    OTPTokenEntryBasicRowSecret,
-    OTPNumberOfTokenEntryBasicRows,
-} OTPTokenEntryBasicRow;
-
-typedef enum : NSUInteger {
-    OTPTokenEntryAdvancedRowType,
-    OTPTokenEntryAdvancedRowDigits,
-    OTPTokenEntryAdvancedRowAlgorithm,
-    OTPNumberOfTokenEntryAdvancedRows,
-} OTPTokenEntryAdvancedRow;
-
 
 @interface OTPTokenEntryViewController ()
     <OTPTextFieldCellDelegate>
+
+@property (nonatomic, strong) id<TableViewModel> tableViewModel;
 
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
@@ -132,46 +120,21 @@ typedef enum : NSUInteger {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return OTPNumberOfTokenEntrySections;
+    return self.tableViewModel.numberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    switch (section) {
-        case OTPTokenEntrySectionBasic:
-            return OTPNumberOfTokenEntryBasicRows;
-        case OTPTokenEntrySectionAdvanced:
-            return self.showsAdvancedOptions ? OTPNumberOfTokenEntryAdvancedRows : 0;
-    }
-    return 0;
+    return [self.tableViewModel numberOfRowsInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-        case OTPTokenEntrySectionBasic:
-            switch (indexPath.row) {
-                case OTPTokenEntryBasicRowIssuer:
-                    return self.issuerCell;
-                case OTPTokenEntryBasicRowName:
-                    return self.accountNameCell;
-                case OTPTokenEntryBasicRowSecret:
-                    return self.secretKeyCell;
-            }
-            break;
-        case OTPTokenEntrySectionAdvanced:
-            switch (indexPath.row) {
-                case OTPTokenEntryAdvancedRowType:
-                    return self.tokenTypeCell;
-                case OTPTokenEntryAdvancedRowDigits:
-                    return self.digitCountCell;
-                case OTPTokenEntryAdvancedRowAlgorithm:
-                    return self.algorithmCell;
-            }
-            break;
-    }
-    return nil;
+    return [self.tableViewModel cellForRowAtIndexPath:indexPath];
 }
+
+
+#pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -186,6 +149,17 @@ typedef enum : NSUInteger {
 
 
 #pragma mark - Cells
+
+- (id<TableViewModel>)tableViewModel {
+    if (!_tableViewModel) {
+        NSArray *cells = @[
+                           @[ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
+                           self.showsAdvancedOptions ? @[ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ] : @[],
+                           ];
+        _tableViewModel = [[BasicTableViewModel alloc] initWithCells:cells];
+    }
+    return _tableViewModel;
+}
 
 - (OTPSegmentedControlCell *)tokenTypeCell
 {
@@ -265,8 +239,9 @@ typedef enum : NSUInteger {
 {
     if (!self.showsAdvancedOptions) {
         self.showsAdvancedOptions = YES;
+        self.tableViewModel = nil; // Reset the table view model
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:OTPTokenEntrySectionAdvanced] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(OTPNumberOfTokenEntryAdvancedRows - 1)
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([self.tableViewModel numberOfRowsInSection:OTPTokenEntrySectionAdvanced] - 1)
                                                                   inSection:OTPTokenEntrySectionAdvanced]
                               atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
