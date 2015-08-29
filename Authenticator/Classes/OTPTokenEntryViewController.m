@@ -23,7 +23,6 @@
 //
 
 #import "OTPTokenEntryViewController.h"
-#import "OTPTextFieldCell+TokenForm.h"
 @import OneTimePasswordLegacy;
 @import Base32;
 
@@ -67,7 +66,7 @@ typedef enum : NSUInteger {
 
 
 @interface OTPTokenEntryViewController ()
-    <UITextFieldDelegate>
+    <OTPTextFieldCellDelegate>
 
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
@@ -227,7 +226,8 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)accountNameCell
 {
     if (!_accountNameCell) {
-        _accountNameCell = [OTPTextFieldCell accountNameCellWithDelegate:self];
+        _accountNameCell = [OTPTextFieldCell nameCellWithDelegate:self
+                                                    returnKeyType:UIReturnKeyNext];
     }
     return _accountNameCell;
 }
@@ -235,7 +235,7 @@ typedef enum : NSUInteger {
 - (OTPTextFieldCell *)secretKeyCell
 {
     if (!_secretKeyCell) {
-        _secretKeyCell = [OTPTextFieldCell secretKeyCellWithDelegate:self];
+        _secretKeyCell = [OTPTextFieldCell secretCellWithDelegate:self];
     }
     return _secretKeyCell;
 }
@@ -301,19 +301,23 @@ typedef enum : NSUInteger {
 }
 
 
-#pragma mark - UITextFieldDelegate
+#pragma mark - OTPTextFieldCellDelegate
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (void)textFieldCellDidChange:(nonnull OTPTextFieldCell *)textFieldCell
 {
-    if (textField == self.issuerCell.textField) {
+    [self validateForm];
+}
+
+- (void)textFieldCellDidReturn:(nonnull OTPTextFieldCell *)textFieldCell
+{
+    if (textFieldCell == self.issuerCell) {
         [self.accountNameCell.textField becomeFirstResponder];
-    } else if (textField == self.accountNameCell.textField) {
+    } else if (textFieldCell == self.accountNameCell) {
         [self.secretKeyCell.textField becomeFirstResponder];
     } else {
-        [textField resignFirstResponder];
+        [textFieldCell.textField resignFirstResponder];
         [self createToken];
     }
-    return NO;
 }
 
 

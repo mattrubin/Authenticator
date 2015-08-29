@@ -24,8 +24,25 @@
 
 import UIKit
 
+protocol TextFieldRowModel {
+    var label: String { get }
+    var placeholder: String { get }
+
+    var autocapitalizationType: UITextAutocapitalizationType { get }
+    var autocorrectionType: UITextAutocorrectionType { get }
+    var keyboardType: UIKeyboardType { get }
+    var returnKeyType: UIReturnKeyType { get }
+}
+
+@objc
+protocol OTPTextFieldCellDelegate: class {
+    func textFieldCellDidChange(textFieldCell: OTPTextFieldCell)
+    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
+}
+
 class OTPTextFieldCell: UITableViewCell {
     let textField = UITextField()
+    weak var delegate: OTPTextFieldCellDelegate?
 
     // MARK: - Init
 
@@ -44,6 +61,8 @@ class OTPTextFieldCell: UITableViewCell {
     private func configureSubviews() {
         textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 17)
 
+        textField.delegate = self
+        textField.addTarget(self, action: Selector("textFieldValueChanged"), forControlEvents: UIControlEvents.EditingChanged)
         textField.borderStyle = .RoundedRect
         textField.font = UIFont(name: "HelveticaNeue-Light", size: 16)
         contentView.addSubview(textField)
@@ -54,5 +73,30 @@ class OTPTextFieldCell: UITableViewCell {
 
         textLabel?.frame = CGRectMake(20, 15, CGRectGetWidth(contentView.bounds) - 40, 21)
         textField.frame = CGRectMake(20, 44, CGRectGetWidth(contentView.bounds) - 40, 30)
+    }
+
+    // MARK: - Update
+
+    func updateWithRowModel(rowModel: TextFieldRowModel) {
+        textLabel?.text = rowModel.label
+        textField.placeholder = rowModel.placeholder
+
+        textField.autocapitalizationType = rowModel.autocapitalizationType
+        textField.autocorrectionType = rowModel.autocorrectionType
+        textField.keyboardType = rowModel.keyboardType
+        textField.returnKeyType = rowModel.returnKeyType
+    }
+
+    // MARK: - Target Action
+
+    func textFieldValueChanged() {
+        delegate?.textFieldCellDidChange(self)
+    }
+}
+
+extension OTPTextFieldCell: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        delegate?.textFieldCellDidReturn(self)
+        return false
     }
 }
