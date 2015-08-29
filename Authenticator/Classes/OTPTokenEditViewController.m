@@ -47,7 +47,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.issuerCell.textField becomeFirstResponder];
+    [self.form focusFirstField];
 }
 
 

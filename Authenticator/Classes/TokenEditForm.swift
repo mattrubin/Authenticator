@@ -24,6 +24,10 @@ class TokenEditForm: NSObject, TableViewModel {
         self.accountNameCell = accountNameCell
     }
 
+    func focusFirstField() {
+        self.issuerCell.textField.becomeFirstResponder()
+    }
+
     var numberOfSections: Int {
         return cells.count
     }
