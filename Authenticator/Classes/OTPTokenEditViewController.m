@@ -26,7 +26,7 @@
 @import OneTimePasswordLegacy;
 
 
-@interface OTPTokenEditViewController () <TokenEditFormDelegate>
+@interface OTPTokenEditViewController () <TokenFormDelegate>
 
 @property (nonatomic, strong) TokenEditForm *form;
 
