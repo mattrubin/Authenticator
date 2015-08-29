@@ -42,30 +42,48 @@ enum OTPTokenAlgorithmIndex: Int {
     case SHA512
 }
 
+struct TokenTypeRowModel: SegmentedControlRowModel {
+    let segments = [
+        (title: "Time Based", value: OTPTokenTypeIndex.Timer.rawValue),
+        (title: "Counter Based", value: OTPTokenTypeIndex.Counter.rawValue),
+    ]
+    let initialValue = OTPTokenTypeIndex.Timer.rawValue
+}
+
+struct DigitCountRowModel: SegmentedControlRowModel {
+    let segments = [
+        (title: "6 Digits", value: OTPTokenDigitsIndex.Six.rawValue),
+        (title: "7 Digits", value: OTPTokenDigitsIndex.Seven.rawValue),
+        (title: "8 Digits", value: OTPTokenDigitsIndex.Eight.rawValue),
+    ]
+    let initialValue = OTPTokenDigitsIndex.Six.rawValue
+}
+
+struct AlgorithmRowModel: SegmentedControlRowModel {
+    let segments = [
+        (title: "SHA-1", value: OTPTokenAlgorithmIndex.SHA1.rawValue),
+        (title: "SHA-256", value: OTPTokenAlgorithmIndex.SHA256.rawValue),
+        (title: "SHA-512", value: OTPTokenAlgorithmIndex.SHA512.rawValue),
+    ]
+    let initialValue = OTPTokenAlgorithmIndex.SHA1.rawValue
+}
+
 extension OTPSegmentedControlCell {
     static func tokenTypeCell() -> Self {
         let cell = self.init()
-        cell.segmentedControl.insertSegmentWithTitle("Time Based", atIndex: OTPTokenTypeIndex.Timer.rawValue, animated: false)
-        cell.segmentedControl.insertSegmentWithTitle("Counter Based", atIndex: OTPTokenTypeIndex.Counter.rawValue, animated: false)
-        cell.segmentedControl.selectedSegmentIndex = OTPTokenTypeIndex.Timer.rawValue;
+        cell.updateWithRowModel(TokenTypeRowModel())
         return cell
     }
 
     static func digitCountCell() -> Self {
         let cell = self.init()
-        cell.segmentedControl.insertSegmentWithTitle("6 Digits", atIndex: OTPTokenDigitsIndex.Six.rawValue, animated: false)
-        cell.segmentedControl.insertSegmentWithTitle("7 Digits", atIndex: OTPTokenDigitsIndex.Seven.rawValue, animated: false)
-        cell.segmentedControl.insertSegmentWithTitle("8 Digits", atIndex: OTPTokenDigitsIndex.Eight.rawValue, animated: false)
-        cell.segmentedControl.selectedSegmentIndex = OTPTokenDigitsIndex.Six.rawValue;
+        cell.updateWithRowModel(DigitCountRowModel())
         return cell
     }
 
     static func algorithmCell() -> Self {
         let cell = self.init()
-        cell.segmentedControl.insertSegmentWithTitle("SHA-1", atIndex: OTPTokenAlgorithmIndex.SHA1.rawValue, animated: false)
-        cell.segmentedControl.insertSegmentWithTitle("SHA-256", atIndex: OTPTokenAlgorithmIndex.SHA256.rawValue, animated: false)
-        cell.segmentedControl.insertSegmentWithTitle("SHA-512", atIndex: OTPTokenAlgorithmIndex.SHA512.rawValue, animated: false)
-        cell.segmentedControl.selectedSegmentIndex = OTPTokenAlgorithmIndex.SHA1.rawValue;
+        cell.updateWithRowModel(AlgorithmRowModel())
         return cell
     }
 }

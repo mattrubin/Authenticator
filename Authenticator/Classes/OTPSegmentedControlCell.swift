@@ -24,8 +24,18 @@
 
 import UIKit
 
+protocol SegmentedControlRowModel {
+    var segments: [(title: String, value: Int)] { get }
+    var initialValue: Int { get }
+}
+
 class OTPSegmentedControlCell: UITableViewCell {
-    let segmentedControl = UISegmentedControl()
+    private let segmentedControl = UISegmentedControl()
+    private var values: [Int] = []
+
+    var value: Int {
+        return values[segmentedControl.selectedSegmentIndex]
+    }
 
     // MARK: - Init
 
@@ -48,5 +58,22 @@ class OTPSegmentedControlCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         segmentedControl.frame = CGRectMake(20, 15, CGRectGetWidth(contentView.bounds) - 40, 29)
+    }
+
+    // MARK: - Update
+
+    func updateWithRowModel(rowModel: SegmentedControlRowModel) {
+        // Remove any old segments
+        segmentedControl.removeAllSegments()
+        // Add new segments
+        for i in rowModel.segments.startIndex ..< rowModel.segments.endIndex {
+            let segment = rowModel.segments[i]
+            segmentedControl.insertSegmentWithTitle(segment.title, atIndex: i, animated: false)
+        }
+        // Store values
+        values = rowModel.segments.map { $0.value }
+        // Select the initial value
+        segmentedControl.selectedSegmentIndex = find(values, rowModel.initialValue) ?? 0
+
     }
 }
