@@ -10,6 +10,15 @@ class TokenEditForm: NSObject, TableViewModel {
     var issuerCell: OTPTextFieldCell
     var accountNameCell: OTPTextFieldCell
 
+    var issuer: String? {
+        get { return issuerCell.textField.text }
+        set { issuerCell.textField.text = newValue }
+    }
+    var accountName: String? {
+        get { return accountNameCell.textField.text }
+        set { accountNameCell.textField.text = newValue }
+    }
+
     var cells: [[UITableViewCell]] {
         return [
             [
