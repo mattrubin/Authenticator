@@ -26,7 +26,7 @@
 @import OneTimePasswordLegacy;
 
 
-@interface OTPTokenEditViewController () <OTPTextFieldCellDelegate>
+@interface OTPTokenEditViewController () <OTPTextFieldCellDelegate, TokenEditFormDelegate>
 
 @property (nonatomic, strong) TokenEditForm *form;
 
@@ -118,6 +118,7 @@
     if (!_form) {
         _form = [[TokenEditForm alloc] initWithIssuerCell:self.issuerCell
                                           accountNameCell:self.accountNameCell];
+        _form.delegate = self;
     }
     return _form;
 }
@@ -144,7 +145,7 @@
 
 - (void)textFieldCellDidChange:(nonnull OTPTextFieldCell *)textFieldCell
 {
-    [self validateForm];
+    [self formValuesDidChange:self.form];
 }
 
 - (void)textFieldCellDidReturn:(nonnull OTPTextFieldCell *)textFieldCell
@@ -153,8 +154,19 @@
         [self.accountNameCell.textField becomeFirstResponder];
     } else if (textFieldCell == self.accountNameCell) {
         [textFieldCell.textField resignFirstResponder];
-        [self updateToken];
+        [self formDidSubmit:self.form];
     }
+}
+
+
+#pragma mark - TokenEditFormDelegate
+
+- (void)formValuesDidChange:(nonnull TokenEditForm *)form {
+    [self validateForm];
+}
+
+- (void)formDidSubmit:(nonnull TokenEditForm *)form {
+    [self updateToken];
 }
 
 

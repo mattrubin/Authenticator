@@ -6,7 +6,15 @@
 //  Copyright (c) 2015 Matt Rubin. All rights reserved.
 //
 
+@objc
+protocol TokenEditFormDelegate: class {
+    func formValuesDidChange(form: TokenEditForm)
+    func formDidSubmit(form: TokenEditForm)
+}
+
 class TokenEditForm: NSObject, TableViewModel {
+    weak var delegate: TokenEditFormDelegate?
+
     var issuerCell: OTPTextFieldCell
     var accountNameCell: OTPTextFieldCell
 
