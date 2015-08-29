@@ -23,20 +23,20 @@
 //
 
 @objc
-enum OTPTokenTypeIndex: Int {
+enum OTPTokenTypeOption: Int {
     case Timer
     case Counter
 }
 
 @objc
-enum OTPTokenDigitsIndex: Int {
+enum OTPTokenDigitsOption: Int {
     case Six
     case Seven
     case Eight
 }
 
 @objc
-enum OTPTokenAlgorithmIndex: Int {
+enum OTPTokenAlgorithmOption: Int {
     case SHA1
     case SHA256
     case SHA512
@@ -44,28 +44,28 @@ enum OTPTokenAlgorithmIndex: Int {
 
 struct TokenTypeRowModel: SegmentedControlRowModel {
     let segments = [
-        (title: "Time Based", value: OTPTokenTypeIndex.Timer.rawValue),
-        (title: "Counter Based", value: OTPTokenTypeIndex.Counter.rawValue),
+        (title: "Time Based", value: OTPTokenTypeOption.Timer.rawValue),
+        (title: "Counter Based", value: OTPTokenTypeOption.Counter.rawValue),
     ]
-    let initialValue = OTPTokenTypeIndex.Timer.rawValue
+    let initialValue = OTPTokenTypeOption.Timer.rawValue
 }
 
 struct DigitCountRowModel: SegmentedControlRowModel {
     let segments = [
-        (title: "6 Digits", value: OTPTokenDigitsIndex.Six.rawValue),
-        (title: "7 Digits", value: OTPTokenDigitsIndex.Seven.rawValue),
-        (title: "8 Digits", value: OTPTokenDigitsIndex.Eight.rawValue),
+        (title: "6 Digits", value: OTPTokenDigitsOption.Six.rawValue),
+        (title: "7 Digits", value: OTPTokenDigitsOption.Seven.rawValue),
+        (title: "8 Digits", value: OTPTokenDigitsOption.Eight.rawValue),
     ]
-    let initialValue = OTPTokenDigitsIndex.Six.rawValue
+    let initialValue = OTPTokenDigitsOption.Six.rawValue
 }
 
 struct AlgorithmRowModel: SegmentedControlRowModel {
     let segments = [
-        (title: "SHA-1", value: OTPTokenAlgorithmIndex.SHA1.rawValue),
-        (title: "SHA-256", value: OTPTokenAlgorithmIndex.SHA256.rawValue),
-        (title: "SHA-512", value: OTPTokenAlgorithmIndex.SHA512.rawValue),
+        (title: "SHA-1", value: OTPTokenAlgorithmOption.SHA1.rawValue),
+        (title: "SHA-256", value: OTPTokenAlgorithmOption.SHA256.rawValue),
+        (title: "SHA-512", value: OTPTokenAlgorithmOption.SHA512.rawValue),
     ]
-    let initialValue = OTPTokenAlgorithmIndex.SHA1.rawValue
+    let initialValue = OTPTokenAlgorithmOption.SHA1.rawValue
 }
 
 extension OTPSegmentedControlCell {

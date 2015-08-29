@@ -87,31 +87,31 @@ typedef enum : NSUInteger {
 
     if (secret.length) {
         OTPToken *token = [OTPToken new];
-        token.type = (self.tokenTypeCell.value == OTPTokenTypeIndexTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
+        token.type = (self.tokenTypeCell.value == OTPTokenTypeOptionTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         token.secret = secret;
         token.name = self.accountNameCell.textField.text;
         token.issuer = self.issuerCell.textField.text;
 
         switch (self.digitCountCell.value) {
-            case OTPTokenDigitsIndexSix:
+            case OTPTokenDigitsOptionSix:
                 token.digits = 6;
                 break;
-            case OTPTokenDigitsIndexSeven:
+            case OTPTokenDigitsOptionSeven:
                 token.digits = 7;
                 break;
-            case OTPTokenDigitsIndexEight:
+            case OTPTokenDigitsOptionEight:
                 token.digits = 8;
                 break;
         }
 
         switch (self.algorithmCell.value) {
-            case OTPTokenAlgorithmIndexSHA1:
+            case OTPTokenAlgorithmOptionSHA1:
                 token.algorithm = OTPAlgorithmSHA1;
                 break;
-            case OTPTokenAlgorithmIndexSHA256:
+            case OTPTokenAlgorithmOptionSHA256:
                 token.algorithm = OTPAlgorithmSHA256;
                 break;
-            case OTPTokenAlgorithmIndexSHA512:
+            case OTPTokenAlgorithmOptionSHA512:
                 token.algorithm = OTPAlgorithmSHA512;
                 break;
         }
