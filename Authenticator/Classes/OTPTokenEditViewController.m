@@ -28,7 +28,7 @@
 
 @interface OTPTokenEditViewController () <OTPTextFieldCellDelegate>
 
-@property (nonatomic, strong) id<TableViewModel> tableViewModel;
+@property (nonatomic, strong) TokenEditForm *form;
 
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
@@ -90,17 +90,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.tableViewModel.numberOfSections;
+    return self.form.numberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.tableViewModel numberOfRowsInSection:section];
+    return [self.form numberOfRowsInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.tableViewModel cellForRowAtIndexPath:indexPath];
+    return [self.form cellForRowAtIndexPath:indexPath];
 }
 
 
@@ -114,12 +114,12 @@
 
 #pragma mark - Cells
 
-- (id<TableViewModel>)tableViewModel {
-    if (!_tableViewModel) {
-        _tableViewModel = [[TokenEditForm alloc] initWithIssuerCell:self.issuerCell
+- (TokenEditForm *)form {
+    if (!_form) {
+        _form = [[TokenEditForm alloc] initWithIssuerCell:self.issuerCell
                                                     accountNameCell:self.accountNameCell];
     }
-    return _tableViewModel;
+    return _form;
 }
 
 - (OTPTextFieldCell *)issuerCell
