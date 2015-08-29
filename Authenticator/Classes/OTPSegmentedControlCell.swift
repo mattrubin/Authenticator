@@ -30,6 +30,8 @@ protocol SegmentedControlRowModel {
 }
 
 class OTPSegmentedControlCell: UITableViewCell {
+    static let preferredHeight: CGFloat = 54
+
     private let segmentedControl = UISegmentedControl()
     private var values: [Int] = []
 

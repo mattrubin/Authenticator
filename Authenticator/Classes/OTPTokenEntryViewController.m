@@ -177,9 +177,9 @@ typedef enum : NSUInteger {
 {
     switch (indexPath.section) {
         case OTPTokenEntrySectionBasic:
-            return 74;
+            return [OTPTextFieldCell preferredHeight];
         case OTPTokenEntrySectionAdvanced:
-            return 54;
+            return [OTPSegmentedControlCell preferredHeight];
     }
     return 0;
 }
