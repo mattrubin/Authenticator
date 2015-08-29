@@ -15,8 +15,12 @@ protocol TokenEditFormDelegate: class {
 class TokenEditForm: NSObject, TableViewModel {
     weak var delegate: TokenEditFormDelegate?
 
-    var issuerCell: OTPTextFieldCell
-    var accountNameCell: OTPTextFieldCell
+    lazy var issuerCell: OTPTextFieldCell = {
+        return OTPTextFieldCell.issuerCellWithDelegate(self)
+    }()
+    lazy var accountNameCell: OTPTextFieldCell = {
+        OTPTextFieldCell.nameCellWithDelegate(self, returnKeyType: .Done)
+    }()
 
     var issuer: String? {
         get { return issuerCell.textField.text }
@@ -34,11 +38,6 @@ class TokenEditForm: NSObject, TableViewModel {
                 accountNameCell,
             ]
         ]
-    }
-
-    init(issuerCell: OTPTextFieldCell, accountNameCell: OTPTextFieldCell) {
-        self.issuerCell = issuerCell
-        self.accountNameCell = accountNameCell
     }
 
     func focusFirstField() {
@@ -67,5 +66,20 @@ class TokenEditForm: NSObject, TableViewModel {
     var isValid: Bool {
         return !issuerCell.textField.text.isEmpty ||
             !accountNameCell.textField.text.isEmpty
+    }
+}
+
+extension TokenEditForm: OTPTextFieldCellDelegate {
+    func textFieldCellDidChange(textFieldCell: OTPTextFieldCell) {
+        delegate?.formValuesDidChange(self)
+    }
+
+    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
+        if textFieldCell == issuerCell {
+            accountNameCell.textField.becomeFirstResponder()
+        } else if textFieldCell == accountNameCell {
+            accountNameCell.textField.resignFirstResponder()
+            delegate?.formDidSubmit(self)
+        }
     }
 }

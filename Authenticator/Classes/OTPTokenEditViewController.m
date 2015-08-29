@@ -26,12 +26,9 @@
 @import OneTimePasswordLegacy;
 
 
-@interface OTPTokenEditViewController () <OTPTextFieldCellDelegate, TokenEditFormDelegate>
+@interface OTPTokenEditViewController () <TokenEditFormDelegate>
 
 @property (nonatomic, strong) TokenEditForm *form;
-
-@property (nonatomic, strong) OTPTextFieldCell *issuerCell;
-@property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 
 @end
 
@@ -116,46 +113,10 @@
 
 - (TokenEditForm *)form {
     if (!_form) {
-        _form = [[TokenEditForm alloc] initWithIssuerCell:self.issuerCell
-                                          accountNameCell:self.accountNameCell];
+        _form = [[TokenEditForm alloc] init];
         _form.delegate = self;
     }
     return _form;
-}
-
-- (OTPTextFieldCell *)issuerCell
-{
-    if (!_issuerCell) {
-        _issuerCell = [OTPTextFieldCell issuerCellWithDelegate:self];
-    }
-    return _issuerCell;
-}
-
-- (OTPTextFieldCell *)accountNameCell
-{
-    if (!_accountNameCell) {
-        _accountNameCell = [OTPTextFieldCell nameCellWithDelegate:self
-                                                    returnKeyType:UIReturnKeyDone];
-    }
-    return _accountNameCell;
-}
-
-
-#pragma mark - OTPTextFieldCellDelegate
-
-- (void)textFieldCellDidChange:(nonnull OTPTextFieldCell *)textFieldCell
-{
-    [self formValuesDidChange:self.form];
-}
-
-- (void)textFieldCellDidReturn:(nonnull OTPTextFieldCell *)textFieldCell
-{
-    if (textFieldCell == self.issuerCell) {
-        [self.accountNameCell.textField becomeFirstResponder];
-    } else if (textFieldCell == self.accountNameCell) {
-        [textFieldCell.textField resignFirstResponder];
-        [self formDidSubmit:self.form];
-    }
 }
 
 
