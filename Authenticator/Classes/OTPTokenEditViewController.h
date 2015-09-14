@@ -23,19 +23,9 @@
 //
 
 #import "OTPTokenFormViewController.h"
-@class OTPToken;
-
-
-@protocol OTPTokenEditorDelegate
-
-- (void)tokenEditor:(id)tokenEditor didEditToken:(OTPToken *)token;
-
-@end
 
 
 @interface OTPTokenEditViewController : OTPTokenFormViewController
-
-@property (nonatomic, weak) id <OTPTokenEditorDelegate> delegate;
 
 // FIXME: The actual parameter type should be id<TokenForm>, but that causes problems with
 // references to Swift typesin a header that is bridged to Swift before the Swift is compiled...

@@ -193,9 +193,9 @@ extension OTPTokenListViewController: UITableViewDelegate {
         if self.editing {
             let token = self.tokenManager.tokenAtIndexPath(indexPath)
             let form = TokenEditForm(token: token)
-            let editController = OTPTokenEditViewController(form: form)
-            editController.delegate = self
+            form.delegate = self
 
+            let editController = OTPTokenEditViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
             navController.navigationBar.translucent = false
 
@@ -211,9 +211,9 @@ extension OTPTokenListViewController: UITableViewDelegate {
 
 }
 
-extension OTPTokenListViewController: OTPTokenEditorDelegate {
+extension OTPTokenListViewController: TokenEditFormDelegate {
 
-    func tokenEditor(tokenEditor: AnyObject, didEditToken token: OTPToken) {
+    func form(form: TokenEditForm, didEditToken token: OTPToken) {
         self.dismissViewControllerAnimated(true, completion: nil)
         self.tableView.reloadData()
     }

@@ -8,8 +8,13 @@
 
 import OneTimePasswordLegacy
 
+protocol TokenEditFormDelegate: class {
+    func form(form: TokenEditForm, didEditToken token: OTPToken)
+}
+
 class TokenEditForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
+    weak var delegate: TokenEditFormDelegate?
 
     private lazy var issuerCell: OTPTextFieldCell = {
         OTPTextFieldCell.issuerCellWithDelegate(self)
@@ -84,6 +89,7 @@ class TokenEditForm: NSObject, TokenForm {
                 self.token.saveToKeychain()
         }
 
+        delegate?.form(self, didEditToken: token)
         presenter?.formDidSubmit(self)
     }
 }

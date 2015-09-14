@@ -38,14 +38,5 @@
     }
     return self;
 }
-#pragma mark - Target Actions
-
-- (void)formDidSubmit
-{
-    // FIXME: remove the need for this typecast
-    TokenEditForm *form = (TokenEditForm *)self.form;
-    [self.delegate tokenEditor:self didEditToken:form.token];
-    [super formDidSubmit];
-}
 
 @end
