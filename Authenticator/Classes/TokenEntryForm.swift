@@ -6,37 +6,76 @@
 //  Copyright (c) 2015 Matt Rubin. All rights reserved.
 //
 
+import OneTimePasswordLegacy
+
 // TODO: Segmented control cell changes don't call formValuesDidChange on the delegate
 
 class TokenEntryForm: NSObject, TokenForm {
     weak var delegate: TokenFormDelegate?
 
-    lazy var issuerCell: OTPTextFieldCell = {
+    private lazy var issuerCell: OTPTextFieldCell = {
         OTPTextFieldCell.issuerCellWithDelegate(self)
     }()
-    lazy var accountNameCell: OTPTextFieldCell = {
+    private lazy var accountNameCell: OTPTextFieldCell = {
         OTPTextFieldCell.nameCellWithDelegate(self, returnKeyType: .Next)
     }()
-    lazy var secretKeyCell: OTPTextFieldCell = {
+    private lazy var secretKeyCell: OTPTextFieldCell = {
         OTPTextFieldCell.secretCellWithDelegate(self)
     }()
-    lazy var tokenTypeCell: OTPSegmentedControlCell = {
+    private lazy var tokenTypeCell: OTPSegmentedControlCell = {
         OTPSegmentedControlCell.tokenTypeCell()
     }()
-    lazy var digitCountCell: OTPSegmentedControlCell = {
+    private lazy var digitCountCell: OTPSegmentedControlCell = {
         OTPSegmentedControlCell.digitCountCell()
     }()
-    lazy var algorithmCell: OTPSegmentedControlCell = {
+    private lazy var algorithmCell: OTPSegmentedControlCell = {
         OTPSegmentedControlCell.algorithmCell()
     }()
 
     var showsAdvancedOptions = false
 
-    var cells: [[UITableViewCell]] {
+    private var cells: [[UITableViewCell]] {
         return [
             [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
             showsAdvancedOptions ? [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ] : [],
         ]
+    }
+
+    var issuer: String? {
+        return issuerCell.textField.text
+    }
+    var accountName: String? {
+        return accountNameCell.textField.text
+    }
+    var secretKey: String? {
+        return secretKeyCell.textField.text
+    }
+    var tokenType: OTPTokenType {
+        return (tokenTypeCell.value == OTPTokenTypeOption.Timer.rawValue) ? .Timer : .Counter
+    }
+    var digitCount: UInt {
+        switch digitCountCell.value {
+        case OTPTokenDigitsOption.Six.rawValue:
+            return 6
+        case OTPTokenDigitsOption.Seven.rawValue:
+            return 7
+        case OTPTokenDigitsOption.Eight.rawValue:
+            return 8
+        default:
+            return 6 // FIXME: this should never need a default
+        }
+    }
+    var algorithm: OTPAlgorithm {
+        switch algorithmCell.value {
+        case OTPTokenAlgorithmOption.SHA1.rawValue:
+            return .SHA1
+        case OTPTokenAlgorithmOption.SHA256.rawValue:
+            return .SHA256
+        case OTPTokenAlgorithmOption.SHA512.rawValue:
+            return .SHA512
+        default:
+            return .SHA1 // FIXME: this should never need a default
+        }
     }
 
     let title = "Add Token"

@@ -66,38 +66,16 @@ typedef enum : NSUInteger {
 {
     if (!self.form.isValid) return;
 
-    NSData *secret = [NSData dataWithBase32String:self.form.secretKeyCell.textField.text];
+    NSData *secret = [NSData dataWithBase32String:self.form.secretKey];
 
     if (secret.length) {
         OTPToken *token = [OTPToken new];
-        token.type = (self.form.tokenTypeCell.value == OTPTokenTypeOptionTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
+        token.type = self.form.tokenType;
         token.secret = secret;
-        token.name = self.form.accountNameCell.textField.text;
-        token.issuer = self.form.issuerCell.textField.text;
-
-        switch (self.form.digitCountCell.value) {
-            case OTPTokenDigitsOptionSix:
-                token.digits = 6;
-                break;
-            case OTPTokenDigitsOptionSeven:
-                token.digits = 7;
-                break;
-            case OTPTokenDigitsOptionEight:
-                token.digits = 8;
-                break;
-        }
-
-        switch (self.form.algorithmCell.value) {
-            case OTPTokenAlgorithmOptionSHA1:
-                token.algorithm = OTPAlgorithmSHA1;
-                break;
-            case OTPTokenAlgorithmOptionSHA256:
-                token.algorithm = OTPAlgorithmSHA256;
-                break;
-            case OTPTokenAlgorithmOptionSHA512:
-                token.algorithm = OTPAlgorithmSHA512;
-                break;
-        }
+        token.name = self.form.accountName;
+        token.issuer = self.form.issuer;
+        token.digits = self.form.digitCount;
+        token.algorithm = self.form.algorithm;
 
         if (token.password) {
             id <OTPTokenSourceDelegate> delegate = self.delegate;

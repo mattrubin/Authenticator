@@ -26,7 +26,7 @@ class TokenEditForm: NSObject, TokenForm {
         set { accountNameCell.textField.text = newValue }
     }
 
-    var cells: [[UITableViewCell]] {
+    private var cells: [[UITableViewCell]] {
         return [
             [
                 issuerCell,
