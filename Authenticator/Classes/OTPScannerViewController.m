@@ -92,8 +92,7 @@
 
 - (void)addTokenManually
 {
-    TokenEntryForm *form = [[TokenEntryForm alloc] init];
-    form.delegate = self;
+    TokenEntryForm *form = [[TokenEntryForm alloc] initWithDelegate:self];
     OTPTokenFormViewController *entryController = [[OTPTokenFormViewController alloc] initWithForm:form];
     [self.navigationController pushViewController:entryController animated:YES];
 }

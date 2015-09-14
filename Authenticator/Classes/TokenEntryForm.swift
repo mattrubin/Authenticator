@@ -17,7 +17,7 @@ protocol TokenEntryFormDelegate: class {
 
 class TokenEntryForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
-    weak var delegate: TokenEntryFormDelegate?
+    private weak var delegate: TokenEntryFormDelegate?
 
     private lazy var issuerCell: OTPTextFieldCell = {
         OTPTextFieldCell.issuerCellWithDelegate(self)
@@ -45,6 +45,10 @@ class TokenEntryForm: NSObject, TokenForm {
     }()
 
     var showsAdvancedOptions = false
+
+    init(delegate: TokenEntryFormDelegate) {
+        self.delegate = delegate
+    }
 
     private var cells: [[UITableViewCell]] {
         return [

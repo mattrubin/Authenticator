@@ -127,8 +127,7 @@ class OTPTokenListViewController: UITableViewController {
             scanner.delegate = self
             entryController = scanner
         } else {
-            let form = TokenEntryForm()
-            form.delegate = self;
+            let form = TokenEntryForm(delegate: self)
             let formController = OTPTokenFormViewController(form: form)
             entryController = formController
         }
