@@ -90,7 +90,7 @@ class TokenEditForm: NSObject, TokenForm {
         }
 
         delegate?.form(self, didEditToken: token)
-        presenter?.formDidSubmit(self)
+        presenter?.form(self, didSubmitToken: token)
     }
 }
 

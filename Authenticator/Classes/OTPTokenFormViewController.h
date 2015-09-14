@@ -23,6 +23,7 @@
 //
 
 @import UIKit;
+@class OTPToken;
 
 
 @interface OTPTokenFormViewController : UITableViewController
@@ -32,6 +33,6 @@
 - (instancetype)initWithForm:(id)form;
 
 // Override in subclass
-- (void)formDidSubmit;
+- (void)formDidSubmitToken:(OTPToken *)token;
 
 @end

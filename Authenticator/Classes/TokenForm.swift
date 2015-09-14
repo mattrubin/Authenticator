@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Matt Rubin. All rights reserved.
 //
 
+import OneTimePasswordLegacy
+
 @objc
 protocol TokenForm: TableViewModel {
     weak var presenter: TokenFormPresenter? { get set }
@@ -22,6 +24,6 @@ protocol TokenForm: TableViewModel {
 @objc
 protocol TokenFormPresenter: class {
     func formValuesDidChange(form: TokenForm)
-    func formDidSubmit(form: TokenForm)
+    func form(form: TokenForm, didSubmitToken token: OTPToken)
     func form(form: TokenForm, didFailWithErrorMessage errorMessage: String)
 }

@@ -57,36 +57,10 @@ typedef enum : NSUInteger {
 
 #pragma mark - Target Actions
 
-- (void)formDidSubmit
+- (void)formDidSubmitToken:(OTPToken *)token
 {
-    [self createToken];
-    [super formDidSubmit];
-}
-
-- (void)createToken
-{
-    if (!self.form.isValid) return;
-
-    NSData *secret = [NSData dataWithBase32String:self.form.secretKey];
-
-    if (secret.length) {
-        OTPToken *token = [OTPToken new];
-        token.type = self.form.tokenType;
-        token.secret = secret;
-        token.name = self.form.accountName;
-        token.issuer = self.form.issuer;
-        token.digits = self.form.digitCount;
-        token.algorithm = self.form.algorithm;
-
-        if (token.password) {
-            id <OTPTokenSourceDelegate> delegate = self.delegate;
-            [delegate tokenSource:self didCreateToken:token];
-            return;
-        }
-    }
-
-    // If the method hasn't returned by this point, token creation failed
-    [self form:self.form didFailWithErrorMessage:@"Invalid Token"];
+    [self.delegate tokenSource:self didCreateToken:token];
+    [super formDidSubmitToken:token];
 }
 
 

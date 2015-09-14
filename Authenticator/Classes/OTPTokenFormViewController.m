@@ -161,9 +161,9 @@
     [self validateForm];
 }
 
-- (void)formDidSubmit:(nonnull id<TokenForm>)form
+- (void)form:(nonnull id<TokenForm>)form didSubmitToken:(nonnull OTPToken *)token
 {
-    [self formDidSubmit];
+    [self formDidSubmitToken:token];
 }
 
 - (void)form:(nonnull id<TokenForm>)form didFailWithErrorMessage:(nonnull NSString *)errorMessage
@@ -172,7 +172,7 @@
 }
 
 
-- (void)formDidSubmit
+- (void)formDidSubmitToken:(nonnull OTPToken *)token
 {
     // Override in subclass
 }

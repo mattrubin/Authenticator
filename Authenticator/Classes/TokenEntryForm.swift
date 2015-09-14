@@ -41,11 +41,11 @@ class TokenEntryForm: NSObject, TokenForm {
         ]
     }
 
-    var issuer: String? {
-        return issuerCell.textField.text
+    var issuer: String {
+        return issuerCell.textField.text ?? ""
     }
-    var accountName: String? {
-        return accountNameCell.textField.text
+    var accountName: String {
+        return accountNameCell.textField.text ?? ""
     }
     var secretKey: String? {
         return secretKeyCell.textField.text
@@ -115,8 +115,27 @@ class TokenEntryForm: NSObject, TokenForm {
     }
 
     func submit() {
-        // Do something
-        presenter?.formDidSubmit(self)
+        if !isValid { return }
+
+        if let secret = NSData(base32String: secretKey) {
+            if secret.length > 0 {
+                let token = OTPToken()
+                token.type = tokenType;
+                token.secret = secret;
+                token.name = accountName;
+                token.issuer = issuer;
+                token.digits = digitCount;
+                token.algorithm = algorithm;
+
+                if token.password != nil {
+                    presenter?.form(self, didSubmitToken: token)
+                    return
+                }
+            }
+        }
+
+        // If the method hasn't returned by this point, token creation failed
+        presenter?.form(self, didFailWithErrorMessage: "Invalid Token")
     }
 }
 
