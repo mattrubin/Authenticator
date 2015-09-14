@@ -37,7 +37,7 @@ typedef enum : NSUInteger {
 @interface OTPTokenEntryViewController ()
     <OTPTextFieldCellDelegate>
 
-@property (nonatomic, strong) id<TableViewModel> tableViewModel;
+@property (nonatomic, strong) TokenEntryForm *form;
 
 @property (nonatomic, strong) OTPTextFieldCell *issuerCell;
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
@@ -120,17 +120,17 @@ typedef enum : NSUInteger {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.tableViewModel.numberOfSections;
+    return self.form.numberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.tableViewModel numberOfRowsInSection:section];
+    return [self.form numberOfRowsInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.tableViewModel cellForRowAtIndexPath:indexPath];
+    return [self.form cellForRowAtIndexPath:indexPath];
 }
 
 
@@ -150,15 +150,15 @@ typedef enum : NSUInteger {
 
 #pragma mark - Cells
 
-- (id<TableViewModel>)tableViewModel {
-    if (!_tableViewModel) {
+- (TokenEntryForm *)form {
+    if (!_form) {
         NSArray *cells = @[
                            @[ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
                            self.showsAdvancedOptions ? @[ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ] : @[],
                            ];
-        _tableViewModel = [[BasicTableViewModel alloc] initWithCells:cells];
+        _form = [[TokenEntryForm alloc] initWithCells:cells];
     }
-    return _tableViewModel;
+    return _form;
 }
 
 - (OTPSegmentedControlCell *)tokenTypeCell
@@ -239,9 +239,9 @@ typedef enum : NSUInteger {
 {
     if (!self.showsAdvancedOptions) {
         self.showsAdvancedOptions = YES;
-        self.tableViewModel = nil; // Reset the table view model
+        self.form = nil; // Rebuild the form
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:OTPTokenEntrySectionAdvanced] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([self.tableViewModel numberOfRowsInSection:OTPTokenEntrySectionAdvanced] - 1)
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([self.form numberOfRowsInSection:OTPTokenEntrySectionAdvanced] - 1)
                                                                   inSection:OTPTokenEntrySectionAdvanced]
                               atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
