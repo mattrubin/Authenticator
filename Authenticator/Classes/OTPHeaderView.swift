@@ -8,7 +8,13 @@
 
 import UIKit
 
+@objc
+protocol OTPHeaderViewDelegate: class {
+    func headerViewButtonWasPressed(headerView: OTPHeaderView)
+}
+
 class OTPHeaderView: UIButton {
+    weak var delegate: OTPHeaderViewDelegate?
 
     // MARK: - Init
 
@@ -28,11 +34,19 @@ class OTPHeaderView: UIButton {
         titleLabel?.textAlignment = .Center
         titleLabel?.textColor = UIColor.otpForegroundColor
         titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 16)
+
+        addTarget(self, action: Selector("buttonWasPressed"), forControlEvents: .TouchUpInside)
     }
 
     // MARK: - Update
 
     func updateWithTitle(title: String) {
         setTitle("Advanced Options", forState: .Normal)
+    }
+
+    // MARK: - Target Action
+
+    func buttonWasPressed() {
+        delegate?.headerViewButtonWasPressed(self)
     }
 }

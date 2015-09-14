@@ -36,6 +36,7 @@ typedef enum : NSUInteger {
 
 
 @interface OTPTokenEntryViewController ()
+    <OTPHeaderViewDelegate>
 
 @property (nonatomic, strong) TokenEntryForm *form;
 
@@ -62,7 +63,7 @@ typedef enum : NSUInteger {
     if (section == OTPTokenEntrySectionAdvanced) {
         OTPHeaderView *headerView = [OTPHeaderView new];
         [headerView updateWithTitle:@"Advanced Options"];
-        [headerView addTarget:self action:@selector(revealAdvancedOptions) forControlEvents:UIControlEventTouchUpInside];
+        headerView.delegate = self;
         return headerView;
     }
     return nil;
@@ -77,6 +78,13 @@ typedef enum : NSUInteger {
                                                                   inSection:OTPTokenEntrySectionAdvanced]
                               atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
+}
+
+#pragma mark - OTPHeaderViewDelegate
+
+- (void)headerViewButtonWasPressed:(nonnull OTPHeaderView *)headerView
+{
+    [self revealAdvancedOptions];
 }
 
 @end
