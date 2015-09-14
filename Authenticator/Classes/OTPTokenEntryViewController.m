@@ -29,7 +29,6 @@
 
 
 @interface OTPTokenEntryViewController ()
-    <OTPHeaderViewDelegate>
 
 @property (nonatomic, strong) TokenEntryForm *form;
 
@@ -39,41 +38,5 @@
 @implementation OTPTokenEntryViewController
 
 @synthesize form = _form;
-
-
-#pragma mark - UITableViewDelegate
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    // FIXME: Remove this typecast
-    OTPHeaderView *headerView = (OTPHeaderView *)[self.form viewForHeaderInSection:section];
-    headerView.delegate = self;
-    return headerView;
-}
-
-- (void)revealAdvancedOptions
-{
-    if (!self.form.showsAdvancedOptions) {
-        self.form.showsAdvancedOptions = YES;
-        // TODO: Don't hard-code this index
-        [self reloadSection:1];
-    }
-}
-
-- (void)reloadSection:(NSInteger)section
-{
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section]
-                  withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]
-                          atScrollPosition:UITableViewScrollPositionTop
-                                  animated:YES];
-}
-
-#pragma mark - OTPHeaderViewDelegate
-
-- (void)headerViewButtonWasPressed:(nonnull OTPHeaderView *)headerView
-{
-    [self revealAdvancedOptions];
-}
 
 @end

@@ -40,6 +40,7 @@ class TokenEntryForm: NSObject, TokenForm {
     private lazy var advancedSectionHeaderView: OTPHeaderView = {
         let headerView = OTPHeaderView()
         headerView.updateWithTitle("Advanced Options")
+        headerView.delegate = self
         return headerView
     }()
 
@@ -171,6 +172,16 @@ extension TokenEntryForm: OTPTextFieldCellDelegate {
         } else if textFieldCell == secretKeyCell {
             secretKeyCell.textField.resignFirstResponder()
             submit()
+        }
+    }
+}
+
+extension TokenEntryForm: OTPHeaderViewDelegate {
+    func headerViewButtonWasPressed(headerView: OTPHeaderView) {
+        if (!showsAdvancedOptions) {
+            showsAdvancedOptions = true
+            // TODO: Don't hard-code this index
+            presenter?.form(self, didReloadSection: 1)
         }
     }
 }

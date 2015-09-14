@@ -149,6 +149,11 @@
     return FLT_EPSILON;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [self.form viewForHeaderInSection:section];
+}
+
 
 #pragma mark - Validation
 
@@ -168,6 +173,15 @@
 - (void)form:(nonnull id<TokenForm>)form didFailWithErrorMessage:(nonnull NSString *)errorMessage
 {
     [SVProgressHUD showErrorWithStatus:errorMessage];
+}
+
+- (void)form:(nonnull id<TokenForm>)form didReloadSection:(NSInteger)section
+{
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section]
+                  withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
 }
 
 @end
