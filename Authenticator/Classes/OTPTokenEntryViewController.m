@@ -28,13 +28,6 @@
 @import Base32;
 
 
-typedef enum : NSUInteger {
-    OTPTokenEntrySectionBasic,
-    OTPTokenEntrySectionAdvanced,
-    OTPNumberOfTokenEntrySections,
-} OTPTokenEntrySection;
-
-
 @interface OTPTokenEntryViewController ()
     <OTPHeaderViewDelegate>
 
@@ -62,11 +55,18 @@ typedef enum : NSUInteger {
 {
     if (!self.form.showsAdvancedOptions) {
         self.form.showsAdvancedOptions = YES;
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:OTPTokenEntrySectionAdvanced] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([self.form numberOfRowsInSection:OTPTokenEntrySectionAdvanced] - 1)
-                                                                  inSection:OTPTokenEntrySectionAdvanced]
-                              atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        // TODO: Don't hard-code this index
+        [self reloadSection:1];
     }
+}
+
+- (void)reloadSection:(NSInteger)section
+{
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section]
+                  withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
 }
 
 #pragma mark - OTPHeaderViewDelegate
