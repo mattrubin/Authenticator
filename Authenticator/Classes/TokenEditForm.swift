@@ -73,7 +73,9 @@ class TokenEditForm: NSObject, TokenForm {
     }
 
     func viewForHeaderInSection(section: Int) -> UIView? {
-        return nil
+        if section < sections.startIndex { return nil }
+        if section >= sections.endIndex { return nil }
+        return sections[section].header
     }
 
     var isValid: Bool {

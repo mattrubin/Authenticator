@@ -53,7 +53,9 @@ class TokenEntryForm: NSObject, TokenForm {
     private var sections: [Section] {
         return [
             [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
-            showsAdvancedOptions ? [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ] : [],
+            showsAdvancedOptions
+                ? Section(header: advancedSectionHeaderView, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
+                : Section(header: advancedSectionHeaderView),
         ]
     }
 
@@ -116,11 +118,9 @@ class TokenEntryForm: NSObject, TokenForm {
     }
 
     func viewForHeaderInSection(section: Int) -> UIView? {
-        // TODO: Don't hard-code this index
-        if (section == 1) {
-            return advancedSectionHeaderView
-        }
-        return nil
+        if section < sections.startIndex { return nil }
+        if section >= sections.endIndex { return nil }
+        return sections[section].header
     }
 
     func focusFirstField() {

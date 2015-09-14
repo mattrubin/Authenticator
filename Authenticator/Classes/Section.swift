@@ -9,12 +9,20 @@
 import UIKit
 
 struct Section {
+    typealias Header = UIView
     typealias Row = UITableViewCell
+
+    let header: Header?
     let rows: [Row]
+
+    init(header: Header? = nil, rows: [Row] = []) {
+        self.header = header
+        self.rows = rows
+    }
 }
 
 extension Section: ArrayLiteralConvertible {
     init(arrayLiteral elements: Row...) {
-        rows = elements
+        self.init(rows: elements)
     }
 }
