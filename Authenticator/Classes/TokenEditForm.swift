@@ -36,7 +36,12 @@ class TokenEditForm: NSObject, TokenForm {
     }
 
     func focusFirstField() {
-        self.issuerCell.textField.becomeFirstResponder()
+        issuerCell.textField.becomeFirstResponder()
+    }
+
+    func unfocus() {
+        issuerCell.textField.resignFirstResponder()
+        accountNameCell.textField.resignFirstResponder()
     }
 
     var numberOfSections: Int {

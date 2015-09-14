@@ -47,6 +47,12 @@
     [self.form focusFirstField];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.form unfocus];
+}
+
 
 #pragma mark - Target Actions
 

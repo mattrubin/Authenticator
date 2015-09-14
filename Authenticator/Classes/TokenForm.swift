@@ -11,6 +11,7 @@ protocol TokenForm: TableViewModel {
     weak var delegate: TokenFormDelegate? { get set }
 
     func focusFirstField()
+    func unfocus()
 
     var isValid: Bool { get }
 }
