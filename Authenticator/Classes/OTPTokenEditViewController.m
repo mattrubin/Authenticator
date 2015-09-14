@@ -43,7 +43,7 @@
 
 - (void)formDidSubmit
 {
-    [self updateToken];
+    [self.delegate tokenEditor:self didEditToken:self.token];
     [super formDidSubmit];
 }
 
@@ -62,21 +62,6 @@
     if (self.isViewLoaded) {
         [self.tableView reloadData];
     }
-}
-
-- (void)updateToken
-{
-    if (!self.form.isValid) return;
-
-    if (![self.token.name isEqualToString:self.form.accountName] ||
-        ![self.token.issuer isEqualToString:self.form.issuer]) {
-        self.token.name = self.form.accountName;
-        self.token.issuer = self.form.issuer;
-        [self.token saveToKeychain];
-    }
-
-    id <OTPTokenEditorDelegate> delegate = self.delegate;
-    [delegate tokenEditor:self didEditToken:self.token];
 }
 
 @end

@@ -18,13 +18,6 @@ class TokenEditForm: NSObject, TokenForm {
         OTPTextFieldCell.nameCellWithDelegate(self, returnKeyType: .Done)
     }()
 
-    var issuer: String? {
-        return issuerCell.textField.text
-    }
-    var accountName: String? {
-        return accountNameCell.textField.text
-    }
-
     private var cells: [[UITableViewCell]] {
         return [
             [
@@ -79,7 +72,18 @@ class TokenEditForm: NSObject, TokenForm {
     }
 
     func submit() {
-        // Do something
+        if (!isValid) { return }
+
+        let issuer = issuerCell.textField.text ?? ""
+        let accountName = accountNameCell.textField.text ?? ""
+
+        if (token.name != accountName ||
+            token.issuer != issuer) {
+                self.token.name = accountName
+                self.token.issuer = issuer
+                self.token.saveToKeychain()
+        }
+
         delegate?.formDidSubmit(self)
     }
 }
