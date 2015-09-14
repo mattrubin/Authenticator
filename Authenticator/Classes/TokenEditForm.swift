@@ -35,6 +35,8 @@ class TokenEditForm: NSObject, TokenForm {
         ]
     }
 
+    let title = "Edit Token"
+
     func focusFirstField() {
         issuerCell.textField.becomeFirstResponder()
     }

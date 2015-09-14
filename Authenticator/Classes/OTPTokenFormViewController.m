@@ -40,6 +40,8 @@
     return [super initWithStyle:UITableViewStyleGrouped];
 }
 
+#pragma mark - View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -48,6 +50,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     // Set up top bar
+    self.title = self.form.title;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction)];
     self.doneButtonItem = self.navigationItem.rightBarButtonItem;
@@ -57,6 +60,18 @@
 {
     [super viewWillAppear:animated];
     [self validateForm];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.form focusFirstField];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.form unfocus];
 }
 
 

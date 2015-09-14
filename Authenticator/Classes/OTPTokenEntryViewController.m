@@ -55,15 +55,6 @@ typedef enum : NSUInteger {
 }
 
 
-#pragma mark - View Lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.title = @"Add Token";
-}
-
-
 #pragma mark - Target Actions
 
 - (void)doneAction

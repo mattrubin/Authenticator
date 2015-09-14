@@ -47,27 +47,6 @@
 }
 
 
-#pragma mark - View Lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.title = @"Edit Token";
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self.form focusFirstField];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.form unfocus];
-}
-
-
 #pragma mark - Target Actions
 
 - (void)doneAction

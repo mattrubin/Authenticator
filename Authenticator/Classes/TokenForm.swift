@@ -10,6 +10,8 @@
 protocol TokenForm: TableViewModel {
     weak var delegate: TokenFormDelegate? { get set }
 
+    var title: String { get }
+
     func focusFirstField()
     func unfocus()
 

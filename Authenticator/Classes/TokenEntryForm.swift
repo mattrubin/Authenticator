@@ -39,6 +39,8 @@ class TokenEntryForm: NSObject, TokenForm {
         ]
     }
 
+    let title = "Add Token"
+
     var numberOfSections: Int {
         return cells.count
     }
