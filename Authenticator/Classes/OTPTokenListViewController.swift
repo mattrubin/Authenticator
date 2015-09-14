@@ -195,7 +195,7 @@ extension OTPTokenListViewController: UITableViewDelegate {
             let form = TokenEditForm(token: token)
             form.delegate = self
 
-            let editController = OTPTokenEditViewController(form: form)
+            let editController = OTPTokenFormViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
             navController.navigationBar.translucent = false
 

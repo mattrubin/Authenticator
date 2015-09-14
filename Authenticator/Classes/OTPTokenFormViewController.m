@@ -40,6 +40,17 @@
     return [super initWithStyle:UITableViewStyleGrouped];
 }
 
+- (instancetype)initWithForm:(id<TokenForm>)form
+{
+    self = [self init];
+    if (self) {
+        self.form = form;
+        self.form.presenter = self;
+    }
+    return self;
+}
+
+
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad

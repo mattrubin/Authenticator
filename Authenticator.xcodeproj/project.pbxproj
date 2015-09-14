@@ -17,7 +17,6 @@
 		C944A5551A7ECA7700E08B1E /* OneTimePasswordLegacy.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5541A7ECA7700E08B1E /* OneTimePasswordLegacy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C9777A021908064500B4A7F5 /* OTPTokenEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9777A011908064500B4A7F5 /* OTPTokenEditViewController.m */; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
 		C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */; };
 		C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */; };
@@ -98,8 +97,6 @@
 		C959A63C190A69120042DEC0 /* Icon.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Icon.svg; sourceTree = "<group>"; };
 		C959A63E190A69E60042DEC0 /* GenerateIcons.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = GenerateIcons.sh; sourceTree = "<group>"; };
 		C9776E3318518801003D53CB /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		C9777A001908064500B4A7F5 /* OTPTokenEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenEditViewController.h; sourceTree = "<group>"; };
-		C9777A011908064500B4A7F5 /* OTPTokenEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenEditViewController.m; sourceTree = "<group>"; };
 		C97B68C617D9226D005D1FE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthenticatorTests.m; sourceTree = "<group>"; };
 		C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRowModel.swift; sourceTree = "<group>"; };
@@ -303,8 +300,6 @@
 				C9078D121AB6AE7F0068A11D /* OTPTokenFormViewController.m */,
 				C99069D2180E07A100BAEF53 /* OTPTokenEntryViewController.h */,
 				C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */,
-				C9777A001908064500B4A7F5 /* OTPTokenEditViewController.h */,
-				C9777A011908064500B4A7F5 /* OTPTokenEditViewController.m */,
 				C9AAB07C1B917839000CE547 /* TableViewModel.swift */,
 				C9AAB0801B9187F8000CE547 /* TokenForm.swift */,
 				C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */,
@@ -540,7 +535,6 @@
 				C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */,
 				C92708AC19CFB0750033128B /* OTPTokenListViewController.swift in Sources */,
 				C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */,
-				C9777A021908064500B4A7F5 /* OTPTokenEditViewController.m in Sources */,
 				C9AAB07D1B917839000CE547 /* TableViewModel.swift in Sources */,
 				C9919CDD1BA64EED006237C1 /* TokenEntryForm.swift in Sources */,
 				C9078D181AB7E90A0068A11D /* OTPTextFieldCell+TokenForm.swift in Sources */,
