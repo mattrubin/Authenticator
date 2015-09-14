@@ -46,15 +46,6 @@ typedef enum : NSUInteger {
 
 @synthesize form = _form;
 
-- (TokenEntryForm *)form {
-    if (!_form) {
-        _form = [[TokenEntryForm alloc] init];
-        _form.presenter = self;
-    }
-    return _form;
-}
-
-
 #pragma mark - Target Actions
 
 - (void)formDidSubmitToken:(OTPToken *)token

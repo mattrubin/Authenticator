@@ -127,9 +127,10 @@ class OTPTokenListViewController: UITableViewController {
             scanner.delegate = self
             entryController = scanner
         } else {
-            let form = OTPTokenEntryViewController()
-            form.delegate = self;
-            entryController = form
+            let form = TokenEntryForm()
+            let formController = OTPTokenEntryViewController(form: form)
+            formController.delegate = self;
+            entryController = formController
         }
         let navController = UINavigationController(rootViewController: entryController)
         navController.navigationBar.translucent = false
