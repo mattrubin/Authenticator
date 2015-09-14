@@ -57,9 +57,10 @@ typedef enum : NSUInteger {
 
 #pragma mark - Target Actions
 
-- (void)doneAction
+- (void)formDidSubmit
 {
     [self createToken];
+    [super formDidSubmit];
 }
 
 - (void)createToken

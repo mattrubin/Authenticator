@@ -41,9 +41,10 @@
 
 #pragma mark - Target Actions
 
-- (void)doneAction
+- (void)formDidSubmit
 {
     [self updateToken];
+    [super formDidSubmit];
 }
 
 

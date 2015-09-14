@@ -113,6 +113,11 @@ class TokenEntryForm: NSObject, TokenForm {
         return !self.secretKeyCell.textField.text.isEmpty &&
             !(self.issuerCell.textField.text.isEmpty && self.accountNameCell.textField.text.isEmpty)
     }
+
+    func submit() {
+        // Do something
+        delegate?.formDidSubmit(self)
+    }
 }
 
 extension TokenEntryForm: OTPTextFieldCellDelegate {
@@ -127,7 +132,7 @@ extension TokenEntryForm: OTPTextFieldCellDelegate {
             secretKeyCell.textField.becomeFirstResponder()
         } else if textFieldCell == secretKeyCell {
             secretKeyCell.textField.resignFirstResponder()
-            delegate?.formDidSubmit(self)
+            submit()
         }
     }
 }

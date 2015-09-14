@@ -16,6 +16,7 @@ protocol TokenForm: TableViewModel {
     func unfocus()
 
     var isValid: Bool { get }
+    func submit()
 }
 
 @objc

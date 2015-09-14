@@ -84,7 +84,7 @@
 
 - (void)doneAction
 {
-    // Override in subclass
+    [self.form submit];
 }
 
 
@@ -150,7 +150,12 @@
 }
 
 - (void)formDidSubmit:(nonnull TokenEditForm *)form {
-    [self doneAction];
+    [self formDidSubmit];
+}
+
+- (void)formDidSubmit
+{
+    // Override in subclass
 }
 
 @end

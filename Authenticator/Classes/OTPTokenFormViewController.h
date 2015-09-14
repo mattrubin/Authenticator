@@ -28,6 +28,6 @@
 @interface OTPTokenFormViewController : UITableViewController
 
 // Override in subclass
-- (void)doneAction;
+- (void)formDidSubmit;
 
 @end

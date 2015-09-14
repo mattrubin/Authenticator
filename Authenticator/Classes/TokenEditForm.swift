@@ -77,6 +77,11 @@ class TokenEditForm: NSObject, TokenForm {
         return !issuerCell.textField.text.isEmpty ||
             !accountNameCell.textField.text.isEmpty
     }
+
+    func submit() {
+        // Do something
+        delegate?.formDidSubmit(self)
+    }
 }
 
 extension TokenEditForm: OTPTextFieldCellDelegate {
@@ -89,7 +94,7 @@ extension TokenEditForm: OTPTextFieldCellDelegate {
             accountNameCell.textField.becomeFirstResponder()
         } else if textFieldCell == accountNameCell {
             accountNameCell.textField.resignFirstResponder()
-            delegate?.formDidSubmit(self)
+            submit()
         }
     }
 }
