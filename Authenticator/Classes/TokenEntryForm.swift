@@ -7,10 +7,32 @@
 //
 
 class TokenEntryForm: NSObject, TableViewModel {
-    var cells: [[UITableViewCell]] = []
+    var issuerCell: OTPTextFieldCell
+    var accountNameCell: OTPTextFieldCell
+    var secretKeyCell: OTPTextFieldCell
+    var tokenTypeCell: OTPSegmentedControlCell = {
+        OTPSegmentedControlCell.tokenTypeCell()
+    }()
+    var digitCountCell: OTPSegmentedControlCell = {
+        OTPSegmentedControlCell.digitCountCell()
+    }()
+    lazy var algorithmCell: OTPSegmentedControlCell = {
+        OTPSegmentedControlCell.algorithmCell()
+    }()
 
-    init(cells: [[UITableViewCell]]) {
-        self.cells = cells
+    var showsAdvancedOptions = false
+
+    var cells: [[UITableViewCell]] {
+        return [
+            [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
+            showsAdvancedOptions ? [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ] : [],
+        ]
+    }
+
+    init(issuerCell: OTPTextFieldCell, accountNameCell: OTPTextFieldCell, secretKeyCell: OTPTextFieldCell) {
+        self.issuerCell = issuerCell
+        self.accountNameCell = accountNameCell
+        self.secretKeyCell = secretKeyCell
     }
 
     var numberOfSections: Int {

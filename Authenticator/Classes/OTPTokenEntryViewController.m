@@ -43,11 +43,6 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
 @property (nonatomic, strong) OTPTextFieldCell *secretKeyCell;
 
-@property (nonatomic) BOOL showsAdvancedOptions;
-@property (nonatomic, strong) OTPSegmentedControlCell *tokenTypeCell;
-@property (nonatomic, strong) OTPSegmentedControlCell *digitCountCell;
-@property (nonatomic, strong) OTPSegmentedControlCell *algorithmCell;
-
 @end
 
 
@@ -71,16 +66,16 @@ typedef enum : NSUInteger {
 {
     if (!self.formIsValid) return;
 
-    NSData *secret = [NSData dataWithBase32String:self.secretKeyCell.textField.text];
+    NSData *secret = [NSData dataWithBase32String:self.form.secretKeyCell.textField.text];
 
     if (secret.length) {
         OTPToken *token = [OTPToken new];
-        token.type = (self.tokenTypeCell.value == OTPTokenTypeOptionTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
+        token.type = (self.form.tokenTypeCell.value == OTPTokenTypeOptionTimer) ? OTPTokenTypeTimer : OTPTokenTypeCounter;
         token.secret = secret;
-        token.name = self.accountNameCell.textField.text;
-        token.issuer = self.issuerCell.textField.text;
+        token.name = self.form.accountNameCell.textField.text;
+        token.issuer = self.form.issuerCell.textField.text;
 
-        switch (self.digitCountCell.value) {
+        switch (self.form.digitCountCell.value) {
             case OTPTokenDigitsOptionSix:
                 token.digits = 6;
                 break;
@@ -92,7 +87,7 @@ typedef enum : NSUInteger {
                 break;
         }
 
-        switch (self.algorithmCell.value) {
+        switch (self.form.algorithmCell.value) {
             case OTPTokenAlgorithmOptionSHA1:
                 token.algorithm = OTPAlgorithmSHA1;
                 break;
@@ -152,21 +147,11 @@ typedef enum : NSUInteger {
 
 - (TokenEntryForm *)form {
     if (!_form) {
-        NSArray *cells = @[
-                           @[ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
-                           self.showsAdvancedOptions ? @[ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ] : @[],
-                           ];
-        _form = [[TokenEntryForm alloc] initWithCells:cells];
+        _form = [[TokenEntryForm alloc] initWithIssuerCell:self.issuerCell
+                                           accountNameCell:self.accountNameCell
+                                             secretKeyCell:self.secretKeyCell];
     }
     return _form;
-}
-
-- (OTPSegmentedControlCell *)tokenTypeCell
-{
-    if (!_tokenTypeCell) {
-        _tokenTypeCell = [OTPSegmentedControlCell tokenTypeCell];
-    }
-    return _tokenTypeCell;
 }
 
 - (OTPTextFieldCell *)issuerCell
@@ -192,22 +177,6 @@ typedef enum : NSUInteger {
         _secretKeyCell = [OTPTextFieldCell secretCellWithDelegate:self];
     }
     return _secretKeyCell;
-}
-
-- (OTPSegmentedControlCell *)digitCountCell
-{
-    if (!_digitCountCell) {
-        _digitCountCell = [OTPSegmentedControlCell digitCountCell];
-    }
-    return _digitCountCell;
-}
-
-- (OTPSegmentedControlCell *)algorithmCell
-{
-    if (!_algorithmCell) {
-        _algorithmCell = [OTPSegmentedControlCell algorithmCell];
-    }
-    return _algorithmCell;
 }
 
 
@@ -237,9 +206,8 @@ typedef enum : NSUInteger {
 
 - (void)revealAdvancedOptions
 {
-    if (!self.showsAdvancedOptions) {
-        self.showsAdvancedOptions = YES;
-        self.form = nil; // Rebuild the form
+    if (!self.form.showsAdvancedOptions) {
+        self.form.showsAdvancedOptions = YES;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:OTPTokenEntrySectionAdvanced] withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:([self.form numberOfRowsInSection:OTPTokenEntrySectionAdvanced] - 1)
                                                                   inSection:OTPTokenEntrySectionAdvanced]
