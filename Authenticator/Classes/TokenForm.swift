@@ -12,8 +12,6 @@ import OneTimePasswordLegacy
 protocol TokenForm: TableViewModel {
     weak var presenter: TokenFormPresenter? { get set }
 
-    var title: String { get }
-
     func focusFirstField()
     func unfocus()
 
