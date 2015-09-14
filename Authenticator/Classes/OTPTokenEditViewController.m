@@ -81,12 +81,4 @@
     [delegate tokenEditor:self didEditToken:self.token];
 }
 
-
-#pragma mark - UITableViewDelegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [OTPTextFieldCell preferredHeight];
-}
-
 @end

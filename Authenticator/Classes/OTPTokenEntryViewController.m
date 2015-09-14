@@ -91,20 +91,6 @@ typedef enum : NSUInteger {
 
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    switch (indexPath.section) {
-        case OTPTokenEntrySectionBasic:
-            return [OTPTextFieldCell preferredHeight];
-        case OTPTokenEntrySectionAdvanced:
-            return [OTPSegmentedControlCell preferredHeight];
-    }
-    return 0;
-}
-
-
-#pragma mark - UITableViewDelegate
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == OTPTokenEntrySectionAdvanced) {

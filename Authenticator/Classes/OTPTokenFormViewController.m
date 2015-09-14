@@ -120,6 +120,15 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.form cellForRowAtIndexPath:indexPath];
+    if ([[cell class] respondsToSelector:@selector(preferredHeight)]) {
+        return [[cell class] preferredHeight];
+    }
+    return 0;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return FLT_EPSILON;
