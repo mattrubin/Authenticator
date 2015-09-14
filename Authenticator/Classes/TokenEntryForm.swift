@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 Matt Rubin. All rights reserved.
 //
 
-class TokenEntryForm: NSObject, TableViewModel {
+class TokenEntryForm: NSObject, TokenForm {
+    weak var delegate: TokenFormDelegate?
+
     var issuerCell: OTPTextFieldCell
     var accountNameCell: OTPTextFieldCell
     var secretKeyCell: OTPTextFieldCell
@@ -52,5 +54,20 @@ class TokenEntryForm: NSObject, TableViewModel {
         if indexPath.row < sectionCells.startIndex { return nil }
         if indexPath.row >= sectionCells.endIndex { return nil }
         return sectionCells[indexPath.row]
+    }
+
+    func focusFirstField() {
+        issuerCell.textField.becomeFirstResponder()
+    }
+
+    func unfocus() {
+        issuerCell.textField.resignFirstResponder()
+        accountNameCell.textField.resignFirstResponder()
+        secretKeyCell.textField.resignFirstResponder()
+    }
+
+    var isValid: Bool {
+        return !self.secretKeyCell.textField.text.isEmpty &&
+            !(self.issuerCell.textField.text.isEmpty && self.accountNameCell.textField.text.isEmpty)
     }
 }
