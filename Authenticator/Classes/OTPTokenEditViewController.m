@@ -38,6 +38,17 @@
 
 @synthesize form = _form;
 
+- (TokenEditForm *)form {
+    if (!_form) {
+        _form = [[TokenEditForm alloc] init];
+        _form.delegate = self;
+    }
+    return _form;
+}
+
+
+#pragma mark - View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -97,17 +108,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [OTPTextFieldCell preferredHeight];
-}
-
-
-#pragma mark - Cells
-
-- (TokenEditForm *)form {
-    if (!_form) {
-        _form = [[TokenEditForm alloc] init];
-        _form.delegate = self;
-    }
-    return _form;
 }
 
 @end

@@ -46,6 +46,17 @@ typedef enum : NSUInteger {
 
 @synthesize form = _form;
 
+- (TokenEntryForm *)form {
+    if (!_form) {
+        _form = [[TokenEntryForm alloc] init];
+        _form.delegate = self;
+    }
+    return _form;
+}
+
+
+#pragma mark - View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -120,17 +131,6 @@ typedef enum : NSUInteger {
             return [OTPSegmentedControlCell preferredHeight];
     }
     return 0;
-}
-
-
-#pragma mark - Cells
-
-- (TokenEntryForm *)form {
-    if (!_form) {
-        _form = [[TokenEntryForm alloc] init];
-        _form.delegate = self;
-    }
-    return _form;
 }
 
 
