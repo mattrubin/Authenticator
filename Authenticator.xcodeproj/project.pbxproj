@@ -25,7 +25,6 @@
 		C9919CDD1BA64EED006237C1 /* TokenEntryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */; };
 		C9919CE01BA721A1006237C1 /* OTPHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDF1BA721A1006237C1 /* OTPHeaderView.swift */; };
 		C9AAB0791B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0781B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift */; };
-		C9AAB07D1B917839000CE547 /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB07C1B917839000CE547 /* TableViewModel.swift */; };
 		C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */; };
 		C9AAB0811B9187F8000CE547 /* TokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0801B9187F8000CE547 /* TokenForm.swift */; };
 		C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */; };
@@ -109,7 +108,6 @@
 		C9919CDF1BA721A1006237C1 /* OTPHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPHeaderView.swift; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		C9AAB0781B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OTPSegmentedControlCell+TokenForm.swift"; sourceTree = "<group>"; };
-		C9AAB07C1B917839000CE547 /* TableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEditForm.swift; sourceTree = "<group>"; };
 		C9AAB0801B9187F8000CE547 /* TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenForm.swift; sourceTree = "<group>"; };
 		C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
@@ -295,7 +293,6 @@
 				C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */,
 				C9078D111AB6AE7F0068A11D /* OTPTokenFormViewController.h */,
 				C9078D121AB6AE7F0068A11D /* OTPTokenFormViewController.m */,
-				C9AAB07C1B917839000CE547 /* TableViewModel.swift */,
 				C9AAB0801B9187F8000CE547 /* TokenForm.swift */,
 				C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */,
 				C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */,
@@ -531,7 +528,6 @@
 				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.swift in Sources */,
 				C92708AC19CFB0750033128B /* OTPTokenListViewController.swift in Sources */,
 				C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */,
-				C9AAB07D1B917839000CE547 /* TableViewModel.swift in Sources */,
 				C9919CDD1BA64EED006237C1 /* TokenEntryForm.swift in Sources */,
 				C9078D181AB7E90A0068A11D /* OTPTextFieldCell+TokenForm.swift in Sources */,
 			);
