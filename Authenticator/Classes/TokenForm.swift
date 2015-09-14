@@ -24,6 +24,5 @@ protocol TokenForm: TableViewModel {
 @objc
 protocol TokenFormPresenter: class {
     func formValuesDidChange(form: TokenForm)
-    func form(form: TokenForm, didSubmitToken token: OTPToken)
     func form(form: TokenForm, didFailWithErrorMessage errorMessage: String)
 }

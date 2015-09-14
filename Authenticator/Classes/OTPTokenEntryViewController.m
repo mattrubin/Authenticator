@@ -46,14 +46,6 @@ typedef enum : NSUInteger {
 
 @synthesize form = _form;
 
-#pragma mark - Target Actions
-
-- (void)formDidSubmitToken:(OTPToken *)token
-{
-    [self.delegate tokenSource:self didCreateToken:token];
-    [super formDidSubmitToken:token];
-}
-
 
 #pragma mark - UITableViewDelegate
 

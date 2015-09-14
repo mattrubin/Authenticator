@@ -32,7 +32,4 @@
 // references to Swift typesin a header that is bridged to Swift before the Swift is compiled...
 - (instancetype)initWithForm:(id)form;
 
-// Override in subclass
-- (void)formDidSubmitToken:(OTPToken *)token;
-
 @end

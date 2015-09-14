@@ -28,7 +28,7 @@
 #import "OTPTokenEntryViewController.h"
 
 
-@interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate>
+@interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate, TokenEntryFormDelegate>
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
@@ -93,8 +93,8 @@
 - (void)addTokenManually
 {
     TokenEntryForm *form = [[TokenEntryForm alloc] init];
+    form.delegate = self;
     OTPTokenEntryViewController *entryController = [[OTPTokenEntryViewController alloc] initWithForm:form];
-    entryController.delegate = self.delegate;
     [self.navigationController pushViewController:entryController animated:YES];
 }
 
@@ -183,6 +183,14 @@
 + (BOOL)deviceCanScan
 {
     return !![AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+}
+
+
+#pragma mark - TokenEntryFormDelegate
+
+- (void)form:(TokenEntryForm * __nonnull)form didCreateToken:(OTPToken * __nonnull)token
+{
+    [self.delegate tokenSource:form didCreateToken:token];
 }
 
 @end

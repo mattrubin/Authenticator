@@ -161,20 +161,9 @@
     [self validateForm];
 }
 
-- (void)form:(nonnull id<TokenForm>)form didSubmitToken:(nonnull OTPToken *)token
-{
-    [self formDidSubmitToken:token];
-}
-
 - (void)form:(nonnull id<TokenForm>)form didFailWithErrorMessage:(nonnull NSString *)errorMessage
 {
     [SVProgressHUD showErrorWithStatus:errorMessage];
-}
-
-
-- (void)formDidSubmitToken:(nonnull OTPToken *)token
-{
-    // Override in subclass
 }
 
 @end

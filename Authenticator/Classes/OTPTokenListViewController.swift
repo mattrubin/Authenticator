@@ -128,8 +128,8 @@ class OTPTokenListViewController: UITableViewController {
             entryController = scanner
         } else {
             let form = TokenEntryForm()
+            form.delegate = self;
             let formController = OTPTokenEntryViewController(form: form)
-            formController.delegate = self;
             entryController = formController
         }
         let navController = UINavigationController(rootViewController: entryController)
@@ -219,6 +219,12 @@ extension OTPTokenListViewController: TokenEditFormDelegate {
         self.tableView.reloadData()
     }
 
+}
+
+extension OTPTokenListViewController: TokenEntryFormDelegate {
+    func form(form: TokenEntryForm, didCreateToken token: OTPToken) {
+        self.tokenSource(form, didCreateToken: token)
+    }
 }
 
 extension OTPTokenListViewController: OTPTokenSourceDelegate {
