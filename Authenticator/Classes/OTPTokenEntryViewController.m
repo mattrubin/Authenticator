@@ -60,13 +60,10 @@ typedef enum : NSUInteger {
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == OTPTokenEntrySectionAdvanced) {
-        OTPHeaderView *headerView = [OTPHeaderView new];
-        [headerView updateWithTitle:@"Advanced Options"];
-        headerView.delegate = self;
-        return headerView;
-    }
-    return nil;
+    // FIXME: Remove this typecast
+    OTPHeaderView *headerView = (OTPHeaderView *)[self.form viewForHeaderInSection:section];
+    headerView.delegate = self;
+    return headerView;
 }
 
 - (void)revealAdvancedOptions

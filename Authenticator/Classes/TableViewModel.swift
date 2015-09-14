@@ -13,6 +13,7 @@ protocol TableViewModel {
     var numberOfSections: Int { get }
     func numberOfRowsInSection(section: Int) -> Int
     func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell?
+    func viewForHeaderInSection(section:Int) -> UIView?
 }
 
 class BasicTableViewModel: NSObject, TableViewModel {
@@ -39,5 +40,9 @@ class BasicTableViewModel: NSObject, TableViewModel {
         if indexPath.row < sectionCells.startIndex { return nil }
         if indexPath.row >= sectionCells.endIndex { return nil }
         return sectionCells[indexPath.row]
+    }
+
+    func viewForHeaderInSection(section: Int) -> UIView? {
+        return nil
     }
 }

@@ -37,6 +37,11 @@ class TokenEntryForm: NSObject, TokenForm {
     private lazy var algorithmCell: OTPSegmentedControlCell = {
         OTPSegmentedControlCell.algorithmCell()
     }()
+    private lazy var advancedSectionHeaderView: OTPHeaderView = {
+        let headerView = OTPHeaderView()
+        headerView.updateWithTitle("Advanced Options")
+        return headerView
+    }()
 
     var showsAdvancedOptions = false
 
@@ -103,6 +108,14 @@ class TokenEntryForm: NSObject, TokenForm {
         if indexPath.row < sectionCells.startIndex { return nil }
         if indexPath.row >= sectionCells.endIndex { return nil }
         return sectionCells[indexPath.row]
+    }
+
+    func viewForHeaderInSection(section: Int) -> UIView? {
+        // TODO: Don't hard-code this index
+        if (section == 1) {
+            return advancedSectionHeaderView
+        }
+        return nil
     }
 
     func focusFirstField() {

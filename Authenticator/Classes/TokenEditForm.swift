@@ -71,6 +71,10 @@ class TokenEditForm: NSObject, TokenForm {
         return sectionCells[indexPath.row]
     }
 
+    func viewForHeaderInSection(section: Int) -> UIView? {
+        return nil
+    }
+
     var isValid: Bool {
         return !issuerCell.textField.text.isEmpty ||
             !accountNameCell.textField.text.isEmpty
