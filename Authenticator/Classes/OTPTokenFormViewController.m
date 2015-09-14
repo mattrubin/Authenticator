@@ -156,13 +156,21 @@
 
 #pragma mark - TokenEditFormDelegate
 
-- (void)formValuesDidChange:(nonnull TokenEditForm *)form {
+- (void)formValuesDidChange:(nonnull id<TokenForm>)form
+{
     [self validateForm];
 }
 
-- (void)formDidSubmit:(nonnull TokenEditForm *)form {
+- (void)formDidSubmit:(nonnull id<TokenForm>)form
+{
     [self formDidSubmit];
 }
+
+- (void)form:(nonnull id<TokenForm>)form didFailWithErrorMessage:(nonnull NSString *)errorMessage
+{
+    [SVProgressHUD showErrorWithStatus:errorMessage];
+}
+
 
 - (void)formDidSubmit
 {

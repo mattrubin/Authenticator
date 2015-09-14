@@ -86,7 +86,7 @@ typedef enum : NSUInteger {
     }
 
     // If the method hasn't returned by this point, token creation failed
-    [SVProgressHUD showErrorWithStatus:@"Invalid Token"];
+    [self form:self.form didFailWithErrorMessage:@"Invalid Token"];
 }
 
 

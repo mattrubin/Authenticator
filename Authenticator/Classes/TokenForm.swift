@@ -23,4 +23,5 @@ protocol TokenForm: TableViewModel {
 protocol TokenFormPresenter: class {
     func formValuesDidChange(form: TokenForm)
     func formDidSubmit(form: TokenForm)
+    func form(form: TokenForm, didFailWithErrorMessage errorMessage: String)
 }
