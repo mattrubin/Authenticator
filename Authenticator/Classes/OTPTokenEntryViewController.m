@@ -60,11 +60,8 @@ typedef enum : NSUInteger {
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == OTPTokenEntrySectionAdvanced) {
-        UIButton *headerView = [UIButton new];
-        [headerView setTitle:@"Advanced Options" forState:UIControlStateNormal];
-        headerView.titleLabel.textAlignment = NSTextAlignmentCenter;
-        headerView.titleLabel.textColor = [UIColor otpForegroundColor];
-        headerView.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+        OTPHeaderView *headerView = [OTPHeaderView new];
+        [headerView updateWithTitle:@"Advanced Options"];
         [headerView addTarget:self action:@selector(revealAdvancedOptions) forControlEvents:UIControlEventTouchUpInside];
         return headerView;
     }
