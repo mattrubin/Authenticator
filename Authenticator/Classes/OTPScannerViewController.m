@@ -25,7 +25,7 @@
 #import "OTPScannerViewController.h"
 @import AVFoundation;
 @import OneTimePasswordLegacy;
-#import "OTPTokenEntryViewController.h"
+#import "OTPTokenFormViewController.h"
 
 
 @interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate, TokenEntryFormDelegate>
@@ -94,7 +94,7 @@
 {
     TokenEntryForm *form = [[TokenEntryForm alloc] init];
     form.delegate = self;
-    OTPTokenEntryViewController *entryController = [[OTPTokenEntryViewController alloc] initWithForm:form];
+    OTPTokenFormViewController *entryController = [[OTPTokenFormViewController alloc] initWithForm:form];
     [self.navigationController pushViewController:entryController animated:YES];
 }
 

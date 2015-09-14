@@ -129,7 +129,7 @@ class OTPTokenListViewController: UITableViewController {
         } else {
             let form = TokenEntryForm()
             form.delegate = self;
-            let formController = OTPTokenEntryViewController(form: form)
+            let formController = OTPTokenFormViewController(form: form)
             entryController = formController
         }
         let navController = UINavigationController(rootViewController: entryController)
