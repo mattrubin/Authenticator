@@ -14,7 +14,7 @@ protocol TokenEditFormDelegate: class {
 
 class TokenEditForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
-    weak var delegate: TokenEditFormDelegate?
+    private weak var delegate: TokenEditFormDelegate?
 
     private lazy var issuerCell: OTPTextFieldCell = {
         OTPTextFieldCell.issuerCellWithDelegate(self)
@@ -34,8 +34,9 @@ class TokenEditForm: NSObject, TokenForm {
 
     let token: OTPToken
 
-    init(token: OTPToken) {
+    init(token: OTPToken, delegate: TokenEditFormDelegate) {
         self.token = token
+        self.delegate = delegate
         super.init()
         issuerCell.textField.text = token.issuer;
         accountNameCell.textField.text = token.name;

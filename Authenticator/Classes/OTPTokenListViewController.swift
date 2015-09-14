@@ -193,9 +193,7 @@ extension OTPTokenListViewController: UITableViewDelegate {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
             let token = self.tokenManager.tokenAtIndexPath(indexPath)
-            let form = TokenEditForm(token: token)
-            form.delegate = self
-
+            let form = TokenEditForm(token: token, delegate: self)
             let editController = OTPTokenFormViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
             navController.navigationBar.translucent = false
