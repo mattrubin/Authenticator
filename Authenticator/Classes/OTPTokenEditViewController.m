@@ -27,41 +27,25 @@
 @import OneTimePasswordLegacy;
 
 
-@interface OTPTokenEditViewController ()
-
-@property (nonatomic, strong) TokenEditForm *form;
-
-@end
-
-
 @implementation OTPTokenEditViewController
 
-@synthesize form = _form;
-
-
+- (instancetype)initWithForm:(id<TokenForm>)form
+{
+    self = [super init];
+    if (self) {
+        self.form = form;
+        self.form.delegate = self;
+    }
+    return self;
+}
 #pragma mark - Target Actions
 
 - (void)formDidSubmit
 {
-    [self.delegate tokenEditor:self didEditToken:self.token];
+    // FIXME: remove the need for this typecast
+    TokenEditForm *form = (TokenEditForm *)self.form;
+    [self.delegate tokenEditor:self didEditToken:form.token];
     [super formDidSubmit];
-}
-
-
-#pragma mark - Token
-
-- (OTPToken *)token
-{
-    return self.form.token;
-}
-
-- (void)setToken:(OTPToken *)token
-{
-    self.form = [[TokenEditForm alloc] initWithToken:token];
-    self.form.delegate = self;
-    if (self.isViewLoaded) {
-        [self.tableView reloadData];
-    }
 }
 
 @end

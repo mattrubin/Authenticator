@@ -191,8 +191,9 @@ extension OTPTokenListViewController: UITableViewDelegate {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
-            let editController = OTPTokenEditViewController()
-            editController.token = self.tokenManager.tokenAtIndexPath(indexPath)
+            let token = self.tokenManager.tokenAtIndexPath(indexPath)
+            let form = TokenEditForm(token: token)
+            let editController = OTPTokenEditViewController(form: form)
             editController.delegate = self
 
             let navController = UINavigationController(rootViewController: editController)
