@@ -115,12 +115,7 @@
 
 - (void)validateForm
 {
-    self.doneButtonItem.enabled = self.formIsValid;
-}
-
-- (BOOL)formIsValid
-{
-    return self.form.isValid;
+    self.doneButtonItem.enabled = self.form.isValid;
 }
 
 

@@ -62,7 +62,7 @@ typedef enum : NSUInteger {
 
 - (void)createToken
 {
-    if (!self.formIsValid) return;
+    if (!self.form.isValid) return;
 
     NSData *secret = [NSData dataWithBase32String:self.form.secretKeyCell.textField.text];
 

@@ -78,7 +78,7 @@
 
 - (void)updateToken
 {
-    if (!self.formIsValid) return;
+    if (!self.form.isValid) return;
 
     if (![self.token.name isEqualToString:self.form.accountName] ||
         ![self.token.issuer isEqualToString:self.form.issuer]) {

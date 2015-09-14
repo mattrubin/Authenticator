@@ -27,10 +27,7 @@
 
 @interface OTPTokenFormViewController : UITableViewController
 
-- (void)cancelAction;
+// Override in subclass
 - (void)doneAction;
-
-- (void)validateForm;
-- (BOOL)formIsValid;
 
 @end
