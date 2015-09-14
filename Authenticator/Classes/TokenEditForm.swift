@@ -10,10 +10,10 @@
 class TokenEditForm: NSObject, TokenForm {
     weak var delegate: TokenFormDelegate?
 
-    lazy var issuerCell: OTPTextFieldCell = {
-        return OTPTextFieldCell.issuerCellWithDelegate(self)
+    private lazy var issuerCell: OTPTextFieldCell = {
+        OTPTextFieldCell.issuerCellWithDelegate(self)
     }()
-    lazy var accountNameCell: OTPTextFieldCell = {
+    private lazy var accountNameCell: OTPTextFieldCell = {
         OTPTextFieldCell.nameCellWithDelegate(self, returnKeyType: .Done)
     }()
 
