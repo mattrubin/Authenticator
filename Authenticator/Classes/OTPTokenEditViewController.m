@@ -38,14 +38,6 @@
 
 @synthesize form = _form;
 
-- (TokenEditForm *)form {
-    if (!_form) {
-        _form = [[TokenEditForm alloc] init];
-        _form.delegate = self;
-    }
-    return _form;
-}
-
 
 #pragma mark - Target Actions
 
@@ -57,13 +49,18 @@
 
 #pragma mark - Token
 
+- (OTPToken *)token
+{
+    return self.form.token;
+}
+
 - (void)setToken:(OTPToken *)token
 {
-    if (_token != token) {
-        _token = token;
+    TokenEditForm *form = [[TokenEditForm alloc] initWithToken:token];
+    form.delegate = self;
+    if (self.isViewLoaded) {
+        [self.tableView reloadData];
     }
-    self.form.issuer = token.issuer;
-    self.form.accountName = token.name;
 }
 
 - (void)updateToken

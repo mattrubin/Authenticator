@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Matt Rubin. All rights reserved.
 //
 
+import OneTimePasswordLegacy
 
 class TokenEditForm: NSObject, TokenForm {
     weak var delegate: TokenFormDelegate?
@@ -18,12 +19,10 @@ class TokenEditForm: NSObject, TokenForm {
     }()
 
     var issuer: String? {
-        get { return issuerCell.textField.text }
-        set { issuerCell.textField.text = newValue }
+        return issuerCell.textField.text
     }
     var accountName: String? {
-        get { return accountNameCell.textField.text }
-        set { accountNameCell.textField.text = newValue }
+        return accountNameCell.textField.text
     }
 
     private var cells: [[UITableViewCell]] {
@@ -33,6 +32,15 @@ class TokenEditForm: NSObject, TokenForm {
                 accountNameCell,
             ]
         ]
+    }
+
+    let token: OTPToken
+
+    init(token: OTPToken) {
+        self.token = token
+        super.init()
+        issuerCell.textField.text = token.issuer;
+        accountNameCell.textField.text = token.name;
     }
 
     let title = "Edit Token"
