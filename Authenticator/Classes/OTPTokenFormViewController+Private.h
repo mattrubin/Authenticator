@@ -9,7 +9,7 @@
 #import "OTPTokenFormViewController.h"
 
 
-@interface OTPTokenFormViewController () <TokenFormDelegate>
+@interface OTPTokenFormViewController () <TokenFormPresenter>
 
 @property (nonatomic, strong) id<TokenForm> form;
 

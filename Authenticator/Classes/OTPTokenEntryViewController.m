@@ -49,7 +49,7 @@ typedef enum : NSUInteger {
 - (TokenEntryForm *)form {
     if (!_form) {
         _form = [[TokenEntryForm alloc] init];
-        _form.delegate = self;
+        _form.presenter = self;
     }
     return _form;
 }

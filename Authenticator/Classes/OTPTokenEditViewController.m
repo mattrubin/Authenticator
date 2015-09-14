@@ -34,7 +34,7 @@
     self = [super init];
     if (self) {
         self.form = form;
-        self.form.delegate = self;
+        self.form.presenter = self;
     }
     return self;
 }

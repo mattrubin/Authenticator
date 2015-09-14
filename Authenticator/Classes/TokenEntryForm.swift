@@ -11,7 +11,7 @@ import OneTimePasswordLegacy
 // TODO: Segmented control cell changes don't call formValuesDidChange on the delegate
 
 class TokenEntryForm: NSObject, TokenForm {
-    weak var delegate: TokenFormDelegate?
+    weak var presenter: TokenFormPresenter?
 
     private lazy var issuerCell: OTPTextFieldCell = {
         OTPTextFieldCell.issuerCellWithDelegate(self)
@@ -116,13 +116,13 @@ class TokenEntryForm: NSObject, TokenForm {
 
     func submit() {
         // Do something
-        delegate?.formDidSubmit(self)
+        presenter?.formDidSubmit(self)
     }
 }
 
 extension TokenEntryForm: OTPTextFieldCellDelegate {
     func textFieldCellDidChange(textFieldCell: OTPTextFieldCell) {
-        delegate?.formValuesDidChange(self)
+        presenter?.formValuesDidChange(self)
     }
 
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {

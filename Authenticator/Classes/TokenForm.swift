@@ -8,7 +8,7 @@
 
 @objc
 protocol TokenForm: TableViewModel {
-    weak var delegate: TokenFormDelegate? { get set }
+    weak var presenter: TokenFormPresenter? { get set }
 
     var title: String { get }
 
@@ -20,7 +20,7 @@ protocol TokenForm: TableViewModel {
 }
 
 @objc
-protocol TokenFormDelegate: class {
+protocol TokenFormPresenter: class {
     func formValuesDidChange(form: TokenForm)
     func formDidSubmit(form: TokenForm)
 }
