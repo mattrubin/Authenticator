@@ -9,13 +9,19 @@
 class TokenEntryForm: NSObject, TokenForm {
     weak var delegate: TokenFormDelegate?
 
-    var issuerCell: OTPTextFieldCell
-    var accountNameCell: OTPTextFieldCell
-    var secretKeyCell: OTPTextFieldCell
-    var tokenTypeCell: OTPSegmentedControlCell = {
+    lazy var issuerCell: OTPTextFieldCell = {
+        OTPTextFieldCell.issuerCellWithDelegate(self)
+    }()
+    lazy var accountNameCell: OTPTextFieldCell = {
+        OTPTextFieldCell.nameCellWithDelegate(self, returnKeyType: .Next)
+    }()
+    lazy var secretKeyCell: OTPTextFieldCell = {
+        OTPTextFieldCell.secretCellWithDelegate(self)
+    }()
+    lazy var tokenTypeCell: OTPSegmentedControlCell = {
         OTPSegmentedControlCell.tokenTypeCell()
     }()
-    var digitCountCell: OTPSegmentedControlCell = {
+    lazy var digitCountCell: OTPSegmentedControlCell = {
         OTPSegmentedControlCell.digitCountCell()
     }()
     lazy var algorithmCell: OTPSegmentedControlCell = {
@@ -29,12 +35,6 @@ class TokenEntryForm: NSObject, TokenForm {
             [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
             showsAdvancedOptions ? [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ] : [],
         ]
-    }
-
-    init(issuerCell: OTPTextFieldCell, accountNameCell: OTPTextFieldCell, secretKeyCell: OTPTextFieldCell) {
-        self.issuerCell = issuerCell
-        self.accountNameCell = accountNameCell
-        self.secretKeyCell = secretKeyCell
     }
 
     var numberOfSections: Int {
@@ -69,5 +69,22 @@ class TokenEntryForm: NSObject, TokenForm {
     var isValid: Bool {
         return !self.secretKeyCell.textField.text.isEmpty &&
             !(self.issuerCell.textField.text.isEmpty && self.accountNameCell.textField.text.isEmpty)
+    }
+}
+
+extension TokenEntryForm: OTPTextFieldCellDelegate {
+    func textFieldCellDidChange(textFieldCell: OTPTextFieldCell) {
+        delegate?.formValuesDidChange(self)
+    }
+
+    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
+        if textFieldCell == issuerCell {
+            accountNameCell.textField.becomeFirstResponder()
+        } else if textFieldCell == accountNameCell {
+            secretKeyCell.textField.becomeFirstResponder()
+        } else if textFieldCell == secretKeyCell {
+            secretKeyCell.textField.resignFirstResponder()
+            delegate?.formDidSubmit(self)
+        }
     }
 }

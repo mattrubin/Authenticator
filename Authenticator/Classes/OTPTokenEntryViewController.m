@@ -35,13 +35,9 @@ typedef enum : NSUInteger {
 
 
 @interface OTPTokenEntryViewController ()
-    <OTPTextFieldCellDelegate>
+    <TokenFormDelegate>
 
 @property (nonatomic, strong) TokenEntryForm *form;
-
-@property (nonatomic, strong) OTPTextFieldCell *issuerCell;
-@property (nonatomic, strong) OTPTextFieldCell *accountNameCell;
-@property (nonatomic, strong) OTPTextFieldCell *secretKeyCell;
 
 @end
 
@@ -147,36 +143,10 @@ typedef enum : NSUInteger {
 
 - (TokenEntryForm *)form {
     if (!_form) {
-        _form = [[TokenEntryForm alloc] initWithIssuerCell:self.issuerCell
-                                           accountNameCell:self.accountNameCell
-                                             secretKeyCell:self.secretKeyCell];
+        _form = [[TokenEntryForm alloc] init];
+        _form.delegate = self;
     }
     return _form;
-}
-
-- (OTPTextFieldCell *)issuerCell
-{
-    if (!_issuerCell) {
-        _issuerCell = [OTPTextFieldCell issuerCellWithDelegate:self];
-    }
-    return _issuerCell;
-}
-
-- (OTPTextFieldCell *)accountNameCell
-{
-    if (!_accountNameCell) {
-        _accountNameCell = [OTPTextFieldCell nameCellWithDelegate:self
-                                                    returnKeyType:UIReturnKeyNext];
-    }
-    return _accountNameCell;
-}
-
-- (OTPTextFieldCell *)secretKeyCell
-{
-    if (!_secretKeyCell) {
-        _secretKeyCell = [OTPTextFieldCell secretCellWithDelegate:self];
-    }
-    return _secretKeyCell;
 }
 
 
@@ -216,23 +186,14 @@ typedef enum : NSUInteger {
 }
 
 
-#pragma mark - OTPTextFieldCellDelegate
+#pragma mark - TokenEditFormDelegate
 
-- (void)textFieldCellDidChange:(nonnull OTPTextFieldCell *)textFieldCell
-{
+- (void)formValuesDidChange:(nonnull TokenEditForm *)form {
     [self validateForm];
 }
 
-- (void)textFieldCellDidReturn:(nonnull OTPTextFieldCell *)textFieldCell
-{
-    if (textFieldCell == self.issuerCell) {
-        [self.accountNameCell.textField becomeFirstResponder];
-    } else if (textFieldCell == self.accountNameCell) {
-        [self.secretKeyCell.textField becomeFirstResponder];
-    } else {
-        [textFieldCell.textField resignFirstResponder];
-        [self createToken];
-    }
+- (void)formDidSubmit:(nonnull TokenEditForm *)form {
+    [self createToken];
 }
 
 
