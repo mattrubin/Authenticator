@@ -142,6 +142,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    UIView *headerView = [self.form viewForHeaderInSection:section];
+    if (headerView && [[headerView class] respondsToSelector:@selector(preferredHeight)]) {
+        return [[headerView class] preferredHeight];
+    }
     return FLT_EPSILON;
 }
 

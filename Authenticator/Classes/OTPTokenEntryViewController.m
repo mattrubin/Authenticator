@@ -50,14 +50,6 @@ typedef enum : NSUInteger {
 
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    if (section == OTPTokenEntrySectionAdvanced) {
-        return [OTPHeaderView preferredHeight];
-    }
-    return FLT_EPSILON;
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     // FIXME: Remove this typecast
