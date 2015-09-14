@@ -23,10 +23,12 @@
 //
 
 #import "OTPTokenFormViewController.h"
-#import "OTPTokenFormViewController+Private.h"
 
 
 @interface OTPTokenFormViewController ()
+    <TokenFormPresenter>
+
+@property (nonatomic, strong) id<TokenForm> form;
 
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
 
