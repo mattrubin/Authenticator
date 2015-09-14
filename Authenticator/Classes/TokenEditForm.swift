@@ -23,7 +23,7 @@ class TokenEditForm: NSObject, TokenForm {
         OTPTextFieldCell.nameCellWithDelegate(self, returnKeyType: .Done)
     }()
 
-    private var cells: [[UITableViewCell]] {
+    private var sections: [Section] {
         return [
             [
                 issuerCell,
@@ -54,22 +54,22 @@ class TokenEditForm: NSObject, TokenForm {
     }
 
     var numberOfSections: Int {
-        return cells.count
+        return sections.count
     }
 
     func numberOfRowsInSection(section: Int) -> Int {
-        if section < cells.startIndex { return 0 }
-        if section >= cells.endIndex { return 0 }
-        return cells[section].count
+        if section < sections.startIndex { return 0 }
+        if section >= sections.endIndex { return 0 }
+        return sections[section].rows.count
     }
 
     func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
-        if indexPath.section < cells.startIndex { return nil }
-        if indexPath.section >= cells.endIndex { return nil }
-        let sectionCells = cells[indexPath.section]
-        if indexPath.row < sectionCells.startIndex { return nil }
-        if indexPath.row >= sectionCells.endIndex { return nil }
-        return sectionCells[indexPath.row]
+        if indexPath.section < sections.startIndex { return nil }
+        if indexPath.section >= sections.endIndex { return nil }
+        let section = sections[indexPath.section]
+        if indexPath.row < section.rows.startIndex { return nil }
+        if indexPath.row >= section.rows.endIndex { return nil }
+        return section.rows[indexPath.row]
     }
 
     func viewForHeaderInSection(section: Int) -> UIView? {
