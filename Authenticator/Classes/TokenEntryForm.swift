@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Matt Rubin. All rights reserved.
 //
 
+// TODO: Segmented control cell changes don't call formValuesDidChange on the delegate
+
 class TokenEntryForm: NSObject, TokenForm {
     weak var delegate: TokenFormDelegate?
 
