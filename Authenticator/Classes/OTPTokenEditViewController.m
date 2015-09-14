@@ -56,8 +56,8 @@
 
 - (void)setToken:(OTPToken *)token
 {
-    TokenEditForm *form = [[TokenEditForm alloc] initWithToken:token];
-    form.delegate = self;
+    self.form = [[TokenEditForm alloc] initWithToken:token];
+    self.form.delegate = self;
     if (self.isViewLoaded) {
         [self.tableView reloadData];
     }
