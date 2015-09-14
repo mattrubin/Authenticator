@@ -23,6 +23,7 @@
 //
 
 #import "OTPTokenFormViewController.h"
+#import "OTPTokenFormViewController+Private.h"
 
 
 @interface OTPTokenFormViewController ()
@@ -101,8 +102,18 @@
 
 - (BOOL)formIsValid
 {
-    // Override in subclass
-    return true;
+    return self.form.isValid;
+}
+
+
+#pragma mark - TokenEditFormDelegate
+
+- (void)formValuesDidChange:(nonnull TokenEditForm *)form {
+    [self validateForm];
+}
+
+- (void)formDidSubmit:(nonnull TokenEditForm *)form {
+    [self doneAction];
 }
 
 @end

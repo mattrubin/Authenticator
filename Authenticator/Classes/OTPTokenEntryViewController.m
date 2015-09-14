@@ -23,6 +23,7 @@
 //
 
 #import "OTPTokenEntryViewController.h"
+#import "OTPTokenFormViewController+Private.h"
 @import OneTimePasswordLegacy;
 @import Base32;
 
@@ -35,7 +36,6 @@ typedef enum : NSUInteger {
 
 
 @interface OTPTokenEntryViewController ()
-    <TokenFormDelegate>
 
 @property (nonatomic, strong) TokenEntryForm *form;
 
@@ -43,6 +43,8 @@ typedef enum : NSUInteger {
 
 
 @implementation OTPTokenEntryViewController
+
+@synthesize form = _form;
 
 - (void)viewDidLoad
 {
@@ -183,25 +185,6 @@ typedef enum : NSUInteger {
                                                                   inSection:OTPTokenEntrySectionAdvanced]
                               atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     }
-}
-
-
-#pragma mark - TokenEditFormDelegate
-
-- (void)formValuesDidChange:(nonnull TokenEditForm *)form {
-    [self validateForm];
-}
-
-- (void)formDidSubmit:(nonnull TokenEditForm *)form {
-    [self createToken];
-}
-
-
-#pragma mark - Validation
-
-- (BOOL)formIsValid
-{
-    return self.form.isValid;
 }
 
 @end

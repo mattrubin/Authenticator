@@ -23,10 +23,11 @@
 //
 
 #import "OTPTokenEditViewController.h"
+#import "OTPTokenFormViewController+Private.h"
 @import OneTimePasswordLegacy;
 
 
-@interface OTPTokenEditViewController () <TokenFormDelegate>
+@interface OTPTokenEditViewController ()
 
 @property (nonatomic, strong) TokenEditForm *form;
 
@@ -34,6 +35,8 @@
 
 
 @implementation OTPTokenEditViewController
+
+@synthesize form = _form;
 
 - (void)viewDidLoad
 {
@@ -123,25 +126,6 @@
         _form.delegate = self;
     }
     return _form;
-}
-
-
-#pragma mark - TokenEditFormDelegate
-
-- (void)formValuesDidChange:(nonnull TokenEditForm *)form {
-    [self validateForm];
-}
-
-- (void)formDidSubmit:(nonnull TokenEditForm *)form {
-    [self updateToken];
-}
-
-
-#pragma mark - Validation
-
-- (BOOL)formIsValid
-{
-    return self.form.isValid;
 }
 
 @end
