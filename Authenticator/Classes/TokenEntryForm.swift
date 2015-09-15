@@ -134,8 +134,7 @@ class TokenEntryForm: NSObject, TokenForm {
     }
 
     var isValid: Bool {
-        return !secretKey.isEmpty &&
-            !(issuer.isEmpty && accountName.isEmpty)
+        return !secretKey.isEmpty && !(issuer.isEmpty && accountName.isEmpty)
     }
 
     func submit() {
