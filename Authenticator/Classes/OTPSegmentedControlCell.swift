@@ -25,17 +25,18 @@
 import UIKit
 
 protocol SegmentedControlRowModel {
-    var segments: [(title: String, value: Int)] { get }
-    var initialValue: Int { get }
+    typealias Value
+    var segments: [(title: String, value: Value)] { get }
+    var initialValue: Value { get }
 }
 
-class OTPSegmentedControlCell: UITableViewCell {
-    static let preferredHeight: CGFloat = 54
+class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
+    let preferredHeight: CGFloat = 54
 
     private let segmentedControl = UISegmentedControl()
-    private var values: [Int] = []
+    private var values: [Value] = []
 
-    var value: Int {
+    var value: Value {
         return values[segmentedControl.selectedSegmentIndex]
     }
 
@@ -51,6 +52,11 @@ class OTPSegmentedControlCell: UITableViewCell {
         configureSubviews()
     }
 
+    convenience init<RowModel: SegmentedControlRowModel where RowModel.Value == Value>(rowModel: RowModel) {
+        self.init()
+        updateWithRowModel(rowModel)
+    }
+
     // MARK: - Subviews
 
     private func configureSubviews() {
@@ -64,7 +70,7 @@ class OTPSegmentedControlCell: UITableViewCell {
 
     // MARK: - Update
 
-    func updateWithRowModel(rowModel: SegmentedControlRowModel) {
+    func updateWithRowModel<RowModel: SegmentedControlRowModel where RowModel.Value == Value>(rowModel: RowModel) {
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
@@ -76,6 +82,5 @@ class OTPSegmentedControlCell: UITableViewCell {
         values = rowModel.segments.map { $0.value }
         // Select the initial value
         segmentedControl.selectedSegmentIndex = values.indexOf(rowModel.initialValue) ?? 0
-
     }
 }

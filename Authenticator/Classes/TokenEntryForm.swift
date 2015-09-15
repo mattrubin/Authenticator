@@ -28,15 +28,9 @@ class TokenEntryForm: NSObject, TokenForm {
     private lazy var secretKeyCell: OTPTextFieldCell = {
         OTPTextFieldCell.secretCellWithDelegate(self)
     }()
-    private lazy var tokenTypeCell: OTPSegmentedControlCell = {
-        OTPSegmentedControlCell.tokenTypeCell()
-    }()
-    private lazy var digitCountCell: OTPSegmentedControlCell = {
-        OTPSegmentedControlCell.digitCountCell()
-    }()
-    private lazy var algorithmCell: OTPSegmentedControlCell = {
-        OTPSegmentedControlCell.algorithmCell()
-    }()
+    private var tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>(rowModel: TokenTypeRowModel())
+    private var digitCountCell = OTPSegmentedControlCell<Int>(rowModel: DigitCountRowModel())
+    private var algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>(rowModel: AlgorithmRowModel())
     private lazy var advancedSectionHeaderView: OTPHeaderView = {
         let headerView = OTPHeaderView()
         headerView.updateWithTitle("Advanced Options")
@@ -69,31 +63,13 @@ class TokenEntryForm: NSObject, TokenForm {
         return secretKeyCell.textField.text ?? ""
     }
     var tokenType: OTPTokenType {
-        return (tokenTypeCell.value == OTPTokenTypeOption.Timer.rawValue) ? .Timer : .Counter
+        return tokenTypeCell.value
     }
     var digitCount: UInt {
-        switch digitCountCell.value {
-        case OTPTokenDigitsOption.Six.rawValue:
-            return 6
-        case OTPTokenDigitsOption.Seven.rawValue:
-            return 7
-        case OTPTokenDigitsOption.Eight.rawValue:
-            return 8
-        default:
-            return 6 // FIXME: this should never need a default
-        }
+        return UInt(digitCountCell.value)
     }
     var algorithm: OTPAlgorithm {
-        switch algorithmCell.value {
-        case OTPTokenAlgorithmOption.SHA1.rawValue:
-            return .SHA1
-        case OTPTokenAlgorithmOption.SHA256.rawValue:
-            return .SHA256
-        case OTPTokenAlgorithmOption.SHA512.rawValue:
-            return .SHA512
-        default:
-            return .SHA1 // FIXME: this should never need a default
-        }
+        return algorithmCell.value
     }
 
     let title = "Add Token"

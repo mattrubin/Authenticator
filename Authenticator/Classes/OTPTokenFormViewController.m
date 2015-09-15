@@ -136,8 +136,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.form cellForRowAtIndexPath:indexPath];
-    if ([[cell class] respondsToSelector:@selector(preferredHeight)]) {
-        return [[cell class] preferredHeight];
+    if ([cell respondsToSelector:@selector(preferredHeight)]) {
+        return [(id)cell preferredHeight];
     }
     return 0;
 }
@@ -145,8 +145,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     UIView *headerView = [self.form viewForHeaderInSection:section];
-    if (headerView && [[headerView class] respondsToSelector:@selector(preferredHeight)]) {
-        return [[headerView class] preferredHeight];
+    if (headerView && [headerView respondsToSelector:@selector(preferredHeight)]) {
+        return [(id)headerView preferredHeight];
     }
     return FLT_EPSILON;
 }
