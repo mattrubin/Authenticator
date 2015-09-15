@@ -26,6 +26,9 @@
 
 
 @interface OTPTokenFormViewController ()
+    <TokenFormPresenter>
+
+@property (nonatomic, strong) id<TokenForm> form;
 
 @property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
 
@@ -39,6 +42,19 @@
     return [super initWithStyle:UITableViewStyleGrouped];
 }
 
+- (instancetype)initWithForm:(id<TokenForm>)form
+{
+    self = [self init];
+    if (self) {
+        self.form = form;
+        self.form.presenter = self;
+    }
+    return self;
+}
+
+
+#pragma mark - View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -47,6 +63,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     // Set up top bar
+    self.title = self.form.title;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction)];
     self.doneButtonItem = self.navigationItem.rightBarButtonItem;
@@ -56,6 +73,18 @@
 {
     [super viewWillAppear:animated];
     [self validateForm];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.form focusFirstField];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.form unfocus];
 }
 
 
@@ -68,7 +97,25 @@
 
 - (void)doneAction
 {
-    // Override in subclass
+    [self.form submit];
+}
+
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.form.numberOfSections;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.form numberOfRowsInSection:section];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.form cellForRowAtIndexPath:indexPath];
 }
 
 
@@ -86,9 +133,27 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.form cellForRowAtIndexPath:indexPath];
+    if ([[cell class] respondsToSelector:@selector(preferredHeight)]) {
+        return [[cell class] preferredHeight];
+    }
+    return 0;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    UIView *headerView = [self.form viewForHeaderInSection:section];
+    if (headerView && [[headerView class] respondsToSelector:@selector(preferredHeight)]) {
+        return [[headerView class] preferredHeight];
+    }
     return FLT_EPSILON;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [self.form viewForHeaderInSection:section];
 }
 
 
@@ -96,13 +161,29 @@
 
 - (void)validateForm
 {
-    self.doneButtonItem.enabled = self.formIsValid;
+    self.doneButtonItem.enabled = self.form.isValid;
 }
 
-- (BOOL)formIsValid
+
+#pragma mark - TokenEditFormDelegate
+
+- (void)formValuesDidChange:(nonnull id<TokenForm>)form
 {
-    // Override in subclass
-    return true;
+    [self validateForm];
+}
+
+- (void)form:(nonnull id<TokenForm>)form didFailWithErrorMessage:(nonnull NSString *)errorMessage
+{
+    [SVProgressHUD showErrorWithStatus:errorMessage];
+}
+
+- (void)form:(nonnull id<TokenForm>)form didReloadSection:(NSInteger)section
+{
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section]
+                  withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:YES];
 }
 
 @end

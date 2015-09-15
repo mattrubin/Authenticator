@@ -127,9 +127,9 @@ class OTPTokenListViewController: UITableViewController {
             scanner.delegate = self
             entryController = scanner
         } else {
-            let form = OTPTokenEntryViewController()
-            form.delegate = self;
-            entryController = form
+            let form = TokenEntryForm(delegate: self)
+            let formController = OTPTokenFormViewController(form: form)
+            entryController = formController
         }
         let navController = UINavigationController(rootViewController: entryController)
         navController.navigationBar.translucent = false
@@ -191,10 +191,9 @@ extension OTPTokenListViewController: UITableViewDelegate {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
-            let editController = OTPTokenEditViewController()
-            editController.token = self.tokenManager.tokenAtIndexPath(indexPath)
-            editController.delegate = self
-
+            let token = self.tokenManager.tokenAtIndexPath(indexPath)
+            let form = TokenEditForm(token: token, delegate: self)
+            let editController = OTPTokenFormViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
             navController.navigationBar.translucent = false
 
@@ -210,13 +209,19 @@ extension OTPTokenListViewController: UITableViewDelegate {
 
 }
 
-extension OTPTokenListViewController: OTPTokenEditorDelegate {
+extension OTPTokenListViewController: TokenEditFormDelegate {
 
-    func tokenEditor(tokenEditor: AnyObject, didEditToken token: OTPToken) {
+    func form(form: TokenEditForm, didEditToken token: OTPToken) {
         self.dismissViewControllerAnimated(true, completion: nil)
         self.tableView.reloadData()
     }
 
+}
+
+extension OTPTokenListViewController: TokenEntryFormDelegate {
+    func form(form: TokenEntryForm, didCreateToken token: OTPToken) {
+        self.tokenSource(form, didCreateToken: token)
+    }
 }
 
 extension OTPTokenListViewController: OTPTokenSourceDelegate {

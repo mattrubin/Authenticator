@@ -25,10 +25,10 @@
 #import "OTPScannerViewController.h"
 @import AVFoundation;
 @import OneTimePasswordLegacy;
-#import "OTPTokenEntryViewController.h"
+#import "OTPTokenFormViewController.h"
 
 
-@interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate>
+@interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate, TokenEntryFormDelegate>
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
@@ -92,8 +92,8 @@
 
 - (void)addTokenManually
 {
-    OTPTokenEntryViewController *entryController = [[OTPTokenEntryViewController alloc] init];
-    entryController.delegate = self.delegate;
+    TokenEntryForm *form = [[TokenEntryForm alloc] initWithDelegate:self];
+    OTPTokenFormViewController *entryController = [[OTPTokenFormViewController alloc] initWithForm:form];
     [self.navigationController pushViewController:entryController animated:YES];
 }
 
@@ -182,6 +182,15 @@
 + (BOOL)deviceCanScan
 {
     return !![AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+}
+
+
+#pragma mark - TokenEntryFormDelegate
+
+- (void)form:(nonnull TokenEntryForm *)form didCreateToken:(nonnull OTPToken *)token
+{
+    // Forward didCreateToken on to the scanner's delegate
+    [self.delegate tokenSource:form didCreateToken:token];
 }
 
 @end

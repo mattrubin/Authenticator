@@ -3,7 +3,6 @@
 //
 
 #import <SVProgressHUD/SVProgressHUD.h>
-#import "OTPTokenEntryViewController.h"
-#import "OTPTokenEditViewController.h"
+#import "OTPTokenFormViewController.h"
 #import "OTPScannerViewController.h"
 #import "OTPTokenManager.h"
