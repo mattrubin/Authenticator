@@ -63,22 +63,13 @@ class TokenEntryForm: NSObject, TokenForm {
         return secretKeyCell.textField.text ?? ""
     }
     var tokenType: OTPTokenType {
-        return (tokenTypeCell.value == OTPTokenTypeOption.Timer.rawValue) ? .Timer : .Counter
+        return tokenTypeCell.value
     }
     var digitCount: UInt {
         return UInt(digitCountCell.value)
     }
     var algorithm: OTPAlgorithm {
-        switch algorithmCell.value {
-        case OTPTokenAlgorithmOption.SHA1.rawValue:
-            return .SHA1
-        case OTPTokenAlgorithmOption.SHA256.rawValue:
-            return .SHA256
-        case OTPTokenAlgorithmOption.SHA512.rawValue:
-            return .SHA512
-        default:
-            return .SHA1 // FIXME: this should never need a default
-        }
+        return algorithmCell.value
     }
 
     let title = "Add Token"

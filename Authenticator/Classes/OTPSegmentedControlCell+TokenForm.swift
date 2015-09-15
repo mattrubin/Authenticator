@@ -22,25 +22,14 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@objc
-enum OTPTokenTypeOption: Int {
-    case Timer
-    case Counter
-}
-
-@objc
-enum OTPTokenAlgorithmOption: Int {
-    case SHA1
-    case SHA256
-    case SHA512
-}
+import OneTimePasswordLegacy
 
 struct TokenTypeRowModel: SegmentedControlRowModel {
     let segments = [
-        (title: "Time Based", value: OTPTokenTypeOption.Timer.rawValue),
-        (title: "Counter Based", value: OTPTokenTypeOption.Counter.rawValue),
+        (title: "Time Based", value: OTPTokenType.Timer),
+        (title: "Counter Based", value: OTPTokenType.Counter),
     ]
-    let initialValue = OTPTokenTypeOption.Timer.rawValue
+    let initialValue = OTPTokenType.Timer
 }
 
 struct DigitCountRowModel: SegmentedControlRowModel {
@@ -54,16 +43,16 @@ struct DigitCountRowModel: SegmentedControlRowModel {
 
 struct AlgorithmRowModel: SegmentedControlRowModel {
     let segments = [
-        (title: "SHA-1", value: OTPTokenAlgorithmOption.SHA1.rawValue),
-        (title: "SHA-256", value: OTPTokenAlgorithmOption.SHA256.rawValue),
-        (title: "SHA-512", value: OTPTokenAlgorithmOption.SHA512.rawValue),
+        (title: "SHA-1", value: OTPAlgorithm.SHA1),
+        (title: "SHA-256", value: OTPAlgorithm.SHA256),
+        (title: "SHA-512", value: OTPAlgorithm.SHA512),
     ]
-    let initialValue = OTPTokenAlgorithmOption.SHA1.rawValue
+    let initialValue = OTPAlgorithm.SHA1
 }
 
 extension OTPSegmentedControlCell {
-    static func tokenTypeCell() -> OTPSegmentedControlCell<Int> {
-        let cell = OTPSegmentedControlCell<Int>.init()
+    static func tokenTypeCell() -> OTPSegmentedControlCell<OTPTokenType> {
+        let cell = OTPSegmentedControlCell<OTPTokenType>.init()
         cell.updateWithRowModel(TokenTypeRowModel())
         return cell
     }
@@ -74,8 +63,8 @@ extension OTPSegmentedControlCell {
         return cell
     }
 
-    static func algorithmCell() -> OTPSegmentedControlCell<Int> {
-        let cell = OTPSegmentedControlCell<Int>.init()
+    static func algorithmCell() -> OTPSegmentedControlCell<OTPAlgorithm> {
+        let cell = OTPSegmentedControlCell<OTPAlgorithm>.init()
         cell.updateWithRowModel(AlgorithmRowModel())
         return cell
     }
