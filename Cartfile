@@ -1,2 +1,2 @@
 github "jspahrsummers/xcconfigs" ~> 0.7.1
-github "mattrubin/OneTimePassword" "master"
+github "mattrubin/OneTimePassword" "xcode-7"
