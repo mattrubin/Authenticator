@@ -25,8 +25,9 @@
 import UIKit
 
 protocol SegmentedControlRowModel {
-    var segments: [(title: String, value: Int)] { get }
-    var initialValue: Int { get }
+    typealias Value
+    var segments: [(title: String, value: Value)] { get }
+    var initialValue: Value { get }
 }
 
 class OTPSegmentedControlCell: UITableViewCell {
@@ -64,7 +65,7 @@ class OTPSegmentedControlCell: UITableViewCell {
 
     // MARK: - Update
 
-    func updateWithRowModel(rowModel: SegmentedControlRowModel) {
+    func updateWithRowModel<M: SegmentedControlRowModel where M.Value == Int>(rowModel: M) {
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
