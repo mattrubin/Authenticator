@@ -41,7 +41,7 @@ class OTPSegmentedControlCell: UITableViewCell {
 
     // MARK: - Init
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configureSubviews()
     }
@@ -75,7 +75,7 @@ class OTPSegmentedControlCell: UITableViewCell {
         // Store values
         values = rowModel.segments.map { $0.value }
         // Select the initial value
-        segmentedControl.selectedSegmentIndex = find(values, rowModel.initialValue) ?? 0
+        segmentedControl.selectedSegmentIndex = values.indexOf(rowModel.initialValue) ?? 0
 
     }
 }

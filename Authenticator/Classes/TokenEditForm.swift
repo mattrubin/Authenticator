@@ -78,16 +78,20 @@ class TokenEditForm: NSObject, TokenForm {
         return sections[section].header
     }
 
+    private var issuer: String {
+        return issuerCell.textField.text ?? ""
+    }
+
+    private var accountName: String {
+        return accountNameCell.textField.text ?? ""
+    }
+
     var isValid: Bool {
-        return !issuerCell.textField.text.isEmpty ||
-            !accountNameCell.textField.text.isEmpty
+        return !(issuer.isEmpty && accountName.isEmpty)
     }
 
     func submit() {
         if (!isValid) { return }
-
-        let issuer = issuerCell.textField.text ?? ""
-        let accountName = accountNameCell.textField.text ?? ""
 
         if (token.name != accountName ||
             token.issuer != issuer) {

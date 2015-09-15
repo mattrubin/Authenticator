@@ -108,7 +108,7 @@ class OTPTokenListViewController: UITableViewController {
 
     func tick() {
         // Update currently-visible cells
-        for cell in self.tableView.visibleCells() as! [TokenRowCell] {
+        for cell in self.tableView.visibleCells as! [TokenRowCell] {
             if let indexPath = self.tableView.indexPathForCell(cell) {
                 updateCell(cell, forRowAtIndexPath: indexPath)
             }
@@ -139,7 +139,7 @@ class OTPTokenListViewController: UITableViewController {
 
 }
 
-extension OTPTokenListViewController: UITableViewDataSource {
+extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -183,7 +183,7 @@ extension OTPTokenListViewController: UITableViewDataSource {
 
 }
 
-extension OTPTokenListViewController: UITableViewDelegate {
+extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 85

@@ -29,7 +29,7 @@ class TokenRowCell: UITableViewCell {
 
     private let titleLabel = UILabel()
     private let passwordLabel = UILabel()
-    private let nextPasswordButton = UIButton.buttonWithType(.ContactAdd) as! UIButton
+    private let nextPasswordButton = UIButton(type: .ContactAdd)
 
 
     // MARK: - Setup
@@ -39,7 +39,7 @@ class TokenRowCell: UITableViewCell {
         configureCell()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configureCell()
     }
