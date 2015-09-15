@@ -41,7 +41,7 @@ protocol OTPTextFieldCellDelegate: class {
 }
 
 class OTPTextFieldCell: UITableViewCell {
-    static let preferredHeight: CGFloat = 74
+    let preferredHeight: CGFloat = 74
 
     let textField = UITextField()
     weak var delegate: OTPTextFieldCellDelegate?
