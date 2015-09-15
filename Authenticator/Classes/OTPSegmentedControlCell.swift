@@ -52,6 +52,11 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
         configureSubviews()
     }
 
+    convenience init<RowModel: SegmentedControlRowModel where RowModel.Value == Value>(rowModel: RowModel) {
+        self.init()
+        updateWithRowModel(rowModel)
+    }
+
     // MARK: - Subviews
 
     private func configureSubviews() {
@@ -65,7 +70,7 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
 
     // MARK: - Update
 
-    func updateWithRowModel<M: SegmentedControlRowModel where M.Value == Value>(rowModel: M) {
+    func updateWithRowModel<RowModel: SegmentedControlRowModel where RowModel.Value == Value>(rowModel: RowModel) {
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments

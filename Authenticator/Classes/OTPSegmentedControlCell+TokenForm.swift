@@ -52,20 +52,14 @@ struct AlgorithmRowModel: SegmentedControlRowModel {
 
 extension OTPSegmentedControlCell {
     static func tokenTypeCell() -> OTPSegmentedControlCell<OTPTokenType> {
-        let cell = OTPSegmentedControlCell<OTPTokenType>.init()
-        cell.updateWithRowModel(TokenTypeRowModel())
-        return cell
+        return OTPSegmentedControlCell<OTPTokenType>(rowModel: TokenTypeRowModel())
     }
 
     static func digitCountCell() -> OTPSegmentedControlCell<Int> {
-        let cell = OTPSegmentedControlCell<Int>.init()
-        cell.updateWithRowModel(DigitCountRowModel())
-        return cell
+        return OTPSegmentedControlCell<Int>(rowModel: DigitCountRowModel())
     }
 
     static func algorithmCell() -> OTPSegmentedControlCell<OTPAlgorithm> {
-        let cell = OTPSegmentedControlCell<OTPAlgorithm>.init()
-        cell.updateWithRowModel(AlgorithmRowModel())
-        return cell
+        return OTPSegmentedControlCell<OTPAlgorithm>(rowModel: AlgorithmRowModel())
     }
 }
