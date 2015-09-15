@@ -69,20 +69,20 @@ struct AlgorithmRowModel: SegmentedControlRowModel {
 }
 
 extension OTPSegmentedControlCell {
-    static func tokenTypeCell() -> Self {
-        let cell = self.init()
+    static func tokenTypeCell() -> OTPSegmentedControlCell<Int> {
+        let cell = OTPSegmentedControlCell<Int>.init()
         cell.updateWithRowModel(TokenTypeRowModel())
         return cell
     }
 
-    static func digitCountCell() -> Self {
-        let cell = self.init()
+    static func digitCountCell() -> OTPSegmentedControlCell<Int> {
+        let cell = OTPSegmentedControlCell<Int>.init()
         cell.updateWithRowModel(DigitCountRowModel())
         return cell
     }
 
-    static func algorithmCell() -> Self {
-        let cell = self.init()
+    static func algorithmCell() -> OTPSegmentedControlCell<Int> {
+        let cell = OTPSegmentedControlCell<Int>.init()
         cell.updateWithRowModel(AlgorithmRowModel())
         return cell
     }
