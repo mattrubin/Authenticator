@@ -66,16 +66,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return (tokenTypeCell.value == OTPTokenTypeOption.Timer.rawValue) ? .Timer : .Counter
     }
     var digitCount: UInt {
-        switch digitCountCell.value {
-        case OTPTokenDigitsOption.Six.rawValue:
-            return 6
-        case OTPTokenDigitsOption.Seven.rawValue:
-            return 7
-        case OTPTokenDigitsOption.Eight.rawValue:
-            return 8
-        default:
-            return 6 // FIXME: this should never need a default
-        }
+        return UInt(digitCountCell.value)
     }
     var algorithm: OTPAlgorithm {
         switch algorithmCell.value {

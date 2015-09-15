@@ -29,13 +29,6 @@ enum OTPTokenTypeOption: Int {
 }
 
 @objc
-enum OTPTokenDigitsOption: Int {
-    case Six
-    case Seven
-    case Eight
-}
-
-@objc
 enum OTPTokenAlgorithmOption: Int {
     case SHA1
     case SHA256
@@ -52,11 +45,11 @@ struct TokenTypeRowModel: SegmentedControlRowModel {
 
 struct DigitCountRowModel: SegmentedControlRowModel {
     let segments = [
-        (title: "6 Digits", value: OTPTokenDigitsOption.Six.rawValue),
-        (title: "7 Digits", value: OTPTokenDigitsOption.Seven.rawValue),
-        (title: "8 Digits", value: OTPTokenDigitsOption.Eight.rawValue),
+        (title: "6 Digits", value: 6),
+        (title: "7 Digits", value: 7),
+        (title: "8 Digits", value: 8),
     ]
-    let initialValue = OTPTokenDigitsOption.Six.rawValue
+    let initialValue = 6
 }
 
 struct AlgorithmRowModel: SegmentedControlRowModel {
