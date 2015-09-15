@@ -29,7 +29,7 @@
 @interface OTPTokenFormViewController : UITableViewController
 
 // FIXME: The actual parameter type should be id<TokenForm>, but that causes problems with
-// references to Swift typesin a header that is bridged to Swift before the Swift is compiled...
+// references to Swift types in a header that is bridged to Swift before the Swift is compiled...
 - (instancetype)initWithForm:(id)form;
 
 @end

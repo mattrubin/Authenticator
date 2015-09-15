@@ -187,8 +187,9 @@
 
 #pragma mark - TokenEntryFormDelegate
 
-- (void)form:(TokenEntryForm * __nonnull)form didCreateToken:(OTPToken * __nonnull)token
+- (void)form:(nonnull TokenEntryForm *)form didCreateToken:(nonnull OTPToken *)token
 {
+    // Forward didCreateToken on to the scanner's delegate
     [self.delegate tokenSource:form didCreateToken:token];
 }
 
