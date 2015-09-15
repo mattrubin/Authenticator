@@ -28,9 +28,9 @@ class TokenEntryForm: NSObject, TokenForm {
     private lazy var secretKeyCell: OTPTextFieldCell = {
         OTPTextFieldCell.secretCellWithDelegate(self)
     }()
-    private var tokenTypeCell = OTPSegmentedControlCell<Int>.tokenTypeCell()
-    private var digitCountCell = OTPSegmentedControlCell<Int>.digitCountCell()
-    private var algorithmCell = OTPSegmentedControlCell<Int>.algorithmCell()
+    private var tokenTypeCell: OTPSegmentedControlCell<OTPTokenType> = .tokenTypeCell()
+    private var digitCountCell: OTPSegmentedControlCell<Int> = .digitCountCell()
+    private var algorithmCell: OTPSegmentedControlCell<OTPAlgorithm> = .algorithmCell()
     private lazy var advancedSectionHeaderView: OTPHeaderView = {
         let headerView = OTPHeaderView()
         headerView.updateWithTitle("Advanced Options")
