@@ -65,8 +65,8 @@ class TokenEntryForm: NSObject, TokenForm {
     var accountName: String {
         return accountNameCell.textField.text ?? ""
     }
-    var secretKey: String? {
-        return secretKeyCell.textField.text
+    var secretKey: String {
+        return secretKeyCell.textField.text ?? ""
     }
     var tokenType: OTPTokenType {
         return (tokenTypeCell.value == OTPTokenTypeOption.Timer.rawValue) ? .Timer : .Counter
@@ -134,8 +134,8 @@ class TokenEntryForm: NSObject, TokenForm {
     }
 
     var isValid: Bool {
-        return !self.secretKeyCell.textField.text.isEmpty &&
-            !(self.issuerCell.textField.text.isEmpty && self.accountNameCell.textField.text.isEmpty)
+        return !secretKey.isEmpty &&
+            !(issuer.isEmpty && accountName.isEmpty)
     }
 
     func submit() {
