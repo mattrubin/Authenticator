@@ -415,6 +415,8 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = OTP;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {

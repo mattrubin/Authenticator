@@ -48,7 +48,7 @@ class OTPTextFieldCell: UITableViewCell {
 
     // MARK: - Init
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configureSubviews()
     }

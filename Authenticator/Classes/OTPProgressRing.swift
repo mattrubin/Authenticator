@@ -29,7 +29,7 @@ private let OTPProgressRingLineWidth: CGFloat = 1.5
 
 
 class OTPProgressRing: UIView {
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
