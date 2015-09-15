@@ -49,17 +49,3 @@ struct AlgorithmRowModel: SegmentedControlRowModel {
     ]
     let initialValue = OTPAlgorithm.SHA1
 }
-
-extension OTPSegmentedControlCell {
-    static func tokenTypeCell() -> OTPSegmentedControlCell<OTPTokenType> {
-        return OTPSegmentedControlCell<OTPTokenType>(rowModel: TokenTypeRowModel())
-    }
-
-    static func digitCountCell() -> OTPSegmentedControlCell<Int> {
-        return OTPSegmentedControlCell<Int>(rowModel: DigitCountRowModel())
-    }
-
-    static func algorithmCell() -> OTPSegmentedControlCell<OTPAlgorithm> {
-        return OTPSegmentedControlCell<OTPAlgorithm>(rowModel: AlgorithmRowModel())
-    }
-}
