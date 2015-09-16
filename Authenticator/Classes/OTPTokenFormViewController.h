@@ -32,6 +32,8 @@
 // references to Swift types in a header that is bridged to Swift before the Swift is compiled...
 @property (nonatomic, strong) id form_bridge;
 
+@property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
+
 - (void)validateForm;
 
 @end

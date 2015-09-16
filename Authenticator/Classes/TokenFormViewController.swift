@@ -34,6 +34,41 @@ class TokenFormViewController: OTPTokenFormViewController {
         super.init(coder: aDecoder)
     }
 
+    // MARK: - View Lifecycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = .otpBackgroundColor
+        view.tintColor = .otpForegroundColor
+        tableView.separatorStyle = .None
+
+        // Set up top bar
+        let form = form_bridge as! TokenForm
+        title = form.title
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancelAction"))
+        doneButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("doneAction"))
+        navigationItem.leftBarButtonItem = cancelButton
+        navigationItem.rightBarButtonItem = doneButtonItem
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        validateForm()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        let form = form_bridge as! TokenForm
+        form.focusFirstField()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        let form = form_bridge as! TokenForm
+        form.unfocus()
+    }
+
 }
 
 extension TokenFormViewController: TokenFormPresenter {

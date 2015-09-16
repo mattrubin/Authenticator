@@ -29,47 +29,10 @@
 
 @property (nonatomic, strong) id<TokenForm> form;
 
-@property (nonatomic, strong) UIBarButtonItem *doneButtonItem;
-
 @end
 
 
 @implementation OTPTokenFormViewController
-
-#pragma mark - View Lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor otpBackgroundColor];
-    self.view.tintColor = [UIColor otpForegroundColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    // Set up top bar
-    self.title = self.form.title;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction)];
-    self.doneButtonItem = self.navigationItem.rightBarButtonItem;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self validateForm];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self.form focusFirstField];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.form unfocus];
-}
-
 
 #pragma mark - Target Actions
 
