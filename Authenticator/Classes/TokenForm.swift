@@ -25,8 +25,7 @@
 import OneTimePasswordLegacy
 
 protocol TokenForm {
-    var title: String { get }
-    var sections: [Section] { get }
+    var viewModel: TableViewModel { get }
 
     weak var presenter: TokenFormPresenter? { get set }
 
@@ -45,6 +44,14 @@ protocol TokenFormPresenter: class {
 
 
 extension TokenForm {
+    private var sections: [Section] {
+        return viewModel.sections
+    }
+
+    var title: String {
+        return viewModel.title
+    }
+
     var numberOfSections: Int {
         return sections.count
     }
