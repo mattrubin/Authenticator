@@ -47,7 +47,7 @@ class TokenFormViewController: UITableViewController {
         tableView.separatorStyle = .None
 
         // Set up top bar
-        title = form?.title
+        title = form?.viewModel.title
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancelAction"))
         doneButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("doneAction"))
         navigationItem.leftBarButtonItem = cancelButton
@@ -82,15 +82,15 @@ class TokenFormViewController: UITableViewController {
     // MARK: - UITableViewDataSource
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return form?.numberOfSections ?? 0
+        return form?.viewModel.numberOfSections ?? 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return form?.numberOfRowsInSection(section) ?? 0
+        return form?.viewModel.numberOfRowsInSection(section) ?? 0
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return form?.cellForRowAtIndexPath(indexPath) ?? UITableViewCell()
+        return form?.viewModel.cellForRowAtIndexPath(indexPath) ?? UITableViewCell()
     }
 
     // MARK: - UITableViewDelegate
@@ -107,19 +107,19 @@ class TokenFormViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        guard let cell = form?.cellForRowAtIndexPath(indexPath) as? OTPCell
+        guard let cell = form?.viewModel.cellForRowAtIndexPath(indexPath) as? OTPCell
             else { return 0 }
         return cell.preferredHeight
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let headerView = form?.viewForHeaderInSection(section) as? OTPCell
+        guard let headerView = form?.viewModel.viewForHeaderInSection(section) as? OTPCell
             else { return CGFloat(FLT_EPSILON) }
         return headerView.preferredHeight
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return form?.viewForHeaderInSection(section)
+        return form?.viewModel.viewForHeaderInSection(section)
     }
 
     // MARK: - Validation

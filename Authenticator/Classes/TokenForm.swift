@@ -42,16 +42,7 @@ protocol TokenFormPresenter: class {
     func form(form: TokenForm, didReloadSection section: Int)
 }
 
-
-extension TokenForm {
-    private var sections: [Section] {
-        return viewModel.sections
-    }
-
-    var title: String {
-        return viewModel.title
-    }
-
+extension TableViewModel {
     var numberOfSections: Int {
         return sections.count
     }
