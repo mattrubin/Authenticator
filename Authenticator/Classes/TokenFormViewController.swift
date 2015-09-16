@@ -24,4 +24,33 @@
 
 class TokenFormViewController: OTPTokenFormViewController {
 
+    // FIXME: Replace AnyObject with TokenForm
+    override init(form: AnyObject) {
+        let form = form as! TokenForm
+        super.init(form: form)
+        form.presenter = self
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+}
+
+extension TokenFormViewController: TokenFormPresenter {
+
+    func formValuesDidChange(form: TokenForm) {
+        validateForm()
+    }
+
+    func form(form: TokenForm, didFailWithErrorMessage errorMessage: String) {
+        SVProgressHUD.showErrorWithStatus(errorMessage)
+    }
+
+    func form(form: TokenForm, didReloadSection section: Int) {
+        tableView.reloadSections(NSIndexSet(index: section), withRowAnimation: .Automatic)
+        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section),
+            atScrollPosition: .Top,
+            animated: true)
+    }
 }

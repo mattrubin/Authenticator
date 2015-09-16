@@ -30,6 +30,8 @@
 
 // FIXME: The actual parameter type should be id<TokenForm>, but that causes problems with
 // references to Swift types in a header that is bridged to Swift before the Swift is compiled...
-- (instancetype)initWithForm:(id)form;
+- (nonnull instancetype)initWithForm:(nonnull id)form;
+
+- (void)validateForm;
 
 @end

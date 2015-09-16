@@ -26,7 +26,6 @@
 
 
 @interface OTPTokenFormViewController ()
-    <TokenFormPresenter>
 
 @property (nonatomic, strong) id<TokenForm> form;
 
@@ -47,7 +46,6 @@
     self = [self init];
     if (self) {
         self.form = form;
-        self.form.presenter = self;
     }
     return self;
 }
@@ -162,28 +160,6 @@
 - (void)validateForm
 {
     self.doneButtonItem.enabled = self.form.isValid;
-}
-
-
-#pragma mark - TokenEditFormDelegate
-
-- (void)formValuesDidChange:(nonnull id<TokenForm>)form
-{
-    [self validateForm];
-}
-
-- (void)form:(nonnull id<TokenForm>)form didFailWithErrorMessage:(nonnull NSString *)errorMessage
-{
-    [SVProgressHUD showErrorWithStatus:errorMessage];
-}
-
-- (void)form:(nonnull id<TokenForm>)form didReloadSection:(NSInteger)section
-{
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section]
-                  withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]
-                          atScrollPosition:UITableViewScrollPositionTop
-                                  animated:YES];
 }
 
 @end
