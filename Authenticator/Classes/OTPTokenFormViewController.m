@@ -73,14 +73,6 @@
 }
 
 
-#pragma mark - Validation
-
-- (void)validateForm
-{
-    self.doneButtonItem.enabled = self.form.isValid;
-}
-
-
 #pragma mark - Bridge
 
 - (id)form_bridge {

@@ -23,6 +23,8 @@
 //
 
 class TokenFormViewController: OTPTokenFormViewController {
+    var doneButtonItem: UIBarButtonItem?
+
 
     init(form: TokenForm) {
         super.init(style: .Grouped)
@@ -96,6 +98,14 @@ class TokenFormViewController: OTPTokenFormViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let form = form_bridge as! TokenForm
         return form.cellForRowAtIndexPath(indexPath)!
+    }
+
+
+    // MARK: - Validation
+
+    func validateForm() {
+        let form = form_bridge as! TokenForm
+        doneButtonItem?.enabled = form.isValid
     }
 
 }
