@@ -100,6 +100,39 @@ class TokenFormViewController: OTPTokenFormViewController {
         return form.cellForRowAtIndexPath(indexPath)!
     }
 
+    // MARK: - UITableViewDelegate
+
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        cell.backgroundColor = .clearColor()
+        cell.selectionStyle = .None
+
+        cell.textLabel?.textColor = .otpForegroundColor
+        if let cell = cell as? OTPTextFieldCell {
+            cell.textField.backgroundColor = .otpLightColor
+            cell.textField.tintColor = .otpDarkColor
+        }
+    }
+
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let form = form_bridge as! TokenForm
+        guard let cell = form.cellForRowAtIndexPath(indexPath) as? OTPCell
+            else { return 0 }
+        return cell.preferredHeight
+    }
+
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
+    let form = form_bridge as! TokenForm
+    guard let headerView = form.viewForHeaderInSection(section) as? OTPCell
+        else { return CGFloat(FLT_EPSILON) }
+        return headerView.preferredHeight
+    }
+
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let form = form_bridge as! TokenForm
+        return form.viewForHeaderInSection(section)
+    }
+
 
     // MARK: - Validation
 

@@ -1,5 +1,5 @@
 //
-//  OTPTokenFormViewController.m
+//  OTPCell.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Matt Rubin
@@ -22,27 +22,6 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "OTPTokenFormViewController.h"
-
-
-@interface OTPTokenFormViewController ()
-
-@property (nonatomic, strong) id<TokenForm> form;
-
-@end
-
-
-@implementation OTPTokenFormViewController
-
-
-#pragma mark - Bridge
-
-- (id)form_bridge {
-    return self.form;
+protocol OTPCell {
+    var preferredHeight: CGFloat { get }
 }
-
-- (void)setForm_bridge:(id)form_bridge {
-    self.form = form_bridge;
-}
-
-@end

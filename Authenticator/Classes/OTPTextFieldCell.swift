@@ -40,7 +40,7 @@ protocol OTPTextFieldCellDelegate: class {
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
 }
 
-class OTPTextFieldCell: UITableViewCell {
+class OTPTextFieldCell: UITableViewCell, OTPCell {
     let preferredHeight: CGFloat = 74
 
     let textField = UITextField()

@@ -30,7 +30,7 @@ protocol SegmentedControlRowModel {
     var initialValue: Value { get }
 }
 
-class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
+class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
     let preferredHeight: CGFloat = 54
 
     private let segmentedControl = UISegmentedControl()
