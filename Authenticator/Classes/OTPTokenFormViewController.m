@@ -34,18 +34,6 @@
 
 @implementation OTPTokenFormViewController
 
-#pragma mark - Target Actions
-
-- (void)cancelAction
-{
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)doneAction
-{
-    [self.form submit];
-}
-
 
 #pragma mark - UITableViewDataSource
 

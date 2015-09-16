@@ -69,6 +69,17 @@ class TokenFormViewController: OTPTokenFormViewController {
         form.unfocus()
     }
 
+    // MARK: - Target Actions
+
+    func cancelAction() {
+        presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func doneAction() {
+        let form = form_bridge as! TokenForm
+        form.submit()
+    }
+
 }
 
 extension TokenFormViewController: TokenFormPresenter {
