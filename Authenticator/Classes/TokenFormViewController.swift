@@ -145,3 +145,10 @@ extension TokenFormViewController: TokenFormPresenter {
             animated: true)
     }
 }
+
+extension TokenFormViewController {
+    static func entryControllerWithDelegate(delegate: TokenEntryFormDelegate) -> TokenFormViewController {
+        let form = TokenEntryForm(delegate: delegate)
+        return TokenFormViewController(form: form)
+    }
+}

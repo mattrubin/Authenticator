@@ -91,8 +91,7 @@
 
 - (void)addTokenManually
 {
-    TokenEntryForm *form = [[TokenEntryForm alloc] initWithDelegate:self];
-    TokenFormViewController *entryController = [[TokenFormViewController alloc] initWithForm:form];
+    TokenFormViewController *entryController = [TokenFormViewController entryControllerWithDelegate:self];
     [self.navigationController pushViewController:entryController animated:YES];
 }
 
