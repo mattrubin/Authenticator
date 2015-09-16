@@ -24,7 +24,6 @@
 
 import OneTimePasswordLegacy
 
-@objc
 protocol TableViewModel {
     var title: String { get }
     var numberOfSections: Int { get }
@@ -33,7 +32,6 @@ protocol TableViewModel {
     func viewForHeaderInSection(section:Int) -> UIView?
 }
 
-@objc
 protocol TokenForm: TableViewModel {
     weak var presenter: TokenFormPresenter? { get set }
 
@@ -44,7 +42,6 @@ protocol TokenForm: TableViewModel {
     func submit()
 }
 
-@objc
 protocol TokenFormPresenter: class {
     func formValuesDidChange(form: TokenForm)
     func form(form: TokenForm, didFailWithErrorMessage errorMessage: String)
