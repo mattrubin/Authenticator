@@ -26,6 +26,8 @@ import OneTimePasswordLegacy
 
 protocol TableViewModel {
     var title: String { get }
+    var sections: [Section] { get }
+
     var numberOfSections: Int { get }
     func numberOfRowsInSection(section: Int) -> Int
     func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell?
@@ -46,4 +48,32 @@ protocol TokenFormPresenter: class {
     func formValuesDidChange(form: TokenForm)
     func form(form: TokenForm, didFailWithErrorMessage errorMessage: String)
     func form(form: TokenForm, didReloadSection section: Int)
+}
+
+
+extension TableViewModel {
+    var numberOfSections: Int {
+        return sections.count
+    }
+
+    func numberOfRowsInSection(section: Int) -> Int {
+        guard sections.indices.contains(section)
+            else { return 0 }
+        return sections[section].rows.count
+    }
+
+    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
+        guard sections.indices.contains(indexPath.section)
+            else { return nil }
+        let section = sections[indexPath.section]
+        guard section.rows.indices.contains(indexPath.row)
+            else { return nil }
+        return section.rows[indexPath.row]
+    }
+
+    func viewForHeaderInSection(section: Int) -> UIView? {
+        guard sections.indices.contains(section)
+            else { return nil }
+        return sections[section].header
+    }
 }

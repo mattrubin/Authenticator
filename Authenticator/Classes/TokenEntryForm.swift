@@ -60,7 +60,7 @@ class TokenEntryForm: NSObject, TokenForm {
         self.delegate = delegate
     }
 
-    private var sections: [Section] {
+    var sections: [Section] {
         return [
             [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
             showsAdvancedOptions
@@ -89,31 +89,6 @@ class TokenEntryForm: NSObject, TokenForm {
     }
 
     let title = "Add Token"
-
-    var numberOfSections: Int {
-        return sections.count
-    }
-
-    func numberOfRowsInSection(section: Int) -> Int {
-        guard sections.indices.contains(section)
-            else { return 0 }
-        return sections[section].rows.count
-    }
-
-    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
-        guard sections.indices.contains(indexPath.section)
-            else { return nil }
-        let section = sections[indexPath.section]
-        guard section.rows.indices.contains(indexPath.row)
-            else { return nil }
-        return section.rows[indexPath.row]
-    }
-
-    func viewForHeaderInSection(section: Int) -> UIView? {
-        guard sections.indices.contains(section)
-            else { return nil }
-        return sections[section].header
-    }
 
     func focusFirstField() {
         issuerCell.textField.becomeFirstResponder()
