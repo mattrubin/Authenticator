@@ -24,10 +24,13 @@
 
 class TokenFormViewController: OTPTokenFormViewController {
 
-    // FIXME: Replace AnyObject with TokenForm
-    override init(form: AnyObject) {
-        let form = form as! TokenForm
-        super.init(form: form)
+    init() {
+        super.init(style: .Grouped)
+    }
+
+    convenience init(form: TokenForm) {
+        self.init()
+        self.form_bridge = form
         form.presenter = self
     }
 

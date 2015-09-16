@@ -36,21 +36,6 @@
 
 @implementation OTPTokenFormViewController
 
-- (instancetype)init
-{
-    return [super initWithStyle:UITableViewStyleGrouped];
-}
-
-- (instancetype)initWithForm:(id<TokenForm>)form
-{
-    self = [self init];
-    if (self) {
-        self.form = form;
-    }
-    return self;
-}
-
-
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
@@ -160,6 +145,17 @@
 - (void)validateForm
 {
     self.doneButtonItem.enabled = self.form.isValid;
+}
+
+
+#pragma mark - Bridge
+
+- (id)form_bridge {
+    return self.form;
+}
+
+- (void)setForm_bridge:(id)form_bridge {
+    self.form = form_bridge;
 }
 
 @end
