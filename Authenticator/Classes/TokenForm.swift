@@ -24,17 +24,10 @@
 
 import OneTimePasswordLegacy
 
-protocol TableViewModel {
+protocol TokenForm {
     var title: String { get }
     var sections: [Section] { get }
 
-    var numberOfSections: Int { get }
-    func numberOfRowsInSection(section: Int) -> Int
-    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell?
-    func viewForHeaderInSection(section:Int) -> UIView?
-}
-
-protocol TokenForm: TableViewModel {
     weak var presenter: TokenFormPresenter? { get set }
 
     func focusFirstField()
@@ -51,7 +44,7 @@ protocol TokenFormPresenter: class {
 }
 
 
-extension TableViewModel {
+extension TokenForm {
     var numberOfSections: Int {
         return sections.count
     }
