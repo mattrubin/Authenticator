@@ -27,22 +27,9 @@
 
 @interface OTPTokenFormViewController ()
 
-@property (nonatomic, strong) id<TokenForm> form;
-
 @end
 
 
 @implementation OTPTokenFormViewController
-
-
-#pragma mark - Bridge
-
-- (id)form_bridge {
-    return self.form;
-}
-
-- (void)setForm_bridge:(id)form_bridge {
-    self.form = form_bridge;
-}
 
 @end

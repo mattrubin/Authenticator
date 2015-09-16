@@ -23,12 +23,12 @@
 //
 
 class TokenFormViewController: OTPTokenFormViewController {
+    var form: TokenForm?
     var doneButtonItem: UIBarButtonItem?
-
 
     init(form: TokenForm) {
         super.init(style: .Grouped)
-        self.form_bridge = form
+        self.form = form
         form.presenter = self
     }
 
@@ -46,8 +46,7 @@ class TokenFormViewController: OTPTokenFormViewController {
         tableView.separatorStyle = .None
 
         // Set up top bar
-        let form = form_bridge as! TokenForm
-        title = form.title
+        title = form?.title
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancelAction"))
         doneButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("doneAction"))
         navigationItem.leftBarButtonItem = cancelButton
@@ -61,14 +60,12 @@ class TokenFormViewController: OTPTokenFormViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        let form = form_bridge as! TokenForm
-        form.focusFirstField()
+        form?.focusFirstField()
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        let form = form_bridge as! TokenForm
-        form.unfocus()
+        form?.unfocus()
     }
 
     // MARK: - Target Actions
@@ -78,26 +75,21 @@ class TokenFormViewController: OTPTokenFormViewController {
     }
 
     func doneAction() {
-        let form = form_bridge as! TokenForm
-        form.submit()
+        form?.submit()
     }
-
 
     // MARK: - UITableViewDataSource
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        let form = form_bridge as! TokenForm
-        return form.numberOfSections;
+        return form?.numberOfSections ?? 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let form = form_bridge as! TokenForm
-        return form.numberOfRowsInSection(section)
+        return form?.numberOfRowsInSection(section) ?? 0
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let form = form_bridge as! TokenForm
-        return form.cellForRowAtIndexPath(indexPath)!
+        return form?.cellForRowAtIndexPath(indexPath) ?? UITableViewCell()
     }
 
     // MARK: - UITableViewDelegate
@@ -114,33 +106,26 @@ class TokenFormViewController: OTPTokenFormViewController {
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let form = form_bridge as! TokenForm
-        guard let cell = form.cellForRowAtIndexPath(indexPath) as? OTPCell
+        guard let cell = form?.cellForRowAtIndexPath(indexPath) as? OTPCell
             else { return 0 }
         return cell.preferredHeight
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-
-    let form = form_bridge as! TokenForm
-    guard let headerView = form.viewForHeaderInSection(section) as? OTPCell
-        else { return CGFloat(FLT_EPSILON) }
+        guard let headerView = form?.viewForHeaderInSection(section) as? OTPCell
+            else { return CGFloat(FLT_EPSILON) }
         return headerView.preferredHeight
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let form = form_bridge as! TokenForm
-        return form.viewForHeaderInSection(section)
+        return form?.viewForHeaderInSection(section)
     }
-
 
     // MARK: - Validation
 
     func validateForm() {
-        let form = form_bridge as! TokenForm
-        doneButtonItem?.enabled = form.isValid
+        doneButtonItem?.enabled = form?.isValid ?? false
     }
-
 }
 
 extension TokenFormViewController: TokenFormPresenter {
