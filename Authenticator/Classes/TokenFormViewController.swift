@@ -24,12 +24,8 @@
 
 class TokenFormViewController: OTPTokenFormViewController {
 
-    init() {
+    init(form: TokenForm) {
         super.init(style: .Grouped)
-    }
-
-    convenience init(form: TokenForm) {
-        self.init()
         self.form_bridge = form
         form.presenter = self
     }
