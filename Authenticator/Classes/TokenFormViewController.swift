@@ -80,6 +80,24 @@ class TokenFormViewController: OTPTokenFormViewController {
         form.submit()
     }
 
+
+    // MARK: - UITableViewDataSource
+
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        let form = form_bridge as! TokenForm
+        return form.numberOfSections;
+    }
+
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let form = form_bridge as! TokenForm
+        return form.numberOfRowsInSection(section)
+    }
+
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let form = form_bridge as! TokenForm
+        return form.cellForRowAtIndexPath(indexPath)!
+    }
+
 }
 
 extension TokenFormViewController: TokenFormPresenter {
