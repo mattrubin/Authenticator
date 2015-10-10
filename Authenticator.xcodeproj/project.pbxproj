@@ -24,6 +24,7 @@
 		C9919CDD1BA64EED006237C1 /* TokenEntryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */; };
 		C9919CE01BA721A1006237C1 /* OTPHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDF1BA721A1006237C1 /* OTPHeaderView.swift */; };
 		C9919CE21BA733FD006237C1 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CE11BA733FD006237C1 /* Section.swift */; };
+		C99B85251BC9AB7100A6C75D /* BarButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */; settings = {ASSET_TAGS = (); }; };
 		C9AAB0791B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0781B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift */; };
 		C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */; };
 		C9AAB0811B9187F8000CE547 /* TokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0801B9187F8000CE547 /* TokenForm.swift */; };
@@ -108,6 +109,7 @@
 		C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEntryForm.swift; sourceTree = "<group>"; };
 		C9919CDF1BA721A1006237C1 /* OTPHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPHeaderView.swift; sourceTree = "<group>"; };
 		C9919CE11BA733FD006237C1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarButtonViewModel.swift; sourceTree = "<group>"; };
 		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		C9AAB0781B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OTPSegmentedControlCell+TokenForm.swift"; sourceTree = "<group>"; };
 		C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEditForm.swift; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 			isa = PBXGroup;
 			children = (
 				C9CC09541BA91D1C008C54FE /* TableViewModel.swift */,
+				C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */,
 				C9919CE11BA733FD006237C1 /* Section.swift */,
 			);
 			name = "View Models";
@@ -541,6 +544,7 @@
 				C9919CE01BA721A1006237C1 /* OTPHeaderView.swift in Sources */,
 				C9AAB0811B9187F8000CE547 /* TokenForm.swift in Sources */,
 				C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */,
+				C99B85251BC9AB7100A6C75D /* BarButtonViewModel.swift in Sources */,
 				C9AAB0791B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift in Sources */,
 				1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */,
 				C9919CE21BA733FD006237C1 /* Section.swift in Sources */,

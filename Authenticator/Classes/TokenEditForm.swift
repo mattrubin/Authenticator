@@ -42,13 +42,13 @@ class TokenEditForm: NSObject, TokenForm {
     var viewModel: TableViewModel {
         return TableViewModel(
             title: "Edit Token",
+            doneButtonViewModel: BarButtonViewModel(enabled: isValid),
             sections: [
                 [
                     issuerCell,
                     accountNameCell,
                 ]
-            ],
-            doneButtonEnabled: isValid
+            ]
         )
     }
 

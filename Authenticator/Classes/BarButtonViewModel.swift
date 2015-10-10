@@ -1,5 +1,5 @@
 //
-//  TableViewModel.swift
+//  BarButtonViewModel.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Matt Rubin
@@ -22,39 +22,10 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-struct TableViewModel {
-    var title: String
-    var doneButtonViewModel: BarButtonViewModel
-    var sections: [Section]
-}
+struct BarButtonViewModel {
+    let enabled: Bool
 
-extension TableViewModel {
-    var numberOfSections: Int {
-        return sections.count
+    init(enabled: Bool = true) {
+        self.enabled = enabled
     }
-
-    func numberOfRowsInSection(section: Int) -> Int {
-        guard sections.indices.contains(section)
-            else { return 0 }
-        return sections[section].rows.count
-    }
-
-    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
-        guard sections.indices.contains(indexPath.section)
-            else { return nil }
-        let section = sections[indexPath.section]
-        guard section.rows.indices.contains(indexPath.row)
-            else { return nil }
-        return section.rows[indexPath.row]
-    }
-
-    func viewForHeaderInSection(section: Int) -> UIView? {
-        guard sections.indices.contains(section)
-            else { return nil }
-        return sections[section].header
-    }
-}
-
-func EmptyTableViewModel() -> TableViewModel {
-    return TableViewModel(title: "", doneButtonViewModel: BarButtonViewModel(), sections: [])
 }

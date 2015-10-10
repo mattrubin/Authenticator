@@ -127,7 +127,7 @@ class TokenFormViewController: UITableViewController {
     // MARK: - Validation
 
     func validateForm() {
-        doneButtonItem?.enabled = viewModel.doneButtonEnabled
+        doneButtonItem?.enabled = viewModel.doneButtonViewModel.enabled
     }
 }
 
