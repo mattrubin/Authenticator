@@ -297,11 +297,8 @@
 			children = (
 				C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */,
 				C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */,
-				C9AAB0801B9187F8000CE547 /* TokenForm.swift */,
-				C9CC09541BA91D1C008C54FE /* TableViewModel.swift */,
-				C9919CE11BA733FD006237C1 /* Section.swift */,
-				C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */,
-				C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */,
+				C9B0B9501BC9159300BD5844 /* Forms */,
+				C9B0B94F1BC9158200BD5844 /* View Models */,
 				C9D6C8401906BD6F004F0E08 /* Cells */,
 				C99069CF180CBAC900BAEF53 /* OTPScannerViewController.h */,
 				C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */,
@@ -344,6 +341,25 @@
 				C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */,
 			);
 			path = AuthenticatorTests;
+			sourceTree = "<group>";
+		};
+		C9B0B94F1BC9158200BD5844 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				C9CC09541BA91D1C008C54FE /* TableViewModel.swift */,
+				C9919CE11BA733FD006237C1 /* Section.swift */,
+			);
+			name = "View Models";
+			sourceTree = "<group>";
+		};
+		C9B0B9501BC9159300BD5844 /* Forms */ = {
+			isa = PBXGroup;
+			children = (
+				C9AAB0801B9187F8000CE547 /* TokenForm.swift */,
+				C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */,
+				C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */,
+			);
+			name = Forms;
 			sourceTree = "<group>";
 		};
 		C9D6C8401906BD6F004F0E08 /* Cells */ = {
