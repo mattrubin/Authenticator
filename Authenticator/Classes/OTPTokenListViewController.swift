@@ -128,7 +128,7 @@ class OTPTokenListViewController: UITableViewController {
             entryController = scanner
         } else {
             let form = TokenEntryForm(delegate: self)
-            let formController = OTPTokenFormViewController(form: form)
+            let formController = TokenFormViewController(form: form)
             entryController = formController
         }
         let navController = UINavigationController(rootViewController: entryController)
@@ -193,7 +193,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         if self.editing {
             let token = self.tokenManager.tokenAtIndexPath(indexPath)
             let form = TokenEditForm(token: token, delegate: self)
-            let editController = OTPTokenFormViewController(form: form)
+            let editController = TokenFormViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
             navController.navigationBar.translucent = false
 

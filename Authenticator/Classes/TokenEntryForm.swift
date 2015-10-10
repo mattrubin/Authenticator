@@ -95,23 +95,23 @@ class TokenEntryForm: NSObject, TokenForm {
     }
 
     func numberOfRowsInSection(section: Int) -> Int {
-        if section < sections.startIndex { return 0 }
-        if section >= sections.endIndex { return 0 }
+        guard sections.indices.contains(section)
+            else { return 0 }
         return sections[section].rows.count
     }
 
     func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
-        if indexPath.section < sections.startIndex { return nil }
-        if indexPath.section >= sections.endIndex { return nil }
+        guard sections.indices.contains(indexPath.section)
+            else { return nil }
         let section = sections[indexPath.section]
-        if indexPath.row < section.rows.startIndex { return nil }
-        if indexPath.row >= section.rows.endIndex { return nil }
+        guard section.rows.indices.contains(indexPath.row)
+            else { return nil }
         return section.rows[indexPath.row]
     }
 
     func viewForHeaderInSection(section: Int) -> UIView? {
-        if section < sections.startIndex { return nil }
-        if section >= sections.endIndex { return nil }
+        guard sections.indices.contains(section)
+            else { return nil }
         return sections[section].header
     }
 

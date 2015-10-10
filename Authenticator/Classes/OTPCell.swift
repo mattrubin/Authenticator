@@ -1,5 +1,5 @@
 //
-//  OTPTokenFormViewController.h
+//  OTPCell.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Matt Rubin
@@ -22,14 +22,6 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import UIKit;
-@class OTPToken;
-
-
-@interface OTPTokenFormViewController : UITableViewController
-
-// FIXME: The actual parameter type should be id<TokenForm>, but that causes problems with
-// references to Swift types in a header that is bridged to Swift before the Swift is compiled...
-- (instancetype)initWithForm:(id)form;
-
-@end
+protocol OTPCell {
+    var preferredHeight: CGFloat { get }
+}
