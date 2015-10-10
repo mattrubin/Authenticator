@@ -125,7 +125,6 @@ class TokenFormViewController: UITableViewController {
             else { return nil }
         let headerView = OTPHeaderView()
         headerView.updateWithViewModel(header)
-        headerView.delegate = self
         return headerView
     }
 
@@ -153,14 +152,6 @@ extension TokenFormViewController: TokenFormPresenter {
         tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section),
             atScrollPosition: .Top,
             animated: true)
-    }
-}
-
-extension TokenFormViewController: OTPHeaderViewDelegate {
-    func headerViewButtonWasPressed(headerView: OTPHeaderView) {
-        if let form = form as? OTPHeaderViewDelegate {
-            form.headerViewButtonWasPressed(headerView)
-        }
     }
 }
 

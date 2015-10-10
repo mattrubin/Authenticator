@@ -47,7 +47,11 @@ class TokenEntryForm: NSObject, TokenForm {
     private var tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>(rowModel: TokenTypeRowModel())
     private var digitCountCell = OTPSegmentedControlCell<Int>(rowModel: DigitCountRowModel())
     private var algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>(rowModel: AlgorithmRowModel())
-    private let advancedSectionHeader = Section.Header(title: "Advanced Options")
+    private var advancedSectionHeader: Section.Header {
+        return Section.Header(title: "Advanced Options") { [weak self] in
+            self?.toggleAdvancedOptions()
+        }
+    }
 
     var showsAdvancedOptions = false
 
@@ -143,8 +147,8 @@ extension TokenEntryForm: OTPTextFieldCellDelegate {
     }
 }
 
-extension TokenEntryForm: OTPHeaderViewDelegate {
-    func headerViewButtonWasPressed(headerView: OTPHeaderView) {
+extension TokenEntryForm {
+    func toggleAdvancedOptions() {
         if (!showsAdvancedOptions) {
             showsAdvancedOptions = true
             // TODO: Don't hard-code this index
