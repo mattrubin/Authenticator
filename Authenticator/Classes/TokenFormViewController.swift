@@ -115,13 +115,18 @@ class TokenFormViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let headerView = viewModel.viewForHeaderInSection(section) as? OTPCell
+        guard viewModel.headerForSection(section) != nil
             else { return CGFloat(FLT_EPSILON) }
-        return headerView.preferredHeight
+        return OTPHeaderView.preferredHeight
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return viewModel.viewForHeaderInSection(section)
+        guard let header = viewModel.headerForSection(section)
+            else { return nil }
+        let headerView = OTPHeaderView()
+        headerView.updateWithTitle(header.title)
+        headerView.delegate = self
+        return headerView
     }
 
     // MARK: - Validation
@@ -148,6 +153,14 @@ extension TokenFormViewController: TokenFormPresenter {
         tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section),
             atScrollPosition: .Top,
             animated: true)
+    }
+}
+
+extension TokenFormViewController: OTPHeaderViewDelegate {
+    func headerViewButtonWasPressed(headerView: OTPHeaderView) {
+        if let form = form as? OTPHeaderViewDelegate {
+            form.headerViewButtonWasPressed(headerView)
+        }
     }
 }
 

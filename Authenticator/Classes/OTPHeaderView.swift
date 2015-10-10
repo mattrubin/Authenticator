@@ -28,8 +28,8 @@ protocol OTPHeaderViewDelegate: class {
     func headerViewButtonWasPressed(headerView: OTPHeaderView)
 }
 
-class OTPHeaderView: UIButton, OTPCell {
-    let preferredHeight: CGFloat = 54
+class OTPHeaderView: UIButton {
+    static let preferredHeight: CGFloat = 54
 
     weak var delegate: OTPHeaderViewDelegate?
 

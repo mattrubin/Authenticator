@@ -47,12 +47,7 @@ class TokenEntryForm: NSObject, TokenForm {
     private var tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>(rowModel: TokenTypeRowModel())
     private var digitCountCell = OTPSegmentedControlCell<Int>(rowModel: DigitCountRowModel())
     private var algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>(rowModel: AlgorithmRowModel())
-    private lazy var advancedSectionHeaderView: OTPHeaderView = {
-        let headerView = OTPHeaderView()
-        headerView.updateWithTitle("Advanced Options")
-        headerView.delegate = self
-        return headerView
-    }()
+    private let advancedSectionHeader = Section.Header(title: "Advanced Options")
 
     var showsAdvancedOptions = false
 
@@ -66,8 +61,8 @@ class TokenEntryForm: NSObject, TokenForm {
             sections: [
                 [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
                 showsAdvancedOptions
-                    ? Section(header: advancedSectionHeaderView, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
-                    : Section(header: advancedSectionHeaderView),
+                    ? Section(header: advancedSectionHeader, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
+                    : Section(header: advancedSectionHeader),
             ],
             doneButtonEnabled: isValid
         )

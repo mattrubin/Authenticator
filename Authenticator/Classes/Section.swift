@@ -25,7 +25,10 @@
 import UIKit
 
 struct Section {
-    typealias Header = UIView
+    struct Header {
+        let title: String
+    }
+
     typealias Row = UITableViewCell
 
     let header: Header?

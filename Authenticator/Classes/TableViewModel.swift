@@ -48,7 +48,7 @@ extension TableViewModel {
         return section.rows[indexPath.row]
     }
 
-    func viewForHeaderInSection(section: Int) -> UIView? {
+    func headerForSection(section: Int) -> Section.Header? {
         guard sections.indices.contains(section)
             else { return nil }
         return sections[section].header
