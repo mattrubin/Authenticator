@@ -60,13 +60,16 @@ class TokenEntryForm: NSObject, TokenForm {
         self.delegate = delegate
     }
 
-    var sections: [Section] {
-        return [
-            [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
-            showsAdvancedOptions
-                ? Section(header: advancedSectionHeaderView, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
-                : Section(header: advancedSectionHeaderView),
-        ]
+    var viewModel: TableViewModel {
+        return TableViewModel(
+            title: "Add Token",
+            sections: [
+                [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
+                showsAdvancedOptions
+                    ? Section(header: advancedSectionHeaderView, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
+                    : Section(header: advancedSectionHeaderView),
+            ]
+        )
     }
 
     var issuer: String {
@@ -87,8 +90,6 @@ class TokenEntryForm: NSObject, TokenForm {
     var algorithm: OTPAlgorithm {
         return algorithmCell.value
     }
-
-    let title = "Add Token"
 
     func focusFirstField() {
         issuerCell.textField.becomeFirstResponder()

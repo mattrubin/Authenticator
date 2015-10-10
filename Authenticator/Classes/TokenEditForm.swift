@@ -39,13 +39,16 @@ class TokenEditForm: NSObject, TokenForm {
         OTPTextFieldCell.nameCellWithDelegate(self, returnKeyType: .Done)
     }()
 
-    var sections: [Section] {
-        return [
-            [
-                issuerCell,
-                accountNameCell,
+    var viewModel: TableViewModel {
+        return TableViewModel(
+            title: "Edit Token",
+            sections: [
+                [
+                    issuerCell,
+                    accountNameCell,
+                ]
             ]
-        ]
+        )
     }
 
     let token: OTPToken
@@ -57,8 +60,6 @@ class TokenEditForm: NSObject, TokenForm {
         issuerCell.textField.text = token.issuer;
         accountNameCell.textField.text = token.name;
     }
-
-    let title = "Edit Token"
 
     func focusFirstField() {
         issuerCell.textField.becomeFirstResponder()
