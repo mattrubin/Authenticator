@@ -124,7 +124,7 @@ class TokenFormViewController: UITableViewController {
         guard let header = viewModel.headerForSection(section)
             else { return nil }
         let headerView = OTPHeaderView()
-        headerView.updateWithTitle(header.title)
+        headerView.updateWithViewModel(header)
         headerView.delegate = self
         return headerView
     }

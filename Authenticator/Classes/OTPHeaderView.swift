@@ -57,8 +57,8 @@ class OTPHeaderView: UIButton {
 
     // MARK: - Update
 
-    func updateWithTitle(title: String) {
-        setTitle("Advanced Options", forState: .Normal)
+    func updateWithViewModel(viewModel: Section.Header) {
+        setTitle(viewModel.title, forState: .Normal)
     }
 
     // MARK: - Target Action
