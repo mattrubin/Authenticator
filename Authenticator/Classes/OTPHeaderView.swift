@@ -25,7 +25,7 @@
 import UIKit
 
 class OTPHeaderView: UIButton {
-    static let preferredHeight: CGFloat = 54
+    private static let preferredHeight: CGFloat = 54
 
     private var buttonAction: (() -> ())?
 
@@ -56,6 +56,10 @@ class OTPHeaderView: UIButton {
     func updateWithViewModel(viewModel: Section.Header) {
         setTitle(viewModel.title, forState: .Normal)
         buttonAction = viewModel.action
+    }
+
+    static func heightWithViewModel(viewModel: Section.Header) -> CGFloat {
+        return preferredHeight
     }
 
     // MARK: - Target Action
