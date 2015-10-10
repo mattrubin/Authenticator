@@ -56,5 +56,5 @@ extension TableViewModel {
 }
 
 func EmptyTableViewModel() -> TableViewModel {
-    return TableViewModel(title: "", doneButtonViewModel: BarButtonViewModel(), sections: [])
+    return TableViewModel(title: "", doneButtonViewModel: BarButtonViewModel(style: .Done), sections: [])
 }

@@ -23,9 +23,16 @@
 //
 
 struct BarButtonViewModel {
-    let enabled: Bool
+    enum Style {
+        case Done
+        case Cancel
+    }
 
-    init(enabled: Bool = true) {
+    let enabled: Bool
+    let style: Style
+
+    init(style: Style, enabled: Bool = true) {
+        self.style = style
         self.enabled = enabled
     }
 }

@@ -63,7 +63,7 @@ class TokenEntryForm: NSObject, TokenForm {
     var viewModel: TableViewModel {
         return TableViewModel(
             title: "Add Token",
-            doneButtonViewModel: BarButtonViewModel(enabled: isValid),
+            doneButtonViewModel: BarButtonViewModel(style: .Done, enabled: isValid),
             sections: [
                 [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
                 showsAdvancedOptions
