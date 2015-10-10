@@ -24,6 +24,7 @@
 
 class TokenFormViewController: UITableViewController {
     var form: TokenForm?
+    var viewModel: TableViewModel = EmptyTableViewModel()
     var doneButtonItem: UIBarButtonItem?
 
     init(form: TokenForm) {
@@ -31,6 +32,7 @@ class TokenFormViewController: UITableViewController {
         var presentedForm = form
         presentedForm.presenter = self
         self.form = presentedForm
+        viewModel = presentedForm.viewModel;
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -47,7 +49,7 @@ class TokenFormViewController: UITableViewController {
         tableView.separatorStyle = .None
 
         // Set up top bar
-        title = form?.viewModel.title
+        title = viewModel.title
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancelAction"))
         doneButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("doneAction"))
         navigationItem.leftBarButtonItem = cancelButton
@@ -82,15 +84,15 @@ class TokenFormViewController: UITableViewController {
     // MARK: - UITableViewDataSource
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return form?.viewModel.numberOfSections ?? 0
+        return viewModel.numberOfSections
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return form?.viewModel.numberOfRowsInSection(section) ?? 0
+        return viewModel.numberOfRowsInSection(section)
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return form?.viewModel.cellForRowAtIndexPath(indexPath) ?? UITableViewCell()
+        return viewModel.cellForRowAtIndexPath(indexPath) ?? UITableViewCell()
     }
 
     // MARK: - UITableViewDelegate
@@ -107,19 +109,19 @@ class TokenFormViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        guard let cell = form?.viewModel.cellForRowAtIndexPath(indexPath) as? OTPCell
+        guard let cell = viewModel.cellForRowAtIndexPath(indexPath) as? OTPCell
             else { return 0 }
         return cell.preferredHeight
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let headerView = form?.viewModel.viewForHeaderInSection(section) as? OTPCell
+        guard let headerView = viewModel.viewForHeaderInSection(section) as? OTPCell
             else { return CGFloat(FLT_EPSILON) }
         return headerView.preferredHeight
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return form?.viewModel.viewForHeaderInSection(section)
+        return viewModel.viewForHeaderInSection(section)
     }
 
     // MARK: - Validation
