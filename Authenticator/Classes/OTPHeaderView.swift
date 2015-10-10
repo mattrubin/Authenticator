@@ -24,7 +24,6 @@
 
 import UIKit
 
-@objc
 protocol OTPHeaderViewDelegate: class {
     func headerViewButtonWasPressed(headerView: OTPHeaderView)
 }

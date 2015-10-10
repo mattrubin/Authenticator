@@ -28,8 +28,9 @@ class TokenFormViewController: UITableViewController {
 
     init(form: TokenForm) {
         super.init(style: .Grouped)
-        self.form = form
-        form.presenter = self
+        var presentedForm = form
+        presentedForm.presenter = self
+        self.form = presentedForm
     }
 
     required init?(coder aDecoder: NSCoder) {

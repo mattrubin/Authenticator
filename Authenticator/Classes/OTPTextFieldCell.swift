@@ -34,7 +34,6 @@ protocol TextFieldRowModel {
     var returnKeyType: UIReturnKeyType { get }
 }
 
-@objc
 protocol OTPTextFieldCellDelegate: class {
     func textFieldCellDidChange(textFieldCell: OTPTextFieldCell)
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
