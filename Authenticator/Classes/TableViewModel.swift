@@ -25,6 +25,7 @@
 struct TableViewModel {
     var title: String
     var sections: [Section]
+    var doneButtonEnabled: Bool
 }
 
 extension TableViewModel {
@@ -55,5 +56,5 @@ extension TableViewModel {
 }
 
 func EmptyTableViewModel() -> TableViewModel {
-    return TableViewModel(title: "", sections: [])
+    return TableViewModel(title: "", sections: [], doneButtonEnabled: false)
 }

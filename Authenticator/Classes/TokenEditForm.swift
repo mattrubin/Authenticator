@@ -47,7 +47,8 @@ class TokenEditForm: NSObject, TokenForm {
                     issuerCell,
                     accountNameCell,
                 ]
-            ]
+            ],
+            doneButtonEnabled: isValid
         )
     }
 

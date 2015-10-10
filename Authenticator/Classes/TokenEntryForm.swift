@@ -68,7 +68,8 @@ class TokenEntryForm: NSObject, TokenForm {
                 showsAdvancedOptions
                     ? Section(header: advancedSectionHeaderView, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
                     : Section(header: advancedSectionHeaderView),
-            ]
+            ],
+            doneButtonEnabled: isValid
         )
     }
 
