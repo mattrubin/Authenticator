@@ -23,9 +23,9 @@
 //
 
 class TokenFormViewController: UITableViewController {
-    var form: TokenForm?
-    var viewModel: TableViewModel = EmptyTableViewModel()
-    var doneButtonItem: UIBarButtonItem?
+    private var form: TokenForm?
+    private var viewModel: TableViewModel = EmptyTableViewModel()
+    private var doneButtonItem: UIBarButtonItem?
 
     init(form: TokenForm) {
         super.init(style: .Grouped)
