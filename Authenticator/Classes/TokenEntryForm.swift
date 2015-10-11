@@ -63,10 +63,10 @@ class TokenEntryForm: NSObject, TokenForm {
     var viewModel: TableViewModel {
         return TableViewModel(
             title: "Add Token",
-            leftBarButtonViewModel: BarButtonViewModel(style: .Cancel) { [weak self] in
+            leftBarButton: BarButtonViewModel(style: .Cancel) { [weak self] in
                 self?.cancel()
             },
-            rightBarButtonViewModel: BarButtonViewModel(style: .Done, enabled: isValid) { [weak self] in
+            rightBarButton: BarButtonViewModel(style: .Done, enabled: isValid) { [weak self] in
                 self?.submit()
             },
             sections: [
