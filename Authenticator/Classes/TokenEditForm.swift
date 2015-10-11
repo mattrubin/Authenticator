@@ -55,11 +55,15 @@ class TokenEditForm: NSObject, TokenForm {
     }
 
     private var issuerRowModel: TextFieldRowModel {
-        return IssuerRowModel()
+        return IssuerRowModel(changeAction: { [weak self] (newIssuer) -> () in
+            self?.issuerDidChange(newIssuer)
+        })
     }
 
     private var nameRowModel: TextFieldRowModel {
-        return NameRowModel(returnKeyType: .Done)
+        return NameRowModel(returnKeyType: .Done, changeAction: { [weak self] (newAccountName) -> () in
+            self?.accountNameDidChange(newAccountName)
+        })
     }
 
     let token: OTPToken
@@ -118,11 +122,17 @@ class TokenEditForm: NSObject, TokenForm {
     }
 }
 
-extension TokenEditForm: OTPTextFieldCellDelegate {
-    func textFieldCellDidChange(textFieldCell: OTPTextFieldCell) {
+extension TokenEditForm {
+    func issuerDidChange(newIssuer: String) {
         presenter?.formValuesDidChange(self)
     }
 
+    func accountNameDidChange(newAccountName: String) {
+        presenter?.formValuesDidChange(self)
+    }
+}
+
+extension TokenEditForm: OTPTextFieldCellDelegate {
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
         if textFieldCell == issuerCell {
             accountNameCell.textField.becomeFirstResponder()

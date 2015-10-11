@@ -32,10 +32,11 @@ protocol TextFieldRowModel {
     var autocorrectionType: UITextAutocorrectionType { get }
     var keyboardType: UIKeyboardType { get }
     var returnKeyType: UIReturnKeyType { get }
+
+    var changeAction: (String) -> () { get }
 }
 
 protocol OTPTextFieldCellDelegate: class {
-    func textFieldCellDidChange(textFieldCell: OTPTextFieldCell)
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
 }
 
@@ -44,6 +45,8 @@ class OTPTextFieldCell: UITableViewCell, OTPCell {
 
     let textField = UITextField()
     weak var delegate: OTPTextFieldCellDelegate?
+    var changeAction: ((String) -> ())?
+
 
     // MARK: - Init
 
@@ -86,12 +89,14 @@ class OTPTextFieldCell: UITableViewCell, OTPCell {
         textField.autocorrectionType = rowModel.autocorrectionType
         textField.keyboardType = rowModel.keyboardType
         textField.returnKeyType = rowModel.returnKeyType
+
+        changeAction = rowModel.changeAction
     }
 
     // MARK: - Target Action
 
     func textFieldValueChanged() {
-        delegate?.textFieldCellDidChange(self)
+        changeAction?(textField.text ?? "")
     }
 }
 

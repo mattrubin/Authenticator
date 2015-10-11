@@ -30,6 +30,12 @@ struct IssuerRowModel: TextFieldRowModel {
     let autocorrectionType: UITextAutocorrectionType = .Default
     let keyboardType: UIKeyboardType = .Default
     let returnKeyType: UIReturnKeyType = .Next
+
+    let changeAction: (String) -> ()
+
+    init(changeAction: (String) -> ()) {
+        self.changeAction = changeAction
+    }
 }
 
 struct NameRowModel: TextFieldRowModel {
@@ -41,8 +47,11 @@ struct NameRowModel: TextFieldRowModel {
     let keyboardType: UIKeyboardType = .EmailAddress
     let returnKeyType: UIReturnKeyType
 
-    init(returnKeyType: UIReturnKeyType) {
+    let changeAction: (String) -> ()
+
+    init(returnKeyType: UIReturnKeyType, changeAction: (String) -> ()) {
         self.returnKeyType = returnKeyType
+        self.changeAction = changeAction
     }
 }
 
@@ -54,4 +63,10 @@ struct SecretRowModel: TextFieldRowModel {
     let autocorrectionType: UITextAutocorrectionType = .No
     let keyboardType: UIKeyboardType = .Default
     let returnKeyType: UIReturnKeyType = .Done
+
+    let changeAction: (String) -> ()
+
+    init(changeAction: (String) -> ()) {
+        self.changeAction = changeAction
+    }
 }
