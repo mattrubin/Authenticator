@@ -43,8 +43,12 @@ class TokenEditForm: NSObject, TokenForm {
     var viewModel: TableViewModel {
         return TableViewModel(
             title: "Edit Token",
-            doneButtonViewModel: BarButtonViewModel(style: .Done, enabled: isValid),
-            cancelButtonViewModel: BarButtonViewModel(style: .Cancel),
+            doneButtonViewModel: BarButtonViewModel(style: .Done, enabled: isValid) { [weak self] in
+                self?.submit()
+            },
+            cancelButtonViewModel: BarButtonViewModel(style: .Cancel) { [weak self] in
+                self?.cancel()
+            },
             sections: [
                 [
                     issuerCell,

@@ -65,11 +65,11 @@ class TokenFormViewController: UITableViewController {
     // MARK: - Target Actions
 
     func cancelAction() {
-        form?.cancel()
+        viewModel.cancelButtonViewModel.action()
     }
 
     func doneAction() {
-        form?.submit()
+        viewModel.doneButtonViewModel.action()
     }
 
     // MARK: - UITableViewDataSource

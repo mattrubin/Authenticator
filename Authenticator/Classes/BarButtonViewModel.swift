@@ -30,9 +30,11 @@ struct BarButtonViewModel {
 
     let enabled: Bool
     let style: Style
+    let action: () -> ()
 
-    init(style: Style, enabled: Bool = true) {
+    init(style: Style, enabled: Bool = true, action: () -> ()) {
         self.style = style
         self.enabled = enabled
+        self.action = action
     }
 }
