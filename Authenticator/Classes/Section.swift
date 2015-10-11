@@ -25,7 +25,6 @@
 import UIKit
 
 struct Section {
-
     typealias Row = UITableViewCell
 
     let header: HeaderViewModel?
