@@ -37,6 +37,9 @@ class TokenEntryForm: NSObject, TokenForm {
     private var issuer: String
     private var name: String
     private var secretKey: String
+    private var tokenType: OTPTokenType
+    private var digitCount: Int
+    private var algorithm: OTPAlgorithm
 
     private let issuerCell = OTPTextFieldCell()
     private let accountNameCell = OTPTextFieldCell()
@@ -58,6 +61,9 @@ class TokenEntryForm: NSObject, TokenForm {
         issuer = "!"
         name = "!"
         secretKey = "!"
+        tokenType = .Timer
+        digitCount = 6
+        algorithm = .SHA1
 
         super.init()
 
@@ -123,34 +129,33 @@ class TokenEntryForm: NSObject, TokenForm {
     }
 
     private var tokenTypeRowModel: TokenTypeRowModel {
-        return TokenTypeRowModel(valueChangedAction: { [weak self] (newTokenType) -> () in
-            self?.tokenTypeDidChange(tokenType)
-        })
+        return TokenTypeRowModel(
+            initialValue: tokenType,
+            valueChangedAction: { [weak self] (newTokenType) -> () in
+                self?.tokenTypeDidChange(tokenType)
+            }
+        )
     }
 
     private var digitCountRowModel: DigitCountRowModel {
-        return DigitCountRowModel(valueChangedAction: { [weak self] (newDigitCount) -> () in
-            self?.digitCountDidChange(newDigitCount)
-        })
+        return DigitCountRowModel(
+            initialValue: digitCount,
+            valueChangedAction: { [weak self] (newDigitCount) -> () in
+                self?.digitCountDidChange(newDigitCount)
+            }
+        )
     }
 
     private var algorithmRowModel: AlgorithmRowModel {
-        return AlgorithmRowModel(valueChangedAction: { [weak self] (newAlgorithm) -> () in
-            self?.algorithmDidChange(newAlgorithm)
-        })
+        return AlgorithmRowModel(
+            initialValue: algorithm,
+            valueChangedAction: { [weak self] (newAlgorithm) -> () in
+                self?.algorithmDidChange(newAlgorithm)
+            }
+        )
     }
 
-    // Mark: Values
-
-    var tokenType: OTPTokenType {
-        return tokenTypeCell.value
-    }
-    var digitCount: UInt {
-        return UInt(digitCountCell.value)
-    }
-    var algorithm: OTPAlgorithm {
-        return algorithmCell.value
-    }
+    // Mark: TokenForm
 
     func focusFirstField() {
         issuerCell.textField.becomeFirstResponder()
@@ -180,7 +185,7 @@ class TokenEntryForm: NSObject, TokenForm {
                 token.secret = secret;
                 token.name = name;
                 token.issuer = issuer;
-                token.digits = digitCount;
+                token.digits = UInt(digitCount);
                 token.algorithm = algorithm;
 
                 if token.password != nil {
@@ -212,14 +217,17 @@ extension TokenEntryForm {
     }
 
     func tokenTypeDidChange(newTokenType: OTPTokenType) {
+        tokenType = newTokenType
         presenter?.formValuesDidChange(self)
     }
 
     func digitCountDidChange(newDigitCount: Int) {
+        digitCount = newDigitCount
         presenter?.formValuesDidChange(self)
     }
 
     func algorithmDidChange(newAlgorithm: OTPAlgorithm) {
+        algorithm = newAlgorithm
         presenter?.formValuesDidChange(self)
     }
 }
