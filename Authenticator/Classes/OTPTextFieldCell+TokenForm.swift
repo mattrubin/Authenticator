@@ -25,55 +25,54 @@
 struct IssuerRowModel: TextFieldRowModel {
     let label = "Issuer"
     let placeholder = "Some Website"
+    let initialValue: String
 
     let autocapitalizationType: UITextAutocapitalizationType = .Words
     let autocorrectionType: UITextAutocorrectionType = .Default
     let keyboardType: UIKeyboardType = .Default
     let returnKeyType: UIReturnKeyType = .Next
+
+    let changeAction: (String) -> ()
+
+    init(initialValue: String = "", changeAction: (String) -> ()) {
+        self.initialValue = initialValue
+        self.changeAction = changeAction
+    }
 }
 
 struct NameRowModel: TextFieldRowModel {
     let label = "Account Name"
     let placeholder = "user@example.com"
+    let initialValue: String
 
     let autocapitalizationType: UITextAutocapitalizationType = .None
     let autocorrectionType: UITextAutocorrectionType = .No
     let keyboardType: UIKeyboardType = .EmailAddress
     let returnKeyType: UIReturnKeyType
 
-    init(returnKeyType: UIReturnKeyType) {
+    let changeAction: (String) -> ()
+
+    init(initialValue: String = "", returnKeyType: UIReturnKeyType, changeAction: (String) -> ()) {
+        self.initialValue = initialValue
         self.returnKeyType = returnKeyType
+        self.changeAction = changeAction
     }
 }
 
 struct SecretRowModel: TextFieldRowModel {
     let label = "Secret Key"
     let placeholder = "•••• •••• •••• ••••"
+    let initialValue: String
 
     let autocapitalizationType: UITextAutocapitalizationType = .None
     let autocorrectionType: UITextAutocorrectionType = .No
     let keyboardType: UIKeyboardType = .Default
     let returnKeyType: UIReturnKeyType = .Done
-}
 
+    let changeAction: (String) -> ()
 
-extension OTPTextFieldCell {
-    static func issuerCellWithDelegate(delegate: OTPTextFieldCellDelegate) -> OTPTextFieldCell {
-        return cellWithRowModel(IssuerRowModel(), delegate: delegate)
-    }
-
-    static func nameCellWithDelegate(delegate: OTPTextFieldCellDelegate, returnKeyType: UIReturnKeyType) -> OTPTextFieldCell {
-        return cellWithRowModel(NameRowModel(returnKeyType: returnKeyType), delegate: delegate)
-    }
-
-    static func secretCellWithDelegate(delegate: OTPTextFieldCellDelegate) -> OTPTextFieldCell {
-        return cellWithRowModel(SecretRowModel(), delegate: delegate)
-    }
-
-    static func cellWithRowModel(rowModel: TextFieldRowModel, delegate: OTPTextFieldCellDelegate) -> OTPTextFieldCell {
-        let cell = OTPTextFieldCell()
-        cell.updateWithRowModel(rowModel)
-        cell.delegate = delegate
-        return cell
+    init(initialValue: String = "", changeAction: (String) -> ()) {
+        self.initialValue = initialValue
+        self.changeAction = changeAction
     }
 }

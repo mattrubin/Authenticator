@@ -33,12 +33,8 @@ class TokenEditForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEditFormDelegate?
 
-    private lazy var issuerCell: OTPTextFieldCell = {
-        OTPTextFieldCell.issuerCellWithDelegate(self)
-    }()
-    private lazy var accountNameCell: OTPTextFieldCell = {
-        OTPTextFieldCell.nameCellWithDelegate(self, returnKeyType: .Done)
-    }()
+    private let issuerCell = OTPTextFieldCell()
+    private let accountNameCell = OTPTextFieldCell()
 
     var viewModel: TableViewModel {
         return TableViewModel(
@@ -58,14 +54,37 @@ class TokenEditForm: NSObject, TokenForm {
         )
     }
 
+    private var issuerRowModel: TextFieldRowModel {
+        return IssuerRowModel(
+            initialValue: token.issuer,
+            changeAction: { [weak self] (newIssuer) -> () in
+                self?.issuerDidChange(newIssuer)
+            }
+        )
+    }
+
+    private var nameRowModel: TextFieldRowModel {
+        return NameRowModel(
+            initialValue: token.name,
+            returnKeyType: .Done,
+            changeAction: { [weak self] (newAccountName) -> () in
+                self?.accountNameDidChange(newAccountName)
+            }
+        )
+    }
+
     let token: OTPToken
 
     init(token: OTPToken, delegate: TokenEditFormDelegate) {
         self.token = token
         self.delegate = delegate
         super.init()
-        issuerCell.textField.text = token.issuer;
-        accountNameCell.textField.text = token.name;
+        // Configure cells
+        issuerCell.updateWithRowModel(issuerRowModel)
+        accountNameCell.updateWithRowModel(nameRowModel)
+
+        issuerCell.delegate = self
+        accountNameCell.delegate = self
     }
 
     func focusFirstField() {
@@ -107,11 +126,17 @@ class TokenEditForm: NSObject, TokenForm {
     }
 }
 
-extension TokenEditForm: OTPTextFieldCellDelegate {
-    func textFieldCellDidChange(textFieldCell: OTPTextFieldCell) {
+extension TokenEditForm {
+    func issuerDidChange(newIssuer: String) {
         presenter?.formValuesDidChange(self)
     }
 
+    func accountNameDidChange(newAccountName: String) {
+        presenter?.formValuesDidChange(self)
+    }
+}
+
+extension TokenEditForm: OTPTextFieldCellDelegate {
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
         if textFieldCell == issuerCell {
             accountNameCell.textField.becomeFirstResponder()

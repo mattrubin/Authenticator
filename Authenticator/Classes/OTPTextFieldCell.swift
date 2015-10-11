@@ -27,15 +27,17 @@ import UIKit
 protocol TextFieldRowModel {
     var label: String { get }
     var placeholder: String { get }
+    var initialValue: String { get }
 
     var autocapitalizationType: UITextAutocapitalizationType { get }
     var autocorrectionType: UITextAutocorrectionType { get }
     var keyboardType: UIKeyboardType { get }
     var returnKeyType: UIReturnKeyType { get }
+
+    var changeAction: (String) -> () { get }
 }
 
 protocol OTPTextFieldCellDelegate: class {
-    func textFieldCellDidChange(textFieldCell: OTPTextFieldCell)
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
 }
 
@@ -44,6 +46,8 @@ class OTPTextFieldCell: UITableViewCell, OTPCell {
 
     let textField = UITextField()
     weak var delegate: OTPTextFieldCellDelegate?
+    var changeAction: ((String) -> ())?
+
 
     // MARK: - Init
 
@@ -81,17 +85,21 @@ class OTPTextFieldCell: UITableViewCell, OTPCell {
     func updateWithRowModel(rowModel: TextFieldRowModel) {
         textLabel?.text = rowModel.label
         textField.placeholder = rowModel.placeholder
+        textField.text = rowModel.initialValue
 
         textField.autocapitalizationType = rowModel.autocapitalizationType
         textField.autocorrectionType = rowModel.autocorrectionType
         textField.keyboardType = rowModel.keyboardType
         textField.returnKeyType = rowModel.returnKeyType
+
+        changeAction = rowModel.changeAction
     }
 
     // MARK: - Target Action
 
     func textFieldValueChanged() {
-        delegate?.textFieldCellDidChange(self)
+        let newText = textField.text ?? ""
+        changeAction?(newText)
     }
 }
 
