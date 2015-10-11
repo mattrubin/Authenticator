@@ -106,13 +106,15 @@ class TokenFormViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let headerView = viewModel.viewForHeaderInSection(section) as? OTPCell
+        guard let headerViewModel = viewModel.headerForSection(section)
             else { return CGFloat(FLT_EPSILON) }
-        return headerView.preferredHeight
+        return OTPHeaderView.heightWithViewModel(headerViewModel)
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return viewModel.viewForHeaderInSection(section)
+        guard let headerViewModel = viewModel.headerForSection(section)
+            else { return nil }
+        return OTPHeaderView(viewModel: headerViewModel)
     }
 
     // MARK: - Update

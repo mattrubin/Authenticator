@@ -24,14 +24,10 @@
 
 import UIKit
 
-protocol OTPHeaderViewDelegate: class {
-    func headerViewButtonWasPressed(headerView: OTPHeaderView)
-}
+class OTPHeaderView: UIButton {
+    private static let preferredHeight: CGFloat = 54
 
-class OTPHeaderView: UIButton, OTPCell {
-    let preferredHeight: CGFloat = 54
-
-    weak var delegate: OTPHeaderViewDelegate?
+    private var buttonAction: (() -> ())?
 
     // MARK: - Init
 
@@ -55,15 +51,25 @@ class OTPHeaderView: UIButton, OTPCell {
         addTarget(self, action: Selector("buttonWasPressed"), forControlEvents: .TouchUpInside)
     }
 
-    // MARK: - Update
+    // MARK: - View Model
 
-    func updateWithTitle(title: String) {
-        setTitle("Advanced Options", forState: .Normal)
+    convenience init(viewModel: HeaderViewModel) {
+        self.init()
+        updateWithViewModel(viewModel)
+    }
+
+    func updateWithViewModel(viewModel: HeaderViewModel) {
+        setTitle(viewModel.title, forState: .Normal)
+        buttonAction = viewModel.action
+    }
+
+    static func heightWithViewModel(viewModel: HeaderViewModel) -> CGFloat {
+        return preferredHeight
     }
 
     // MARK: - Target Action
 
     func buttonWasPressed() {
-        delegate?.headerViewButtonWasPressed(self)
+        buttonAction?()
     }
 }

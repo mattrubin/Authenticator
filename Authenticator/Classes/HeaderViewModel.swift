@@ -1,5 +1,5 @@
 //
-//  Section.swift
+//  HeaderViewModel.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Matt Rubin
@@ -22,22 +22,12 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import UIKit
+struct HeaderViewModel {
+    let title: String
+    let action: (() -> ())?
 
-struct Section {
-    typealias Row = UITableViewCell
-
-    let header: HeaderViewModel?
-    let rows: [Row]
-
-    init(header: HeaderViewModel? = nil, rows: [Row] = []) {
-        self.header = header
-        self.rows = rows
-    }
-}
-
-extension Section: ArrayLiteralConvertible {
-    init(arrayLiteral elements: Row...) {
-        self.init(rows: elements)
+    init(title: String, action: (() -> ())? = nil) {
+        self.title = title
+        self.action = action
     }
 }

@@ -48,12 +48,11 @@ class TokenEntryForm: NSObject, TokenForm {
     private var tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>(rowModel: TokenTypeRowModel())
     private var digitCountCell = OTPSegmentedControlCell<Int>(rowModel: DigitCountRowModel())
     private var algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>(rowModel: AlgorithmRowModel())
-    private lazy var advancedSectionHeaderView: OTPHeaderView = {
-        let headerView = OTPHeaderView()
-        headerView.updateWithTitle("Advanced Options")
-        headerView.delegate = self
-        return headerView
-    }()
+    private var advancedSectionHeader: HeaderViewModel {
+        return HeaderViewModel(title: "Advanced Options") { [weak self] in
+            self?.toggleAdvancedOptions()
+        }
+    }
 
     var showsAdvancedOptions = false
 
@@ -73,8 +72,8 @@ class TokenEntryForm: NSObject, TokenForm {
             sections: [
                 [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
                 showsAdvancedOptions
-                    ? Section(header: advancedSectionHeaderView, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
-                    : Section(header: advancedSectionHeaderView),
+                    ? Section(header: advancedSectionHeader, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
+                    : Section(header: advancedSectionHeader),
             ]
         )
     }
@@ -158,8 +157,8 @@ extension TokenEntryForm: OTPTextFieldCellDelegate {
     }
 }
 
-extension TokenEntryForm: OTPHeaderViewDelegate {
-    func headerViewButtonWasPressed(headerView: OTPHeaderView) {
+extension TokenEntryForm {
+    func toggleAdvancedOptions() {
         if (!showsAdvancedOptions) {
             showsAdvancedOptions = true
             // TODO: Don't hard-code this index
