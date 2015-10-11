@@ -33,6 +33,9 @@ class TokenEditForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEditFormDelegate?
 
+    private var issuer: String
+    private var name: String
+
     private let issuerCell = OTPTextFieldCell()
     private let accountNameCell = OTPTextFieldCell()
 
@@ -56,7 +59,7 @@ class TokenEditForm: NSObject, TokenForm {
 
     private var issuerRowModel: TextFieldRowModel {
         return IssuerRowModel(
-            initialValue: token.issuer,
+            initialValue: issuer,
             changeAction: { [weak self] (newIssuer) -> () in
                 self?.issuerDidChange(newIssuer)
             }
@@ -65,10 +68,10 @@ class TokenEditForm: NSObject, TokenForm {
 
     private var nameRowModel: TextFieldRowModel {
         return NameRowModel(
-            initialValue: token.name,
+            initialValue: name,
             returnKeyType: .Done,
-            changeAction: { [weak self] (newAccountName) -> () in
-                self?.accountNameDidChange(newAccountName)
+            changeAction: { [weak self] (newName) -> () in
+                self?.nameDidChange(newName)
             }
         )
     }
@@ -78,6 +81,10 @@ class TokenEditForm: NSObject, TokenForm {
     init(token: OTPToken, delegate: TokenEditFormDelegate) {
         self.token = token
         self.delegate = delegate
+
+        issuer = token.issuer
+        name = token.name
+
         super.init()
         // Configure cells
         issuerCell.updateWithRowModel(issuerRowModel)
@@ -96,16 +103,8 @@ class TokenEditForm: NSObject, TokenForm {
         accountNameCell.textField.resignFirstResponder()
     }
 
-    private var issuer: String {
-        return issuerCell.textField.text ?? ""
-    }
-
-    private var accountName: String {
-        return accountNameCell.textField.text ?? ""
-    }
-
     var isValid: Bool {
-        return !(issuer.isEmpty && accountName.isEmpty)
+        return !(issuer.isEmpty && name.isEmpty)
     }
 
     func cancel() {
@@ -115,9 +114,9 @@ class TokenEditForm: NSObject, TokenForm {
     func submit() {
         if (!isValid) { return }
 
-        if (token.name != accountName ||
+        if (token.name != name ||
             token.issuer != issuer) {
-                self.token.name = accountName
+                self.token.name = name
                 self.token.issuer = issuer
                 self.token.saveToKeychain()
         }
@@ -128,10 +127,12 @@ class TokenEditForm: NSObject, TokenForm {
 
 extension TokenEditForm {
     func issuerDidChange(newIssuer: String) {
+        issuer = newIssuer
         presenter?.formValuesDidChange(self)
     }
 
-    func accountNameDidChange(newAccountName: String) {
+    func nameDidChange(newName: String) {
+        name = newName
         presenter?.formValuesDidChange(self)
     }
 }
