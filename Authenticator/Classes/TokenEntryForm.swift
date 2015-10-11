@@ -30,8 +30,6 @@ protocol TokenEntryFormDelegate: class {
     func form(form: TokenEntryForm, didCreateToken token: OTPToken)
 }
 
-// TODO: Segmented control cell changes don't call formValuesDidChange on the delegate
-
 class TokenEntryForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEntryFormDelegate?
@@ -45,9 +43,9 @@ class TokenEntryForm: NSObject, TokenForm {
     private lazy var secretKeyCell: OTPTextFieldCell = {
         OTPTextFieldCell.secretCellWithDelegate(self)
     }()
-    private var tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>(rowModel: TokenTypeRowModel())
-    private var digitCountCell = OTPSegmentedControlCell<Int>(rowModel: DigitCountRowModel())
-    private var algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>(rowModel: AlgorithmRowModel())
+    private let tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>()
+    private let digitCountCell = OTPSegmentedControlCell<Int>()
+    private let algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>()
     private var advancedSectionHeader: HeaderViewModel {
         return HeaderViewModel(title: "Advanced Options") { [weak self] in
             self?.toggleAdvancedOptions()
@@ -58,6 +56,10 @@ class TokenEntryForm: NSObject, TokenForm {
 
     init(delegate: TokenEntryFormDelegate) {
         self.delegate = delegate
+        super.init()
+        tokenTypeCell.updateWithRowModel(tokenTypeRowModel)
+        digitCountCell.updateWithRowModel(digitCountRowModel)
+        algorithmCell.updateWithRowModel(algorithmRowModel)
     }
 
     var viewModel: TableViewModel {
@@ -77,6 +79,28 @@ class TokenEntryForm: NSObject, TokenForm {
             ]
         )
     }
+
+    // Mark: Row Models
+
+    var tokenTypeRowModel: TokenTypeRowModel {
+        return TokenTypeRowModel(valueChangedAction: { [weak self] (newTokenType) -> () in
+            self?.tokenTypeDidChange(tokenType)
+        })
+    }
+
+    var digitCountRowModel: DigitCountRowModel {
+        return DigitCountRowModel(valueChangedAction: { [weak self] (newDigitCount) -> () in
+            self?.digitCountDidChange(newDigitCount)
+        })
+    }
+
+    var algorithmRowModel: AlgorithmRowModel {
+        return AlgorithmRowModel(valueChangedAction: { [weak self] (newAlgorithm) -> () in
+            self?.algorithmDidChange(newAlgorithm)
+        })
+    }
+
+    // Mark: Values
 
     var issuer: String {
         return issuerCell.textField.text ?? ""
@@ -137,6 +161,20 @@ class TokenEntryForm: NSObject, TokenForm {
 
         // If the method hasn't returned by this point, token creation failed
         presenter?.form(self, didFailWithErrorMessage: "Invalid Token")
+    }
+}
+
+extension TokenEntryForm {
+    func tokenTypeDidChange(newTokenType: OTPTokenType) {
+        presenter?.formValuesDidChange(self)
+    }
+
+    func digitCountDidChange(newDigitCount: Int) {
+        presenter?.formValuesDidChange(self)
+    }
+
+    func algorithmDidChange(newAlgorithm: OTPAlgorithm) {
+        presenter?.formValuesDidChange(self)
     }
 }
 
