@@ -65,11 +65,11 @@ class TokenFormViewController: UITableViewController {
     // MARK: - Target Actions
 
     func cancelAction() {
-        viewModel.cancelButtonViewModel.action()
+        viewModel.cancelButtonViewModel?.action()
     }
 
     func doneAction() {
-        viewModel.doneButtonViewModel.action()
+        viewModel.doneButtonViewModel?.action()
     }
 
     // MARK: - UITableViewDataSource
@@ -135,16 +135,12 @@ class TokenFormViewController: UITableViewController {
     }
 
     func updateBarButtonItems() {
-        navigationItem.rightBarButtonItem = barButtomItemForViewModel(
-            viewModel.doneButtonViewModel,
-            target: self,
-            action: Selector("doneAction")
-        )
-        navigationItem.leftBarButtonItem = barButtomItemForViewModel(
-            viewModel.cancelButtonViewModel,
-            target: self,
-            action: Selector("cancelAction")
-        )
+        navigationItem.rightBarButtonItem = viewModel.doneButtonViewModel.map {
+            barButtomItemForViewModel($0, target: self, action: Selector("doneAction"))
+        }
+        navigationItem.leftBarButtonItem = viewModel.cancelButtonViewModel.map {
+            barButtomItemForViewModel($0, target: self, action: Selector("cancelAction"))
+        }
     }
 }
 
