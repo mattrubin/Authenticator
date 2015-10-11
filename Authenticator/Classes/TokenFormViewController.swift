@@ -114,9 +114,7 @@ class TokenFormViewController: UITableViewController {
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerViewModel = viewModel.headerForSection(section)
             else { return nil }
-        let headerView = OTPHeaderView()
-        headerView.updateWithViewModel(headerViewModel)
-        return headerView
+        return OTPHeaderView(viewModel: headerViewModel)
     }
 
     // MARK: - Update

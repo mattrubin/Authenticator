@@ -51,7 +51,12 @@ class OTPHeaderView: UIButton {
         addTarget(self, action: Selector("buttonWasPressed"), forControlEvents: .TouchUpInside)
     }
 
-    // MARK: - Update
+    // MARK: - View Model
+
+    convenience init(viewModel: HeaderViewModel) {
+        self.init()
+        updateWithViewModel(viewModel)
+    }
 
     func updateWithViewModel(viewModel: HeaderViewModel) {
         setTitle(viewModel.title, forState: .Normal)
