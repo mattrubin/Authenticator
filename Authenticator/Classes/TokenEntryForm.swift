@@ -34,15 +34,9 @@ class TokenEntryForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEntryFormDelegate?
 
-    private lazy var issuerCell: OTPTextFieldCell = {
-        OTPTextFieldCell.issuerCellWithDelegate(self)
-    }()
-    private lazy var accountNameCell: OTPTextFieldCell = {
-        OTPTextFieldCell.nameCellWithDelegate(self, returnKeyType: .Next)
-    }()
-    private lazy var secretKeyCell: OTPTextFieldCell = {
-        OTPTextFieldCell.secretCellWithDelegate(self)
-    }()
+    private let issuerCell = OTPTextFieldCell()
+    private let accountNameCell = OTPTextFieldCell()
+    private let secretKeyCell = OTPTextFieldCell()
     private let tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>()
     private let digitCountCell = OTPSegmentedControlCell<Int>()
     private let algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>()
@@ -57,6 +51,15 @@ class TokenEntryForm: NSObject, TokenForm {
     init(delegate: TokenEntryFormDelegate) {
         self.delegate = delegate
         super.init()
+
+        issuerCell.updateWithRowModel(IssuerRowModel())
+        accountNameCell.updateWithRowModel(NameRowModel(returnKeyType: .Next))
+        secretKeyCell.updateWithRowModel(SecretRowModel())
+
+        issuerCell.delegate = self
+        accountNameCell.delegate = self
+        secretKeyCell.delegate = self
+
         tokenTypeCell.updateWithRowModel(tokenTypeRowModel)
         digitCountCell.updateWithRowModel(digitCountRowModel)
         algorithmCell.updateWithRowModel(algorithmRowModel)
