@@ -96,7 +96,8 @@ class OTPTextFieldCell: UITableViewCell, OTPCell {
     // MARK: - Target Action
 
     func textFieldValueChanged() {
-        changeAction?(textField.text ?? "")
+        let newText = textField.text ?? ""
+        changeAction?(newText)
     }
 }
 
