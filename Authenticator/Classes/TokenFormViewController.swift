@@ -65,7 +65,7 @@ class TokenFormViewController: UITableViewController {
     // MARK: - Target Actions
 
     func cancelAction() {
-        presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        form?.cancel()
     }
 
     func doneAction() {

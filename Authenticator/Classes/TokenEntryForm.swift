@@ -26,6 +26,7 @@ import OneTimePasswordLegacy
 
 @objc
 protocol TokenEntryFormDelegate: class {
+    func entryFormDidCancel(form: TokenEntryForm)
     func form(form: TokenEntryForm, didCreateToken token: OTPToken)
 }
 
@@ -105,6 +106,10 @@ class TokenEntryForm: NSObject, TokenForm {
 
     var isValid: Bool {
         return !secretKey.isEmpty && !(issuer.isEmpty && accountName.isEmpty)
+    }
+
+    func cancel() {
+        delegate?.entryFormDidCancel(self)
     }
 
     func submit() {
