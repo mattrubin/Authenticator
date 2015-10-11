@@ -33,12 +33,8 @@ class TokenEditForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEditFormDelegate?
 
-    private lazy var issuerCell: OTPTextFieldCell = {
-        OTPTextFieldCell.issuerCellWithDelegate(self)
-    }()
-    private lazy var accountNameCell: OTPTextFieldCell = {
-        OTPTextFieldCell.nameCellWithDelegate(self, returnKeyType: .Done)
-    }()
+    private let issuerCell = OTPTextFieldCell()
+    private let accountNameCell = OTPTextFieldCell()
 
     var viewModel: TableViewModel {
         return TableViewModel(
@@ -64,6 +60,13 @@ class TokenEditForm: NSObject, TokenForm {
         self.token = token
         self.delegate = delegate
         super.init()
+        // Configure cells
+        issuerCell.updateWithRowModel(IssuerRowModel())
+        accountNameCell.updateWithRowModel(NameRowModel(returnKeyType: .Done))
+
+        issuerCell.delegate = self
+        accountNameCell.delegate = self
+        
         issuerCell.textField.text = token.issuer;
         accountNameCell.textField.text = token.name;
     }
