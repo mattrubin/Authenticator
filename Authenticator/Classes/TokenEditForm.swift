@@ -54,6 +54,14 @@ class TokenEditForm: NSObject, TokenForm {
         )
     }
 
+    private var issuerRowModel: TextFieldRowModel {
+        return IssuerRowModel()
+    }
+
+    private var nameRowModel: TextFieldRowModel {
+        return NameRowModel(returnKeyType: .Done)
+    }
+
     let token: OTPToken
 
     init(token: OTPToken, delegate: TokenEditFormDelegate) {
@@ -61,8 +69,8 @@ class TokenEditForm: NSObject, TokenForm {
         self.delegate = delegate
         super.init()
         // Configure cells
-        issuerCell.updateWithRowModel(IssuerRowModel())
-        accountNameCell.updateWithRowModel(NameRowModel(returnKeyType: .Done))
+        issuerCell.updateWithRowModel(issuerRowModel)
+        accountNameCell.updateWithRowModel(nameRowModel)
 
         issuerCell.delegate = self
         accountNameCell.delegate = self

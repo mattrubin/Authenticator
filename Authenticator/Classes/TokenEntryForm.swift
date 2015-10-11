@@ -52,9 +52,9 @@ class TokenEntryForm: NSObject, TokenForm {
         self.delegate = delegate
         super.init()
 
-        issuerCell.updateWithRowModel(IssuerRowModel())
-        accountNameCell.updateWithRowModel(NameRowModel(returnKeyType: .Next))
-        secretKeyCell.updateWithRowModel(SecretRowModel())
+        issuerCell.updateWithRowModel(issuerRowModel)
+        accountNameCell.updateWithRowModel(nameRowModel)
+        secretKeyCell.updateWithRowModel(secretRowModel)
 
         issuerCell.delegate = self
         accountNameCell.delegate = self
@@ -85,19 +85,31 @@ class TokenEntryForm: NSObject, TokenForm {
 
     // Mark: Row Models
 
-    var tokenTypeRowModel: TokenTypeRowModel {
+    private var issuerRowModel: TextFieldRowModel {
+        return IssuerRowModel()
+    }
+
+    private var nameRowModel: TextFieldRowModel {
+        return NameRowModel(returnKeyType: .Next)
+    }
+
+    private var secretRowModel: TextFieldRowModel {
+        return SecretRowModel()
+    }
+
+    private var tokenTypeRowModel: TokenTypeRowModel {
         return TokenTypeRowModel(valueChangedAction: { [weak self] (newTokenType) -> () in
             self?.tokenTypeDidChange(tokenType)
         })
     }
 
-    var digitCountRowModel: DigitCountRowModel {
+    private var digitCountRowModel: DigitCountRowModel {
         return DigitCountRowModel(valueChangedAction: { [weak self] (newDigitCount) -> () in
             self?.digitCountDidChange(newDigitCount)
         })
     }
 
-    var algorithmRowModel: AlgorithmRowModel {
+    private var algorithmRowModel: AlgorithmRowModel {
         return AlgorithmRowModel(valueChangedAction: { [weak self] (newAlgorithm) -> () in
             self?.algorithmDidChange(newAlgorithm)
         })
