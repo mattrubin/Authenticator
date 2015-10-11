@@ -34,6 +34,10 @@ class TokenEntryForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEntryFormDelegate?
 
+    private var issuer: String
+    private var name: String
+    private var secretKey: String
+
     private let issuerCell = OTPTextFieldCell()
     private let accountNameCell = OTPTextFieldCell()
     private let secretKeyCell = OTPTextFieldCell()
@@ -50,6 +54,11 @@ class TokenEntryForm: NSObject, TokenForm {
 
     init(delegate: TokenEntryFormDelegate) {
         self.delegate = delegate
+
+        issuer = "!"
+        name = "!"
+        secretKey = "!"
+
         super.init()
 
         issuerCell.updateWithRowModel(issuerRowModel)
@@ -86,21 +95,31 @@ class TokenEntryForm: NSObject, TokenForm {
     // Mark: Row Models
 
     private var issuerRowModel: TextFieldRowModel {
-        return IssuerRowModel(changeAction: { [weak self] (newIssuer) -> () in
-            self?.issuerDidChange(newIssuer)
-        })
+        return IssuerRowModel(
+            initialValue: issuer,
+            changeAction: { [weak self] (newIssuer) -> () in
+                self?.issuerDidChange(newIssuer)
+            }
+        )
     }
 
     private var nameRowModel: TextFieldRowModel {
-        return NameRowModel(returnKeyType: .Next, changeAction: { [weak self] (newAccountName) -> () in
-            self?.accountNameDidChange(newAccountName)
-        })
+        return NameRowModel(
+            initialValue: name,
+            returnKeyType: .Next,
+            changeAction: { [weak self] (newName) -> () in
+                self?.nameDidChange(newName)
+            }
+        )
     }
 
     private var secretRowModel: TextFieldRowModel {
-        return SecretRowModel(changeAction: { [weak self] (newSecret) -> () in
-            self?.secretDidChange(newSecret)
-        })
+        return SecretRowModel(
+            initialValue: secretKey,
+            changeAction: { [weak self] (newSecret) -> () in
+                self?.secretDidChange(newSecret)
+            }
+        )
     }
 
     private var tokenTypeRowModel: TokenTypeRowModel {
@@ -123,15 +142,6 @@ class TokenEntryForm: NSObject, TokenForm {
 
     // Mark: Values
 
-    var issuer: String {
-        return issuerCell.textField.text ?? ""
-    }
-    var accountName: String {
-        return accountNameCell.textField.text ?? ""
-    }
-    var secretKey: String {
-        return secretKeyCell.textField.text ?? ""
-    }
     var tokenType: OTPTokenType {
         return tokenTypeCell.value
     }
@@ -153,7 +163,7 @@ class TokenEntryForm: NSObject, TokenForm {
     }
 
     var isValid: Bool {
-        return !secretKey.isEmpty && !(issuer.isEmpty && accountName.isEmpty)
+        return !secretKey.isEmpty && !(issuer.isEmpty && name.isEmpty)
     }
 
     func cancel() {
@@ -168,7 +178,7 @@ class TokenEntryForm: NSObject, TokenForm {
                 let token = OTPToken()
                 token.type = tokenType;
                 token.secret = secret;
-                token.name = accountName;
+                token.name = name;
                 token.issuer = issuer;
                 token.digits = digitCount;
                 token.algorithm = algorithm;
@@ -187,14 +197,17 @@ class TokenEntryForm: NSObject, TokenForm {
 
 extension TokenEntryForm {
     func issuerDidChange(newIssuer: String) {
+        issuer = newIssuer
         presenter?.formValuesDidChange(self)
     }
 
-    func accountNameDidChange(newAccountName: String) {
+    func nameDidChange(newName: String) {
+        name = newName
         presenter?.formValuesDidChange(self)
     }
 
     func secretDidChange(newSecret: String) {
+        secretKey = newSecret
         presenter?.formValuesDidChange(self)
     }
 
