@@ -49,8 +49,6 @@ class TokenFormViewController: UITableViewController {
 
         // Set up top bar
         title = viewModel.title
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancelAction"))
-        navigationItem.leftBarButtonItem = cancelButton
         updateBarButtonItems()
     }
 
@@ -126,6 +124,7 @@ class TokenFormViewController: UITableViewController {
             case .Cancel: return .Cancel
             }
         }
+
         let doneButtonItem = UIBarButtonItem(
             barButtonSystemItem: systemItemForStyle(viewModel.doneButtonViewModel.style),
             target: self,
@@ -133,6 +132,14 @@ class TokenFormViewController: UITableViewController {
         )
         doneButtonItem.enabled = viewModel.doneButtonViewModel.enabled
         navigationItem.rightBarButtonItem = doneButtonItem
+
+        let cancelButtonItem = UIBarButtonItem(
+            barButtonSystemItem: systemItemForStyle(viewModel.cancelButtonViewModel.style),
+            target: self,
+            action: Selector("cancelAction")
+        )
+        cancelButtonItem.enabled = viewModel.cancelButtonViewModel.enabled
+        navigationItem.leftBarButtonItem = cancelButtonItem
     }
 }
 
