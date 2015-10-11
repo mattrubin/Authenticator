@@ -117,7 +117,7 @@ class TokenFormViewController: UITableViewController {
 
     // MARK: - Update
 
-    func updateBarButtonItems() {
+    private func barButtomItemForViewModel(viewModel: BarButtonViewModel, target: AnyObject?, action: Selector) -> UIBarButtonItem {
         func systemItemForStyle(style: BarButtonViewModel.Style) -> UIBarButtonSystemItem {
             switch style {
             case .Done: return .Done
@@ -125,21 +125,26 @@ class TokenFormViewController: UITableViewController {
             }
         }
 
-        let doneButtonItem = UIBarButtonItem(
-            barButtonSystemItem: systemItemForStyle(viewModel.doneButtonViewModel.style),
+        let barButtomItem = UIBarButtonItem(
+            barButtonSystemItem: systemItemForStyle(viewModel.style),
+            target: target,
+            action: action
+        )
+        barButtomItem.enabled = viewModel.enabled
+        return barButtomItem
+    }
+
+    func updateBarButtonItems() {
+        navigationItem.rightBarButtonItem = barButtomItemForViewModel(
+            viewModel.doneButtonViewModel,
             target: self,
             action: Selector("doneAction")
         )
-        doneButtonItem.enabled = viewModel.doneButtonViewModel.enabled
-        navigationItem.rightBarButtonItem = doneButtonItem
-
-        let cancelButtonItem = UIBarButtonItem(
-            barButtonSystemItem: systemItemForStyle(viewModel.cancelButtonViewModel.style),
+        navigationItem.leftBarButtonItem = barButtomItemForViewModel(
+            viewModel.cancelButtonViewModel,
             target: self,
             action: Selector("cancelAction")
         )
-        cancelButtonItem.enabled = viewModel.cancelButtonViewModel.enabled
-        navigationItem.leftBarButtonItem = cancelButtonItem
     }
 }
 
