@@ -25,6 +25,7 @@
 import OneTimePasswordLegacy
 
 protocol TokenEditFormDelegate: class {
+    func editFormDidCancel(form: TokenEditForm)
     func form(form: TokenEditForm, didEditToken token: OTPToken)
 }
 
@@ -42,13 +43,18 @@ class TokenEditForm: NSObject, TokenForm {
     var viewModel: TableViewModel {
         return TableViewModel(
             title: "Edit Token",
+            leftBarButtonViewModel: BarButtonViewModel(style: .Cancel) { [weak self] in
+                self?.cancel()
+            },
+            rightBarButtonViewModel: BarButtonViewModel(style: .Done, enabled: isValid) { [weak self] in
+                self?.submit()
+            },
             sections: [
                 [
                     issuerCell,
                     accountNameCell,
                 ]
-            ],
-            doneButtonEnabled: isValid
+            ]
         )
     }
 
@@ -81,6 +87,10 @@ class TokenEditForm: NSObject, TokenForm {
 
     var isValid: Bool {
         return !(issuer.isEmpty && accountName.isEmpty)
+    }
+
+    func cancel() {
+        delegate?.editFormDidCancel(self)
     }
 
     func submit() {

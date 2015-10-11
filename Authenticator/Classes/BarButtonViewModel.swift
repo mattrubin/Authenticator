@@ -1,8 +1,8 @@
 //
-//  OTPTokenSourceDelegate.h
+//  BarButtonViewModel.swift
 //  Authenticator
 //
-//  Copyright (c) 2013 Matt Rubin
+//  Copyright (c) 2015 Matt Rubin
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -22,13 +22,19 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import Foundation;
-@class OTPToken;
+struct BarButtonViewModel {
+    enum Style {
+        case Done
+        case Cancel
+    }
 
+    let style: Style
+    let enabled: Bool
+    let action: () -> ()
 
-@protocol OTPTokenSourceDelegate <NSObject>
-
-- (void)tokenSourceDidCancel:(id)tokenSource;
-- (void)tokenSource:(id)tokenSource didCreateToken:(OTPToken *)token;
-
-@end
+    init(style: Style, enabled: Bool = true, action: () -> ()) {
+        self.style = style
+        self.enabled = enabled
+        self.action = action
+    }
+}

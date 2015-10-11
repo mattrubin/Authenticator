@@ -31,8 +31,6 @@ protocol TokenForm {
 
     func focusFirstField()
     func unfocus()
-
-    func submit()
 }
 
 protocol TokenFormPresenter: class {

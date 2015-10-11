@@ -26,6 +26,7 @@ import OneTimePasswordLegacy
 
 @objc
 protocol TokenEntryFormDelegate: class {
+    func entryFormDidCancel(form: TokenEntryForm)
     func form(form: TokenEntryForm, didCreateToken token: OTPToken)
 }
 
@@ -62,13 +63,18 @@ class TokenEntryForm: NSObject, TokenForm {
     var viewModel: TableViewModel {
         return TableViewModel(
             title: "Add Token",
+            leftBarButtonViewModel: BarButtonViewModel(style: .Cancel) { [weak self] in
+                self?.cancel()
+            },
+            rightBarButtonViewModel: BarButtonViewModel(style: .Done, enabled: isValid) { [weak self] in
+                self?.submit()
+            },
             sections: [
                 [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
                 showsAdvancedOptions
                     ? Section(header: advancedSectionHeader, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
                     : Section(header: advancedSectionHeader),
-            ],
-            doneButtonEnabled: isValid
+            ]
         )
     }
 
@@ -103,6 +109,10 @@ class TokenEntryForm: NSObject, TokenForm {
 
     var isValid: Bool {
         return !secretKey.isEmpty && !(issuer.isEmpty && accountName.isEmpty)
+    }
+
+    func cancel() {
+        delegate?.entryFormDidCancel(self)
     }
 
     func submit() {

@@ -24,8 +24,20 @@
 
 struct TableViewModel {
     var title: String
+    var leftBarButtonViewModel: BarButtonViewModel?
+    var rightBarButtonViewModel: BarButtonViewModel?
     var sections: [Section]
-    var doneButtonEnabled: Bool
+
+    init(title: String,
+        leftBarButtonViewModel: BarButtonViewModel? = nil,
+        rightBarButtonViewModel: BarButtonViewModel? = nil,
+        sections: [Section])
+    {
+        self.title = title
+        self.leftBarButtonViewModel = leftBarButtonViewModel
+        self.rightBarButtonViewModel = rightBarButtonViewModel
+        self.sections = sections
+    }
 }
 
 extension TableViewModel {
@@ -56,5 +68,5 @@ extension TableViewModel {
 }
 
 func EmptyTableViewModel() -> TableViewModel {
-    return TableViewModel(title: "", sections: [], doneButtonEnabled: false)
+    return TableViewModel(title: "", sections: [])
 }
