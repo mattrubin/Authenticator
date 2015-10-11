@@ -66,7 +66,7 @@ class TokenEditForm: NSObject, TokenForm {
 
         issuerCell.delegate = self
         accountNameCell.delegate = self
-        
+
         issuerCell.textField.text = token.issuer;
         accountNameCell.textField.text = token.name;
     }

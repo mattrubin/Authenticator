@@ -55,25 +55,3 @@ struct SecretRowModel: TextFieldRowModel {
     let keyboardType: UIKeyboardType = .Default
     let returnKeyType: UIReturnKeyType = .Done
 }
-
-
-extension OTPTextFieldCell {
-    static func issuerCellWithDelegate(delegate: OTPTextFieldCellDelegate) -> OTPTextFieldCell {
-        return cellWithRowModel(IssuerRowModel(), delegate: delegate)
-    }
-
-    static func nameCellWithDelegate(delegate: OTPTextFieldCellDelegate, returnKeyType: UIReturnKeyType) -> OTPTextFieldCell {
-        return cellWithRowModel(NameRowModel(returnKeyType: returnKeyType), delegate: delegate)
-    }
-
-    static func secretCellWithDelegate(delegate: OTPTextFieldCellDelegate) -> OTPTextFieldCell {
-        return cellWithRowModel(SecretRowModel(), delegate: delegate)
-    }
-
-    static func cellWithRowModel(rowModel: TextFieldRowModel, delegate: OTPTextFieldCellDelegate) -> OTPTextFieldCell {
-        let cell = OTPTextFieldCell()
-        cell.updateWithRowModel(rowModel)
-        cell.delegate = delegate
-        return cell
-    }
-}
