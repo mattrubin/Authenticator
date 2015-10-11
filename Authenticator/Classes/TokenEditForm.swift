@@ -55,15 +55,22 @@ class TokenEditForm: NSObject, TokenForm {
     }
 
     private var issuerRowModel: TextFieldRowModel {
-        return IssuerRowModel(changeAction: { [weak self] (newIssuer) -> () in
-            self?.issuerDidChange(newIssuer)
-        })
+        return IssuerRowModel(
+            initialValue: token.issuer,
+            changeAction: { [weak self] (newIssuer) -> () in
+                self?.issuerDidChange(newIssuer)
+            }
+        )
     }
 
     private var nameRowModel: TextFieldRowModel {
-        return NameRowModel(returnKeyType: .Done, changeAction: { [weak self] (newAccountName) -> () in
-            self?.accountNameDidChange(newAccountName)
-        })
+        return NameRowModel(
+            initialValue: token.name,
+            returnKeyType: .Done,
+            changeAction: { [weak self] (newAccountName) -> () in
+                self?.accountNameDidChange(newAccountName)
+            }
+        )
     }
 
     let token: OTPToken
@@ -78,9 +85,6 @@ class TokenEditForm: NSObject, TokenForm {
 
         issuerCell.delegate = self
         accountNameCell.delegate = self
-
-        issuerCell.textField.text = token.issuer;
-        accountNameCell.textField.text = token.name;
     }
 
     func focusFirstField() {

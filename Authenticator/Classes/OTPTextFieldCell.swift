@@ -27,6 +27,7 @@ import UIKit
 protocol TextFieldRowModel {
     var label: String { get }
     var placeholder: String { get }
+    var initialValue: String { get }
 
     var autocapitalizationType: UITextAutocapitalizationType { get }
     var autocorrectionType: UITextAutocorrectionType { get }
@@ -84,6 +85,7 @@ class OTPTextFieldCell: UITableViewCell, OTPCell {
     func updateWithRowModel(rowModel: TextFieldRowModel) {
         textLabel?.text = rowModel.label
         textField.placeholder = rowModel.placeholder
+        textField.text = rowModel.initialValue
 
         textField.autocapitalizationType = rowModel.autocapitalizationType
         textField.autocorrectionType = rowModel.autocorrectionType

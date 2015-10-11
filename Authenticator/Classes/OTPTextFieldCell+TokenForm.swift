@@ -25,6 +25,7 @@
 struct IssuerRowModel: TextFieldRowModel {
     let label = "Issuer"
     let placeholder = "Some Website"
+    let initialValue: String
 
     let autocapitalizationType: UITextAutocapitalizationType = .Words
     let autocorrectionType: UITextAutocorrectionType = .Default
@@ -33,7 +34,8 @@ struct IssuerRowModel: TextFieldRowModel {
 
     let changeAction: (String) -> ()
 
-    init(changeAction: (String) -> ()) {
+    init(initialValue: String = "", changeAction: (String) -> ()) {
+        self.initialValue = initialValue
         self.changeAction = changeAction
     }
 }
@@ -41,6 +43,7 @@ struct IssuerRowModel: TextFieldRowModel {
 struct NameRowModel: TextFieldRowModel {
     let label = "Account Name"
     let placeholder = "user@example.com"
+    let initialValue: String
 
     let autocapitalizationType: UITextAutocapitalizationType = .None
     let autocorrectionType: UITextAutocorrectionType = .No
@@ -49,7 +52,8 @@ struct NameRowModel: TextFieldRowModel {
 
     let changeAction: (String) -> ()
 
-    init(returnKeyType: UIReturnKeyType, changeAction: (String) -> ()) {
+    init(initialValue: String = "", returnKeyType: UIReturnKeyType, changeAction: (String) -> ()) {
+        self.initialValue = initialValue
         self.returnKeyType = returnKeyType
         self.changeAction = changeAction
     }
@@ -58,6 +62,7 @@ struct NameRowModel: TextFieldRowModel {
 struct SecretRowModel: TextFieldRowModel {
     let label = "Secret Key"
     let placeholder = "•••• •••• •••• ••••"
+    let initialValue: String
 
     let autocapitalizationType: UITextAutocapitalizationType = .None
     let autocorrectionType: UITextAutocorrectionType = .No
@@ -66,7 +71,8 @@ struct SecretRowModel: TextFieldRowModel {
 
     let changeAction: (String) -> ()
 
-    init(changeAction: (String) -> ()) {
+    init(initialValue: String = "", changeAction: (String) -> ()) {
+        self.initialValue = initialValue
         self.changeAction = changeAction
     }
 }
