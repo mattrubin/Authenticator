@@ -137,11 +137,11 @@ class TokenFormViewController: UITableViewController {
     }
 
     func updateBarButtonItems() {
-        navigationItem.leftBarButtonItem = viewModel.leftBarButton.map {
-            barButtomItemForViewModel($0, target: self, action: Selector("leftBarButtonAction"))
+        navigationItem.leftBarButtonItem = viewModel.leftBarButton.map { (viewModel) in
+            barButtomItemForViewModel(viewModel, target: self, action: Selector("leftBarButtonAction"))
         }
-        navigationItem.rightBarButtonItem = viewModel.rightBarButton.map {
-            barButtomItemForViewModel($0, target: self, action: Selector("rightBarButtonAction"))
+        navigationItem.rightBarButtonItem = viewModel.rightBarButton.map { (viewModel) in
+            barButtomItemForViewModel(viewModel, target: self, action: Selector("rightBarButtonAction"))
         }
     }
 }
