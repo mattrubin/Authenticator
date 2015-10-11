@@ -28,6 +28,7 @@ protocol SegmentedControlRowModel {
     typealias Value
     var segments: [(title: String, value: Value)] { get }
     var initialValue: Value { get }
+    var valueChangedAction: (Value) -> () { get }
 }
 
 class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
@@ -35,6 +36,7 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
 
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
+    private var valueChangedAction: ((Value) -> ())?
 
     var value: Value {
         return values[segmentedControl.selectedSegmentIndex]
@@ -61,6 +63,7 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
 
     private func configureSubviews() {
         contentView.addSubview(segmentedControl)
+        segmentedControl.addTarget(self, action: Selector("segmentedControlValueChanged"), forControlEvents: .ValueChanged)
     }
 
     override func layoutSubviews() {
@@ -71,6 +74,7 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
     // MARK: - Update
 
     func updateWithRowModel<RowModel: SegmentedControlRowModel where RowModel.Value == Value>(rowModel: RowModel) {
+        valueChangedAction = rowModel.valueChangedAction
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
@@ -82,5 +86,11 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
         values = rowModel.segments.map { $0.value }
         // Select the initial value
         segmentedControl.selectedSegmentIndex = values.indexOf(rowModel.initialValue) ?? 0
+    }
+
+    // MARK: - Target Action
+
+    func segmentedControlValueChanged() {
+        valueChangedAction?(value)
     }
 }

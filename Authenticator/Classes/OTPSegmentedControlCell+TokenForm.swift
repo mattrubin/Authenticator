@@ -30,6 +30,11 @@ struct TokenTypeRowModel: SegmentedControlRowModel {
         (title: "Counter Based", value: OTPTokenType.Counter),
     ]
     let initialValue = OTPTokenType.Timer
+
+    let valueChangedAction: (OTPTokenType) -> ()
+    init(valueChangedAction: (OTPTokenType) -> ()) {
+        self.valueChangedAction = valueChangedAction
+    }
 }
 
 struct DigitCountRowModel: SegmentedControlRowModel {
@@ -39,6 +44,11 @@ struct DigitCountRowModel: SegmentedControlRowModel {
         (title: "8 Digits", value: 8),
     ]
     let initialValue = 6
+
+    let valueChangedAction: (Int) -> ()
+    init(valueChangedAction: (Int) -> ()) {
+        self.valueChangedAction = valueChangedAction
+    }
 }
 
 struct AlgorithmRowModel: SegmentedControlRowModel {
@@ -48,4 +58,9 @@ struct AlgorithmRowModel: SegmentedControlRowModel {
         (title: "SHA-512", value: OTPAlgorithm.SHA512),
     ]
     let initialValue = OTPAlgorithm.SHA1
+
+    let valueChangedAction: (OTPAlgorithm) -> ()
+    init(valueChangedAction: (OTPAlgorithm) -> ()) {
+        self.valueChangedAction = valueChangedAction
+    }
 }

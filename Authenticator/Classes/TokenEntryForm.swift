@@ -45,9 +45,9 @@ class TokenEntryForm: NSObject, TokenForm {
     private lazy var secretKeyCell: OTPTextFieldCell = {
         OTPTextFieldCell.secretCellWithDelegate(self)
     }()
-    private var tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>(rowModel: TokenTypeRowModel())
-    private var digitCountCell = OTPSegmentedControlCell<Int>(rowModel: DigitCountRowModel())
-    private var algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>(rowModel: AlgorithmRowModel())
+    private var tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>(rowModel: TokenTypeRowModel(valueChangedAction: { print("Token type changed: \($0)") }))
+    private var digitCountCell = OTPSegmentedControlCell<Int>(rowModel: DigitCountRowModel(valueChangedAction: { print("Digits changed: \($0)") }))
+    private var algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>(rowModel: AlgorithmRowModel(valueChangedAction: { print("Algorithm changed: \($0)") }))
     private var advancedSectionHeader: HeaderViewModel {
         return HeaderViewModel(title: "Advanced Options") { [weak self] in
             self?.toggleAdvancedOptions()
