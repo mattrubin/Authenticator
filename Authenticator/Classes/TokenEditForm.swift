@@ -33,8 +33,16 @@ class TokenEditForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEditFormDelegate?
 
-    private var issuer: String
-    private var name: String
+    private var issuer: String {
+        didSet {
+            presenter?.formValuesDidChange(self)
+        }
+    }
+    private var name: String {
+        didSet {
+            presenter?.formValuesDidChange(self)
+        }
+    }
 
     private let issuerCell = OTPTextFieldCell()
     private let accountNameCell = OTPTextFieldCell()
@@ -61,7 +69,7 @@ class TokenEditForm: NSObject, TokenForm {
         return IssuerRowModel(
             initialValue: issuer,
             changeAction: { [weak self] (newIssuer) -> () in
-                self?.issuerDidChange(newIssuer)
+                self?.issuer = newIssuer
             }
         )
     }
@@ -71,7 +79,7 @@ class TokenEditForm: NSObject, TokenForm {
             initialValue: name,
             returnKeyType: .Done,
             changeAction: { [weak self] (newName) -> () in
-                self?.nameDidChange(newName)
+                self?.name = newName
             }
         )
     }
@@ -122,18 +130,6 @@ class TokenEditForm: NSObject, TokenForm {
         }
 
         delegate?.form(self, didEditToken: token)
-    }
-}
-
-extension TokenEditForm {
-    func issuerDidChange(newIssuer: String) {
-        issuer = newIssuer
-        presenter?.formValuesDidChange(self)
-    }
-
-    func nameDidChange(newName: String) {
-        name = newName
-        presenter?.formValuesDidChange(self)
     }
 }
 

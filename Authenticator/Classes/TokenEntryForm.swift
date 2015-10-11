@@ -34,12 +34,36 @@ class TokenEntryForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEntryFormDelegate?
 
-    private var issuer: String
-    private var name: String
-    private var secretKey: String
-    private var tokenType: OTPTokenType
-    private var digitCount: Int
-    private var algorithm: OTPAlgorithm
+    private var issuer: String {
+        didSet {
+            presenter?.formValuesDidChange(self)
+        }
+    }
+    private var name: String {
+        didSet {
+            presenter?.formValuesDidChange(self)
+        }
+    }
+    private var secretKey: String {
+        didSet {
+            presenter?.formValuesDidChange(self)
+        }
+    }
+    private var tokenType: OTPTokenType {
+        didSet {
+            presenter?.formValuesDidChange(self)
+        }
+    }
+    private var digitCount: Int {
+        didSet {
+            presenter?.formValuesDidChange(self)
+        }
+    }
+    private var algorithm: OTPAlgorithm {
+        didSet {
+            presenter?.formValuesDidChange(self)
+        }
+    }
 
     private let issuerCell = OTPTextFieldCell()
     private let accountNameCell = OTPTextFieldCell()
@@ -104,7 +128,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return IssuerRowModel(
             initialValue: issuer,
             changeAction: { [weak self] (newIssuer) -> () in
-                self?.issuerDidChange(newIssuer)
+                self?.issuer = newIssuer
             }
         )
     }
@@ -114,7 +138,7 @@ class TokenEntryForm: NSObject, TokenForm {
             initialValue: name,
             returnKeyType: .Next,
             changeAction: { [weak self] (newName) -> () in
-                self?.nameDidChange(newName)
+                self?.name = newName
             }
         )
     }
@@ -123,7 +147,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return SecretRowModel(
             initialValue: secretKey,
             changeAction: { [weak self] (newSecret) -> () in
-                self?.secretDidChange(newSecret)
+                self?.secretKey = newSecret
             }
         )
     }
@@ -132,7 +156,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return TokenTypeRowModel(
             initialValue: tokenType,
             valueChangedAction: { [weak self] (newTokenType) -> () in
-                self?.tokenTypeDidChange(tokenType)
+                self?.tokenType = tokenType
             }
         )
     }
@@ -141,7 +165,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return DigitCountRowModel(
             initialValue: digitCount,
             valueChangedAction: { [weak self] (newDigitCount) -> () in
-                self?.digitCountDidChange(newDigitCount)
+                self?.digitCount = newDigitCount
             }
         )
     }
@@ -150,7 +174,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return AlgorithmRowModel(
             initialValue: algorithm,
             valueChangedAction: { [weak self] (newAlgorithm) -> () in
-                self?.algorithmDidChange(newAlgorithm)
+                self?.algorithm = newAlgorithm
             }
         )
     }
@@ -197,38 +221,6 @@ class TokenEntryForm: NSObject, TokenForm {
 
         // If the method hasn't returned by this point, token creation failed
         presenter?.form(self, didFailWithErrorMessage: "Invalid Token")
-    }
-}
-
-extension TokenEntryForm {
-    func issuerDidChange(newIssuer: String) {
-        issuer = newIssuer
-        presenter?.formValuesDidChange(self)
-    }
-
-    func nameDidChange(newName: String) {
-        name = newName
-        presenter?.formValuesDidChange(self)
-    }
-
-    func secretDidChange(newSecret: String) {
-        secretKey = newSecret
-        presenter?.formValuesDidChange(self)
-    }
-
-    func tokenTypeDidChange(newTokenType: OTPTokenType) {
-        tokenType = newTokenType
-        presenter?.formValuesDidChange(self)
-    }
-
-    func digitCountDidChange(newDigitCount: Int) {
-        digitCount = newDigitCount
-        presenter?.formValuesDidChange(self)
-    }
-
-    func algorithmDidChange(newAlgorithm: OTPAlgorithm) {
-        algorithm = newAlgorithm
-        presenter?.formValuesDidChange(self)
     }
 }
 
