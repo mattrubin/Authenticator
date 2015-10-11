@@ -34,7 +34,7 @@ struct IssuerRowModel: TextFieldRowModel {
 
     let changeAction: (String) -> ()
 
-    init(initialValue: String = "", changeAction: (String) -> ()) {
+    init(initialValue: String, changeAction: (String) -> ()) {
         self.initialValue = initialValue
         self.changeAction = changeAction
     }
@@ -52,7 +52,7 @@ struct NameRowModel: TextFieldRowModel {
 
     let changeAction: (String) -> ()
 
-    init(initialValue: String = "", returnKeyType: UIReturnKeyType, changeAction: (String) -> ()) {
+    init(initialValue: String, returnKeyType: UIReturnKeyType, changeAction: (String) -> ()) {
         self.initialValue = initialValue
         self.returnKeyType = returnKeyType
         self.changeAction = changeAction
@@ -71,7 +71,7 @@ struct SecretRowModel: TextFieldRowModel {
 
     let changeAction: (String) -> ()
 
-    init(initialValue: String = "", changeAction: (String) -> ()) {
+    init(initialValue: String, changeAction: (String) -> ()) {
         self.initialValue = initialValue
         self.changeAction = changeAction
     }
