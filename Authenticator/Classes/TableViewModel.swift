@@ -24,8 +24,8 @@
 
 struct TableViewModel {
     var title: String
-    var doneButtonViewModel: BarButtonViewModel?
-    var cancelButtonViewModel: BarButtonViewModel?
+    var leftBarButtonViewModel: BarButtonViewModel?
+    var rightBarButtonViewModel: BarButtonViewModel?
     var sections: [Section]
 }
 
@@ -59,8 +59,8 @@ extension TableViewModel {
 func EmptyTableViewModel() -> TableViewModel {
     return TableViewModel(
         title: "",
-        doneButtonViewModel: nil,
-        cancelButtonViewModel: nil,
+        leftBarButtonViewModel: nil,
+        rightBarButtonViewModel: nil,
         sections: []
     )
 }
