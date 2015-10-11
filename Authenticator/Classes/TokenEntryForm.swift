@@ -48,8 +48,8 @@ class TokenEntryForm: NSObject, TokenForm {
     private var tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>(rowModel: TokenTypeRowModel())
     private var digitCountCell = OTPSegmentedControlCell<Int>(rowModel: DigitCountRowModel())
     private var algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>(rowModel: AlgorithmRowModel())
-    private var advancedSectionHeader: Section.Header {
-        return Section.Header(title: "Advanced Options") { [weak self] in
+    private var advancedSectionHeader: HeaderViewModel {
+        return HeaderViewModel(title: "Advanced Options") { [weak self] in
             self?.toggleAdvancedOptions()
         }
     }

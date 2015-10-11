@@ -1,5 +1,5 @@
 //
-//  OTPHeaderView.swift
+//  HeaderViewModel.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Matt Rubin
@@ -22,49 +22,12 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import UIKit
+struct HeaderViewModel {
+    let title: String
+    let action: (() -> ())?
 
-class OTPHeaderView: UIButton {
-    private static let preferredHeight: CGFloat = 54
-
-    private var buttonAction: (() -> ())?
-
-    // MARK: - Init
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        configureSubviews()
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureSubviews()
-    }
-
-    // MARK: - Subviews
-
-    private func configureSubviews() {
-        titleLabel?.textAlignment = .Center
-        titleLabel?.textColor = UIColor.otpForegroundColor
-        titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 16)
-
-        addTarget(self, action: Selector("buttonWasPressed"), forControlEvents: .TouchUpInside)
-    }
-
-    // MARK: - Update
-
-    func updateWithViewModel(viewModel: HeaderViewModel) {
-        setTitle(viewModel.title, forState: .Normal)
-        buttonAction = viewModel.action
-    }
-
-    static func heightWithViewModel(viewModel: HeaderViewModel) -> CGFloat {
-        return preferredHeight
-    }
-
-    // MARK: - Target Action
-
-    func buttonWasPressed() {
-        buttonAction?()
+    init(title: String, action: (() -> ())? = nil) {
+        self.title = title
+        self.action = action
     }
 }

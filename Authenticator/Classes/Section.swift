@@ -25,22 +25,13 @@
 import UIKit
 
 struct Section {
-    struct Header {
-        let title: String
-        let action: (() -> ())?
-
-        init(title: String, action: (() -> ())? = nil) {
-            self.title = title
-            self.action = action
-        }
-    }
 
     typealias Row = UITableViewCell
 
-    let header: Header?
+    let header: HeaderViewModel?
     let rows: [Row]
 
-    init(header: Header? = nil, rows: [Row] = []) {
+    init(header: HeaderViewModel? = nil, rows: [Row] = []) {
         self.header = header
         self.rows = rows
     }
