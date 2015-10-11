@@ -28,8 +28,8 @@ struct BarButtonViewModel {
         case Cancel
     }
 
-    let enabled: Bool
     let style: Style
+    let enabled: Bool
     let action: () -> ()
 
     init(style: Style, enabled: Bool = true, action: () -> ()) {
