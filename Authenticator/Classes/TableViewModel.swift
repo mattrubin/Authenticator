@@ -24,7 +24,20 @@
 
 struct TableViewModel {
     var title: String
+    var leftBarButtonViewModel: BarButtonViewModel?
+    var rightBarButtonViewModel: BarButtonViewModel?
     var sections: [Section]
+
+    init(title: String,
+        leftBarButtonViewModel: BarButtonViewModel? = nil,
+        rightBarButtonViewModel: BarButtonViewModel? = nil,
+        sections: [Section])
+    {
+        self.title = title
+        self.leftBarButtonViewModel = leftBarButtonViewModel
+        self.rightBarButtonViewModel = rightBarButtonViewModel
+        self.sections = sections
+    }
 }
 
 extension TableViewModel {

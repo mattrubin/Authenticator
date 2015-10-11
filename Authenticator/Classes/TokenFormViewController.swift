@@ -25,7 +25,6 @@
 class TokenFormViewController: UITableViewController {
     private var form: TokenForm?
     private var viewModel: TableViewModel = EmptyTableViewModel()
-    private var doneButtonItem: UIBarButtonItem?
 
     init(form: TokenForm) {
         super.init(style: .Grouped)
@@ -50,15 +49,7 @@ class TokenFormViewController: UITableViewController {
 
         // Set up top bar
         title = viewModel.title
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancelAction"))
-        doneButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("doneAction"))
-        navigationItem.leftBarButtonItem = cancelButton
-        navigationItem.rightBarButtonItem = doneButtonItem
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        validateForm()
+        updateBarButtonItems()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -73,12 +64,12 @@ class TokenFormViewController: UITableViewController {
 
     // MARK: - Target Actions
 
-    func cancelAction() {
-        presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+    func leftBarButtonAction() {
+        viewModel.leftBarButtonViewModel?.action()
     }
 
-    func doneAction() {
-        form?.submit()
+    func rightBarButtonAction() {
+        viewModel.rightBarButtonViewModel?.action()
     }
 
     // MARK: - UITableViewDataSource
@@ -124,17 +115,40 @@ class TokenFormViewController: UITableViewController {
         return viewModel.viewForHeaderInSection(section)
     }
 
-    // MARK: - Validation
+    // MARK: - Update
 
-    func validateForm() {
-        doneButtonItem?.enabled = form?.isValid ?? false
+    private func barButtomItemForViewModel(viewModel: BarButtonViewModel, target: AnyObject?, action: Selector) -> UIBarButtonItem {
+        func systemItemForStyle(style: BarButtonViewModel.Style) -> UIBarButtonSystemItem {
+            switch style {
+            case .Done: return .Done
+            case .Cancel: return .Cancel
+            }
+        }
+
+        let barButtomItem = UIBarButtonItem(
+            barButtonSystemItem: systemItemForStyle(viewModel.style),
+            target: target,
+            action: action
+        )
+        barButtomItem.enabled = viewModel.enabled
+        return barButtomItem
+    }
+
+    func updateBarButtonItems() {
+        navigationItem.leftBarButtonItem = viewModel.leftBarButtonViewModel.map {
+            barButtomItemForViewModel($0, target: self, action: Selector("leftBarButtonAction"))
+        }
+        navigationItem.rightBarButtonItem = viewModel.rightBarButtonViewModel.map {
+            barButtomItemForViewModel($0, target: self, action: Selector("rightBarButtonAction"))
+        }
     }
 }
 
 extension TokenFormViewController: TokenFormPresenter {
 
     func formValuesDidChange(form: TokenForm) {
-        validateForm()
+        viewModel = form.viewModel
+        updateBarButtonItems()
     }
 
     func form(form: TokenForm, didFailWithErrorMessage errorMessage: String) {

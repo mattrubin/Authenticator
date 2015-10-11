@@ -210,6 +210,9 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 }
 
 extension OTPTokenListViewController: TokenEditFormDelegate {
+    func editFormDidCancel(form: TokenEditForm) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
     func form(form: TokenEditForm, didEditToken token: OTPToken) {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -219,12 +222,19 @@ extension OTPTokenListViewController: TokenEditFormDelegate {
 }
 
 extension OTPTokenListViewController: TokenEntryFormDelegate {
+    func entryFormDidCancel(form: TokenEntryForm) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+
     func form(form: TokenEntryForm, didCreateToken token: OTPToken) {
         self.tokenSource(form, didCreateToken: token)
     }
 }
 
 extension OTPTokenListViewController: OTPTokenSourceDelegate {
+    func tokenSourceDidCancel(tokenSource: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
     func tokenSource(tokenSource: AnyObject, didCreateToken token: OTPToken) {
         self.dismissViewControllerAnimated(true, completion: nil)

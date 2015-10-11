@@ -86,7 +86,7 @@
 
 - (void)cancel
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.delegate tokenSourceDidCancel:self];
 }
 
 - (void)addTokenManually
@@ -184,6 +184,11 @@
 
 
 #pragma mark - TokenEntryFormDelegate
+
+- (void)entryFormDidCancel:(nonnull TokenEntryForm *)form
+{
+    [self.delegate tokenSourceDidCancel:form];
+}
 
 - (void)form:(nonnull TokenEntryForm *)form didCreateToken:(nonnull OTPToken *)token
 {
