@@ -36,6 +36,10 @@ class TokenEditForm: NSObject, TokenForm {
     private struct State {
         var issuer: String
         var name: String
+
+        var isValid: Bool {
+            return !(issuer.isEmpty && name.isEmpty)
+        }
     }
 
     private var state: State {
@@ -53,7 +57,7 @@ class TokenEditForm: NSObject, TokenForm {
             leftBarButton: BarButtonViewModel(style: .Cancel) { [weak self] in
                 self?.cancel()
             },
-            rightBarButton: BarButtonViewModel(style: .Done, enabled: isValid) { [weak self] in
+            rightBarButton: BarButtonViewModel(style: .Done, enabled: state.isValid) { [weak self] in
                 self?.submit()
             },
             sections: [
@@ -109,16 +113,12 @@ class TokenEditForm: NSObject, TokenForm {
         accountNameCell.textField.resignFirstResponder()
     }
 
-    var isValid: Bool {
-        return !(state.issuer.isEmpty && state.name.isEmpty)
-    }
-
     func cancel() {
         delegate?.editFormDidCancel(self)
     }
 
     func submit() {
-        if (!isValid) { return }
+        if (!state.isValid) { return }
 
         if (token.name != state.name ||
             token.issuer != state.issuer) {

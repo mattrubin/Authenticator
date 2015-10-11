@@ -41,6 +41,10 @@ class TokenEntryForm: NSObject, TokenForm {
         var tokenType: OTPTokenType
         var digitCount: Int
         var algorithm: OTPAlgorithm
+
+        var isValid: Bool {
+            return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
+        }
     }
 
     private var state: State {
@@ -96,7 +100,7 @@ class TokenEntryForm: NSObject, TokenForm {
             leftBarButton: BarButtonViewModel(style: .Cancel) { [weak self] in
                 self?.cancel()
             },
-            rightBarButton: BarButtonViewModel(style: .Done, enabled: isValid) { [weak self] in
+            rightBarButton: BarButtonViewModel(style: .Done, enabled: state.isValid) { [weak self] in
                 self?.submit()
             },
             sections: [
@@ -177,16 +181,12 @@ class TokenEntryForm: NSObject, TokenForm {
         secretKeyCell.textField.resignFirstResponder()
     }
 
-    var isValid: Bool {
-        return !state.secret.isEmpty && !(state.issuer.isEmpty && state.name.isEmpty)
-    }
-
     func cancel() {
         delegate?.entryFormDidCancel(self)
     }
 
     func submit() {
-        if !isValid { return }
+        if !state.isValid { return }
 
         if let secret = NSData(base32String: state.secret) {
             if secret.length > 0 {
