@@ -24,18 +24,18 @@
 
 struct TableViewModel {
     var title: String
-    var leftBarButtonViewModel: BarButtonViewModel?
-    var rightBarButtonViewModel: BarButtonViewModel?
+    var leftBarButton: BarButtonViewModel?
+    var rightBarButton: BarButtonViewModel?
     var sections: [Section]
 
     init(title: String,
-        leftBarButtonViewModel: BarButtonViewModel? = nil,
-        rightBarButtonViewModel: BarButtonViewModel? = nil,
+        leftBarButton: BarButtonViewModel? = nil,
+        rightBarButton: BarButtonViewModel? = nil,
         sections: [Section])
     {
         self.title = title
-        self.leftBarButtonViewModel = leftBarButtonViewModel
-        self.rightBarButtonViewModel = rightBarButtonViewModel
+        self.leftBarButton = leftBarButton
+        self.rightBarButton = rightBarButton
         self.sections = sections
     }
 }
