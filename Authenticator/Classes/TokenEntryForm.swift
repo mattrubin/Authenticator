@@ -34,32 +34,16 @@ class TokenEntryForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEntryFormDelegate?
 
-    private var issuer: String {
-        didSet {
-            presenter?.formValuesDidChange(self)
-        }
+    private struct State {
+        var issuer: String
+        var name: String
+        var secret: String
+        var tokenType: OTPTokenType
+        var digitCount: Int
+        var algorithm: OTPAlgorithm
     }
-    private var name: String {
-        didSet {
-            presenter?.formValuesDidChange(self)
-        }
-    }
-    private var secretKey: String {
-        didSet {
-            presenter?.formValuesDidChange(self)
-        }
-    }
-    private var tokenType: OTPTokenType {
-        didSet {
-            presenter?.formValuesDidChange(self)
-        }
-    }
-    private var digitCount: Int {
-        didSet {
-            presenter?.formValuesDidChange(self)
-        }
-    }
-    private var algorithm: OTPAlgorithm {
+
+    private var state: State {
         didSet {
             presenter?.formValuesDidChange(self)
         }
@@ -82,12 +66,14 @@ class TokenEntryForm: NSObject, TokenForm {
     init(delegate: TokenEntryFormDelegate) {
         self.delegate = delegate
 
-        issuer = "!"
-        name = "!"
-        secretKey = "!"
-        tokenType = .Timer
-        digitCount = 6
-        algorithm = .SHA1
+        state = State(
+            issuer: "",
+            name: "",
+            secret: "",
+            tokenType: .Timer,
+            digitCount: 6,
+            algorithm: .SHA1
+        )
 
         super.init()
 
@@ -126,55 +112,55 @@ class TokenEntryForm: NSObject, TokenForm {
 
     private var issuerRowModel: TextFieldRowModel {
         return IssuerRowModel(
-            initialValue: issuer,
+            initialValue: state.issuer,
             changeAction: { [weak self] (newIssuer) -> () in
-                self?.issuer = newIssuer
+                self?.state.issuer = newIssuer
             }
         )
     }
 
     private var nameRowModel: TextFieldRowModel {
         return NameRowModel(
-            initialValue: name,
+            initialValue: state.name,
             returnKeyType: .Next,
             changeAction: { [weak self] (newName) -> () in
-                self?.name = newName
+                self?.state.name = newName
             }
         )
     }
 
     private var secretRowModel: TextFieldRowModel {
         return SecretRowModel(
-            initialValue: secretKey,
+            initialValue: state.secret,
             changeAction: { [weak self] (newSecret) -> () in
-                self?.secretKey = newSecret
+                self?.state.secret = newSecret
             }
         )
     }
 
     private var tokenTypeRowModel: TokenTypeRowModel {
         return TokenTypeRowModel(
-            initialValue: tokenType,
+            initialValue: state.tokenType,
             valueChangedAction: { [weak self] (newTokenType) -> () in
-                self?.tokenType = tokenType
+                self?.state.tokenType = newTokenType
             }
         )
     }
 
     private var digitCountRowModel: DigitCountRowModel {
         return DigitCountRowModel(
-            initialValue: digitCount,
+            initialValue: state.digitCount,
             valueChangedAction: { [weak self] (newDigitCount) -> () in
-                self?.digitCount = newDigitCount
+                self?.state.digitCount = newDigitCount
             }
         )
     }
 
     private var algorithmRowModel: AlgorithmRowModel {
         return AlgorithmRowModel(
-            initialValue: algorithm,
+            initialValue: state.algorithm,
             valueChangedAction: { [weak self] (newAlgorithm) -> () in
-                self?.algorithm = newAlgorithm
+                self?.state.algorithm = newAlgorithm
             }
         )
     }
@@ -192,7 +178,7 @@ class TokenEntryForm: NSObject, TokenForm {
     }
 
     var isValid: Bool {
-        return !secretKey.isEmpty && !(issuer.isEmpty && name.isEmpty)
+        return !state.secret.isEmpty && !(state.issuer.isEmpty && state.name.isEmpty)
     }
 
     func cancel() {
@@ -202,15 +188,15 @@ class TokenEntryForm: NSObject, TokenForm {
     func submit() {
         if !isValid { return }
 
-        if let secret = NSData(base32String: secretKey) {
+        if let secret = NSData(base32String: state.secret) {
             if secret.length > 0 {
                 let token = OTPToken()
-                token.type = tokenType;
+                token.type = state.tokenType;
                 token.secret = secret;
-                token.name = name;
-                token.issuer = issuer;
-                token.digits = UInt(digitCount);
-                token.algorithm = algorithm;
+                token.name = state.name;
+                token.issuer = state.issuer;
+                token.digits = UInt(state.digitCount);
+                token.algorithm = state.algorithm;
 
                 if token.password != nil {
                     delegate?.form(self, didCreateToken: token)

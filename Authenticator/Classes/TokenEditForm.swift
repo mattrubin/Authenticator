@@ -33,12 +33,12 @@ class TokenEditForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEditFormDelegate?
 
-    private var issuer: String {
-        didSet {
-            presenter?.formValuesDidChange(self)
-        }
+    private struct State {
+        var issuer: String
+        var name: String
     }
-    private var name: String {
+
+    private var state: State {
         didSet {
             presenter?.formValuesDidChange(self)
         }
@@ -67,19 +67,19 @@ class TokenEditForm: NSObject, TokenForm {
 
     private var issuerRowModel: TextFieldRowModel {
         return IssuerRowModel(
-            initialValue: issuer,
+            initialValue: state.issuer,
             changeAction: { [weak self] (newIssuer) -> () in
-                self?.issuer = newIssuer
+                self?.state.issuer = newIssuer
             }
         )
     }
 
     private var nameRowModel: TextFieldRowModel {
         return NameRowModel(
-            initialValue: name,
+            initialValue: state.name,
             returnKeyType: .Done,
             changeAction: { [weak self] (newName) -> () in
-                self?.name = newName
+                self?.state.name = newName
             }
         )
     }
@@ -89,9 +89,7 @@ class TokenEditForm: NSObject, TokenForm {
     init(token: OTPToken, delegate: TokenEditFormDelegate) {
         self.token = token
         self.delegate = delegate
-
-        issuer = token.issuer
-        name = token.name
+        state = State(issuer: token.issuer, name: token.name)
 
         super.init()
         // Configure cells
@@ -112,7 +110,7 @@ class TokenEditForm: NSObject, TokenForm {
     }
 
     var isValid: Bool {
-        return !(issuer.isEmpty && name.isEmpty)
+        return !(state.issuer.isEmpty && state.name.isEmpty)
     }
 
     func cancel() {
@@ -122,10 +120,10 @@ class TokenEditForm: NSObject, TokenForm {
     func submit() {
         if (!isValid) { return }
 
-        if (token.name != name ||
-            token.issuer != issuer) {
-                self.token.name = name
-                self.token.issuer = issuer
+        if (token.name != state.name ||
+            token.issuer != state.issuer) {
+                self.token.name = state.name
+                self.token.issuer = state.issuer
                 self.token.saveToKeychain()
         }
 
