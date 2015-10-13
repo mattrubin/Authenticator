@@ -104,7 +104,10 @@ class TokenEntryForm: NSObject, TokenForm {
                 showsAdvancedOptions
                     ? Section(header: advancedSectionHeader, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
                     : Section(header: advancedSectionHeader),
-            ]
+            ],
+            doneKeyAction: { [weak self] in
+                self?.submit()
+            }
         )
     }
 

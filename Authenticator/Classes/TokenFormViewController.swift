@@ -202,7 +202,7 @@ extension TokenFormViewController: OTPTextFieldCellDelegate {
                 nextFocusCell.focus()
             } else {
                 textFieldCell.unfocus()
-                form?.submit()
+                viewModel.doneKeyAction?()
             }
         }
     }

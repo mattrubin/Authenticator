@@ -65,7 +65,10 @@ class TokenEditForm: NSObject, TokenForm {
                     issuerCell,
                     accountNameCell,
                 ]
-            ]
+            ],
+            doneKeyAction: { [weak self] in
+                self?.submit()
+            }
         )
     }
 
