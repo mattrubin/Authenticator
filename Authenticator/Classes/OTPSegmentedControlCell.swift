@@ -31,6 +31,7 @@ protocol SegmentedControlRowModel {
     var valueChangedAction: (Value) -> () { get }
 }
 
+// "static stored properties not yet supported in generic types"
 private let preferredHeight: CGFloat = 54
 
 class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
