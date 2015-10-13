@@ -180,27 +180,27 @@ class TokenFormViewController: UITableViewController {
 
     func cellForRowModel(rowModel: Form.RowModel) -> UITableViewCell {
         switch rowModel {
-        case .TextFieldRow(let textFieldViewModel):
-            return OTPTextFieldCell(viewModel: textFieldViewModel)
-        case .TokenTypeRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
-        case .DigitCountRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
-        case .AlgorithmRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
+        case .TextFieldRow(let viewModel):
+            return OTPTextFieldCell(viewModel: viewModel)
+        case .TokenTypeRow(let viewModel):
+            return OTPSegmentedControlCell(viewModel: viewModel)
+        case .DigitCountRow(let viewModel):
+            return OTPSegmentedControlCell(viewModel: viewModel)
+        case .AlgorithmRow(let viewModel):
+            return OTPSegmentedControlCell(viewModel: viewModel)
         }
     }
 
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
-        case .TextFieldRow(let textFieldViewModel):
-            return OTPTextFieldCell.heightWithViewModel(textFieldViewModel)
-        case .TokenTypeRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
-        case .DigitCountRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
-        case .AlgorithmRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
+        case .TextFieldRow(let viewModel):
+            return OTPTextFieldCell.heightWithViewModel(viewModel)
+        case .TokenTypeRow(let viewModel):
+            return OTPSegmentedControlCell.heightWithViewModel(viewModel)
+        case .DigitCountRow(let viewModel):
+            return OTPSegmentedControlCell.heightWithViewModel(viewModel)
+        case .AlgorithmRow(let viewModel):
+            return OTPSegmentedControlCell.heightWithViewModel(viewModel)
         }
     }
 
