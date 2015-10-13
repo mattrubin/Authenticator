@@ -54,12 +54,40 @@ class TokenFormViewController: UITableViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        form?.focusFirstField()
+        focusFirstField()
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        form?.unfocus()
+        unfocus()
+    }
+
+    // MARK: Focus
+
+    private func focusFirstField() -> Bool {
+        for cell in tableView.visibleCells {
+            if let focusCell = cell as? FocusCell {
+                return focusCell.focus()
+            }
+        }
+        return false
+    }
+
+    private func nextVisibleFocusCellAfterIndexPath(currentIndexPath: NSIndexPath) -> FocusCell? {
+        if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
+            for indexPath in visibleIndexPaths {
+                if currentIndexPath.compare(indexPath) == .OrderedAscending {
+                    if let focusCell = tableView.cellForRowAtIndexPath(indexPath) as? FocusCell {
+                        return focusCell
+                    }
+                }
+            }
+        }
+        return nil
+    }
+
+    private func unfocus() -> Bool {
+        return view.endEditing(false)
     }
 
     // MARK: - Target Actions
@@ -96,6 +124,7 @@ class TokenFormViewController: UITableViewController {
         if let cell = cell as? OTPTextFieldCell {
             cell.textField.backgroundColor = .otpLightColor
             cell.textField.tintColor = .otpDarkColor
+            cell.delegate = self
         }
     }
 
@@ -163,6 +192,25 @@ extension TokenFormViewController: TokenFormPresenter {
         tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section),
             atScrollPosition: .Top,
             animated: true)
+    }
+}
+
+extension TokenFormViewController: OTPTextFieldCellDelegate {
+    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
+        // Unfocus the field that returned
+        textFieldCell.unfocus()
+
+        if textFieldCell.textField.returnKeyType == .Next {
+            // Try to focus the next text field cell
+            if let currentIndexPath = tableView.indexPathForCell(textFieldCell) {
+                if let nextFocusCell = nextVisibleFocusCellAfterIndexPath(currentIndexPath) {
+                    nextFocusCell.focus()
+                }
+            }
+        } else if textFieldCell.textField.returnKeyType == .Done {
+            // Try to submit the form
+            viewModel.doneKeyAction?()
+        }
     }
 }
 

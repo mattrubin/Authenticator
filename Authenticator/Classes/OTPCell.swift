@@ -25,3 +25,8 @@
 protocol OTPCell {
     var preferredHeight: CGFloat { get }
 }
+
+protocol FocusCell {
+    func focus() -> Bool
+    func unfocus() -> Bool
+}

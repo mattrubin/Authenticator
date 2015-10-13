@@ -59,6 +59,7 @@ class TokenEntryForm: NSObject, TokenForm {
     private let tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>()
     private let digitCountCell = OTPSegmentedControlCell<Int>()
     private let algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>()
+
     private var advancedSectionHeader: HeaderViewModel {
         return HeaderViewModel(title: "Advanced Options") { [weak self] in
             self?.toggleAdvancedOptions()
@@ -84,11 +85,6 @@ class TokenEntryForm: NSObject, TokenForm {
         issuerCell.updateWithRowModel(issuerRowModel)
         accountNameCell.updateWithRowModel(nameRowModel)
         secretKeyCell.updateWithRowModel(secretRowModel)
-
-        issuerCell.delegate = self
-        accountNameCell.delegate = self
-        secretKeyCell.delegate = self
-
         tokenTypeCell.updateWithRowModel(tokenTypeRowModel)
         digitCountCell.updateWithRowModel(digitCountRowModel)
         algorithmCell.updateWithRowModel(algorithmRowModel)
@@ -108,7 +104,10 @@ class TokenEntryForm: NSObject, TokenForm {
                 showsAdvancedOptions
                     ? Section(header: advancedSectionHeader, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
                     : Section(header: advancedSectionHeader),
-            ]
+            ],
+            doneKeyAction: { [weak self] in
+                self?.submit()
+            }
         )
     }
 
@@ -171,16 +170,6 @@ class TokenEntryForm: NSObject, TokenForm {
 
     // Mark: TokenForm
 
-    func focusFirstField() {
-        issuerCell.textField.becomeFirstResponder()
-    }
-
-    func unfocus() {
-        issuerCell.textField.resignFirstResponder()
-        accountNameCell.textField.resignFirstResponder()
-        secretKeyCell.textField.resignFirstResponder()
-    }
-
     func cancel() {
         delegate?.entryFormDidCancel(self)
     }
@@ -207,19 +196,6 @@ class TokenEntryForm: NSObject, TokenForm {
 
         // If the method hasn't returned by this point, token creation failed
         presenter?.form(self, didFailWithErrorMessage: "Invalid Token")
-    }
-}
-
-extension TokenEntryForm: OTPTextFieldCellDelegate {
-    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
-        if textFieldCell == issuerCell {
-            accountNameCell.textField.becomeFirstResponder()
-        } else if textFieldCell == accountNameCell {
-            secretKeyCell.textField.becomeFirstResponder()
-        } else if textFieldCell == secretKeyCell {
-            secretKeyCell.textField.resignFirstResponder()
-            submit()
-        }
     }
 }
 

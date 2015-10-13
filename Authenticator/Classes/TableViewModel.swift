@@ -27,16 +27,19 @@ struct TableViewModel {
     var leftBarButton: BarButtonViewModel?
     var rightBarButton: BarButtonViewModel?
     var sections: [Section]
+    var doneKeyAction: (() -> ())?
 
     init(title: String,
         leftBarButton: BarButtonViewModel? = nil,
         rightBarButton: BarButtonViewModel? = nil,
-        sections: [Section])
+        sections: [Section],
+        doneKeyAction: (() -> ())? = nil)
     {
         self.title = title
         self.leftBarButton = leftBarButton
         self.rightBarButton = rightBarButton
         self.sections = sections
+        self.doneKeyAction = doneKeyAction
     }
 }
 

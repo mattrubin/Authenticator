@@ -65,7 +65,10 @@ class TokenEditForm: NSObject, TokenForm {
                     issuerCell,
                     accountNameCell,
                 ]
-            ]
+            ],
+            doneKeyAction: { [weak self] in
+                self?.submit()
+            }
         )
     }
 
@@ -99,18 +102,6 @@ class TokenEditForm: NSObject, TokenForm {
         // Configure cells
         issuerCell.updateWithRowModel(issuerRowModel)
         accountNameCell.updateWithRowModel(nameRowModel)
-
-        issuerCell.delegate = self
-        accountNameCell.delegate = self
-    }
-
-    func focusFirstField() {
-        issuerCell.textField.becomeFirstResponder()
-    }
-
-    func unfocus() {
-        issuerCell.textField.resignFirstResponder()
-        accountNameCell.textField.resignFirstResponder()
     }
 
     func cancel() {
@@ -128,16 +119,5 @@ class TokenEditForm: NSObject, TokenForm {
         }
 
         delegate?.form(self, didEditToken: token)
-    }
-}
-
-extension TokenEditForm: OTPTextFieldCellDelegate {
-    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
-        if textFieldCell == issuerCell {
-            accountNameCell.textField.becomeFirstResponder()
-        } else if textFieldCell == accountNameCell {
-            accountNameCell.textField.resignFirstResponder()
-            submit()
-        }
     }
 }
