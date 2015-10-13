@@ -1,5 +1,5 @@
 //
-//  OTPSegmentedControlCell.swift
+//  SegmentedControlRowCell.swift
 //  Authenticator
 //
 //  Copyright (c) 2014 Matt Rubin
@@ -34,7 +34,7 @@ protocol SegmentedControlRowViewModel {
 // "static stored properties not yet supported in generic types"
 private let preferredHeight: CGFloat = 54
 
-class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
+class SegmentedControlRowCell<Value: Equatable>: UITableViewCell {
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
     private var changeAction: ((Value) -> ())?
