@@ -54,7 +54,7 @@ extension TableViewModel {
         return sections[section].rows.count
     }
 
-    func modelForRowAtIndexPath(indexPath: NSIndexPath) -> Section.Row? {
+    func modelForRowAtIndexPath(indexPath: NSIndexPath) -> Section.RowModel? {
         guard sections.indices.contains(indexPath.section)
             else { return nil }
         let section = sections[indexPath.section]
@@ -63,7 +63,7 @@ extension TableViewModel {
         return section.rows[indexPath.row]
     }
 
-    func headerForSection(section: Int) -> HeaderViewModel? {
+    func modelForHeaderInSection(section: Int) -> Section.HeaderModel? {
         guard sections.indices.contains(section)
             else { return nil }
         return sections[section].header

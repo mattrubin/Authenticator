@@ -25,27 +25,20 @@
 import UIKit
 
 struct Section {
-    typealias Row = FormRowModel
+    typealias HeaderModel = Form.HeaderModel
+    typealias RowModel = Form.RowModel
 
-    let header: HeaderViewModel?
-    let rows: [Row]
+    let header: HeaderModel?
+    let rows: [RowModel]
 
-    init(header: HeaderViewModel? = nil, rows: [Row] = []) {
+    init(header: HeaderModel? = nil, rows: [RowModel] = []) {
         self.header = header
         self.rows = rows
     }
 }
 
 extension Section: ArrayLiteralConvertible {
-    init(arrayLiteral elements: Row...) {
+    init(arrayLiteral elements: RowModel...) {
         self.init(rows: elements)
     }
-}
-
-
-enum FormRowModel {
-    case TextFieldRow(TextFieldRowModel)
-    case TokenTypeRow(TokenTypeRowModel)
-    case DigitCountRow(DigitCountRowModel)
-    case AlgorithmRow(AlgorithmRowModel)
 }

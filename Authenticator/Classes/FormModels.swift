@@ -1,5 +1,5 @@
 //
-//  HeaderViewModel.swift
+//  FormModels.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Matt Rubin
@@ -22,12 +22,15 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-struct HeaderViewModel {
-    let title: String
-    let action: (() -> ())?
+enum Form {
+    enum HeaderModel {
+        case ButtonHeader(ButtonHeaderViewModel)
+    }
 
-    init(title: String, action: (() -> ())? = nil) {
-        self.title = title
-        self.action = action
+    enum RowModel {
+        case TextFieldRow(TextFieldRowModel)
+        case TokenTypeRow(TokenTypeRowModel)
+        case DigitCountRow(DigitCountRowModel)
+        case AlgorithmRow(AlgorithmRowModel)
     }
 }
