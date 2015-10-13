@@ -100,10 +100,20 @@ class TokenEntryForm: NSObject, TokenForm {
                 self?.submit()
             },
             sections: [
-                [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
-                showsAdvancedOptions
-                    ? Section(header: advancedSectionHeader, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
-                    : Section(header: advancedSectionHeader),
+                [
+                    self.issuerCell,
+                    self.accountNameCell,
+                    self.secretKeyCell,
+                ],
+                Section(
+                    header: advancedSectionHeader,
+                    rows: showsAdvancedOptions
+                        ? [
+                            self.tokenTypeCell,
+                            self.digitCountCell,
+                            self.algorithmCell ]
+                        : []
+                ),
             ],
             doneKeyAction: { [weak self] in
                 self?.submit()
