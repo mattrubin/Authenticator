@@ -24,7 +24,7 @@
 
 import UIKit
 
-class OTPHeaderView: UIButton {
+class OTPHeaderView: UIButton, ViewModelBasedView {
     private static let preferredHeight: CGFloat = 54
 
     private var buttonAction: (() -> ())?
@@ -53,7 +53,7 @@ class OTPHeaderView: UIButton {
 
     // MARK: - View Model
 
-    convenience init(viewModel: HeaderViewModel) {
+    required convenience init(viewModel: HeaderViewModel) {
         self.init()
         updateWithViewModel(viewModel)
     }

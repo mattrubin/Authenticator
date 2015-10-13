@@ -181,15 +181,13 @@ class TokenFormViewController: UITableViewController {
     func cellForRowModel(rowModel: RowModel) -> UITableViewCell {
         switch rowModel {
         case .TextFieldRow(let textFieldViewModel):
-            let cell = OTPTextFieldCell()
-            cell.updateWithRowModel(textFieldViewModel)
-            return cell
+            return OTPTextFieldCell(viewModel: textFieldViewModel)
         case .TokenTypeRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell(rowModel: segmentedControlViewModel)
+            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
         case .DigitCountRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell(rowModel: segmentedControlViewModel)
+            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
         case .AlgorithmRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell(rowModel: segmentedControlViewModel)
+            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
         }
     }
 

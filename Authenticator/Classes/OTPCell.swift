@@ -22,8 +22,12 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-protocol OTPCell {
-    var preferredHeight: CGFloat { get }
+protocol ViewModelBasedView {
+    typealias ViewModel
+
+    init(viewModel: ViewModel)
+    func updateWithViewModel(viewModel: ViewModel)
+    static func heightWithViewModel(viewModel: ViewModel) -> CGFloat
 }
 
 protocol FocusCell {
