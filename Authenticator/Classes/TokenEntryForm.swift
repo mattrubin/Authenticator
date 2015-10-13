@@ -34,6 +34,8 @@ class TokenEntryForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEntryFormDelegate?
 
+    // MARK: State
+    
     private struct State {
         var issuer: String
         var name: String
@@ -53,20 +55,9 @@ class TokenEntryForm: NSObject, TokenForm {
         }
     }
 
-    private let issuerCell = OTPTextFieldCell()
-    private let accountNameCell = OTPTextFieldCell()
-    private let secretKeyCell = OTPTextFieldCell()
-    private let tokenTypeCell = OTPSegmentedControlCell<OTPTokenType>()
-    private let digitCountCell = OTPSegmentedControlCell<Int>()
-    private let algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>()
-
-    private var advancedSectionHeader: HeaderViewModel {
-        return HeaderViewModel(title: "Advanced Options") { [weak self] in
-            self?.toggleAdvancedOptions()
-        }
-    }
-
     var showsAdvancedOptions = false
+
+    // MARK: Initialization
 
     init(delegate: TokenEntryFormDelegate) {
         self.delegate = delegate
@@ -79,16 +70,9 @@ class TokenEntryForm: NSObject, TokenForm {
             digitCount: 6,
             algorithm: .SHA1
         )
-
-        super.init()
-
-        issuerCell.updateWithRowModel(issuerRowModel)
-        accountNameCell.updateWithRowModel(nameRowModel)
-        secretKeyCell.updateWithRowModel(secretRowModel)
-        tokenTypeCell.updateWithRowModel(tokenTypeRowModel)
-        digitCountCell.updateWithRowModel(digitCountRowModel)
-        algorithmCell.updateWithRowModel(algorithmRowModel)
     }
+
+    // MARK: View Model
 
     var viewModel: TableViewModel {
         return TableViewModel(
@@ -100,10 +84,20 @@ class TokenEntryForm: NSObject, TokenForm {
                 self?.submit()
             },
             sections: [
-                [ self.issuerCell, self.accountNameCell , self.secretKeyCell ],
-                showsAdvancedOptions
-                    ? Section(header: advancedSectionHeader, rows: [ self.tokenTypeCell, self.digitCountCell, self.algorithmCell ])
-                    : Section(header: advancedSectionHeader),
+                [
+                    issuerRowModel,
+                    nameRowModel,
+                    secretRowModel,
+                ],
+                Section(
+                    header: advancedSectionHeader,
+                    rows: !showsAdvancedOptions ? [] :
+                        [
+                            tokenTypeRowModel,
+                            digitCountRowModel,
+                            algorithmRowModel,
+                        ]
+                ),
             ],
             doneKeyAction: { [weak self] in
                 self?.submit()
@@ -111,64 +105,74 @@ class TokenEntryForm: NSObject, TokenForm {
         )
     }
 
-    // Mark: Row Models
+    private var advancedSectionHeader: HeaderViewModel {
+        return HeaderViewModel(title: "Advanced Options") { [weak self] in
+            self?.toggleAdvancedOptions()
+        }
+    }
 
-    private var issuerRowModel: TextFieldRowModel {
-        return IssuerRowModel(
+    private var issuerRowModel: FormRowModel {
+        let model = IssuerRowModel(
             initialValue: state.issuer,
             changeAction: { [weak self] (newIssuer) -> () in
                 self?.state.issuer = newIssuer
             }
         )
+        return .TextFieldRow(model)
     }
 
-    private var nameRowModel: TextFieldRowModel {
-        return NameRowModel(
+    private var nameRowModel: FormRowModel {
+        let model = NameRowModel(
             initialValue: state.name,
             returnKeyType: .Next,
             changeAction: { [weak self] (newName) -> () in
                 self?.state.name = newName
             }
         )
+        return .TextFieldRow(model)
     }
 
-    private var secretRowModel: TextFieldRowModel {
-        return SecretRowModel(
+    private var secretRowModel: FormRowModel {
+        let model = SecretRowModel(
             initialValue: state.secret,
             changeAction: { [weak self] (newSecret) -> () in
                 self?.state.secret = newSecret
             }
         )
+        return .TextFieldRow(model)
     }
 
-    private var tokenTypeRowModel: TokenTypeRowModel {
-        return TokenTypeRowModel(
+    private var tokenTypeRowModel: FormRowModel {
+        let model = TokenTypeRowModel(
             initialValue: state.tokenType,
             valueChangedAction: { [weak self] (newTokenType) -> () in
                 self?.state.tokenType = newTokenType
             }
         )
+        return .TokenTypeRow(model)
     }
 
-    private var digitCountRowModel: DigitCountRowModel {
-        return DigitCountRowModel(
+    private var digitCountRowModel: FormRowModel {
+        let model = DigitCountRowModel(
             initialValue: state.digitCount,
             valueChangedAction: { [weak self] (newDigitCount) -> () in
                 self?.state.digitCount = newDigitCount
             }
         )
+        return .DigitCountRow(model)
     }
 
-    private var algorithmRowModel: AlgorithmRowModel {
-        return AlgorithmRowModel(
+    private var algorithmRowModel: FormRowModel {
+        let model = AlgorithmRowModel(
             initialValue: state.algorithm,
             valueChangedAction: { [weak self] (newAlgorithm) -> () in
                 self?.state.algorithm = newAlgorithm
             }
         )
+        return .AlgorithmRow(model)
     }
 
-    // Mark: TokenForm
+    // MARK: Actions
 
     func cancel() {
         delegate?.entryFormDidCancel(self)
@@ -197,9 +201,7 @@ class TokenEntryForm: NSObject, TokenForm {
         // If the method hasn't returned by this point, token creation failed
         presenter?.form(self, didFailWithErrorMessage: "Invalid Token")
     }
-}
 
-extension TokenEntryForm {
     func toggleAdvancedOptions() {
         if (!showsAdvancedOptions) {
             showsAdvancedOptions = true

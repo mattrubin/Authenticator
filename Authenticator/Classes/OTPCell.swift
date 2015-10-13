@@ -22,10 +22,6 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-protocol OTPCell {
-    var preferredHeight: CGFloat { get }
-}
-
 protocol FocusCell {
     func focus() -> Bool
     func unfocus() -> Bool

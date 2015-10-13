@@ -41,8 +41,8 @@ protocol OTPTextFieldCellDelegate: class {
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
 }
 
-class OTPTextFieldCell: UITableViewCell, OTPCell {
-    let preferredHeight: CGFloat = 74
+class OTPTextFieldCell: UITableViewCell {
+    private static let preferredHeight: CGFloat = 74
 
     let textField = UITextField()
     weak var delegate: OTPTextFieldCellDelegate?
@@ -80,19 +80,28 @@ class OTPTextFieldCell: UITableViewCell, OTPCell {
         textField.frame = CGRectMake(20, 44, CGRectGetWidth(contentView.bounds) - 40, 30)
     }
 
-    // MARK: - Update
+    // MARK: - View Model
 
-    func updateWithRowModel(rowModel: TextFieldRowModel) {
-        textLabel?.text = rowModel.label
-        textField.placeholder = rowModel.placeholder
-        textField.text = rowModel.initialValue
+    convenience init(viewModel: TextFieldRowModel) {
+        self.init()
+        updateWithViewModel(viewModel)
+    }
 
-        textField.autocapitalizationType = rowModel.autocapitalizationType
-        textField.autocorrectionType = rowModel.autocorrectionType
-        textField.keyboardType = rowModel.keyboardType
-        textField.returnKeyType = rowModel.returnKeyType
+    func updateWithViewModel(viewModel: TextFieldRowModel) {
+        textLabel?.text = viewModel.label
+        textField.placeholder = viewModel.placeholder
+        textField.text = viewModel.initialValue
 
-        changeAction = rowModel.changeAction
+        textField.autocapitalizationType = viewModel.autocapitalizationType
+        textField.autocorrectionType = viewModel.autocorrectionType
+        textField.keyboardType = viewModel.keyboardType
+        textField.returnKeyType = viewModel.returnKeyType
+
+        changeAction = viewModel.changeAction
+    }
+
+    static func heightWithViewModel(viewModel: TextFieldRowModel) -> CGFloat {
+        return preferredHeight
     }
 
     // MARK: - Target Action

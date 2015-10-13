@@ -54,7 +54,7 @@ extension TableViewModel {
         return sections[section].rows.count
     }
 
-    func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell? {
+    func modelForRowAtIndexPath(indexPath: NSIndexPath) -> Section.Row? {
         guard sections.indices.contains(indexPath.section)
             else { return nil }
         let section = sections[indexPath.section]

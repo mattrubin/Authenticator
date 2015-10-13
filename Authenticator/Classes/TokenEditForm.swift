@@ -33,6 +33,8 @@ class TokenEditForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEditFormDelegate?
 
+    // MARK: State
+
     private struct State {
         var issuer: String
         var name: String
@@ -48,8 +50,7 @@ class TokenEditForm: NSObject, TokenForm {
         }
     }
 
-    private let issuerCell = OTPTextFieldCell()
-    private let accountNameCell = OTPTextFieldCell()
+    // MARK: View Model
 
     var viewModel: TableViewModel {
         return TableViewModel(
@@ -62,8 +63,8 @@ class TokenEditForm: NSObject, TokenForm {
             },
             sections: [
                 [
-                    issuerCell,
-                    accountNameCell,
+                    issuerRowModel,
+                    nameRowModel,
                 ]
             ],
             doneKeyAction: { [weak self] in
@@ -72,24 +73,28 @@ class TokenEditForm: NSObject, TokenForm {
         )
     }
 
-    private var issuerRowModel: TextFieldRowModel {
-        return IssuerRowModel(
+    private var issuerRowModel: FormRowModel {
+        let model = IssuerRowModel(
             initialValue: state.issuer,
             changeAction: { [weak self] (newIssuer) -> () in
                 self?.state.issuer = newIssuer
             }
         )
+        return .TextFieldRow(model)
     }
 
-    private var nameRowModel: TextFieldRowModel {
-        return NameRowModel(
+    private var nameRowModel: FormRowModel {
+        let model = NameRowModel(
             initialValue: state.name,
             returnKeyType: .Done,
             changeAction: { [weak self] (newName) -> () in
                 self?.state.name = newName
             }
         )
+        return .TextFieldRow(model)
     }
+
+    // MARK: Initialization
 
     let token: OTPToken
 
@@ -97,12 +102,9 @@ class TokenEditForm: NSObject, TokenForm {
         self.token = token
         self.delegate = delegate
         state = State(issuer: token.issuer, name: token.name)
-
-        super.init()
-        // Configure cells
-        issuerCell.updateWithRowModel(issuerRowModel)
-        accountNameCell.updateWithRowModel(nameRowModel)
     }
+
+    // MARK: Actions
 
     func cancel() {
         delegate?.editFormDidCancel(self)

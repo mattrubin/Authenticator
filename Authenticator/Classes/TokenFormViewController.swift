@@ -111,7 +111,9 @@ class TokenFormViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return viewModel.cellForRowAtIndexPath(indexPath) ?? UITableViewCell()
+        guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath)
+            else { return UITableViewCell() }
+        return cellForRowModel(rowModel)
     }
 
     // MARK: - UITableViewDelegate
@@ -129,9 +131,9 @@ class TokenFormViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        guard let cell = viewModel.cellForRowAtIndexPath(indexPath) as? OTPCell
+        guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath)
             else { return 0 }
-        return cell.preferredHeight
+        return heightForRowModel(rowModel)
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -171,6 +173,34 @@ class TokenFormViewController: UITableViewController {
         }
         navigationItem.rightBarButtonItem = viewModel.rightBarButton.map { (viewModel) in
             barButtomItemForViewModel(viewModel, target: self, action: Selector("rightBarButtonAction"))
+        }
+    }
+
+    // MARK: Row Model Helpers
+
+    func cellForRowModel(rowModel: FormRowModel) -> UITableViewCell {
+        switch rowModel {
+        case .TextFieldRow(let textFieldViewModel):
+            return OTPTextFieldCell(viewModel: textFieldViewModel)
+        case .TokenTypeRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
+        case .DigitCountRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
+        case .AlgorithmRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
+        }
+    }
+
+    func heightForRowModel(rowModel: FormRowModel) -> CGFloat {
+        switch rowModel {
+        case .TextFieldRow(let textFieldViewModel):
+            return OTPTextFieldCell.heightWithViewModel(textFieldViewModel)
+        case .TokenTypeRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
+        case .DigitCountRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
+        case .AlgorithmRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
         }
     }
 }

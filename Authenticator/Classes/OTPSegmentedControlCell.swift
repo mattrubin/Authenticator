@@ -31,9 +31,10 @@ protocol SegmentedControlRowModel {
     var valueChangedAction: (Value) -> () { get }
 }
 
-class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
-    let preferredHeight: CGFloat = 54
+// "static stored properties not yet supported in generic types"
+private let preferredHeight: CGFloat = 54
 
+class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
     private var valueChangedAction: ((Value) -> ())?
@@ -54,11 +55,6 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
         configureSubviews()
     }
 
-    convenience init<RowModel: SegmentedControlRowModel where RowModel.Value == Value>(rowModel: RowModel) {
-        self.init()
-        updateWithRowModel(rowModel)
-    }
-
     // MARK: - Subviews
 
     private func configureSubviews() {
@@ -71,21 +67,30 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
         segmentedControl.frame = CGRectMake(20, 15, CGRectGetWidth(contentView.bounds) - 40, 29)
     }
 
-    // MARK: - Update
+    // MARK: - View Model
 
-    func updateWithRowModel<RowModel: SegmentedControlRowModel where RowModel.Value == Value>(rowModel: RowModel) {
-        valueChangedAction = rowModel.valueChangedAction
+    convenience init<ViewModel: SegmentedControlRowModel where ViewModel.Value == Value>(viewModel: ViewModel) {
+        self.init()
+        updateWithViewModel(viewModel)
+    }
+
+    func updateWithViewModel<ViewModel: SegmentedControlRowModel where ViewModel.Value == Value>(viewModel: ViewModel) {
+        valueChangedAction = viewModel.valueChangedAction
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
-        for i in rowModel.segments.startIndex ..< rowModel.segments.endIndex {
-            let segment = rowModel.segments[i]
+        for i in viewModel.segments.startIndex ..< viewModel.segments.endIndex {
+            let segment = viewModel.segments[i]
             segmentedControl.insertSegmentWithTitle(segment.title, atIndex: i, animated: false)
         }
         // Store values
-        values = rowModel.segments.map { $0.value }
+        values = viewModel.segments.map { $0.value }
         // Select the initial value
-        segmentedControl.selectedSegmentIndex = values.indexOf(rowModel.initialValue) ?? 0
+        segmentedControl.selectedSegmentIndex = values.indexOf(viewModel.initialValue) ?? 0
+    }
+
+    static func heightWithViewModel<ViewModel: SegmentedControlRowModel where ViewModel.Value == Value>(viewModel: ViewModel) -> CGFloat {
+        return preferredHeight
     }
 
     // MARK: - Target Action
