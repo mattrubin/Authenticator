@@ -1,5 +1,5 @@
 //
-//  OTPCell.swift
+//  FocusCell.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Matt Rubin
