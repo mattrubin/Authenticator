@@ -1,5 +1,5 @@
 //
-//  OTPHeaderView.swift
+//  ButtonHeaderView.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Matt Rubin
@@ -24,7 +24,7 @@
 
 import UIKit
 
-class OTPHeaderView: UIButton {
+class ButtonHeaderView: UIButton {
     private static let preferredHeight: CGFloat = 54
 
     private var buttonAction: (() -> ())?
