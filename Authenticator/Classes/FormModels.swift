@@ -26,4 +26,11 @@ enum Form {
     enum HeaderModel {
         case ButtonHeader(ButtonHeaderViewModel)
     }
+
+    enum RowModel {
+        case TextFieldRow(TextFieldRowModel)
+        case TokenTypeRow(TokenTypeRowModel)
+        case DigitCountRow(DigitCountRowModel)
+        case AlgorithmRow(AlgorithmRowModel)
+    }
 }

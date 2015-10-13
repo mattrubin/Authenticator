@@ -112,7 +112,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .ButtonHeader(model)
     }
 
-    private var issuerRowModel: FormRowModel {
+    private var issuerRowModel: Form.RowModel {
         let model = IssuerRowModel(
             initialValue: state.issuer,
             changeAction: { [weak self] (newIssuer) -> () in
@@ -122,7 +122,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .TextFieldRow(model)
     }
 
-    private var nameRowModel: FormRowModel {
+    private var nameRowModel: Form.RowModel {
         let model = NameRowModel(
             initialValue: state.name,
             returnKeyType: .Next,
@@ -133,7 +133,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .TextFieldRow(model)
     }
 
-    private var secretRowModel: FormRowModel {
+    private var secretRowModel: Form.RowModel {
         let model = SecretRowModel(
             initialValue: state.secret,
             changeAction: { [weak self] (newSecret) -> () in
@@ -143,7 +143,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .TextFieldRow(model)
     }
 
-    private var tokenTypeRowModel: FormRowModel {
+    private var tokenTypeRowModel: Form.RowModel {
         let model = TokenTypeRowModel(
             initialValue: state.tokenType,
             valueChangedAction: { [weak self] (newTokenType) -> () in
@@ -153,7 +153,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .TokenTypeRow(model)
     }
 
-    private var digitCountRowModel: FormRowModel {
+    private var digitCountRowModel: Form.RowModel {
         let model = DigitCountRowModel(
             initialValue: state.digitCount,
             valueChangedAction: { [weak self] (newDigitCount) -> () in
@@ -163,7 +163,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .DigitCountRow(model)
     }
 
-    private var algorithmRowModel: FormRowModel {
+    private var algorithmRowModel: Form.RowModel {
         let model = AlgorithmRowModel(
             initialValue: state.algorithm,
             valueChangedAction: { [weak self] (newAlgorithm) -> () in

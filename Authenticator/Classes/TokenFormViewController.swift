@@ -178,7 +178,7 @@ class TokenFormViewController: UITableViewController {
 
     // MARK: Row Model Helpers
 
-    func cellForRowModel(rowModel: FormRowModel) -> UITableViewCell {
+    func cellForRowModel(rowModel: Form.RowModel) -> UITableViewCell {
         switch rowModel {
         case .TextFieldRow(let textFieldViewModel):
             return OTPTextFieldCell(viewModel: textFieldViewModel)
@@ -191,7 +191,7 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
-    func heightForRowModel(rowModel: FormRowModel) -> CGFloat {
+    func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
         case .TextFieldRow(let textFieldViewModel):
             return OTPTextFieldCell.heightWithViewModel(textFieldViewModel)
