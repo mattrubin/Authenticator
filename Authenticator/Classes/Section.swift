@@ -25,7 +25,7 @@
 import UIKit
 
 struct Section {
-    typealias Row = UITableViewCell
+    typealias Row = RowModel
 
     let header: HeaderViewModel?
     let rows: [Row]
@@ -40,4 +40,9 @@ extension Section: ArrayLiteralConvertible {
     init(arrayLiteral elements: Row...) {
         self.init(rows: elements)
     }
+}
+
+
+enum RowModel {
+    case TextFieldRow(TextFieldRowModel)
 }

@@ -41,8 +41,8 @@ protocol OTPTextFieldCellDelegate: class {
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
 }
 
-class OTPTextFieldCell: UITableViewCell, OTPCell {
-    let preferredHeight: CGFloat = 74
+class OTPTextFieldCell: UITableViewCell {
+    private static let preferredHeight: CGFloat = 74
 
     let textField = UITextField()
     weak var delegate: OTPTextFieldCellDelegate?
@@ -93,6 +93,10 @@ class OTPTextFieldCell: UITableViewCell, OTPCell {
         textField.returnKeyType = rowModel.returnKeyType
 
         changeAction = rowModel.changeAction
+    }
+
+    static func heightWithViewModel(viewModel: TextFieldRowModel) -> CGFloat {
+        return preferredHeight
     }
 
     // MARK: - Target Action
