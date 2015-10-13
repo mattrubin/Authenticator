@@ -111,7 +111,11 @@ extension OTPTextFieldCell: UITextFieldDelegate {
 }
 
 extension OTPTextFieldCell: FocusCell {
-    func focus() {
-        textField.becomeFirstResponder()
+    func focus() -> Bool {
+        return textField.becomeFirstResponder()
+    }
+
+    func unfocus() -> Bool {
+        return textField.resignFirstResponder()
     }
 }

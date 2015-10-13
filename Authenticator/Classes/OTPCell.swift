@@ -27,5 +27,6 @@ protocol OTPCell {
 }
 
 protocol FocusCell {
-    func focus()
+    func focus() -> Bool
+    func unfocus() -> Bool
 }
