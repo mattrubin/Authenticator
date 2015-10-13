@@ -22,17 +22,22 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-struct TableViewModel {
+protocol TableViewModelFamily {
+    typealias HeaderModel
+    typealias RowModel
+}
+
+struct TableViewModel<Models: TableViewModelFamily> {
     var title: String
     var leftBarButton: BarButtonViewModel?
     var rightBarButton: BarButtonViewModel?
-    var sections: [Section]
+    var sections: [Section<Models.HeaderModel, Models.RowModel>]
     var doneKeyAction: (() -> ())?
 
     init(title: String,
         leftBarButton: BarButtonViewModel? = nil,
         rightBarButton: BarButtonViewModel? = nil,
-        sections: [Section],
+        sections: [Section<Models.HeaderModel, Models.RowModel>],
         doneKeyAction: (() -> ())? = nil)
     {
         self.title = title
@@ -54,7 +59,7 @@ extension TableViewModel {
         return sections[section].rows.count
     }
 
-    func modelForRowAtIndexPath(indexPath: NSIndexPath) -> Section.RowModel? {
+    func modelForRowAtIndexPath(indexPath: NSIndexPath) -> Models.RowModel? {
         guard sections.indices.contains(indexPath.section)
             else { return nil }
         let section = sections[indexPath.section]
@@ -63,13 +68,13 @@ extension TableViewModel {
         return section.rows[indexPath.row]
     }
 
-    func modelForHeaderInSection(section: Int) -> Section.HeaderModel? {
+    func modelForHeaderInSection(section: Int) -> Models.HeaderModel? {
         guard sections.indices.contains(section)
             else { return nil }
         return sections[section].header
     }
 }
 
-func EmptyTableViewModel() -> TableViewModel {
+func EmptyTableViewModel<T>() -> TableViewModel<T> {
     return TableViewModel(title: "", sections: [])
 }

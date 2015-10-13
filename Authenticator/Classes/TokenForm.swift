@@ -25,7 +25,7 @@
 import OneTimePasswordLegacy
 
 protocol TokenForm {
-    var viewModel: TableViewModel { get }
+    var viewModel: TableViewModel<Form> { get }
     weak var presenter: TokenFormPresenter? { get set }
 }
 

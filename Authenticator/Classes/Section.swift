@@ -24,10 +24,7 @@
 
 import UIKit
 
-struct Section {
-    typealias HeaderModel = Form.HeaderModel
-    typealias RowModel = Form.RowModel
-
+struct Section<HeaderModel, RowModel> {
     let header: HeaderModel?
     let rows: [RowModel]
 
