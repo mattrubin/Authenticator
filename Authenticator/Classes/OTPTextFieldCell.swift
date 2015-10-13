@@ -27,13 +27,13 @@ import UIKit
 protocol TextFieldRowViewModel {
     var label: String { get }
     var placeholder: String { get }
-    var initialValue: String { get }
 
     var autocapitalizationType: UITextAutocapitalizationType { get }
     var autocorrectionType: UITextAutocorrectionType { get }
     var keyboardType: UIKeyboardType { get }
     var returnKeyType: UIReturnKeyType { get }
 
+    var value: String { get }
     var changeAction: (String) -> () { get }
 }
 
@@ -90,13 +90,13 @@ class OTPTextFieldCell: UITableViewCell {
     func updateWithViewModel(viewModel: TextFieldRowViewModel) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
-        textField.text = viewModel.initialValue
 
         textField.autocapitalizationType = viewModel.autocapitalizationType
         textField.autocorrectionType = viewModel.autocorrectionType
         textField.keyboardType = viewModel.keyboardType
         textField.returnKeyType = viewModel.returnKeyType
 
+        textField.text = viewModel.value
         changeAction = viewModel.changeAction
     }
 

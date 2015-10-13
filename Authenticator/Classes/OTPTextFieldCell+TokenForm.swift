@@ -25,17 +25,17 @@
 struct IssuerRowViewModel: TextFieldRowViewModel {
     let label = "Issuer"
     let placeholder = "Some Website"
-    let initialValue: String
 
     let autocapitalizationType: UITextAutocapitalizationType = .Words
     let autocorrectionType: UITextAutocorrectionType = .Default
     let keyboardType: UIKeyboardType = .Default
     let returnKeyType: UIReturnKeyType = .Next
 
+    let value: String
     let changeAction: (String) -> ()
 
-    init(initialValue: String, changeAction: (String) -> ()) {
-        self.initialValue = initialValue
+    init(value: String, changeAction: (String) -> ()) {
+        self.value = value
         self.changeAction = changeAction
     }
 }
@@ -43,17 +43,17 @@ struct IssuerRowViewModel: TextFieldRowViewModel {
 struct NameRowViewModel: TextFieldRowViewModel {
     let label = "Account Name"
     let placeholder = "user@example.com"
-    let initialValue: String
 
     let autocapitalizationType: UITextAutocapitalizationType = .None
     let autocorrectionType: UITextAutocorrectionType = .No
     let keyboardType: UIKeyboardType = .EmailAddress
     let returnKeyType: UIReturnKeyType
 
+    let value: String
     let changeAction: (String) -> ()
 
-    init(initialValue: String, returnKeyType: UIReturnKeyType, changeAction: (String) -> ()) {
-        self.initialValue = initialValue
+    init(value: String, returnKeyType: UIReturnKeyType, changeAction: (String) -> ()) {
+        self.value = value
         self.returnKeyType = returnKeyType
         self.changeAction = changeAction
     }
@@ -62,17 +62,17 @@ struct NameRowViewModel: TextFieldRowViewModel {
 struct SecretRowViewModel: TextFieldRowViewModel {
     let label = "Secret Key"
     let placeholder = "•••• •••• •••• ••••"
-    let initialValue: String
 
     let autocapitalizationType: UITextAutocapitalizationType = .None
     let autocorrectionType: UITextAutocorrectionType = .No
     let keyboardType: UIKeyboardType = .Default
     let returnKeyType: UIReturnKeyType = .Done
 
+    let value: String
     let changeAction: (String) -> ()
 
-    init(initialValue: String, changeAction: (String) -> ()) {
-        self.initialValue = initialValue
+    init(value: String, changeAction: (String) -> ()) {
+        self.value = value
         self.changeAction = changeAction
     }
 }

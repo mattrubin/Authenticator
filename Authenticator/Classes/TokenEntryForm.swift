@@ -114,7 +114,7 @@ class TokenEntryForm: NSObject, TokenForm {
 
     private var issuerRowModel: Form.RowModel {
         let model = IssuerRowViewModel(
-            initialValue: state.issuer,
+            value: state.issuer,
             changeAction: { [weak self] (newIssuer) -> () in
                 self?.state.issuer = newIssuer
             }
@@ -124,7 +124,7 @@ class TokenEntryForm: NSObject, TokenForm {
 
     private var nameRowModel: Form.RowModel {
         let model = NameRowViewModel(
-            initialValue: state.name,
+            value: state.name,
             returnKeyType: .Next,
             changeAction: { [weak self] (newName) -> () in
                 self?.state.name = newName
@@ -135,7 +135,7 @@ class TokenEntryForm: NSObject, TokenForm {
 
     private var secretRowModel: Form.RowModel {
         let model = SecretRowViewModel(
-            initialValue: state.secret,
+            value: state.secret,
             changeAction: { [weak self] (newSecret) -> () in
                 self?.state.secret = newSecret
             }
