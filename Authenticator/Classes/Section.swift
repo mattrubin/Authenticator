@@ -45,4 +45,7 @@ extension Section: ArrayLiteralConvertible {
 
 enum RowModel {
     case TextFieldRow(TextFieldRowModel)
+    case TokenTypeRow(TokenTypeRowModel)
+    case DigitCountRow(DigitCountRowModel)
+    case AlgorithmRow(AlgorithmRowModel)
 }

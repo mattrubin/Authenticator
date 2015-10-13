@@ -184,6 +184,12 @@ class TokenFormViewController: UITableViewController {
             let cell = OTPTextFieldCell()
             cell.updateWithRowModel(textFieldViewModel)
             return cell
+        case .TokenTypeRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell(rowModel: segmentedControlViewModel)
+        case .DigitCountRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell(rowModel: segmentedControlViewModel)
+        case .AlgorithmRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell(rowModel: segmentedControlViewModel)
         }
     }
 
@@ -191,6 +197,12 @@ class TokenFormViewController: UITableViewController {
         switch rowModel {
         case .TextFieldRow(let textFieldViewModel):
             return OTPTextFieldCell.heightWithViewModel(textFieldViewModel)
+        case .TokenTypeRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
+        case .DigitCountRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
+        case .AlgorithmRow(let segmentedControlViewModel):
+            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
         }
     }
 }

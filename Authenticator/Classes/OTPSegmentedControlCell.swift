@@ -31,9 +31,9 @@ protocol SegmentedControlRowModel {
     var valueChangedAction: (Value) -> () { get }
 }
 
-class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
-    let preferredHeight: CGFloat = 54
+private let preferredHeight: CGFloat = 54
 
+class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
     private var valueChangedAction: ((Value) -> ())?
@@ -86,6 +86,10 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell, OTPCell {
         values = rowModel.segments.map { $0.value }
         // Select the initial value
         segmentedControl.selectedSegmentIndex = values.indexOf(rowModel.initialValue) ?? 0
+    }
+
+    static func heightWithViewModel<ViewModel: SegmentedControlRowModel where ViewModel.Value == Value>(viewModel: ViewModel) -> CGFloat {
+        return preferredHeight
     }
 
     // MARK: - Target Action
