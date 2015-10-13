@@ -73,7 +73,7 @@ class TokenFormViewController: UITableViewController {
         return false
     }
 
-    private func nextFocusCellAfterIndexPath(currentIndexPath: NSIndexPath) -> FocusCell? {
+    private func nextVisibleFocusCellAfterIndexPath(currentIndexPath: NSIndexPath) -> FocusCell? {
         if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
             for indexPath in visibleIndexPaths {
                 if currentIndexPath.compare(indexPath) == .OrderedAscending {
@@ -197,13 +197,19 @@ extension TokenFormViewController: TokenFormPresenter {
 
 extension TokenFormViewController: OTPTextFieldCellDelegate {
     func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
-        if let currentIndexPath = tableView.indexPathForCell(textFieldCell) {
-            if let nextFocusCell = nextFocusCellAfterIndexPath(currentIndexPath) {
-                nextFocusCell.focus()
-            } else {
-                textFieldCell.unfocus()
-                viewModel.doneKeyAction?()
+        // Unfocus the field that returned
+        textFieldCell.unfocus()
+
+        if textFieldCell.textField.returnKeyType == .Next {
+            // Try to focus the next text field cell
+            if let currentIndexPath = tableView.indexPathForCell(textFieldCell) {
+                if let nextFocusCell = nextVisibleFocusCellAfterIndexPath(currentIndexPath) {
+                    nextFocusCell.focus()
+                }
             }
+        } else if textFieldCell.textField.returnKeyType == .Done {
+            // Try to submit the form
+            viewModel.doneKeyAction?()
         }
     }
 }
