@@ -26,19 +26,19 @@ import UIKit
 
 struct Section {
     typealias HeaderModel = Form.HeaderModel
-    typealias Row = Form.RowModel
+    typealias RowModel = Form.RowModel
 
     let header: HeaderModel?
-    let rows: [Row]
+    let rows: [RowModel]
 
-    init(header: HeaderModel? = nil, rows: [Row] = []) {
+    init(header: HeaderModel? = nil, rows: [RowModel] = []) {
         self.header = header
         self.rows = rows
     }
 }
 
 extension Section: ArrayLiteralConvertible {
-    init(arrayLiteral elements: Row...) {
+    init(arrayLiteral elements: RowModel...) {
         self.init(rows: elements)
     }
 }
