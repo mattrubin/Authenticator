@@ -91,12 +91,12 @@ class TokenEntryForm: NSObject, TokenForm {
                 ],
                 Section(
                     header: advancedSectionHeader,
-                    rows: showsAdvancedOptions
-                        ? [
+                    rows: showsAdvancedOptions ?
+                        [
                             tokenTypeRowModel,
                             digitCountRowModel,
                             algorithmRowModel,
-                            ]
+                        ]
                         : []
                 ),
             ],
