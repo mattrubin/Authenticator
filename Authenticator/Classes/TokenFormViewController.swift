@@ -64,13 +64,13 @@ class TokenFormViewController: UITableViewController {
 
     // MARK: Focus
 
-    private func focusFirstField() {
+    private func focusFirstField() -> Bool {
         for cell in tableView.visibleCells {
             if let focusCell = cell as? FocusCell {
-                focusCell.focus()
-                break
+                return focusCell.focus()
             }
         }
+        return false
     }
 
     private func nextFocusCellAfterIndexPath(currentIndexPath: NSIndexPath) -> FocusCell? {
@@ -86,8 +86,8 @@ class TokenFormViewController: UITableViewController {
         return nil
     }
 
-    private func unfocus() {
-        view.endEditing(false)
+    private func unfocus() -> Bool {
+        return view.endEditing(false)
     }
 
     // MARK: - Target Actions
