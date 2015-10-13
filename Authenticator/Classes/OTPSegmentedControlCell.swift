@@ -28,7 +28,7 @@ protocol SegmentedControlRowViewModel {
     typealias Value
     var segments: [(title: String, value: Value)] { get }
     var value: Value { get }
-    var valueChangedAction: (Value) -> () { get }
+    var changeAction: (Value) -> () { get }
 }
 
 // "static stored properties not yet supported in generic types"
@@ -37,7 +37,7 @@ private let preferredHeight: CGFloat = 54
 class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
-    private var valueChangedAction: ((Value) -> ())?
+    private var changeAction: ((Value) -> ())?
 
     var value: Value {
         return values[segmentedControl.selectedSegmentIndex]
@@ -75,7 +75,7 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
     }
 
     func updateWithViewModel<ViewModel: SegmentedControlRowViewModel where ViewModel.Value == Value>(viewModel: ViewModel) {
-        valueChangedAction = viewModel.valueChangedAction
+        changeAction = viewModel.changeAction
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
@@ -96,6 +96,6 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
     // MARK: - Target Action
 
     func segmentedControlValueChanged() {
-        valueChangedAction?(value)
+        changeAction?(value)
     }
 }
