@@ -54,12 +54,23 @@ class TokenFormViewController: UITableViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        form?.focusFirstField()
+        focusFirstField()
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         form?.unfocus()
+    }
+
+    // MARK: Focus
+
+    private func focusFirstField() {
+        for cell in tableView.visibleCells {
+            if let focusCell = cell as? FocusCell {
+                focusCell.focus()
+                break
+            }
+        }
     }
 
     // MARK: - Target Actions

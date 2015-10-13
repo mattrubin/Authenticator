@@ -104,10 +104,6 @@ class TokenEditForm: NSObject, TokenForm {
         accountNameCell.delegate = self
     }
 
-    func focusFirstField() {
-        issuerCell.textField.becomeFirstResponder()
-    }
-
     func unfocus() {
         issuerCell.textField.resignFirstResponder()
         accountNameCell.textField.resignFirstResponder()

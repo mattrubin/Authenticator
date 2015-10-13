@@ -29,7 +29,6 @@ protocol TokenForm {
 
     weak var presenter: TokenFormPresenter? { get set }
 
-    func focusFirstField()
     func unfocus()
 }
 

@@ -171,10 +171,6 @@ class TokenEntryForm: NSObject, TokenForm {
 
     // Mark: TokenForm
 
-    func focusFirstField() {
-        issuerCell.textField.becomeFirstResponder()
-    }
-
     func unfocus() {
         issuerCell.textField.resignFirstResponder()
         accountNameCell.textField.resignFirstResponder()
