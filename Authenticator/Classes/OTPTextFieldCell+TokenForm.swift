@@ -22,7 +22,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-struct IssuerRowModel: TextFieldRowModel {
+struct IssuerRowViewModel: TextFieldRowViewModel {
     let label = "Issuer"
     let placeholder = "Some Website"
     let initialValue: String
@@ -40,7 +40,7 @@ struct IssuerRowModel: TextFieldRowModel {
     }
 }
 
-struct NameRowModel: TextFieldRowModel {
+struct NameRowViewModel: TextFieldRowViewModel {
     let label = "Account Name"
     let placeholder = "user@example.com"
     let initialValue: String
@@ -59,7 +59,7 @@ struct NameRowModel: TextFieldRowModel {
     }
 }
 
-struct SecretRowModel: TextFieldRowModel {
+struct SecretRowViewModel: TextFieldRowViewModel {
     let label = "Secret Key"
     let placeholder = "•••• •••• •••• ••••"
     let initialValue: String

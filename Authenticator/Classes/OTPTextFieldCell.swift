@@ -24,7 +24,7 @@
 
 import UIKit
 
-protocol TextFieldRowModel {
+protocol TextFieldRowViewModel {
     var label: String { get }
     var placeholder: String { get }
     var initialValue: String { get }
@@ -82,12 +82,12 @@ class OTPTextFieldCell: UITableViewCell {
 
     // MARK: - View Model
 
-    convenience init(viewModel: TextFieldRowModel) {
+    convenience init(viewModel: TextFieldRowViewModel) {
         self.init()
         updateWithViewModel(viewModel)
     }
 
-    func updateWithViewModel(viewModel: TextFieldRowModel) {
+    func updateWithViewModel(viewModel: TextFieldRowViewModel) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
         textField.text = viewModel.initialValue
@@ -100,7 +100,7 @@ class OTPTextFieldCell: UITableViewCell {
         changeAction = viewModel.changeAction
     }
 
-    static func heightWithViewModel(viewModel: TextFieldRowModel) -> CGFloat {
+    static func heightWithViewModel(viewModel: TextFieldRowViewModel) -> CGFloat {
         return preferredHeight
     }
 
