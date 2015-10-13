@@ -137,15 +137,15 @@ class TokenFormViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let headerViewModel = viewModel.modelForHeaderInSection(section)
+        guard let headerModel = viewModel.modelForHeaderInSection(section)
             else { return CGFloat(FLT_EPSILON) }
-        return ButtonHeaderView.heightWithViewModel(headerViewModel)
+        return heightForHeaderModel(headerModel)
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerViewModel = viewModel.modelForHeaderInSection(section)
+        guard let headerModel = viewModel.modelForHeaderInSection(section)
             else { return nil }
-        return ButtonHeaderView(viewModel: headerViewModel)
+        return viewForHeaderModel(headerModel)
     }
 
     // MARK: - Update
@@ -201,6 +201,22 @@ class TokenFormViewController: UITableViewController {
             return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
         case .AlgorithmRow(let segmentedControlViewModel):
             return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
+        }
+    }
+
+    // MARK: Header Model Helpers
+
+    func viewForHeaderModel(headerModel: Form.HeaderModel) -> UIView {
+        switch headerModel {
+        case .ButtonHeader(let viewModel):
+            return ButtonHeaderView(viewModel: viewModel)
+        }
+    }
+
+    func heightForHeaderModel(headerModel: Form.HeaderModel) -> CGFloat {
+        switch headerModel {
+        case .ButtonHeader(let viewModel):
+            return ButtonHeaderView.heightWithViewModel(viewModel)
         }
     }
 }

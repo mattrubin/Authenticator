@@ -105,10 +105,11 @@ class TokenEntryForm: NSObject, TokenForm {
         )
     }
 
-    private var advancedSectionHeader: ButtonHeaderViewModel {
-        return ButtonHeaderViewModel(title: "Advanced Options") { [weak self] in
+    private var advancedSectionHeader: Form.HeaderModel {
+        let model = ButtonHeaderViewModel(title: "Advanced Options") { [weak self] in
             self?.toggleAdvancedOptions()
         }
+        return .ButtonHeader(model)
     }
 
     private var issuerRowModel: FormRowModel {

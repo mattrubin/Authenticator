@@ -63,7 +63,7 @@ extension TableViewModel {
         return section.rows[indexPath.row]
     }
 
-    func modelForHeaderInSection(section: Int) -> ButtonHeaderViewModel? {
+    func modelForHeaderInSection(section: Int) -> Section.HeaderModel? {
         guard sections.indices.contains(section)
             else { return nil }
         return sections[section].header
