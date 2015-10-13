@@ -53,7 +53,7 @@ class OTPHeaderView: UIButton {
 
     // MARK: - View Model
 
-    required convenience init(viewModel: HeaderViewModel) {
+    convenience init(viewModel: HeaderViewModel) {
         self.init()
         updateWithViewModel(viewModel)
     }

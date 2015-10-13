@@ -82,7 +82,7 @@ class OTPTextFieldCell: UITableViewCell {
 
     // MARK: - View Model
 
-    required convenience init(viewModel: TextFieldRowModel) {
+    convenience init(viewModel: TextFieldRowModel) {
         self.init()
         updateWithViewModel(viewModel)
     }

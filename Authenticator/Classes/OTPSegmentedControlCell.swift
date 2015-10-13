@@ -68,7 +68,7 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
 
     // MARK: - View Model
 
-    required convenience init<ViewModel: SegmentedControlRowModel where ViewModel.Value == Value>(viewModel: ViewModel) {
+    convenience init<ViewModel: SegmentedControlRowModel where ViewModel.Value == Value>(viewModel: ViewModel) {
         self.init()
         updateWithViewModel(viewModel)
     }
