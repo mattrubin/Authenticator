@@ -33,6 +33,21 @@ class TokenEditForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEditFormDelegate?
 
+    private struct State {
+        var issuer: String
+        var name: String
+
+        var isValid: Bool {
+            return !(issuer.isEmpty && name.isEmpty)
+        }
+    }
+
+    private var state: State {
+        didSet {
+            presenter?.formValuesDidChange(self)
+        }
+    }
+
     private let issuerCell = OTPTextFieldCell()
     private let accountNameCell = OTPTextFieldCell()
 
@@ -42,7 +57,7 @@ class TokenEditForm: NSObject, TokenForm {
             leftBarButton: BarButtonViewModel(style: .Cancel) { [weak self] in
                 self?.cancel()
             },
-            rightBarButton: BarButtonViewModel(style: .Done, enabled: isValid) { [weak self] in
+            rightBarButton: BarButtonViewModel(style: .Done, enabled: state.isValid) { [weak self] in
                 self?.submit()
             },
             sections: [
@@ -56,19 +71,19 @@ class TokenEditForm: NSObject, TokenForm {
 
     private var issuerRowModel: TextFieldRowModel {
         return IssuerRowModel(
-            initialValue: token.issuer,
+            initialValue: state.issuer,
             changeAction: { [weak self] (newIssuer) -> () in
-                self?.issuerDidChange(newIssuer)
+                self?.state.issuer = newIssuer
             }
         )
     }
 
     private var nameRowModel: TextFieldRowModel {
         return NameRowModel(
-            initialValue: token.name,
+            initialValue: state.name,
             returnKeyType: .Done,
-            changeAction: { [weak self] (newAccountName) -> () in
-                self?.accountNameDidChange(newAccountName)
+            changeAction: { [weak self] (newName) -> () in
+                self?.state.name = newName
             }
         )
     }
@@ -78,6 +93,8 @@ class TokenEditForm: NSObject, TokenForm {
     init(token: OTPToken, delegate: TokenEditFormDelegate) {
         self.token = token
         self.delegate = delegate
+        state = State(issuer: token.issuer, name: token.name)
+
         super.init()
         // Configure cells
         issuerCell.updateWithRowModel(issuerRowModel)
@@ -96,43 +113,21 @@ class TokenEditForm: NSObject, TokenForm {
         accountNameCell.textField.resignFirstResponder()
     }
 
-    private var issuer: String {
-        return issuerCell.textField.text ?? ""
-    }
-
-    private var accountName: String {
-        return accountNameCell.textField.text ?? ""
-    }
-
-    var isValid: Bool {
-        return !(issuer.isEmpty && accountName.isEmpty)
-    }
-
     func cancel() {
         delegate?.editFormDidCancel(self)
     }
 
     func submit() {
-        if (!isValid) { return }
+        if (!state.isValid) { return }
 
-        if (token.name != accountName ||
-            token.issuer != issuer) {
-                self.token.name = accountName
-                self.token.issuer = issuer
+        if (token.name != state.name ||
+            token.issuer != state.issuer) {
+                self.token.name = state.name
+                self.token.issuer = state.issuer
                 self.token.saveToKeychain()
         }
 
         delegate?.form(self, didEditToken: token)
-    }
-}
-
-extension TokenEditForm {
-    func issuerDidChange(newIssuer: String) {
-        presenter?.formValuesDidChange(self)
-    }
-
-    func accountNameDidChange(newAccountName: String) {
-        presenter?.formValuesDidChange(self)
     }
 }
 

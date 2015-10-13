@@ -34,6 +34,25 @@ class TokenEntryForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEntryFormDelegate?
 
+    private struct State {
+        var issuer: String
+        var name: String
+        var secret: String
+        var tokenType: OTPTokenType
+        var digitCount: Int
+        var algorithm: OTPAlgorithm
+
+        var isValid: Bool {
+            return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
+        }
+    }
+
+    private var state: State {
+        didSet {
+            presenter?.formValuesDidChange(self)
+        }
+    }
+
     private let issuerCell = OTPTextFieldCell()
     private let accountNameCell = OTPTextFieldCell()
     private let secretKeyCell = OTPTextFieldCell()
@@ -50,6 +69,16 @@ class TokenEntryForm: NSObject, TokenForm {
 
     init(delegate: TokenEntryFormDelegate) {
         self.delegate = delegate
+
+        state = State(
+            issuer: "",
+            name: "",
+            secret: "",
+            tokenType: .Timer,
+            digitCount: 6,
+            algorithm: .SHA1
+        )
+
         super.init()
 
         issuerCell.updateWithRowModel(issuerRowModel)
@@ -71,7 +100,7 @@ class TokenEntryForm: NSObject, TokenForm {
             leftBarButton: BarButtonViewModel(style: .Cancel) { [weak self] in
                 self?.cancel()
             },
-            rightBarButton: BarButtonViewModel(style: .Done, enabled: isValid) { [weak self] in
+            rightBarButton: BarButtonViewModel(style: .Done, enabled: state.isValid) { [weak self] in
                 self?.submit()
             },
             sections: [
@@ -86,61 +115,61 @@ class TokenEntryForm: NSObject, TokenForm {
     // Mark: Row Models
 
     private var issuerRowModel: TextFieldRowModel {
-        return IssuerRowModel(changeAction: { [weak self] (newIssuer) -> () in
-            self?.issuerDidChange(newIssuer)
-        })
+        return IssuerRowModel(
+            initialValue: state.issuer,
+            changeAction: { [weak self] (newIssuer) -> () in
+                self?.state.issuer = newIssuer
+            }
+        )
     }
 
     private var nameRowModel: TextFieldRowModel {
-        return NameRowModel(returnKeyType: .Next, changeAction: { [weak self] (newAccountName) -> () in
-            self?.accountNameDidChange(newAccountName)
-        })
+        return NameRowModel(
+            initialValue: state.name,
+            returnKeyType: .Next,
+            changeAction: { [weak self] (newName) -> () in
+                self?.state.name = newName
+            }
+        )
     }
 
     private var secretRowModel: TextFieldRowModel {
-        return SecretRowModel(changeAction: { [weak self] (newSecret) -> () in
-            self?.secretDidChange(newSecret)
-        })
+        return SecretRowModel(
+            initialValue: state.secret,
+            changeAction: { [weak self] (newSecret) -> () in
+                self?.state.secret = newSecret
+            }
+        )
     }
 
     private var tokenTypeRowModel: TokenTypeRowModel {
-        return TokenTypeRowModel(valueChangedAction: { [weak self] (newTokenType) -> () in
-            self?.tokenTypeDidChange(tokenType)
-        })
+        return TokenTypeRowModel(
+            initialValue: state.tokenType,
+            valueChangedAction: { [weak self] (newTokenType) -> () in
+                self?.state.tokenType = newTokenType
+            }
+        )
     }
 
     private var digitCountRowModel: DigitCountRowModel {
-        return DigitCountRowModel(valueChangedAction: { [weak self] (newDigitCount) -> () in
-            self?.digitCountDidChange(newDigitCount)
-        })
+        return DigitCountRowModel(
+            initialValue: state.digitCount,
+            valueChangedAction: { [weak self] (newDigitCount) -> () in
+                self?.state.digitCount = newDigitCount
+            }
+        )
     }
 
     private var algorithmRowModel: AlgorithmRowModel {
-        return AlgorithmRowModel(valueChangedAction: { [weak self] (newAlgorithm) -> () in
-            self?.algorithmDidChange(newAlgorithm)
-        })
+        return AlgorithmRowModel(
+            initialValue: state.algorithm,
+            valueChangedAction: { [weak self] (newAlgorithm) -> () in
+                self?.state.algorithm = newAlgorithm
+            }
+        )
     }
 
-    // Mark: Values
-
-    var issuer: String {
-        return issuerCell.textField.text ?? ""
-    }
-    var accountName: String {
-        return accountNameCell.textField.text ?? ""
-    }
-    var secretKey: String {
-        return secretKeyCell.textField.text ?? ""
-    }
-    var tokenType: OTPTokenType {
-        return tokenTypeCell.value
-    }
-    var digitCount: UInt {
-        return UInt(digitCountCell.value)
-    }
-    var algorithm: OTPAlgorithm {
-        return algorithmCell.value
-    }
+    // Mark: TokenForm
 
     func focusFirstField() {
         issuerCell.textField.becomeFirstResponder()
@@ -152,26 +181,22 @@ class TokenEntryForm: NSObject, TokenForm {
         secretKeyCell.textField.resignFirstResponder()
     }
 
-    var isValid: Bool {
-        return !secretKey.isEmpty && !(issuer.isEmpty && accountName.isEmpty)
-    }
-
     func cancel() {
         delegate?.entryFormDidCancel(self)
     }
 
     func submit() {
-        if !isValid { return }
+        if !state.isValid { return }
 
-        if let secret = NSData(base32String: secretKey) {
+        if let secret = NSData(base32String: state.secret) {
             if secret.length > 0 {
                 let token = OTPToken()
-                token.type = tokenType;
+                token.type = state.tokenType;
                 token.secret = secret;
-                token.name = accountName;
-                token.issuer = issuer;
-                token.digits = digitCount;
-                token.algorithm = algorithm;
+                token.name = state.name;
+                token.issuer = state.issuer;
+                token.digits = UInt(state.digitCount);
+                token.algorithm = state.algorithm;
 
                 if token.password != nil {
                     delegate?.form(self, didCreateToken: token)
@@ -182,32 +207,6 @@ class TokenEntryForm: NSObject, TokenForm {
 
         // If the method hasn't returned by this point, token creation failed
         presenter?.form(self, didFailWithErrorMessage: "Invalid Token")
-    }
-}
-
-extension TokenEntryForm {
-    func issuerDidChange(newIssuer: String) {
-        presenter?.formValuesDidChange(self)
-    }
-
-    func accountNameDidChange(newAccountName: String) {
-        presenter?.formValuesDidChange(self)
-    }
-
-    func secretDidChange(newSecret: String) {
-        presenter?.formValuesDidChange(self)
-    }
-
-    func tokenTypeDidChange(newTokenType: OTPTokenType) {
-        presenter?.formValuesDidChange(self)
-    }
-
-    func digitCountDidChange(newDigitCount: Int) {
-        presenter?.formValuesDidChange(self)
-    }
-
-    func algorithmDidChange(newAlgorithm: OTPAlgorithm) {
-        presenter?.formValuesDidChange(self)
     }
 }
 
