@@ -52,7 +52,7 @@ class TokenEditForm: NSObject, TokenForm {
 
     // MARK: View Model
 
-    var viewModel: TableViewModel<Form.HeaderModel, Form.RowModel> {
+    var viewModel: TableViewModel<Form> {
         return TableViewModel(
             title: "Edit Token",
             leftBarButton: BarButtonViewModel(style: .Cancel) { [weak self] in
