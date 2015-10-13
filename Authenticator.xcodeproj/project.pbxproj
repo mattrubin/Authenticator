@@ -35,7 +35,7 @@
 		C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09521BA9133B008C54FE /* FocusCell.swift */; settings = {ASSET_TAGS = (); }; };
 		C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09541BA91D1C008C54FE /* TableViewModel.swift */; settings = {ASSET_TAGS = (); }; };
 		C9D6C83F1906BD68004F0E08 /* SegmentedControlRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* SegmentedControlRowCell.swift */; };
-		C9D6C8461906CD54004F0E08 /* OTPTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.swift */; };
+		C9D6C8461906CD54004F0E08 /* TextFieldRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* TextFieldRowCell.swift */; };
 		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
 		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
@@ -122,7 +122,7 @@
 		C9CC09521BA9133B008C54FE /* FocusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusCell.swift; sourceTree = "<group>"; };
 		C9CC09541BA91D1C008C54FE /* TableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		C9D6C83E1906BD68004F0E08 /* SegmentedControlRowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlRowCell.swift; sourceTree = "<group>"; };
-		C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTextFieldCell.swift; sourceTree = "<group>"; };
+		C9D6C8451906CD54004F0E08 /* TextFieldRowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldRowCell.swift; sourceTree = "<group>"; };
 		C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPProgressRing.swift; sourceTree = "<group>"; };
 		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
@@ -374,7 +374,7 @@
 				C9CC09521BA9133B008C54FE /* FocusCell.swift */,
 				C9D6C83E1906BD68004F0E08 /* SegmentedControlRowCell.swift */,
 				C9AAB0781B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift */,
-				C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.swift */,
+				C9D6C8451906CD54004F0E08 /* TextFieldRowCell.swift */,
 				C9078D171AB7E90A0068A11D /* OTPTextFieldCell+TokenForm.swift */,
 				C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */,
 			);
@@ -552,7 +552,7 @@
 				C9AAB0791B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift in Sources */,
 				1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */,
 				C9919CE21BA733FD006237C1 /* Section.swift in Sources */,
-				C9D6C8461906CD54004F0E08 /* OTPTextFieldCell.swift in Sources */,
+				C9D6C8461906CD54004F0E08 /* TextFieldRowCell.swift in Sources */,
 				C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */,
 				C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */,
 				C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */,

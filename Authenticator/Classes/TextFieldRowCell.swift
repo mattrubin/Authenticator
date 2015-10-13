@@ -37,15 +37,15 @@ protocol TextFieldRowViewModel {
     var changeAction: (String) -> () { get }
 }
 
-protocol OTPTextFieldCellDelegate: class {
-    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
+protocol TextFieldRowCellDelegate: class {
+    func textFieldCellDidReturn(textFieldCell: TextFieldRowCell)
 }
 
-class OTPTextFieldCell: UITableViewCell {
+class TextFieldRowCell: UITableViewCell {
     private static let preferredHeight: CGFloat = 74
 
     let textField = UITextField()
-    weak var delegate: OTPTextFieldCellDelegate?
+    weak var delegate: TextFieldRowCellDelegate?
     var changeAction: ((String) -> ())?
 
 
@@ -112,14 +112,14 @@ class OTPTextFieldCell: UITableViewCell {
     }
 }
 
-extension OTPTextFieldCell: UITextFieldDelegate {
+extension TextFieldRowCell: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         delegate?.textFieldCellDidReturn(self)
         return false
     }
 }
 
-extension OTPTextFieldCell: FocusCell {
+extension TextFieldRowCell: FocusCell {
     func focus() -> Bool {
         return textField.becomeFirstResponder()
     }

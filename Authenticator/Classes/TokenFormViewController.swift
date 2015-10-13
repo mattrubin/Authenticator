@@ -123,7 +123,7 @@ class TokenFormViewController: UITableViewController {
         cell.selectionStyle = .None
 
         cell.textLabel?.textColor = .otpForegroundColor
-        if let cell = cell as? OTPTextFieldCell {
+        if let cell = cell as? TextFieldRowCell {
             cell.textField.backgroundColor = .otpLightColor
             cell.textField.tintColor = .otpDarkColor
             cell.delegate = self
@@ -181,7 +181,7 @@ class TokenFormViewController: UITableViewController {
     func cellForRowModel(rowModel: Form.RowModel) -> UITableViewCell {
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            return OTPTextFieldCell(viewModel: viewModel)
+            return TextFieldRowCell(viewModel: viewModel)
         case .TokenTypeRow(let viewModel):
             return SegmentedControlRowCell(viewModel: viewModel)
         case .DigitCountRow(let viewModel):
@@ -194,7 +194,7 @@ class TokenFormViewController: UITableViewController {
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            return OTPTextFieldCell.heightWithViewModel(viewModel)
+            return TextFieldRowCell.heightWithViewModel(viewModel)
         case .TokenTypeRow(let viewModel):
             return SegmentedControlRowCell.heightWithViewModel(viewModel)
         case .DigitCountRow(let viewModel):
@@ -241,8 +241,8 @@ extension TokenFormViewController: TokenFormPresenter {
     }
 }
 
-extension TokenFormViewController: OTPTextFieldCellDelegate {
-    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
+extension TokenFormViewController: TextFieldRowCellDelegate {
+    func textFieldCellDidReturn(textFieldCell: TextFieldRowCell) {
         // Unfocus the field that returned
         textFieldCell.unfocus()
 
