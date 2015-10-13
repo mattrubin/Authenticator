@@ -21,13 +21,3 @@
 //  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-
-struct HeaderViewModel {
-    let title: String
-    let action: (() -> ())?
-
-    init(title: String, action: (() -> ())? = nil) {
-        self.title = title
-        self.action = action
-    }
-}

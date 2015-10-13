@@ -24,6 +24,16 @@
 
 import UIKit
 
+struct ButtonHeaderViewModel {
+    let title: String
+    let action: (() -> ())?
+
+    init(title: String, action: (() -> ())? = nil) {
+        self.title = title
+        self.action = action
+    }
+}
+
 class ButtonHeaderView: UIButton {
     private static let preferredHeight: CGFloat = 54
 
@@ -53,17 +63,17 @@ class ButtonHeaderView: UIButton {
 
     // MARK: - View Model
 
-    convenience init(viewModel: HeaderViewModel) {
+    convenience init(viewModel: ButtonHeaderViewModel) {
         self.init()
         updateWithViewModel(viewModel)
     }
 
-    func updateWithViewModel(viewModel: HeaderViewModel) {
+    func updateWithViewModel(viewModel: ButtonHeaderViewModel) {
         setTitle(viewModel.title, forState: .Normal)
         buttonAction = viewModel.action
     }
 
-    static func heightWithViewModel(viewModel: HeaderViewModel) -> CGFloat {
+    static func heightWithViewModel(viewModel: ButtonHeaderViewModel) -> CGFloat {
         return preferredHeight
     }
 

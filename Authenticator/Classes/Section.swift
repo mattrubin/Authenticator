@@ -27,10 +27,10 @@ import UIKit
 struct Section {
     typealias Row = FormRowModel
 
-    let header: HeaderViewModel?
+    let header: ButtonHeaderViewModel?
     let rows: [Row]
 
-    init(header: HeaderViewModel? = nil, rows: [Row] = []) {
+    init(header: ButtonHeaderViewModel? = nil, rows: [Row] = []) {
         self.header = header
         self.rows = rows
     }
