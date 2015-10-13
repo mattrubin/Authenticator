@@ -24,7 +24,7 @@
 
 import UIKit
 
-class OTPHeaderView: UIButton, ViewModelBasedView {
+class OTPHeaderView: UIButton {
     private static let preferredHeight: CGFloat = 54
 
     private var buttonAction: (() -> ())?
