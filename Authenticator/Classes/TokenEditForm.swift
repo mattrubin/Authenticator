@@ -104,11 +104,6 @@ class TokenEditForm: NSObject, TokenForm {
         accountNameCell.delegate = self
     }
 
-    func unfocus() {
-        issuerCell.textField.resignFirstResponder()
-        accountNameCell.textField.resignFirstResponder()
-    }
-
     func cancel() {
         delegate?.editFormDidCancel(self)
     }

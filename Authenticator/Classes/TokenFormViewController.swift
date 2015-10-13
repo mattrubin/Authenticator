@@ -59,7 +59,7 @@ class TokenFormViewController: UITableViewController {
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        form?.unfocus()
+        unfocus()
     }
 
     // MARK: Focus
@@ -71,6 +71,10 @@ class TokenFormViewController: UITableViewController {
                 break
             }
         }
+    }
+
+    private func unfocus() {
+        view.endEditing(false)
     }
 
     // MARK: - Target Actions
