@@ -73,6 +73,19 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
+    private func nextFocusCellAfterIndexPath(currentIndexPath: NSIndexPath) -> FocusCell? {
+        if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
+            for indexPath in visibleIndexPaths {
+                if currentIndexPath.compare(indexPath) == .OrderedAscending {
+                    if let focusCell = tableView.cellForRowAtIndexPath(indexPath) as? FocusCell {
+                        return focusCell
+                    }
+                }
+            }
+        }
+        return nil
+    }
+
     private func unfocus() {
         view.endEditing(false)
     }
@@ -111,6 +124,7 @@ class TokenFormViewController: UITableViewController {
         if let cell = cell as? OTPTextFieldCell {
             cell.textField.backgroundColor = .otpLightColor
             cell.textField.tintColor = .otpDarkColor
+            cell.delegate = self
         }
     }
 
@@ -178,6 +192,19 @@ extension TokenFormViewController: TokenFormPresenter {
         tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section),
             atScrollPosition: .Top,
             animated: true)
+    }
+}
+
+extension TokenFormViewController: OTPTextFieldCellDelegate {
+    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
+        if let currentIndexPath = tableView.indexPathForCell(textFieldCell) {
+            if let nextFocusCell = nextFocusCellAfterIndexPath(currentIndexPath) {
+                nextFocusCell.focus()
+            } else {
+                textFieldCell.unfocus()
+                form?.submit()
+            }
+        }
     }
 }
 
