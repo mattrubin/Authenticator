@@ -74,7 +74,7 @@ class TokenEntryForm: NSObject, TokenForm {
 
     // MARK: View Model
 
-    var viewModel: TableViewModel {
+    var viewModel: TableViewModel<Form.HeaderModel, Form.RowModel> {
         return TableViewModel(
             title: "Add Token",
             leftBarButton: BarButtonViewModel(style: .Cancel) { [weak self] in

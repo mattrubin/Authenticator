@@ -353,7 +353,6 @@
 				C9CC09541BA91D1C008C54FE /* TableViewModel.swift */,
 				C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */,
 				C9919CE11BA733FD006237C1 /* Section.swift */,
-				C9800C481BCAA81D00CCB9B7 /* FormModels.swift */,
 			);
 			name = "View Models";
 			sourceTree = "<group>";
@@ -362,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				C9AAB0801B9187F8000CE547 /* TokenForm.swift */,
+				C9800C481BCAA81D00CCB9B7 /* FormModels.swift */,
 				C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */,
 				C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */,
 			);

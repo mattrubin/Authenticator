@@ -22,17 +22,17 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-struct TableViewModel {
+struct TableViewModel<HeaderModel, RowModel> {
     var title: String
     var leftBarButton: BarButtonViewModel?
     var rightBarButton: BarButtonViewModel?
-    var sections: [Section]
+    var sections: [Section<HeaderModel, RowModel>]
     var doneKeyAction: (() -> ())?
 
     init(title: String,
         leftBarButton: BarButtonViewModel? = nil,
         rightBarButton: BarButtonViewModel? = nil,
-        sections: [Section],
+        sections: [Section<HeaderModel, RowModel>],
         doneKeyAction: (() -> ())? = nil)
     {
         self.title = title
@@ -54,7 +54,7 @@ extension TableViewModel {
         return sections[section].rows.count
     }
 
-    func modelForRowAtIndexPath(indexPath: NSIndexPath) -> Section.RowModel? {
+    func modelForRowAtIndexPath(indexPath: NSIndexPath) -> RowModel? {
         guard sections.indices.contains(indexPath.section)
             else { return nil }
         let section = sections[indexPath.section]
@@ -63,13 +63,13 @@ extension TableViewModel {
         return section.rows[indexPath.row]
     }
 
-    func modelForHeaderInSection(section: Int) -> Section.HeaderModel? {
+    func modelForHeaderInSection(section: Int) -> HeaderModel? {
         guard sections.indices.contains(section)
             else { return nil }
         return sections[section].header
     }
 }
 
-func EmptyTableViewModel() -> TableViewModel {
+func EmptyTableViewModel<HeaderModel, RowModel>() -> TableViewModel<HeaderModel, RowModel> {
     return TableViewModel(title: "", sections: [])
 }

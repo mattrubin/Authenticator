@@ -24,7 +24,7 @@
 
 class TokenFormViewController: UITableViewController {
     private var form: TokenForm?
-    private var viewModel: TableViewModel = EmptyTableViewModel()
+    private var viewModel: TableViewModel<Form.HeaderModel, Form.RowModel> = EmptyTableViewModel()
 
     init(form: TokenForm) {
         super.init(style: .Grouped)
