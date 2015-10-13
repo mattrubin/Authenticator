@@ -27,7 +27,7 @@ import UIKit
 protocol SegmentedControlRowViewModel {
     typealias Value
     var segments: [(title: String, value: Value)] { get }
-    var initialValue: Value { get }
+    var value: Value { get }
     var valueChangedAction: (Value) -> () { get }
 }
 
@@ -86,7 +86,7 @@ class OTPSegmentedControlCell<Value: Equatable>: UITableViewCell {
         // Store values
         values = viewModel.segments.map { $0.value }
         // Select the initial value
-        segmentedControl.selectedSegmentIndex = values.indexOf(viewModel.initialValue) ?? 0
+        segmentedControl.selectedSegmentIndex = values.indexOf(viewModel.value) ?? 0
     }
 
     static func heightWithViewModel<ViewModel: SegmentedControlRowViewModel where ViewModel.Value == Value>(viewModel: ViewModel) -> CGFloat {

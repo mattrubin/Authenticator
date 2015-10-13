@@ -145,7 +145,7 @@ class TokenEntryForm: NSObject, TokenForm {
 
     private var tokenTypeRowModel: Form.RowModel {
         let model = TokenTypeRowViewModel(
-            initialValue: state.tokenType,
+            value: state.tokenType,
             valueChangedAction: { [weak self] (newTokenType) -> () in
                 self?.state.tokenType = newTokenType
             }
@@ -155,7 +155,7 @@ class TokenEntryForm: NSObject, TokenForm {
 
     private var digitCountRowModel: Form.RowModel {
         let model = DigitCountRowViewModel(
-            initialValue: state.digitCount,
+            value: state.digitCount,
             valueChangedAction: { [weak self] (newDigitCount) -> () in
                 self?.state.digitCount = newDigitCount
             }
@@ -165,7 +165,7 @@ class TokenEntryForm: NSObject, TokenForm {
 
     private var algorithmRowModel: Form.RowModel {
         let model = AlgorithmRowViewModel(
-            initialValue: state.algorithm,
+            value: state.algorithm,
             valueChangedAction: { [weak self] (newAlgorithm) -> () in
                 self?.state.algorithm = newAlgorithm
             }

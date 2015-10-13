@@ -29,11 +29,11 @@ struct TokenTypeRowViewModel: SegmentedControlRowViewModel {
         (title: "Time Based", value: OTPTokenType.Timer),
         (title: "Counter Based", value: OTPTokenType.Counter),
     ]
-    let initialValue: OTPTokenType
+    let value: OTPTokenType
     let valueChangedAction: (OTPTokenType) -> ()
 
-    init(initialValue: OTPTokenType, valueChangedAction: (OTPTokenType) -> ()) {
-        self.initialValue = initialValue
+    init(value: OTPTokenType, valueChangedAction: (OTPTokenType) -> ()) {
+        self.value = value
         self.valueChangedAction = valueChangedAction
     }
 }
@@ -44,11 +44,11 @@ struct DigitCountRowViewModel: SegmentedControlRowViewModel {
         (title: "7 Digits", value: 7),
         (title: "8 Digits", value: 8),
     ]
-    let initialValue: Int
+    let value: Int
     let valueChangedAction: (Int) -> ()
 
-    init(initialValue: Int, valueChangedAction: (Int) -> ()) {
-        self.initialValue = initialValue
+    init(value: Int, valueChangedAction: (Int) -> ()) {
+        self.value = value
         self.valueChangedAction = valueChangedAction
     }
 }
@@ -59,11 +59,11 @@ struct AlgorithmRowViewModel: SegmentedControlRowViewModel {
         (title: "SHA-256", value: OTPAlgorithm.SHA256),
         (title: "SHA-512", value: OTPAlgorithm.SHA512),
     ]
-    let initialValue: OTPAlgorithm
+    let value: OTPAlgorithm
     let valueChangedAction: (OTPAlgorithm) -> ()
 
-    init(initialValue: OTPAlgorithm, valueChangedAction: (OTPAlgorithm) -> ()) {
-        self.initialValue = initialValue
+    init(value: OTPAlgorithm, valueChangedAction: (OTPAlgorithm) -> ()) {
+        self.value = value
         self.valueChangedAction = valueChangedAction
     }
 }
