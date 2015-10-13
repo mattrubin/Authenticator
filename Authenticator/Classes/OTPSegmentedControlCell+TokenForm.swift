@@ -24,7 +24,7 @@
 
 import OneTimePasswordLegacy
 
-struct TokenTypeRowModel: SegmentedControlRowModel {
+struct TokenTypeRowViewModel: SegmentedControlRowViewModel {
     let segments = [
         (title: "Time Based", value: OTPTokenType.Timer),
         (title: "Counter Based", value: OTPTokenType.Counter),
@@ -38,7 +38,7 @@ struct TokenTypeRowModel: SegmentedControlRowModel {
     }
 }
 
-struct DigitCountRowModel: SegmentedControlRowModel {
+struct DigitCountRowViewModel: SegmentedControlRowViewModel {
     let segments = [
         (title: "6 Digits", value: 6),
         (title: "7 Digits", value: 7),
@@ -53,7 +53,7 @@ struct DigitCountRowModel: SegmentedControlRowModel {
     }
 }
 
-struct AlgorithmRowModel: SegmentedControlRowModel {
+struct AlgorithmRowViewModel: SegmentedControlRowViewModel {
     let segments = [
         (title: "SHA-1", value: OTPAlgorithm.SHA1),
         (title: "SHA-256", value: OTPAlgorithm.SHA256),
