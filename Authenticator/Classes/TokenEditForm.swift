@@ -33,6 +33,8 @@ class TokenEditForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEditFormDelegate?
 
+    // MARK: State
+
     private struct State {
         var issuer: String
         var name: String
@@ -48,8 +50,12 @@ class TokenEditForm: NSObject, TokenForm {
         }
     }
 
+    // MARK: Cells
+
     private let issuerCell = OTPTextFieldCell()
     private let accountNameCell = OTPTextFieldCell()
+
+    // MARK: View Model
 
     var viewModel: TableViewModel {
         return TableViewModel(
@@ -91,6 +97,8 @@ class TokenEditForm: NSObject, TokenForm {
         )
     }
 
+    // MARK: Initialization
+
     let token: OTPToken
 
     init(token: OTPToken, delegate: TokenEditFormDelegate) {
@@ -103,6 +111,8 @@ class TokenEditForm: NSObject, TokenForm {
         issuerCell.updateWithRowModel(issuerRowModel)
         accountNameCell.updateWithRowModel(nameRowModel)
     }
+
+    // MARK: Actions
 
     func cancel() {
         delegate?.editFormDidCancel(self)

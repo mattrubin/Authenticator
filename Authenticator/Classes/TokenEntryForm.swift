@@ -34,6 +34,8 @@ class TokenEntryForm: NSObject, TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEntryFormDelegate?
 
+    // MARK: State
+    
     private struct State {
         var issuer: String
         var name: String
@@ -53,6 +55,8 @@ class TokenEntryForm: NSObject, TokenForm {
         }
     }
 
+    // MARK: Cells
+
     private let issuerCell = OTPTextFieldCell()
     private let accountNameCell = OTPTextFieldCell()
     private let secretKeyCell = OTPTextFieldCell()
@@ -60,11 +64,7 @@ class TokenEntryForm: NSObject, TokenForm {
     private let digitCountCell = OTPSegmentedControlCell<Int>()
     private let algorithmCell = OTPSegmentedControlCell<OTPAlgorithm>()
 
-    private var advancedSectionHeader: HeaderViewModel {
-        return HeaderViewModel(title: "Advanced Options") { [weak self] in
-            self?.toggleAdvancedOptions()
-        }
-    }
+    // MARK: Initialization
 
     var showsAdvancedOptions = false
 
@@ -89,6 +89,8 @@ class TokenEntryForm: NSObject, TokenForm {
         digitCountCell.updateWithRowModel(digitCountRowModel)
         algorithmCell.updateWithRowModel(algorithmRowModel)
     }
+
+    // MARK: View Model
 
     var viewModel: TableViewModel {
         return TableViewModel(
@@ -121,7 +123,11 @@ class TokenEntryForm: NSObject, TokenForm {
         )
     }
 
-    // Mark: Row Models
+    private var advancedSectionHeader: HeaderViewModel {
+        return HeaderViewModel(title: "Advanced Options") { [weak self] in
+            self?.toggleAdvancedOptions()
+        }
+    }
 
     private var issuerRowModel: TextFieldRowModel {
         return IssuerRowModel(
@@ -178,7 +184,7 @@ class TokenEntryForm: NSObject, TokenForm {
         )
     }
 
-    // Mark: TokenForm
+    // MARK: Actions
 
     func cancel() {
         delegate?.entryFormDidCancel(self)
@@ -207,9 +213,7 @@ class TokenEntryForm: NSObject, TokenForm {
         // If the method hasn't returned by this point, token creation failed
         presenter?.form(self, didFailWithErrorMessage: "Invalid Token")
     }
-}
 
-extension TokenEntryForm {
     func toggleAdvancedOptions() {
         if (!showsAdvancedOptions) {
             showsAdvancedOptions = true
