@@ -74,8 +74,8 @@ class TokenEditForm: NSObject, TokenForm {
     }
 
     private var issuerRowModel: Form.RowModel {
-        let model = IssuerRowModel(
-            initialValue: state.issuer,
+        let model = IssuerRowViewModel(
+            value: state.issuer,
             changeAction: { [weak self] (newIssuer) -> () in
                 self?.state.issuer = newIssuer
             }
@@ -84,8 +84,8 @@ class TokenEditForm: NSObject, TokenForm {
     }
 
     private var nameRowModel: Form.RowModel {
-        let model = NameRowModel(
-            initialValue: state.name,
+        let model = NameRowViewModel(
+            value: state.name,
             returnKeyType: .Done,
             changeAction: { [weak self] (newName) -> () in
                 self?.state.name = newName

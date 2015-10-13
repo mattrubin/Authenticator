@@ -123,7 +123,7 @@ class TokenFormViewController: UITableViewController {
         cell.selectionStyle = .None
 
         cell.textLabel?.textColor = .otpForegroundColor
-        if let cell = cell as? OTPTextFieldCell {
+        if let cell = cell as? TextFieldRowCell {
             cell.textField.backgroundColor = .otpLightColor
             cell.textField.tintColor = .otpDarkColor
             cell.delegate = self
@@ -180,27 +180,27 @@ class TokenFormViewController: UITableViewController {
 
     func cellForRowModel(rowModel: Form.RowModel) -> UITableViewCell {
         switch rowModel {
-        case .TextFieldRow(let textFieldViewModel):
-            return OTPTextFieldCell(viewModel: textFieldViewModel)
-        case .TokenTypeRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
-        case .DigitCountRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
-        case .AlgorithmRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell(viewModel: segmentedControlViewModel)
+        case .TextFieldRow(let viewModel):
+            return TextFieldRowCell(viewModel: viewModel)
+        case .TokenTypeRow(let viewModel):
+            return SegmentedControlRowCell(viewModel: viewModel)
+        case .DigitCountRow(let viewModel):
+            return SegmentedControlRowCell(viewModel: viewModel)
+        case .AlgorithmRow(let viewModel):
+            return SegmentedControlRowCell(viewModel: viewModel)
         }
     }
 
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
-        case .TextFieldRow(let textFieldViewModel):
-            return OTPTextFieldCell.heightWithViewModel(textFieldViewModel)
-        case .TokenTypeRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
-        case .DigitCountRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
-        case .AlgorithmRow(let segmentedControlViewModel):
-            return OTPSegmentedControlCell.heightWithViewModel(segmentedControlViewModel)
+        case .TextFieldRow(let viewModel):
+            return TextFieldRowCell.heightWithViewModel(viewModel)
+        case .TokenTypeRow(let viewModel):
+            return SegmentedControlRowCell.heightWithViewModel(viewModel)
+        case .DigitCountRow(let viewModel):
+            return SegmentedControlRowCell.heightWithViewModel(viewModel)
+        case .AlgorithmRow(let viewModel):
+            return SegmentedControlRowCell.heightWithViewModel(viewModel)
         }
     }
 
@@ -241,8 +241,8 @@ extension TokenFormViewController: TokenFormPresenter {
     }
 }
 
-extension TokenFormViewController: OTPTextFieldCellDelegate {
-    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell) {
+extension TokenFormViewController: TextFieldRowCellDelegate {
+    func textFieldCellDidReturn(textFieldCell: TextFieldRowCell) {
         // Unfocus the field that returned
         textFieldCell.unfocus()
 

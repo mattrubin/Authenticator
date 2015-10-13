@@ -24,28 +24,28 @@
 
 import UIKit
 
-protocol TextFieldRowModel {
+protocol TextFieldRowViewModel {
     var label: String { get }
     var placeholder: String { get }
-    var initialValue: String { get }
 
     var autocapitalizationType: UITextAutocapitalizationType { get }
     var autocorrectionType: UITextAutocorrectionType { get }
     var keyboardType: UIKeyboardType { get }
     var returnKeyType: UIReturnKeyType { get }
 
+    var value: String { get }
     var changeAction: (String) -> () { get }
 }
 
-protocol OTPTextFieldCellDelegate: class {
-    func textFieldCellDidReturn(textFieldCell: OTPTextFieldCell)
+protocol TextFieldRowCellDelegate: class {
+    func textFieldCellDidReturn(textFieldCell: TextFieldRowCell)
 }
 
-class OTPTextFieldCell: UITableViewCell {
+class TextFieldRowCell: UITableViewCell {
     private static let preferredHeight: CGFloat = 74
 
     let textField = UITextField()
-    weak var delegate: OTPTextFieldCellDelegate?
+    weak var delegate: TextFieldRowCellDelegate?
     var changeAction: ((String) -> ())?
 
 
@@ -82,25 +82,25 @@ class OTPTextFieldCell: UITableViewCell {
 
     // MARK: - View Model
 
-    convenience init(viewModel: TextFieldRowModel) {
+    convenience init(viewModel: TextFieldRowViewModel) {
         self.init()
         updateWithViewModel(viewModel)
     }
 
-    func updateWithViewModel(viewModel: TextFieldRowModel) {
+    func updateWithViewModel(viewModel: TextFieldRowViewModel) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
-        textField.text = viewModel.initialValue
 
         textField.autocapitalizationType = viewModel.autocapitalizationType
         textField.autocorrectionType = viewModel.autocorrectionType
         textField.keyboardType = viewModel.keyboardType
         textField.returnKeyType = viewModel.returnKeyType
 
+        textField.text = viewModel.value
         changeAction = viewModel.changeAction
     }
 
-    static func heightWithViewModel(viewModel: TextFieldRowModel) -> CGFloat {
+    static func heightWithViewModel(viewModel: TextFieldRowViewModel) -> CGFloat {
         return preferredHeight
     }
 
@@ -112,14 +112,14 @@ class OTPTextFieldCell: UITableViewCell {
     }
 }
 
-extension OTPTextFieldCell: UITextFieldDelegate {
+extension TextFieldRowCell: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         delegate?.textFieldCellDidReturn(self)
         return false
     }
 }
 
-extension OTPTextFieldCell: FocusCell {
+extension TextFieldRowCell: FocusCell {
     func focus() -> Bool {
         return textField.becomeFirstResponder()
     }

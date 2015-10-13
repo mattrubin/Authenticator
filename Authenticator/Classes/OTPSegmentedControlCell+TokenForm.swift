@@ -24,46 +24,46 @@
 
 import OneTimePasswordLegacy
 
-struct TokenTypeRowModel: SegmentedControlRowModel {
+struct TokenTypeRowViewModel: SegmentedControlRowViewModel {
     let segments = [
         (title: "Time Based", value: OTPTokenType.Timer),
         (title: "Counter Based", value: OTPTokenType.Counter),
     ]
-    let initialValue: OTPTokenType
-    let valueChangedAction: (OTPTokenType) -> ()
+    let value: OTPTokenType
+    let changeAction: (OTPTokenType) -> ()
 
-    init(initialValue: OTPTokenType, valueChangedAction: (OTPTokenType) -> ()) {
-        self.initialValue = initialValue
-        self.valueChangedAction = valueChangedAction
+    init(value: OTPTokenType, changeAction: (OTPTokenType) -> ()) {
+        self.value = value
+        self.changeAction = changeAction
     }
 }
 
-struct DigitCountRowModel: SegmentedControlRowModel {
+struct DigitCountRowViewModel: SegmentedControlRowViewModel {
     let segments = [
         (title: "6 Digits", value: 6),
         (title: "7 Digits", value: 7),
         (title: "8 Digits", value: 8),
     ]
-    let initialValue: Int
-    let valueChangedAction: (Int) -> ()
+    let value: Int
+    let changeAction: (Int) -> ()
 
-    init(initialValue: Int, valueChangedAction: (Int) -> ()) {
-        self.initialValue = initialValue
-        self.valueChangedAction = valueChangedAction
+    init(value: Int, changeAction: (Int) -> ()) {
+        self.value = value
+        self.changeAction = changeAction
     }
 }
 
-struct AlgorithmRowModel: SegmentedControlRowModel {
+struct AlgorithmRowViewModel: SegmentedControlRowViewModel {
     let segments = [
         (title: "SHA-1", value: OTPAlgorithm.SHA1),
         (title: "SHA-256", value: OTPAlgorithm.SHA256),
         (title: "SHA-512", value: OTPAlgorithm.SHA512),
     ]
-    let initialValue: OTPAlgorithm
-    let valueChangedAction: (OTPAlgorithm) -> ()
+    let value: OTPAlgorithm
+    let changeAction: (OTPAlgorithm) -> ()
 
-    init(initialValue: OTPAlgorithm, valueChangedAction: (OTPAlgorithm) -> ()) {
-        self.initialValue = initialValue
-        self.valueChangedAction = valueChangedAction
+    init(value: OTPAlgorithm, changeAction: (OTPAlgorithm) -> ()) {
+        self.value = value
+        self.changeAction = changeAction
     }
 }
