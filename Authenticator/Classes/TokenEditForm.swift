@@ -73,7 +73,7 @@ class TokenEditForm: NSObject, TokenForm {
         )
     }
 
-    private var issuerRowModel: RowModel {
+    private var issuerRowModel: FormRowModel {
         let model = IssuerRowModel(
             initialValue: state.issuer,
             changeAction: { [weak self] (newIssuer) -> () in
@@ -83,7 +83,7 @@ class TokenEditForm: NSObject, TokenForm {
         return .TextFieldRow(model)
     }
 
-    private var nameRowModel: RowModel {
+    private var nameRowModel: FormRowModel {
         let model = NameRowModel(
             initialValue: state.name,
             returnKeyType: .Done,

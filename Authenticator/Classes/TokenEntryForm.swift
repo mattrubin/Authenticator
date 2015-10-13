@@ -112,7 +112,7 @@ class TokenEntryForm: NSObject, TokenForm {
         }
     }
 
-    private var issuerRowModel: RowModel {
+    private var issuerRowModel: FormRowModel {
         let model = IssuerRowModel(
             initialValue: state.issuer,
             changeAction: { [weak self] (newIssuer) -> () in
@@ -122,7 +122,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .TextFieldRow(model)
     }
 
-    private var nameRowModel: RowModel {
+    private var nameRowModel: FormRowModel {
         let model = NameRowModel(
             initialValue: state.name,
             returnKeyType: .Next,
@@ -133,7 +133,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .TextFieldRow(model)
     }
 
-    private var secretRowModel: RowModel {
+    private var secretRowModel: FormRowModel {
         let model = SecretRowModel(
             initialValue: state.secret,
             changeAction: { [weak self] (newSecret) -> () in
@@ -143,7 +143,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .TextFieldRow(model)
     }
 
-    private var tokenTypeRowModel: RowModel {
+    private var tokenTypeRowModel: FormRowModel {
         let model = TokenTypeRowModel(
             initialValue: state.tokenType,
             valueChangedAction: { [weak self] (newTokenType) -> () in
@@ -153,7 +153,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .TokenTypeRow(model)
     }
 
-    private var digitCountRowModel: RowModel {
+    private var digitCountRowModel: FormRowModel {
         let model = DigitCountRowModel(
             initialValue: state.digitCount,
             valueChangedAction: { [weak self] (newDigitCount) -> () in
@@ -163,7 +163,7 @@ class TokenEntryForm: NSObject, TokenForm {
         return .DigitCountRow(model)
     }
 
-    private var algorithmRowModel: RowModel {
+    private var algorithmRowModel: FormRowModel {
         let model = AlgorithmRowModel(
             initialValue: state.algorithm,
             valueChangedAction: { [weak self] (newAlgorithm) -> () in

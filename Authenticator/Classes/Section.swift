@@ -25,7 +25,7 @@
 import UIKit
 
 struct Section {
-    typealias Row = RowModel
+    typealias Row = FormRowModel
 
     let header: HeaderViewModel?
     let rows: [Row]
@@ -43,7 +43,7 @@ extension Section: ArrayLiteralConvertible {
 }
 
 
-enum RowModel {
+enum FormRowModel {
     case TextFieldRow(TextFieldRowModel)
     case TokenTypeRow(TokenTypeRowModel)
     case DigitCountRow(DigitCountRowModel)
