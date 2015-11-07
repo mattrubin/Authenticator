@@ -43,6 +43,8 @@ class TokenFormViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.registerCellClass(TextFieldRowCell)
+
         view.backgroundColor = .otpBackgroundColor
         view.tintColor = .otpForegroundColor
         tableView.separatorStyle = .None
@@ -113,7 +115,7 @@ class TokenFormViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath)
             else { return UITableViewCell() }
-        return cellForRowModel(rowModel)
+        return cellForRowModel(rowModel, tableView: tableView, indexPath: indexPath)
     }
 
     // MARK: - UITableViewDelegate
@@ -178,10 +180,12 @@ class TokenFormViewController: UITableViewController {
 
     // MARK: Row Model Helpers
 
-    func cellForRowModel(rowModel: Form.RowModel) -> UITableViewCell {
+    func cellForRowModel(rowModel: Form.RowModel, tableView: UITableView, indexPath: NSIndexPath) -> UITableViewCell {
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            return TextFieldRowCell(viewModel: viewModel)
+            let cell: TextFieldRowCell = tableView.dequeueCellForIndexPath(indexPath)
+            cell.updateWithViewModel(viewModel)
+            return cell
         case .TokenTypeRow(let viewModel):
             return SegmentedControlRowCell(viewModel: viewModel)
         case .DigitCountRow(let viewModel):
@@ -264,5 +268,23 @@ extension TokenFormViewController {
     static func entryControllerWithDelegate(delegate: TokenEntryFormDelegate) -> TokenFormViewController {
         let form = TokenEntryForm(delegate: delegate)
         return TokenFormViewController(form: form)
+    }
+}
+
+
+extension UITableView {
+    func registerCellClass(cellClass: AnyClass) {
+        let reuseIdentifier = NSStringFromClass(cellClass)
+        registerClass(cellClass, forCellReuseIdentifier: reuseIdentifier)
+    }
+
+    func dequeueCellWithClass<Cell: AnyObject>(cellClass: Cell.Type, forIndexPath indexPath: NSIndexPath) -> Cell {
+        let reuseIdentifier = NSStringFromClass(Cell)
+        let cell = dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
+        return cell as! Cell
+    }
+
+    func dequeueCellForIndexPath<Cell: AnyObject>(indexPath: NSIndexPath) -> Cell {
+        return dequeueCellWithClass(Cell.self, forIndexPath: indexPath)
     }
 }
