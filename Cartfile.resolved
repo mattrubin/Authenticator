@@ -1,4 +1,5 @@
 github "mattrubin/Base32" "27025045f72371b7a05d77f661bb99ed0f6de71c"
 github "soffes/Crypto" "v0.1.0"
+github "TransitApp/SVProgressHUD" "1.1.3"
 github "jspahrsummers/xcconfigs" "0.8.1"
 github "mattrubin/OneTimePassword" "769226f2dbe7753745c136174f26f921f66a8a47"

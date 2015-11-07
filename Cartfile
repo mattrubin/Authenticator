@@ -1,2 +1,3 @@
 github "jspahrsummers/xcconfigs" ~> 0.8
 github "mattrubin/OneTimePassword" "master"
+github "TransitApp/SVProgressHUD" ~> 1.1.3
