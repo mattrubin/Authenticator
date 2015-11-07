@@ -187,21 +187,16 @@ class TokenFormViewController: UITableViewController {
         switch rowModel {
         case .TextFieldRow(let viewModel):
             return buildCell(TextFieldRowCell.self,
-                withViewModel: viewModel,
-                forTableView: tableView,
-                atIndexPath: indexPath)
+                withViewModel: viewModel, forTableView: tableView, atIndexPath: indexPath)
         case .TokenTypeRow(let viewModel):
-            let cell: SegmentedControlRowCell<TokenTypeRowViewModel> = tableView.dequeueCellForIndexPath(indexPath)
-            cell.updateWithViewModel(viewModel)
-            return cell
+            return buildCell(SegmentedControlRowCell<TokenTypeRowViewModel>.self,
+                withViewModel: viewModel, forTableView: tableView, atIndexPath: indexPath)
         case .DigitCountRow(let viewModel):
-            let cell: SegmentedControlRowCell<DigitCountRowViewModel> = tableView.dequeueCellForIndexPath(indexPath)
-            cell.updateWithViewModel(viewModel)
-            return cell
+            return buildCell(SegmentedControlRowCell<DigitCountRowViewModel>.self,
+                withViewModel: viewModel, forTableView: tableView, atIndexPath: indexPath)
         case .AlgorithmRow(let viewModel):
-            let cell: SegmentedControlRowCell<AlgorithmRowViewModel> = tableView.dequeueCellForIndexPath(indexPath)
-            cell.updateWithViewModel(viewModel)
-            return cell
+            return buildCell(SegmentedControlRowCell<AlgorithmRowViewModel>.self,
+                withViewModel: viewModel, forTableView: tableView, atIndexPath: indexPath)
         }
     }
 
