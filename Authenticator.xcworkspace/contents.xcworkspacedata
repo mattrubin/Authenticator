@@ -5,12 +5,15 @@
       location = "group:Authenticator.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Pods/Pods.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Carthage/Checkouts/Base32/Base32.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Carthage/Checkouts/Crypto/Crypto.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Carthage/Checkouts/OneTimePassword/OneTimePassword.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Carthage/Checkouts/SVProgressHUD/SVProgressHUD.xcodeproj">
    </FileRef>
 </Workspace>

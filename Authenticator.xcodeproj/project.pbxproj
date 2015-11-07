@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* OTPAppDelegate.swift */; };
-		43B5E4365C6C4081AEF41717 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B03839CF35E4014987A36CA /* libPods.a */; };
 		8B0028B511EB75920092DE18 /* OTPScannerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0028B411EB75920092DE18 /* OTPScannerOverlayView.swift */; };
 		C9078D181AB7E90A0068A11D /* OTPTextFieldCell+TokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9078D171AB7E90A0068A11D /* OTPTextFieldCell+TokenForm.swift */; };
 		C92708AC19CFB0750033128B /* OTPTokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708AB19CFB0750033128B /* OTPTokenListViewController.swift */; };
@@ -17,6 +16,8 @@
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
+		C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C97CDF291BEEA82B00D64406 /* CommonCrypto.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9800C491BCAA81D00CCB9B7 /* FormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9800C481BCAA81D00CCB9B7 /* FormModels.swift */; settings = {ASSET_TAGS = (); }; };
 		C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */; };
 		C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */; };
@@ -60,8 +61,10 @@
 			dstSubfolderSpec = 10;
 			files = (
 				C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */,
+				C97CDF291BEEA82B00D64406 /* CommonCrypto.framework in Copy Frameworks */,
 				C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */,
 				C944A5551A7ECA7700E08B1E /* OneTimePasswordLegacy.framework in Copy Frameworks */,
+				C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,15 +72,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		016D9E3A41F31A4ED2E3794C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		0340D58662A9A26B80FCB523 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* OTPAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPAppDelegate.swift; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Authenticator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authenticator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28A0AAE50D9B0CCF005BE974 /* Authenticator.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authenticator.pch; sourceTree = "<group>"; };
 		8B0028B411EB75920092DE18 /* OTPScannerOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPScannerOverlayView.swift; sourceTree = "<group>"; };
 		8B2B8AE1118BA49F00437315 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* Authenticator-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Authenticator-Info.plist"; sourceTree = "<group>"; };
-		9B03839CF35E4014987A36CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9078D171AB7E90A0068A11D /* OTPTextFieldCell+TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OTPTextFieldCell+TokenForm.swift"; sourceTree = "<group>"; };
 		C92708AB19CFB0750033128B /* OTPTokenListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenListViewController.swift; sourceTree = "<group>"; };
 		C93AD15019CD51BE007480E9 /* Authenticator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Authenticator-Bridging-Header.h"; path = "Classes/Authenticator-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -101,6 +101,8 @@
 		C9776E3318518801003D53CB /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		C97B68C617D9226D005D1FE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C97CDF041BEE927200D64406 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
+		C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SVProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CommonCrypto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9800C481BCAA81D00CCB9B7 /* FormModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormModels.swift; sourceTree = "<group>"; };
 		C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthenticatorTests.m; sourceTree = "<group>"; };
 		C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRowModel.swift; sourceTree = "<group>"; };
@@ -113,7 +115,6 @@
 		C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonHeaderView.swift; sourceTree = "<group>"; };
 		C9919CE11BA733FD006237C1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarButtonViewModel.swift; sourceTree = "<group>"; };
-		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		C9AAB0781B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OTPSegmentedControlCell+TokenForm.swift"; sourceTree = "<group>"; };
 		C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEditForm.swift; sourceTree = "<group>"; };
 		C9AAB0801B9187F8000CE547 /* TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenForm.swift; sourceTree = "<group>"; };
@@ -136,7 +137,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43B5E4365C6C4081AEF41717 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,15 +161,6 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		0C09B63551F376AFE9571169 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				016D9E3A41F31A4ED2E3794C /* Pods.debug.xcconfig */,
-				0340D58662A9A26B80FCB523 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,10 +175,8 @@
 			children = (
 				C97B68CB17D964D4005D1FE0 /* Authenticator */,
 				C9906A331812522100BAEF53 /* AuthenticatorTests */,
-				C98C1C4F17D2F16800A07D3F /* Config */,
-				0C09B63551F376AFE9571169 /* Pods */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
-				C944A5661A7F772500E08B1E /* xcconfigs */,
+				C944A5661A7F772500E08B1E /* Configuration */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				C9776E32185187E8003D53CB /* Docs */,
 			);
@@ -218,22 +207,23 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9B03839CF35E4014987A36CA /* libPods.a */,
 				C944A5581A7ECB3100E08B1E /* Base32.framework */,
+				C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */,
 				C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */,
 				C944A5541A7ECA7700E08B1E /* OneTimePasswordLegacy.framework */,
+				C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C944A5661A7F772500E08B1E /* xcconfigs */ = {
+		C944A5661A7F772500E08B1E /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
 				C944A5671A7F772500E08B1E /* Base */,
 				C944A5721A7F772600E08B1E /* iOS */,
 				C944A5771A7F772600E08B1E /* Mac OS X */,
 			);
-			name = xcconfigs;
+			name = Configuration;
 			path = Carthage/Checkouts/xcconfigs;
 			sourceTree = "<group>";
 		};
@@ -333,14 +323,6 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
-		C98C1C4F17D2F16800A07D3F /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */,
-			);
-			name = Config;
-			sourceTree = "<group>";
-		};
 		C9906A331812522100BAEF53 /* AuthenticatorTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -401,13 +383,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Authenticator" */;
 			buildPhases = (
-				7D745802100A4933AC7F63D5 /* Check Pods Manifest.lock */,
 				C959A63F190A6CB10042DEC0 /* Generate Icons */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				C944A5531A7ECA5000E08B1E /* Copy Frameworks */,
-				9865F5A341C744F78B880E59 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -445,7 +425,7 @@
 				CLASSPREFIX = OTP;
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					C9906A2D1812522100BAEF53 = {
@@ -493,36 +473,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7D745802100A4933AC7F63D5 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		9865F5A341C744F78B880E59 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C959A63F190A6CB10042DEC0 /* Generate Icons */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -592,12 +542,12 @@
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 016D9E3A41F31A4ED2E3794C /* Pods.debug.xcconfig */;
+			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
 				PRODUCT_NAME = Authenticator;
 				SWIFT_OBJC_BRIDGING_HEADER = "Authenticator/Classes/Authenticator-Bridging-Header.h";
 			};
@@ -605,12 +555,12 @@
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0340D58662A9A26B80FCB523 /* Pods.release.xcconfig */;
+			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
 				PRODUCT_NAME = Authenticator;
 				SWIFT_OBJC_BRIDGING_HEADER = "Authenticator/Classes/Authenticator-Bridging-Header.h";
 			};
@@ -621,7 +571,8 @@
 			baseConfigurationReference = C944A56A1A7F772600E08B1E /* Debug.xcconfig */;
 			buildSettings = {
 				CLANG_MODULES_AUTOLINK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
@@ -629,6 +580,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -638,7 +590,7 @@
 			baseConfigurationReference = C944A56C1A7F772600E08B1E /* Release.xcconfig */;
 			buildSettings = {
 				CLANG_MODULES_AUTOLINK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",

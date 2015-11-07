@@ -44,10 +44,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!], forState: UIControlState.Normal)
 
         // Restore white-on-black style
-        SVProgressHUD.appearance().hudBackgroundColor = UIColor.blackColor()
-        SVProgressHUD.appearance().hudForegroundColor = UIColor.whiteColor()
-        SVProgressHUD.appearance().hudErrorImage   = UIImage(named: "SVProgressHUD.bundle/error")
-        SVProgressHUD.appearance().hudSuccessImage = UIImage(named: "SVProgressHUD.bundle/success")
+        SVProgressHUD.setDefaultStyle(.Dark)
 
         let navController = UINavigationController(rootViewController: self.rootViewController)
         navController.navigationBar.translucent = false
