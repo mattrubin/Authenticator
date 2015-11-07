@@ -13,4 +13,7 @@
    <FileRef
       location = "group:Carthage/Checkouts/OneTimePassword/OneTimePassword.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Carthage/Checkouts/SVProgressHUD/SVProgressHUD.xcodeproj">
+   </FileRef>
 </Workspace>
