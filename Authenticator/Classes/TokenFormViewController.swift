@@ -118,7 +118,7 @@ class TokenFormViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath)
             else { return UITableViewCell() }
-        return cellForRowModel(rowModel, tableView: tableView, indexPath: indexPath)
+        return cellForRowModel(rowModel, atIndexPath: indexPath, inTableView: tableView)
     }
 
     // MARK: - UITableViewDelegate
@@ -183,7 +183,7 @@ class TokenFormViewController: UITableViewController {
 
     // MARK: Row Model Helpers
 
-    func cellForRowModel(rowModel: Form.RowModel, tableView: UITableView, indexPath: NSIndexPath) -> UITableViewCell {
+    func cellForRowModel(rowModel: Form.RowModel, atIndexPath indexPath: NSIndexPath, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
         case .TextFieldRow(let viewModel):
             return buildCell(TextFieldRowCell.self,
