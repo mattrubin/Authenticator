@@ -113,7 +113,7 @@ class TokenFormViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath)
             else { return UITableViewCell() }
-        return cellForRowModel(rowModel, atIndexPath: indexPath, inTableView: tableView)
+        return cellForRowModel(rowModel, inTableView: tableView)
     }
 
     // MARK: - UITableViewDelegate
@@ -178,25 +178,25 @@ class TokenFormViewController: UITableViewController {
 
     // MARK: Row Model Helpers
 
-    func cellForRowModel(rowModel: Form.RowModel, atIndexPath indexPath: NSIndexPath, inTableView tableView: UITableView) -> UITableViewCell {
+    func cellForRowModel(rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
         case .TextFieldRow(let viewModel):
             return buildCell(TextFieldRowCell.self,
-                withViewModel: viewModel, forRowAtIndexPath: indexPath, inTableView: tableView)
+                withViewModel: viewModel, inTableView: tableView)
         case .TokenTypeRow(let viewModel):
             return buildCell(SegmentedControlRowCell<TokenTypeRowViewModel>.self,
-                withViewModel: viewModel, forRowAtIndexPath: indexPath, inTableView: tableView)
+                withViewModel: viewModel, inTableView: tableView)
         case .DigitCountRow(let viewModel):
             return buildCell(SegmentedControlRowCell<DigitCountRowViewModel>.self,
-                withViewModel: viewModel, forRowAtIndexPath: indexPath, inTableView: tableView)
+                withViewModel: viewModel, inTableView: tableView)
         case .AlgorithmRow(let viewModel):
             return buildCell(SegmentedControlRowCell<AlgorithmRowViewModel>.self,
-                withViewModel: viewModel, forRowAtIndexPath: indexPath, inTableView: tableView)
+                withViewModel: viewModel, inTableView: tableView)
         }
     }
 
-    func buildCell<Cell: UITableViewCell where Cell: ModelBasedView>(cell: Cell.Type, withViewModel viewModel: Cell.ViewModel, forRowAtIndexPath indexPath: NSIndexPath, inTableView tableView: UITableView) -> Cell {
-        let cell = tableView.dequeueCellWithClass(Cell.self, forIndexPath: indexPath)
+    func buildCell<Cell: UITableViewCell where Cell: ModelBasedView>(cell: Cell.Type, withViewModel viewModel: Cell.ViewModel,inTableView tableView: UITableView) -> Cell {
+        let cell = tableView.dequeueReusableCellWithClass(Cell.self)
         cell.updateWithViewModel(viewModel)
         return cell
     }
@@ -279,7 +279,7 @@ extension TokenFormViewController {
 
 
 extension UITableView {
-    func dequeueCellWithClass<Cell: UITableViewCell>(cellClass: Cell.Type, forIndexPath indexPath: NSIndexPath) -> Cell {
+    func dequeueReusableCellWithClass<Cell: UITableViewCell>(cellClass: Cell.Type) -> Cell {
         let reuseIdentifier = NSStringFromClass(cellClass)
         if let cell = dequeueReusableCellWithIdentifier(reuseIdentifier) as? Cell {
             return cell
