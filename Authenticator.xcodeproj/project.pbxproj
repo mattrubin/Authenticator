@@ -445,7 +445,7 @@
 				CLASSPREFIX = OTP;
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					C9906A2D1812522100BAEF53 = {
@@ -598,6 +598,7 @@
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
 				PRODUCT_NAME = Authenticator;
 				SWIFT_OBJC_BRIDGING_HEADER = "Authenticator/Classes/Authenticator-Bridging-Header.h";
 			};
@@ -611,6 +612,7 @@
 				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
 				PRODUCT_NAME = Authenticator;
 				SWIFT_OBJC_BRIDGING_HEADER = "Authenticator/Classes/Authenticator-Bridging-Header.h";
 			};
@@ -622,6 +624,7 @@
 			buildSettings = {
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
@@ -629,6 +632,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
