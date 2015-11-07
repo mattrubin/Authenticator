@@ -43,11 +43,6 @@ class TokenFormViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.registerCellClass(TextFieldRowCell)
-        tableView.registerCellClass(SegmentedControlRowCell<TokenTypeRowViewModel>)
-        tableView.registerCellClass(SegmentedControlRowCell<DigitCountRowViewModel>)
-        tableView.registerCellClass(SegmentedControlRowCell<AlgorithmRowViewModel>)
-
         view.backgroundColor = .otpBackgroundColor
         view.tintColor = .otpForegroundColor
         tableView.separatorStyle = .None
@@ -284,13 +279,9 @@ extension TokenFormViewController {
 
 
 extension UITableView {
-    func registerCellClass(cellClass: AnyClass) {
+    func dequeueCellWithClass<Cell: AnyObject>(cellClass: Cell.Type, forIndexPath indexPath: NSIndexPath) -> Cell {
         let reuseIdentifier = NSStringFromClass(cellClass)
         registerClass(cellClass, forCellReuseIdentifier: reuseIdentifier)
-    }
-
-    func dequeueCellWithClass<Cell: AnyObject>(cellClass: Cell.Type, forIndexPath indexPath: NSIndexPath) -> Cell {
-        let reuseIdentifier = NSStringFromClass(Cell)
         let cell = dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
         return cell as! Cell
     }
