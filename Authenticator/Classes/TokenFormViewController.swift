@@ -44,6 +44,9 @@ class TokenFormViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.registerCellClass(TextFieldRowCell)
+        tableView.registerCellClass(SegmentedControlRowCell<TokenTypeRowViewModel.Value>)
+        tableView.registerCellClass(SegmentedControlRowCell<DigitCountRowViewModel.Value>)
+        tableView.registerCellClass(SegmentedControlRowCell<AlgorithmRowViewModel.Value>)
 
         view.backgroundColor = .otpBackgroundColor
         view.tintColor = .otpForegroundColor
@@ -187,11 +190,17 @@ class TokenFormViewController: UITableViewController {
             cell.updateWithViewModel(viewModel)
             return cell
         case .TokenTypeRow(let viewModel):
-            return SegmentedControlRowCell(viewModel: viewModel)
+            let cell: SegmentedControlRowCell<TokenTypeRowViewModel.Value> = tableView.dequeueCellForIndexPath(indexPath)
+            cell.updateWithViewModel(viewModel)
+            return cell
         case .DigitCountRow(let viewModel):
-            return SegmentedControlRowCell(viewModel: viewModel)
+            let cell: SegmentedControlRowCell<DigitCountRowViewModel.Value> = tableView.dequeueCellForIndexPath(indexPath)
+            cell.updateWithViewModel(viewModel)
+            return cell
         case .AlgorithmRow(let viewModel):
-            return SegmentedControlRowCell(viewModel: viewModel)
+            let cell: SegmentedControlRowCell<AlgorithmRowViewModel.Value> = tableView.dequeueCellForIndexPath(indexPath)
+            cell.updateWithViewModel(viewModel)
+            return cell
         }
     }
 
