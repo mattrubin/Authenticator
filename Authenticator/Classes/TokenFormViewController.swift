@@ -44,9 +44,9 @@ class TokenFormViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.registerCellClass(TextFieldRowCell)
-        tableView.registerCellClass(SegmentedControlRowCell<TokenTypeRowViewModel.Value>)
-        tableView.registerCellClass(SegmentedControlRowCell<DigitCountRowViewModel.Value>)
-        tableView.registerCellClass(SegmentedControlRowCell<AlgorithmRowViewModel.Value>)
+        tableView.registerCellClass(SegmentedControlRowCell<TokenTypeRowViewModel>)
+        tableView.registerCellClass(SegmentedControlRowCell<DigitCountRowViewModel>)
+        tableView.registerCellClass(SegmentedControlRowCell<AlgorithmRowViewModel>)
 
         view.backgroundColor = .otpBackgroundColor
         view.tintColor = .otpForegroundColor
@@ -191,15 +191,15 @@ class TokenFormViewController: UITableViewController {
                 forTableView: tableView,
                 atIndexPath: indexPath)
         case .TokenTypeRow(let viewModel):
-            let cell: SegmentedControlRowCell<TokenTypeRowViewModel.Value> = tableView.dequeueCellForIndexPath(indexPath)
+            let cell: SegmentedControlRowCell<TokenTypeRowViewModel> = tableView.dequeueCellForIndexPath(indexPath)
             cell.updateWithViewModel(viewModel)
             return cell
         case .DigitCountRow(let viewModel):
-            let cell: SegmentedControlRowCell<DigitCountRowViewModel.Value> = tableView.dequeueCellForIndexPath(indexPath)
+            let cell: SegmentedControlRowCell<DigitCountRowViewModel> = tableView.dequeueCellForIndexPath(indexPath)
             cell.updateWithViewModel(viewModel)
             return cell
         case .AlgorithmRow(let viewModel):
-            let cell: SegmentedControlRowCell<AlgorithmRowViewModel.Value> = tableView.dequeueCellForIndexPath(indexPath)
+            let cell: SegmentedControlRowCell<AlgorithmRowViewModel> = tableView.dequeueCellForIndexPath(indexPath)
             cell.updateWithViewModel(viewModel)
             return cell
         }

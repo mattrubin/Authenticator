@@ -25,7 +25,7 @@
 import UIKit
 
 protocol SegmentedControlRowViewModel {
-    typealias Value
+    typealias Value: Equatable
     var segments: [(title: String, value: Value)] { get }
     var value: Value { get }
     var changeAction: (Value) -> () { get }
@@ -34,7 +34,9 @@ protocol SegmentedControlRowViewModel {
 // "static stored properties not yet supported in generic types"
 private let preferredHeight: CGFloat = 54
 
-class SegmentedControlRowCell<Value: Equatable>: UITableViewCell {
+class SegmentedControlRowCell<ViewModel: SegmentedControlRowViewModel>: UITableViewCell, ModelBasedView {
+    typealias Value = ViewModel.Value
+
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
     private var changeAction: ((Value) -> ())?
@@ -69,12 +71,12 @@ class SegmentedControlRowCell<Value: Equatable>: UITableViewCell {
 
     // MARK: - View Model
 
-    convenience init<ViewModel: SegmentedControlRowViewModel where ViewModel.Value == Value>(viewModel: ViewModel) {
+    convenience init(viewModel: ViewModel) {
         self.init()
         updateWithViewModel(viewModel)
     }
 
-    func updateWithViewModel<ViewModel: SegmentedControlRowViewModel where ViewModel.Value == Value>(viewModel: ViewModel) {
+    func updateWithViewModel(viewModel: ViewModel) {
         changeAction = viewModel.changeAction
         // Remove any old segments
         segmentedControl.removeAllSegments()
@@ -89,7 +91,7 @@ class SegmentedControlRowCell<Value: Equatable>: UITableViewCell {
         segmentedControl.selectedSegmentIndex = values.indexOf(viewModel.value) ?? 0
     }
 
-    static func heightWithViewModel<ViewModel: SegmentedControlRowViewModel where ViewModel.Value == Value>(viewModel: ViewModel) -> CGFloat {
+    static func heightWithViewModel(viewModel: ViewModel) -> CGFloat {
         return preferredHeight
     }
 
