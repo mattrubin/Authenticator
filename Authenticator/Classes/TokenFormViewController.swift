@@ -181,24 +181,25 @@ class TokenFormViewController: UITableViewController {
     func cellForRowModel(rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            return buildCell(TextFieldRowCell.self,
-                withViewModel: viewModel, inTableView: tableView)
-        case .TokenTypeRow(let viewModel):
-            return buildCell(SegmentedControlRowCell<TokenTypeRowViewModel>.self,
-                withViewModel: viewModel, inTableView: tableView)
-        case .DigitCountRow(let viewModel):
-            return buildCell(SegmentedControlRowCell<DigitCountRowViewModel>.self,
-                withViewModel: viewModel, inTableView: tableView)
-        case .AlgorithmRow(let viewModel):
-            return buildCell(SegmentedControlRowCell<AlgorithmRowViewModel>.self,
-                withViewModel: viewModel, inTableView: tableView)
-        }
-    }
+            let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell.self)
+            cell.updateWithViewModel(viewModel)
+            return cell
 
-    func buildCell<Cell: UITableViewCell where Cell: ModelBasedView>(cell: Cell.Type, withViewModel viewModel: Cell.ViewModel,inTableView tableView: UITableView) -> Cell {
-        let cell = tableView.dequeueReusableCellWithClass(Cell.self)
-        cell.updateWithViewModel(viewModel)
-        return cell
+        case .TokenTypeRow(let viewModel):
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<TokenTypeRowViewModel>.self)
+            cell.updateWithViewModel(viewModel)
+            return cell
+
+        case .DigitCountRow(let viewModel):
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<DigitCountRowViewModel>.self)
+            cell.updateWithViewModel(viewModel)
+            return cell
+
+        case .AlgorithmRow(let viewModel):
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<AlgorithmRowViewModel>.self)
+            cell.updateWithViewModel(viewModel)
+            return cell
+        }
     }
 
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
