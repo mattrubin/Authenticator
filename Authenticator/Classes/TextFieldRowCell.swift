@@ -82,11 +82,6 @@ class TextFieldRowCell: UITableViewCell {
 
     // MARK: - View Model
 
-    convenience init(viewModel: TextFieldRowViewModel) {
-        self.init()
-        updateWithViewModel(viewModel)
-    }
-
     func updateWithViewModel(viewModel: TextFieldRowViewModel) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder

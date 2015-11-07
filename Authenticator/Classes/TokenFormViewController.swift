@@ -113,7 +113,7 @@ class TokenFormViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath)
             else { return UITableViewCell() }
-        return cellForRowModel(rowModel)
+        return cellForRowModel(rowModel, inTableView: tableView)
     }
 
     // MARK: - UITableViewDelegate
@@ -178,16 +178,27 @@ class TokenFormViewController: UITableViewController {
 
     // MARK: Row Model Helpers
 
-    func cellForRowModel(rowModel: Form.RowModel) -> UITableViewCell {
+    func cellForRowModel(rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            return TextFieldRowCell(viewModel: viewModel)
+            let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell.self)
+            cell.updateWithViewModel(viewModel)
+            return cell
+
         case .TokenTypeRow(let viewModel):
-            return SegmentedControlRowCell(viewModel: viewModel)
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<TokenTypeRowViewModel>.self)
+            cell.updateWithViewModel(viewModel)
+            return cell
+
         case .DigitCountRow(let viewModel):
-            return SegmentedControlRowCell(viewModel: viewModel)
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<DigitCountRowViewModel>.self)
+            cell.updateWithViewModel(viewModel)
+            return cell
+
         case .AlgorithmRow(let viewModel):
-            return SegmentedControlRowCell(viewModel: viewModel)
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<AlgorithmRowViewModel>.self)
+            cell.updateWithViewModel(viewModel)
+            return cell
         }
     }
 
@@ -264,5 +275,17 @@ extension TokenFormViewController {
     static func entryControllerWithDelegate(delegate: TokenEntryFormDelegate) -> TokenFormViewController {
         let form = TokenEntryForm(delegate: delegate)
         return TokenFormViewController(form: form)
+    }
+}
+
+
+extension UITableView {
+    func dequeueReusableCellWithClass<Cell: UITableViewCell>(cellClass: Cell.Type) -> Cell {
+        let reuseIdentifier = NSStringFromClass(cellClass)
+        if let cell = dequeueReusableCellWithIdentifier(reuseIdentifier) as? Cell {
+            return cell
+        } else {
+            return Cell(style: .Default, reuseIdentifier: reuseIdentifier)
+        }
     }
 }
