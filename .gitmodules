@@ -8,6 +8,7 @@
 	path = Carthage/Checkouts/Base32
 	url = https://github.com/mattrubin/Base32.git
 [submodule "Carthage/Checkouts/Crypto"]
+	path = Carthage/Checkouts/Crypto
 	url = https://github.com/soffes/Crypto.git
 [submodule "Carthage/Checkouts/SVProgressHUD"]
 	path = Carthage/Checkouts/SVProgressHUD
