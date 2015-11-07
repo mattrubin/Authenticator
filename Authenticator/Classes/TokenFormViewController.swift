@@ -195,7 +195,7 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
-    func buildCell<Cell: ModelBasedView>(cell: Cell.Type, withViewModel viewModel: Cell.ViewModel, forRowAtIndexPath indexPath: NSIndexPath, inTableView tableView: UITableView) -> Cell {
+    func buildCell<Cell: UITableViewCell where Cell: ModelBasedView>(cell: Cell.Type, withViewModel viewModel: Cell.ViewModel, forRowAtIndexPath indexPath: NSIndexPath, inTableView tableView: UITableView) -> Cell {
         let cell = tableView.dequeueCellWithClass(Cell.self, forIndexPath: indexPath)
         cell.updateWithViewModel(viewModel)
         return cell
@@ -279,10 +279,12 @@ extension TokenFormViewController {
 
 
 extension UITableView {
-    func dequeueCellWithClass<Cell: AnyObject>(cellClass: Cell.Type, forIndexPath indexPath: NSIndexPath) -> Cell {
+    func dequeueCellWithClass<Cell: UITableViewCell>(cellClass: Cell.Type, forIndexPath indexPath: NSIndexPath) -> Cell {
         let reuseIdentifier = NSStringFromClass(cellClass)
-        registerClass(cellClass, forCellReuseIdentifier: reuseIdentifier)
-        let cell = dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
-        return cell as! Cell
+        if let cell = dequeueReusableCellWithIdentifier(reuseIdentifier) as? Cell {
+            return cell
+        } else {
+            return Cell(style: .Default, reuseIdentifier: reuseIdentifier)
+        }
     }
 }
