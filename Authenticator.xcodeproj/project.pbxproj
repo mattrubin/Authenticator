@@ -115,7 +115,6 @@
 		C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonHeaderView.swift; sourceTree = "<group>"; };
 		C9919CE11BA733FD006237C1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarButtonViewModel.swift; sourceTree = "<group>"; };
-		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		C9AAB0781B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OTPSegmentedControlCell+TokenForm.swift"; sourceTree = "<group>"; };
 		C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEditForm.swift; sourceTree = "<group>"; };
 		C9AAB0801B9187F8000CE547 /* TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenForm.swift; sourceTree = "<group>"; };
@@ -176,9 +175,8 @@
 			children = (
 				C97B68CB17D964D4005D1FE0 /* Authenticator */,
 				C9906A331812522100BAEF53 /* AuthenticatorTests */,
-				C98C1C4F17D2F16800A07D3F /* Config */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
-				C944A5661A7F772500E08B1E /* xcconfigs */,
+				C944A5661A7F772500E08B1E /* Configuration */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				C9776E32185187E8003D53CB /* Docs */,
 			);
@@ -218,14 +216,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C944A5661A7F772500E08B1E /* xcconfigs */ = {
+		C944A5661A7F772500E08B1E /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
 				C944A5671A7F772500E08B1E /* Base */,
 				C944A5721A7F772600E08B1E /* iOS */,
 				C944A5771A7F772600E08B1E /* Mac OS X */,
 			);
-			name = xcconfigs;
+			name = Configuration;
 			path = Carthage/Checkouts/xcconfigs;
 			sourceTree = "<group>";
 		};
@@ -323,14 +321,6 @@
 				C93AD15119CD51BE007480E9 /* Colors.swift */,
 			);
 			name = Categories;
-			sourceTree = "<group>";
-		};
-		C98C1C4F17D2F16800A07D3F /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */,
-			);
-			name = Config;
 			sourceTree = "<group>";
 		};
 		C9906A331812522100BAEF53 /* AuthenticatorTests */ = {
