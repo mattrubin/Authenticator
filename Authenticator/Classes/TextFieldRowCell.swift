@@ -41,7 +41,7 @@ protocol TextFieldRowCellDelegate: class {
     func textFieldCellDidReturn(textFieldCell: TextFieldRowCell)
 }
 
-class TextFieldRowCell: UITableViewCell {
+class TextFieldRowCell: UITableViewCell, ModelBasedView {
     private static let preferredHeight: CGFloat = 74
 
     let textField = UITextField()

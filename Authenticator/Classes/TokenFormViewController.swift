@@ -186,9 +186,10 @@ class TokenFormViewController: UITableViewController {
     func cellForRowModel(rowModel: Form.RowModel, tableView: UITableView, indexPath: NSIndexPath) -> UITableViewCell {
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            let cell: TextFieldRowCell = tableView.dequeueCellForIndexPath(indexPath)
-            cell.updateWithViewModel(viewModel)
-            return cell
+            return buildCell(TextFieldRowCell.self,
+                withViewModel: viewModel,
+                forTableView: tableView,
+                atIndexPath: indexPath)
         case .TokenTypeRow(let viewModel):
             let cell: SegmentedControlRowCell<TokenTypeRowViewModel.Value> = tableView.dequeueCellForIndexPath(indexPath)
             cell.updateWithViewModel(viewModel)
@@ -202,6 +203,12 @@ class TokenFormViewController: UITableViewController {
             cell.updateWithViewModel(viewModel)
             return cell
         }
+    }
+
+    func buildCell<Cell: ModelBasedView>(cell: Cell.Type, withViewModel viewModel: Cell.ViewModel, forTableView tableView: UITableView, atIndexPath indexPath: NSIndexPath) -> Cell {
+        let cell: Cell = tableView.dequeueCellForIndexPath(indexPath)
+        cell.updateWithViewModel(viewModel)
+        return cell
     }
 
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
