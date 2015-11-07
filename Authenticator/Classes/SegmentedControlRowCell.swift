@@ -34,7 +34,7 @@ protocol SegmentedControlRowViewModel {
 // "static stored properties not yet supported in generic types"
 private let preferredHeight: CGFloat = 54
 
-class SegmentedControlRowCell<ViewModel: SegmentedControlRowViewModel>: UITableViewCell, ModelBasedView {
+class SegmentedControlRowCell<ViewModel: SegmentedControlRowViewModel>: UITableViewCell {
     typealias Value = ViewModel.Value
 
     private let segmentedControl = UISegmentedControl()
