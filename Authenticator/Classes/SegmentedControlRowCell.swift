@@ -71,11 +71,6 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowViewModel>: UITableV
 
     // MARK: - View Model
 
-    convenience init(viewModel: ViewModel) {
-        self.init()
-        updateWithViewModel(viewModel)
-    }
-
     func updateWithViewModel(viewModel: ViewModel) {
         changeAction = viewModel.changeAction
         // Remove any old segments
