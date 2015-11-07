@@ -1,3 +1,4 @@
+github "mattrubin/Base32" "27025045f72371b7a05d77f661bb99ed0f6de71c"
+github "soffes/Crypto" "v0.1.0"
 github "jspahrsummers/xcconfigs" "0.8.1"
-github "mattrubin/Base32" "2fd38e9b9f7f9dadf08192b912bf13e50faf23d8"
-github "mattrubin/OneTimePassword" "dfd72f9ec70d3f7459d2d1a4238ea1bfd0b575bc"
+github "mattrubin/OneTimePassword" "769226f2dbe7753745c136174f26f921f66a8a47"

@@ -7,3 +7,5 @@
 [submodule "Carthage/Checkouts/Base32"]
 	path = Carthage/Checkouts/Base32
 	url = https://github.com/mattrubin/Base32.git
+[submodule "Carthage/Checkouts/Crypto"]
+	url = https://github.com/soffes/Crypto.git
