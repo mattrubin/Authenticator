@@ -187,20 +187,20 @@ class TokenFormViewController: UITableViewController {
         switch rowModel {
         case .TextFieldRow(let viewModel):
             return buildCell(TextFieldRowCell.self,
-                withViewModel: viewModel, forTableView: tableView, atIndexPath: indexPath)
+                withViewModel: viewModel, forRowAtIndexPath: indexPath, inTableView: tableView)
         case .TokenTypeRow(let viewModel):
             return buildCell(SegmentedControlRowCell<TokenTypeRowViewModel>.self,
-                withViewModel: viewModel, forTableView: tableView, atIndexPath: indexPath)
+                withViewModel: viewModel, forRowAtIndexPath: indexPath, inTableView: tableView)
         case .DigitCountRow(let viewModel):
             return buildCell(SegmentedControlRowCell<DigitCountRowViewModel>.self,
-                withViewModel: viewModel, forTableView: tableView, atIndexPath: indexPath)
+                withViewModel: viewModel, forRowAtIndexPath: indexPath, inTableView: tableView)
         case .AlgorithmRow(let viewModel):
             return buildCell(SegmentedControlRowCell<AlgorithmRowViewModel>.self,
-                withViewModel: viewModel, forTableView: tableView, atIndexPath: indexPath)
+                withViewModel: viewModel, forRowAtIndexPath: indexPath, inTableView: tableView)
         }
     }
 
-    func buildCell<Cell: ModelBasedView>(cell: Cell.Type, withViewModel viewModel: Cell.ViewModel, forTableView tableView: UITableView, atIndexPath indexPath: NSIndexPath) -> Cell {
+    func buildCell<Cell: ModelBasedView>(cell: Cell.Type, withViewModel viewModel: Cell.ViewModel, forRowAtIndexPath indexPath: NSIndexPath, inTableView tableView: UITableView) -> Cell {
         let cell: Cell = tableView.dequeueCellForIndexPath(indexPath)
         cell.updateWithViewModel(viewModel)
         return cell
