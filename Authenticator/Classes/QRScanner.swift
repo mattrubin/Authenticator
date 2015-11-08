@@ -31,10 +31,6 @@ protocol QRScannerDelegate {
 }
 
 class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
-    class var deviceCanScan: Bool {
-        return (AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) != nil)
-    }
-
     weak var delegate: QRScannerDelegate?
     private let serialQueue = dispatch_queue_create("QR Scanner serial queue", DISPATCH_QUEUE_SERIAL);
     private lazy var captureSession: AVCaptureSession? = {
@@ -68,6 +64,8 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         }
     }
 
+    // MARK: Capture
+
     enum CaptureSessionError: ErrorType {
         case InputError
         case OutputError
@@ -91,6 +89,10 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         captureOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
 
         return captureSession
+    }
+
+    class var deviceCanScan: Bool {
+        return (AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) != nil)
     }
 
     // MARK: AVCaptureMetadataOutputObjectsDelegate
