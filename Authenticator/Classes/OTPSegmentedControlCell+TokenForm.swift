@@ -25,44 +25,47 @@
 import OneTimePassword
 
 struct TokenTypeRowViewModel: SegmentedControlRowViewModel {
+    typealias Value = Generator.Factor
     let segments = [
-        (title: "Time Based", value: Generator.Factor.Timer(period: defaultPeriod)),
-        (title: "Counter Based", value: Generator.Factor.Counter(0)),
+        (title: "Time Based", value: Value.Timer(period: defaultPeriod)),
+        (title: "Counter Based", value: Value.Counter(0)),
     ]
-    let value: Generator.Factor
-    let changeAction: (Generator.Factor) -> ()
+    let value: Value
+    let changeAction: (Value) -> ()
 
-    init(value: Generator.Factor, changeAction: (Generator.Factor) -> ()) {
+    init(value: Value, changeAction: (Value) -> ()) {
         self.value = value
         self.changeAction = changeAction
     }
 }
 
 struct DigitCountRowViewModel: SegmentedControlRowViewModel {
+    typealias Value = Int
     let segments = [
         (title: "6 Digits", value: 6),
         (title: "7 Digits", value: 7),
         (title: "8 Digits", value: 8),
     ]
-    let value: Int
-    let changeAction: (Int) -> ()
+    let value: Value
+    let changeAction: (Value) -> ()
 
-    init(value: Int, changeAction: (Int) -> ()) {
+    init(value: Value, changeAction: (Value) -> ()) {
         self.value = value
         self.changeAction = changeAction
     }
 }
 
 struct AlgorithmRowViewModel: SegmentedControlRowViewModel {
+    typealias Value = Generator.Algorithm
     let segments = [
-        (title: "SHA-1", value: Generator.Algorithm.SHA1),
-        (title: "SHA-256", value: Generator.Algorithm.SHA256),
-        (title: "SHA-512", value: Generator.Algorithm.SHA512),
+        (title: "SHA-1", value: Value.SHA1),
+        (title: "SHA-256", value: Value.SHA256),
+        (title: "SHA-512", value: Value.SHA512),
     ]
-    let value: Generator.Algorithm
-    let changeAction: (Generator.Algorithm) -> ()
+    let value: Value
+    let changeAction: (Value) -> ()
 
-    init(value: Generator.Algorithm, changeAction: (Generator.Algorithm) -> ()) {
+    init(value: Value, changeAction: (Value) -> ()) {
         self.value = value
         self.changeAction = changeAction
     }
