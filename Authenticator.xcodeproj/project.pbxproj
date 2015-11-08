@@ -391,9 +391,9 @@
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Authenticator" */;
 			buildPhases = (
 				C959A63F190A6CB10042DEC0 /* Generate Icons */,
-				C910ADBF1BF00ABF00C988F5 /* Lint */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
+				C910ADBF1BF00ABF00C988F5 /* Lint */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				C944A5531A7ECA5000E08B1E /* Copy Frameworks */,
 			);
