@@ -25,12 +25,12 @@
 import AVFoundation
 import OneTimePasswordLegacy
 
-protocol ScannerViewControllerDelegate: class {
+protocol ScannerViewControllerDelegate: class, TokenEntryFormDelegate {
     func scannerDidCancel(scanner: AnyObject)
     func scanner(scanner: AnyObject, didCreateToken token: OTPToken)
 }
 
-class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryFormDelegate {
+class OTPScannerViewController: UIViewController, QRScannerDelegate {
     weak var delegate: ScannerViewControllerDelegate?
     private let scanner: QRScanner
     private var videoLayer: AVCaptureVideoPreviewLayer?
@@ -94,7 +94,9 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryF
     }
 
     func addTokenManually() {
-        let form = TokenEntryForm(delegate: self)
+        guard let delegate = delegate
+            else { return }
+        let form = TokenEntryForm(delegate: delegate)
         let entryController = TokenFormViewController(form: form)
         self.navigationController?.pushViewController(entryController, animated: true)
     }
@@ -121,16 +123,5 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryF
     func handleError(error: NSError) {
         print("Error: \(error)")
         SVProgressHUD.showErrorWithStatus("Capture Failed")
-    }
-
-    // MARK: TokenEntryFormDelegate
-
-    func entryFormDidCancel(form: TokenEntryForm) {
-        self.delegate?.scannerDidCancel(form)
-    }
-
-    func form(form: TokenEntryForm, didCreateToken token: OTPToken) {
-        // Forward didCreateToken on to the scanner's delegate
-        self.delegate?.scanner(form, didCreateToken: token)
     }
 }
