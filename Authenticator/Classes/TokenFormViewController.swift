@@ -271,14 +271,6 @@ extension TokenFormViewController: TextFieldRowCellDelegate {
     }
 }
 
-extension TokenFormViewController {
-    static func entryControllerWithDelegate(delegate: TokenEntryFormDelegate) -> TokenFormViewController {
-        let form = TokenEntryForm(delegate: delegate)
-        return TokenFormViewController(form: form)
-    }
-}
-
-
 extension UITableView {
     func dequeueReusableCellWithClass<Cell: UITableViewCell>(cellClass: Cell.Type) -> Cell {
         let reuseIdentifier = NSStringFromClass(cellClass)

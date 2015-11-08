@@ -1,5 +1,5 @@
 //
-//  OTPScannerOverlayView.Swift
+//  ScannerOverlayView.Swift
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -24,7 +24,7 @@
 
 import UIKit
 
-class OTPScannerOverlayView: UIView {
+class ScannerOverlayView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.layer.needsDisplayOnBoundsChange = true

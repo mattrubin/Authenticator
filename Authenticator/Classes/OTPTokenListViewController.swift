@@ -122,8 +122,8 @@ class OTPTokenListViewController: UITableViewController {
 
     func addToken() {
         var entryController: UIViewController
-        if OTPScannerViewController.deviceCanScan() {
-            let scanner = OTPScannerViewController()
+        if QRScanner.deviceCanScan {
+            let scanner = TokenScannerViewController()
             scanner.delegate = self
             entryController = scanner
         } else {
@@ -231,11 +231,17 @@ extension OTPTokenListViewController: TokenEntryFormDelegate {
     }
 }
 
-extension OTPTokenListViewController: OTPTokenSourceDelegate {
-    func tokenSourceDidCancel(tokenSource: AnyObject) {
+extension OTPTokenListViewController: ScannerViewControllerDelegate {
+    func scannerDidCancel(scanner: TokenScannerViewController) {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
+    func scanner(scanner: TokenScannerViewController, didCreateToken token: OTPToken) {
+        self.tokenSource(scanner, didCreateToken: token)
+    }
+}
+
+extension OTPTokenListViewController {
     func tokenSource(tokenSource: AnyObject, didCreateToken token: OTPToken) {
         self.dismissViewControllerAnimated(true, completion: nil)
 
