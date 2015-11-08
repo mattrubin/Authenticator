@@ -111,8 +111,9 @@ class TokenFormViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath)
-            else { return UITableViewCell() }
+        guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath) else {
+            return UITableViewCell()
+        }
         return cellForRowModel(rowModel, inTableView: tableView)
     }
 
@@ -131,20 +132,23 @@ class TokenFormViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath)
-            else { return 0 }
+        guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath) else {
+            return 0
+        }
         return heightForRowModel(rowModel)
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let headerModel = viewModel.modelForHeaderInSection(section)
-            else { return CGFloat(FLT_EPSILON) }
+        guard let headerModel = viewModel.modelForHeaderInSection(section) else {
+            return CGFloat(FLT_EPSILON)
+        }
         return heightForHeaderModel(headerModel)
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerModel = viewModel.modelForHeaderInSection(section)
-            else { return nil }
+        guard let headerModel = viewModel.modelForHeaderInSection(section) else {
+            return nil
+        }
         return viewForHeaderModel(headerModel)
     }
 

@@ -69,16 +69,18 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         let captureSession = AVCaptureSession()
 
         guard let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo),
-            let captureInput = try? AVCaptureDeviceInput(device: captureDevice)
-            else { throw CaptureSessionError.InputError }
+            let captureInput = try? AVCaptureDeviceInput(device: captureDevice) else {
+                throw CaptureSessionError.InputError
+        }
         captureSession.addInput(captureInput)
 
         let captureOutput = AVCaptureMetadataOutput()
         // The output must be added to the session before it can be checked for metadata types
         captureSession.addOutput(captureOutput)
         guard let availableTypes = captureOutput.availableMetadataObjectTypes
-            where (availableTypes as NSArray).containsObject(AVMetadataObjectTypeQRCode)
-            else { throw CaptureSessionError.OutputError }
+            where (availableTypes as NSArray).containsObject(AVMetadataObjectTypeQRCode) else {
+                throw CaptureSessionError.OutputError
+        }
         captureOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
         captureOutput.setMetadataObjectsDelegate(delegate, queue: dispatch_get_main_queue())
 
@@ -92,8 +94,9 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     // MARK: AVCaptureMetadataOutputObjectsDelegate
 
     func captureOutput(captureOutput: AVCaptureOutput?, didOutputMetadataObjects metadataObjects: [AnyObject]?, fromConnection connection: AVCaptureConnection?) {
-        guard let metadataObjects = metadataObjects
-            else {return }
+        guard let metadataObjects = metadataObjects else {
+            return
+        }
 
         for metadata in metadataObjects {
             if let metadata = metadata as? AVMetadataMachineReadableCodeObject
