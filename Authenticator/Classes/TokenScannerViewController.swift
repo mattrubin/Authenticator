@@ -1,5 +1,5 @@
 //
-//  OTPScannerViewController.swift
+//  TokenScannerViewController.swift
 //  Authenticator
 //
 //  Copyright (c) 2013 Matt Rubin
@@ -30,7 +30,7 @@ protocol ScannerViewControllerDelegate: class, TokenEntryFormDelegate {
     func scanner(scanner: AnyObject, didCreateToken token: OTPToken)
 }
 
-class OTPScannerViewController: UIViewController, QRScannerDelegate {
+class TokenScannerViewController: UIViewController, QRScannerDelegate {
     weak var delegate: ScannerViewControllerDelegate?
     private let scanner: QRScanner
     private let videoLayer = AVCaptureVideoPreviewLayer()
