@@ -152,8 +152,10 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(TokenRowCell.self), forIndexPath: indexPath) as! TokenRowCell
-        updateCell(cell, forRowAtIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(TokenRowCell.self), forIndexPath: indexPath)
+        if let cell = cell as? TokenRowCell {
+            updateCell(cell, forRowAtIndexPath: indexPath)
+        }
         return cell
     }
 
