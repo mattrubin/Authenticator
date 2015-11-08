@@ -30,6 +30,4 @@
 
 @property (nonatomic, weak) id <OTPTokenSourceDelegate> delegate;
 
-+ (BOOL)deviceCanScan;
-
 @end

@@ -175,14 +175,6 @@
 }
 
 
-#pragma mark - Class Methods
-
-+ (BOOL)deviceCanScan
-{
-    return !![AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-}
-
-
 #pragma mark - TokenEntryFormDelegate
 
 - (void)entryFormDidCancel:(nonnull TokenEntryForm *)form

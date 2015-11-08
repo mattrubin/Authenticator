@@ -122,7 +122,7 @@ class OTPTokenListViewController: UITableViewController {
 
     func addToken() {
         var entryController: UIViewController
-        if OTPScannerViewController.deviceCanScan() {
+        if Scanner.deviceCanScan {
             let scanner = OTPScannerViewController()
             scanner.delegate = self
             entryController = scanner
