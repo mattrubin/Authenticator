@@ -8,11 +8,17 @@
 
 import AVFoundation
 
+@objc
+protocol ScannerDelegate {
+    func handleDecodedText(text: String)
+}
+
 class Scanner: NSObject {
     class var deviceCanScan: Bool {
         return (AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) != nil)
     }
 
+    weak var delegate: ScannerDelegate?
     var captureSession: AVCaptureSession?
 
     func start() {
@@ -23,7 +29,7 @@ class Scanner: NSObject {
         captureSession?.stopRunning()
     }
 
-    class func createCaptureSession() throws -> AVCaptureSession {
+    func createCaptureSession() throws -> AVCaptureSession {
         let captureSession = AVCaptureSession()
 
         guard let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo),
@@ -38,6 +44,7 @@ class Scanner: NSObject {
             where (availableTypes as NSArray).containsObject(AVMetadataObjectTypeQRCode)
             else { throw CaptureSessionError.OutputError }
         captureOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+        captureOutput.setMetadataObjectsDelegate(self, queue: dispatch_get_main_queue())
 
         return captureSession
     }
@@ -45,5 +52,20 @@ class Scanner: NSObject {
     enum CaptureSessionError: ErrorType {
         case InputError
         case OutputError
+    }
+}
+
+extension Scanner: AVCaptureMetadataOutputObjectsDelegate {
+    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+        guard let metadataObjects = metadataObjects
+            else {return }
+
+        for metadata in metadataObjects {
+            if let metadata = metadata as? AVMetadataMachineReadableCodeObject
+                where metadata.type == AVMetadataObjectTypeQRCode,
+                let string = metadata.stringValue {
+                    delegate?.handleDecodedText(string)
+            }
+        }
     }
 }

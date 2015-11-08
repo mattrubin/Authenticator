@@ -28,7 +28,7 @@
 #import "Authenticator-Swift.h"
 
 
-@interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate, TokenEntryFormDelegate>
+@interface OTPScannerViewController () <ScannerDelegate, TokenEntryFormDelegate>
 
 @property (nonatomic, strong) Scanner *scanner;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
@@ -105,15 +105,12 @@
     dispatch_async(async_queue, ^{
         NSError *error = nil;
         Scanner *scanner = [[Scanner alloc] init];
-        scanner.captureSession = [Scanner createCaptureSessionAndReturnError:&error];
+        scanner.delegate = self;
+        scanner.captureSession = [scanner createCaptureSessionAndReturnError:&error];
         if (error) {
             NSLog(@"Error: %@", error);
             [self showErrorWithStatus:@"Capture Failed"];
             return;
-        }
-
-        for (AVCaptureMetadataOutput *captureOutput in scanner.captureSession.outputs) {
-            [captureOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
         }
 
         [scanner start];
@@ -135,18 +132,6 @@
 
 
 #pragma mark - AVCaptureMetadataOutputObjectsDelegate
-
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
-{
-    NSString *decodedText = nil;
-    for (AVMetadataObject *metadata in metadataObjects) {
-        if ([metadata.type isEqualToString:AVMetadataObjectTypeQRCode]) {
-            decodedText = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
-            break;
-        }
-    }
-    [self handleDecodedText:decodedText];
-}
 
 - (void)handleDecodedText:(NSString *)decodedText
 {
