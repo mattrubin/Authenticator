@@ -13,6 +13,16 @@ class Scanner: NSObject {
         return (AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) != nil)
     }
 
+    var captureSession: AVCaptureSession?
+
+    func start() {
+        captureSession?.startRunning()
+    }
+
+    func stop() {
+        captureSession?.stopRunning()
+    }
+
     class func createCaptureSession() throws -> AVCaptureSession {
         let captureSession = AVCaptureSession()
 

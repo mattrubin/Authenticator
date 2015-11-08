@@ -30,7 +30,7 @@
 
 @interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate, TokenEntryFormDelegate>
 
-@property (nonatomic, strong) AVCaptureSession *captureSession;
+@property (nonatomic, strong) Scanner *scanner;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
 
 @end
@@ -72,14 +72,14 @@
 {
     [super viewWillAppear:animated];
 
-    [self.captureSession startRunning];
+    [self.scanner start];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
 
-    [self.captureSession stopRunning];
+    [self.scanner stop];
 }
 
 
@@ -104,22 +104,23 @@
     dispatch_queue_t async_queue = dispatch_queue_create("OTPScannerViewController createCaptureSession", NULL);
     dispatch_async(async_queue, ^{
         NSError *error = nil;
-        AVCaptureSession *captureSession = [Scanner createCaptureSessionAndReturnError:&error];
+        Scanner *scanner = [[Scanner alloc] init];
+        scanner.captureSession = [Scanner createCaptureSessionAndReturnError:&error];
         if (error) {
             NSLog(@"Error: %@", error);
             [self showErrorWithStatus:@"Capture Failed"];
             return;
         }
 
-        for (AVCaptureMetadataOutput *captureOutput in captureSession.outputs) {
+        for (AVCaptureMetadataOutput *captureOutput in scanner.captureSession.outputs) {
             [captureOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
         }
 
-        [captureSession startRunning];
+        [scanner start];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.captureSession = captureSession;
-            self.videoLayer.session = captureSession;
+            self.scanner = scanner;
+            self.videoLayer.session = scanner.captureSession;
         });
     });
 }
@@ -155,7 +156,7 @@
 
     if (token) {
         // Halt the video capture
-        [self.captureSession stopRunning];
+        [self.scanner stop];
 
         // Inform the delegate that an auth URL was captured
         id <OTPTokenSourceDelegate> delegate = self.delegate;
