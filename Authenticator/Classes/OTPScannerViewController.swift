@@ -33,7 +33,7 @@ protocol ScannerViewControllerDelegate: class, TokenEntryFormDelegate {
 class OTPScannerViewController: UIViewController, QRScannerDelegate {
     weak var delegate: ScannerViewControllerDelegate?
     private let scanner: QRScanner
-    private var videoLayer: AVCaptureVideoPreviewLayer?
+    private let videoLayer = AVCaptureVideoPreviewLayer()
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         scanner = QRScanner()
@@ -66,10 +66,9 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate {
             action: Selector("addTokenManually")
         )
 
-        videoLayer = AVCaptureVideoPreviewLayer()
-        videoLayer!.videoGravity = AVLayerVideoGravityResizeAspectFill
-        view.layer.addSublayer(videoLayer!)
-        videoLayer!.frame = view.layer.bounds
+        videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        videoLayer.frame = view.layer.bounds
+        view.layer.addSublayer(videoLayer)
 
         let overlayView = OTPScannerOverlayView(frame: view.bounds)
         view.addSubview(overlayView)
@@ -78,7 +77,7 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         scanner.start() { captureSession in
-            videoLayer?.session = captureSession
+            self.videoLayer.session = captureSession
         }
     }
 
