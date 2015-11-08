@@ -36,20 +36,17 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     }
 
     weak var delegate: QRScannerDelegate?
-    private var captureSession: AVCaptureSession?
     private let serialQueue = dispatch_queue_create("QR Scanner serial queue", DISPATCH_QUEUE_SERIAL);
-
-    init(delegate: QRScannerDelegate) {
-        self.delegate = delegate
-        super.init()
+    private lazy var captureSession: AVCaptureSession? = {
         do {
-            captureSession = try createCaptureSession()
+            return try self.createCaptureSession()
         } catch {
             dispatch_async(dispatch_get_main_queue()) {
-                delegate.handleError(error as NSError)
+                self.delegate?.handleError(error as NSError)
             }
+            return nil
         }
-    }
+    }()
 
     func start(completion: (AVCaptureSession -> ())?) {
         dispatch_async(serialQueue) {

@@ -32,7 +32,8 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryF
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        scanner = QRScanner(delegate: self)
+        scanner = QRScanner()
+        scanner?.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -89,8 +90,6 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryF
         let entryController = TokenFormViewController.entryControllerWithDelegate(self)
         self.navigationController?.pushViewController(entryController, animated: true)
     }
-
-
 
     // MARK: QRScannerDelegate
 
