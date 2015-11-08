@@ -24,7 +24,8 @@
 
 import OneTimePassword
 
-let defaultPeriod: NSTimeInterval = 30
+let defaultTimerFactor = Generator.Factor.Timer(period: 30)
+let defaultCounterFactor = Generator.Factor.Counter(0)
 
 protocol TokenEntryFormDelegate: class {
     func entryFormDidCancel(form: TokenEntryForm)
@@ -41,7 +42,7 @@ class TokenEntryForm: NSObject, TokenForm {
         var issuer: String
         var name: String
         var secret: String
-        var tokenType: Generator.Factor
+        var tokenType: TokenType
         var digitCount: Int
         var algorithm: Generator.Algorithm
 
@@ -67,7 +68,7 @@ class TokenEntryForm: NSObject, TokenForm {
             issuer: "",
             name: "",
             secret: "",
-            tokenType: .Timer(period: defaultPeriod),
+            tokenType: .Timer,
             digitCount: 6,
             algorithm: .SHA1
         )
@@ -185,8 +186,16 @@ class TokenEntryForm: NSObject, TokenForm {
 
         if let secret = NSData(base32String: state.secret) {
             if secret.length > 0 {
+                let factor: Generator.Factor
+                switch state.tokenType {
+                case .Counter:
+                    factor = defaultCounterFactor
+                case .Timer:
+                    factor = defaultTimerFactor
+                }
+
                 let generator = Generator(
-                    factor: state.tokenType,
+                    factor: factor,
                     secret: secret,
                     algorithm: state.algorithm,
                     digits: state.digitCount

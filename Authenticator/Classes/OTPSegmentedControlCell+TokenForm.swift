@@ -24,11 +24,15 @@
 
 import OneTimePassword
 
+enum TokenType {
+    case Counter, Timer
+}
+
 struct TokenTypeRowViewModel: SegmentedControlRowViewModel {
-    typealias Value = Generator.Factor
+    typealias Value = TokenType
     let segments = [
-        (title: "Time Based", value: Value.Timer(period: defaultPeriod)),
-        (title: "Counter Based", value: Value.Counter(0)),
+        (title: "Time Based", value: Value.Timer),
+        (title: "Counter Based", value: Value.Counter),
     ]
     let value: Value
     let changeAction: (Value) -> ()
