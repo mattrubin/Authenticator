@@ -159,7 +159,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let token = self.tokenManager.tokenAtIndexPath(indexPath)
-        let rowModel = TokenRowModel(token: token, buttonAction: {
+        let rowModel = TokenRowModel(token: token.token, buttonAction: {
             token.updatePassword()
             self.tableView.reloadData()
         })
