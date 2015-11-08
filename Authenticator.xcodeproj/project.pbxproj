@@ -110,7 +110,6 @@
 		C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRowModel.swift; sourceTree = "<group>"; };
 		C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRowCell.swift; sourceTree = "<group>"; };
 		C99069D0180CBAC900BAEF53 /* OTPScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPScannerViewController.swift; sourceTree = "<group>"; };
-		C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTPTokenSourceDelegate.h; sourceTree = "<group>"; };
 		C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEntryForm.swift; sourceTree = "<group>"; };
 		C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonHeaderView.swift; sourceTree = "<group>"; };
@@ -292,7 +291,6 @@
 		C98C1C4617D2EE6500A07D3F /* Entry */ = {
 			isa = PBXGroup;
 			children = (
-				C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */,
 				C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */,
 				C9B0B9501BC9159300BD5844 /* Forms */,
 				C9B0B94F1BC9158200BD5844 /* View Models */,

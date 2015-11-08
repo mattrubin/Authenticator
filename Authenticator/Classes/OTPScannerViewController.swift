@@ -25,8 +25,13 @@
 import AVFoundation
 import OneTimePasswordLegacy
 
+protocol ScannerViewControllerDelegate: class {
+    func scannerDidCancel(scanner: AnyObject)
+    func scanner(scanner: AnyObject, didCreateToken token: OTPToken)
+}
+
 class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryFormDelegate {
-    weak var delegate: OTPTokenSourceDelegate?
+    weak var delegate: ScannerViewControllerDelegate?
     private let scanner: QRScanner
     private var videoLayer: AVCaptureVideoPreviewLayer?
 
@@ -85,7 +90,7 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryF
     // MARK: Target Actions
 
     func cancel() {
-        self.delegate?.tokenSourceDidCancel(self)
+        self.delegate?.scannerDidCancel(self)
     }
 
     func addTokenManually() {
@@ -110,7 +115,7 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryF
         self.scanner.stop(nil)
 
         // Inform the delegate that an auth URL was captured
-        self.delegate?.tokenSource(self, didCreateToken: token)
+        self.delegate?.scanner(self, didCreateToken: token)
     }
 
     func handleError(error: NSError) {
@@ -121,11 +126,11 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryF
     // MARK: TokenEntryFormDelegate
 
     func entryFormDidCancel(form: TokenEntryForm) {
-        self.delegate?.tokenSourceDidCancel(form)
+        self.delegate?.scannerDidCancel(form)
     }
 
     func form(form: TokenEntryForm, didCreateToken token: OTPToken) {
         // Forward didCreateToken on to the scanner's delegate
-        self.delegate?.tokenSource(form, didCreateToken: token)
+        self.delegate?.scanner(form, didCreateToken: token)
     }
 }
