@@ -27,17 +27,19 @@ import OneTimePasswordLegacy
 
 class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryFormDelegate {
     weak var delegate: OTPTokenSourceDelegate?
-    private var scanner: QRScanner?
+    private let scanner: QRScanner
     private var videoLayer: AVCaptureVideoPreviewLayer?
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         scanner = QRScanner()
-        scanner?.delegate = self
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        scanner.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
+        scanner = QRScanner()
         super.init(coder: aDecoder)
+        scanner.delegate = self
     }
 
     // MARK: View Lifecycle
@@ -70,14 +72,14 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryF
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.scanner?.start() { captureSession in
+        self.scanner.start() { captureSession in
             self.videoLayer?.session = captureSession
         }
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.scanner?.stop(nil)
+        self.scanner.stop(nil)
     }
 
     // MARK: Target Actions
@@ -104,7 +106,7 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryF
         }
 
         // Halt the video capture
-        self.scanner?.stop(nil)
+        self.scanner.stop(nil)
 
         // Inform the delegate that an auth URL was captured
         self.delegate?.tokenSource(self, didCreateToken: token)
