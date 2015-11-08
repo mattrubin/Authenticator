@@ -103,16 +103,8 @@
 {
     dispatch_queue_t async_queue = dispatch_queue_create("OTPScannerViewController createCaptureSession", NULL);
     dispatch_async(async_queue, ^{
-        NSError *error = nil;
         Scanner *scanner = [[Scanner alloc] init];
         scanner.delegate = self;
-        scanner.captureSession = [scanner createCaptureSessionAndReturnError:&error];
-        if (error) {
-            NSLog(@"Error: %@", error);
-            [self showErrorWithStatus:@"Capture Failed"];
-            return;
-        }
-
         [scanner start];
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -150,6 +142,11 @@
         // Show an error message
         [SVProgressHUD showErrorWithStatus:@"Invalid Token"];
     }
+}
+
+- (void)handleError:(NSError *)error {
+    NSLog(@"Error: %@", error);
+    [self showErrorWithStatus:@"Capture Failed"];
 }
 
 

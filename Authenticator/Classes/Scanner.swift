@@ -11,6 +11,7 @@ import AVFoundation
 @objc
 protocol ScannerDelegate {
     func handleDecodedText(text: String)
+    func handleError(error: NSError)
 }
 
 class Scanner: NSObject {
@@ -19,9 +20,16 @@ class Scanner: NSObject {
     }
 
     weak var delegate: ScannerDelegate?
-    var captureSession: AVCaptureSession?
+    private(set) var captureSession: AVCaptureSession?
 
     func start() {
+        if captureSession == nil {
+            do {
+                captureSession = try createCaptureSession()
+            } catch {
+                delegate?.handleError(error as NSError)
+            }
+        }
         captureSession?.startRunning()
     }
 
@@ -29,7 +37,7 @@ class Scanner: NSObject {
         captureSession?.stopRunning()
     }
 
-    func createCaptureSession() throws -> AVCaptureSession {
+    private func createCaptureSession() throws -> AVCaptureSession {
         let captureSession = AVCaptureSession()
 
         guard let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo),
@@ -56,7 +64,7 @@ class Scanner: NSObject {
 }
 
 extension Scanner: AVCaptureMetadataOutputObjectsDelegate {
-    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+    func captureOutput(captureOutput: AVCaptureOutput?, didOutputMetadataObjects metadataObjects: [AnyObject]?, fromConnection connection: AVCaptureConnection?) {
         guard let metadataObjects = metadataObjects
             else {return }
 
