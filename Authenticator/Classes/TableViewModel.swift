@@ -38,13 +38,12 @@ struct TableViewModel<Models: TableViewModelFamily> {
         leftBarButton: BarButtonViewModel? = nil,
         rightBarButton: BarButtonViewModel? = nil,
         sections: [Section<Models.HeaderModel, Models.RowModel>],
-        doneKeyAction: (() -> ())? = nil)
-    {
-        self.title = title
-        self.leftBarButton = leftBarButton
-        self.rightBarButton = rightBarButton
-        self.sections = sections
-        self.doneKeyAction = doneKeyAction
+        doneKeyAction: (() -> ())? = nil) {
+            self.title = title
+            self.leftBarButton = leftBarButton
+            self.rightBarButton = rightBarButton
+            self.sections = sections
+            self.doneKeyAction = doneKeyAction
     }
 }
 
