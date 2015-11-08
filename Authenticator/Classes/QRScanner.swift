@@ -43,13 +43,11 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         }
     }()
 
-    func start(completion: AVCaptureSession -> ()) {
+    func start(completion: AVCaptureSession? -> ()) {
         dispatch_async(serialQueue) {
-            guard let captureSession = self.captureSession
-                else { return }
-            captureSession.startRunning()
+            self.captureSession?.startRunning()
             dispatch_async(dispatch_get_main_queue()) {
-                completion(captureSession)
+                completion(self.captureSession)
             }
         }
     }
