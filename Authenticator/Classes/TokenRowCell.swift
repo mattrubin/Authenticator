@@ -108,13 +108,13 @@ class TokenRowCell: UITableViewCell {
 
     private func setName(name: String, issuer: String) {
         let titleString = NSMutableAttributedString()
-        if (issuer != "") {
+        if issuer != "" {
             titleString.appendAttributedString(NSAttributedString(string: issuer, attributes:[NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium", size: 15)!]))
         }
-        if (issuer != "" && name != "") {
+        if issuer != "" && name != "" {
             titleString.appendAttributedString(NSAttributedString(string: " "))
         }
-        if (name != "") {
+        if name != "" {
             titleString.appendAttributedString(NSAttributedString(string: name))
         }
         titleLabel.attributedText = titleString

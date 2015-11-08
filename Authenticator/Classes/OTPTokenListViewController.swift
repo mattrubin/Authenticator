@@ -170,12 +170,12 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if (editingStyle == .Delete) {
+        if editingStyle == .Delete {
             if self.tokenManager.removeTokenAtIndexPath(indexPath) {
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 self.update()
 
-                if (self.tokenManager.numberOfTokens == 0) {
+                if self.tokenManager.numberOfTokens == 0 {
                     self.setEditing(false, animated: true)
                 }
             }

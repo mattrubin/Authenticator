@@ -218,7 +218,7 @@ class TokenEntryForm: NSObject, TokenForm {
     }
 
     func toggleAdvancedOptions() {
-        if (!showsAdvancedOptions) {
+        if !showsAdvancedOptions {
             showsAdvancedOptions = true
             // TODO: Don't hard-code this index
             presenter?.form(self, didReloadSection: 1)
