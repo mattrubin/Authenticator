@@ -84,7 +84,7 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate {
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.scanner.stop(nil)
+        self.scanner.stop()
     }
 
     // MARK: Target Actions
@@ -114,7 +114,7 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate {
         }
 
         // Halt the video capture
-        self.scanner.stop(nil)
+        self.scanner.stop()
 
         // Inform the delegate that an auth URL was captured
         self.delegate?.scanner(self, didCreateToken: token)
