@@ -33,6 +33,7 @@ class OTPTokenListViewController: UITableViewController {
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
     let noTokensLabel = UILabel()
+    var editingToken: OTPToken?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -193,7 +194,9 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
             let token = self.tokenManager.tokenAtIndexPath(indexPath)
-            let form = TokenEditForm(token: token, delegate: self)
+            // Keep a reference to the token object being edited
+            editingToken = token
+            let form = TokenEditForm(token: token.token, delegate: self)
             let editController = TokenFormViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
             navController.navigationBar.translucent = false
@@ -215,9 +218,13 @@ extension OTPTokenListViewController: TokenEditFormDelegate {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
-    func form(form: TokenEditForm, didEditToken token: OTPToken) {
+    func form(form: TokenEditForm, didEditToken token: Token) {
         self.dismissViewControllerAnimated(true, completion: nil)
-        self.tableView.reloadData()
+        if let editedToken = editingToken {
+            editedToken.updateWithToken(token)
+            editedToken.saveToKeychain()
+            self.tableView.reloadData()
+        }
     }
 
 }

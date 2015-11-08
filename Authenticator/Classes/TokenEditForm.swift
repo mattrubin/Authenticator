@@ -22,11 +22,11 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import OneTimePasswordLegacy
+import OneTimePassword
 
 protocol TokenEditFormDelegate: class {
     func editFormDidCancel(form: TokenEditForm)
-    func form(form: TokenEditForm, didEditToken token: OTPToken)
+    func form(form: TokenEditForm, didEditToken token: Token)
 }
 
 class TokenEditForm: NSObject, TokenForm {
@@ -96,9 +96,9 @@ class TokenEditForm: NSObject, TokenForm {
 
     // MARK: Initialization
 
-    let token: OTPToken
+    let token: Token
 
-    init(token: OTPToken, delegate: TokenEditFormDelegate) {
+    init(token: Token, delegate: TokenEditFormDelegate) {
         self.token = token
         self.delegate = delegate
         state = State(issuer: token.issuer, name: token.name)
@@ -113,13 +113,11 @@ class TokenEditForm: NSObject, TokenForm {
     func submit() {
         if (!state.isValid) { return }
 
-        if (token.name != state.name ||
-            token.issuer != state.issuer) {
-                self.token.name = state.name
-                self.token.issuer = state.issuer
-                self.token.saveToKeychain()
-        }
-
-        delegate?.form(self, didEditToken: token)
+        let editedToken = Token(
+            name: state.name,
+            issuer: state.issuer,
+            core: token.core
+        )
+        delegate?.form(self, didEditToken: editedToken)
     }
 }
