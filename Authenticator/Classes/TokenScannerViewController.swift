@@ -94,7 +94,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     func handleDecodedText(text: String) {
         // Attempt to create a token from the decoded text
         guard let url = NSURL(string: text),
-            let token = Token.URLSerializer.deserialize(url.absoluteString)
+            let token = Token.URLSerializer.deserialize(url)
             else {
                 // Show an error message
                 SVProgressHUD.showErrorWithStatus("Invalid Token")
