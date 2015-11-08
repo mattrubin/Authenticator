@@ -25,17 +25,19 @@
 import UIKit
 
 extension UIColor {
-    private convenience init(r: Int, g: Int, b: Int) {
+    private convenience init(red: Int, green: Int, blue: Int) {
         let divisor: CGFloat = 255
-        let red   = CGFloat(r) / divisor
-        let green = CGFloat(g) / divisor
-        let blue  = CGFloat(b) / divisor
-        self.init(red: red, green: green, blue: blue, alpha: 1)
+        self.init(
+            red: CGFloat(red) / divisor,
+            green: CGFloat(green) / divisor,
+            blue: CGFloat(blue) / divisor,
+            alpha: 1
+        )
     }
 
     private struct OTP {
-        static let darkColor  = UIColor(r: 35,  g: 35,  b: 50)
-        static let lightColor = UIColor(r: 250, g: 248, b: 240)
+        static let darkColor  = UIColor(red: 35, green: 35, blue: 50)
+        static let lightColor = UIColor(red: 250, green: 248, blue: 240)
     }
 
     class var otpDarkColor: UIColor { return OTP.darkColor }
