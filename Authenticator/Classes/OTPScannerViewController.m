@@ -72,14 +72,14 @@
 {
     [super viewWillAppear:animated];
 
-    [self.scanner start];
+    [self.scanner start:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
 
-    [self.scanner stop];
+    [self.scanner stop:nil];
 }
 
 
@@ -105,11 +105,9 @@
 
     dispatch_queue_t async_queue = dispatch_queue_create("OTPScannerViewController createCaptureSession", NULL);
     dispatch_async(async_queue, ^{
-        [self.scanner start];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.videoLayer.session = self.scanner.captureSession;
-        });
+        [self.scanner start:^(AVCaptureSession *captureSession) {
+            self.videoLayer.session = captureSession;
+        }];
     });
 }
 
@@ -132,7 +130,7 @@
 
     if (token) {
         // Halt the video capture
-        [self.scanner stop];
+        [self.scanner stop:nil];
 
         // Inform the delegate that an auth URL was captured
         id <OTPTokenSourceDelegate> delegate = self.delegate;

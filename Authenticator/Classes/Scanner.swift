@@ -20,7 +20,7 @@ class Scanner: NSObject {
     }
 
     weak var delegate: ScannerDelegate?
-    private(set) var captureSession: AVCaptureSession?
+    private var captureSession: AVCaptureSession?
 
     init(delegate: ScannerDelegate) {
         self.delegate = delegate
@@ -32,12 +32,20 @@ class Scanner: NSObject {
         }
     }
 
-    func start() {
-        captureSession?.startRunning()
+    func start(completion: (AVCaptureSession -> ())?) {
+        guard let captureSession = captureSession
+            else { return }
+        captureSession.startRunning()
+        dispatch_async(dispatch_get_main_queue()) {
+            completion?(captureSession)
+        }
     }
 
-    func stop() {
+    func stop(completion: (() -> ())?) {
         captureSession?.stopRunning()
+        dispatch_async(dispatch_get_main_queue()) {
+            completion?()
+        }
     }
 
     private func createCaptureSession() throws -> AVCaptureSession {
