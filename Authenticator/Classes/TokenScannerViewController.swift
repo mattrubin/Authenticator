@@ -26,8 +26,8 @@ import AVFoundation
 import OneTimePasswordLegacy
 
 protocol ScannerViewControllerDelegate: class, TokenEntryFormDelegate {
-    func scannerDidCancel(scanner: AnyObject)
-    func scanner(scanner: AnyObject, didCreateToken token: OTPToken)
+    func scannerDidCancel(scanner: TokenScannerViewController)
+    func scanner(scanner: TokenScannerViewController, didCreateToken token: OTPToken)
 }
 
 class TokenScannerViewController: UIViewController, QRScannerDelegate {

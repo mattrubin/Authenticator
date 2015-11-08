@@ -232,11 +232,11 @@ extension OTPTokenListViewController: TokenEntryFormDelegate {
 }
 
 extension OTPTokenListViewController: ScannerViewControllerDelegate {
-    func scannerDidCancel(scanner: AnyObject) {
+    func scannerDidCancel(scanner: TokenScannerViewController) {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
-    func scanner(scanner: AnyObject, didCreateToken token: OTPToken) {
+    func scanner(scanner: TokenScannerViewController, didCreateToken token: OTPToken) {
         self.tokenSource(scanner, didCreateToken: token)
     }
 }
