@@ -279,6 +279,16 @@
 			path = Authenticator;
 			sourceTree = "<group>";
 		};
+		C97CDF2D1BEF10B300D64406 /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				C97CDF2B1BEEC90100D64406 /* QRScanner.swift */,
+				C99069D0180CBAC900BAEF53 /* TokenScannerViewController.swift */,
+				8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */,
+			);
+			name = Scanner;
+			sourceTree = "<group>";
+		};
 		C98C1C4517D2EDF500A07D3F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,9 +305,7 @@
 				C9B0B9501BC9159300BD5844 /* Forms */,
 				C9B0B94F1BC9158200BD5844 /* View Models */,
 				C9D6C8401906BD6F004F0E08 /* Cells */,
-				C99069D0180CBAC900BAEF53 /* TokenScannerViewController.swift */,
-				8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */,
-				C97CDF2B1BEEC90100D64406 /* QRScanner.swift */,
+				C97CDF2D1BEF10B300D64406 /* Scanner */,
 			);
 			name = Entry;
 			sourceTree = "<group>";
