@@ -22,18 +22,22 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import OneTimePasswordLegacy
+import OneTimePassword
 
 struct TokenRowModel {
     let name, issuer, password: String
     let showsButton: Bool
     let buttonAction: ()->()
 
-    init(token: OTPToken, buttonAction: ()->()) {
-        self.name = token.name
-        self.issuer = token.issuer
-        self.password = token.password ?? ""
-        self.showsButton = (token.type == .Counter)
+    init(token: Token, buttonAction: ()->()) {
+        name = token.name
+        issuer = token.issuer
+        password = token.generator.currentPassword ?? ""
+        if case .Counter = token.generator.factor {
+            showsButton = true
+        } else {
+            showsButton = false
+        }
         self.buttonAction = buttonAction
     }
 

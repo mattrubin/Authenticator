@@ -22,47 +22,54 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import OneTimePasswordLegacy
+import OneTimePassword
+
+enum TokenType {
+    case Counter, Timer
+}
 
 struct TokenTypeRowViewModel: SegmentedControlRowViewModel {
+    typealias Value = TokenType
     let segments = [
-        (title: "Time Based", value: OTPTokenType.Timer),
-        (title: "Counter Based", value: OTPTokenType.Counter),
+        (title: "Time Based", value: Value.Timer),
+        (title: "Counter Based", value: Value.Counter),
     ]
-    let value: OTPTokenType
-    let changeAction: (OTPTokenType) -> ()
+    let value: Value
+    let changeAction: (Value) -> ()
 
-    init(value: OTPTokenType, changeAction: (OTPTokenType) -> ()) {
+    init(value: Value, changeAction: (Value) -> ()) {
         self.value = value
         self.changeAction = changeAction
     }
 }
 
 struct DigitCountRowViewModel: SegmentedControlRowViewModel {
+    typealias Value = Int
     let segments = [
         (title: "6 Digits", value: 6),
         (title: "7 Digits", value: 7),
         (title: "8 Digits", value: 8),
     ]
-    let value: Int
-    let changeAction: (Int) -> ()
+    let value: Value
+    let changeAction: (Value) -> ()
 
-    init(value: Int, changeAction: (Int) -> ()) {
+    init(value: Value, changeAction: (Value) -> ()) {
         self.value = value
         self.changeAction = changeAction
     }
 }
 
 struct AlgorithmRowViewModel: SegmentedControlRowViewModel {
+    typealias Value = Generator.Algorithm
     let segments = [
-        (title: "SHA-1", value: OTPAlgorithm.SHA1),
-        (title: "SHA-256", value: OTPAlgorithm.SHA256),
-        (title: "SHA-512", value: OTPAlgorithm.SHA512),
+        (title: "SHA-1", value: Value.SHA1),
+        (title: "SHA-256", value: Value.SHA256),
+        (title: "SHA-512", value: Value.SHA512),
     ]
-    let value: OTPAlgorithm
-    let changeAction: (OTPAlgorithm) -> ()
+    let value: Value
+    let changeAction: (Value) -> ()
 
-    init(value: OTPAlgorithm, changeAction: (OTPAlgorithm) -> ()) {
+    init(value: Value, changeAction: (Value) -> ()) {
         self.value = value
         self.changeAction = changeAction
     }

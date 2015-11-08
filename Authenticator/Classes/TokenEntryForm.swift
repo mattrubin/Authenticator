@@ -22,12 +22,14 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import OneTimePasswordLegacy
+import OneTimePassword
 
-@objc
+let defaultTimerFactor = Generator.Factor.Timer(period: 30)
+let defaultCounterFactor = Generator.Factor.Counter(0)
+
 protocol TokenEntryFormDelegate: class {
     func entryFormDidCancel(form: TokenEntryForm)
-    func form(form: TokenEntryForm, didCreateToken token: OTPToken)
+    func form(form: TokenEntryForm, didCreateToken token: Token)
 }
 
 class TokenEntryForm: NSObject, TokenForm {
@@ -40,9 +42,9 @@ class TokenEntryForm: NSObject, TokenForm {
         var issuer: String
         var name: String
         var secret: String
-        var tokenType: OTPTokenType
+        var tokenType: TokenType
         var digitCount: Int
-        var algorithm: OTPAlgorithm
+        var algorithm: Generator.Algorithm
 
         var isValid: Bool {
             return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
@@ -184,15 +186,27 @@ class TokenEntryForm: NSObject, TokenForm {
 
         if let secret = NSData(base32String: state.secret) {
             if secret.length > 0 {
-                let token = OTPToken()
-                token.type = state.tokenType;
-                token.secret = secret;
-                token.name = state.name;
-                token.issuer = state.issuer;
-                token.digits = UInt(state.digitCount);
-                token.algorithm = state.algorithm;
+                let factor: Generator.Factor
+                switch state.tokenType {
+                case .Counter:
+                    factor = defaultCounterFactor
+                case .Timer:
+                    factor = defaultTimerFactor
+                }
 
-                if token.password != nil {
+                let generator = Generator(
+                    factor: factor,
+                    secret: secret,
+                    algorithm: state.algorithm,
+                    digits: state.digitCount
+                )
+                let token = Token(
+                    name: state.name,
+                    issuer: state.issuer,
+                    generator: generator
+                )
+
+                if token.generator.currentPassword != nil {
                     delegate?.form(self, didCreateToken: token)
                     return
                 }
