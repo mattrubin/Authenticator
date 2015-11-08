@@ -3,5 +3,5 @@
 //
 
 #import <SVProgressHUD/SVProgressHUD.h>
-#import "OTPScannerViewController.h"
+#import "OTPTokenSourceDelegate.h"
 #import "OTPTokenManager.h"
