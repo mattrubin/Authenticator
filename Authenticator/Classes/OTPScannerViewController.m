@@ -101,15 +101,14 @@
 
 - (void)createCaptureSession
 {
+    self.scanner = [[Scanner alloc] initWithDelegate:self];
+
     dispatch_queue_t async_queue = dispatch_queue_create("OTPScannerViewController createCaptureSession", NULL);
     dispatch_async(async_queue, ^{
-        Scanner *scanner = [[Scanner alloc] init];
-        scanner.delegate = self;
-        [scanner start];
+        [self.scanner start];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.scanner = scanner;
-            self.videoLayer.session = scanner.captureSession;
+            self.videoLayer.session = self.scanner.captureSession;
         });
     });
 }

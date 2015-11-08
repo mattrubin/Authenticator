@@ -22,14 +22,17 @@ class Scanner: NSObject {
     weak var delegate: ScannerDelegate?
     private(set) var captureSession: AVCaptureSession?
 
-    func start() {
-        if captureSession == nil {
-            do {
-                captureSession = try createCaptureSession()
-            } catch {
-                delegate?.handleError(error as NSError)
-            }
+    init(delegate: ScannerDelegate) {
+        self.delegate = delegate
+        super.init()
+        do {
+            captureSession = try createCaptureSession()
+        } catch {
+            delegate.handleError(error as NSError)
         }
+    }
+
+    func start() {
         captureSession?.startRunning()
     }
 
