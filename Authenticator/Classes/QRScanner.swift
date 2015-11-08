@@ -1,5 +1,5 @@
 //
-//  Scanner.swift
+//  QRScanner.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Matt Rubin
