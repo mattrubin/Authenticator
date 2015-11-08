@@ -25,8 +25,6 @@
 import UIKit
 import OneTimePassword
 
-let Z = "Z"
-
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
