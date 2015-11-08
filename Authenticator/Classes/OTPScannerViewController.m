@@ -107,16 +107,8 @@
     }];
 }
 
-- (void)showErrorWithStatus:(NSString *)statusString
-{
-    // Ensure this executes on the main thread
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD showErrorWithStatus:statusString];
-    });
-}
 
-
-#pragma mark - AVCaptureMetadataOutputObjectsDelegate
+#pragma mark - ScannerDelegate
 
 - (void)handleDecodedText:(NSString *)decodedText
 {
@@ -139,7 +131,7 @@
 
 - (void)handleError:(NSError *)error {
     NSLog(@"Error: %@", error);
-    [self showErrorWithStatus:@"Capture Failed"];
+    [SVProgressHUD showErrorWithStatus:@"Capture Failed"];
 }
 
 

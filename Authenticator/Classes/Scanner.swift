@@ -29,7 +29,9 @@ class Scanner: NSObject {
         do {
             captureSession = try createCaptureSession()
         } catch {
-            delegate.handleError(error as NSError)
+            dispatch_async(dispatch_get_main_queue()) {
+                delegate.handleError(error as NSError)
+            }
         }
     }
 
@@ -88,7 +90,10 @@ extension Scanner: AVCaptureMetadataOutputObjectsDelegate {
             if let metadata = metadata as? AVMetadataMachineReadableCodeObject
                 where metadata.type == AVMetadataObjectTypeQRCode,
                 let string = metadata.stringValue {
-                    delegate?.handleDecodedText(string)
+                    // Dispatch to the main queue because setMetadataObjectsDelegate doesn't
+                    dispatch_async(dispatch_get_main_queue()) {
+                        delegate?.handleDecodedText(string)
+                    }
             }
         }
     }
