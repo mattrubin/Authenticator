@@ -89,7 +89,8 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate, TokenEntryF
     }
 
     func addTokenManually() {
-        let entryController = TokenFormViewController.entryControllerWithDelegate(self)
+        let form = TokenEntryForm(delegate: self)
+        let entryController = TokenFormViewController(form: form)
         self.navigationController?.pushViewController(entryController, animated: true)
     }
 
