@@ -70,7 +70,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         videoLayer.frame = view.layer.bounds
         view.layer.addSublayer(videoLayer)
 
-        let overlayView = OTPScannerOverlayView(frame: view.bounds)
+        let overlayView = ScannerOverlayView(frame: view.bounds)
         view.addSubview(overlayView)
     }
 
