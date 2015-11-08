@@ -25,6 +25,7 @@
 #import "OTPScannerViewController.h"
 @import AVFoundation;
 @import OneTimePasswordLegacy;
+#import "Authenticator-Swift.h"
 
 
 @interface OTPScannerViewController () <AVCaptureMetadataOutputObjectsDelegate, TokenEntryFormDelegate>
@@ -102,26 +103,17 @@
 {
     dispatch_queue_t async_queue = dispatch_queue_create("OTPScannerViewController createCaptureSession", NULL);
     dispatch_async(async_queue, ^{
-        AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
-
-        AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         NSError *error = nil;
-        AVCaptureDeviceInput *captureInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
-        if (!captureInput) {
+        AVCaptureSession *captureSession = [Scanner createCaptureSessionAndReturnError:&error];
+        if (error) {
             NSLog(@"Error: %@", error);
             [self showErrorWithStatus:@"Capture Failed"];
             return;
         }
-        [captureSession addInput:captureInput];
 
-        AVCaptureMetadataOutput *captureOutput = [[AVCaptureMetadataOutput alloc] init];
-        [captureSession addOutput:captureOutput];
-        if (![captureOutput.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeQRCode]) {
-            [self showErrorWithStatus:@"Not Supported"];
-            return;
+        for (AVCaptureMetadataOutput *captureOutput in captureSession.outputs) {
+            [captureOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
         }
-        captureOutput.metadataObjectTypes = @[AVMetadataObjectTypeQRCode];
-        [captureOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
 
         [captureSession startRunning];
 
