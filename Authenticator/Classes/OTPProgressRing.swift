@@ -24,11 +24,9 @@
 
 import UIKit
 
-
-private let OTPProgressRingLineWidth: CGFloat = 1.5
-
-
 class OTPProgressRing: UIView {
+    private let lineWidth: CGFloat = 1.5
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -47,8 +45,8 @@ class OTPProgressRing: UIView {
     override func drawRect(rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetLineWidth(context, OTPProgressRingLineWidth)
-        let ringRect = CGRectInset(self.bounds, OTPProgressRingLineWidth/2, OTPProgressRingLineWidth/2)
+        CGContextSetLineWidth(context, lineWidth)
+        let ringRect = CGRectInset(self.bounds, lineWidth/2, lineWidth/2)
 
         CGContextSetStrokeColorWithColor(context, self.tintColor.colorWithAlphaComponent(0.2).CGColor)
         CGContextStrokeEllipseInRect(context, ringRect)
