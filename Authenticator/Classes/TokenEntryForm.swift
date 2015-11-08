@@ -22,12 +22,13 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import OneTimePasswordLegacy
+import OneTimePassword
 
-@objc
+let defaultPeriod: NSTimeInterval = 30
+
 protocol TokenEntryFormDelegate: class {
     func entryFormDidCancel(form: TokenEntryForm)
-    func form(form: TokenEntryForm, didCreateToken token: OTPToken)
+    func form(form: TokenEntryForm, didCreateToken token: Token)
 }
 
 class TokenEntryForm: NSObject, TokenForm {
@@ -40,9 +41,9 @@ class TokenEntryForm: NSObject, TokenForm {
         var issuer: String
         var name: String
         var secret: String
-        var tokenType: OTPTokenType
+        var tokenType: Generator.Factor
         var digitCount: Int
-        var algorithm: OTPAlgorithm
+        var algorithm: Generator.Algorithm
 
         var isValid: Bool {
             return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
@@ -66,7 +67,7 @@ class TokenEntryForm: NSObject, TokenForm {
             issuer: "",
             name: "",
             secret: "",
-            tokenType: .Timer,
+            tokenType: .Timer(period: defaultPeriod),
             digitCount: 6,
             algorithm: .SHA1
         )
@@ -184,15 +185,19 @@ class TokenEntryForm: NSObject, TokenForm {
 
         if let secret = NSData(base32String: state.secret) {
             if secret.length > 0 {
-                let token = OTPToken()
-                token.type = state.tokenType;
-                token.secret = secret;
-                token.name = state.name;
-                token.issuer = state.issuer;
-                token.digits = UInt(state.digitCount);
-                token.algorithm = state.algorithm;
+                let generator = Generator(
+                    factor: state.tokenType,
+                    secret: secret,
+                    algorithm: state.algorithm,
+                    digits: state.digitCount
+                )
+                let token = Token(
+                    name: state.name,
+                    issuer: state.issuer,
+                    core: generator
+                )
 
-                if token.password != nil {
+                if token.core.password != nil {
                     delegate?.form(self, didCreateToken: token)
                     return
                 }

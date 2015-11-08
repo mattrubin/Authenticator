@@ -227,8 +227,8 @@ extension OTPTokenListViewController: TokenEntryFormDelegate {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
-    func form(form: TokenEntryForm, didCreateToken token: OTPToken) {
-        self.tokenSource(form, didCreateToken: token)
+    func form(form: TokenEntryForm, didCreateToken token: Token) {
+        self.tokenSource(form, didCreateToken: OTPToken(token: token))
     }
 }
 

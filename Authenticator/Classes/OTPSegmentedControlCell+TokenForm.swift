@@ -22,17 +22,17 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import OneTimePasswordLegacy
+import OneTimePassword
 
 struct TokenTypeRowViewModel: SegmentedControlRowViewModel {
     let segments = [
-        (title: "Time Based", value: OTPTokenType.Timer),
-        (title: "Counter Based", value: OTPTokenType.Counter),
+        (title: "Time Based", value: Generator.Factor.Timer(period: defaultPeriod)),
+        (title: "Counter Based", value: Generator.Factor.Counter(0)),
     ]
-    let value: OTPTokenType
-    let changeAction: (OTPTokenType) -> ()
+    let value: Generator.Factor
+    let changeAction: (Generator.Factor) -> ()
 
-    init(value: OTPTokenType, changeAction: (OTPTokenType) -> ()) {
+    init(value: Generator.Factor, changeAction: (Generator.Factor) -> ()) {
         self.value = value
         self.changeAction = changeAction
     }
@@ -55,14 +55,14 @@ struct DigitCountRowViewModel: SegmentedControlRowViewModel {
 
 struct AlgorithmRowViewModel: SegmentedControlRowViewModel {
     let segments = [
-        (title: "SHA-1", value: OTPAlgorithm.SHA1),
-        (title: "SHA-256", value: OTPAlgorithm.SHA256),
-        (title: "SHA-512", value: OTPAlgorithm.SHA512),
+        (title: "SHA-1", value: Generator.Algorithm.SHA1),
+        (title: "SHA-256", value: Generator.Algorithm.SHA256),
+        (title: "SHA-512", value: Generator.Algorithm.SHA512),
     ]
-    let value: OTPAlgorithm
-    let changeAction: (OTPAlgorithm) -> ()
+    let value: Generator.Algorithm
+    let changeAction: (Generator.Algorithm) -> ()
 
-    init(value: OTPAlgorithm, changeAction: (OTPAlgorithm) -> ()) {
+    init(value: Generator.Algorithm, changeAction: (Generator.Algorithm) -> ()) {
         self.value = value
         self.changeAction = changeAction
     }
