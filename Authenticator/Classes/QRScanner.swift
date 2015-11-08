@@ -24,10 +24,9 @@
 
 import AVFoundation
 
-@objc
-protocol QRScannerDelegate {
+protocol QRScannerDelegate: class {
     func handleDecodedText(text: String)
-    func handleError(error: NSError)
+    func handleError(error: ErrorType)
 }
 
 class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
@@ -38,7 +37,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
             return try self.createCaptureSession()
         } catch {
             dispatch_async(dispatch_get_main_queue()) {
-                self.delegate?.handleError(error as NSError)
+                self.delegate?.handleError(error)
             }
             return nil
         }

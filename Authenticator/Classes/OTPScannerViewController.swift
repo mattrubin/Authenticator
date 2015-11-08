@@ -120,7 +120,7 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate {
         self.delegate?.scanner(self, didCreateToken: token)
     }
 
-    func handleError(error: NSError) {
+    func handleError(error: ErrorType) {
         print("Error: \(error)")
         SVProgressHUD.showErrorWithStatus("Capture Failed")
     }
