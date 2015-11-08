@@ -32,8 +32,8 @@ struct TokenRowModel {
     init(token: Token, buttonAction: ()->()) {
         name = token.name
         issuer = token.issuer
-        password = token.core.password ?? ""
-        if case .Counter = token.core.factor {
+        password = token.generator.currentPassword ?? ""
+        if case .Counter = token.generator.factor {
             showsButton = true
         } else {
             showsButton = false

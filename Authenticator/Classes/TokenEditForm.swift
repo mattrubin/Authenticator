@@ -116,7 +116,7 @@ class TokenEditForm: NSObject, TokenForm {
         let editedToken = Token(
             name: state.name,
             issuer: state.issuer,
-            core: token.core
+            generator: token.generator
         )
         delegate?.form(self, didEditToken: editedToken)
     }

@@ -194,10 +194,10 @@ class TokenEntryForm: NSObject, TokenForm {
                 let token = Token(
                     name: state.name,
                     issuer: state.issuer,
-                    core: generator
+                    generator: generator
                 )
 
-                if token.core.password != nil {
+                if token.generator.currentPassword != nil {
                     delegate?.form(self, didCreateToken: token)
                     return
                 }
