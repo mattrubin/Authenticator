@@ -25,21 +25,21 @@
 import AVFoundation
 
 @objc
-protocol ScannerDelegate {
+protocol QRScannerDelegate {
     func handleDecodedText(text: String)
     func handleError(error: NSError)
 }
 
-class Scanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
+class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     class var deviceCanScan: Bool {
         return (AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) != nil)
     }
 
-    weak var delegate: ScannerDelegate?
+    weak var delegate: QRScannerDelegate?
     private var captureSession: AVCaptureSession?
     private let serialQueue = dispatch_queue_create("QR Scanner serial queue", DISPATCH_QUEUE_SERIAL);
 
-    init(delegate: ScannerDelegate) {
+    init(delegate: QRScannerDelegate) {
         self.delegate = delegate
         super.init()
         do {

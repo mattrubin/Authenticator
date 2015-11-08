@@ -28,9 +28,9 @@
 #import "Authenticator-Swift.h"
 
 
-@interface OTPScannerViewController () <ScannerDelegate, TokenEntryFormDelegate>
+@interface OTPScannerViewController () <QRScannerDelegate, TokenEntryFormDelegate>
 
-@property (nonatomic, strong) Scanner *scanner;
+@property (nonatomic, strong) QRScanner *scanner;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoLayer;
 
 @end
@@ -42,7 +42,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [self createCaptureSession];
+        self.scanner = [[QRScanner alloc] initWithDelegate:self];
     }
     return self;
 }
@@ -72,12 +72,14 @@
 {
     [super viewWillAppear:animated];
 
-    [self.scanner start:nil];
+    [self.scanner start:^(AVCaptureSession *captureSession) {
+        self.videoLayer.session = captureSession;
+    }];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
+    [super viewWillDisappear:animated];
 
     [self.scanner stop:nil];
 }
@@ -97,18 +99,7 @@
 }
 
 
-#pragma mark - Video Capture
-
-- (void)createCaptureSession
-{
-    self.scanner = [[Scanner alloc] initWithDelegate:self];
-    [self.scanner start:^(AVCaptureSession *captureSession) {
-        self.videoLayer.session = captureSession;
-    }];
-}
-
-
-#pragma mark - ScannerDelegate
+#pragma mark - QRScannerDelegate
 
 - (void)handleDecodedText:(NSString *)decodedText
 {
