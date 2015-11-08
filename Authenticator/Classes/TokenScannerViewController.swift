@@ -32,20 +32,8 @@ protocol ScannerViewControllerDelegate: class, TokenEntryFormDelegate {
 
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     weak var delegate: ScannerViewControllerDelegate?
-    private let scanner: QRScanner
+    private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        scanner = QRScanner()
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        scanner.delegate = self
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        scanner = QRScanner()
-        super.init(coder: aDecoder)
-        scanner.delegate = self
-    }
 
     // MARK: View Lifecycle
 
@@ -76,6 +64,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        scanner.delegate = self
         scanner.start() { captureSession in
             self.videoLayer.session = captureSession
         }
