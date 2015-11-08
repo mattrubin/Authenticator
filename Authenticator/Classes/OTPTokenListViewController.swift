@@ -110,9 +110,10 @@ class OTPTokenListViewController: UITableViewController {
 
     func tick() {
         // Update currently-visible cells
-        for cell in self.tableView.visibleCells as! [TokenRowCell] {
-            if let indexPath = self.tableView.indexPathForCell(cell) {
-                updateCell(cell, forRowAtIndexPath: indexPath)
+        for cell in self.tableView.visibleCells {
+            if let cell = cell as? TokenRowCell,
+                let indexPath = self.tableView.indexPathForCell(cell) {
+                    updateCell(cell, forRowAtIndexPath: indexPath)
             }
         }
 
