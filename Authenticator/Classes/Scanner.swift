@@ -21,6 +21,7 @@ class Scanner: NSObject {
 
     weak var delegate: ScannerDelegate?
     private var captureSession: AVCaptureSession?
+    let serialQueue = dispatch_queue_create("QR Scanner serial queue", DISPATCH_QUEUE_SERIAL);
 
     init(delegate: ScannerDelegate) {
         self.delegate = delegate
@@ -33,18 +34,22 @@ class Scanner: NSObject {
     }
 
     func start(completion: (AVCaptureSession -> ())?) {
-        guard let captureSession = captureSession
-            else { return }
-        captureSession.startRunning()
-        dispatch_async(dispatch_get_main_queue()) {
-            completion?(captureSession)
+        dispatch_async(serialQueue) {
+            guard let captureSession = self.captureSession
+                else { return }
+            captureSession.startRunning()
+            dispatch_async(dispatch_get_main_queue()) {
+                completion?(captureSession)
+            }
         }
     }
 
     func stop(completion: (() -> ())?) {
-        captureSession?.stopRunning()
-        dispatch_async(dispatch_get_main_queue()) {
-            completion?()
+        dispatch_async(serialQueue) {
+            self.captureSession?.stopRunning()
+            dispatch_async(dispatch_get_main_queue()) {
+                completion?()
+            }
         }
     }
 
