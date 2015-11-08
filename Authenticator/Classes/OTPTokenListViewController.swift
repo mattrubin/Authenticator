@@ -158,9 +158,9 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let token = self.tokenManager.tokenAtIndexPath(indexPath)
-        let rowModel = TokenRowModel(token: token.token, buttonAction: {
-            token.updatePassword()
+        let otpToken = self.tokenManager.tokenAtIndexPath(indexPath)
+        let rowModel = TokenRowModel(token: otpToken.token, buttonAction: {
+            otpToken.updatePassword()
             self.tableView.reloadData()
         })
         cell.updateWithRowModel(rowModel)
@@ -193,18 +193,18 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
-            let token = self.tokenManager.tokenAtIndexPath(indexPath)
+            let otpToken = self.tokenManager.tokenAtIndexPath(indexPath)
             // Keep a reference to the token object being edited
-            editingToken = token
-            let form = TokenEditForm(token: token.token, delegate: self)
+            editingToken = otpToken
+            let form = TokenEditForm(token: otpToken.token, delegate: self)
             let editController = TokenFormViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
             navController.navigationBar.translucent = false
 
             self.presentViewController(navController, animated: true, completion: nil)
         } else {
-            let token = self.tokenManager.tokenAtIndexPath(indexPath)
-            if let password = token.password {
+            let otpToken = self.tokenManager.tokenAtIndexPath(indexPath)
+            if let password = otpToken.password {
                 UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
                 SVProgressHUD.showSuccessWithStatus("Copied")
             }
