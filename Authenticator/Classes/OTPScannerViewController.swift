@@ -52,45 +52,45 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.blackColor()
+        view.backgroundColor = UIColor.blackColor()
 
-        self.title = "Scan Token"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+        title = "Scan Token"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .Cancel,
             target: self,
             action: Selector("cancel")
         )
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .Compose,
             target: self,
             action: Selector("addTokenManually")
         )
 
-        self.videoLayer = AVCaptureVideoPreviewLayer()
-        self.videoLayer!.videoGravity = AVLayerVideoGravityResizeAspectFill
-        self.view.layer.addSublayer(self.videoLayer!)
-        self.videoLayer!.frame = self.view.layer.bounds
+        videoLayer = AVCaptureVideoPreviewLayer()
+        videoLayer!.videoGravity = AVLayerVideoGravityResizeAspectFill
+        view.layer.addSublayer(videoLayer!)
+        videoLayer!.frame = view.layer.bounds
 
-        let overlayView = OTPScannerOverlayView(frame: self.view.bounds)
-        self.view.addSubview(overlayView)
+        let overlayView = OTPScannerOverlayView(frame: view.bounds)
+        view.addSubview(overlayView)
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.scanner.start() { captureSession in
-            self.videoLayer?.session = captureSession
+        scanner.start() { captureSession in
+            videoLayer?.session = captureSession
         }
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.scanner.stop()
+        scanner.stop()
     }
 
     // MARK: Target Actions
 
     func cancel() {
-        self.delegate?.scannerDidCancel(self)
+        delegate?.scannerDidCancel(self)
     }
 
     func addTokenManually() {
@@ -98,7 +98,7 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate {
             else { return }
         let form = TokenEntryForm(delegate: delegate)
         let entryController = TokenFormViewController(form: form)
-        self.navigationController?.pushViewController(entryController, animated: true)
+        navigationController?.pushViewController(entryController, animated: true)
     }
 
     // MARK: QRScannerDelegate
@@ -114,10 +114,9 @@ class OTPScannerViewController: UIViewController, QRScannerDelegate {
         }
 
         // Halt the video capture
-        self.scanner.stop()
-
+        scanner.stop()
         // Inform the delegate that an auth URL was captured
-        self.delegate?.scanner(self, didCreateToken: token)
+        delegate?.scanner(self, didCreateToken: token)
     }
 
     func handleError(error: ErrorType) {
