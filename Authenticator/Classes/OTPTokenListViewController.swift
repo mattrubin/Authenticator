@@ -24,6 +24,7 @@
 
 import UIKit
 import MobileCoreServices
+import OneTimePassword
 import OneTimePasswordLegacy
 
 class OTPTokenListViewController: UITableViewController {
@@ -236,8 +237,8 @@ extension OTPTokenListViewController: ScannerViewControllerDelegate {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
-    func scanner(scanner: TokenScannerViewController, didCreateToken token: OTPToken) {
-        self.tokenSource(scanner, didCreateToken: token)
+    func scanner(scanner: TokenScannerViewController, didCreateToken token: Token) {
+        self.tokenSource(scanner, didCreateToken: OTPToken(token: token))
     }
 }
 

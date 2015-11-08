@@ -23,11 +23,11 @@
 //
 
 import AVFoundation
-import OneTimePasswordLegacy
+import OneTimePassword
 
 protocol ScannerViewControllerDelegate: class, TokenEntryFormDelegate {
     func scannerDidCancel(scanner: TokenScannerViewController)
-    func scanner(scanner: TokenScannerViewController, didCreateToken token: OTPToken)
+    func scanner(scanner: TokenScannerViewController, didCreateToken token: Token)
 }
 
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
@@ -94,7 +94,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     func handleDecodedText(text: String) {
         // Attempt to create a token from the decoded text
         guard let url = NSURL(string: text),
-            let token = OTPToken.tokenWithURL(url)
+            let token = Token.URLSerializer.deserialize(url.absoluteString)
             else {
                 // Show an error message
                 SVProgressHUD.showErrorWithStatus("Invalid Token")
