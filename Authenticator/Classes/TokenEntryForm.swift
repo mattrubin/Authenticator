@@ -37,7 +37,7 @@ class TokenEntryForm: NSObject, TokenForm {
     private weak var delegate: TokenEntryFormDelegate?
 
     // MARK: State
-    
+
     private struct State {
         var issuer: String
         var name: String
