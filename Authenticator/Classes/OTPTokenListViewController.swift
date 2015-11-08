@@ -235,7 +235,7 @@ extension OTPTokenListViewController: TokenEntryFormDelegate {
     }
 
     func form(form: TokenEntryForm, didCreateToken token: Token) {
-        self.tokenSource(form, didCreateToken: OTPToken(token: token))
+        self.tokenSource(form, didCreateToken: token)
     }
 }
 
@@ -245,15 +245,15 @@ extension OTPTokenListViewController: ScannerViewControllerDelegate {
     }
 
     func scanner(scanner: TokenScannerViewController, didCreateToken token: Token) {
-        self.tokenSource(scanner, didCreateToken: OTPToken(token: token))
+        self.tokenSource(scanner, didCreateToken: token)
     }
 }
 
 extension OTPTokenListViewController {
-    func tokenSource(tokenSource: AnyObject, didCreateToken token: OTPToken) {
+    func tokenSource(tokenSource: AnyObject, didCreateToken token: Token) {
         self.dismissViewControllerAnimated(true, completion: nil)
 
-        if self.tokenManager.addToken(token) {
+        if self.tokenManager.addToken(OTPToken(token: token)) {
             self.tableView.reloadData()
             self.update()
 
