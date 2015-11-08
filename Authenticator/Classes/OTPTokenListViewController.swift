@@ -33,7 +33,7 @@ class OTPTokenListViewController: UITableViewController {
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
     let noTokensLabel = UILabel()
-    var editingToken: OTPToken?
+    var editingToken: OTPToken? // FIXME
 
     override func viewDidLoad() {
         super.viewDidLoad()
