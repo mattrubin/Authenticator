@@ -31,9 +31,9 @@
 @property (nonatomic, readonly) NSUInteger numberOfTokens;
 @property (nonatomic, readonly) BOOL hasTimeBasedTokens;
 
-- (OTPToken *)tokenAtIndexPath:(NSIndexPath *)indexPath __deprecated;
-- (BOOL)addToken:(OTPToken *)token __deprecated;
-- (BOOL)removeTokenAtIndexPath:(NSIndexPath *)indexPath  __deprecated;
-- (BOOL)moveTokenFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath  __deprecated;
+- (OTPToken *)_tokenAtIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)_addToken:(OTPToken *)token;
+- (BOOL)_removeTokenAtIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)_moveTokenFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
 
 @end
