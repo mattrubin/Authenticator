@@ -64,8 +64,11 @@ class TokenManager {
                 return false
         }
         // Update the in-memory token, which is still the origin of the table view's data
-        if let otpToken = core.tokenWithKeychainItemRef(newKeychainItem.persistentRef) {
-            otpToken.updateWithToken(newKeychainItem.token)
+        for object in core.mutableTokens {
+            if let otpToken = object as? OTPToken
+                where otpToken.keychainItemRef == newKeychainItem.persistentRef {
+                    otpToken.updateWithToken(newKeychainItem.token)
+            }
         }
         return true
     }
