@@ -164,7 +164,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
-        var token = keychainItem.token
+        let token = keychainItem.token
         let rowModel = TokenRowModel(token: token, buttonAction: {
             let newToken = updatedToken(token)
             if self.tokenManager.saveToken(newToken, toKeychainItem: keychainItem) {
