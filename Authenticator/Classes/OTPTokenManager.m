@@ -36,31 +36,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return self.mutableTokens;
 }
 
-+ (NSArray<OTPToken *> *)tokens:(NSArray<OTPToken *> *)tokens
-       sortedByKeychainItemRefs:(NSArray<NSData *> *)keychainItemRefs
-{
-    NSMutableArray *sortedTokens = [NSMutableArray arrayWithCapacity:tokens.count];
-    NSMutableArray *remainingTokens = [tokens mutableCopy];
-    // Iterate through the keychain item refs, building an array of the corresponding tokens
-    for (NSData *keychainItemRef in keychainItemRefs) {
-        NSUInteger indexOfTokenWithSameKeychainItemRef =
-        [remainingTokens indexOfObjectPassingTest:^BOOL(OTPToken *token, NSUInteger idx, BOOL *stop) {
-            if ([token.keychainItemRef isEqualToData:keychainItemRef]) {
-                return YES;
-            }
-            return NO;
-        }];
-
-        OTPToken *matchingToken = remainingTokens[indexOfTokenWithSameKeychainItemRef];
-        [remainingTokens removeObjectAtIndex:indexOfTokenWithSameKeychainItemRef];
-        [sortedTokens addObject:matchingToken];
-    }
-    // Append the remaining tokens which didn't match any keychain item refs
-    [sortedTokens addObjectsFromArray:remainingTokens];
-    return [sortedTokens copy];
-}
-
-
 + (NSArray<NSData *> *)keychainRefList {
     return [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
 }

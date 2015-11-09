@@ -36,8 +36,8 @@ class TokenManager {
 
     func fetchTokensFromKeychain() {
         let keychainItemRefs = OTPTokenManager.keychainRefList()
-        let sortedTokens = OTPTokenManager.tokens(OTPToken.allTokensInKeychain(),
-        sortedByKeychainItemRefs: keychainItemRefs)
+        let sortedTokens = TokenManager.tokens(OTPToken.allTokensInKeychain(),
+            sortedByKeychainItemRefs: keychainItemRefs)
         core.mutableTokens = NSMutableArray(array: sortedTokens)
 
         if sortedTokens.count > keychainItemRefs.count {
@@ -46,6 +46,25 @@ class TokenManager {
         }
     }
 
+    class func tokens(tokens: [OTPToken], sortedByKeychainItemRefs keychainItemRefs: [NSData]) -> [OTPToken] {
+        var sortedTokens: [OTPToken] = []
+        var remainingTokens = tokens
+        // Iterate through the keychain item refs, building an array of the corresponding tokens
+        for keychainItemRef in keychainItemRefs {
+            let indexOfTokenWithSameKeychainItemRef = remainingTokens.indexOf {
+                return ($0.keychainItemRef == keychainItemRef)
+            }
+
+            if let index = indexOfTokenWithSameKeychainItemRef {
+                let matchingToken = remainingTokens[index]
+                remainingTokens.removeAtIndex(index)
+                sortedTokens.append(matchingToken)
+            }
+        }
+        // Append the remaining tokens which didn't match any keychain item refs
+        sortedTokens.appendContentsOf(remainingTokens)
+        return sortedTokens
+    }
 
     // MARK: -
 
