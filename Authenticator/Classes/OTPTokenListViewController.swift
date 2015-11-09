@@ -25,7 +25,9 @@
 import UIKit
 import MobileCoreServices
 import OneTimePassword
-import OneTimePasswordLegacy
+
+// TODO: don't hard-code this
+private let defaultPeriod: NSTimeInterval = 30
 
 class OTPTokenListViewController: UITableViewController {
 
@@ -117,7 +119,7 @@ class OTPTokenListViewController: UITableViewController {
             }
         }
 
-        let period = OTPToken.defaultPeriod
+        let period = defaultPeriod
         self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period;
     }
 
