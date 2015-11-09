@@ -99,6 +99,7 @@ class TokenManager {
     // MARK: -
 
     func saveTokenOrder() -> Bool {
-        return OTPTokenManager.saveTokenOrder(core.tokens)
+        let keychainRefs = core.tokens.flatMap { $0.keychainItemRef }
+        return OTPTokenManager.setKeychainRefList(keychainRefs)
     }
 }

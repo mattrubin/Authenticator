@@ -40,7 +40,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 {
     self.mutableTokens = [NSMutableArray array];
     // Fetch tokens in the order they were saved in User Defaults
-    NSArray *keychainReferences = [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
+    NSArray *keychainReferences = [self.class keychainRefList];
     if (keychainReferences) {
         for (NSData *keychainItemRef in keychainReferences) {
             OTPToken *token = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
@@ -50,7 +50,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
     if ([self recoverLostTokens]) {
         // If lost tokens were found and appended, save the full list of tokens
-        [self.class saveTokenOrder:self.tokens];
+        NSArray *keychainReferences = [self.tokens valueForKey:@"keychainItemRef"];
+        [self.class setKeychainRefList:keychainReferences];
     }
 }
 
@@ -76,9 +77,13 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return lostTokenFound;
 }
 
-+ (BOOL)saveTokenOrder:(NSArray *)tokens
+
++ (NSArray<NSData *> *)keychainRefList {
+    return [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
+}
+
++ (BOOL)setKeychainRefList:(NSArray<NSData *> *)keychainReferences
 {
-    NSArray *keychainReferences = [tokens valueForKey:@"keychainItemRef"];
     [[NSUserDefaults standardUserDefaults] setObject:keychainReferences forKey:kOTPKeychainEntriesArray];
     return [[NSUserDefaults standardUserDefaults] synchronize];
 }
