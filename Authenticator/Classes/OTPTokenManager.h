@@ -29,9 +29,10 @@
 @interface OTPTokenManager : NSObject
 
 @property (nonatomic, strong) NSMutableArray *mutableTokens;
+@property (nonatomic, readonly) NSArray *tokens;
 
 - (void)fetchTokensFromKeychain;
 - (BOOL)recoverLostTokens;
-- (BOOL)saveTokensToKeychain;
++ (BOOL)saveTokenOrder:(NSArray *)tokens;
 
 @end

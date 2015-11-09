@@ -31,6 +31,11 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @implementation OTPTokenManager
 
+- (NSArray *)tokens
+{
+    return self.mutableTokens;
+}
+
 - (void)fetchTokensFromKeychain
 {
     self.mutableTokens = [NSMutableArray array];
@@ -45,7 +50,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
     if ([self recoverLostTokens]) {
         // If lost tokens were found and appended, save the full list of tokens
-        [self saveTokensToKeychain];
+        [self.class saveTokenOrder:self.tokens];
     }
 }
 
@@ -71,9 +76,9 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return lostTokenFound;
 }
 
-- (BOOL)saveTokensToKeychain
++ (BOOL)saveTokenOrder:(NSArray *)tokens
 {
-    NSArray *keychainReferences = [self valueForKeyPath:@"mutableTokens.keychainItemRef"];
+    NSArray *keychainReferences = [tokens valueForKey:@"keychainItemRef"];
     [[NSUserDefaults standardUserDefaults] setObject:keychainReferences forKey:kOTPKeychainEntriesArray];
     return [[NSUserDefaults standardUserDefaults] synchronize];
 }
