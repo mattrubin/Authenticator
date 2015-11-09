@@ -22,6 +22,22 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-class TokenManager: OTPTokenManager {
+import OneTimePassword
+import OneTimePasswordLegacy
 
+class TokenManager: OTPTokenManager {
+    func addToken(token: Token) -> Bool {
+        return super.addToken(OTPToken(token: token))
+    }
+
+    func moveTokenFromIndex(origin: Int, toIndex destination: Int) -> Bool {
+        let fromIndexPath = NSIndexPath(forRow: origin, inSection: 0)
+        let toIndexPath = NSIndexPath(forRow: destination, inSection: 0)
+        return super.moveTokenFromIndexPath(fromIndexPath, toIndexPath: toIndexPath)
+    }
+
+    func removeTokenAtIndex(index: Int) -> Bool {
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+        return super.removeTokenAtIndexPath(indexPath)
+    }
 }
