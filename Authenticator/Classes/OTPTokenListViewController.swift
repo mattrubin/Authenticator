@@ -207,7 +207,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
             self.presentViewController(navController, animated: true, completion: nil)
         } else {
             let token = self.tokenManager.tokenAtIndex(indexPath.row)
-            if let password = token.generator.currentPassword {
+            if let password = token.currentPassword {
                 UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
                 SVProgressHUD.showSuccessWithStatus("Copied")
             }
