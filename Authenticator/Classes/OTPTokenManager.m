@@ -117,17 +117,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return NO;
 }
 
-- (BOOL)_removeTokenAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSUInteger index = (NSUInteger)indexPath.row;
-    OTPToken *token = self.mutableTokens[index];
-    if ([token removeFromKeychain]) {
-        [self.mutableTokens removeObjectAtIndex:index];
-        return [self saveTokensToKeychain];
-    }
-    return NO;
-}
-
 - (BOOL)_moveTokenFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
     NSUInteger source = (NSUInteger)fromIndexPath.row;

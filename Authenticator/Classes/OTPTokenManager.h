@@ -29,12 +29,12 @@
 @interface OTPTokenManager : NSObject
 
 @property (nonatomic, strong) NSMutableArray *mutableTokens;
+- (BOOL)saveTokensToKeychain;
 
 @property (nonatomic, readonly) NSUInteger _numberOfTokens;
 @property (nonatomic, readonly) BOOL _hasTimeBasedTokens;
 
 - (BOOL)_addToken:(OTPToken *)token;
-- (BOOL)_removeTokenAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)_moveTokenFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
 
 - (OTPToken *)tokenWithKeychainItemRef:(NSData *)keychainItemRef;

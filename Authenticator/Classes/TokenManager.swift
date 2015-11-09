@@ -66,7 +66,13 @@ class TokenManager {
     }
 
     func removeTokenAtIndex(index: Int) -> Bool {
-        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        return core._removeTokenAtIndexPath(indexPath)
+        // swiftlint:disable force_cast
+        let otpToken = core.mutableTokens[index] as! OTPToken
+        // swiftlint:enable force_cast
+        if otpToken.removeFromKeychain() {
+            core.mutableTokens.removeObjectAtIndex(index)
+            return core.saveTokensToKeychain()
+        }
+        return false
     }
 }
