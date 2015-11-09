@@ -35,7 +35,6 @@
 @property (nonatomic, readonly) BOOL _hasTimeBasedTokens;
 
 - (BOOL)_addToken:(OTPToken *)token;
-- (BOOL)_moveTokenFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
 
 - (OTPToken *)tokenWithKeychainItemRef:(NSData *)keychainItemRef;
 
