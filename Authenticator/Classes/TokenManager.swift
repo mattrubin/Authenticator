@@ -49,7 +49,7 @@ class TokenManager {
 
     func fetchTokensFromKeychain() {
         keychainItems = TokenManager.keychainItems(Token.KeychainItem.allKeychainItems(),
-            sortedByKeychainItemRefs: keychainItemRefs)
+            sortedByPersistentRefs: keychainItemRefs)
 
         if keychainItems.count > keychainItemRefs.count {
             // If lost tokens were found and appended, save the full list of tokens
@@ -57,13 +57,15 @@ class TokenManager {
         }
     }
 
-    class func keychainItems(keychainItems: [Token.KeychainItem], sortedByKeychainItemRefs keychainItemRefs: [NSData]) -> [Token.KeychainItem] {
+    class func keychainItems(keychainItems: [Token.KeychainItem],
+        sortedByPersistentRefs persistentRefs: [NSData]) -> [Token.KeychainItem]
+    {
         var sorted: [Token.KeychainItem] = []
         var remaining = keychainItems
         // Iterate through the keychain item refs, building an array of the corresponding tokens
-        for keychainItemRef in keychainItemRefs {
+        for persistentRef in persistentRefs {
             let indexOfTokenWithSameKeychainItemRef = remaining.indexOf {
-                return ($0.persistentRef == keychainItemRef)
+                return ($0.persistentRef == persistentRef)
             }
 
             if let index = indexOfTokenWithSameKeychainItemRef {
