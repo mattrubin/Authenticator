@@ -52,22 +52,25 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (void)fetchTokensFromKeychain
 {
-    self.mutableTokens = [[self.class tokenList] mutableCopy];
+    NSArray *tokens = [self.class tokenList];
+    NSArray *recoveredTokens = [self.class recoverLostTokens:tokens];
+    NSArray *allTokens = [tokens arrayByAddingObjectsFromArray:recoveredTokens];
+    self.mutableTokens = [allTokens mutableCopy];
 
-    if ([self recoverLostTokens]) {
+    if (recoveredTokens.count) {
         // If lost tokens were found and appended, save the full list of tokens
         NSArray *keychainReferences = [self.tokens valueForKey:@"keychainItemRef"];
         [self.class setKeychainRefList:keychainReferences];
     }
 }
 
-- (BOOL)recoverLostTokens
++ (NSArray<OTPToken *> *)recoverLostTokens:(NSArray<OTPToken *> *)knownTokens
 {
-    BOOL lostTokenFound = NO;
+    NSMutableArray *recoveredTokens = [NSMutableArray new];
     // Fetch all tokens from keychain and append any which weren't in the saved ordering
     NSArray *allTokens = [OTPToken allTokensInKeychain];
     for (OTPToken *token in allTokens) {
-        NSUInteger indexOfTokenWithSameKeychainItemRef = [self.mutableTokens indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        NSUInteger indexOfTokenWithSameKeychainItemRef = [knownTokens indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
             if ([obj isKindOfClass:[OTPToken class]] &&
                 [((OTPToken *)obj).keychainItemRef isEqual:token.keychainItemRef]) {
                 return YES;
@@ -76,11 +79,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         }];
 
         if (indexOfTokenWithSameKeychainItemRef == NSNotFound) {
-            [self.mutableTokens addObject:token];
-            lostTokenFound = YES;
+            [recoveredTokens addObject:token];
         }
     }
-    return lostTokenFound;
+    return [recoveredTokens copy];
 }
 
 

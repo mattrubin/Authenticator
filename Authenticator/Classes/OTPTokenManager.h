@@ -32,7 +32,8 @@
 @property (nonatomic, readonly) NSArray<OTPToken *> *tokens;
 
 - (void)fetchTokensFromKeychain;
-- (BOOL)recoverLostTokens;
+
++ (NSArray *)recoverLostTokens:(NSArray *)knownTokens;
 
 + (NSArray<NSData *> *)keychainRefList;
 + (BOOL)setKeychainRefList:(NSArray<NSData *> *)keychainReferences;
