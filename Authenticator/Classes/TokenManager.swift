@@ -37,11 +37,13 @@ class TokenManager {
 
     private var keychainItemRefs: [NSData] {
         get {
-            return NSUserDefaults.standardUserDefaults().arrayForKey(kOTPKeychainEntriesArray) as? [NSData] ?? []
+            let defaults = NSUserDefaults.standardUserDefaults()
+            return defaults.arrayForKey(kOTPKeychainEntriesArray) as? [NSData] ?? []
         }
         set {
-            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: kOTPKeychainEntriesArray)
-            NSUserDefaults.standardUserDefaults().synchronize()
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setObject(newValue, forKey: kOTPKeychainEntriesArray)
+            defaults.synchronize()
         }
     }
 
