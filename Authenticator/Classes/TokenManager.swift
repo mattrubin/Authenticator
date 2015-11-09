@@ -30,6 +30,12 @@ class TokenManager: OTPTokenManager {
         return super.addToken(OTPToken(token: token))
     }
 
+    func tokenAtIndex(index: Int) -> Token {
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+        let otpToken = super.tokenAtIndexPath(indexPath)
+        return otpToken.token
+    }
+
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) -> Bool {
         let fromIndexPath = NSIndexPath(forRow: origin, inSection: 0)
         let toIndexPath = NSIndexPath(forRow: destination, inSection: 0)
