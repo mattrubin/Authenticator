@@ -105,10 +105,9 @@ class TokenManager {
         return keychainItems[index]
     }
 
-    func saveToken(token: Token) -> Bool {
-        guard let keychainItem = token.identity as? Token.KeychainItem,
-            let newKeychainItem = updateKeychainItem(keychainItem, withToken: token) else {
-                return false
+    func saveToken(token: Token, toKeychainItem keychainItem: Token.KeychainItem) -> Bool {
+        guard let newKeychainItem = updateKeychainItem(keychainItem, withToken: token) else {
+            return false
         }
         // Update the in-memory token, which is still the origin of the table view's data
         keychainItems = keychainItems.map { (keychainItem) in
