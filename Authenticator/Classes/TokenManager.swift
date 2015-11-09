@@ -48,11 +48,11 @@ class TokenManager {
 
     func addToken(token: Token) -> Bool {
         let otpToken = OTPToken(token: token)
-        if otpToken.saveToKeychain() {
-            core.mutableTokens.addObject(otpToken)
-            return core.saveTokensToKeychain()
+        guard otpToken.saveToKeychain() else {
+            return false
         }
-        return false
+        core.mutableTokens.addObject(otpToken)
+        return core.saveTokensToKeychain()
     }
 
     func tokenAtIndex(index: Int) -> Token {
@@ -90,10 +90,10 @@ class TokenManager {
         // swiftlint:disable force_cast
         let otpToken = core.mutableTokens[index] as! OTPToken
         // swiftlint:enable force_cast
-        if otpToken.removeFromKeychain() {
-            core.mutableTokens.removeObjectAtIndex(index)
-            return core.saveTokensToKeychain()
+        guard otpToken.removeFromKeychain() else {
+            return false
         }
-        return false
+        core.mutableTokens.removeObjectAtIndex(index)
+        return core.saveTokensToKeychain()
     }
 }
