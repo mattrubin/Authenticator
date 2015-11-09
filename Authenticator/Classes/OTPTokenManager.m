@@ -29,13 +29,6 @@
 static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 
-@interface OTPTokenManager ()
-
-@property (nonatomic, strong) NSMutableArray *mutableTokens;
-
-@end
-
-
 @implementation OTPTokenManager
 
 - (id)init
@@ -113,12 +106,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         }
     }
     return NO;
-}
-
-- (OTPToken *)_tokenAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSUInteger index = (NSUInteger)indexPath.row;
-    return self.mutableTokens[index];
 }
 
 - (BOOL)_addToken:(OTPToken *)token

@@ -41,8 +41,9 @@ class TokenManager {
     }
 
     func tokenAtIndex(index: Int) -> Token {
-        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        let otpToken = core._tokenAtIndexPath(indexPath)
+        // swiftlint:disable force_cast
+        let otpToken = core.mutableTokens[index] as! OTPToken
+        // swiftlint:enable force_cast
         return otpToken.token
     }
 
