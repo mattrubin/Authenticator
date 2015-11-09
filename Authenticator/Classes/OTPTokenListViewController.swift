@@ -103,8 +103,9 @@ class OTPTokenListViewController: UITableViewController {
         // Show the countdown ring only if a time-based token is active
         self.ring.hidden = !self.tokenManager.hasTimeBasedTokens
 
-        self.editButtonItem().enabled = (self.tokenManager.numberOfTokens > 0)
-        self.noTokensLabel.hidden = (self.tokenManager.numberOfTokens > 0)
+        let hasTokens = (self.tokenManager.numberOfTokens > 0)
+        editButtonItem().enabled = hasTokens
+        noTokensLabel.hidden = hasTokens
     }
 
     func tick() {
@@ -148,7 +149,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Int(self.tokenManager.numberOfTokens)
+        return self.tokenManager.numberOfTokens
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

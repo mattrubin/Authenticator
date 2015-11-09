@@ -26,6 +26,10 @@ import OneTimePassword
 import OneTimePasswordLegacy
 
 class TokenManager: OTPTokenManager {
+    var numberOfTokens: Int {
+        return Int(super._numberOfTokens)
+    }
+
     func addToken(token: Token) -> Bool {
         return super._addToken(OTPToken(token: token))
     }
