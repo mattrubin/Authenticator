@@ -162,8 +162,11 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let otpToken = self.tokenManager.tokenAtIndexPath(indexPath)
+        let token = otpToken.token
         let rowModel = TokenRowModel(token: otpToken.token, buttonAction: {
-            otpToken.updatePassword()
+            let newToken = updatedToken(token)
+            otpToken.updateWithToken(newToken)
+            otpToken.saveToKeychain()
             self.tableView.reloadData()
         })
         cell.updateWithRowModel(rowModel)
