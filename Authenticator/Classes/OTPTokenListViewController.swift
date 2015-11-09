@@ -110,9 +110,10 @@ class OTPTokenListViewController: UITableViewController {
 
     func tick() {
         // Update currently-visible cells
-        for cell in self.tableView.visibleCells as! [TokenRowCell] {
-            if let indexPath = self.tableView.indexPathForCell(cell) {
-                updateCell(cell, forRowAtIndexPath: indexPath)
+        for cell in self.tableView.visibleCells {
+            if let cell = cell as? TokenRowCell,
+                let indexPath = self.tableView.indexPathForCell(cell) {
+                    updateCell(cell, forRowAtIndexPath: indexPath)
             }
         }
 
@@ -152,8 +153,10 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(TokenRowCell.self), forIndexPath: indexPath) as! TokenRowCell
-        updateCell(cell, forRowAtIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(TokenRowCell.self), forIndexPath: indexPath)
+        if let cell = cell as? TokenRowCell {
+            updateCell(cell, forRowAtIndexPath: indexPath)
+        }
         return cell
     }
 
@@ -167,12 +170,12 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if (editingStyle == .Delete) {
+        if editingStyle == .Delete {
             if self.tokenManager.removeTokenAtIndexPath(indexPath) {
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 self.update()
 
-                if (self.tokenManager.numberOfTokens == 0) {
+                if self.tokenManager.numberOfTokens == 0 {
                     self.setEditing(false, animated: true)
                 }
             }

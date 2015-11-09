@@ -38,13 +38,12 @@ struct TableViewModel<Models: TableViewModelFamily> {
         leftBarButton: BarButtonViewModel? = nil,
         rightBarButton: BarButtonViewModel? = nil,
         sections: [Section<Models.HeaderModel, Models.RowModel>],
-        doneKeyAction: (() -> ())? = nil)
-    {
-        self.title = title
-        self.leftBarButton = leftBarButton
-        self.rightBarButton = rightBarButton
-        self.sections = sections
-        self.doneKeyAction = doneKeyAction
+        doneKeyAction: (() -> ())? = nil) {
+            self.title = title
+            self.leftBarButton = leftBarButton
+            self.rightBarButton = rightBarButton
+            self.sections = sections
+            self.doneKeyAction = doneKeyAction
     }
 }
 
@@ -54,23 +53,27 @@ extension TableViewModel {
     }
 
     func numberOfRowsInSection(section: Int) -> Int {
-        guard sections.indices.contains(section)
-            else { return 0 }
+        guard sections.indices.contains(section) else {
+            return 0
+        }
         return sections[section].rows.count
     }
 
     func modelForRowAtIndexPath(indexPath: NSIndexPath) -> Models.RowModel? {
-        guard sections.indices.contains(indexPath.section)
-            else { return nil }
+        guard sections.indices.contains(indexPath.section) else {
+            return nil
+        }
         let section = sections[indexPath.section]
-        guard section.rows.indices.contains(indexPath.row)
-            else { return nil }
+        guard section.rows.indices.contains(indexPath.row) else {
+            return nil
+        }
         return section.rows[indexPath.row]
     }
 
     func modelForHeaderInSection(section: Int) -> Models.HeaderModel? {
-        guard sections.indices.contains(section)
-            else { return nil }
+        guard sections.indices.contains(section) else {
+            return nil
+        }
         return sections[section].header
     }
 }

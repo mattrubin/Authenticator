@@ -111,7 +111,7 @@ class TokenEditForm: NSObject, TokenForm {
     }
 
     func submit() {
-        if (!state.isValid) { return }
+        if !state.isValid { return }
 
         let editedToken = Token(
             name: state.name,
