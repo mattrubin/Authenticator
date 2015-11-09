@@ -33,7 +33,6 @@ class OTPTokenListViewController: UITableViewController {
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
     let noTokensLabel = UILabel()
-    var editingToken: OTPToken? // FIXME
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,13 +160,14 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let otpToken = self.tokenManager.tokenAtIndexPath(indexPath)
-        let token = otpToken.token
-        let rowModel = TokenRowModel(token: otpToken.token, buttonAction: {
+        let token = self.tokenManager.tokenAtIndex(indexPath.row)
+        let rowModel = TokenRowModel(token: token, buttonAction: {
             let newToken = updatedToken(token)
-            otpToken.updateWithToken(newToken)
-            otpToken.saveToKeychain()
-            self.tableView.reloadData()
+            if let otpToken = token.identity as? OTPToken {
+                otpToken.updateWithToken(newToken)
+                otpToken.saveToKeychain()
+                self.tableView.reloadData()
+            }
         })
         cell.updateWithRowModel(rowModel)
     }
@@ -199,10 +199,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
-            let otpToken = self.tokenManager.tokenAtIndexPath(indexPath)
-            // Keep a reference to the token object being edited
-            editingToken = otpToken
-            let form = TokenEditForm(token: otpToken.token, delegate: self)
+            let token = self.tokenManager.tokenAtIndex(indexPath.row)
+            let form = TokenEditForm(token: token, delegate: self)
             let editController = TokenFormViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
             navController.navigationBar.translucent = false
@@ -226,7 +224,7 @@ extension OTPTokenListViewController: TokenEditFormDelegate {
 
     func form(form: TokenEditForm, didEditToken token: Token) {
         self.dismissViewControllerAnimated(true, completion: nil)
-        if let editedToken = editingToken {
+        if let editedToken = token.identity as? OTPToken {
             editedToken.updateWithToken(token)
             editedToken.saveToKeychain()
             self.tableView.reloadData()

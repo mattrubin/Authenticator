@@ -113,11 +113,13 @@ class TokenEditForm: NSObject, TokenForm {
     func submit() {
         if !state.isValid { return }
 
-        let editedToken = Token(
+        var editedToken = Token(
             name: state.name,
             issuer: state.issuer,
             generator: token.generator
         )
+        // Preserve the token's identity
+        editedToken.identity = token.identity
         delegate?.form(self, didEditToken: editedToken)
     }
 }
