@@ -78,11 +78,9 @@ class TokenManager {
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) -> Bool {
-        // swiftlint:disable force_cast
-        let otpToken = core.mutableTokens[origin] as! OTPToken
-        // swiftlint:enable force_cast
+        let token = core.mutableTokens[origin]
         core.mutableTokens.removeObjectAtIndex(origin)
-        core.mutableTokens.insertObject(otpToken, atIndex: destination)
+        core.mutableTokens.insertObject(token, atIndex: destination)
         return core.saveTokensToKeychain()
     }
 
