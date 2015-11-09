@@ -37,4 +37,6 @@
 + (NSArray<NSData *> *)keychainRefList;
 + (BOOL)setKeychainRefList:(NSArray<NSData *> *)keychainReferences;
 
++ (NSArray<OTPToken *> *)tokenList;
+
 @end
