@@ -93,10 +93,10 @@ class TokenManager {
     }
 
     func addToken(token: Token) -> Bool {
-        let otpToken = OTPToken(token: token)
-        guard otpToken.saveToKeychain() else {
+        guard let newKeychainItem = addTokenToKeychain(token) else {
             return false
         }
+        let otpToken = OTPToken.tokenWithKeychainItem(newKeychainItem)
         tokens.append(otpToken)
         return saveTokenOrder()
     }
