@@ -33,8 +33,6 @@
 
 - (void)fetchTokensFromKeychain;
 
-+ (NSArray *)recoverLostTokens:(NSArray *)knownTokens;
-
 + (NSArray<NSData *> *)keychainRefList;
 + (BOOL)setKeychainRefList:(NSArray<NSData *> *)keychainReferences;
 

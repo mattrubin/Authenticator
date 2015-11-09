@@ -52,37 +52,40 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (void)fetchTokensFromKeychain
 {
-    NSArray *tokens = [self.class tokenList];
-    NSArray *recoveredTokens = [self.class recoverLostTokens:tokens];
-    NSArray *allTokens = [tokens arrayByAddingObjectsFromArray:recoveredTokens];
-    self.mutableTokens = [allTokens mutableCopy];
+    NSArray<NSData *> *keychainItemRefs = [self.class keychainRefList];
+    NSArray<OTPToken *> *sortedTokens = [self.class tokens:[OTPToken allTokensInKeychain]
+                                  sortedByKeychainItemRefs:keychainItemRefs];
+    self.mutableTokens = [sortedTokens mutableCopy];
 
-    if (recoveredTokens.count) {
+    if (sortedTokens.count > keychainItemRefs.count) {
         // If lost tokens were found and appended, save the full list of tokens
         NSArray *keychainReferences = [self.tokens valueForKey:@"keychainItemRef"];
         [self.class setKeychainRefList:keychainReferences];
     }
 }
 
-+ (NSArray<OTPToken *> *)recoverLostTokens:(NSArray<OTPToken *> *)knownTokens
++ (NSArray<OTPToken *> *)tokens:(NSArray<OTPToken *> *)tokens
+       sortedByKeychainItemRefs:(NSArray<NSData *> *)keychainItemRefs
 {
-    NSMutableArray *recoveredTokens = [NSMutableArray new];
-    // Fetch all tokens from keychain and append any which weren't in the saved ordering
-    NSArray *allTokens = [OTPToken allTokensInKeychain];
-    for (OTPToken *token in allTokens) {
-        NSUInteger indexOfTokenWithSameKeychainItemRef = [knownTokens indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-            if ([obj isKindOfClass:[OTPToken class]] &&
-                [((OTPToken *)obj).keychainItemRef isEqual:token.keychainItemRef]) {
+    NSMutableArray *sortedTokens = [NSMutableArray arrayWithCapacity:tokens.count];
+    NSMutableArray *remainingTokens = [tokens mutableCopy];
+    // Iterate through the keychain item refs, building an array of the corresponding tokens
+    for (NSData *keychainItemRef in keychainItemRefs) {
+        NSUInteger indexOfTokenWithSameKeychainItemRef =
+        [remainingTokens indexOfObjectPassingTest:^BOOL(OTPToken *token, NSUInteger idx, BOOL *stop) {
+            if ([token.keychainItemRef isEqualToData:keychainItemRef]) {
                 return YES;
             }
             return NO;
         }];
 
-        if (indexOfTokenWithSameKeychainItemRef == NSNotFound) {
-            [recoveredTokens addObject:token];
-        }
+        OTPToken *matchingToken = remainingTokens[indexOfTokenWithSameKeychainItemRef];
+        [remainingTokens removeObjectAtIndex:indexOfTokenWithSameKeychainItemRef];
+        [sortedTokens addObject:matchingToken];
     }
-    return [recoveredTokens copy];
+    // Append the remaining tokens which didn't match any keychain item refs
+    [sortedTokens addObjectsFromArray:remainingTokens];
+    return [sortedTokens copy];
 }
 
 
