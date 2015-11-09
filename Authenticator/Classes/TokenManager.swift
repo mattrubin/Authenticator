@@ -47,8 +47,10 @@ class TokenManager {
     }
 
     func fetchTokensFromKeychain() {
-        tokens = TokenManager.tokens(OTPToken.allTokensInKeychain(),
-            sortedByKeychainItemRefs: keychainItemRefs)
+        tokens = TokenManager.keychainItems(Token.KeychainItem.allKeychainItems(),
+            sortedByKeychainItemRefs: keychainItemRefs).map {
+                OTPToken.tokenWithKeychainItem($0)
+        }
 
         if tokens.count > keychainItemRefs.count {
             // If lost tokens were found and appended, save the full list of tokens
@@ -56,24 +58,23 @@ class TokenManager {
         }
     }
 
-    class func tokens(tokens: [OTPToken], sortedByKeychainItemRefs keychainItemRefs: [NSData]) -> [OTPToken] {
-        var sortedTokens: [OTPToken] = []
-        var remainingTokens = tokens
+    class func keychainItems(keychainItems: [Token.KeychainItem], sortedByKeychainItemRefs keychainItemRefs: [NSData]) -> [Token.KeychainItem] {
+        var sorted: [Token.KeychainItem] = []
+        var remaining = keychainItems
         // Iterate through the keychain item refs, building an array of the corresponding tokens
         for keychainItemRef in keychainItemRefs {
-            let indexOfTokenWithSameKeychainItemRef = remainingTokens.indexOf {
-                return ($0.keychainItemRef == keychainItemRef)
+            let indexOfTokenWithSameKeychainItemRef = remaining.indexOf {
+                return ($0.persistentRef == keychainItemRef)
             }
 
             if let index = indexOfTokenWithSameKeychainItemRef {
-                let matchingToken = remainingTokens[index]
-                remainingTokens.removeAtIndex(index)
-                sortedTokens.append(matchingToken)
+                let matchingItem = remaining[index]
+                remaining.removeAtIndex(index)
+                sorted.append(matchingItem)
             }
         }
         // Append the remaining tokens which didn't match any keychain item refs
-        sortedTokens.appendContentsOf(remainingTokens)
-        return sortedTokens
+        return sorted + remaining
     }
 
     // MARK: -
