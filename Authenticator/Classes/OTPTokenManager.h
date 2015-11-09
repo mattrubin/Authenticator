@@ -31,7 +31,8 @@
 @property (nonatomic, strong) NSMutableArray *mutableTokens;
 @property (nonatomic, readonly) NSArray<OTPToken *> *tokens;
 
-- (void)fetchTokensFromKeychain;
++ (NSArray<OTPToken *> *)tokens:(NSArray<OTPToken *> *)tokens
+       sortedByKeychainItemRefs:(NSArray<NSData *> *)keychainItemRefs;
 
 + (NSArray<NSData *> *)keychainRefList;
 + (BOOL)setKeychainRefList:(NSArray<NSData *> *)keychainReferences;

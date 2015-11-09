@@ -29,8 +29,25 @@ class TokenManager {
     let core = OTPTokenManager()
 
     init() {
-        core.fetchTokensFromKeychain()
+        fetchTokensFromKeychain()
     }
+
+    // MARK: -
+
+    func fetchTokensFromKeychain() {
+        let keychainItemRefs = OTPTokenManager.keychainRefList()
+        let sortedTokens = OTPTokenManager.tokens(OTPToken.allTokensInKeychain(),
+        sortedByKeychainItemRefs: keychainItemRefs)
+        core.mutableTokens = NSMutableArray(array: sortedTokens)
+
+        if sortedTokens.count > keychainItemRefs.count {
+            // If lost tokens were found and appended, save the full list of tokens
+            saveTokenOrder()
+        }
+    }
+
+
+    // MARK: -
 
     var numberOfTokens: Int {
         return core.mutableTokens.count
