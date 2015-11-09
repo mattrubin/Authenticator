@@ -13,7 +13,6 @@
 		C910ADC11BF0315A00C988F5 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C910ADC01BF0315A00C988F5 /* TokenManager.swift */; settings = {ASSET_TAGS = (); }; };
 		C92708AC19CFB0750033128B /* OTPTokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708AB19CFB0750033128B /* OTPTokenListViewController.swift */; };
 		C93AD15219CD51BE007480E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AD15119CD51BE007480E9 /* Colors.swift */; };
-		C944A5551A7ECA7700E08B1E /* OneTimePasswordLegacy.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5541A7ECA7700E08B1E /* OneTimePasswordLegacy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
@@ -64,7 +63,6 @@
 				C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */,
 				C97CDF291BEEA82B00D64406 /* CommonCrypto.framework in Copy Frameworks */,
 				C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */,
-				C944A5551A7ECA7700E08B1E /* OneTimePasswordLegacy.framework in Copy Frameworks */,
 				C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -84,7 +82,6 @@
 		C92708AB19CFB0750033128B /* OTPTokenListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPTokenListViewController.swift; sourceTree = "<group>"; };
 		C93AD15019CD51BE007480E9 /* Authenticator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Authenticator-Bridging-Header.h"; path = "Classes/Authenticator-Bridging-Header.h"; sourceTree = "<group>"; };
 		C93AD15119CD51BE007480E9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		C944A5541A7ECA7700E08B1E /* OneTimePasswordLegacy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OneTimePasswordLegacy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5581A7ECB3100E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A56A1A7F772600E08B1E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Configurations/Debug.xcconfig; sourceTree = "<group>"; };
@@ -209,7 +206,6 @@
 				C944A5581A7ECB3100E08B1E /* Base32.framework */,
 				C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */,
 				C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */,
-				C944A5541A7ECA7700E08B1E /* OneTimePasswordLegacy.framework */,
 				C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */,
 			);
 			name = Frameworks;
