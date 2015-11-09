@@ -131,10 +131,7 @@ class TokenManager {
     }
 
     func removeTokenAtIndex(index: Int) -> Bool {
-        let token = tokenAtIndex(index)
-        guard let keychainItem = token.identity as? Token.KeychainItem else {
-            return false
-        }
+        let keychainItem = keychainItems[index]
         guard deleteKeychainItem(keychainItem) else {
             return false
         }
