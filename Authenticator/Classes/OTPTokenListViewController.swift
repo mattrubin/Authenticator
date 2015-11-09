@@ -163,9 +163,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
         let token = self.tokenManager.tokenAtIndex(indexPath.row)
         let rowModel = TokenRowModel(token: token, buttonAction: {
             let newToken = updatedToken(token)
-            if let otpToken = token.identity as? OTPToken {
-                otpToken.updateWithToken(newToken)
-                otpToken.saveToKeychain()
+            if self.tokenManager.saveToken(newToken) {
                 self.tableView.reloadData()
             }
         })
@@ -224,10 +222,8 @@ extension OTPTokenListViewController: TokenEditFormDelegate {
 
     func form(form: TokenEditForm, didEditToken token: Token) {
         self.dismissViewControllerAnimated(true, completion: nil)
-        if let editedToken = token.identity as? OTPToken {
-            editedToken.updateWithToken(token)
-            editedToken.saveToKeychain()
-            self.tableView.reloadData()
+        if tokenManager.saveToken(token) {
+            tableView.reloadData()
         }
     }
 

@@ -36,6 +36,14 @@ class TokenManager: OTPTokenManager {
         return otpToken.token
     }
 
+    func saveToken(token: Token) -> Bool {
+        guard let otpToken = token.identity as? OTPToken else {
+            return false
+        }
+        otpToken.updateWithToken(token)
+        return otpToken.saveToKeychain()
+    }
+
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) -> Bool {
         let fromIndexPath = NSIndexPath(forRow: origin, inSection: 0)
         let toIndexPath = NSIndexPath(forRow: destination, inSection: 0)
