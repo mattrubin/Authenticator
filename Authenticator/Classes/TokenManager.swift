@@ -47,11 +47,15 @@ class TokenManager {
     }
 
     func saveToken(token: Token) -> Bool {
-        guard let otpToken = token.identity as? OTPToken else {
-            return false
+        guard let keychainItem = token.identity as? Token.KeychainItem,
+            let newKeychainItem = updateKeychainItem(keychainItem, withToken: token) else {
+                return false
         }
-        otpToken.updateWithToken(token)
-        return otpToken.saveToKeychain()
+        // Update the in-memory token, which is still the origin of the table view's data
+        if let otpToken = core.tokenWithKeychainItemRef(newKeychainItem.persistentRef) {
+            otpToken.updateWithToken(newKeychainItem.token)
+        }
+        return true
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) -> Bool {

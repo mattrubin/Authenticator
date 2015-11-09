@@ -36,4 +36,6 @@
 - (BOOL)_removeTokenAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)_moveTokenFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
 
+- (OTPToken *)tokenWithKeychainItemRef:(NSData *)keychainItemRef;
+
 @end
