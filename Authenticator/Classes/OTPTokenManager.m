@@ -36,20 +36,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return self.mutableTokens;
 }
 
-+ (NSArray<OTPToken *> *)tokenList
-{
-    NSMutableArray *mutableTokens = [NSMutableArray array];
-    // Fetch tokens in the order they were saved in User Defaults
-    NSArray *keychainReferences = [self keychainRefList];
-    if (keychainReferences) {
-        for (NSData *keychainItemRef in keychainReferences) {
-            OTPToken *token = [OTPToken tokenWithKeychainItemRef:keychainItemRef];
-            if (token) [mutableTokens addObject:token];
-        }
-    }
-    return [mutableTokens copy];
-}
-
 - (void)fetchTokensFromKeychain
 {
     NSArray<NSData *> *keychainItemRefs = [self.class keychainRefList];
