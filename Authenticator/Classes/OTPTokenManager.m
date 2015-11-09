@@ -93,11 +93,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 #pragma mark - Tokens
 
-- (NSUInteger)_numberOfTokens
-{
-    return self.mutableTokens.count;
-}
-
 - (BOOL)_hasTimeBasedTokens
 {
     for (OTPToken *token in self.mutableTokens) {

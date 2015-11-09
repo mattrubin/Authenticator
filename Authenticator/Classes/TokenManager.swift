@@ -29,7 +29,7 @@ class TokenManager {
     let core = OTPTokenManager()
 
     var numberOfTokens: Int {
-        return Int(core._numberOfTokens)
+        return core.mutableTokens.count
     }
 
     var hasTimeBasedTokens: Bool {
