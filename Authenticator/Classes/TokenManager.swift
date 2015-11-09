@@ -26,7 +26,7 @@ import OneTimePassword
 import OneTimePasswordLegacy
 
 class TokenManager {
-    let core = OTPTokenManager()
+    var tokens: [OTPToken] = []
 
     init() {
         fetchTokensFromKeychain()
@@ -47,11 +47,10 @@ class TokenManager {
     }
 
     func fetchTokensFromKeychain() {
-        let sortedTokens = TokenManager.tokens(OTPToken.allTokensInKeychain(),
+        tokens = TokenManager.tokens(OTPToken.allTokensInKeychain(),
             sortedByKeychainItemRefs: keychainItemRefs)
-        core.mutableTokens = NSMutableArray(array: sortedTokens)
 
-        if sortedTokens.count > keychainItemRefs.count {
+        if tokens.count > keychainItemRefs.count {
             // If lost tokens were found and appended, save the full list of tokens
             saveTokenOrder()
         }
@@ -80,14 +79,13 @@ class TokenManager {
     // MARK: -
 
     var numberOfTokens: Int {
-        return core.mutableTokens.count
+        return tokens.count
     }
 
     var hasTimeBasedTokens: Bool {
-        for object in core.mutableTokens {
-            if let otpToken = object as? OTPToken
-                where otpToken.type == .Timer {
-                    return true
+        for otpToken in tokens {
+            if otpToken.type == .Timer {
+                return true
             }
         }
         return false
@@ -98,14 +96,12 @@ class TokenManager {
         guard otpToken.saveToKeychain() else {
             return false
         }
-        core.mutableTokens.addObject(otpToken)
+        tokens.append(otpToken)
         return saveTokenOrder()
     }
 
     func tokenAtIndex(index: Int) -> Token {
-        // swiftlint:disable force_cast
-        let otpToken = core.mutableTokens[index] as! OTPToken
-        // swiftlint:enable force_cast
+        let otpToken = tokens[index]
         return otpToken.token
     }
 
@@ -115,19 +111,18 @@ class TokenManager {
                 return false
         }
         // Update the in-memory token, which is still the origin of the table view's data
-        for object in core.mutableTokens {
-            if let otpToken = object as? OTPToken
-                where otpToken.keychainItemRef == newKeychainItem.persistentRef {
-                    otpToken.updateWithToken(newKeychainItem.token)
+        for otpToken in tokens {
+            if otpToken.keychainItemRef == newKeychainItem.persistentRef {
+                otpToken.updateWithToken(newKeychainItem.token)
             }
         }
         return true
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) -> Bool {
-        let token = core.mutableTokens[origin]
-        core.mutableTokens.removeObjectAtIndex(origin)
-        core.mutableTokens.insertObject(token, atIndex: destination)
+        let token = tokens[origin]
+        tokens.removeAtIndex(origin)
+        tokens.insert(token, atIndex: destination)
         return saveTokenOrder()
     }
 
@@ -139,14 +134,14 @@ class TokenManager {
         guard deleteKeychainItem(keychainItem) else {
             return false
         }
-        core.mutableTokens.removeObjectAtIndex(index)
+        tokens.removeAtIndex(index)
         return saveTokenOrder()
     }
 
     // MARK: -
 
     func saveTokenOrder() -> Bool {
-        keychainItemRefs = core.tokens.flatMap { $0.keychainItemRef }
+        keychainItemRefs = tokens.flatMap { $0.keychainItemRef }
         return true
     }
 }

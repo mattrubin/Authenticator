@@ -42,7 +42,6 @@
 		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
 		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
-		C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,8 +129,6 @@
 		C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPProgressRing.swift; sourceTree = "<group>"; };
 		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
-		C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenManager.h; sourceTree = "<group>"; };
-		C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,8 +313,6 @@
 			isa = PBXGroup;
 			children = (
 				C92708AB19CFB0750033128B /* OTPTokenListViewController.swift */,
-				C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */,
-				C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */,
 				C910ADC01BF0315A00C988F5 /* TokenManager.swift */,
 				C98C1C4517D2EDF500A07D3F /* Cells */,
 				C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */,
@@ -532,7 +527,6 @@
 				C9D6C8461906CD54004F0E08 /* TextFieldRowCell.swift in Sources */,
 				C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */,
 				C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */,
-				C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */,
 				C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */,
 				C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */,
 				C99069D1180CBAC900BAEF53 /* TokenScannerViewController.swift in Sources */,
