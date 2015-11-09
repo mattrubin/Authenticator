@@ -202,11 +202,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
             let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
-            // FIXME
-            var token = keychainItem.token
-            token.identity = keychainItem
-
-            let form = TokenEditForm(token: token, delegate: self)
+            let form = TokenEditForm(keychainItem: keychainItem, delegate: self)
             let editController = TokenFormViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
             navController.navigationBar.translucent = false
@@ -230,11 +226,7 @@ extension OTPTokenListViewController: TokenEditFormDelegate {
 
     func form(form: TokenEditForm, didEditToken token: Token) {
         self.dismissViewControllerAnimated(true, completion: nil)
-        // FIXME
-        guard let keychainItem = token.identity as? Token.KeychainItem else {
-            return
-        }
-        if tokenManager.saveToken(token, toKeychainItem: keychainItem) {
+        if tokenManager.saveToken(token, toKeychainItem: form.keychainItem) {
             tableView.reloadData()
         }
     }

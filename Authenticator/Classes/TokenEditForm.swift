@@ -97,9 +97,11 @@ class TokenEditForm: NSObject, TokenForm {
     // MARK: Initialization
 
     let token: Token
+    let keychainItem: Token.KeychainItem
 
-    init(token: Token, delegate: TokenEditFormDelegate) {
-        self.token = token
+    init(keychainItem: Token.KeychainItem, delegate: TokenEditFormDelegate) {
+        self.token = keychainItem.token
+        self.keychainItem = keychainItem
         self.delegate = delegate
         state = State(issuer: token.issuer, name: token.name)
     }
