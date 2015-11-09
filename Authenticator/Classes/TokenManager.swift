@@ -34,8 +34,19 @@ class TokenManager {
 
     // MARK: -
 
+    private let kOTPKeychainEntriesArray = "OTPKeychainEntries"
+
+    private var keychainItemRefs: [NSData] {
+        get {
+            return NSUserDefaults.standardUserDefaults().arrayForKey(kOTPKeychainEntriesArray) as? [NSData] ?? []
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: kOTPKeychainEntriesArray)
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+    }
+
     func fetchTokensFromKeychain() {
-        let keychainItemRefs = OTPTokenManager.keychainRefList()
         let sortedTokens = TokenManager.tokens(OTPToken.allTokensInKeychain(),
             sortedByKeychainItemRefs: keychainItemRefs)
         core.mutableTokens = NSMutableArray(array: sortedTokens)
@@ -135,7 +146,7 @@ class TokenManager {
     // MARK: -
 
     func saveTokenOrder() -> Bool {
-        let keychainRefs = core.tokens.flatMap { $0.keychainItemRef }
-        return OTPTokenManager.setKeychainRefList(keychainRefs)
+        keychainItemRefs = core.tokens.flatMap { $0.keychainItemRef }
+        return true
     }
 }

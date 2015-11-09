@@ -26,24 +26,11 @@
 @import OneTimePasswordLegacy;
 
 
-static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
-
-
 @implementation OTPTokenManager
 
 - (NSArray *)tokens
 {
     return self.mutableTokens;
-}
-
-+ (NSArray<NSData *> *)keychainRefList {
-    return [[NSUserDefaults standardUserDefaults] arrayForKey:kOTPKeychainEntriesArray];
-}
-
-+ (BOOL)setKeychainRefList:(NSArray<NSData *> *)keychainReferences
-{
-    [[NSUserDefaults standardUserDefaults] setObject:keychainReferences forKey:kOTPKeychainEntriesArray];
-    return [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
