@@ -28,6 +28,10 @@ import OneTimePasswordLegacy
 class TokenManager {
     let core = OTPTokenManager()
 
+    init() {
+        core.fetchTokensFromKeychain()
+    }
+
     var numberOfTokens: Int {
         return core.mutableTokens.count
     }

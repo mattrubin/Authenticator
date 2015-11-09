@@ -31,18 +31,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @implementation OTPTokenManager
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        [self fetchTokensFromKeychain];
-    }
-    return self;
-}
-
-
-#pragma mark - Keychain
-
 - (void)fetchTokensFromKeychain
 {
     self.mutableTokens = [NSMutableArray array];
