@@ -29,7 +29,7 @@
 @interface OTPTokenManager : NSObject
 
 @property (nonatomic, readonly) NSUInteger _numberOfTokens;
-@property (nonatomic, readonly) BOOL hasTimeBasedTokens;
+@property (nonatomic, readonly) BOOL _hasTimeBasedTokens;
 
 - (OTPToken *)_tokenAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)_addToken:(OTPToken *)token;

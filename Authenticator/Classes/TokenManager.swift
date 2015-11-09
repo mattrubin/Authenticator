@@ -30,6 +30,10 @@ class TokenManager: OTPTokenManager {
         return Int(super._numberOfTokens)
     }
 
+    var hasTimeBasedTokens: Bool {
+        return super._hasTimeBasedTokens
+    }
+
     func addToken(token: Token) -> Bool {
         return super._addToken(OTPToken(token: token))
     }
