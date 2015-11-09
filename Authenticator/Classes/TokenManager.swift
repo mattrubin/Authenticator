@@ -101,11 +101,8 @@ class TokenManager {
         return saveTokenOrder()
     }
 
-    func tokenAtIndex(index: Int) -> Token {
-        let keychainItem = keychainItems[index]
-        var token = keychainItem.token
-        token.identity = keychainItem
-        return token
+    func keychainItemAtIndex(index: Int) -> Token.KeychainItem {
+        return keychainItems[index]
     }
 
     func saveToken(token: Token) -> Bool {

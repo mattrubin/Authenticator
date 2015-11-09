@@ -163,7 +163,11 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let token = self.tokenManager.tokenAtIndex(indexPath.row)
+        let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
+        // FIXME
+        var token = keychainItem.token
+        token.identity = keychainItem
+
         let rowModel = TokenRowModel(token: token, buttonAction: {
             let newToken = updatedToken(token)
             if self.tokenManager.saveToken(newToken) {
@@ -200,7 +204,11 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
-            let token = self.tokenManager.tokenAtIndex(indexPath.row)
+            let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
+            // FIXME
+            var token = keychainItem.token
+            token.identity = keychainItem
+
             let form = TokenEditForm(token: token, delegate: self)
             let editController = TokenFormViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
@@ -208,8 +216,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
             self.presentViewController(navController, animated: true, completion: nil)
         } else {
-            let token = self.tokenManager.tokenAtIndex(indexPath.row)
-            if let password = token.currentPassword {
+            let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
+            if let password = keychainItem.token.currentPassword {
                 UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
                 SVProgressHUD.showSuccessWithStatus("Copied")
             }
