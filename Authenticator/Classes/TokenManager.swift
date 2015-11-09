@@ -52,7 +52,7 @@ class TokenManager {
             return false
         }
         core.mutableTokens.addObject(otpToken)
-        return OTPTokenManager.saveTokenOrder(core.tokens)
+        return saveTokenOrder()
     }
 
     func tokenAtIndex(index: Int) -> Token {
@@ -81,7 +81,7 @@ class TokenManager {
         let token = core.mutableTokens[origin]
         core.mutableTokens.removeObjectAtIndex(origin)
         core.mutableTokens.insertObject(token, atIndex: destination)
-        return OTPTokenManager.saveTokenOrder(core.tokens)
+        return saveTokenOrder()
     }
 
     func removeTokenAtIndex(index: Int) -> Bool {
@@ -93,6 +93,12 @@ class TokenManager {
             return false
         }
         core.mutableTokens.removeObjectAtIndex(index)
+        return saveTokenOrder()
+    }
+
+    // MARK: -
+
+    func saveTokenOrder() -> Bool {
         return OTPTokenManager.saveTokenOrder(core.tokens)
     }
 }
