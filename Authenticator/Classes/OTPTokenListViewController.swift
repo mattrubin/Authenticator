@@ -29,7 +29,7 @@ import OneTimePasswordLegacy
 
 class OTPTokenListViewController: UITableViewController {
 
-    let tokenManager = OTPTokenManager()
+    let tokenManager = TokenManager()
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
     let noTokensLabel = UILabel()
