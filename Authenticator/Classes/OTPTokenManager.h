@@ -31,8 +31,6 @@
 @property (nonatomic, strong) NSMutableArray *mutableTokens;
 - (BOOL)saveTokensToKeychain;
 
-@property (nonatomic, readonly) BOOL _hasTimeBasedTokens;
-
 - (OTPToken *)tokenWithKeychainItemRef:(NSData *)keychainItemRef;
 
 @end

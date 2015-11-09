@@ -91,18 +91,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 
-#pragma mark - Tokens
-
-- (BOOL)_hasTimeBasedTokens
-{
-    for (OTPToken *token in self.mutableTokens) {
-        if (token.type == OTPTokenTypeTimer) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 #pragma mark -
 
 - (OTPToken *)tokenWithKeychainItemRef:(NSData *)keychainItemRef {

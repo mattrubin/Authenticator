@@ -33,7 +33,13 @@ class TokenManager {
     }
 
     var hasTimeBasedTokens: Bool {
-        return core._hasTimeBasedTokens
+        for object in core.mutableTokens {
+            if let otpToken = object as? OTPToken
+                where otpToken.type == .Timer {
+                    return true
+            }
+        }
+        return false
     }
 
     func addToken(token: Token) -> Bool {
