@@ -23,10 +23,9 @@
 //
 
 import OneTimePassword
-import OneTimePasswordLegacy
 
 class TokenManager {
-    var tokens: [OTPToken] = []
+    private var keychainItems: [Token.KeychainItem] = []
 
     init() {
         fetchTokensFromKeychain()
@@ -47,12 +46,10 @@ class TokenManager {
     }
 
     func fetchTokensFromKeychain() {
-        tokens = TokenManager.keychainItems(Token.KeychainItem.allKeychainItems(),
-            sortedByKeychainItemRefs: keychainItemRefs).map {
-                OTPToken.tokenWithKeychainItem($0)
-        }
+        keychainItems = TokenManager.keychainItems(Token.KeychainItem.allKeychainItems(),
+            sortedByKeychainItemRefs: keychainItemRefs)
 
-        if tokens.count > keychainItemRefs.count {
+        if keychainItems.count > keychainItemRefs.count {
             // If lost tokens were found and appended, save the full list of tokens
             saveTokenOrder()
         }
@@ -80,12 +77,12 @@ class TokenManager {
     // MARK: -
 
     var numberOfTokens: Int {
-        return tokens.count
+        return keychainItems.count
     }
 
     var hasTimeBasedTokens: Bool {
-        for otpToken in tokens {
-            if otpToken.type == .Timer {
+        for keychainItem in keychainItems {
+            if case .Timer = keychainItem.token.generator.factor {
                 return true
             }
         }
@@ -96,14 +93,15 @@ class TokenManager {
         guard let newKeychainItem = addTokenToKeychain(token) else {
             return false
         }
-        let otpToken = OTPToken.tokenWithKeychainItem(newKeychainItem)
-        tokens.append(otpToken)
+        keychainItems.append(newKeychainItem)
         return saveTokenOrder()
     }
 
     func tokenAtIndex(index: Int) -> Token {
-        let otpToken = tokens[index]
-        return otpToken.token
+        let keychainItem = keychainItems[index]
+        var token = keychainItem.token
+        token.identity = keychainItem
+        return token
     }
 
     func saveToken(token: Token) -> Bool {
@@ -112,18 +110,19 @@ class TokenManager {
                 return false
         }
         // Update the in-memory token, which is still the origin of the table view's data
-        for otpToken in tokens {
-            if otpToken.keychainItemRef == newKeychainItem.persistentRef {
-                otpToken.updateWithToken(newKeychainItem.token)
+        keychainItems = keychainItems.map { (keychainItem) in
+            if keychainItem.persistentRef == newKeychainItem.persistentRef {
+                return newKeychainItem
             }
+            return keychainItem
         }
         return true
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) -> Bool {
-        let token = tokens[origin]
-        tokens.removeAtIndex(origin)
-        tokens.insert(token, atIndex: destination)
+        let keychainItem = keychainItems[origin]
+        keychainItems.removeAtIndex(origin)
+        keychainItems.insert(keychainItem, atIndex: destination)
         return saveTokenOrder()
     }
 
@@ -135,14 +134,14 @@ class TokenManager {
         guard deleteKeychainItem(keychainItem) else {
             return false
         }
-        tokens.removeAtIndex(index)
+        keychainItems.removeAtIndex(index)
         return saveTokenOrder()
     }
 
     // MARK: -
 
     func saveTokenOrder() -> Bool {
-        keychainItemRefs = tokens.flatMap { $0.keychainItemRef }
+        keychainItemRefs = keychainItems.flatMap { $0.persistentRef }
         return true
     }
 }
