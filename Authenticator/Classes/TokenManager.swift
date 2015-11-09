@@ -87,10 +87,11 @@ class TokenManager {
     }
 
     func removeTokenAtIndex(index: Int) -> Bool {
-        // swiftlint:disable force_cast
-        let otpToken = core.mutableTokens[index] as! OTPToken
-        // swiftlint:enable force_cast
-        guard otpToken.removeFromKeychain() else {
+        let token = tokenAtIndex(index)
+        guard let keychainItem = token.identity as? Token.KeychainItem else {
+            return false
+        }
+        guard deleteKeychainItem(keychainItem) else {
             return false
         }
         core.mutableTokens.removeObjectAtIndex(index)
