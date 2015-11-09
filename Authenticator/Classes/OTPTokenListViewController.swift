@@ -26,14 +26,12 @@ import UIKit
 import MobileCoreServices
 import OneTimePassword
 
-// TODO: don't hard-code this
-private let defaultPeriod: NSTimeInterval = 30
-
 class OTPTokenListViewController: UITableViewController {
 
     let tokenManager = TokenManager()
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
+    private var ringPeriod: NSTimeInterval?
     let noTokensLabel = UILabel()
 
     override func viewDidLoad() {
@@ -103,7 +101,8 @@ class OTPTokenListViewController: UITableViewController {
 
     func update() {
         // Show the countdown ring only if a time-based token is active
-        self.ring.hidden = !self.tokenManager.hasTimeBasedTokens
+        ringPeriod = self.tokenManager.timeBasedTokenPeriods.first
+        self.ring.hidden = (ringPeriod == nil)
 
         let hasTokens = (self.tokenManager.numberOfTokens > 0)
         editButtonItem().enabled = hasTokens
@@ -119,8 +118,11 @@ class OTPTokenListViewController: UITableViewController {
             }
         }
 
-        let period = defaultPeriod
-        self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period;
+        if let period = ringPeriod {
+            self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
+        } else {
+            self.ring.progress = 0
+        }
     }
 
     // MARK: Target actions

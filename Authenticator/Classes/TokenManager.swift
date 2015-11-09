@@ -84,13 +84,15 @@ class TokenManager {
         return keychainItems.count
     }
 
-    var hasTimeBasedTokens: Bool {
-        for keychainItem in keychainItems {
-            if case .Timer = keychainItem.token.generator.factor {
-                return true
+    /// Returns a sorted, uniqued array of the periods of timer-based tokens
+    var timeBasedTokenPeriods: [NSTimeInterval] {
+        let periods = keychainItems.reduce(Set<NSTimeInterval>()) { (var periods, keychainItem) in
+            if case .Timer(let period) = keychainItem.token.generator.factor {
+                periods.insert(period)
             }
+            return periods
         }
-        return false
+        return Array(periods).sort()
     }
 
     func addToken(token: Token) -> Bool {
