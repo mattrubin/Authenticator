@@ -34,8 +34,6 @@
 @property (nonatomic, readonly) NSUInteger _numberOfTokens;
 @property (nonatomic, readonly) BOOL _hasTimeBasedTokens;
 
-- (BOOL)_addToken:(OTPToken *)token;
-
 - (OTPToken *)tokenWithKeychainItemRef:(NSData *)keychainItemRef;
 
 @end

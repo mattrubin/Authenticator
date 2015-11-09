@@ -108,15 +108,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return NO;
 }
 
-- (BOOL)_addToken:(OTPToken *)token
-{
-    if (token && [token saveToKeychain]) {
-        [self.mutableTokens addObject:token];
-        return [self saveTokensToKeychain];
-    }
-    return NO;
-}
-
 #pragma mark -
 
 - (OTPToken *)tokenWithKeychainItemRef:(NSData *)keychainItemRef {

@@ -37,7 +37,12 @@ class TokenManager {
     }
 
     func addToken(token: Token) -> Bool {
-        return core._addToken(OTPToken(token: token))
+        let otpToken = OTPToken(token: token)
+        if otpToken.saveToKeychain() {
+            core.mutableTokens.addObject(otpToken)
+            return core.saveTokensToKeychain()
+        }
+        return false
     }
 
     func tokenAtIndex(index: Int) -> Token {
