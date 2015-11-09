@@ -25,22 +25,24 @@
 import OneTimePassword
 import OneTimePasswordLegacy
 
-class TokenManager: OTPTokenManager {
+class TokenManager {
+    let core = OTPTokenManager()
+
     var numberOfTokens: Int {
-        return Int(super._numberOfTokens)
+        return Int(core._numberOfTokens)
     }
 
     var hasTimeBasedTokens: Bool {
-        return super._hasTimeBasedTokens
+        return core._hasTimeBasedTokens
     }
 
     func addToken(token: Token) -> Bool {
-        return super._addToken(OTPToken(token: token))
+        return core._addToken(OTPToken(token: token))
     }
 
     func tokenAtIndex(index: Int) -> Token {
         let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        let otpToken = super._tokenAtIndexPath(indexPath)
+        let otpToken = core._tokenAtIndexPath(indexPath)
         return otpToken.token
     }
 
@@ -55,11 +57,11 @@ class TokenManager: OTPTokenManager {
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) -> Bool {
         let fromIndexPath = NSIndexPath(forRow: origin, inSection: 0)
         let toIndexPath = NSIndexPath(forRow: destination, inSection: 0)
-        return super._moveTokenFromIndexPath(fromIndexPath, toIndexPath: toIndexPath)
+        return core._moveTokenFromIndexPath(fromIndexPath, toIndexPath: toIndexPath)
     }
 
     func removeTokenAtIndex(index: Int) -> Bool {
         let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        return super._removeTokenAtIndexPath(indexPath)
+        return core._removeTokenAtIndexPath(indexPath)
     }
 }
