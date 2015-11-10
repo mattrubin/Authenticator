@@ -118,7 +118,7 @@ class OTPTokenListViewController: UITableViewController {
             }
         }
 
-        if let period = ringPeriod {
+        if let period = ringPeriod where period > 0 {
             self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
         } else {
             self.ring.progress = 0
