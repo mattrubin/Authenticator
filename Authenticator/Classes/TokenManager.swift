@@ -100,7 +100,8 @@ class TokenManager {
             return false
         }
         keychainItems.append(newKeychainItem)
-        return saveTokenOrder()
+        saveTokenOrder()
+        return true
     }
 
     func keychainItemAtIndex(index: Int) -> Token.KeychainItem {
@@ -125,7 +126,8 @@ class TokenManager {
         let keychainItem = keychainItems[origin]
         keychainItems.removeAtIndex(origin)
         keychainItems.insert(keychainItem, atIndex: destination)
-        return saveTokenOrder()
+        saveTokenOrder()
+        return true
     }
 
     func removeTokenAtIndex(index: Int) -> Bool {
@@ -134,13 +136,13 @@ class TokenManager {
             return false
         }
         keychainItems.removeAtIndex(index)
-        return saveTokenOrder()
+        saveTokenOrder()
+        return true
     }
 
     // MARK: -
 
-    func saveTokenOrder() -> Bool {
+    func saveTokenOrder() {
         keychainItemRefs = keychainItems.flatMap { $0.persistentRef }
-        return true
     }
 }
