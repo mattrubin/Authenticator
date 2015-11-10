@@ -25,15 +25,14 @@
 import UIKit
 import MobileCoreServices
 import OneTimePassword
-import OneTimePasswordLegacy
 
 class OTPTokenListViewController: UITableViewController {
 
-    let tokenManager = OTPTokenManager()
+    let tokenManager = TokenManager()
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
+    private var ringPeriod: NSTimeInterval?
     let noTokensLabel = UILabel()
-    var editingToken: OTPToken? // FIXME
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,10 +101,12 @@ class OTPTokenListViewController: UITableViewController {
 
     func update() {
         // Show the countdown ring only if a time-based token is active
-        self.ring.hidden = !self.tokenManager.hasTimeBasedTokens
+        ringPeriod = self.tokenManager.timeBasedTokenPeriods.first
+        self.ring.hidden = (ringPeriod == nil)
 
-        self.editButtonItem().enabled = (self.tokenManager.numberOfTokens > 0)
-        self.noTokensLabel.hidden = (self.tokenManager.numberOfTokens > 0)
+        let hasTokens = (self.tokenManager.numberOfTokens > 0)
+        editButtonItem().enabled = hasTokens
+        noTokensLabel.hidden = hasTokens
     }
 
     func tick() {
@@ -117,8 +118,11 @@ class OTPTokenListViewController: UITableViewController {
             }
         }
 
-        let period = OTPToken.defaultPeriod
-        self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period;
+        if let period = ringPeriod where period > 0 {
+            self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
+        } else {
+            self.ring.progress = 0
+        }
     }
 
     // MARK: Target actions
@@ -149,7 +153,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Int(self.tokenManager.numberOfTokens)
+        return self.tokenManager.numberOfTokens
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -161,17 +165,20 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let otpToken = self.tokenManager.tokenAtIndexPath(indexPath)
-        let rowModel = TokenRowModel(token: otpToken.token, buttonAction: {
-            otpToken.updatePassword()
-            self.tableView.reloadData()
+        let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
+        let token = keychainItem.token
+        let rowModel = TokenRowModel(token: token, buttonAction: {
+            let newToken = updatedToken(token)
+            if self.tokenManager.saveToken(newToken, toKeychainItem: keychainItem) {
+                self.tableView.reloadData()
+            }
         })
         cell.updateWithRowModel(rowModel)
     }
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            if self.tokenManager.removeTokenAtIndexPath(indexPath) {
+            if self.tokenManager.removeTokenAtIndex(indexPath.row) {
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 self.update()
 
@@ -182,8 +189,11 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
         }
     }
 
-    override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-        self.tokenManager.moveTokenFromIndexPath(sourceIndexPath, toIndexPath: destinationIndexPath)
+    override func tableView(tableView: UITableView,
+        moveRowAtIndexPath sourceIndexPath: NSIndexPath,
+        toIndexPath destinationIndexPath: NSIndexPath)
+    {
+        self.tokenManager.moveTokenFromIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
     }
 
 }
@@ -196,18 +206,16 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
-            let otpToken = self.tokenManager.tokenAtIndexPath(indexPath)
-            // Keep a reference to the token object being edited
-            editingToken = otpToken
-            let form = TokenEditForm(token: otpToken.token, delegate: self)
+            let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
+            let form = TokenEditForm(keychainItem: keychainItem, delegate: self)
             let editController = TokenFormViewController(form: form)
             let navController = UINavigationController(rootViewController: editController)
             navController.navigationBar.translucent = false
 
             self.presentViewController(navController, animated: true, completion: nil)
         } else {
-            let otpToken = self.tokenManager.tokenAtIndexPath(indexPath)
-            if let password = otpToken.password {
+            let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
+            if let password = keychainItem.token.currentPassword {
                 UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
                 SVProgressHUD.showSuccessWithStatus("Copied")
             }
@@ -223,10 +231,8 @@ extension OTPTokenListViewController: TokenEditFormDelegate {
 
     func form(form: TokenEditForm, didEditToken token: Token) {
         self.dismissViewControllerAnimated(true, completion: nil)
-        if let editedToken = editingToken {
-            editedToken.updateWithToken(token)
-            editedToken.saveToKeychain()
-            self.tableView.reloadData()
+        if tokenManager.saveToken(token, toKeychainItem: form.keychainItem) {
+            tableView.reloadData()
         }
     }
 
@@ -256,7 +262,7 @@ extension OTPTokenListViewController {
     func tokenSource(tokenSource: AnyObject, didCreateToken token: Token) {
         self.dismissViewControllerAnimated(true, completion: nil)
 
-        if self.tokenManager.addToken(OTPToken(token: token)) {
+        if self.tokenManager.addToken(token) {
             self.tableView.reloadData()
             self.update()
 

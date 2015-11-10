@@ -206,7 +206,7 @@ class TokenEntryForm: NSObject, TokenForm {
                     generator: generator
                 )
 
-                if token.generator.currentPassword != nil {
+                if token.currentPassword != nil {
                     delegate?.form(self, didCreateToken: token)
                     return
                 }
