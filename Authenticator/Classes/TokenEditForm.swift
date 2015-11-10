@@ -96,14 +96,15 @@ class TokenEditForm: NSObject, TokenForm {
 
     // MARK: Initialization
 
-    let token: Token
     let keychainItem: Token.KeychainItem
 
     init(keychainItem: Token.KeychainItem, delegate: TokenEditFormDelegate) {
-        self.token = keychainItem.token
         self.keychainItem = keychainItem
         self.delegate = delegate
-        state = State(issuer: token.issuer, name: token.name)
+        state = State(
+            issuer: keychainItem.token.issuer,
+            name: keychainItem.token.name
+        )
     }
 
     // MARK: Actions
@@ -118,7 +119,7 @@ class TokenEditForm: NSObject, TokenForm {
         let editedToken = Token(
             name: state.name,
             issuer: state.issuer,
-            generator: token.generator
+            generator: keychainItem.token.generator
         )
         delegate?.form(self, didEditToken: editedToken)
     }
