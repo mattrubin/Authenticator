@@ -143,6 +143,6 @@ class TokenManager {
     // MARK: -
 
     private func saveTokenOrder() {
-        keychainItemRefs = keychainItems.flatMap { $0.persistentRef }
+        keychainItemRefs = keychainItems.map { $0.persistentRef }
     }
 }
