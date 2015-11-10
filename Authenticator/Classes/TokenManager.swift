@@ -122,12 +122,11 @@ class TokenManager {
         return true
     }
 
-    func moveTokenFromIndex(origin: Int, toIndex destination: Int) -> Bool {
+    func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
         let keychainItem = keychainItems[origin]
         keychainItems.removeAtIndex(origin)
         keychainItems.insert(keychainItem, atIndex: destination)
         saveTokenOrder()
-        return true
     }
 
     func removeTokenAtIndex(index: Int) -> Bool {
