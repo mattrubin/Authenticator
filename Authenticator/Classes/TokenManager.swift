@@ -47,7 +47,7 @@ class TokenManager {
         }
     }
 
-    func fetchTokensFromKeychain() {
+    private func fetchTokensFromKeychain() {
         keychainItems = TokenManager.keychainItems(Token.KeychainItem.allKeychainItems(),
             sortedByPersistentRefs: keychainItemRefs)
 
@@ -57,7 +57,7 @@ class TokenManager {
         }
     }
 
-    class func keychainItems(keychainItems: [Token.KeychainItem],
+    private class func keychainItems(keychainItems: [Token.KeychainItem],
         sortedByPersistentRefs persistentRefs: [NSData]) -> [Token.KeychainItem]
     {
         var sorted: [Token.KeychainItem] = []
@@ -142,7 +142,7 @@ class TokenManager {
 
     // MARK: -
 
-    func saveTokenOrder() {
+    private func saveTokenOrder() {
         keychainItemRefs = keychainItems.flatMap { $0.persistentRef }
     }
 }
