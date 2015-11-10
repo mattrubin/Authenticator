@@ -29,7 +29,7 @@ protocol TokenEditFormDelegate: class {
     func form(form: TokenEditForm, didEditToken token: Token)
 }
 
-class TokenEditForm: NSObject, TokenForm {
+class TokenEditForm: TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEditFormDelegate?
 

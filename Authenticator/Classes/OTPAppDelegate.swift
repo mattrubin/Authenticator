@@ -24,6 +24,7 @@
 
 import UIKit
 import OneTimePassword
+import SVProgressHUD
 
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {

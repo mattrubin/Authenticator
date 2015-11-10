@@ -22,6 +22,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import Foundation
 import OneTimePassword
 
 let defaultTimerFactor = Generator.Factor.Timer(period: 30)
@@ -32,7 +33,7 @@ protocol TokenEntryFormDelegate: class {
     func form(form: TokenEntryForm, didCreateToken token: Token)
 }
 
-class TokenEntryForm: NSObject, TokenForm {
+class TokenEntryForm: TokenForm {
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEntryFormDelegate?
 

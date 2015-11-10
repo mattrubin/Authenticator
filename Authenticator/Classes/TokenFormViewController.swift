@@ -22,6 +22,9 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import UIKit
+import SVProgressHUD
+
 class TokenFormViewController: UITableViewController {
     private var form: TokenForm?
     private var viewModel: TableViewModel<Form> = EmptyTableViewModel()

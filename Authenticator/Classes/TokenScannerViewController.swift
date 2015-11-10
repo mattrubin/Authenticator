@@ -22,8 +22,10 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import UIKit
 import AVFoundation
 import OneTimePassword
+import SVProgressHUD
 
 protocol ScannerViewControllerDelegate: class, TokenEntryFormDelegate {
     func scannerDidCancel(scanner: TokenScannerViewController)
