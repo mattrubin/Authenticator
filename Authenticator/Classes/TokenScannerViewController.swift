@@ -38,9 +38,19 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         case Save(Token)
     }
 
-    // In an ideal world, this would be a non-optional constant, but making it an optional var
-    // avoids needing to implement initializers.
-    var callback: ((Event) -> ())?
+    private let callback: (Event) -> ()
+
+    // MARK: Initialization
+
+    init(callback: (Event) -> ()) {
+        self.callback = callback
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        callback = { (event) in /* empty */ }
+        super.init(coder: aDecoder)
+    }
 
     // MARK: View Lifecycle
 
@@ -85,16 +95,16 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     func cancel() {
-        callback?(.Cancel)
+        callback(.Cancel)
     }
 
     func addTokenManually() {
         let form = TokenEntryForm() { [callback] (event) in
             switch event {
             case .Cancel:
-                callback?(.Cancel)
+                callback(.Cancel)
             case .Save(let token):
-                callback?(.Save(token))
+                callback(.Save(token))
             }
         }
         let entryController = TokenFormViewController(form: form)
@@ -115,7 +125,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         // Halt the video capture
         scanner.stop()
         // Inform the delegate that an auth URL was captured
-        callback?(.Save(token))
+        callback(.Save(token))
     }
 
     func handleError(error: ErrorType) {
