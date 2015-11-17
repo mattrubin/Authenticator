@@ -219,14 +219,14 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 
     private func editKeychainItem(keychainItem: Token.KeychainItem) {
-        let form = TokenEditForm(keychainItem: keychainItem) { [weak self] (form, event) in
+        let form = TokenEditForm(token: keychainItem.token) { [weak self] (form, event) in
             switch event {
             case .Cancel:
                 self?.dismissViewControllerAnimated(true, completion: nil)
 
             case .Save(let token):
                 self?.dismissViewControllerAnimated(true, completion: nil)
-                self?.saveToken(token, toKeychainItem: form.keychainItem)
+                self?.saveToken(token, toKeychainItem: keychainItem)
             }
         }
 

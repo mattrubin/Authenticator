@@ -96,14 +96,14 @@ class TokenEditForm: TokenForm {
 
     // MARK: Initialization
 
-    let keychainItem: Token.KeychainItem
+    private let token: Token
 
-    init(keychainItem: Token.KeychainItem, callback: (TokenEditForm, Event) -> ()) {
-        self.keychainItem = keychainItem
+    init(token: Token, callback: (TokenEditForm, Event) -> ()) {
+        self.token = token
         self.callback = callback
         state = State(
-            issuer: keychainItem.token.issuer,
-            name: keychainItem.token.name
+            issuer: token.issuer,
+            name: token.name
         )
     }
 
@@ -119,7 +119,7 @@ class TokenEditForm: TokenForm {
         let editedToken = Token(
             name: state.name,
             issuer: state.issuer,
-            generator: keychainItem.token.generator
+            generator: token.generator
         )
         callback(self, .Save(editedToken))
     }
