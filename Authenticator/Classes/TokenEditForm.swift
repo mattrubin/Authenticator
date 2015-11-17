@@ -24,20 +24,24 @@
 
 import OneTimePassword
 
-protocol TokenEditFormDelegate: class {
-    func editFormDidCancel(form: TokenEditForm)
-    func form(form: TokenEditForm, didEditToken token: Token)
-}
-
 class TokenEditForm: TokenForm {
     weak var presenter: TokenFormPresenter?
-    private weak var delegate: TokenEditFormDelegate?
+
+    // MARK: Events
+
+    enum Event {
+        case Cancel
+        case Save(Token)
+    }
+
+    private let callback: (Event) -> ()
 
     // MARK: State
 
     private struct State {
         var issuer: String
         var name: String
+        let generator: Generator
 
         var isValid: Bool {
             return !(issuer.isEmpty && name.isEmpty)
@@ -96,31 +100,29 @@ class TokenEditForm: TokenForm {
 
     // MARK: Initialization
 
-    let keychainItem: Token.KeychainItem
-
-    init(keychainItem: Token.KeychainItem, delegate: TokenEditFormDelegate) {
-        self.keychainItem = keychainItem
-        self.delegate = delegate
+    init(token: Token, callback: (Event) -> ()) {
+        self.callback = callback
         state = State(
-            issuer: keychainItem.token.issuer,
-            name: keychainItem.token.name
+            issuer: token.issuer,
+            name: token.name,
+            generator: token.generator
         )
     }
 
     // MARK: Actions
 
     func cancel() {
-        delegate?.editFormDidCancel(self)
+        callback(.Cancel)
     }
 
     func submit() {
-        if !state.isValid { return }
+        guard state.isValid else { return }
 
-        let editedToken = Token(
+        let token = Token(
             name: state.name,
             issuer: state.issuer,
-            generator: keychainItem.token.generator
+            generator: state.generator
         )
-        delegate?.form(self, didEditToken: editedToken)
+        callback(.Save(token))
     }
 }

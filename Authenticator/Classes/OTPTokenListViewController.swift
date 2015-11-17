@@ -206,16 +206,10 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
         if self.editing {
-            let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
-            let form = TokenEditForm(keychainItem: keychainItem, delegate: self)
-            let editController = TokenFormViewController(form: form)
-            let navController = UINavigationController(rootViewController: editController)
-            navController.navigationBar.translucent = false
-
-            self.presentViewController(navController, animated: true, completion: nil)
+            editKeychainItem(keychainItem)
         } else {
-            let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
             if let password = keychainItem.token.currentPassword {
                 UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
                 SVProgressHUD.showSuccessWithStatus("Copied")
@@ -223,20 +217,28 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         }
     }
 
-}
+    private func editKeychainItem(keychainItem: Token.KeychainItem) {
+        let form = TokenEditForm(token: keychainItem.token) { [weak self] (event) in
+            switch event {
+            case .Cancel: break
+            case .Save(let token):
+                self?.saveToken(token, toKeychainItem: keychainItem)
+            }
+            self?.dismissViewControllerAnimated(true, completion: nil)
+        }
 
-extension OTPTokenListViewController: TokenEditFormDelegate {
-    func editFormDidCancel(form: TokenEditForm) {
-        dismissViewControllerAnimated(true, completion: nil)
+        let editController = TokenFormViewController(form: form)
+        let navController = UINavigationController(rootViewController: editController)
+        navController.navigationBar.translucent = false
+
+        self.presentViewController(navController, animated: true, completion: nil)
     }
 
-    func form(form: TokenEditForm, didEditToken token: Token) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-        if tokenManager.saveToken(token, toKeychainItem: form.keychainItem) {
+    private func saveToken(token: Token, toKeychainItem keychainItem: Token.KeychainItem) {
+        if tokenManager.saveToken(token, toKeychainItem: keychainItem) {
             tableView.reloadData()
         }
     }
-
 }
 
 extension OTPTokenListViewController: TokenEntryFormDelegate {
