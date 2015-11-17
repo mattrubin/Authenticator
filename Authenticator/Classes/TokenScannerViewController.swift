@@ -34,8 +34,8 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Events
 
     enum Event {
-        case Cancel
         case Save(Token)
+        case Close
     }
 
     private let callback: (Event) -> ()
@@ -95,16 +95,17 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     func cancel() {
-        callback(.Cancel)
+        callback(.Close)
     }
 
     func addTokenManually() {
         let form = TokenEntryForm() { [callback] (event) in
+            // Forward corresponding events to the scanner callback
             switch event {
-            case .Cancel:
-                callback(.Cancel)
             case .Save(let token):
                 callback(.Save(token))
+            case .Close:
+                callback(.Close)
             }
         }
         let entryController = TokenFormViewController(form: form)
@@ -126,6 +127,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         scanner.stop()
         // Inform the delegate that an auth URL was captured
         callback(.Save(token))
+        callback(.Close)
     }
 
     func handleError(error: ErrorType) {
