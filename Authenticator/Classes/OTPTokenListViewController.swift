@@ -219,7 +219,14 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 
     private func editKeychainItem(keychainItem: Token.KeychainItem) {
-        let form = TokenEditForm(keychainItem: keychainItem, delegate: self)
+        let form = TokenEditForm(keychainItem: keychainItem) { (form, event) in
+            switch event {
+            case .Cancel:
+                self.editFormDidCancel(form)
+            case .Save(let token):
+                self.form(form, didEditToken: token)
+            }
+        }
         let editController = TokenFormViewController(form: form)
         let navController = UINavigationController(rootViewController: editController)
         navController.navigationBar.translucent = false
@@ -228,16 +235,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 }
 
-extension OTPTokenListViewController: TokenEditFormDelegate {
-    func tokenEditForm(form: TokenEditForm, didSendEvent event: TokenEditForm.Event) {
-        switch event {
-        case .Cancel:
-            self.editFormDidCancel(form)
-        case .Save(let token):
-            self.form(form, didEditToken: token)
-        }
-    }
-
+extension OTPTokenListViewController {
     func editFormDidCancel(form: TokenEditForm) {
         dismissViewControllerAnimated(true, completion: nil)
     }
