@@ -208,12 +208,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if self.editing {
             let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
-            let form = TokenEditForm(keychainItem: keychainItem, delegate: self)
-            let editController = TokenFormViewController(form: form)
-            let navController = UINavigationController(rootViewController: editController)
-            navController.navigationBar.translucent = false
-
-            self.presentViewController(navController, animated: true, completion: nil)
+            editKeychainItem(keychainItem)
         } else {
             let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
             if let password = keychainItem.token.currentPassword {
@@ -223,6 +218,14 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         }
     }
 
+    private func editKeychainItem(keychainItem: Token.KeychainItem) {
+        let form = TokenEditForm(keychainItem: keychainItem, delegate: self)
+        let editController = TokenFormViewController(form: form)
+        let navController = UINavigationController(rootViewController: editController)
+        navController.navigationBar.translucent = false
+
+        self.presentViewController(navController, animated: true, completion: nil)
+    }
 }
 
 extension OTPTokenListViewController: TokenEditFormDelegate {
