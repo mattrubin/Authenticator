@@ -34,8 +34,8 @@ class TokenEntryForm: TokenForm {
     // MARK: Events
 
     enum Event {
-        case Cancel
         case Save(Token)
+        case Close
     }
 
     private let callback: (Event) -> ()
@@ -182,7 +182,7 @@ class TokenEntryForm: TokenForm {
     // MARK: Actions
 
     func cancel() {
-        callback(.Cancel)
+        callback(.Close)
     }
 
     func submit() {
@@ -212,6 +212,7 @@ class TokenEntryForm: TokenForm {
 
                 if token.currentPassword != nil {
                     callback(.Save(token))
+                    callback(.Close)
                     return
                 }
             }
