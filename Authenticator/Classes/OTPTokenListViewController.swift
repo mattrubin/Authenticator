@@ -206,11 +206,10 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
         if self.editing {
-            let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
             editKeychainItem(keychainItem)
         } else {
-            let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
             if let password = keychainItem.token.currentPassword {
                 UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
                 SVProgressHUD.showSuccessWithStatus("Copied")
