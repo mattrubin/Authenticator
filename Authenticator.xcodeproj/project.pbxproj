@@ -559,7 +559,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev;
 				PRODUCT_NAME = Authenticator;
 			};
 			name = Debug;
