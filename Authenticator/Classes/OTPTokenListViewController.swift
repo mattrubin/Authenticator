@@ -129,35 +129,28 @@ class OTPTokenListViewController: UITableViewController {
     // MARK: Target actions
 
     func addToken() {
-        let dismissEntryController = { [weak self] in
-            self?.dismissViewControllerAnimated(true, completion: nil)
-        }
-        let entryController: UIViewController
         if QRScanner.deviceCanScan {
-            entryController = TokenScannerViewController() { [weak self] (event) in
+            let scannerViewController = TokenScannerViewController() { [weak self] (event) in
                 switch event {
                 case .Save(let token):
                     self?.saveNewToken(token)
                 case .Close:
-                    dismissEntryController()
+                    self?.dismissViewController()
                 }
             }
+            presentViewController(scannerViewController)
         } else {
             let form = TokenEntryForm() { [weak self] (event) in
                 switch event {
                 case .Save(let token):
                     self?.saveNewToken(token)
                 case .Close:
-                    dismissEntryController()
+                    self?.dismissViewController()
                 }
             }
             let formController = TokenFormViewController(form: form)
-            entryController = formController
+            presentViewController(formController)
         }
-        let navController = UINavigationController(rootViewController: entryController)
-        navController.navigationBar.translucent = false
-
-        self.presentViewController(navController, animated: true, completion: nil)
     }
 
 }
@@ -238,15 +231,11 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
             case .Save(let token):
                 self?.saveToken(token, toKeychainItem: keychainItem)
             case .Close:
-                self?.dismissViewControllerAnimated(true, completion: nil)
+                self?.dismissViewController()
             }
         }
-
         let editController = TokenFormViewController(form: form)
-        let navController = UINavigationController(rootViewController: editController)
-        navController.navigationBar.translucent = false
-
-        self.presentViewController(navController, animated: true, completion: nil)
+        presentViewController(editController)
     }
 
     private func saveToken(token: Token, toKeychainItem keychainItem: Token.KeychainItem) {
@@ -265,5 +254,17 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
             let row = self.tableView(self.tableView, numberOfRowsInSection: section) - 1
             self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: row, inSection: section), atScrollPosition: .Middle, animated: true)
         }
+    }
+
+    // MARK: Modals
+
+    func presentViewController(viewController: UIViewController) {
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.navigationBar.translucent = false
+        presentViewController(navController, animated: true, completion: nil)
+    }
+
+    func dismissViewController() {
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }
