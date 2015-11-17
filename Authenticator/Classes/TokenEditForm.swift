@@ -38,6 +38,7 @@ class TokenEditForm: TokenForm {
     private struct State {
         var issuer: String
         var name: String
+        let generator: Generator
 
         var isValid: Bool {
             return !(issuer.isEmpty && name.isEmpty)
@@ -96,14 +97,12 @@ class TokenEditForm: TokenForm {
 
     // MARK: Initialization
 
-    private let token: Token
-
     init(token: Token, callback: (Event) -> ()) {
-        self.token = token
         self.callback = callback
         state = State(
             issuer: token.issuer,
-            name: token.name
+            name: token.name,
+            generator: token.generator
         )
     }
 
@@ -119,7 +118,7 @@ class TokenEditForm: TokenForm {
         let editedToken = Token(
             name: state.name,
             issuer: state.issuer,
-            generator: token.generator
+            generator: state.generator
         )
         callback(.Save(editedToken))
     }
