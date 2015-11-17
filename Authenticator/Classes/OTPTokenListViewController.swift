@@ -139,7 +139,7 @@ class OTPTokenListViewController: UITableViewController {
                 switch event {
                 case .Cancel: break
                 case .Save(let token):
-                    self?.didCreateToken(token)
+                    self?.saveNewToken(token)
                 }
                 dismissEntryController()
             }
@@ -149,7 +149,7 @@ class OTPTokenListViewController: UITableViewController {
                 switch event {
                 case .Cancel: break
                 case .Save(let token):
-                    self?.didCreateToken(token)
+                    self?.saveNewToken(token)
                 }
                 dismissEntryController()
             }
@@ -256,10 +256,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
             tableView.reloadData()
         }
     }
-}
 
-extension OTPTokenListViewController {
-    func didCreateToken(token: Token) {
+    func saveNewToken(token: Token) {
         if self.tokenManager.addToken(token) {
             self.tableView.reloadData()
             self.update()
@@ -270,5 +268,4 @@ extension OTPTokenListViewController {
             self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: row, inSection: section), atScrollPosition: .Middle, animated: true)
         }
     }
-
 }
