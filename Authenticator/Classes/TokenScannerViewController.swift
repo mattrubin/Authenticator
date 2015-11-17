@@ -27,15 +27,30 @@ import AVFoundation
 import OneTimePassword
 import SVProgressHUD
 
-protocol ScannerViewControllerDelegate: class, TokenEntryFormDelegate {
-    func scannerDidCancel(scanner: TokenScannerViewController)
-    func scanner(scanner: TokenScannerViewController, didCreateToken token: Token)
-}
-
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
-    weak var delegate: ScannerViewControllerDelegate?
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
+
+    // MARK: Events
+
+    enum Event {
+        case Cancel
+        case Save(Token)
+    }
+
+    private let callback: (Event) -> ()
+
+    // MARK: Initialization
+
+    init(callback: (Event) -> ()) {
+        self.callback = callback
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        callback = { (event) in /* empty */ }
+        super.init(coder: aDecoder)
+    }
 
     // MARK: View Lifecycle
 
@@ -80,14 +95,18 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     func cancel() {
-        delegate?.scannerDidCancel(self)
+        callback(.Cancel)
     }
 
     func addTokenManually() {
-        guard let delegate = delegate else {
-            return
+        let form = TokenEntryForm() { [callback] (event) in
+            switch event {
+            case .Cancel:
+                callback(.Cancel)
+            case .Save(let token):
+                callback(.Save(token))
+            }
         }
-        let form = TokenEntryForm(delegate: delegate)
         let entryController = TokenFormViewController(form: form)
         navigationController?.pushViewController(entryController, animated: true)
     }
@@ -106,7 +125,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         // Halt the video capture
         scanner.stop()
         // Inform the delegate that an auth URL was captured
-        delegate?.scanner(self, didCreateToken: token)
+        callback(.Save(token))
     }
 
     func handleError(error: ErrorType) {

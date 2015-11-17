@@ -129,13 +129,28 @@ class OTPTokenListViewController: UITableViewController {
     // MARK: Target actions
 
     func addToken() {
+        let dismissEntryController = { [weak self] in
+            self?.dismissViewControllerAnimated(true, completion: nil)
+        }
         var entryController: UIViewController
         if QRScanner.deviceCanScan {
-            let scanner = TokenScannerViewController()
-            scanner.delegate = self
-            entryController = scanner
+            entryController = TokenScannerViewController() { [weak self] (event) in
+                switch event {
+                case .Cancel: break
+                case .Save(let token):
+                    self?.saveNewToken(token)
+                }
+                dismissEntryController()
+            }
         } else {
-            let form = TokenEntryForm(delegate: self)
+            let form = TokenEntryForm() { [weak self] (event) in
+                switch event {
+                case .Cancel: break
+                case .Save(let token):
+                    self?.saveNewToken(token)
+                }
+                dismissEntryController()
+            }
             let formController = TokenFormViewController(form: form)
             entryController = formController
         }
@@ -239,32 +254,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
             tableView.reloadData()
         }
     }
-}
 
-extension OTPTokenListViewController: TokenEntryFormDelegate {
-    func entryFormDidCancel(form: TokenEntryForm) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    func form(form: TokenEntryForm, didCreateToken token: Token) {
-        self.tokenSource(form, didCreateToken: token)
-    }
-}
-
-extension OTPTokenListViewController: ScannerViewControllerDelegate {
-    func scannerDidCancel(scanner: TokenScannerViewController) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    func scanner(scanner: TokenScannerViewController, didCreateToken token: Token) {
-        self.tokenSource(scanner, didCreateToken: token)
-    }
-}
-
-extension OTPTokenListViewController {
-    func tokenSource(tokenSource: AnyObject, didCreateToken token: Token) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-
+    func saveNewToken(token: Token) {
         if self.tokenManager.addToken(token) {
             self.tableView.reloadData()
             self.update()
@@ -275,5 +266,4 @@ extension OTPTokenListViewController {
             self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: row, inSection: section), atScrollPosition: .Middle, animated: true)
         }
     }
-
 }

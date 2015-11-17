@@ -28,14 +28,17 @@ import OneTimePassword
 let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 let defaultCounterFactor = Generator.Factor.Counter(0)
 
-protocol TokenEntryFormDelegate: class {
-    func entryFormDidCancel(form: TokenEntryForm)
-    func form(form: TokenEntryForm, didCreateToken token: Token)
-}
-
 class TokenEntryForm: TokenForm {
     weak var presenter: TokenFormPresenter?
-    private weak var delegate: TokenEntryFormDelegate?
+
+    // MARK: Events
+
+    enum Event {
+        case Cancel
+        case Save(Token)
+    }
+
+    private let callback: (Event) -> ()
 
     // MARK: State
 
@@ -58,13 +61,13 @@ class TokenEntryForm: TokenForm {
         }
     }
 
+    // TODO: move this into State when form(_:didReloadSection:) is no longer necessary
     var showsAdvancedOptions = false
 
     // MARK: Initialization
 
-    init(delegate: TokenEntryFormDelegate) {
-        self.delegate = delegate
-
+    init(callback: (Event) -> ()) {
+        self.callback = callback
         state = State(
             issuer: "",
             name: "",
@@ -179,7 +182,7 @@ class TokenEntryForm: TokenForm {
     // MARK: Actions
 
     func cancel() {
-        delegate?.entryFormDidCancel(self)
+        callback(.Cancel)
     }
 
     func submit() {
@@ -208,7 +211,7 @@ class TokenEntryForm: TokenForm {
                 )
 
                 if token.currentPassword != nil {
-                    delegate?.form(self, didCreateToken: token)
+                    callback(.Save(token))
                     return
                 }
             }
