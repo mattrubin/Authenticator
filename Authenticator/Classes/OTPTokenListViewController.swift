@@ -135,7 +135,14 @@ class OTPTokenListViewController: UITableViewController {
             scanner.delegate = self
             entryController = scanner
         } else {
-            let form = TokenEntryForm(delegate: self)
+            let form = TokenEntryForm() { [weak self] (form, event) in
+                switch event {
+                case .Cancel:
+                    self?.entryFormDidCancel(form)
+                case .Save(let token):
+                    self?.form(form, didCreateToken: token)
+                }
+            }
             let formController = TokenFormViewController(form: form)
             entryController = formController
         }
@@ -241,7 +248,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 }
 
-extension OTPTokenListViewController: TokenEntryFormDelegate {
+extension OTPTokenListViewController {
     func entryFormDidCancel(form: TokenEntryForm) {
         dismissViewControllerAnimated(true, completion: nil)
     }
