@@ -67,7 +67,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) in
-                self.rootViewController.tokenSource(self, didCreateToken: token)
+                self.rootViewController.didCreateToken(token)
             }))
 
             self.rootViewController.presentViewController(alert, animated: true, completion: nil)

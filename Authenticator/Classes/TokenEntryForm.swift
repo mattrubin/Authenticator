@@ -38,7 +38,7 @@ class TokenEntryForm: TokenForm {
         case Save(Token)
     }
 
-    private let callback: (TokenEntryForm, Event) -> ()
+    private let callback: (Event) -> ()
 
     // MARK: State
 
@@ -66,7 +66,7 @@ class TokenEntryForm: TokenForm {
 
     // MARK: Initialization
 
-    init(callback: (TokenEntryForm, Event) -> ()) {
+    init(callback: (Event) -> ()) {
         self.callback = callback
         state = State(
             issuer: "",
@@ -182,7 +182,7 @@ class TokenEntryForm: TokenForm {
     // MARK: Actions
 
     func cancel() {
-        callback(self, .Cancel)
+        callback(.Cancel)
     }
 
     func submit() {
@@ -211,7 +211,7 @@ class TokenEntryForm: TokenForm {
                 )
 
                 if token.currentPassword != nil {
-                    callback(self, .Save(token))
+                    callback(.Save(token))
                     return
                 }
             }
