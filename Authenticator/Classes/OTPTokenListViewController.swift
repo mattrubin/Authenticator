@@ -222,9 +222,11 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         let form = TokenEditForm(keychainItem: keychainItem) { [weak self] (form, event) in
             switch event {
             case .Cancel:
-                self?.editFormDidCancel(form)
+                self?.dismissViewControllerAnimated(true, completion: nil)
+
             case .Save(let token):
-                self?.form(form, didEditToken: token)
+                self?.dismissViewControllerAnimated(true, completion: nil)
+                self?.saveToken(token, toKeychainItem: form.keychainItem)
             }
         }
 
@@ -234,20 +236,12 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
         self.presentViewController(navController, animated: true, completion: nil)
     }
-}
 
-extension OTPTokenListViewController {
-    func editFormDidCancel(form: TokenEditForm) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    func form(form: TokenEditForm, didEditToken token: Token) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-        if tokenManager.saveToken(token, toKeychainItem: form.keychainItem) {
+    private func saveToken(token: Token, toKeychainItem keychainItem: Token.KeychainItem) {
+        if tokenManager.saveToken(token, toKeychainItem: keychainItem) {
             tableView.reloadData()
         }
     }
-
 }
 
 extension OTPTokenListViewController: TokenEntryFormDelegate {
