@@ -25,12 +25,15 @@
 import OneTimePassword
 
 class TokenEditForm: TokenForm {
+    weak var presenter: TokenFormPresenter?
+
+    // MARK: Events
+
     enum Event {
         case Cancel
         case Save(Token)
     }
 
-    weak var presenter: TokenFormPresenter?
     private let callback: (Event) -> ()
 
     // MARK: State
@@ -113,13 +116,13 @@ class TokenEditForm: TokenForm {
     }
 
     func submit() {
-        if !state.isValid { return }
+        guard state.isValid else { return }
 
-        let editedToken = Token(
+        let token = Token(
             name: state.name,
             issuer: state.issuer,
             generator: state.generator
         )
-        callback(.Save(editedToken))
+        callback(.Save(token))
     }
 }
