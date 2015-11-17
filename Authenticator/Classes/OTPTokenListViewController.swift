@@ -226,6 +226,15 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 }
 
 extension OTPTokenListViewController: TokenEditFormDelegate {
+    func tokenEditForm(form: TokenEditForm, didSendEvent event: TokenEditForm.Event) {
+        switch event {
+        case .Cancel:
+            self.editFormDidCancel(form)
+        case .Save(let token):
+            self.form(form, didEditToken: token)
+        }
+    }
+
     func editFormDidCancel(form: TokenEditForm) {
         dismissViewControllerAnimated(true, completion: nil)
     }

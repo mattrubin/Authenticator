@@ -25,11 +25,15 @@
 import OneTimePassword
 
 protocol TokenEditFormDelegate: class {
-    func editFormDidCancel(form: TokenEditForm)
-    func form(form: TokenEditForm, didEditToken token: Token)
+    func tokenEditForm(form: TokenEditForm, didSendEvent event: TokenEditForm.Event)
 }
 
 class TokenEditForm: TokenForm {
+    enum Event {
+        case Cancel
+        case Save(Token)
+    }
+
     weak var presenter: TokenFormPresenter?
     private weak var delegate: TokenEditFormDelegate?
 
@@ -110,7 +114,7 @@ class TokenEditForm: TokenForm {
     // MARK: Actions
 
     func cancel() {
-        delegate?.editFormDidCancel(self)
+        delegate?.tokenEditForm(self, didSendEvent: .Cancel)
     }
 
     func submit() {
@@ -121,6 +125,6 @@ class TokenEditForm: TokenForm {
             issuer: state.issuer,
             generator: keychainItem.token.generator
         )
-        delegate?.form(self, didEditToken: editedToken)
+        delegate?.tokenEditForm(self, didSendEvent: .Save(editedToken))
     }
 }
