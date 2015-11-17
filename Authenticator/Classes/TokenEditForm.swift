@@ -31,7 +31,7 @@ class TokenEditForm: TokenForm {
     }
 
     weak var presenter: TokenFormPresenter?
-    private let callback: (TokenEditForm, Event) -> ()
+    private let callback: (Event) -> ()
 
     // MARK: State
 
@@ -98,7 +98,7 @@ class TokenEditForm: TokenForm {
 
     private let token: Token
 
-    init(token: Token, callback: (TokenEditForm, Event) -> ()) {
+    init(token: Token, callback: (Event) -> ()) {
         self.token = token
         self.callback = callback
         state = State(
@@ -110,7 +110,7 @@ class TokenEditForm: TokenForm {
     // MARK: Actions
 
     func cancel() {
-        callback(self, .Cancel)
+        callback(.Cancel)
     }
 
     func submit() {
@@ -121,6 +121,6 @@ class TokenEditForm: TokenForm {
             issuer: state.issuer,
             generator: token.generator
         )
-        callback(self, .Save(editedToken))
+        callback(.Save(editedToken))
     }
 }
