@@ -139,7 +139,7 @@ class OTPTokenListViewController: UITableViewController {
                 switch event {
                 case .Cancel: dismissEntryController()
                 case .Save(let token):
-                    self?.scanner(scanner, didCreateToken: token)
+                    self?.tokenSource(scanner, didCreateToken: token)
                 }
             }
             entryController = scanner
@@ -148,7 +148,7 @@ class OTPTokenListViewController: UITableViewController {
                 switch event {
                 case .Cancel: dismissEntryController()
                 case .Save(let token):
-                    self?.form(form, didCreateToken: token)
+                    self?.tokenSource(form, didCreateToken: token)
                 }
             }
             let formController = TokenFormViewController(form: form)
@@ -253,18 +253,6 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         if tokenManager.saveToken(token, toKeychainItem: keychainItem) {
             tableView.reloadData()
         }
-    }
-}
-
-extension OTPTokenListViewController {
-    func form(form: TokenEntryForm, didCreateToken token: Token) {
-        self.tokenSource(form, didCreateToken: token)
-    }
-}
-
-extension OTPTokenListViewController {
-    func scanner(scanner: TokenScannerViewController, didCreateToken token: Token) {
-        self.tokenSource(scanner, didCreateToken: token)
     }
 }
 
