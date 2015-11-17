@@ -132,7 +132,14 @@ class OTPTokenListViewController: UITableViewController {
         var entryController: UIViewController
         if QRScanner.deviceCanScan {
             let scanner = TokenScannerViewController()
-            scanner.delegate = self
+            scanner.callback = { [weak self] (scanner, event) in
+                switch event {
+                case .Cancel:
+                    self?.scannerDidCancel(scanner)
+                case .Save(let token):
+                    self?.scanner(scanner, didCreateToken: token)
+                }
+            }
             entryController = scanner
         } else {
             let form = TokenEntryForm() { [weak self] (form, event) in
@@ -258,7 +265,7 @@ extension OTPTokenListViewController {
     }
 }
 
-extension OTPTokenListViewController: ScannerViewControllerDelegate {
+extension OTPTokenListViewController {
     func scannerDidCancel(scanner: TokenScannerViewController) {
         dismissViewControllerAnimated(true, completion: nil)
     }

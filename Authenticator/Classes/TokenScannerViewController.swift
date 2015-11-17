@@ -27,15 +27,20 @@ import AVFoundation
 import OneTimePassword
 import SVProgressHUD
 
-protocol ScannerViewControllerDelegate: class {
-    func scannerDidCancel(scanner: TokenScannerViewController)
-    func scanner(scanner: TokenScannerViewController, didCreateToken token: Token)
-}
-
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
-    weak var delegate: ScannerViewControllerDelegate?
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
+
+    // MARK: Events
+
+    enum Event {
+        case Cancel
+        case Save(Token)
+    }
+
+    // In an ideal world, this would be a non-optional constant, but making it an optional var
+    // avoids needing to implement initializers.
+    var callback: ((TokenScannerViewController, Event) -> ())?
 
     // MARK: View Lifecycle
 
@@ -80,16 +85,16 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     func cancel() {
-        delegate?.scannerDidCancel(self)
+        callback?(self, .Cancel)
     }
 
     func addTokenManually() {
-        let form = TokenEntryForm() { [weak delegate] (form, event) in
+        let form = TokenEntryForm() { [callback] (form, event) in
             switch event {
             case .Cancel:
-                delegate?.scannerDidCancel(self)
+                callback?(self, .Cancel)
             case .Save(let token):
-                delegate?.scanner(self, didCreateToken: token)
+                callback?(self, .Save(token))
             }
         }
         let entryController = TokenFormViewController(form: form)
@@ -110,7 +115,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         // Halt the video capture
         scanner.stop()
         // Inform the delegate that an auth URL was captured
-        delegate?.scanner(self, didCreateToken: token)
+        callback?(self, .Save(token))
     }
 
     func handleError(error: ErrorType) {
