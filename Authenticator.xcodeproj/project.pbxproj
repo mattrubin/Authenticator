@@ -144,7 +144,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
+		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				1D3623250D0F684500981E51 /* OTPAppDelegate.swift */,
@@ -152,7 +152,7 @@
 				C98C1C4617D2EE6500A07D3F /* Entry */,
 				C98C1C4E17D2F14500A07D3F /* Categories */,
 			);
-			path = Classes;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -263,7 +263,7 @@
 		C97B68CB17D964D4005D1FE0 /* Authenticator */ = {
 			isa = PBXGroup;
 			children = (
-				080E96DDFE201D6D7F000001 /* Classes */,
+				080E96DDFE201D6D7F000001 /* Source */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 			);
