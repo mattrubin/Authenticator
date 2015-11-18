@@ -150,7 +150,7 @@
 				1D3623250D0F684500981E51 /* OTPAppDelegate.swift */,
 				C98C1C4917D2F03400A07D3F /* Display */,
 				C98C1C4617D2EE6500A07D3F /* Entry */,
-				C98C1C4E17D2F14500A07D3F /* Categories */,
+				C98C1C4E17D2F14500A07D3F /* Utility */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -304,12 +304,12 @@
 			name = Display;
 			sourceTree = "<group>";
 		};
-		C98C1C4E17D2F14500A07D3F /* Categories */ = {
+		C98C1C4E17D2F14500A07D3F /* Utility */ = {
 			isa = PBXGroup;
 			children = (
 				C93AD15119CD51BE007480E9 /* Colors.swift */,
 			);
-			name = Categories;
+			name = Utility;
 			sourceTree = "<group>";
 		};
 		C9906A331812522100BAEF53 /* AuthenticatorTests */ = {
