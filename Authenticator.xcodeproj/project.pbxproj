@@ -12,10 +12,6 @@
 		C9078D181AB7E90A0068A11D /* OTPTextFieldCell+TokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9078D171AB7E90A0068A11D /* OTPTextFieldCell+TokenForm.swift */; };
 		C910ADC11BF0315A00C988F5 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C910ADC01BF0315A00C988F5 /* TokenManager.swift */; settings = {ASSET_TAGS = (); }; };
 		C92708AC19CFB0750033128B /* OTPTokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708AB19CFB0750033128B /* OTPTokenListViewController.swift */; };
-		C931A5FD1BFF6F9D00706A1C /* .hound.yml in Resources */ = {isa = PBXBuildFile; fileRef = C931A5FC1BFF6F9D00706A1C /* .hound.yml */; settings = {ASSET_TAGS = (); }; };
-		C931A6001BFF6FA600706A1C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = C931A5FE1BFF6FA600706A1C /* .swiftlint.yml */; settings = {ASSET_TAGS = (); }; };
-		C931A6011BFF6FA600706A1C /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = C931A5FF1BFF6FA600706A1C /* .travis.yml */; settings = {ASSET_TAGS = (); }; };
-		C931A6031BFF707E00706A1C /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = C931A6021BFF707E00706A1C /* Cartfile */; settings = {ASSET_TAGS = (); }; };
 		C93AD15219CD51BE007480E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AD15119CD51BE007480E9 /* Colors.swift */; };
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -465,12 +461,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C931A6031BFF707E00706A1C /* Cartfile in Resources */,
 				C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */,
 				C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */,
-				C931A6011BFF6FA600706A1C /* .travis.yml in Resources */,
-				C931A5FD1BFF6F9D00706A1C /* .hound.yml in Resources */,
-				C931A6001BFF6FA600706A1C /* .swiftlint.yml in Resources */,
 				C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */,
 				C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */,
 				C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */,
