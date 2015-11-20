@@ -15,6 +15,7 @@
 		C931A5FD1BFF6F9D00706A1C /* .hound.yml in Resources */ = {isa = PBXBuildFile; fileRef = C931A5FC1BFF6F9D00706A1C /* .hound.yml */; settings = {ASSET_TAGS = (); }; };
 		C931A6001BFF6FA600706A1C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = C931A5FE1BFF6FA600706A1C /* .swiftlint.yml */; settings = {ASSET_TAGS = (); }; };
 		C931A6011BFF6FA600706A1C /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = C931A5FF1BFF6FA600706A1C /* .travis.yml */; settings = {ASSET_TAGS = (); }; };
+		C931A6031BFF707E00706A1C /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = C931A6021BFF707E00706A1C /* Cartfile */; settings = {ASSET_TAGS = (); }; };
 		C93AD15219CD51BE007480E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AD15119CD51BE007480E9 /* Colors.swift */; };
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -85,6 +86,7 @@
 		C931A5FC1BFF6F9D00706A1C /* .hound.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hound.yml; sourceTree = "<group>"; };
 		C931A5FE1BFF6FA600706A1C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C931A5FF1BFF6FA600706A1C /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		C931A6021BFF707E00706A1C /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		C93AD15119CD51BE007480E9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5581A7ECB3100E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +212,7 @@
 		C931A5FB1BFF6F3A00706A1C /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				C931A6021BFF707E00706A1C /* Cartfile */,
 				C931A5FC1BFF6F9D00706A1C /* .hound.yml */,
 				C931A5FE1BFF6FA600706A1C /* .swiftlint.yml */,
 				C931A5FF1BFF6FA600706A1C /* .travis.yml */,
@@ -462,6 +465,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C931A6031BFF707E00706A1C /* Cartfile in Resources */,
 				C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */,
 				C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */,
 				C931A6011BFF6FA600706A1C /* .travis.yml in Resources */,
