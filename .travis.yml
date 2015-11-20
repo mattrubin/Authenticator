@@ -1,3 +1,5 @@
+# Configuration for Travis (https://travis-ci.org)
+
 language: objective-c
 
 xcode_workspace: Authenticator.xcworkspace
