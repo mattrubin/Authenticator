@@ -25,9 +25,15 @@
 import OneTimePassword
 
 struct TokenRowModel {
+    enum Action {
+        case CopyPassword(String)
+        case None
+    }
+
     let name, issuer, password: String
     let showsButton: Bool
     let buttonAction: ()->()
+    let selectAction: Action
 
     init(token: Token, buttonAction: ()->()) {
         name = token.name
@@ -39,12 +45,14 @@ struct TokenRowModel {
             showsButton = false
         }
         self.buttonAction = buttonAction
+        selectAction = .CopyPassword(password)
     }
 
     init() {
         (name, issuer, password) = ("", "", "")
         showsButton = false
         buttonAction = {}
+        selectAction = .None
     }
 
     func isVisuallyEquivalentToRowModel(rowModel: TokenRowModel) -> Bool {

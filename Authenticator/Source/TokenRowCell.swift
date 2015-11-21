@@ -25,7 +25,7 @@
 import UIKit
 
 class TokenRowCell: UITableViewCell {
-    private var rowModel = TokenRowModel()
+    var rowModel = TokenRowModel()
 
     private let titleLabel = UILabel()
     private let passwordLabel = UILabel()

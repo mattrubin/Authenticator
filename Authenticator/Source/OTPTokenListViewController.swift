@@ -218,11 +218,25 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         if self.editing {
             editKeychainItem(keychainItem)
         } else {
-            if let password = keychainItem.token.currentPassword {
-                UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
-                SVProgressHUD.showSuccessWithStatus("Copied")
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
+                let rowModel = cell.rowModel
+                handleAction(rowModel.selectAction)
             }
         }
+    }
+
+    private func handleAction(action: TokenRowModel.Action) {
+        switch action {
+        case .CopyPassword(let password):
+            copyPassword(password)
+        case .None:
+            break
+        }
+    }
+
+    private func copyPassword(password: String) {
+        UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
+        SVProgressHUD.showSuccessWithStatus("Copied")
     }
 
     private func editKeychainItem(keychainItem: Token.KeychainItem) {
