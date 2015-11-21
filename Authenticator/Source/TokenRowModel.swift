@@ -58,13 +58,6 @@ struct TokenRowModel: Equatable {
         selectAction = nil
         editAction = nil
     }
-
-    func isVisuallyEquivalentToRowModel(rowModel: TokenRowModel) -> Bool {
-        return (name == rowModel.name) &&
-            (issuer == rowModel.issuer) &&
-            (password == rowModel.password) &&
-            (showsButton == rowModel.showsButton)
-    }
 }
 
 func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {

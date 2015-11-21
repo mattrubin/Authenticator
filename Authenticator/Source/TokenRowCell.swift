@@ -96,13 +96,10 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Update
 
     func updateWithRowModel(rowModel: TokenRowModel) {
-        // Only update the cell appearance if a visual change is necessary.
-        if !self.rowModel.isVisuallyEquivalentToRowModel(rowModel) {
+        if self.rowModel != rowModel {
             updateAppearanceWithRowModel(rowModel)
+            self.rowModel = rowModel
         }
-
-        // Always store the latest row model. Even if the visible properties have not changed, the action block might have.
-        self.rowModel = rowModel
     }
 
     private func updateAppearanceWithRowModel(rowModel: TokenRowModel) {
