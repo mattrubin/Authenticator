@@ -145,6 +145,8 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Actions
 
     func generateNextPassword() {
-        delegate?.handleAction(rowModel.buttonAction)
+        if let action = rowModel.buttonAction {
+            delegate?.handleAction(action)
+        }
     }
 }

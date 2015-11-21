@@ -27,16 +27,15 @@ import OneTimePassword
 struct TokenRowModel {
     enum Action {
         case UpdateKeychainItem(Token.KeychainItem)
-        case CopyPassword(String)
         case EditKeychainItem(Token.KeychainItem)
-        case None
+        case CopyPassword(String)
     }
 
     let name, issuer, password: String
     let showsButton: Bool
-    let buttonAction: Action
-    let selectAction: Action
-    let editAction: Action
+    let buttonAction: Action?
+    let selectAction: Action?
+    let editAction: Action?
 
     init(keychainItem: Token.KeychainItem) {
         name = keychainItem.token.name
@@ -55,9 +54,9 @@ struct TokenRowModel {
     init() {
         (name, issuer, password) = ("", "", "")
         showsButton = false
-        buttonAction = .None
-        selectAction = .None
-        editAction = .None
+        buttonAction = nil
+        selectAction = nil
+        editAction = nil
     }
 
     func isVisuallyEquivalentToRowModel(rowModel: TokenRowModel) -> Bool {

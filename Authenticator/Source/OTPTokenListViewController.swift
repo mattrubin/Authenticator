@@ -212,9 +212,13 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
             let rowModel = cell.rowModel
             if self.editing {
-                handleAction(rowModel.editAction)
+                if let action = rowModel.editAction {
+                    handleAction(action)
+                }
             } else {
-                handleAction(rowModel.selectAction)
+                if let action = rowModel.selectAction {
+                    handleAction(action)
+                }
             }
         }
     }
@@ -229,8 +233,6 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
             copyPassword(password)
         case .EditKeychainItem(let keychainItem):
             editKeychainItem(keychainItem)
-        case .None:
-            break
         }
     }
 
