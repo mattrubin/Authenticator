@@ -27,7 +27,7 @@ import MobileCoreServices
 import OneTimePassword
 import SVProgressHUD
 
-class OTPTokenListViewController: UITableViewController {
+class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     let tokenManager = TokenManager()
     var displayLink: CADisplayLink?
@@ -175,11 +175,9 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
-        let rowModel = TokenRowModel(keychainItem: keychainItem, buttonAction: {
-            [weak self] in
-            self?.updateKeychainItem(keychainItem)
-        })
+        let rowModel = TokenRowModel(keychainItem: keychainItem)
         cell.updateWithRowModel(rowModel)
+        cell.delegate = self
     }
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -221,8 +219,10 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         }
     }
 
-    private func handleAction(action: TokenRowModel.Action) {
+    func handleAction(action: TokenRowModel.Action) {
         switch action {
+        case .UpdateKeychainItem(let keychainItem):
+            updateKeychainItem(keychainItem)
         case .CopyPassword(let password):
             copyPassword(password)
         case .EditKeychainItem(let keychainItem):

@@ -24,7 +24,12 @@
 
 import UIKit
 
+protocol TokenRowDelegate: class {
+    func handleAction(action: TokenRowModel.Action)
+}
+
 class TokenRowCell: UITableViewCell {
+    weak var delegate: TokenRowDelegate?
     var rowModel = TokenRowModel()
 
     private let titleLabel = UILabel()
@@ -140,6 +145,6 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Actions
 
     func generateNextPassword() {
-        rowModel.buttonAction()
+        delegate?.handleAction(rowModel.buttonAction)
     }
 }

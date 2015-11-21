@@ -26,6 +26,7 @@ import OneTimePassword
 
 struct TokenRowModel {
     enum Action {
+        case UpdateKeychainItem(Token.KeychainItem)
         case CopyPassword(String)
         case EditKeychainItem(Token.KeychainItem)
         case None
@@ -33,11 +34,11 @@ struct TokenRowModel {
 
     let name, issuer, password: String
     let showsButton: Bool
-    let buttonAction: ()->()
+    let buttonAction: Action
     let selectAction: Action
     let editAction: Action
 
-    init(keychainItem: Token.KeychainItem, buttonAction: ()->()) {
+    init(keychainItem: Token.KeychainItem) {
         name = keychainItem.token.name
         issuer = keychainItem.token.issuer
         password = keychainItem.token.currentPassword ?? ""
@@ -46,7 +47,7 @@ struct TokenRowModel {
         } else {
             showsButton = false
         }
-        self.buttonAction = buttonAction
+        buttonAction = .UpdateKeychainItem(keychainItem)
         selectAction = .CopyPassword(password)
         editAction = .EditKeychainItem(keychainItem)
     }
@@ -54,7 +55,7 @@ struct TokenRowModel {
     init() {
         (name, issuer, password) = ("", "", "")
         showsButton = false
-        buttonAction = {}
+        buttonAction = .None
         selectAction = .None
         editAction = .None
     }
