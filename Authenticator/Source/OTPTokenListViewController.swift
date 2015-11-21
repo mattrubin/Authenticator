@@ -176,7 +176,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
         let token = keychainItem.token
-        let rowModel = TokenRowModel(token: token, buttonAction: {
+        let rowModel = TokenRowModel(keychainItem: keychainItem, buttonAction: {
             let newToken = updatedToken(token)
             if self.tokenManager.saveToken(newToken, toKeychainItem: keychainItem) {
                 self.tableView.reloadData()
@@ -214,12 +214,11 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
-        if self.editing {
-            editKeychainItem(keychainItem)
-        } else {
-            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
-                let rowModel = cell.rowModel
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
+            let rowModel = cell.rowModel
+            if self.editing {
+                handleAction(rowModel.editAction)
+            } else {
                 handleAction(rowModel.selectAction)
             }
         }
@@ -229,6 +228,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         switch action {
         case .CopyPassword(let password):
             copyPassword(password)
+        case .EditKeychainItem(let keychainItem):
+            editKeychainItem(keychainItem)
         case .None:
             break
         }
