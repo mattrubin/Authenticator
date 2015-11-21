@@ -24,8 +24,8 @@
 
 import OneTimePassword
 
-struct TokenRowModel {
-    enum Action {
+struct TokenRowModel: Equatable {
+    enum Action: Equatable {
         case UpdateKeychainItem(Token.KeychainItem)
         case EditKeychainItem(Token.KeychainItem)
         case CopyPassword(String)
@@ -66,3 +66,33 @@ struct TokenRowModel {
             (showsButton == rowModel.showsButton)
     }
 }
+
+func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
+    return (lhs.name == rhs.name)
+        && (lhs.issuer == rhs.issuer)
+        && (lhs.password == rhs.password)
+        && (lhs.showsButton == rhs.showsButton)
+        && (lhs.buttonAction == rhs.buttonAction)
+        && (lhs.selectAction == rhs.selectAction)
+        && (lhs.editAction == rhs.editAction)
+}
+
+func == (lhs: TokenRowModel.Action, rhs: TokenRowModel.Action) -> Bool {
+    switch (lhs, rhs) {
+    case let (.UpdateKeychainItem(l), .UpdateKeychainItem(r)):
+        return l == r
+    case let (.EditKeychainItem(l), .EditKeychainItem(r)):
+        return l == r
+    case let (.CopyPassword(l), .CopyPassword(r)):
+        return l == r
+    default:
+        return false
+    }
+}
+
+extension Token.KeychainItem: Equatable {}
+public func == (lhs: Token.KeychainItem, rhs: Token.KeychainItem) -> Bool {
+    return lhs.persistentRef.isEqualToData(rhs.persistentRef)
+        && (lhs.token == rhs.token)
+}
+
