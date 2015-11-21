@@ -30,7 +30,7 @@ Authenticator is a simple, free, and open source [two-factor authentication](htt
 
 ## Dependencies
 
-Authenticator uses [Carthage](https://github.com/Carthage/Carthage) to manage its dependencies, but it does not currently use Carthage to build those dependencies. The dependent projects are checked out as submodules, are included in `Authenticator.xcworkspace`, and are built by Xcode as target dependencies of the Athenticator app.
+Authenticator uses [Carthage](https://github.com/Carthage/Carthage) to manage its dependencies, but it does not currently use Carthage to build those dependencies. The dependent projects are checked out as submodules, are included in `Authenticator.xcworkspace`, and are built by Xcode as target dependencies of the Authenticator app.
 
 To check out the dependencies, simply follow the "Getting Started" instructions above.
 
