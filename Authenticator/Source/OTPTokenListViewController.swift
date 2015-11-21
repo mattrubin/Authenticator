@@ -175,12 +175,9 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
-        let token = keychainItem.token
         let rowModel = TokenRowModel(keychainItem: keychainItem, buttonAction: {
-            let newToken = updatedToken(token)
-            if self.tokenManager.saveToken(newToken, toKeychainItem: keychainItem) {
-                self.tableView.reloadData()
-            }
+            [weak self] in
+            self?.updateKeychainItem(keychainItem)
         })
         cell.updateWithRowModel(rowModel)
     }
@@ -232,6 +229,14 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
             editKeychainItem(keychainItem)
         case .None:
             break
+        }
+    }
+
+    private func updateKeychainItem(keychainItem: Token.KeychainItem) {
+        let token = keychainItem.token
+        let newToken = updatedToken(token)
+        if self.tokenManager.saveToken(newToken, toKeychainItem: keychainItem) {
+            self.tableView.reloadData()
         }
     }
 
