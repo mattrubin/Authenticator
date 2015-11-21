@@ -17,6 +17,15 @@ Authenticator is a simple, free, and open source [two-factor authentication](htt
 <img src="Screenshots/ScreenshotScanToken4.0.png" width="160" alt="Authenticator Screenshot" /> &nbsp;
 <img src="Screenshots/ScreenshotAddToken4.0.png" width="160" alt="Authenticator Screenshot" />
 
+## Getting Started
+
+1. Check out the latest version of the project using Git.
+
+2. Check out the project's dependencies with `git submodule init` and `git submodule update`.
+
+3. Open the `Authenticator.xcworkspace` file. (If you open the `.xcodeproj` instead, the app will not be able to find its dependencies.
+
+4. Build and run the "Authenticator" scheme.
 
 ## License
 
