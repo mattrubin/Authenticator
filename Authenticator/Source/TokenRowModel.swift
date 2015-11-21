@@ -33,9 +33,9 @@ struct TokenRowModel: Equatable {
 
     let name, issuer, password: String
     let showsButton: Bool
-    let buttonAction: Action?
-    let selectAction: Action?
-    let editAction: Action?
+    let buttonAction: Action
+    let selectAction: Action
+    let editAction: Action
 
     init(keychainItem: Token.KeychainItem) {
         name = keychainItem.token.name
@@ -75,6 +75,7 @@ func == (lhs: TokenRowModel.Action, rhs: TokenRowModel.Action) -> Bool {
     }
 }
 
+// TODO: Move keychain item equality into OneTimePassword
 extension Token.KeychainItem: Equatable {}
 public func == (lhs: Token.KeychainItem, rhs: Token.KeychainItem) -> Bool {
     return lhs.persistentRef.isEqualToData(rhs.persistentRef)
