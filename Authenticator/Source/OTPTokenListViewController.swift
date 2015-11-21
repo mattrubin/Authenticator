@@ -219,6 +219,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         }
     }
 
+    // MARK: TokenRowDelegate
+
     func handleAction(action: TokenRowModel.Action) {
         switch action {
         case .UpdateKeychainItem(let keychainItem):
@@ -233,11 +235,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 
     private func updateKeychainItem(keychainItem: Token.KeychainItem) {
-        let token = keychainItem.token
-        let newToken = updatedToken(token)
-        if self.tokenManager.saveToken(newToken, toKeychainItem: keychainItem) {
-            self.tableView.reloadData()
-        }
+        let newToken = updatedToken(keychainItem.token)
+        saveToken(newToken, toKeychainItem: keychainItem)
     }
 
     private func copyPassword(password: String) {
