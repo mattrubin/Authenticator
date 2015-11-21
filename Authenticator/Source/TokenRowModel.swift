@@ -50,14 +50,6 @@ struct TokenRowModel: Equatable {
         selectAction = .CopyPassword(password)
         editAction = .EditKeychainItem(keychainItem)
     }
-
-    init() {
-        (name, issuer, password) = ("", "", "")
-        showsButton = false
-        buttonAction = nil
-        selectAction = nil
-        editAction = nil
-    }
 }
 
 func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
@@ -88,4 +80,3 @@ public func == (lhs: Token.KeychainItem, rhs: Token.KeychainItem) -> Bool {
     return lhs.persistentRef.isEqualToData(rhs.persistentRef)
         && (lhs.token == rhs.token)
 }
-

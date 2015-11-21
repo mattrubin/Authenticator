@@ -30,7 +30,7 @@ protocol TokenRowDelegate: class {
 
 class TokenRowCell: UITableViewCell {
     weak var delegate: TokenRowDelegate?
-    var rowModel = TokenRowModel()
+    var rowModel: TokenRowModel?
 
     private let titleLabel = UILabel()
     private let passwordLabel = UILabel()
@@ -102,10 +102,15 @@ class TokenRowCell: UITableViewCell {
         }
     }
 
-    private func updateAppearanceWithRowModel(rowModel: TokenRowModel) {
-        setName(rowModel.name, issuer: rowModel.issuer)
-        setPassword(rowModel.password)
-        nextPasswordButton.hidden = !rowModel.showsButton
+    private func updateAppearanceWithRowModel(rowModel: TokenRowModel?) {
+        let name = rowModel?.name ?? ""
+        let issuer = rowModel?.issuer ?? ""
+        let password = rowModel?.password ?? ""
+        let showsButton = rowModel?.showsButton ?? false
+
+        setName(name, issuer: issuer)
+        setPassword(password)
+        nextPasswordButton.hidden = !showsButton
     }
 
     private func setName(name: String, issuer: String) {
@@ -142,7 +147,7 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Actions
 
     func generateNextPassword() {
-        if let action = rowModel.buttonAction {
+        if let action = rowModel?.buttonAction {
             delegate?.handleAction(action)
         }
     }

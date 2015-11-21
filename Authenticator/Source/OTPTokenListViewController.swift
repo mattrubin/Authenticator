@@ -212,11 +212,11 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
             let rowModel = cell.rowModel
             if self.editing {
-                if let action = rowModel.editAction {
+                if let action = rowModel?.editAction {
                     handleAction(action)
                 }
             } else {
-                if let action = rowModel.selectAction {
+                if let action = rowModel?.selectAction {
                     handleAction(action)
                 }
             }
