@@ -233,7 +233,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 
     private func updateKeychainItem(keychainItem: Token.KeychainItem) {
-        let newToken = updatedToken(keychainItem.token)
+        let newToken = keychainItem.token.updatedToken()
         saveToken(newToken, toKeychainItem: keychainItem)
     }
 
