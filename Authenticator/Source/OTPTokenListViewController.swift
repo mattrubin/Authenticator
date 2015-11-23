@@ -238,7 +238,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 
     private func copyPassword(password: String) {
-        UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
+        let pasteboard = UIPasteboard.generalPasteboard()
+        pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         SVProgressHUD.showSuccessWithStatus("Copied")
     }
 
