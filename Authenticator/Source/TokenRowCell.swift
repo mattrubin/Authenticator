@@ -31,7 +31,7 @@ protocol TokenRowDelegate: class {
 
 class TokenRowCell: UITableViewCell {
     weak var delegate: TokenRowDelegate?
-    var rowModel: TokenRowModel?
+    private var rowModel: TokenRowModel?
 
     private let titleLabel = UILabel()
     private let passwordLabel = UILabel()
@@ -144,8 +144,19 @@ class TokenRowCell: UITableViewCell {
         }
     }
 
-
     // MARK: - Actions
+
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        if selected, let rowModel = rowModel {
+            if self.editing {
+                delegate?.handleAction(rowModel.editAction)
+            } else {
+                delegate?.handleAction(rowModel.selectAction)
+            }
+        }
+    }
 
     func generateNextPassword() {
         if let action = rowModel?.buttonAction {
