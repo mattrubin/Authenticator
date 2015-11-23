@@ -75,10 +75,3 @@ func == (lhs: TokenRowModel.Action, rhs: TokenRowModel.Action) -> Bool {
         return false
     }
 }
-
-// TODO: Move keychain item equality into OneTimePassword
-extension Token.KeychainItem: Equatable {}
-public func == (lhs: Token.KeychainItem, rhs: Token.KeychainItem) -> Bool {
-    return lhs.persistentRef.isEqualToData(rhs.persistentRef)
-        && (lhs.token == rhs.token)
-}
