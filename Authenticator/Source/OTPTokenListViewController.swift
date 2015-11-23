@@ -209,17 +209,13 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
-            let rowModel = cell.rowModel
-            if self.editing {
-                if let action = rowModel?.editAction {
-                    handleAction(action)
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell,
+            rowModel = cell.rowModel {
+                if self.editing {
+                    handleAction(rowModel.editAction)
+                } else {
+                    handleAction(rowModel.selectAction)
                 }
-            } else {
-                if let action = rowModel?.selectAction {
-                    handleAction(action)
-                }
-            }
         }
     }
 
