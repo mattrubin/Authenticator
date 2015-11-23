@@ -198,22 +198,21 @@ class TokenEntryForm: TokenForm {
                     factor = defaultTimerFactor
                 }
 
-                let generator = Generator(
+                if let generator = Generator(
                     factor: factor,
                     secret: secret,
                     algorithm: state.algorithm,
                     digits: state.digitCount
-                )
-                let token = Token(
-                    name: state.name,
-                    issuer: state.issuer,
-                    generator: generator
-                )
+                    ) {
+                        let token = Token(
+                            name: state.name,
+                            issuer: state.issuer,
+                            generator: generator
+                        )
 
-                if token.currentPassword != nil {
-                    callback(.Save(token))
-                    callback(.Close)
-                    return
+                        callback(.Save(token))
+                        callback(.Close)
+                        return
                 }
             }
         }

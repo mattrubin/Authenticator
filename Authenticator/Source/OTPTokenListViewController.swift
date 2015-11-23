@@ -2,24 +2,25 @@
 //  OTPTokenListViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2013 Matt Rubin
+//  Copyright (c) 2013-2015 Authenticator authors
 //
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-//  the Software, and to permit persons to whom the Software is furnished to do so,
-//  subject to the following conditions:
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
 //  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-//  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-//  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-//  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-//  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 //
 
 import UIKit
@@ -27,7 +28,7 @@ import MobileCoreServices
 import OneTimePassword
 import SVProgressHUD
 
-class OTPTokenListViewController: UITableViewController {
+class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     let tokenManager = TokenManager()
     var displayLink: CADisplayLink?
@@ -175,14 +176,9 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
-        let token = keychainItem.token
-        let rowModel = TokenRowModel(token: token, buttonAction: {
-            let newToken = updatedToken(token)
-            if self.tokenManager.saveToken(newToken, toKeychainItem: keychainItem) {
-                self.tableView.reloadData()
-            }
-        })
+        let rowModel = TokenRowModel(keychainItem: keychainItem)
         cell.updateWithRowModel(rowModel)
+        cell.delegate = self
     }
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -213,16 +209,28 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         return 85
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
-        if self.editing {
+    // MARK: TokenRowDelegate
+
+    func handleAction(action: TokenRowModel.Action) {
+        switch action {
+        case .UpdateKeychainItem(let keychainItem):
+            updateKeychainItem(keychainItem)
+        case .CopyPassword(let password):
+            copyPassword(password)
+        case .EditKeychainItem(let keychainItem):
             editKeychainItem(keychainItem)
-        } else {
-            if let password = keychainItem.token.currentPassword {
-                UIPasteboard.generalPasteboard().setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
-                SVProgressHUD.showSuccessWithStatus("Copied")
-            }
         }
+    }
+
+    private func updateKeychainItem(keychainItem: Token.KeychainItem) {
+        let newToken = keychainItem.token.updatedToken()
+        saveToken(newToken, toKeychainItem: keychainItem)
+    }
+
+    private func copyPassword(password: String) {
+        let pasteboard = UIPasteboard.generalPasteboard()
+        pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
+        SVProgressHUD.showSuccessWithStatus("Copied")
     }
 
     private func editKeychainItem(keychainItem: Token.KeychainItem) {

@@ -2,30 +2,36 @@
 //  TokenRowCell.swift
 //  Authenticator
 //
-//  Copyright (c) 2013 Matt Rubin
+//  Copyright (c) 2013-2015 Authenticator authors
 //
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-//  the Software, and to permit persons to whom the Software is furnished to do so,
-//  subject to the following conditions:
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
 //  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-//  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-//  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-//  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-//  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 //
 
 import UIKit
 
+protocol TokenRowDelegate: class {
+    func handleAction(action: TokenRowModel.Action)
+}
+
 class TokenRowCell: UITableViewCell {
-    private var rowModel = TokenRowModel()
+    weak var delegate: TokenRowDelegate?
+    private var rowModel: TokenRowModel?
 
     private let titleLabel = UILabel()
     private let passwordLabel = UILabel()
@@ -91,19 +97,21 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Update
 
     func updateWithRowModel(rowModel: TokenRowModel) {
-        // Only update the cell appearance if a visual change is necessary.
-        if !self.rowModel.isVisuallyEquivalentToRowModel(rowModel) {
+        if self.rowModel != rowModel {
             updateAppearanceWithRowModel(rowModel)
+            self.rowModel = rowModel
         }
-
-        // Always store the latest row model. Even if the visible properties have not changed, the action block might have.
-        self.rowModel = rowModel
     }
 
-    private func updateAppearanceWithRowModel(rowModel: TokenRowModel) {
-        setName(rowModel.name, issuer: rowModel.issuer)
-        setPassword(rowModel.password)
-        nextPasswordButton.hidden = !rowModel.showsButton
+    private func updateAppearanceWithRowModel(rowModel: TokenRowModel?) {
+        let name = rowModel?.name ?? ""
+        let issuer = rowModel?.issuer ?? ""
+        let password = rowModel?.password ?? ""
+        let showsButton = rowModel?.showsButton ?? false
+
+        setName(name, issuer: issuer)
+        setPassword(password)
+        nextPasswordButton.hidden = !showsButton
     }
 
     private func setName(name: String, issuer: String) {
@@ -136,10 +144,23 @@ class TokenRowCell: UITableViewCell {
         }
     }
 
-
     // MARK: - Actions
 
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        if selected, let rowModel = rowModel {
+            if self.editing {
+                delegate?.handleAction(rowModel.editAction)
+            } else {
+                delegate?.handleAction(rowModel.selectAction)
+            }
+        }
+    }
+
     func generateNextPassword() {
-        rowModel.buttonAction()
+        if let action = rowModel?.buttonAction {
+            delegate?.handleAction(action)
+        }
     }
 }
