@@ -104,7 +104,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
                 let string = metadata.stringValue {
                     // Dispatch to the main queue because setMetadataObjectsDelegate doesn't
                     dispatch_async(dispatch_get_main_queue()) {
-                        delegate?.handleDecodedText(string)
+                        self.delegate?.handleDecodedText(string)
                     }
             }
         }
