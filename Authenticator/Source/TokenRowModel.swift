@@ -27,8 +27,8 @@ import OneTimePassword
 
 struct TokenRowModel: Equatable {
     enum Action: Equatable {
-        case UpdateKeychainItem(Token.KeychainItem)
-        case EditKeychainItem(Token.KeychainItem)
+        case UpdateKeychainItem(PersistentToken)
+        case EditKeychainItem(PersistentToken)
         case CopyPassword(String)
     }
 
@@ -38,7 +38,7 @@ struct TokenRowModel: Equatable {
     let selectAction: Action
     let editAction: Action
 
-    init(keychainItem: Token.KeychainItem) {
+    init(keychainItem: PersistentToken) {
         name = keychainItem.token.name
         issuer = keychainItem.token.issuer
         password = keychainItem.token.currentPassword ?? ""

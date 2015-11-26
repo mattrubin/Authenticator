@@ -26,7 +26,8 @@ import Foundation
 import OneTimePassword
 
 class TokenManager {
-    private var keychainItems: [Token.KeychainItem] = []
+    private let keychain = Keychain.sharedInstance
+    private var keychainItems: [PersistentToken] = []
 
     init() {
         fetchTokensFromKeychain()
@@ -49,7 +50,11 @@ class TokenManager {
     }
 
     private func fetchTokensFromKeychain() {
-        keychainItems = TokenManager.keychainItems(Token.KeychainItem.allKeychainItems(),
+        guard let persistentTokens = keychain.allPersistentTokens() else {
+            return
+        }
+
+        keychainItems = TokenManager.keychainItems(persistentTokens,
             sortedByPersistentRefs: keychainItemRefs)
 
         if keychainItems.count > keychainItemRefs.count {
@@ -58,15 +63,15 @@ class TokenManager {
         }
     }
 
-    private class func keychainItems(keychainItems: [Token.KeychainItem],
-        sortedByPersistentRefs persistentRefs: [NSData]) -> [Token.KeychainItem]
+    private class func keychainItems(keychainItems: [PersistentToken],
+        sortedByPersistentRefs persistentRefs: [NSData]) -> [PersistentToken]
     {
-        var sorted: [Token.KeychainItem] = []
+        var sorted: [PersistentToken] = []
         var remaining = keychainItems
         // Iterate through the keychain item refs, building an array of the corresponding tokens
         for persistentRef in persistentRefs {
             let indexOfTokenWithSameKeychainItemRef = remaining.indexOf {
-                return ($0.persistentRef == persistentRef)
+                return ($0.identifier == persistentRef)
             }
 
             if let index = indexOfTokenWithSameKeychainItemRef {
@@ -97,7 +102,7 @@ class TokenManager {
     }
 
     func addToken(token: Token) -> Bool {
-        guard let newKeychainItem = addTokenToKeychain(token) else {
+        guard let newKeychainItem = keychain.addToken(token) else {
             return false
         }
         keychainItems.append(newKeychainItem)
@@ -105,17 +110,17 @@ class TokenManager {
         return true
     }
 
-    func keychainItemAtIndex(index: Int) -> Token.KeychainItem {
+    func keychainItemAtIndex(index: Int) -> PersistentToken {
         return keychainItems[index]
     }
 
-    func saveToken(token: Token, toKeychainItem keychainItem: Token.KeychainItem) -> Bool {
-        guard let newKeychainItem = updateKeychainItem(keychainItem, withToken: token) else {
+    func saveToken(token: Token, toKeychainItem keychainItem: PersistentToken) -> Bool {
+        guard let newKeychainItem = keychain.updatePersistentToken(keychainItem, withToken: token) else {
             return false
         }
         // Update the in-memory token, which is still the origin of the table view's data
         keychainItems = keychainItems.map { (keychainItem) in
-            if keychainItem.persistentRef == newKeychainItem.persistentRef {
+            if keychainItem.identifier == newKeychainItem.identifier {
                 return newKeychainItem
             }
             return keychainItem
@@ -132,7 +137,7 @@ class TokenManager {
 
     func removeTokenAtIndex(index: Int) -> Bool {
         let keychainItem = keychainItems[index]
-        guard deleteKeychainItem(keychainItem) else {
+        guard keychain.deletePersistentToken(keychainItem) else {
             return false
         }
         keychainItems.removeAtIndex(index)
@@ -143,6 +148,6 @@ class TokenManager {
     // MARK: -
 
     private func saveTokenOrder() {
-        keychainItemRefs = keychainItems.map { $0.persistentRef }
+        keychainItemRefs = keychainItems.map { $0.identifier }
     }
 }

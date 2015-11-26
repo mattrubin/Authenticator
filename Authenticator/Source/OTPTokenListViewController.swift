@@ -222,7 +222,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         }
     }
 
-    private func updateKeychainItem(keychainItem: Token.KeychainItem) {
+    private func updateKeychainItem(keychainItem: PersistentToken) {
         let newToken = keychainItem.token.updatedToken()
         saveToken(newToken, toKeychainItem: keychainItem)
     }
@@ -233,7 +233,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         SVProgressHUD.showSuccessWithStatus("Copied")
     }
 
-    private func editKeychainItem(keychainItem: Token.KeychainItem) {
+    private func editKeychainItem(keychainItem: PersistentToken) {
         let form = TokenEditForm(token: keychainItem.token) { [weak self] (event) in
             switch event {
             case .Save(let token):
@@ -246,7 +246,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         presentViewController(editController)
     }
 
-    private func saveToken(token: Token, toKeychainItem keychainItem: Token.KeychainItem) {
+    private func saveToken(token: Token, toKeychainItem keychainItem: PersistentToken) {
         if tokenManager.saveToken(token, toKeychainItem: keychainItem) {
             tableView.reloadData()
         }
