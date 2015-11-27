@@ -27,7 +27,7 @@ import OneTimePassword
 
 class TokenManager {
     private let keychain = Keychain.sharedInstance
-    private var keychainItems: [PersistentToken] = []
+    private var persistentTokens: [PersistentToken] = []
 
     init() {
         fetchTokensFromKeychain()
@@ -50,13 +50,13 @@ class TokenManager {
     }
 
     private func fetchTokensFromKeychain() {
-        guard let persistentTokens = try? keychain.allPersistentTokens() else {
+        guard let persistentTokenSet = try? keychain.allPersistentTokens() else {
             // TODO: handle the token loading error
             return
         }
 
         let sortedIdentifiers = keychainItemRefs
-        keychainItems = persistentTokens.sort({ (A, B) in
+        persistentTokens = persistentTokenSet.sort({ (A, B) in
             let indexOfA = sortedIdentifiers.indexOf(A.identifier)
             let indexOfB = sortedIdentifiers.indexOf(B.identifier)
             switch (indexOfA, indexOfB) {
@@ -67,7 +67,7 @@ class TokenManager {
             }
         })
 
-        if keychainItems.count > keychainItemRefs.count {
+        if persistentTokens.count > keychainItemRefs.count {
             // If lost tokens were found and appended, save the full list of tokens
             saveTokenOrder()
         }
@@ -76,13 +76,13 @@ class TokenManager {
     // MARK: -
 
     var numberOfTokens: Int {
-        return keychainItems.count
+        return persistentTokens.count
     }
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
     var timeBasedTokenPeriods: [NSTimeInterval] {
-        let periods = keychainItems.reduce(Set<NSTimeInterval>()) { (var periods, keychainItem) in
-            if case .Timer(let period) = keychainItem.token.generator.factor {
+        let periods = persistentTokens.reduce(Set<NSTimeInterval>()) { (var periods, persistentToken) in
+            if case .Timer(let period) = persistentToken.token.generator.factor {
                 periods.insert(period)
             }
             return periods
@@ -91,43 +91,43 @@ class TokenManager {
     }
 
     func addToken(token: Token) throws {
-        let newKeychainItem = try keychain.addToken(token)
-        keychainItems.append(newKeychainItem)
+        let newPersistentToken = try keychain.addToken(token)
+        persistentTokens.append(newPersistentToken)
         saveTokenOrder()
     }
 
     func persistentTokenAtIndex(index: Int) -> PersistentToken {
-        return keychainItems[index]
+        return persistentTokens[index]
     }
 
     func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
-        let newKeychainItem = try keychain.updatePersistentToken(persistentToken, withToken: token)
+        let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken, withToken: token)
         // Update the in-memory token, which is still the origin of the table view's data
-        keychainItems = keychainItems.map { (keychainItem) in
-            if keychainItem.identifier == newKeychainItem.identifier {
-                return newKeychainItem
+        persistentTokens = persistentTokens.map {
+            if $0.identifier == updatedPersistentToken.identifier {
+                return updatedPersistentToken
             }
-            return keychainItem
+            return $0
         }
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
-        let keychainItem = keychainItems[origin]
-        keychainItems.removeAtIndex(origin)
-        keychainItems.insert(keychainItem, atIndex: destination)
+        let persistentToken = persistentTokens[origin]
+        persistentTokens.removeAtIndex(origin)
+        persistentTokens.insert(persistentToken, atIndex: destination)
         saveTokenOrder()
     }
 
     func removeTokenAtIndex(index: Int) throws {
-        let keychainItem = keychainItems[index]
-        try keychain.deletePersistentToken(keychainItem)
-        keychainItems.removeAtIndex(index)
+        let persistentToken = persistentTokens[index]
+        try keychain.deletePersistentToken(persistentToken)
+        persistentTokens.removeAtIndex(index)
         saveTokenOrder()
     }
 
     // MARK: -
 
     private func saveTokenOrder() {
-        keychainItemRefs = keychainItems.map { $0.identifier }
+        keychainItemRefs = persistentTokens.map { $0.identifier }
     }
 }
