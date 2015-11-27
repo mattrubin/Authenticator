@@ -55,34 +55,22 @@ class TokenManager {
             return
         }
 
-        keychainItems = TokenManager.keychainItems(persistentTokens,
-            sortedByPersistentRefs: keychainItemRefs)
+        let sortedIdentifiers = keychainItemRefs
+        keychainItems = persistentTokens.sort({ (A, B) in
+            let indexOfA = sortedIdentifiers.indexOf(A.identifier)
+            let indexOfB = sortedIdentifiers.indexOf(B.identifier)
+            switch (indexOfA, indexOfB) {
+            case (.Some(let iA), .Some(let iB)) where iA < iB:
+                return true
+            default:
+                return false
+            }
+        })
 
         if keychainItems.count > keychainItemRefs.count {
             // If lost tokens were found and appended, save the full list of tokens
             saveTokenOrder()
         }
-    }
-
-    private class func keychainItems(keychainItems: [PersistentToken],
-        sortedByPersistentRefs persistentRefs: [NSData]) -> [PersistentToken]
-    {
-        var sorted: [PersistentToken] = []
-        var remaining = keychainItems
-        // Iterate through the keychain item refs, building an array of the corresponding tokens
-        for persistentRef in persistentRefs {
-            let indexOfTokenWithSameKeychainItemRef = remaining.indexOf {
-                return ($0.identifier == persistentRef)
-            }
-
-            if let index = indexOfTokenWithSameKeychainItemRef {
-                let matchingItem = remaining[index]
-                remaining.removeAtIndex(index)
-                sorted.append(matchingItem)
-            }
-        }
-        // Append the remaining tokens which didn't match any keychain item refs
-        return sorted + remaining
     }
 
     // MARK: -
