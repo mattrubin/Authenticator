@@ -175,8 +175,8 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let keychainItem = self.tokenManager.keychainItemAtIndex(indexPath.row)
-        let rowModel = TokenRowModel(keychainItem: keychainItem)
+        let persistentToken = self.tokenManager.keychainItemAtIndex(indexPath.row)
+        let rowModel = TokenRowModel(persistentToken: persistentToken)
         cell.updateWithRowModel(rowModel)
         cell.delegate = self
     }
@@ -216,18 +216,18 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     func handleAction(action: TokenRowModel.Action) {
         switch action {
-        case .UpdateKeychainItem(let keychainItem):
-            updateKeychainItem(keychainItem)
+        case .UpdatePersistentToken(let persistentToken):
+            updatePersistentToken(persistentToken)
         case .CopyPassword(let password):
             copyPassword(password)
-        case .EditKeychainItem(let keychainItem):
-            editKeychainItem(keychainItem)
+        case .EditPersistentToken(let persistentToken):
+            editPersistentToken(persistentToken)
         }
     }
 
-    private func updateKeychainItem(keychainItem: PersistentToken) {
-        let newToken = keychainItem.token.updatedToken()
-        saveToken(newToken, toKeychainItem: keychainItem)
+    private func updatePersistentToken(persistentToken: PersistentToken) {
+        let newToken = persistentToken.token.updatedToken()
+        saveToken(newToken, toPersistentToken: persistentToken)
     }
 
     private func copyPassword(password: String) {
@@ -236,11 +236,11 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         SVProgressHUD.showSuccessWithStatus("Copied")
     }
 
-    private func editKeychainItem(keychainItem: PersistentToken) {
-        let form = TokenEditForm(token: keychainItem.token) { [weak self] (event) in
+    private func editPersistentToken(persistentToken: PersistentToken) {
+        let form = TokenEditForm(token: persistentToken.token) { [weak self] (event) in
             switch event {
             case .Save(let token):
-                self?.saveToken(token, toKeychainItem: keychainItem)
+                self?.saveToken(token, toPersistentToken: persistentToken)
             case .Close:
                 self?.dismissViewController()
             }
@@ -249,9 +249,9 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         presentViewController(editController)
     }
 
-    private func saveToken(token: Token, toKeychainItem keychainItem: PersistentToken) {
+    private func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
         do {
-            try tokenManager.saveToken(token, toKeychainItem: keychainItem)
+            try tokenManager.saveToken(token, toKeychainItem: persistentToken)
             tableView.reloadData()
         } catch {
             // TODO: Handle the saveToken(_:toKeychainItem:) failure
