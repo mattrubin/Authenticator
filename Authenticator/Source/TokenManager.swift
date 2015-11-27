@@ -96,12 +96,12 @@ class TokenManager {
         saveTokenOrder()
     }
 
-    func keychainItemAtIndex(index: Int) -> PersistentToken {
+    func persistentTokenAtIndex(index: Int) -> PersistentToken {
         return keychainItems[index]
     }
 
-    func saveToken(token: Token, toKeychainItem keychainItem: PersistentToken) throws {
-        let newKeychainItem = try keychain.updatePersistentToken(keychainItem, withToken: token)
+    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
+        let newKeychainItem = try keychain.updatePersistentToken(persistentToken, withToken: token)
         // Update the in-memory token, which is still the origin of the table view's data
         keychainItems = keychainItems.map { (keychainItem) in
             if keychainItem.identifier == newKeychainItem.identifier {

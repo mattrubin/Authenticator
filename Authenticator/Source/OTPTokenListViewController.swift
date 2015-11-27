@@ -175,7 +175,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let persistentToken = self.tokenManager.keychainItemAtIndex(indexPath.row)
+        let persistentToken = tokenManager.persistentTokenAtIndex(indexPath.row)
         let rowModel = TokenRowModel(persistentToken: persistentToken)
         cell.updateWithRowModel(rowModel)
         cell.delegate = self
@@ -251,10 +251,10 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     private func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
         do {
-            try tokenManager.saveToken(token, toKeychainItem: persistentToken)
+            try tokenManager.saveToken(token, toPersistentToken: persistentToken)
             tableView.reloadData()
         } catch {
-            // TODO: Handle the saveToken(_:toKeychainItem:) failure
+            // TODO: Handle the saveToken(_:toPersistentToken:) failure
         }
     }
 
