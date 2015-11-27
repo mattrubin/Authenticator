@@ -55,7 +55,7 @@ class TokenManager {
 
         if persistentTokens.count > sortedIdentifiers.count {
             // If lost tokens were found and appended, save the full list of tokens
-            savePersistentIdentifiers()
+            saveTokenOrder()
         }
     }
 
@@ -79,7 +79,7 @@ class TokenManager {
     func addToken(token: Token) throws {
         let newPersistentToken = try keychain.addToken(token)
         persistentTokens.append(newPersistentToken)
-        savePersistentIdentifiers()
+        saveTokenOrder()
     }
 
     func persistentTokenAtIndex(index: Int) -> PersistentToken {
@@ -101,29 +101,33 @@ class TokenManager {
         let persistentToken = persistentTokens[origin]
         persistentTokens.removeAtIndex(origin)
         persistentTokens.insert(persistentToken, atIndex: destination)
-        savePersistentIdentifiers()
+        saveTokenOrder()
     }
 
     func removeTokenAtIndex(index: Int) throws {
         let persistentToken = persistentTokens[index]
         try keychain.deletePersistentToken(persistentToken)
         persistentTokens.removeAtIndex(index)
-        savePersistentIdentifiers()
+        saveTokenOrder()
     }
 
     // MARK: Token Order
 
-    private let kOTPKeychainEntriesArray = "OTPKeychainEntries"
+    private static let kOTPKeychainEntriesArray = "OTPKeychainEntries"
 
-    private func persistentIdentifiers() -> [NSData] {
+    private static func persistentIdentifiers() -> [NSData] {
         let defaults = NSUserDefaults.standardUserDefaults()
         return defaults.arrayForKey(kOTPKeychainEntriesArray) as? [NSData] ?? []
     }
 
-    private func savePersistentIdentifiers() {
-        let persistentIdentifiers = persistentTokens.map { $0.identifier }
+    private static func savePersistentIdentifiers(identifiers: [NSData]) {
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(persistentIdentifiers, forKey: kOTPKeychainEntriesArray)
+        defaults.setObject(identifiers, forKey: kOTPKeychainEntriesArray)
         defaults.synchronize()
+    }
+
+    private func saveTokenOrder() {
+        let persistentIdentifiers = persistentTokens.map { $0.identifier }
+        TokenManager.savePersistentIdentifiers(persistentIdentifiers)
     }
 }
