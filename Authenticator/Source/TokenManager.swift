@@ -50,7 +50,8 @@ class TokenManager {
     }
 
     private func fetchTokensFromKeychain() {
-        guard let persistentTokens = keychain.allPersistentTokens() else {
+        guard let persistentTokens = try? keychain.allPersistentTokens() else {
+            // TODO: handle the token loading error
             return
         }
 
@@ -101,23 +102,18 @@ class TokenManager {
         return Array(periods).sort()
     }
 
-    func addToken(token: Token) -> Bool {
-        guard let newKeychainItem = keychain.addToken(token) else {
-            return false
-        }
+    func addToken(token: Token) throws {
+        let newKeychainItem = try keychain.addToken(token)
         keychainItems.append(newKeychainItem)
         saveTokenOrder()
-        return true
     }
 
     func keychainItemAtIndex(index: Int) -> PersistentToken {
         return keychainItems[index]
     }
 
-    func saveToken(token: Token, toKeychainItem keychainItem: PersistentToken) -> Bool {
-        guard let newKeychainItem = keychain.updatePersistentToken(keychainItem, withToken: token) else {
-            return false
-        }
+    func saveToken(token: Token, toKeychainItem keychainItem: PersistentToken) throws {
+        let newKeychainItem = try keychain.updatePersistentToken(keychainItem, withToken: token)
         // Update the in-memory token, which is still the origin of the table view's data
         keychainItems = keychainItems.map { (keychainItem) in
             if keychainItem.identifier == newKeychainItem.identifier {
@@ -125,7 +121,6 @@ class TokenManager {
             }
             return keychainItem
         }
-        return true
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
@@ -135,14 +130,11 @@ class TokenManager {
         saveTokenOrder()
     }
 
-    func removeTokenAtIndex(index: Int) -> Bool {
+    func removeTokenAtIndex(index: Int) throws {
         let keychainItem = keychainItems[index]
-        guard keychain.deletePersistentToken(keychainItem) else {
-            return false
-        }
+        try keychain.deletePersistentToken(keychainItem)
         keychainItems.removeAtIndex(index)
         saveTokenOrder()
-        return true
     }
 
     // MARK: -

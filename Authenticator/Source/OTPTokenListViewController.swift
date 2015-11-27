@@ -183,13 +183,16 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            if self.tokenManager.removeTokenAtIndex(indexPath.row) {
+            do {
+                try tokenManager.removeTokenAtIndex(indexPath.row)
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 self.update()
 
                 if self.tokenManager.numberOfTokens == 0 {
                     self.setEditing(false, animated: true)
                 }
+            } catch {
+                // TODO: Handle the removeTokenAtIndex(_:) failure
             }
         }
     }
@@ -247,13 +250,17 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 
     private func saveToken(token: Token, toKeychainItem keychainItem: PersistentToken) {
-        if tokenManager.saveToken(token, toKeychainItem: keychainItem) {
+        do {
+            try tokenManager.saveToken(token, toKeychainItem: keychainItem)
             tableView.reloadData()
+        } catch {
+            // TODO: Handle the saveToken(_:toKeychainItem:) failure
         }
     }
 
     func saveNewToken(token: Token) {
-        if self.tokenManager.addToken(token) {
+        do {
+            try tokenManager.addToken(token)
             self.tableView.reloadData()
             self.update()
 
@@ -261,6 +268,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
             let section = self.numberOfSectionsInTableView(self.tableView) - 1
             let row = self.tableView(self.tableView, numberOfRowsInSection: section) - 1
             self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: row, inSection: section), atScrollPosition: .Middle, animated: true)
+        } catch {
+            // TODO: Handle the addToken(_:) failure
         }
     }
 
