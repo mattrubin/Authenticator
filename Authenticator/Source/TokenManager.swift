@@ -27,35 +27,32 @@ import OneTimePassword
 
 class TokenManager {
     private let keychain = Keychain.sharedInstance
-    private var persistentTokens: [PersistentToken] = []
+    private var persistentTokens: [PersistentToken]
 
     init() {
-        fetchTokensFromKeychain()
-    }
+        do {
+            let persistentTokenSet = try keychain.allPersistentTokens()
+            let sortedIdentifiers = TokenManager.persistentIdentifiers()
 
-    // MARK: -
+            persistentTokens = persistentTokenSet.sort({ (A, B) in
+                let indexOfA = sortedIdentifiers.indexOf(A.identifier)
+                let indexOfB = sortedIdentifiers.indexOf(B.identifier)
 
-    private func fetchTokensFromKeychain() {
-        guard let persistentTokenSet = try? keychain.allPersistentTokens() else {
-            // TODO: handle the token loading error
-            return
-        }
+                switch (indexOfA, indexOfB) {
+                case (.Some(let iA), .Some(let iB)) where iA < iB:
+                    return true
+                default:
+                    return false
+                }
+            })
 
-        let sortedIdentifiers = persistentIdentifiers()
-        persistentTokens = persistentTokenSet.sort({ (A, B) in
-            let indexOfA = sortedIdentifiers.indexOf(A.identifier)
-            let indexOfB = sortedIdentifiers.indexOf(B.identifier)
-            switch (indexOfA, indexOfB) {
-            case (.Some(let iA), .Some(let iB)) where iA < iB:
-                return true
-            default:
-                return false
+            if persistentTokens.count > sortedIdentifiers.count {
+                // If lost tokens were found and appended, save the full list of tokens
+                saveTokenOrder()
             }
-        })
-
-        if persistentTokens.count > sortedIdentifiers.count {
-            // If lost tokens were found and appended, save the full list of tokens
-            saveTokenOrder()
+        } catch {
+            persistentTokens = []
+            // TODO: Handle the token loading error
         }
     }
 
