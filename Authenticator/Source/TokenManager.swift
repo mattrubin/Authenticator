@@ -35,27 +35,13 @@ class TokenManager {
 
     // MARK: -
 
-    private let kOTPKeychainEntriesArray = "OTPKeychainEntries"
-
-    private var keychainItemRefs: [NSData] {
-        get {
-            let defaults = NSUserDefaults.standardUserDefaults()
-            return defaults.arrayForKey(kOTPKeychainEntriesArray) as? [NSData] ?? []
-        }
-        set {
-            let defaults = NSUserDefaults.standardUserDefaults()
-            defaults.setObject(newValue, forKey: kOTPKeychainEntriesArray)
-            defaults.synchronize()
-        }
-    }
-
     private func fetchTokensFromKeychain() {
         guard let persistentTokenSet = try? keychain.allPersistentTokens() else {
             // TODO: handle the token loading error
             return
         }
 
-        let sortedIdentifiers = keychainItemRefs
+        let sortedIdentifiers = persistentIdentifiers()
         persistentTokens = persistentTokenSet.sort({ (A, B) in
             let indexOfA = sortedIdentifiers.indexOf(A.identifier)
             let indexOfB = sortedIdentifiers.indexOf(B.identifier)
@@ -67,9 +53,9 @@ class TokenManager {
             }
         })
 
-        if persistentTokens.count > keychainItemRefs.count {
+        if persistentTokens.count > sortedIdentifiers.count {
             // If lost tokens were found and appended, save the full list of tokens
-            saveTokenOrder()
+            savePersistentIdentifiers()
         }
     }
 
@@ -93,7 +79,7 @@ class TokenManager {
     func addToken(token: Token) throws {
         let newPersistentToken = try keychain.addToken(token)
         persistentTokens.append(newPersistentToken)
-        saveTokenOrder()
+        savePersistentIdentifiers()
     }
 
     func persistentTokenAtIndex(index: Int) -> PersistentToken {
@@ -115,19 +101,29 @@ class TokenManager {
         let persistentToken = persistentTokens[origin]
         persistentTokens.removeAtIndex(origin)
         persistentTokens.insert(persistentToken, atIndex: destination)
-        saveTokenOrder()
+        savePersistentIdentifiers()
     }
 
     func removeTokenAtIndex(index: Int) throws {
         let persistentToken = persistentTokens[index]
         try keychain.deletePersistentToken(persistentToken)
         persistentTokens.removeAtIndex(index)
-        saveTokenOrder()
+        savePersistentIdentifiers()
     }
 
-    // MARK: -
+    // MARK: Token Order
 
-    private func saveTokenOrder() {
-        keychainItemRefs = persistentTokens.map { $0.identifier }
+    private let kOTPKeychainEntriesArray = "OTPKeychainEntries"
+
+    private func persistentIdentifiers() -> [NSData] {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        return defaults.arrayForKey(kOTPKeychainEntriesArray) as? [NSData] ?? []
+    }
+
+    private func savePersistentIdentifiers() {
+        let persistentIdentifiers = persistentTokens.map { $0.identifier }
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(persistentIdentifiers, forKey: kOTPKeychainEntriesArray)
+        defaults.synchronize()
     }
 }
