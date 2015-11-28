@@ -46,7 +46,7 @@ private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<
     case let (.Some(oldRow), .Some(newRow)):
         if isSameRow(oldRow, newRow) {
             // The old and new rows are the same row, and can be represented by an Update
-            // TODO: Don't update if the rows are truly equal
+            // TODO: Don't update if the rows are truly equal (requires Row to be Equatable)
             return changesWithUpdate(from: oldRows, to: newRows, comparator: isSameRow)
         } else {
             // The old and new rows are different, so compute the two possible change sets:
@@ -84,7 +84,7 @@ private func changesWithInsertion<Row>(from oldRows: ArraySlice<Row>, to newRows
 private func changesWithUpdate<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<Row>,
     comparator isSameRow: (Row, Row) -> Bool) -> [Change]
 {
-    // TODO: Test update indices
+    // TODO: Test update indices (old index or new?)
     let update = Change.Update(index: newRows.endIndex.predecessor())
     let changesAfterUpdate = changes(from: oldRows.dropLast(), to: newRows.dropLast(),
         comparator: isSameRow)
