@@ -251,32 +251,43 @@ class TokenFormViewController: UITableViewController {
 
     func updateRowAtIndexPath(indexPath: NSIndexPath) {
         guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
+            // If the given row is not visible, the table view will have no cell for it, and it
+            // doesn't need to be updated.
             return
         }
         guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath) else {
-            // TODO: handle a nil row model
+            // If there is no row model for the given index path, just tell the table view to
+            // reload it and hope for the best.
+            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             return
         }
 
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            if let cell = cell as? TextFieldRowCell {
-                cell.updateWithViewModel(viewModel)
+            guard let cell = cell as? TextFieldRowCell else  {
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                return
             }
+            cell.updateWithViewModel(viewModel)
         case .TokenTypeRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<TokenTypeRowViewModel> {
-                cell.updateWithViewModel(viewModel)
+            guard let cell = cell as? SegmentedControlRowCell<TokenTypeRowViewModel> else  {
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                return
             }
+            cell.updateWithViewModel(viewModel)
         case .DigitCountRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<DigitCountRowViewModel> {
-                cell.updateWithViewModel(viewModel)
+            guard let cell = cell as? SegmentedControlRowCell<DigitCountRowViewModel> else  {
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                return
             }
+            cell.updateWithViewModel(viewModel)
         case .AlgorithmRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<AlgorithmRowViewModel> {
-                cell.updateWithViewModel(viewModel)
+            guard let cell = cell as? SegmentedControlRowCell<AlgorithmRowViewModel> else  {
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                return
             }
+            cell.updateWithViewModel(viewModel)
         }
-        // TODO: handle the case where a row cell cannot be updated
     }
 
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
