@@ -85,7 +85,8 @@ class TokenManager {
     }
 
     func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
-        let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken, withToken: token)
+        let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
+            withToken: token)
         // Update the in-memory token, which is still the origin of the table view's data
         persistentTokens = persistentTokens.map {
             if $0.identifier == updatedPersistentToken.identifier {
