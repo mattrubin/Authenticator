@@ -113,7 +113,8 @@ class TokenEntryForm: TokenForm {
 
     private var advancedSectionHeader: Form.HeaderModel {
         let model = ButtonHeaderViewModel(title: "Advanced Options") { [weak self] in
-            self?.toggleAdvancedOptions()
+            self?.state.showsAdvancedOptions = true
+            // TODO: Scroll to the newly-expanded section
         }
         return .ButtonHeader(model)
     }
@@ -219,13 +220,5 @@ class TokenEntryForm: TokenForm {
 
         // If the method hasn't returned by this point, token creation failed
         presenter?.form(self, didFailWithErrorMessage: "Invalid Token")
-    }
-
-    func toggleAdvancedOptions() {
-        if !state.showsAdvancedOptions {
-            state.showsAdvancedOptions = true
-            presenter?.updateWithViewModel(viewModel)
-            // TODO: Scroll to the newly-expanded section
-        }
     }
 }
