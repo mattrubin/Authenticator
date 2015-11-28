@@ -50,6 +50,8 @@ class TokenEntryForm: TokenForm {
         var digitCount: Int
         var algorithm: Generator.Algorithm
 
+        var showsAdvancedOptions: Bool
+
         var isValid: Bool {
             return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
         }
@@ -61,9 +63,6 @@ class TokenEntryForm: TokenForm {
         }
     }
 
-    // TODO: move this into State when form(_:didReloadSection:) is no longer necessary
-    var showsAdvancedOptions = false
-
     // MARK: Initialization
 
     init(callback: (Event) -> ()) {
@@ -74,7 +73,8 @@ class TokenEntryForm: TokenForm {
             secret: "",
             tokenType: .Timer,
             digitCount: 6,
-            algorithm: .SHA1
+            algorithm: .SHA1,
+            showsAdvancedOptions: false
         )
     }
 
@@ -97,7 +97,7 @@ class TokenEntryForm: TokenForm {
                 ],
                 Section(
                     header: advancedSectionHeader,
-                    rows: !showsAdvancedOptions ? [] :
+                    rows: !state.showsAdvancedOptions ? [] :
                         [
                             tokenTypeRowModel,
                             digitCountRowModel,
@@ -222,8 +222,8 @@ class TokenEntryForm: TokenForm {
     }
 
     func toggleAdvancedOptions() {
-        if !showsAdvancedOptions {
-            showsAdvancedOptions = true
+        if !state.showsAdvancedOptions {
+            state.showsAdvancedOptions = true
             presenter?.formValuesDidChange(self)
             // TODO: Scroll to the newly-expanded section
         }
