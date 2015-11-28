@@ -28,6 +28,6 @@ protocol TokenForm {
 }
 
 protocol TokenFormPresenter: class {
-    func formValuesDidChange(form: TokenForm)
+    func updateWithViewModel(viewModel: TableViewModel<Form>)
     func form(form: TokenForm, didFailWithErrorMessage errorMessage: String)
 }

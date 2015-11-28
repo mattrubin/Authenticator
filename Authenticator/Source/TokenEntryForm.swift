@@ -59,7 +59,7 @@ class TokenEntryForm: TokenForm {
 
     private var state: State {
         didSet {
-            presenter?.formValuesDidChange(self)
+            presenter?.updateWithViewModel(viewModel)
         }
     }
 
@@ -224,7 +224,7 @@ class TokenEntryForm: TokenForm {
     func toggleAdvancedOptions() {
         if !state.showsAdvancedOptions {
             state.showsAdvancedOptions = true
-            presenter?.formValuesDidChange(self)
+            presenter?.updateWithViewModel(viewModel)
             // TODO: Scroll to the newly-expanded section
         }
     }

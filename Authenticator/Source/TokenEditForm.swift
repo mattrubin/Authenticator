@@ -50,7 +50,7 @@ class TokenEditForm: TokenForm {
 
     private var state: State {
         didSet {
-            presenter?.formValuesDidChange(self)
+            presenter?.updateWithViewModel(viewModel)
         }
     }
 

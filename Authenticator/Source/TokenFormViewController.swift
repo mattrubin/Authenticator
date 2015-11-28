@@ -322,8 +322,8 @@ class TokenFormViewController: UITableViewController {
 
 extension TokenFormViewController: TokenFormPresenter {
 
-    func formValuesDidChange(form: TokenForm) {
-        viewModel = form.viewModel
+    func updateWithViewModel(viewModel: TableViewModel<Form>) {
+        self.viewModel = viewModel
         updateBarButtonItems()
     }
 
