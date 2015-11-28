@@ -27,14 +27,57 @@ import SVProgressHUD
 
 class TokenFormViewController: UITableViewController {
     private var form: TokenForm?
-    private var viewModel: TableViewModel<Form> = EmptyTableViewModel()
+    private var viewModel: TableViewModel<Form> = EmptyTableViewModel() {
+        didSet {
+            guard oldValue.sections.count == viewModel.sections.count else {
+                // Automatic updates aren't implemented for changing number of sections
+                tableView.reloadData()
+                return
+            }
+            tableView.beginUpdates()
+            for sectionIndex in oldValue.sections.indices {
+                let oldSection = oldValue.sections[sectionIndex]
+                let newSection = viewModel.sections[sectionIndex]
+                let changes = diff(from: oldSection.rows, to: newSection.rows, comparator: {
+                    // As currently used, form rows don't move around much, so comparing the row
+                    // type is sufficient here. For more complex changes, row models should be
+                    // compared for identity.
+                    switch ($0, $1) {
+                    case (.TextFieldRow, .TextFieldRow): return true
+                    case (.TokenTypeRow, .TokenTypeRow): return true
+                    case (.DigitCountRow, .DigitCountRow): return true
+                    case (.AlgorithmRow, .AlgorithmRow): return true
+                    default: return false
+                    }
+                })
+                for change in changes {
+                    switch change {
+                    case .Insert(let rowIndex):
+                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    case .Update(let rowIndex):
+                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                        updateRowAtIndexPath(indexPath)
+                    case .Delete(let rowIndex):
+                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    case let .Move(fromRowIndex, toRowIndex):
+                        let origin = NSIndexPath(forRow: fromRowIndex, inSection: sectionIndex)
+                        let destination = NSIndexPath(forRow: toRowIndex, inSection: sectionIndex)
+                        tableView.moveRowAtIndexPath(origin, toIndexPath: destination)
+                    }
+                }
+            }
+            tableView.endUpdates()
+        }
+    }
 
     init(form: TokenForm) {
         super.init(style: .Grouped)
         var presentedForm = form
         presentedForm.presenter = self
         self.form = presentedForm
-        viewModel = presentedForm.viewModel;
+        viewModel = presentedForm.viewModel
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -209,6 +252,47 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
+    func updateRowAtIndexPath(indexPath: NSIndexPath) {
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
+            // If the given row is not visible, the table view will have no cell for it, and it
+            // doesn't need to be updated.
+            return
+        }
+        guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath) else {
+            // If there is no row model for the given index path, just tell the table view to
+            // reload it and hope for the best.
+            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            return
+        }
+
+        switch rowModel {
+        case .TextFieldRow(let viewModel):
+            if let cell = cell as? TextFieldRowCell {
+                cell.updateWithViewModel(viewModel)
+            } else {
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            }
+        case .TokenTypeRow(let viewModel):
+            if let cell = cell as? SegmentedControlRowCell<TokenTypeRowViewModel> {
+                cell.updateWithViewModel(viewModel)
+            } else {
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            }
+        case .DigitCountRow(let viewModel):
+            if let cell = cell as? SegmentedControlRowCell<DigitCountRowViewModel> {
+                cell.updateWithViewModel(viewModel)
+            } else {
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            }
+        case .AlgorithmRow(let viewModel):
+            if let cell = cell as? SegmentedControlRowCell<AlgorithmRowViewModel> {
+                cell.updateWithViewModel(viewModel)
+            } else {
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            }
+        }
+    }
+
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
         case .TextFieldRow(let viewModel):
@@ -241,21 +325,13 @@ class TokenFormViewController: UITableViewController {
 
 extension TokenFormViewController: TokenFormPresenter {
 
-    func formValuesDidChange(form: TokenForm) {
-        viewModel = form.viewModel
+    func updateWithViewModel(viewModel: TableViewModel<Form>) {
+        self.viewModel = viewModel
         updateBarButtonItems()
     }
 
     func form(form: TokenForm, didFailWithErrorMessage errorMessage: String) {
         SVProgressHUD.showErrorWithStatus(errorMessage)
-    }
-
-    func form(form: TokenForm, didReloadSection section: Int) {
-        viewModel = form.viewModel
-        tableView.reloadSections(NSIndexSet(index: section), withRowAnimation: .Automatic)
-        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section),
-            atScrollPosition: .Top,
-            animated: true)
     }
 }
 

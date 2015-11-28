@@ -91,7 +91,11 @@ class TextFieldRowCell: UITableViewCell {
         textField.keyboardType = viewModel.keyboardType
         textField.returnKeyType = viewModel.returnKeyType
 
-        textField.text = viewModel.value
+        // UITextField can behave erratically if its text is updated while it is being edited,
+        // especially with Chinese text entry. Only update if truly necessary.
+        if textField.text != viewModel.value {
+            textField.text = viewModel.value
+        }
         changeAction = viewModel.changeAction
     }
 

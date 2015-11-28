@@ -50,6 +50,8 @@ class TokenEntryForm: TokenForm {
         var digitCount: Int
         var algorithm: Generator.Algorithm
 
+        var showsAdvancedOptions: Bool
+
         var isValid: Bool {
             return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
         }
@@ -57,12 +59,9 @@ class TokenEntryForm: TokenForm {
 
     private var state: State {
         didSet {
-            presenter?.formValuesDidChange(self)
+            presenter?.updateWithViewModel(viewModel)
         }
     }
-
-    // TODO: move this into State when form(_:didReloadSection:) is no longer necessary
-    var showsAdvancedOptions = false
 
     // MARK: Initialization
 
@@ -74,7 +73,8 @@ class TokenEntryForm: TokenForm {
             secret: "",
             tokenType: .Timer,
             digitCount: 6,
-            algorithm: .SHA1
+            algorithm: .SHA1,
+            showsAdvancedOptions: false
         )
     }
 
@@ -97,7 +97,7 @@ class TokenEntryForm: TokenForm {
                 ],
                 Section(
                     header: advancedSectionHeader,
-                    rows: !showsAdvancedOptions ? [] :
+                    rows: !state.showsAdvancedOptions ? [] :
                         [
                             tokenTypeRowModel,
                             digitCountRowModel,
@@ -113,7 +113,8 @@ class TokenEntryForm: TokenForm {
 
     private var advancedSectionHeader: Form.HeaderModel {
         let model = ButtonHeaderViewModel(title: "Advanced Options") { [weak self] in
-            self?.toggleAdvancedOptions()
+            self?.state.showsAdvancedOptions = true
+            // TODO: Scroll to the newly-expanded section
         }
         return .ButtonHeader(model)
     }
@@ -219,13 +220,5 @@ class TokenEntryForm: TokenForm {
 
         // If the method hasn't returned by this point, token creation failed
         presenter?.form(self, didFailWithErrorMessage: "Invalid Token")
-    }
-
-    func toggleAdvancedOptions() {
-        if !showsAdvancedOptions {
-            showsAdvancedOptions = true
-            // TODO: Don't hard-code this index
-            presenter?.form(self, didReloadSection: 1)
-        }
     }
 }
