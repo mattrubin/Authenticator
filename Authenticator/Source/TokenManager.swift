@@ -65,7 +65,8 @@ class TokenManager {
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
     var timeBasedTokenPeriods: [NSTimeInterval] {
-        let periods = persistentTokens.reduce(Set<NSTimeInterval>()) { (var periods, persistentToken) in
+        let periods = persistentTokens.reduce(Set<NSTimeInterval>()) {
+            (var periods, persistentToken) in
             if case .Timer(let period) = persistentToken.token.generator.factor {
                 periods.insert(period)
             }
