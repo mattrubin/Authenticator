@@ -27,8 +27,8 @@ import OneTimePassword
 
 struct TokenRowModel: Equatable {
     enum Action: Equatable {
-        case UpdateKeychainItem(Token.KeychainItem)
-        case EditKeychainItem(Token.KeychainItem)
+        case UpdatePersistentToken(PersistentToken)
+        case EditPersistentToken(PersistentToken)
         case CopyPassword(String)
     }
 
@@ -38,18 +38,18 @@ struct TokenRowModel: Equatable {
     let selectAction: Action
     let editAction: Action
 
-    init(keychainItem: Token.KeychainItem) {
-        name = keychainItem.token.name
-        issuer = keychainItem.token.issuer
-        password = keychainItem.token.currentPassword ?? ""
-        if case .Counter = keychainItem.token.generator.factor {
+    init(persistentToken: PersistentToken) {
+        name = persistentToken.token.name
+        issuer = persistentToken.token.issuer
+        password = persistentToken.token.currentPassword ?? ""
+        if case .Counter = persistentToken.token.generator.factor {
             showsButton = true
         } else {
             showsButton = false
         }
-        buttonAction = .UpdateKeychainItem(keychainItem)
+        buttonAction = .UpdatePersistentToken(persistentToken)
         selectAction = .CopyPassword(password)
-        editAction = .EditKeychainItem(keychainItem)
+        editAction = .EditPersistentToken(persistentToken)
     }
 }
 
@@ -65,9 +65,9 @@ func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
 
 func == (lhs: TokenRowModel.Action, rhs: TokenRowModel.Action) -> Bool {
     switch (lhs, rhs) {
-    case let (.UpdateKeychainItem(l), .UpdateKeychainItem(r)):
+    case let (.UpdatePersistentToken(l), .UpdatePersistentToken(r)):
         return l == r
-    case let (.EditKeychainItem(l), .EditKeychainItem(r)):
+    case let (.EditPersistentToken(l), .EditPersistentToken(r)):
         return l == r
     case let (.CopyPassword(l), .CopyPassword(r)):
         return l == r
