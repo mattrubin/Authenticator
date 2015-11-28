@@ -27,14 +27,53 @@ import SVProgressHUD
 
 class TokenFormViewController: UITableViewController {
     private var form: TokenForm?
-    private var viewModel: TableViewModel<Form> = EmptyTableViewModel()
+    private var viewModel: TableViewModel<Form> = EmptyTableViewModel() {
+        didSet {
+            guard oldValue.sections.count == viewModel.sections.count else {
+                // Automatic updates aren't implemented for changing number of sections
+                tableView.reloadData()
+                return
+            }
+            tableView.beginUpdates()
+            for sectionIndex in oldValue.sections.indices {
+                let oldSection = oldValue.sections[sectionIndex]
+                let newSection = viewModel.sections[sectionIndex]
+                let changes = diff(from: ArraySlice(oldSection.rows), to: ArraySlice(newSection.rows), comparator: {
+                    switch ($0, $1) {
+                    case (.TextFieldRow, .TextFieldRow): return true
+                    case (.TokenTypeRow, .TokenTypeRow): return true
+                    case (.DigitCountRow, .DigitCountRow): return true
+                    case (.AlgorithmRow, .AlgorithmRow): return true
+                    default: return false
+                    }
+                })
+                for change in changes {
+                    switch change {
+                    case .Insert(let rowIndex):
+                        let indexPaths = [NSIndexPath(forRow: rowIndex, inSection: sectionIndex)]
+                        tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+                    case .Update:
+                        break // FIXME: Update rows without reloading
+                    case .Delete(let rowIndex):
+                        let indexPaths = [NSIndexPath(forRow: rowIndex, inSection: sectionIndex)]
+                        tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+                    case let .Move(fromRowIndex, toRowIndex):
+                        let fromIndexPath = NSIndexPath(forRow: fromRowIndex, inSection: sectionIndex)
+                        let toIndexPath = NSIndexPath(forRow: toRowIndex, inSection: sectionIndex)
+                        tableView.moveRowAtIndexPath(fromIndexPath, toIndexPath: toIndexPath)
+                    }
+                }
+            }
+            tableView.endUpdates()
+        }
+    }
 
     init(form: TokenForm) {
         super.init(style: .Grouped)
         var presentedForm = form
         presentedForm.presenter = self
         self.form = presentedForm
-        viewModel = presentedForm.viewModel;
+        viewModel = presentedForm.viewModel
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -252,7 +291,6 @@ extension TokenFormViewController: TokenFormPresenter {
 
     func form(form: TokenForm, didReloadSection section: Int) {
         viewModel = form.viewModel
-        tableView.reloadSections(NSIndexSet(index: section), withRowAnimation: .Automatic)
         tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section),
             atScrollPosition: .Top,
             animated: true)

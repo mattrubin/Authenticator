@@ -10,7 +10,7 @@
 		1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* OTPAppDelegate.swift */; };
 		8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */; };
 		C9078D181AB7E90A0068A11D /* OTPTextFieldCell+TokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9078D171AB7E90A0068A11D /* OTPTextFieldCell+TokenForm.swift */; };
-		C910ADC11BF0315A00C988F5 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C910ADC01BF0315A00C988F5 /* TokenManager.swift */; settings = {ASSET_TAGS = (); }; };
+		C910ADC11BF0315A00C988F5 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C910ADC01BF0315A00C988F5 /* TokenManager.swift */; };
 		C92708AC19CFB0750033128B /* OTPTokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708AB19CFB0750033128B /* OTPTokenListViewController.swift */; };
 		C93AD15219CD51BE007480E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AD15119CD51BE007480E9 /* Colors.swift */; };
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -18,8 +18,8 @@
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
 		C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97CDF291BEEA82B00D64406 /* CommonCrypto.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CDF2B1BEEC90100D64406 /* QRScanner.swift */; settings = {ASSET_TAGS = (); }; };
-		C9800C491BCAA81D00CCB9B7 /* FormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9800C481BCAA81D00CCB9B7 /* FormModels.swift */; settings = {ASSET_TAGS = (); }; };
+		C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CDF2B1BEEC90100D64406 /* QRScanner.swift */; };
+		C9800C491BCAA81D00CCB9B7 /* FormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9800C481BCAA81D00CCB9B7 /* FormModels.swift */; };
 		C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */; };
 		C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */; };
 		C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */; };
@@ -27,15 +27,16 @@
 		C9919CDD1BA64EED006237C1 /* TokenEntryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */; };
 		C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */; };
 		C9919CE21BA733FD006237C1 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CE11BA733FD006237C1 /* Section.swift */; };
-		C99B85251BC9AB7100A6C75D /* BarButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */; settings = {ASSET_TAGS = (); }; };
+		C99B85251BC9AB7100A6C75D /* BarButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */; };
 		C9AAB0791B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0781B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift */; };
 		C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */; };
 		C9AAB0811B9187F8000CE547 /* TokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0801B9187F8000CE547 /* TokenForm.swift */; };
+		C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328C1C09495D0076F77E /* TableDiff.swift */; };
 		C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */; };
 		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
-		C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09521BA9133B008C54FE /* FocusCell.swift */; settings = {ASSET_TAGS = (); }; };
-		C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09541BA91D1C008C54FE /* TableViewModel.swift */; settings = {ASSET_TAGS = (); }; };
+		C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */; };
+		C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09521BA9133B008C54FE /* FocusCell.swift */; };
+		C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09541BA91D1C008C54FE /* TableViewModel.swift */; };
 		C9D6C83F1906BD68004F0E08 /* SegmentedControlRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* SegmentedControlRowCell.swift */; };
 		C9D6C8461906CD54004F0E08 /* TextFieldRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* TextFieldRowCell.swift */; };
 		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
@@ -118,6 +119,7 @@
 		C9AAB0781B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OTPSegmentedControlCell+TokenForm.swift"; sourceTree = "<group>"; };
 		C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEditForm.swift; sourceTree = "<group>"; };
 		C9AAB0801B9187F8000CE547 /* TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenForm.swift; sourceTree = "<group>"; };
+		C9B7328C1C09495D0076F77E /* TableDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDiff.swift; sourceTree = "<group>"; };
 		C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		C9C6CCA11842E331000100C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenFormViewController.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 			isa = PBXGroup;
 			children = (
 				C93AD15119CD51BE007480E9 /* Colors.swift */,
+				C9B7328C1C09495D0076F77E /* TableDiff.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */,
 				C9919CE21BA733FD006237C1 /* Section.swift in Sources */,
 				C9D6C8461906CD54004F0E08 /* TextFieldRowCell.swift in Sources */,
+				C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */,
 				C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */,
 				C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */,
 				C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */,
