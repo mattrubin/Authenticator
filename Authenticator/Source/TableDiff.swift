@@ -29,13 +29,14 @@ enum Change {
     case Insert(index: Int)
     case Update(index: Int)
     case Delete(index: Int)
+    // TODO: Consolidate matching Inserts and Deletes into Moves
     case Move(fromIndex: Int, toIndex: Int)
 }
 
-func diff<Row>(from oldArray: [Row], to newArray: [Row], comparator isSameRow: (Row, Row) -> Bool)
+func diff<Row>(from oldRows: [Row], to newRows: [Row], comparator isSameRow: (Row, Row) -> Bool)
     -> [Change]
 {
-    return changes(from: ArraySlice(oldArray), to: ArraySlice(newArray), comparator: isSameRow)
+    return changes(from: ArraySlice(oldRows), to: ArraySlice(newRows), comparator: isSameRow)
 }
 
 private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<Row>,

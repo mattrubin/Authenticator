@@ -39,6 +39,9 @@ class TokenFormViewController: UITableViewController {
                 let oldSection = oldValue.sections[sectionIndex]
                 let newSection = viewModel.sections[sectionIndex]
                 let changes = diff(from: oldSection.rows, to: newSection.rows, comparator: {
+                    // As currently used, form rows don't move around much, so comparing the row
+                    // type is sufficient here. For more complex changes, row models should be 
+                    // compared for identity.
                     switch ($0, $1) {
                     case (.TextFieldRow, .TextFieldRow): return true
                     case (.TokenTypeRow, .TokenTypeRow): return true
@@ -50,14 +53,14 @@ class TokenFormViewController: UITableViewController {
                 for change in changes {
                     switch change {
                     case .Insert(let rowIndex):
-                        let indexPaths = [NSIndexPath(forRow: rowIndex, inSection: sectionIndex)]
-                        tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                     case .Update(let rowIndex):
                         let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                         updateRowAtIndexPath(indexPath)
                     case .Delete(let rowIndex):
-                        let indexPaths = [NSIndexPath(forRow: rowIndex, inSection: sectionIndex)]
-                        tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                     case let .Move(fromRowIndex, toRowIndex):
                         let origin = NSIndexPath(forRow: fromRowIndex, inSection: sectionIndex)
                         let destination = NSIndexPath(forRow: toRowIndex, inSection: sectionIndex)
@@ -264,29 +267,29 @@ class TokenFormViewController: UITableViewController {
 
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            guard let cell = cell as? TextFieldRowCell else  {
+            if let cell = cell as? TextFieldRowCell {
+                cell.updateWithViewModel(viewModel)
+            } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                return
             }
-            cell.updateWithViewModel(viewModel)
         case .TokenTypeRow(let viewModel):
-            guard let cell = cell as? SegmentedControlRowCell<TokenTypeRowViewModel> else  {
+            if let cell = cell as? SegmentedControlRowCell<TokenTypeRowViewModel> {
+                cell.updateWithViewModel(viewModel)
+            } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                return
             }
-            cell.updateWithViewModel(viewModel)
         case .DigitCountRow(let viewModel):
-            guard let cell = cell as? SegmentedControlRowCell<DigitCountRowViewModel> else  {
+            if let cell = cell as? SegmentedControlRowCell<DigitCountRowViewModel> {
+                cell.updateWithViewModel(viewModel)
+            } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                return
             }
-            cell.updateWithViewModel(viewModel)
         case .AlgorithmRow(let viewModel):
-            guard let cell = cell as? SegmentedControlRowCell<AlgorithmRowViewModel> else  {
+            if let cell = cell as? SegmentedControlRowCell<AlgorithmRowViewModel> {
+                cell.updateWithViewModel(viewModel)
+            } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                return
             }
-            cell.updateWithViewModel(viewModel)
         }
     }
 
