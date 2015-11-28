@@ -35,17 +35,20 @@ struct TableViewModel<Models: TableViewModelFamily> {
     var rightBarButton: BarButtonViewModel?
     var sections: [Section<Models.HeaderModel, Models.RowModel>]
     var doneKeyAction: (() -> ())?
+    var errorMessage: String?
 
     init(title: String,
         leftBarButton: BarButtonViewModel? = nil,
         rightBarButton: BarButtonViewModel? = nil,
         sections: [Section<Models.HeaderModel, Models.RowModel>],
-        doneKeyAction: (() -> ())? = nil) {
+        doneKeyAction: (() -> ())? = nil,
+        errorMessage: String? = nil) {
             self.title = title
             self.leftBarButton = leftBarButton
             self.rightBarButton = rightBarButton
             self.sections = sections
             self.doneKeyAction = doneKeyAction
+            self.errorMessage = errorMessage
     }
 }
 

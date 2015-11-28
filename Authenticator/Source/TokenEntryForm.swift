@@ -51,6 +51,7 @@ class TokenEntryForm: TokenForm {
         var algorithm: Generator.Algorithm
 
         var showsAdvancedOptions: Bool
+        var errorMessage: String?
 
         var isValid: Bool {
             return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
@@ -60,6 +61,8 @@ class TokenEntryForm: TokenForm {
     private var state: State {
         didSet {
             presenter?.updateWithViewModel(viewModel)
+            // Clear ephemeral message
+            state.errorMessage = nil
         }
     }
 
@@ -74,7 +77,8 @@ class TokenEntryForm: TokenForm {
             tokenType: .Timer,
             digitCount: 6,
             algorithm: .SHA1,
-            showsAdvancedOptions: false
+            showsAdvancedOptions: false,
+            errorMessage: nil
         )
     }
 
@@ -107,7 +111,8 @@ class TokenEntryForm: TokenForm {
             ],
             doneKeyAction: { [weak self] in
                 self?.submit()
-            }
+            },
+            errorMessage: state.errorMessage
         )
     }
 
@@ -219,6 +224,6 @@ class TokenEntryForm: TokenForm {
         }
 
         // If the method hasn't returned by this point, token creation failed
-        presenter?.form(self, didFailWithErrorMessage: "Invalid Token")
+        state.errorMessage = "Invalid Token"
     }
 }

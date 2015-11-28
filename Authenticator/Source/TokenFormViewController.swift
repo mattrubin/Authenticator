@@ -328,14 +328,12 @@ extension TokenFormViewController {
 }
 
 extension TokenFormViewController: TokenFormPresenter {
-
     func updateWithViewModel(viewModel: TableViewModel<Form>) {
         self.viewModel = viewModel
         updateBarButtonItems()
-    }
-
-    func form(form: TokenForm, didFailWithErrorMessage errorMessage: String) {
-        SVProgressHUD.showErrorWithStatus(errorMessage)
+        if let errorMessage = viewModel.errorMessage {
+            SVProgressHUD.showInfoWithStatus(errorMessage)
+        }
     }
 }
 
