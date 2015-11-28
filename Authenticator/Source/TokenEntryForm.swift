@@ -224,8 +224,8 @@ class TokenEntryForm: TokenForm {
     func toggleAdvancedOptions() {
         if !showsAdvancedOptions {
             showsAdvancedOptions = true
-            // TODO: Don't hard-code this index
-            presenter?.form(self, didReloadSection: 1)
+            presenter?.formValuesDidChange(self)
+            // TODO: Scroll to the newly-expanded section
         }
     }
 }

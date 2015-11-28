@@ -288,13 +288,6 @@ extension TokenFormViewController: TokenFormPresenter {
     func form(form: TokenForm, didFailWithErrorMessage errorMessage: String) {
         SVProgressHUD.showErrorWithStatus(errorMessage)
     }
-
-    func form(form: TokenForm, didReloadSection section: Int) {
-        viewModel = form.viewModel
-        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: section),
-            atScrollPosition: .Top,
-            animated: true)
-    }
 }
 
 extension TokenFormViewController: TextFieldRowCellDelegate {

@@ -30,5 +30,4 @@ protocol TokenForm {
 protocol TokenFormPresenter: class {
     func formValuesDidChange(form: TokenForm)
     func form(form: TokenForm, didFailWithErrorMessage errorMessage: String)
-    func form(form: TokenForm, didReloadSection section: Int)
 }
