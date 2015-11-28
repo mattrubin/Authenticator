@@ -36,36 +36,37 @@ func diff<Row>(from oldArray: [Row], to newArray: [Row], comparator isSameRow: (
     return changes(from: ArraySlice(oldArray), to: ArraySlice(newArray), comparator: isSameRow)
 }
 
-private func changes<Row>(from oldSlice: ArraySlice<Row>, to newSlice: ArraySlice<Row>, comparator isSameRow: (Row, Row) -> Bool) -> [Change] {
+private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<Row>, comparator isSameRow: (Row, Row) -> Bool) -> [Change] {
     // Work from the end to preserve earlier indices when recursing
-    switch (oldSlice.last, newSlice.last) {
-    case let (.Some(a), .Some(b)):
-        if isSameRow(a, b) {
+    switch (oldRows.last, newRows.last) {
+    case let (.Some(oldRow), .Some(newRow)):
+        if isSameRow(oldRow, newRow) {
             // TODO: Don't update if the rows are truly equal
-            let update = Change.Update(index: newSlice.endIndex.predecessor())
-            let remainingChanges = changes(from: oldSlice.dropLast(), to: newSlice.dropLast(), comparator: isSameRow)
+            let update = Change.Update(index: newRows.endIndex.predecessor())
+            let remainingChanges = changes(from: oldRows.dropLast(), to: newRows.dropLast(), comparator: isSameRow)
             return [update] + remainingChanges
         } else {
-            let insertion = Change.Insert(index: newSlice.endIndex.predecessor())
-            let changesAfterInsertion = changes(from: oldSlice, to: newSlice.dropLast(), comparator: isSameRow)
+            let insertion = Change.Insert(index: newRows.endIndex.predecessor())
+            let changesAfterInsertion = changes(from: oldRows, to: newRows.dropLast(), comparator: isSameRow)
             let changesWithInsertion = [insertion] + changesAfterInsertion
 
-            let deletion = Change.Delete(index: oldSlice.endIndex.predecessor())
-            let changesAfterDeletion = changes(from: oldSlice.dropLast(), to: newSlice, comparator: isSameRow)
+            let deletion = Change.Delete(index: oldRows.endIndex.predecessor())
+            let changesAfterDeletion = changes(from: oldRows.dropLast(), to: newRows, comparator: isSameRow)
             let changesWithDeletion = [deletion] + changesAfterDeletion
 
             return changesWithInsertion.count < changesWithDeletion.count
                 ? changesWithInsertion
                 : changesWithDeletion
         }
+
     case (.Some, .None):
-        let deletion = Change.Delete(index: oldSlice.endIndex.predecessor())
-        let remainingChanges = changes(from: oldSlice.dropLast(), to: newSlice, comparator: isSameRow)
+        let deletion = Change.Delete(index: oldRows.endIndex.predecessor())
+        let remainingChanges = changes(from: oldRows.dropLast(), to: newRows, comparator: isSameRow)
         return [deletion] + remainingChanges
 
     case (.None, .Some):
-        let insertion = Change.Insert(index: newSlice.endIndex.predecessor())
-        let remainingChanges = changes(from: oldSlice, to: newSlice.dropLast(), comparator: isSameRow)
+        let insertion = Change.Insert(index: newRows.endIndex.predecessor())
+        let remainingChanges = changes(from: oldRows, to: newRows.dropLast(), comparator: isSameRow)
         return [insertion] + remainingChanges
 
     case (.None, .None):
