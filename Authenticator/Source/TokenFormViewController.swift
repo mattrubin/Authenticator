@@ -40,7 +40,7 @@ class TokenFormViewController: UITableViewController {
                 let newSection = viewModel.sections[sectionIndex]
                 let changes = diff(from: oldSection.rows, to: newSection.rows, comparator: {
                     // As currently used, form rows don't move around much, so comparing the row
-                    // type is sufficient here. For more complex changes, row models should be 
+                    // type is sufficient here. For more complex changes, row models should be
                     // compared for identity.
                     switch ($0, $1) {
                     case (.TextFieldRow, .TextFieldRow): return true
