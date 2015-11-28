@@ -59,9 +59,9 @@ class TokenFormViewController: UITableViewController {
                         let indexPaths = [NSIndexPath(forRow: rowIndex, inSection: sectionIndex)]
                         tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
                     case let .Move(fromRowIndex, toRowIndex):
-                        let fromIndexPath = NSIndexPath(forRow: fromRowIndex, inSection: sectionIndex)
-                        let toIndexPath = NSIndexPath(forRow: toRowIndex, inSection: sectionIndex)
-                        tableView.moveRowAtIndexPath(fromIndexPath, toIndexPath: toIndexPath)
+                        let origin = NSIndexPath(forRow: fromRowIndex, inSection: sectionIndex)
+                        let destination = NSIndexPath(forRow: toRowIndex, inSection: sectionIndex)
+                        tableView.moveRowAtIndexPath(origin, toIndexPath: destination)
                     }
                 }
             }
