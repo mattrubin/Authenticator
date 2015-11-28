@@ -41,11 +41,14 @@ private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<
     switch (oldRows.last, newRows.last) {
     case let (.Some(oldRow), .Some(newRow)):
         if isSameRow(oldRow, newRow) {
+            // The old and new rows are the same row, and can be represented by an Update
             // TODO: Don't update if the rows are truly equal
             let update = Change.Update(index: newRows.endIndex.predecessor())
             let remainingChanges = changes(from: oldRows.dropLast(), to: newRows.dropLast(), comparator: isSameRow)
             return [update] + remainingChanges
         } else {
+            // The old and new rows are different, so compute the two possible change sets:
+            // one where the old row is deleted, another where the new row is inserted
             let insertion = Change.Insert(index: newRows.endIndex.predecessor())
             let changesAfterInsertion = changes(from: oldRows, to: newRows.dropLast(), comparator: isSameRow)
             let changesWithInsertion = [insertion] + changesAfterInsertion
@@ -54,22 +57,26 @@ private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<
             let changesAfterDeletion = changes(from: oldRows.dropLast(), to: newRows, comparator: isSameRow)
             let changesWithDeletion = [deletion] + changesAfterDeletion
 
+            // Return the shorter of the two change sets
             return changesWithInsertion.count < changesWithDeletion.count
                 ? changesWithInsertion
                 : changesWithDeletion
         }
 
     case (.Some, .None):
+        // Only old rows remain, which must be deleted
         let deletion = Change.Delete(index: oldRows.endIndex.predecessor())
         let remainingChanges = changes(from: oldRows.dropLast(), to: newRows, comparator: isSameRow)
         return [deletion] + remainingChanges
 
     case (.None, .Some):
+        // Only new rows remain, which must be inserted
         let insertion = Change.Insert(index: newRows.endIndex.predecessor())
         let remainingChanges = changes(from: oldRows, to: newRows.dropLast(), comparator: isSameRow)
         return [insertion] + remainingChanges
 
     case (.None, .None):
+        // All rows are accounted for
         return []
     }
 }
