@@ -5,3 +5,4 @@ excluded:
 disabled_rules:
  - line_length
  - opening_brace
+ - todo
