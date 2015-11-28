@@ -52,8 +52,9 @@ class TokenFormViewController: UITableViewController {
                     case .Insert(let rowIndex):
                         let indexPaths = [NSIndexPath(forRow: rowIndex, inSection: sectionIndex)]
                         tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-                    case .Update:
-                        break // FIXME: Update rows without reloading
+                    case .Update(let rowIndex):
+                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                        updateRowAtIndexPath(indexPath)
                     case .Delete(let rowIndex):
                         let indexPaths = [NSIndexPath(forRow: rowIndex, inSection: sectionIndex)]
                         tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
@@ -246,6 +247,36 @@ class TokenFormViewController: UITableViewController {
             cell.updateWithViewModel(viewModel)
             return cell
         }
+    }
+
+    func updateRowAtIndexPath(indexPath: NSIndexPath) {
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
+            return
+        }
+        guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath) else {
+            // TODO: handle a nil row model
+            return
+        }
+
+        switch rowModel {
+        case .TextFieldRow(let viewModel):
+            if let cell = cell as? TextFieldRowCell {
+                cell.updateWithViewModel(viewModel)
+            }
+        case .TokenTypeRow(let viewModel):
+            if let cell = cell as? SegmentedControlRowCell<TokenTypeRowViewModel> {
+                cell.updateWithViewModel(viewModel)
+            }
+        case .DigitCountRow(let viewModel):
+            if let cell = cell as? SegmentedControlRowCell<DigitCountRowViewModel> {
+                cell.updateWithViewModel(viewModel)
+            }
+        case .AlgorithmRow(let viewModel):
+            if let cell = cell as? SegmentedControlRowCell<AlgorithmRowViewModel> {
+                cell.updateWithViewModel(viewModel)
+            }
+        }
+        // TODO: handle the case where a row cell cannot be updated
     }
 
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
