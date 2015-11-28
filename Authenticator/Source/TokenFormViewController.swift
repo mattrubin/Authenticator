@@ -197,8 +197,12 @@ class TokenFormViewController: UITableViewController {
         }
         return viewForHeaderModel(headerModel)
     }
+}
 
-    // MARK: - Update
+// MARK: - View Model Helpers
+
+extension TokenFormViewController {
+    // MARK: Bar Button View Model
 
     private func barButtomItemForViewModel(viewModel: BarButtonViewModel, target: AnyObject?, action: Selector) -> UIBarButtonItem {
         func systemItemForStyle(style: BarButtonViewModel.Style) -> UIBarButtonSystemItem {
@@ -226,7 +230,7 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
-    // MARK: Row Model Helpers
+    // MARK: Row Model
 
     func cellForRowModel(rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
@@ -306,7 +310,7 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
-    // MARK: Header Model Helpers
+    // MARK: Header Model
 
     func viewForHeaderModel(headerModel: Form.HeaderModel) -> UIView {
         switch headerModel {
