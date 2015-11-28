@@ -36,22 +36,22 @@ func diff<Row>(from oldArray: [Row], to newArray: [Row], comparator isSameRow: (
     return changes(from: ArraySlice(oldArray), to: ArraySlice(newArray), comparator: isSameRow)
 }
 
-private func changes<Row>(from groupA: ArraySlice<Row>, to groupB: ArraySlice<Row>, comparator isSameRow: (Row, Row) -> Bool) -> [Change] {
+private func changes<Row>(from oldSlice: ArraySlice<Row>, to newSlice: ArraySlice<Row>, comparator isSameRow: (Row, Row) -> Bool) -> [Change] {
     // Work from the end to preserve earlier indices when recursing
-    switch (groupA.last, groupB.last) {
+    switch (oldSlice.last, newSlice.last) {
     case let (.Some(a), .Some(b)):
         if isSameRow(a, b) {
             // TODO: Don't update if the rows are truly equal
-            let update = Change.Update(index: groupB.endIndex.predecessor())
-            let remainingChanges = changes(from: groupA.dropLast(), to: groupB.dropLast(), comparator: isSameRow)
+            let update = Change.Update(index: newSlice.endIndex.predecessor())
+            let remainingChanges = changes(from: oldSlice.dropLast(), to: newSlice.dropLast(), comparator: isSameRow)
             return [update] + remainingChanges
         } else {
-            let insertion = Change.Insert(index: groupB.endIndex.predecessor())
-            let changesAfterInsertion = changes(from: groupA, to: groupB.dropLast(), comparator: isSameRow)
+            let insertion = Change.Insert(index: newSlice.endIndex.predecessor())
+            let changesAfterInsertion = changes(from: oldSlice, to: newSlice.dropLast(), comparator: isSameRow)
             let changesWithInsertion = [insertion] + changesAfterInsertion
 
-            let deletion = Change.Delete(index: groupA.endIndex.predecessor())
-            let changesAfterDeletion = changes(from: groupA.dropLast(), to: groupB, comparator: isSameRow)
+            let deletion = Change.Delete(index: oldSlice.endIndex.predecessor())
+            let changesAfterDeletion = changes(from: oldSlice.dropLast(), to: newSlice, comparator: isSameRow)
             let changesWithDeletion = [deletion] + changesAfterDeletion
 
             return changesWithInsertion.count < changesWithDeletion.count
@@ -59,13 +59,13 @@ private func changes<Row>(from groupA: ArraySlice<Row>, to groupB: ArraySlice<Ro
                 : changesWithDeletion
         }
     case (.Some, .None):
-        let deletion = Change.Delete(index: groupA.endIndex.predecessor())
-        let remainingChanges = changes(from: groupA.dropLast(), to: groupB, comparator: isSameRow)
+        let deletion = Change.Delete(index: oldSlice.endIndex.predecessor())
+        let remainingChanges = changes(from: oldSlice.dropLast(), to: newSlice, comparator: isSameRow)
         return [deletion] + remainingChanges
 
     case (.None, .Some):
-        let insertion = Change.Insert(index: groupB.endIndex.predecessor())
-        let remainingChanges = changes(from: groupA, to: groupB.dropLast(), comparator: isSameRow)
+        let insertion = Change.Insert(index: newSlice.endIndex.predecessor())
+        let remainingChanges = changes(from: oldSlice, to: newSlice.dropLast(), comparator: isSameRow)
         return [insertion] + remainingChanges
 
     case (.None, .None):
