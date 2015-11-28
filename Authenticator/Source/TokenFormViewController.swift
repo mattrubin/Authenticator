@@ -38,7 +38,7 @@ class TokenFormViewController: UITableViewController {
             for sectionIndex in oldValue.sections.indices {
                 let oldSection = oldValue.sections[sectionIndex]
                 let newSection = viewModel.sections[sectionIndex]
-                let changes = diff(from: ArraySlice(oldSection.rows), to: ArraySlice(newSection.rows), comparator: {
+                let changes = diff(from: oldSection.rows, to: newSection.rows, comparator: {
                     switch ($0, $1) {
                     case (.TextFieldRow, .TextFieldRow): return true
                     case (.TokenTypeRow, .TokenTypeRow): return true
