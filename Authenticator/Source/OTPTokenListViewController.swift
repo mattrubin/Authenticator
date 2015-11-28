@@ -38,7 +38,6 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.title = "Authenticator"
         self.view.backgroundColor = UIColor.otpBackgroundColor
 
