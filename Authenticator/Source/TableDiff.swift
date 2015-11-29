@@ -37,11 +37,9 @@ enum Change {
     case Move(fromIndex: Int, toIndex: Int)
 }
 
-func diff<Row>(from oldRows: [Row], to newRows: [Row],
-    comparator rowsHaveSameIdentity: (Row, Row) -> Bool) -> [Change]
-{
+func changesFrom<T>(oldRows: [T], to newRows: [T], hasSameIdentity: (T, T) -> Bool) -> [Change] {
     return changes(from: ArraySlice(oldRows), to: ArraySlice(newRows),
-        comparator: rowsHaveSameIdentity, equation: { (old, new) in false })
+        comparator: hasSameIdentity, equation: { (old, new) in false })
 }
 
 func changesFrom<T: Identifiable where T: Equatable>(oldRows: [T], to newRows: [T]) -> [Change] {
