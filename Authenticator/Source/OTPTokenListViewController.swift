@@ -121,6 +121,11 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
         let hasTokens = !viewModel.rowModels.isEmpty
         editButtonItem().enabled = hasTokens
         noTokensLabel.hidden = hasTokens
+
+        // Exit editing mode if no tokens remain
+        if self.editing && viewModel.rowModels.isEmpty {
+            self.setEditing(false, animated: true)
+        }
     }
 
     func tick() {
@@ -191,10 +196,6 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
         if editingStyle == .Delete {
             do {
                 try tokenManager.removeTokenAtIndex(indexPath.row)
-
-                if viewModel.rowModels.isEmpty {
-                    self.setEditing(false, animated: true)
-                }
             } catch {
                 // TODO: Handle the removeTokenAtIndex(_:) failure
             }
