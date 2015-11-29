@@ -125,13 +125,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     func tick() {
         // Update currently-visible cells
-        // TODO: This doesn't update automatically with static view model
-        for cell in self.tableView.visibleCells {
-            if let cell = cell as? TokenRowCell,
-                let indexPath = self.tableView.indexPathForCell(cell) {
-                    updateCell(cell, forRowAtIndexPath: indexPath)
-            }
-        }
+        updateWithViewModel(tokenManager.viewModel)
 
         if let period = ringPeriod where period > 0 {
             self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
