@@ -332,7 +332,7 @@ extension TokenFormViewController: TokenFormPresenter {
         self.viewModel = viewModel
         updateBarButtonItems()
         if let errorMessage = viewModel.errorMessage {
-            SVProgressHUD.showInfoWithStatus(errorMessage)
+            SVProgressHUD.showErrorWithStatus(errorMessage)
         }
     }
 }
