@@ -51,14 +51,14 @@ class TokenEntryForm: TokenForm {
         var algorithm: Generator.Algorithm
 
         var showsAdvancedOptions: Bool
-        var errorMessage: String?
+        var submitFailed: Bool
 
         var isValid: Bool {
             return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
         }
 
         mutating func resetEphemera() {
-            errorMessage = nil
+            submitFailed = false
         }
     }
 
@@ -81,7 +81,7 @@ class TokenEntryForm: TokenForm {
             digitCount: 6,
             algorithm: .SHA1,
             showsAdvancedOptions: false,
-            errorMessage: nil
+            submitFailed: false
         )
     }
 
@@ -115,7 +115,7 @@ class TokenEntryForm: TokenForm {
             doneKeyAction: { [weak self] in
                 self?.submit()
             },
-            errorMessage: state.errorMessage
+            errorMessage: state.submitFailed ? "Invalid Token" : nil
         )
     }
 
@@ -227,6 +227,6 @@ class TokenEntryForm: TokenForm {
         }
 
         // If the method hasn't returned by this point, token creation failed
-        state.errorMessage = "Invalid Token"
+        state.submitFailed = true
     }
 }
