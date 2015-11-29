@@ -26,3 +26,7 @@
 struct TokenListViewModel {
     let rowModels: [TokenRowModel]
 }
+
+protocol TokenListPresenter {
+    func updateWithViewModel(viewModel: TokenListViewModel)
+}

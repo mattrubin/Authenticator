@@ -34,8 +34,9 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     init(tokenManager: TokenManager) {
         self.tokenManager = tokenManager
-        viewModel = tokenManager.viewModel
+        viewModel = self.tokenManager.viewModel
         super.init(style: .Plain)
+        self.tokenManager.presenter = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -195,7 +196,6 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
         if editingStyle == .Delete {
             do {
                 try tokenManager.removeTokenAtIndex(indexPath.row)
-                viewModel = tokenManager.viewModel
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 self.update()
 
@@ -213,7 +213,6 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
         toIndexPath destinationIndexPath: NSIndexPath)
     {
         self.tokenManager.moveTokenFromIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
-        viewModel = tokenManager.viewModel
     }
 
 }
@@ -264,7 +263,6 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     private func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
         do {
             try tokenManager.saveToken(token, toPersistentToken: persistentToken)
-            viewModel = tokenManager.viewModel
             tableView.reloadData()
         } catch {
             // TODO: Handle the saveToken(_:toPersistentToken:) failure
@@ -274,7 +272,6 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     func saveNewToken(token: Token) {
         do {
             try tokenManager.addToken(token)
-            viewModel = tokenManager.viewModel
             self.tableView.reloadData()
             self.update()
 
@@ -297,5 +294,11 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+extension OTPTokenListViewController: TokenListPresenter {
+    func updateWithViewModel(viewModel: TokenListViewModel) {
+        self.viewModel = viewModel
     }
 }

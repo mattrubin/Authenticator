@@ -27,8 +27,14 @@ import Foundation
 import OneTimePassword
 
 class TokenManager {
+    var presenter: TokenListPresenter?
+
     private let keychain = Keychain.sharedInstance
-    private var persistentTokens: [PersistentToken]
+    private var persistentTokens: [PersistentToken] {
+        didSet {
+            presenter?.updateWithViewModel(viewModel)
+        }
+    }
 
     init() {
         do {
