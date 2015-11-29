@@ -56,13 +56,16 @@ class TokenEntryForm: TokenForm {
         var isValid: Bool {
             return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
         }
+
+        mutating func resetEphemera() {
+            errorMessage = nil
+        }
     }
 
     private var state: State {
         didSet {
             presenter?.updateWithViewModel(viewModel)
-            // Clear ephemeral message
-            state.errorMessage = nil
+            state.resetEphemera()
         }
     }
 
