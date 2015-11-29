@@ -239,7 +239,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     private func updatePersistentToken(persistentToken: PersistentToken) {
         let newToken = persistentToken.token.updatedToken()
-        saveToken(newToken, toPersistentToken: persistentToken)
+        tokenManager.saveToken(newToken, toPersistentToken: persistentToken)
     }
 
     private func copyPassword(password: String) {
@@ -252,21 +252,13 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         let form = TokenEditForm(token: persistentToken.token) { [weak self] (event) in
             switch event {
             case .Save(let token):
-                self?.saveToken(token, toPersistentToken: persistentToken)
+                self?.tokenManager.saveToken(token, toPersistentToken: persistentToken)
             case .Close:
                 self?.dismissViewController()
             }
         }
         let editController = TokenFormViewController(form: form)
         presentViewController(editController)
-    }
-
-    private func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
-        do {
-            try tokenManager.saveToken(token, toPersistentToken: persistentToken)
-        } catch {
-            // TODO: Handle the saveToken(_:toPersistentToken:) failure
-        }
     }
 
     func saveNewToken(token: Token) {

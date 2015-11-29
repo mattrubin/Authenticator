@@ -88,15 +88,19 @@ class TokenManager {
         saveTokenOrder()
     }
 
-    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
-        let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
-            withToken: token)
-        // Update the in-memory token, which is still the origin of the table view's data
-        persistentTokens = persistentTokens.map {
-            if $0.identifier == updatedPersistentToken.identifier {
-                return updatedPersistentToken
+    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
+        do {
+            let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
+                withToken: token)
+            // Update the in-memory token, which is still the origin of the table view's data
+            persistentTokens = persistentTokens.map {
+                if $0.identifier == updatedPersistentToken.identifier {
+                    return updatedPersistentToken
+                }
+                return $0
             }
-            return $0
+        } catch {
+            // TODO: Handle the updatePersistentToken(_:withToken:) failure
         }
     }
 
