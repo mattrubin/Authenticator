@@ -187,9 +187,11 @@ class TokenEntryForm: TokenForm {
         )
         return .AlgorithmRow(model)
     }
+}
 
-    // MARK: Actions
+// MARK: Actions
 
+private extension TokenEntryForm {
     func cancel() {
         callback(.Close)
     }
