@@ -194,11 +194,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            do {
-                try tokenManager.removeTokenAtIndex(indexPath.row)
-            } catch {
-                // TODO: Handle the removeTokenAtIndex(_:) failure
-            }
+            tokenManager.removeTokenAtIndex(indexPath.row)
         }
     }
 

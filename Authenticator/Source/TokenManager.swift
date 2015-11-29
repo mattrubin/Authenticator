@@ -116,11 +116,15 @@ class TokenManager {
         saveTokenOrder()
     }
 
-    func removeTokenAtIndex(index: Int) throws {
-        let persistentToken = persistentTokens[index]
-        try keychain.deletePersistentToken(persistentToken)
-        persistentTokens.removeAtIndex(index)
-        saveTokenOrder()
+    func removeTokenAtIndex(index: Int) {
+        do {
+            let persistentToken = persistentTokens[index]
+            try keychain.deletePersistentToken(persistentToken)
+            persistentTokens.removeAtIndex(index)
+            saveTokenOrder()
+        } catch {
+            // TODO: Handle the deletePersistentToken(_:) failure
+        }
     }
 
     // MARK: Token Order
