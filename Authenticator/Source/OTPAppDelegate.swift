@@ -26,10 +26,12 @@ import UIKit
 import OneTimePassword
 import SVProgressHUD
 
+private let tokenManager = TokenManager()
+
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
-    let rootViewController = OTPTokenListViewController(tokenManager: TokenManager())
+    let rootViewController = OTPTokenListViewController(tokenManager: tokenManager)
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -67,7 +69,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) in
-                self.rootViewController.saveNewToken(token)
+                tokenManager.addToken(token)
             }))
 
             self.rootViewController.presentViewController(alert, animated: true, completion: nil)

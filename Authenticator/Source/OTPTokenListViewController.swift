@@ -147,7 +147,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
             let scannerViewController = TokenScannerViewController() { [weak self] (event) in
                 switch event {
                 case .Save(let token):
-                    self?.saveNewToken(token)
+                    self?.tokenManager.addToken(token)
                 case .Close:
                     self?.dismissViewController()
                 }
@@ -157,7 +157,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
             let form = TokenEntryForm() { [weak self] (event) in
                 switch event {
                 case .Save(let token):
-                    self?.saveNewToken(token)
+                    self?.tokenManager.addToken(token)
                 case .Close:
                     self?.dismissViewController()
                 }
@@ -259,19 +259,6 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         }
         let editController = TokenFormViewController(form: form)
         presentViewController(editController)
-    }
-
-    func saveNewToken(token: Token) {
-        do {
-            try tokenManager.addToken(token)
-
-            // Scroll to the new token (added at the bottom)
-            let section = self.numberOfSectionsInTableView(self.tableView) - 1
-            let row = self.tableView(self.tableView, numberOfRowsInSection: section) - 1
-            self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: row, inSection: section), atScrollPosition: .Middle, animated: true)
-        } catch {
-            // TODO: Handle the addToken(_:) failure
-        }
     }
 
     // MARK: Modals
