@@ -31,6 +31,10 @@ import SVProgressHUD
 class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     let tokenManager = TokenManager()
+    var viewModel: TokenListViewModel {
+        return tokenManager.viewModel
+    }
+
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
     private var ringPeriod: NSTimeInterval?
@@ -105,7 +109,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
         ringPeriod = self.tokenManager.timeBasedTokenPeriods.first
         self.ring.hidden = (ringPeriod == nil)
 
-        let hasTokens = (self.tokenManager.numberOfTokens > 0)
+        let hasTokens = !viewModel.rowModels.isEmpty
         editButtonItem().enabled = hasTokens
         noTokensLabel.hidden = hasTokens
     }
@@ -162,7 +166,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tokenManager.numberOfTokens
+        return viewModel.rowModels.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -174,8 +178,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let persistentToken = tokenManager.persistentTokenAtIndex(indexPath.row)
-        let rowModel = TokenRowModel(persistentToken: persistentToken)
+        let rowModel = viewModel.rowModels[indexPath.row]
         cell.updateWithRowModel(rowModel)
         cell.delegate = self
     }
@@ -187,7 +190,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 self.update()
 
-                if self.tokenManager.numberOfTokens == 0 {
+                if viewModel.rowModels.isEmpty {
                     self.setEditing(false, animated: true)
                 }
             } catch {

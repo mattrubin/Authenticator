@@ -59,8 +59,9 @@ class TokenManager {
 
     // MARK: -
 
-    var numberOfTokens: Int {
-        return persistentTokens.count
+    var viewModel: TokenListViewModel {
+        let rowModels = persistentTokens.map(TokenRowModel.init)
+        return TokenListViewModel(rowModels: rowModels)
     }
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
@@ -79,10 +80,6 @@ class TokenManager {
         let newPersistentToken = try keychain.addToken(token)
         persistentTokens.append(newPersistentToken)
         saveTokenOrder()
-    }
-
-    func persistentTokenAtIndex(index: Int) -> PersistentToken {
-        return persistentTokens[index]
     }
 
     func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
