@@ -29,10 +29,17 @@ import OneTimePassword
 import SVProgressHUD
 
 class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
+    private let tokenManager: TokenManager
+    private var viewModel: TokenListViewModel
 
-    let tokenManager = TokenManager()
-    var viewModel: TokenListViewModel {
-        return tokenManager.viewModel
+    init(tokenManager: TokenManager) {
+        self.tokenManager = tokenManager
+        viewModel = tokenManager.viewModel
+        super.init(style: .Plain)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     var displayLink: CADisplayLink?
@@ -116,6 +123,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     func tick() {
         // Update currently-visible cells
+        // TODO: This doesn't update automatically with static view model
         for cell in self.tableView.visibleCells {
             if let cell = cell as? TokenRowCell,
                 let indexPath = self.tableView.indexPathForCell(cell) {
@@ -187,6 +195,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
         if editingStyle == .Delete {
             do {
                 try tokenManager.removeTokenAtIndex(indexPath.row)
+                viewModel = tokenManager.viewModel
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                 self.update()
 
@@ -204,6 +213,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
         toIndexPath destinationIndexPath: NSIndexPath)
     {
         self.tokenManager.moveTokenFromIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
+        viewModel = tokenManager.viewModel
     }
 
 }
@@ -254,6 +264,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     private func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
         do {
             try tokenManager.saveToken(token, toPersistentToken: persistentToken)
+            viewModel = tokenManager.viewModel
             tableView.reloadData()
         } catch {
             // TODO: Handle the saveToken(_:toPersistentToken:) failure
@@ -263,6 +274,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     func saveNewToken(token: Token) {
         do {
             try tokenManager.addToken(token)
+            viewModel = tokenManager.viewModel
             self.tableView.reloadData()
             self.update()
 

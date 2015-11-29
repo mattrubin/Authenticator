@@ -29,7 +29,7 @@ import SVProgressHUD
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
-    let rootViewController = OTPTokenListViewController()
+    let rootViewController = OTPTokenListViewController(tokenManager: TokenManager())
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
