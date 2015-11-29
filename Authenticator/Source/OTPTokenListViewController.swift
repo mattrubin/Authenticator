@@ -87,7 +87,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
             self.view.bounds.size.height * 0.6)
         self.view.addSubview(self.noTokensLabel)
 
-        self.update()
+        self.updatePeripheralViews()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -112,7 +112,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     // MARK: Update
 
-    func update() {
+    func updatePeripheralViews() {
         // Show the countdown ring only if a time-based token is active
         ringPeriod = self.tokenManager.timeBasedTokenPeriods.first
         self.ring.hidden = (ringPeriod == nil)
@@ -197,7 +197,6 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
             do {
                 try tokenManager.removeTokenAtIndex(indexPath.row)
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                self.update()
 
                 if viewModel.rowModels.isEmpty {
                     self.setEditing(false, animated: true)
@@ -273,7 +272,6 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         do {
             try tokenManager.addToken(token)
             self.tableView.reloadData()
-            self.update()
 
             // Scroll to the new token (added at the bottom)
             let section = self.numberOfSectionsInTableView(self.tableView) - 1
@@ -300,5 +298,6 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 extension OTPTokenListViewController: TokenListPresenter {
     func updateWithViewModel(viewModel: TokenListViewModel) {
         self.viewModel = viewModel
+        updatePeripheralViews()
     }
 }
