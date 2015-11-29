@@ -267,9 +267,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
 extension OTPTokenListViewController: TokenListPresenter {
     func updateWithViewModel(viewModel: TokenListViewModel) {
-        let changes = diff(from: self.viewModel.rowModels, to: viewModel.rowModels, comparator: {
-            $0.representsSameTokenAsRowModel($1)
-        })
+        let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         self.viewModel = viewModel
         updateTableViewWithChanges(changes)
         updatePeripheralViews()

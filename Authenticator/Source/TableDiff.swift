@@ -25,6 +25,10 @@
 
 import Foundation
 
+protocol Identifiable {
+    func hasSameIdentity(other: Self) -> Bool
+}
+
 enum Change {
     case Insert(index: Int)
     case Update(index: Int)
@@ -40,11 +44,9 @@ func diff<Row>(from oldRows: [Row], to newRows: [Row],
         comparator: rowsHaveSameIdentity, equation: { (old, new) in false })
 }
 
-func diff<Row: Equatable>(from oldRows: [Row], to newRows: [Row],
-    comparator rowsHaveSameIdentity: (Row, Row) -> Bool) -> [Change]
-{
+func changesFrom<T: Identifiable where T: Equatable>(oldRows: [T], to newRows: [T]) -> [Change] {
     return changes(from: ArraySlice(oldRows), to: ArraySlice(newRows),
-        comparator: rowsHaveSameIdentity, equation: ==)
+        comparator: { $0.hasSameIdentity($1) }, equation: ==)
 }
 
 private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<Row>,

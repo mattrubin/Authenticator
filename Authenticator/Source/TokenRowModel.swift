@@ -26,7 +26,7 @@
 import Foundation
 import OneTimePassword
 
-struct TokenRowModel: Equatable {
+struct TokenRowModel: Equatable, Identifiable {
     enum Action: Equatable {
         case UpdatePersistentToken(PersistentToken)
         case EditPersistentToken(PersistentToken)
@@ -56,8 +56,8 @@ struct TokenRowModel: Equatable {
         identifier = persistentToken.identifier
     }
 
-    func representsSameTokenAsRowModel(rowModel: TokenRowModel) -> Bool {
-        return self.identifier.isEqualToData(rowModel.identifier)
+    func hasSameIdentity(other: TokenRowModel) -> Bool {
+        return self.identifier.isEqualToData(other.identifier)
     }
 }
 
