@@ -27,7 +27,7 @@ import Foundation
 import OneTimePassword
 
 class TokenManager {
-    var presenter: TokenListPresenter?
+    weak var presenter: TokenListPresenter?
 
     private let keychain = Keychain.sharedInstance
     private var persistentTokens: [PersistentToken] {
