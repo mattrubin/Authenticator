@@ -42,9 +42,9 @@ class TokenListViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var displayLink: CADisplayLink?
-    let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
-    let noTokensLabel = UILabel()
+    private var displayLink: CADisplayLink?
+    private let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
+    private let noTokensLabel = UILabel()
 
     // MARK: View Lifecycle
 
