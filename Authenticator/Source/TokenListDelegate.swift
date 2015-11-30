@@ -1,5 +1,5 @@
 //
-//  TokenListViewModel.swift
+//  TokenListDelegate.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -23,18 +23,12 @@
 //  SOFTWARE.
 //
 
-import Foundation
+import OneTimePassword
 
-struct TokenListViewModel {
-    let rowModels: [TokenRowModel]
-    let ringPeriod: NSTimeInterval?
-}
+protocol TokenListDelegate: class {
+    func updatePersistentToken(persistentToken: PersistentToken)
+    func copyPassword(password: String)
 
-enum EphemeralMessage {
-    case Success(String)
-    case Error(String)
-}
-
-protocol TokenListPresenter: class {
-    func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?)
+    func moveTokenFromIndex(origin: Int, toIndex destination: Int)
+    func deleteTokenAtIndex(index: Int)
 }

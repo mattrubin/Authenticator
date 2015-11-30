@@ -24,17 +24,18 @@
 //
 
 import UIKit
-import MobileCoreServices
 import OneTimePassword
 import SVProgressHUD
 
 class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
     private let tokenManager: TokenManager
+    private weak var delegate: TokenListDelegate?
     private var viewModel: TokenListViewModel
     private var preventTableViewAnimations = false
 
     init(tokenManager: TokenManager) {
         self.tokenManager = tokenManager
+        self.delegate = tokenManager
         viewModel = self.tokenManager.viewModel
         super.init(style: .Plain)
         self.tokenManager.presenter = self
@@ -46,7 +47,6 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
-    private var ringPeriod: NSTimeInterval?
     let noTokensLabel = UILabel()
 
     override func viewDidLoad() {
@@ -115,8 +115,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     func updatePeripheralViews() {
         // Show the countdown ring only if a time-based token is active
-        ringPeriod = self.tokenManager.timeBasedTokenPeriods.first
-        self.ring.hidden = (ringPeriod == nil)
+        self.ring.hidden = (viewModel.ringPeriod == nil)
 
         let hasTokens = !viewModel.rowModels.isEmpty
         editButtonItem().enabled = hasTokens
@@ -130,9 +129,9 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     func tick() {
         // Update currently-visible cells
-        updateWithViewModel(tokenManager.viewModel)
+        updateWithViewModel(tokenManager.viewModel, ephemeralMessage: nil)
 
-        if let period = ringPeriod where period > 0 {
+        if let period = viewModel.ringPeriod where period > 0 {
             self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
         } else {
             self.ring.progress = 0
@@ -194,7 +193,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            tokenManager.removeTokenAtIndex(indexPath.row)
+            delegate?.deleteTokenAtIndex(indexPath.row)
         }
     }
 
@@ -203,7 +202,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
         toIndexPath destinationIndexPath: NSIndexPath)
     {
         preventTableViewAnimations = true
-        self.tokenManager.moveTokenFromIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
+        delegate?.moveTokenFromIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
         preventTableViewAnimations = false
     }
 
@@ -220,23 +219,12 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     func handleAction(action: TokenRowModel.Action) {
         switch action {
         case .UpdatePersistentToken(let persistentToken):
-            updatePersistentToken(persistentToken)
+            delegate?.updatePersistentToken(persistentToken)
         case .CopyPassword(let password):
-            copyPassword(password)
+            delegate?.copyPassword(password)
         case .EditPersistentToken(let persistentToken):
             editPersistentToken(persistentToken)
         }
-    }
-
-    private func updatePersistentToken(persistentToken: PersistentToken) {
-        let newToken = persistentToken.token.updatedToken()
-        tokenManager.saveToken(newToken, toPersistentToken: persistentToken)
-    }
-
-    private func copyPassword(password: String) {
-        let pasteboard = UIPasteboard.generalPasteboard()
-        pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
-        SVProgressHUD.showSuccessWithStatus("Copied")
     }
 
     private func editPersistentToken(persistentToken: PersistentToken) {
@@ -266,11 +254,20 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 }
 
 extension OTPTokenListViewController: TokenListPresenter {
-    func updateWithViewModel(viewModel: TokenListViewModel) {
+    func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         self.viewModel = viewModel
         updateTableViewWithChanges(changes)
         updatePeripheralViews()
+        // Show ephemeral message
+        if let ephemeralMessage = ephemeralMessage {
+            switch ephemeralMessage {
+            case .Success(let message):
+                SVProgressHUD.showSuccessWithStatus(message)
+            case .Error(let message):
+                SVProgressHUD.showErrorWithStatus(message)
+            }
+        }
     }
 
     func updateTableViewWithChanges(changes: [Change]) {

@@ -24,7 +24,9 @@
 //
 
 import Foundation
+import MobileCoreServices
 import OneTimePassword
+import UIKit
 
 class TokenManager {
     weak var presenter: TokenListPresenter?
@@ -32,7 +34,7 @@ class TokenManager {
     private let keychain = Keychain.sharedInstance
     private var persistentTokens: [PersistentToken] {
         didSet {
-            presenter?.updateWithViewModel(viewModel)
+            presenter?.updateWithViewModel(viewModel, ephemeralMessage: nil)
         }
     }
 
@@ -67,11 +69,14 @@ class TokenManager {
 
     var viewModel: TokenListViewModel {
         let rowModels = persistentTokens.map(TokenRowModel.init)
-        return TokenListViewModel(rowModels: rowModels)
+        return TokenListViewModel(
+            rowModels: rowModels,
+            ringPeriod: timeBasedTokenPeriods.first
+        )
     }
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
-    var timeBasedTokenPeriods: [NSTimeInterval] {
+    private var timeBasedTokenPeriods: [NSTimeInterval] {
         let periods = persistentTokens.reduce(Set<NSTimeInterval>()) {
             (var periods, persistentToken) in
             if case .Timer(let period) = persistentToken.token.generator.factor {
@@ -108,6 +113,20 @@ class TokenManager {
             // TODO: Handle the updatePersistentToken(_:withToken:) failure
         }
     }
+}
+
+extension TokenManager: TokenListDelegate {
+    func updatePersistentToken(persistentToken: PersistentToken) {
+        let newToken = persistentToken.token.updatedToken()
+        saveToken(newToken, toPersistentToken: persistentToken)
+    }
+
+    func copyPassword(password: String) {
+        let pasteboard = UIPasteboard.generalPasteboard()
+        pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
+        // Show an emphemeral success message in the view
+        presenter?.updateWithViewModel(viewModel, ephemeralMessage: .Success("Copied"))
+    }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
         let persistentToken = persistentTokens[origin]
@@ -116,17 +135,21 @@ class TokenManager {
         saveTokenOrder()
     }
 
-    func removeTokenAtIndex(index: Int) {
+    func deleteTokenAtIndex(index: Int) {
         do {
             let persistentToken = persistentTokens[index]
             try keychain.deletePersistentToken(persistentToken)
             persistentTokens.removeAtIndex(index)
             saveTokenOrder()
         } catch {
-            // TODO: Handle the deletePersistentToken(_:) failure
+            // Show an emphemeral failure message
+            let errorMessage = "Deletion Failed:\n\(error)"
+            presenter?.updateWithViewModel(viewModel, ephemeralMessage: .Error(errorMessage))
         }
     }
+}
 
+extension TokenManager {
     // MARK: Token Order
 
     private static let kOTPKeychainEntriesArray = "OTPKeychainEntries"
