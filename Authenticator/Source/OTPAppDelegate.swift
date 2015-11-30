@@ -31,7 +31,6 @@ private let tokenManager = TokenManager()
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
-    let rootViewController = OTPTokenListViewController(tokenManager: tokenManager)
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -49,7 +48,8 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        let navController = UINavigationController(rootViewController: self.rootViewController)
+        let rootViewController = OTPTokenListViewController(tokenManager: tokenManager, masterPresenter: self)
+        let navController = UINavigationController(rootViewController: rootViewController)
         navController.navigationBar.translucent = false
         navController.toolbar.translucent = false
 
@@ -72,11 +72,23 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
                 tokenManager.addToken(token)
             }))
 
-            self.rootViewController.presentViewController(alert, animated: true, completion: nil)
+            window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
 
             return true
         }
 
         return false
+    }
+}
+
+extension OTPAppDelegate: MasterPresenter {
+    func presentViewController(viewController: UIViewController) {
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.navigationBar.translucent = false
+        window?.rootViewController?.presentViewController(navController, animated: true, completion: nil)
+    }
+
+    func dismissViewController() {
+        window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }

@@ -28,12 +28,14 @@ import OneTimePassword
 import SVProgressHUD
 
 class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
+    private let masterPresenter: MasterPresenter
     private let tokenManager: TokenManager
     private weak var delegate: TokenListDelegate?
     private var viewModel: TokenListViewModel
     private var preventTableViewAnimations = false
 
-    init(tokenManager: TokenManager) {
+    init(tokenManager: TokenManager, masterPresenter: MasterPresenter) {
+        self.masterPresenter = masterPresenter
         self.tokenManager = tokenManager
         self.delegate = tokenManager
         viewModel = self.tokenManager.viewModel
@@ -147,21 +149,21 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
                 case .Save(let token):
                     self?.tokenManager.addToken(token)
                 case .Close:
-                    self?.dismissViewController()
+                    self?.masterPresenter.dismissViewController()
                 }
             }
-            presentViewController(scannerViewController)
+            masterPresenter.presentViewController(scannerViewController)
         } else {
             let form = TokenEntryForm() { [weak self] (event) in
                 switch event {
                 case .Save(let token):
                     self?.tokenManager.addToken(token)
                 case .Close:
-                    self?.dismissViewController()
+                    self?.masterPresenter.dismissViewController()
                 }
             }
             let formController = TokenFormViewController(form: form)
-            presentViewController(formController)
+            masterPresenter.presentViewController(formController)
         }
     }
 
@@ -233,24 +235,14 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
             case .Save(let token):
                 self?.tokenManager.saveToken(token, toPersistentToken: persistentToken)
             case .Close:
-                self?.dismissViewController()
+                self?.masterPresenter.dismissViewController()
             }
         }
         let editController = TokenFormViewController(form: form)
-        presentViewController(editController)
+        masterPresenter.presentViewController(editController)
     }
 
     // MARK: Modals
-
-    func presentViewController(viewController: UIViewController) {
-        let navController = UINavigationController(rootViewController: viewController)
-        navController.navigationBar.translucent = false
-        presentViewController(navController, animated: true, completion: nil)
-    }
-
-    func dismissViewController() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
 }
 
 extension OTPTokenListViewController: TokenListPresenter {
