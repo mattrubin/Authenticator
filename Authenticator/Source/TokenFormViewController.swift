@@ -38,7 +38,7 @@ class TokenFormViewController: UITableViewController {
             for sectionIndex in oldValue.sections.indices {
                 let oldSection = oldValue.sections[sectionIndex]
                 let newSection = viewModel.sections[sectionIndex]
-                let changes = diff(from: oldSection.rows, to: newSection.rows, comparator: {
+                let changes = changesFrom(oldSection.rows, to: newSection.rows, hasSameIdentity: {
                     // As currently used, form rows don't move around much, so comparing the row
                     // type is sufficient here. For more complex changes, row models should be
                     // compared for identity.

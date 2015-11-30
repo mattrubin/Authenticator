@@ -27,8 +27,14 @@ import Foundation
 import OneTimePassword
 
 class TokenManager {
+    weak var presenter: TokenListPresenter?
+
     private let keychain = Keychain.sharedInstance
-    private var persistentTokens: [PersistentToken]
+    private var persistentTokens: [PersistentToken] {
+        didSet {
+            presenter?.updateWithViewModel(viewModel)
+        }
+    }
 
     init() {
         do {
@@ -59,8 +65,9 @@ class TokenManager {
 
     // MARK: -
 
-    var numberOfTokens: Int {
-        return persistentTokens.count
+    var viewModel: TokenListViewModel {
+        let rowModels = persistentTokens.map(TokenRowModel.init)
+        return TokenListViewModel(rowModels: rowModels)
     }
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
@@ -75,25 +82,30 @@ class TokenManager {
         return Array(periods).sort()
     }
 
-    func addToken(token: Token) throws {
-        let newPersistentToken = try keychain.addToken(token)
-        persistentTokens.append(newPersistentToken)
-        saveTokenOrder()
+    func addToken(token: Token) {
+        do {
+            let newPersistentToken = try keychain.addToken(token)
+            persistentTokens.append(newPersistentToken)
+            saveTokenOrder()
+            // TODO: Scroll to the new token (added at the bottom)
+        } catch {
+            // TODO: Handle the addToken(_:) failure
+        }
     }
 
-    func persistentTokenAtIndex(index: Int) -> PersistentToken {
-        return persistentTokens[index]
-    }
-
-    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
-        let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
-            withToken: token)
-        // Update the in-memory token, which is still the origin of the table view's data
-        persistentTokens = persistentTokens.map {
-            if $0.identifier == updatedPersistentToken.identifier {
-                return updatedPersistentToken
+    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
+        do {
+            let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
+                withToken: token)
+            // Update the in-memory token, which is still the origin of the table view's data
+            persistentTokens = persistentTokens.map {
+                if $0.identifier == updatedPersistentToken.identifier {
+                    return updatedPersistentToken
+                }
+                return $0
             }
-            return $0
+        } catch {
+            // TODO: Handle the updatePersistentToken(_:withToken:) failure
         }
     }
 
@@ -104,11 +116,15 @@ class TokenManager {
         saveTokenOrder()
     }
 
-    func removeTokenAtIndex(index: Int) throws {
-        let persistentToken = persistentTokens[index]
-        try keychain.deletePersistentToken(persistentToken)
-        persistentTokens.removeAtIndex(index)
-        saveTokenOrder()
+    func removeTokenAtIndex(index: Int) {
+        do {
+            let persistentToken = persistentTokens[index]
+            try keychain.deletePersistentToken(persistentToken)
+            persistentTokens.removeAtIndex(index)
+            saveTokenOrder()
+        } catch {
+            // TODO: Handle the deletePersistentToken(_:) failure
+        }
     }
 
     // MARK: Token Order

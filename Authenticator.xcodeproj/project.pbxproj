@@ -32,6 +32,7 @@
 		C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */; };
 		C9AAB0811B9187F8000CE547 /* TokenForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0801B9187F8000CE547 /* TokenForm.swift */; };
 		C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328C1C09495D0076F77E /* TableDiff.swift */; };
+		C9B7328F1C0A8AE60076F77E /* TokenListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */; };
 		C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */; };
 		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
 		C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */; };
@@ -120,6 +121,7 @@
 		C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEditForm.swift; sourceTree = "<group>"; };
 		C9AAB0801B9187F8000CE547 /* TokenForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenForm.swift; sourceTree = "<group>"; };
 		C9B7328C1C09495D0076F77E /* TableDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDiff.swift; sourceTree = "<group>"; };
+		C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewModel.swift; sourceTree = "<group>"; };
 		C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		C9C6CCA11842E331000100C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenFormViewController.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				C92708AB19CFB0750033128B /* OTPTokenListViewController.swift */,
+				C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */,
 				C910ADC01BF0315A00C988F5 /* TokenManager.swift */,
 				C98C1C4517D2EDF500A07D3F /* Cells */,
 				C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */,
@@ -523,6 +526,7 @@
 				C9AAB0811B9187F8000CE547 /* TokenForm.swift in Sources */,
 				C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */,
 				C9800C491BCAA81D00CCB9B7 /* FormModels.swift in Sources */,
+				C9B7328F1C0A8AE60076F77E /* TokenListViewModel.swift in Sources */,
 				C99B85251BC9AB7100A6C75D /* BarButtonViewModel.swift in Sources */,
 				C9AAB0791B9113BF000CE547 /* OTPSegmentedControlCell+TokenForm.swift in Sources */,
 				1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */,

@@ -23,9 +23,10 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import OneTimePassword
 
-struct TokenRowModel: Equatable {
+struct TokenRowModel: Equatable, Identifiable {
     enum Action: Equatable {
         case UpdatePersistentToken(PersistentToken)
         case EditPersistentToken(PersistentToken)
@@ -37,6 +38,8 @@ struct TokenRowModel: Equatable {
     let buttonAction: Action
     let selectAction: Action
     let editAction: Action
+
+    private let identifier: NSData
 
     init(persistentToken: PersistentToken) {
         name = persistentToken.token.name
@@ -50,6 +53,11 @@ struct TokenRowModel: Equatable {
         buttonAction = .UpdatePersistentToken(persistentToken)
         selectAction = .CopyPassword(password)
         editAction = .EditPersistentToken(persistentToken)
+        identifier = persistentToken.identifier
+    }
+
+    func hasSameIdentity(other: TokenRowModel) -> Bool {
+        return self.identifier.isEqualToData(other.identifier)
     }
 }
 
@@ -61,6 +69,7 @@ func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
         && (lhs.buttonAction == rhs.buttonAction)
         && (lhs.selectAction == rhs.selectAction)
         && (lhs.editAction == rhs.editAction)
+        && (lhs.identifier == rhs.identifier)
 }
 
 func == (lhs: TokenRowModel.Action, rhs: TokenRowModel.Action) -> Bool {

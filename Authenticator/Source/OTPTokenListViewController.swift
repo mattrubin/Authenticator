@@ -29,8 +29,21 @@ import OneTimePassword
 import SVProgressHUD
 
 class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
+    private let tokenManager: TokenManager
+    private var viewModel: TokenListViewModel
+    private var preventTableViewAnimations = false
 
-    let tokenManager = TokenManager()
+    init(tokenManager: TokenManager) {
+        self.tokenManager = tokenManager
+        viewModel = self.tokenManager.viewModel
+        super.init(style: .Plain)
+        self.tokenManager.presenter = self
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
     private var ringPeriod: NSTimeInterval?
@@ -75,7 +88,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
             self.view.bounds.size.height * 0.6)
         self.view.addSubview(self.noTokensLabel)
 
-        self.update()
+        self.updatePeripheralViews()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -100,24 +113,24 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     // MARK: Update
 
-    func update() {
+    func updatePeripheralViews() {
         // Show the countdown ring only if a time-based token is active
         ringPeriod = self.tokenManager.timeBasedTokenPeriods.first
         self.ring.hidden = (ringPeriod == nil)
 
-        let hasTokens = (self.tokenManager.numberOfTokens > 0)
+        let hasTokens = !viewModel.rowModels.isEmpty
         editButtonItem().enabled = hasTokens
         noTokensLabel.hidden = hasTokens
+
+        // Exit editing mode if no tokens remain
+        if self.editing && viewModel.rowModels.isEmpty {
+            self.setEditing(false, animated: true)
+        }
     }
 
     func tick() {
         // Update currently-visible cells
-        for cell in self.tableView.visibleCells {
-            if let cell = cell as? TokenRowCell,
-                let indexPath = self.tableView.indexPathForCell(cell) {
-                    updateCell(cell, forRowAtIndexPath: indexPath)
-            }
-        }
+        updateWithViewModel(tokenManager.viewModel)
 
         if let period = ringPeriod where period > 0 {
             self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
@@ -133,7 +146,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
             let scannerViewController = TokenScannerViewController() { [weak self] (event) in
                 switch event {
                 case .Save(let token):
-                    self?.saveNewToken(token)
+                    self?.tokenManager.addToken(token)
                 case .Close:
                     self?.dismissViewController()
                 }
@@ -143,7 +156,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
             let form = TokenEntryForm() { [weak self] (event) in
                 switch event {
                 case .Save(let token):
-                    self?.saveNewToken(token)
+                    self?.tokenManager.addToken(token)
                 case .Close:
                     self?.dismissViewController()
                 }
@@ -162,7 +175,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tokenManager.numberOfTokens
+        return viewModel.rowModels.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -174,25 +187,14 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
     }
 
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        let persistentToken = tokenManager.persistentTokenAtIndex(indexPath.row)
-        let rowModel = TokenRowModel(persistentToken: persistentToken)
+        let rowModel = viewModel.rowModels[indexPath.row]
         cell.updateWithRowModel(rowModel)
         cell.delegate = self
     }
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            do {
-                try tokenManager.removeTokenAtIndex(indexPath.row)
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                self.update()
-
-                if self.tokenManager.numberOfTokens == 0 {
-                    self.setEditing(false, animated: true)
-                }
-            } catch {
-                // TODO: Handle the removeTokenAtIndex(_:) failure
-            }
+            tokenManager.removeTokenAtIndex(indexPath.row)
         }
     }
 
@@ -200,7 +202,9 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
         moveRowAtIndexPath sourceIndexPath: NSIndexPath,
         toIndexPath destinationIndexPath: NSIndexPath)
     {
+        preventTableViewAnimations = true
         self.tokenManager.moveTokenFromIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
+        preventTableViewAnimations = false
     }
 
 }
@@ -226,7 +230,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     private func updatePersistentToken(persistentToken: PersistentToken) {
         let newToken = persistentToken.token.updatedToken()
-        saveToken(newToken, toPersistentToken: persistentToken)
+        tokenManager.saveToken(newToken, toPersistentToken: persistentToken)
     }
 
     private func copyPassword(password: String) {
@@ -239,37 +243,13 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         let form = TokenEditForm(token: persistentToken.token) { [weak self] (event) in
             switch event {
             case .Save(let token):
-                self?.saveToken(token, toPersistentToken: persistentToken)
+                self?.tokenManager.saveToken(token, toPersistentToken: persistentToken)
             case .Close:
                 self?.dismissViewController()
             }
         }
         let editController = TokenFormViewController(form: form)
         presentViewController(editController)
-    }
-
-    private func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
-        do {
-            try tokenManager.saveToken(token, toPersistentToken: persistentToken)
-            tableView.reloadData()
-        } catch {
-            // TODO: Handle the saveToken(_:toPersistentToken:) failure
-        }
-    }
-
-    func saveNewToken(token: Token) {
-        do {
-            try tokenManager.addToken(token)
-            self.tableView.reloadData()
-            self.update()
-
-            // Scroll to the new token (added at the bottom)
-            let section = self.numberOfSectionsInTableView(self.tableView) - 1
-            let row = self.tableView(self.tableView, numberOfRowsInSection: section) - 1
-            self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: row, inSection: section), atScrollPosition: .Middle, animated: true)
-        } catch {
-            // TODO: Handle the addToken(_:) failure
-        }
     }
 
     // MARK: Modals
@@ -282,5 +262,45 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 
     func dismissViewController() {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+extension OTPTokenListViewController: TokenListPresenter {
+    func updateWithViewModel(viewModel: TokenListViewModel) {
+        let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
+        self.viewModel = viewModel
+        updateTableViewWithChanges(changes)
+        updatePeripheralViews()
+    }
+
+    func updateTableViewWithChanges(changes: [Change]) {
+        if preventTableViewAnimations {
+            return
+        }
+
+        tableView.beginUpdates()
+        let sectionIndex = 0
+        for change in changes {
+            switch change {
+            case .Insert(let rowIndex):
+                let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            case .Update(let rowIndex):
+                let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
+                    updateCell(cell, forRowAtIndexPath: indexPath)
+                } else {
+                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
+            case .Delete(let rowIndex):
+                let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            case let .Move(fromRowIndex, toRowIndex):
+                let origin = NSIndexPath(forRow: fromRowIndex, inSection: sectionIndex)
+                let destination = NSIndexPath(forRow: toRowIndex, inSection: sectionIndex)
+                tableView.moveRowAtIndexPath(origin, toIndexPath: destination)
+            }
+        }
+        tableView.endUpdates()
     }
 }
