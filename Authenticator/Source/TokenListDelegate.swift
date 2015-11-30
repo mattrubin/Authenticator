@@ -34,4 +34,7 @@ protocol TokenListDelegate: class {
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int)
     func deleteTokenAtIndex(index: Int)
+
+    // TODO: remove this method and have the component auto-update the view model on time change
+    func updateViewModel()
 }

@@ -156,6 +156,10 @@ extension TokenManager: TokenListDelegate {
             presenter?.updateWithViewModel(viewModel, ephemeralMessage: .Error(errorMessage))
         }
     }
+
+    func updateViewModel() {
+        presenter?.updateWithViewModel(viewModel, ephemeralMessage: nil)
+    }
 }
 
 extension TokenManager {

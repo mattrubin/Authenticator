@@ -129,7 +129,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     func tick() {
         // Update currently-visible cells
-        updateWithViewModel(tokenManager.viewModel, ephemeralMessage: nil)
+        delegate?.updateViewModel()
 
         if let period = viewModel.ringPeriod where period > 0 {
             self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
