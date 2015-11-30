@@ -30,11 +30,11 @@ struct TokenListViewModel {
     let ringPeriod: NSTimeInterval?
 }
 
-enum TokenListEphemera {
+enum EphemeralMessage {
     case Success(String)
     case Error(String)
 }
 
 protocol TokenListPresenter: class {
-    func updateWithViewModel(viewModel: TokenListViewModel, ephemera: TokenListEphemera?)
+    func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?)
 }

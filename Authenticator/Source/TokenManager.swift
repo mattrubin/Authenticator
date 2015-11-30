@@ -34,7 +34,7 @@ class TokenManager {
     private let keychain = Keychain.sharedInstance
     private var persistentTokens: [PersistentToken] {
         didSet {
-            presenter?.updateWithViewModel(viewModel, ephemera: nil)
+            presenter?.updateWithViewModel(viewModel, ephemeralMessage: nil)
         }
     }
 
@@ -125,7 +125,7 @@ extension TokenManager: TokenListDelegate {
         let pasteboard = UIPasteboard.generalPasteboard()
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         // Show an emphemeral success message in the view
-        presenter?.updateWithViewModel(viewModel, ephemera: .Success("Copied"))
+        presenter?.updateWithViewModel(viewModel, ephemeralMessage: .Success("Copied"))
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
@@ -144,7 +144,7 @@ extension TokenManager: TokenListDelegate {
         } catch {
             // Show an emphemeral failure message
             let errorMessage = "Deletion Failed:\n\(error)"
-            presenter?.updateWithViewModel(viewModel, ephemera: .Error(errorMessage))
+            presenter?.updateWithViewModel(viewModel, ephemeralMessage: .Error(errorMessage))
         }
     }
 }
