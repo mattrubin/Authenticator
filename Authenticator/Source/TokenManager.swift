@@ -69,11 +69,14 @@ class TokenManager {
 
     var viewModel: TokenListViewModel {
         let rowModels = persistentTokens.map(TokenRowModel.init)
-        return TokenListViewModel(rowModels: rowModels)
+        return TokenListViewModel(
+            rowModels: rowModels,
+            ringPeriod: timeBasedTokenPeriods.first
+        )
     }
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
-    var timeBasedTokenPeriods: [NSTimeInterval] {
+    private var timeBasedTokenPeriods: [NSTimeInterval] {
         let periods = persistentTokens.reduce(Set<NSTimeInterval>()) {
             (var periods, persistentToken) in
             if case .Timer(let period) = persistentToken.token.generator.factor {

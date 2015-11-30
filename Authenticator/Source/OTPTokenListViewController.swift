@@ -48,7 +48,6 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
-    private var ringPeriod: NSTimeInterval?
     let noTokensLabel = UILabel()
 
     override func viewDidLoad() {
@@ -117,8 +116,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     func updatePeripheralViews() {
         // Show the countdown ring only if a time-based token is active
-        ringPeriod = self.tokenManager.timeBasedTokenPeriods.first
-        self.ring.hidden = (ringPeriod == nil)
+        self.ring.hidden = (viewModel.ringPeriod == nil)
 
         let hasTokens = !viewModel.rowModels.isEmpty
         editButtonItem().enabled = hasTokens
@@ -134,7 +132,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
         // Update currently-visible cells
         updateWithViewModel(tokenManager.viewModel)
 
-        if let period = ringPeriod where period > 0 {
+        if let period = viewModel.ringPeriod where period > 0 {
             self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
         } else {
             self.ring.progress = 0

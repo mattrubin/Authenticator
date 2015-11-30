@@ -23,8 +23,11 @@
 //  SOFTWARE.
 //
 
+import Foundation
+
 struct TokenListViewModel {
     let rowModels: [TokenRowModel]
+    let ringPeriod: NSTimeInterval?
 }
 
 protocol TokenListPresenter: class {
