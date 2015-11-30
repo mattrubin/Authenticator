@@ -1,5 +1,5 @@
 //
-//  TokenListDelegate.swift
+//  MasterPresenter.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -23,15 +23,10 @@
 //  SOFTWARE.
 //
 
+import UIKit
 import OneTimePassword
 
-protocol TokenListDelegate: class {
+protocol MasterPresenter: class {
     func beginAddToken()
     func beginEditPersistentToken(persistentToken: PersistentToken)
-
-    func updatePersistentToken(persistentToken: PersistentToken)
-    func copyPassword(password: String)
-
-    func moveTokenFromIndex(origin: Int, toIndex destination: Int)
-    func deleteTokenAtIndex(index: Int)
 }

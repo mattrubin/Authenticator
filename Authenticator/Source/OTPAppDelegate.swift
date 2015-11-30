@@ -26,12 +26,10 @@ import UIKit
 import OneTimePassword
 import SVProgressHUD
 
-private let tokenManager = TokenManager()
-
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
-    let rootViewController = OTPTokenListViewController(tokenManager: tokenManager)
+    private let tokenManager = TokenManager()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -49,7 +47,9 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        let navController = UINavigationController(rootViewController: self.rootViewController)
+        tokenManager.delegate = self
+        let rootViewController = OTPTokenListViewController(tokenManager: tokenManager)
+        let navController = UINavigationController(rootViewController: rootViewController)
         navController.navigationBar.translucent = false
         navController.toolbar.translucent = false
 
@@ -67,16 +67,70 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
 
-            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) in
-                tokenManager.addToken(token)
-            }))
+            let acceptHandler: (UIAlertAction) -> Void = { [weak self] (_) in
+                self?.tokenManager.addToken(token)
+            }
 
-            self.rootViewController.presentViewController(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: acceptHandler))
+
+            window?.rootViewController?
+                .presentViewController(alert, animated: true, completion: nil)
 
             return true
         }
 
         return false
+    }
+}
+
+extension OTPAppDelegate: MasterPresenter {
+    func beginAddToken() {
+        if QRScanner.deviceCanScan {
+            let scannerViewController = TokenScannerViewController() { [weak self] (event) in
+                switch event {
+                case .Save(let token):
+                    self?.tokenManager.addToken(token)
+                case .Close:
+                    self?.dismissViewController()
+                }
+            }
+            presentViewController(scannerViewController)
+        } else {
+            let form = TokenEntryForm() { [weak self] (event) in
+                switch event {
+                case .Save(let token):
+                    self?.tokenManager.addToken(token)
+                case .Close:
+                    self?.dismissViewController()
+                }
+            }
+            let formController = TokenFormViewController(form: form)
+            presentViewController(formController)
+        }
+    }
+
+    func beginEditPersistentToken(persistentToken: PersistentToken) {
+        let form = TokenEditForm(token: persistentToken.token) { [weak self] (event) in
+            switch event {
+            case .Save(let token):
+                self?.tokenManager.saveToken(token, toPersistentToken: persistentToken)
+            case .Close:
+                self?.dismissViewController()
+            }
+        }
+        let editController = TokenFormViewController(form: form)
+        presentViewController(editController)
+    }
+
+    private func presentViewController(viewController: UIViewController) {
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.navigationBar.translucent = false
+        window?.rootViewController?
+            .presentViewController(navController, animated: true, completion: nil)
+    }
+
+    private func dismissViewController() {
+        window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }

@@ -141,30 +141,8 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
     // MARK: Target actions
 
     func addToken() {
-        if QRScanner.deviceCanScan {
-            let scannerViewController = TokenScannerViewController() { [weak self] (event) in
-                switch event {
-                case .Save(let token):
-                    self?.tokenManager.addToken(token)
-                case .Close:
-                    self?.dismissViewController()
-                }
-            }
-            presentViewController(scannerViewController)
-        } else {
-            let form = TokenEntryForm() { [weak self] (event) in
-                switch event {
-                case .Save(let token):
-                    self?.tokenManager.addToken(token)
-                case .Close:
-                    self?.dismissViewController()
-                }
-            }
-            let formController = TokenFormViewController(form: form)
-            presentViewController(formController)
-        }
+        delegate?.beginAddToken()
     }
-
 }
 
 extension OTPTokenListViewController /* UITableViewDataSource */ {
@@ -223,33 +201,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         case .CopyPassword(let password):
             delegate?.copyPassword(password)
         case .EditPersistentToken(let persistentToken):
-            editPersistentToken(persistentToken)
+            delegate?.beginEditPersistentToken(persistentToken)
         }
-    }
-
-    private func editPersistentToken(persistentToken: PersistentToken) {
-        let form = TokenEditForm(token: persistentToken.token) { [weak self] (event) in
-            switch event {
-            case .Save(let token):
-                self?.tokenManager.saveToken(token, toPersistentToken: persistentToken)
-            case .Close:
-                self?.dismissViewController()
-            }
-        }
-        let editController = TokenFormViewController(form: form)
-        presentViewController(editController)
-    }
-
-    // MARK: Modals
-
-    func presentViewController(viewController: UIViewController) {
-        let navController = UINavigationController(rootViewController: viewController)
-        navController.navigationBar.translucent = false
-        presentViewController(navController, animated: true, completion: nil)
-    }
-
-    func dismissViewController() {
-        dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
