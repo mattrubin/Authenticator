@@ -1,5 +1,5 @@
 //
-//  OTPTokenListViewController.swift
+//  TokenListViewController.swift
 //  Authenticator
 //
 //  Copyright (c) 2013-2015 Authenticator authors
@@ -27,27 +27,26 @@ import UIKit
 import OneTimePassword
 import SVProgressHUD
 
-class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
-    private let tokenManager: TokenManager
+class TokenListViewController: UITableViewController {
     private weak var delegate: TokenListDelegate?
     private var viewModel: TokenListViewModel
     private var preventTableViewAnimations = false
 
-    init(tokenManager: TokenManager) {
-        self.tokenManager = tokenManager
-        self.delegate = tokenManager
-        viewModel = self.tokenManager.viewModel
+    init(viewModel: TokenListViewModel, delegate: TokenListDelegate?) {
+        self.viewModel = viewModel
+        self.delegate = delegate
         super.init(style: .Plain)
-        self.tokenManager.presenter = self
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var displayLink: CADisplayLink?
-    let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
-    let noTokensLabel = UILabel()
+    private var displayLink: CADisplayLink?
+    private let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
+    private let noTokensLabel = UILabel()
+
+    // MARK: View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,25 +110,11 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
         self.displayLink = nil
     }
 
-    // MARK: Update
-
-    func updatePeripheralViews() {
-        // Show the countdown ring only if a time-based token is active
-        self.ring.hidden = (viewModel.ringPeriod == nil)
-
-        let hasTokens = !viewModel.rowModels.isEmpty
-        editButtonItem().enabled = hasTokens
-        noTokensLabel.hidden = hasTokens
-
-        // Exit editing mode if no tokens remain
-        if self.editing && viewModel.rowModels.isEmpty {
-            self.setEditing(false, animated: true)
-        }
-    }
+    // MARK: Target Actions
 
     func tick() {
         // Update currently-visible cells
-        updateWithViewModel(tokenManager.viewModel, ephemeralMessage: nil)
+        delegate?.updateViewModel()
 
         if let period = viewModel.ringPeriod where period > 0 {
             self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
@@ -138,15 +123,13 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
         }
     }
 
-    // MARK: Target actions
-
     func addToken() {
         delegate?.beginAddToken()
     }
 }
 
-extension OTPTokenListViewController /* UITableViewDataSource */ {
-
+// MARK: UITableViewDataSource
+extension TokenListViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -186,14 +169,15 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
 }
 
-extension OTPTokenListViewController /* UITableViewDelegate */ {
-
+// MARK: UITableViewDelegate
+extension TokenListViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 85
     }
+}
 
-    // MARK: TokenRowDelegate
-
+// MARK: TokenRowDelegate
+extension TokenListViewController: TokenRowDelegate {
     func handleAction(action: TokenRowModel.Action) {
         switch action {
         case .UpdatePersistentToken(let persistentToken):
@@ -206,7 +190,8 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 }
 
-extension OTPTokenListViewController: TokenListPresenter {
+// MARK: TokenListPresenter
+extension TokenListViewController: TokenListPresenter {
     func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         self.viewModel = viewModel
@@ -223,7 +208,7 @@ extension OTPTokenListViewController: TokenListPresenter {
         }
     }
 
-    func updateTableViewWithChanges(changes: [Change]) {
+    private func updateTableViewWithChanges(changes: [Change]) {
         if preventTableViewAnimations {
             return
         }
@@ -252,5 +237,19 @@ extension OTPTokenListViewController: TokenListPresenter {
             }
         }
         tableView.endUpdates()
+    }
+
+    private func updatePeripheralViews() {
+        // Show the countdown ring only if a time-based token is active
+        self.ring.hidden = (viewModel.ringPeriod == nil)
+
+        let hasTokens = !viewModel.rowModels.isEmpty
+        editButtonItem().enabled = hasTokens
+        noTokensLabel.hidden = hasTokens
+
+        // Exit editing mode if no tokens remain
+        if self.editing && viewModel.rowModels.isEmpty {
+            self.setEditing(false, animated: true)
+        }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  TokenManager.swift
+//  TokenList.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -28,7 +28,7 @@ import MobileCoreServices
 import OneTimePassword
 import UIKit
 
-class TokenManager {
+class TokenList {
     weak var delegate: MasterPresenter?
     weak var presenter: TokenListPresenter?
 
@@ -39,10 +39,11 @@ class TokenManager {
         }
     }
 
-    init() {
+    init(delegate: MasterPresenter) {
+        self.delegate = delegate
         do {
             let persistentTokenSet = try keychain.allPersistentTokens()
-            let sortedIdentifiers = TokenManager.persistentIdentifiers()
+            let sortedIdentifiers = TokenList.persistentIdentifiers()
 
             persistentTokens = persistentTokenSet.sort({ (A, B) in
                 let indexOfA = sortedIdentifiers.indexOf(A.identifier)
@@ -116,7 +117,7 @@ class TokenManager {
     }
 }
 
-extension TokenManager: TokenListDelegate {
+extension TokenList: TokenListDelegate {
     func beginAddToken() {
         delegate?.beginAddToken()
     }
@@ -156,9 +157,13 @@ extension TokenManager: TokenListDelegate {
             presenter?.updateWithViewModel(viewModel, ephemeralMessage: .Error(errorMessage))
         }
     }
+
+    func updateViewModel() {
+        presenter?.updateWithViewModel(viewModel, ephemeralMessage: nil)
+    }
 }
 
-extension TokenManager {
+extension TokenList {
     // MARK: Token Order
 
     private static let kOTPKeychainEntriesArray = "OTPKeychainEntries"
@@ -176,6 +181,6 @@ extension TokenManager {
 
     private func saveTokenOrder() {
         let persistentIdentifiers = persistentTokens.map { $0.identifier }
-        TokenManager.savePersistentIdentifiers(persistentIdentifiers)
+        TokenList.savePersistentIdentifiers(persistentIdentifiers)
     }
 }
