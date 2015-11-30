@@ -193,7 +193,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            delegate?.removeTokenAtIndex(indexPath.row)
+            delegate?.deleteTokenAtIndex(indexPath.row)
         }
     }
 

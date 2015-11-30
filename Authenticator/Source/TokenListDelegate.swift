@@ -30,5 +30,5 @@ protocol TokenListDelegate: class {
     func copyPassword(password: String)
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int)
-    func removeTokenAtIndex(index: Int)
+    func deleteTokenAtIndex(index: Int)
 }

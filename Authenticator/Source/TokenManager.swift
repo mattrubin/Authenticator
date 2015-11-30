@@ -135,7 +135,7 @@ extension TokenManager: TokenListDelegate {
         saveTokenOrder()
     }
 
-    func removeTokenAtIndex(index: Int) {
+    func deleteTokenAtIndex(index: Int) {
         do {
             let persistentToken = persistentTokens[index]
             try keychain.deletePersistentToken(persistentToken)
