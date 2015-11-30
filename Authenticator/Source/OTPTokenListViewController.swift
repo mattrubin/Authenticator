@@ -28,7 +28,6 @@ import OneTimePassword
 import SVProgressHUD
 
 class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
-    @available(*, deprecated=1)
     private let tokenManager: TokenManager
     private weak var delegate: TokenListDelegate?
     private var viewModel: TokenListViewModel
