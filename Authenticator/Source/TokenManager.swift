@@ -93,6 +93,11 @@ class TokenManager {
         }
     }
 
+    func updatePersistentToken(persistentToken: PersistentToken) {
+        let newToken = persistentToken.token.updatedToken()
+        saveToken(newToken, toPersistentToken: persistentToken)
+    }
+
     func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
         do {
             let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,

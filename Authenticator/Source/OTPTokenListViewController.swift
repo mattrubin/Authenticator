@@ -220,17 +220,12 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     func handleAction(action: TokenRowModel.Action) {
         switch action {
         case .UpdatePersistentToken(let persistentToken):
-            updatePersistentToken(persistentToken)
+            tokenManager.updatePersistentToken(persistentToken)
         case .CopyPassword(let password):
             copyPassword(password)
         case .EditPersistentToken(let persistentToken):
             editPersistentToken(persistentToken)
         }
-    }
-
-    private func updatePersistentToken(persistentToken: PersistentToken) {
-        let newToken = persistentToken.token.updatedToken()
-        tokenManager.saveToken(newToken, toPersistentToken: persistentToken)
     }
 
     private func copyPassword(password: String) {
