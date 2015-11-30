@@ -53,8 +53,6 @@ class TokenListViewController: UITableViewController {
         self.title = "Authenticator"
         self.view.backgroundColor = UIColor.otpBackgroundColor
 
-        self.tableView.registerClass(TokenRowCell.self, forCellReuseIdentifier: NSStringFromClass(TokenRowCell.self))
-
         self.tableView.separatorStyle = .None
         self.tableView.indicatorStyle = .White
 
@@ -139,10 +137,8 @@ extension TokenListViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(TokenRowCell.self), forIndexPath: indexPath)
-        if let cell = cell as? TokenRowCell {
-            updateCell(cell, forRowAtIndexPath: indexPath)
-        }
+        let cell = tableView.dequeueReusableCellWithClass(TokenRowCell.self)
+        updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
     }
 
