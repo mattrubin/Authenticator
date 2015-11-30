@@ -28,17 +28,14 @@ import OneTimePassword
 import SVProgressHUD
 
 class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
-    private let tokenManager: TokenManager
     private weak var delegate: TokenListDelegate?
     private var viewModel: TokenListViewModel
     private var preventTableViewAnimations = false
 
-    init(tokenManager: TokenManager) {
-        self.tokenManager = tokenManager
-        self.delegate = tokenManager
-        viewModel = self.tokenManager.viewModel
+    init(viewModel: TokenListViewModel, delegate: TokenListDelegate?) {
+        self.viewModel = viewModel
+        self.delegate = delegate
         super.init(style: .Plain)
-        self.tokenManager.presenter = self
     }
 
     required init?(coder aDecoder: NSCoder) {
