@@ -27,7 +27,7 @@ import UIKit
 import OneTimePassword
 import SVProgressHUD
 
-class TokenListViewController: UITableViewController, TokenRowDelegate {
+class TokenListViewController: UITableViewController {
     private weak var delegate: TokenListDelegate?
     private var viewModel: TokenListViewModel
     private var preventTableViewAnimations = false
@@ -45,6 +45,8 @@ class TokenListViewController: UITableViewController, TokenRowDelegate {
     var displayLink: CADisplayLink?
     let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
     let noTokensLabel = UILabel()
+
+    // MARK: View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,7 +110,7 @@ class TokenListViewController: UITableViewController, TokenRowDelegate {
         self.displayLink = nil
     }
 
-    // MARK: Update
+    // MARK: Target Actions
 
     func tick() {
         // Update currently-visible cells
@@ -121,15 +123,13 @@ class TokenListViewController: UITableViewController, TokenRowDelegate {
         }
     }
 
-    // MARK: Target actions
-
     func addToken() {
         delegate?.beginAddToken()
     }
 }
 
-extension TokenListViewController /* UITableViewDataSource */ {
-
+// MARK: UITableViewDataSource
+extension TokenListViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -169,14 +169,15 @@ extension TokenListViewController /* UITableViewDataSource */ {
 
 }
 
-extension TokenListViewController /* UITableViewDelegate */ {
-
+// MARK: UITableViewDelegate
+extension TokenListViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 85
     }
+}
 
-    // MARK: TokenRowDelegate
-
+// MARK: TokenRowDelegate
+extension TokenListViewController: TokenRowDelegate {
     func handleAction(action: TokenRowModel.Action) {
         switch action {
         case .UpdatePersistentToken(let persistentToken):
@@ -189,6 +190,7 @@ extension TokenListViewController /* UITableViewDelegate */ {
     }
 }
 
+// MARK: TokenListPresenter
 extension TokenListViewController: TokenListPresenter {
     func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
