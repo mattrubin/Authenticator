@@ -119,13 +119,13 @@ extension OTPAppDelegate: MasterPresenter {
         presentViewController(editController)
     }
 
-    func presentViewController(viewController: UIViewController) {
+    private func presentViewController(viewController: UIViewController) {
         let navController = UINavigationController(rootViewController: viewController)
         navController.navigationBar.translucent = false
         window?.rootViewController?.presentViewController(navController, animated: true, completion: nil)
     }
 
-    func dismissViewController() {
+    private func dismissViewController() {
         window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }

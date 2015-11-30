@@ -29,7 +29,4 @@ import OneTimePassword
 protocol MasterPresenter {
     func beginAddToken()
     func beginEditPersistentToken(persistentToken: PersistentToken)
-
-    func presentViewController(viewController: UIViewController)
-    func dismissViewController()
 }
