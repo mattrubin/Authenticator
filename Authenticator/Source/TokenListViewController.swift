@@ -1,5 +1,5 @@
 //
-//  OTPTokenListViewController.swift
+//  TokenListViewController.swift
 //  Authenticator
 //
 //  Copyright (c) 2013-2015 Authenticator authors
@@ -27,7 +27,7 @@ import UIKit
 import OneTimePassword
 import SVProgressHUD
 
-class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
+class TokenListViewController: UITableViewController, TokenRowDelegate {
     private weak var delegate: TokenListDelegate?
     private var viewModel: TokenListViewModel
     private var preventTableViewAnimations = false
@@ -142,7 +142,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
     }
 }
 
-extension OTPTokenListViewController /* UITableViewDataSource */ {
+extension TokenListViewController /* UITableViewDataSource */ {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -183,7 +183,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
 }
 
-extension OTPTokenListViewController /* UITableViewDelegate */ {
+extension TokenListViewController /* UITableViewDelegate */ {
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 85
@@ -203,7 +203,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     }
 }
 
-extension OTPTokenListViewController: TokenListPresenter {
+extension TokenListViewController: TokenListPresenter {
     func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         self.viewModel = viewModel
