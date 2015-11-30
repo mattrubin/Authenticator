@@ -110,20 +110,6 @@ class TokenListViewController: UITableViewController, TokenRowDelegate {
 
     // MARK: Update
 
-    func updatePeripheralViews() {
-        // Show the countdown ring only if a time-based token is active
-        self.ring.hidden = (viewModel.ringPeriod == nil)
-
-        let hasTokens = !viewModel.rowModels.isEmpty
-        editButtonItem().enabled = hasTokens
-        noTokensLabel.hidden = hasTokens
-
-        // Exit editing mode if no tokens remain
-        if self.editing && viewModel.rowModels.isEmpty {
-            self.setEditing(false, animated: true)
-        }
-    }
-
     func tick() {
         // Update currently-visible cells
         delegate?.updateViewModel()
@@ -220,7 +206,7 @@ extension TokenListViewController: TokenListPresenter {
         }
     }
 
-    func updateTableViewWithChanges(changes: [Change]) {
+    private func updateTableViewWithChanges(changes: [Change]) {
         if preventTableViewAnimations {
             return
         }
@@ -249,5 +235,19 @@ extension TokenListViewController: TokenListPresenter {
             }
         }
         tableView.endUpdates()
+    }
+
+    private func updatePeripheralViews() {
+        // Show the countdown ring only if a time-based token is active
+        self.ring.hidden = (viewModel.ringPeriod == nil)
+
+        let hasTokens = !viewModel.rowModels.isEmpty
+        editButtonItem().enabled = hasTokens
+        noTokensLabel.hidden = hasTokens
+
+        // Exit editing mode if no tokens remain
+        if self.editing && viewModel.rowModels.isEmpty {
+            self.setEditing(false, animated: true)
+        }
     }
 }
