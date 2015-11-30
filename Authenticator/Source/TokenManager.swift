@@ -24,7 +24,10 @@
 //
 
 import Foundation
+import MobileCoreServices
 import OneTimePassword
+import SVProgressHUD
+import UIKit
 
 class TokenManager {
     weak var presenter: TokenListPresenter?
@@ -114,6 +117,13 @@ extension TokenManager: TokenListDelegate {
     func updatePersistentToken(persistentToken: PersistentToken) {
         let newToken = persistentToken.token.updatedToken()
         saveToken(newToken, toPersistentToken: persistentToken)
+    }
+
+    func copyPassword(password: String) {
+        let pasteboard = UIPasteboard.generalPasteboard()
+        pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
+        // FIXME: display success message via the view model (and remove SVProgressHUD import above)
+        SVProgressHUD.showSuccessWithStatus("Copied")
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) {

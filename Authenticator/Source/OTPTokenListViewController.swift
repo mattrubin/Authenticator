@@ -24,7 +24,6 @@
 //
 
 import UIKit
-import MobileCoreServices
 import OneTimePassword
 import SVProgressHUD
 
@@ -225,16 +224,10 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         case .UpdatePersistentToken(let persistentToken):
             delegate?.updatePersistentToken(persistentToken)
         case .CopyPassword(let password):
-            copyPassword(password)
+            delegate?.copyPassword(password)
         case .EditPersistentToken(let persistentToken):
             editPersistentToken(persistentToken)
         }
-    }
-
-    private func copyPassword(password: String) {
-        let pasteboard = UIPasteboard.generalPasteboard()
-        pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
-        SVProgressHUD.showSuccessWithStatus("Copied")
     }
 
     private func editPersistentToken(persistentToken: PersistentToken) {
