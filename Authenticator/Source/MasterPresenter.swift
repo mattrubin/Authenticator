@@ -26,6 +26,8 @@
 import UIKit
 
 protocol MasterPresenter {
+    func beginAddToken()
+
     func presentViewController(viewController: UIViewController)
     func dismissViewController()
 }

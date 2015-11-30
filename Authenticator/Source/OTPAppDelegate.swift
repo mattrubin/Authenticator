@@ -81,6 +81,31 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension OTPAppDelegate: MasterPresenter {
+    func beginAddToken() {
+        if QRScanner.deviceCanScan {
+            let scannerViewController = TokenScannerViewController() { [weak self] (event) in
+                switch event {
+                case .Save(let token):
+                    self?.tokenManager.addToken(token)
+                case .Close:
+                    self?.dismissViewController()
+                }
+            }
+            presentViewController(scannerViewController)
+        } else {
+            let form = TokenEntryForm() { [weak self] (event) in
+                switch event {
+                case .Save(let token):
+                    self?.tokenManager.addToken(token)
+                case .Close:
+                    self?.dismissViewController()
+                }
+            }
+            let formController = TokenFormViewController(form: form)
+            presentViewController(formController)
+        }
+    }
+
     func presentViewController(viewController: UIViewController) {
         let navController = UINavigationController(rootViewController: viewController)
         navController.navigationBar.translucent = false

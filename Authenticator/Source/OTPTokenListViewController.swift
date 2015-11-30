@@ -143,30 +143,8 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
     // MARK: Target actions
 
     func addToken() {
-        if QRScanner.deviceCanScan {
-            let scannerViewController = TokenScannerViewController() { [weak self] (event) in
-                switch event {
-                case .Save(let token):
-                    self?.tokenManager.addToken(token)
-                case .Close:
-                    self?.masterPresenter.dismissViewController()
-                }
-            }
-            masterPresenter.presentViewController(scannerViewController)
-        } else {
-            let form = TokenEntryForm() { [weak self] (event) in
-                switch event {
-                case .Save(let token):
-                    self?.tokenManager.addToken(token)
-                case .Close:
-                    self?.masterPresenter.dismissViewController()
-                }
-            }
-            let formController = TokenFormViewController(form: form)
-            masterPresenter.presentViewController(formController)
-        }
+        masterPresenter.beginAddToken()
     }
-
 }
 
 extension OTPTokenListViewController /* UITableViewDataSource */ {
