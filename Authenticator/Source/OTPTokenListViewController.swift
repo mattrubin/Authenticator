@@ -203,24 +203,9 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
         case .CopyPassword(let password):
             delegate?.copyPassword(password)
         case .EditPersistentToken(let persistentToken):
-            editPersistentToken(persistentToken)
+            masterPresenter.beginEditPersistentToken(persistentToken)
         }
     }
-
-    private func editPersistentToken(persistentToken: PersistentToken) {
-        let form = TokenEditForm(token: persistentToken.token) { [weak self] (event) in
-            switch event {
-            case .Save(let token):
-                self?.tokenManager.saveToken(token, toPersistentToken: persistentToken)
-            case .Close:
-                self?.masterPresenter.dismissViewController()
-            }
-        }
-        let editController = TokenFormViewController(form: form)
-        masterPresenter.presentViewController(editController)
-    }
-
-    // MARK: Modals
 }
 
 extension OTPTokenListViewController: TokenListPresenter {

@@ -106,6 +106,19 @@ extension OTPAppDelegate: MasterPresenter {
         }
     }
 
+    func beginEditPersistentToken(persistentToken: PersistentToken) {
+        let form = TokenEditForm(token: persistentToken.token) { [weak self] (event) in
+            switch event {
+            case .Save(let token):
+                self?.tokenManager.saveToken(token, toPersistentToken: persistentToken)
+            case .Close:
+                self?.dismissViewController()
+            }
+        }
+        let editController = TokenFormViewController(form: form)
+        presentViewController(editController)
+    }
+
     func presentViewController(viewController: UIViewController) {
         let navController = UINavigationController(rootViewController: viewController)
         navController.navigationBar.translucent = false
