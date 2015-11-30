@@ -39,7 +39,8 @@ class TokenList {
         }
     }
 
-    init() {
+    init(delegate: MasterPresenter) {
+        self.delegate = delegate
         do {
             let persistentTokenSet = try keychain.allPersistentTokens()
             let sortedIdentifiers = TokenList.persistentIdentifiers()

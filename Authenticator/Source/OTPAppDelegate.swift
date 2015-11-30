@@ -29,7 +29,9 @@ import SVProgressHUD
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
-    private let tokenList = TokenList()
+    private lazy var tokenList: TokenList = {
+        TokenList(delegate: self)
+    }()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -47,7 +49,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        tokenList.delegate = self
         let rootViewController = OTPTokenListViewController(viewModel: tokenList.viewModel, delegate: tokenList)
         tokenList.presenter = rootViewController
         let navController = UINavigationController(rootViewController: rootViewController)
