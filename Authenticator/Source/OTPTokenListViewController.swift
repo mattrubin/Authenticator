@@ -29,12 +29,15 @@ import OneTimePassword
 import SVProgressHUD
 
 class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
+    @available(*, deprecated=1)
     private let tokenManager: TokenManager
+    private weak var delegate: TokenListDelegate?
     private var viewModel: TokenListViewModel
     private var preventTableViewAnimations = false
 
     init(tokenManager: TokenManager) {
         self.tokenManager = tokenManager
+        self.delegate = tokenManager
         viewModel = self.tokenManager.viewModel
         super.init(style: .Plain)
         self.tokenManager.presenter = self
@@ -220,7 +223,7 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
     func handleAction(action: TokenRowModel.Action) {
         switch action {
         case .UpdatePersistentToken(let persistentToken):
-            tokenManager.updatePersistentToken(persistentToken)
+            delegate?.updatePersistentToken(persistentToken)
         case .CopyPassword(let password):
             copyPassword(password)
         case .EditPersistentToken(let persistentToken):

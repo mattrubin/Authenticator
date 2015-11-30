@@ -93,11 +93,6 @@ class TokenManager {
         }
     }
 
-    func updatePersistentToken(persistentToken: PersistentToken) {
-        let newToken = persistentToken.token.updatedToken()
-        saveToken(newToken, toPersistentToken: persistentToken)
-    }
-
     func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
         do {
             let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
@@ -150,5 +145,12 @@ class TokenManager {
     private func saveTokenOrder() {
         let persistentIdentifiers = persistentTokens.map { $0.identifier }
         TokenManager.savePersistentIdentifiers(persistentIdentifiers)
+    }
+}
+
+extension TokenManager: TokenListDelegate {
+    func updatePersistentToken(persistentToken: PersistentToken) {
+        let newToken = persistentToken.token.updatedToken()
+        saveToken(newToken, toPersistentToken: persistentToken)
     }
 }
