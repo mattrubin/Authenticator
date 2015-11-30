@@ -37,13 +37,13 @@ enum Change {
     case Move(fromIndex: Int, toIndex: Int)
 }
 
-func changesFrom<T>(oldRows: [T], to newRows: [T], hasSameIdentity: (T, T) -> Bool) -> [Change] {
-    return changes(from: ArraySlice(oldRows), to: ArraySlice(newRows),
-        comparator: hasSameIdentity, equation: { (old, new) in false })
+func changesFrom<T>(oldArray: [T], to newArray: [T], hasSameIdentity: (T, T) -> Bool) -> [Change] {
+    return changes(from: ArraySlice(oldArray), to: ArraySlice(newArray),
+        comparator: hasSameIdentity, equation: { (_, _) in false })
 }
 
-func changesFrom<T: Identifiable where T: Equatable>(oldRows: [T], to newRows: [T]) -> [Change] {
-    return changes(from: ArraySlice(oldRows), to: ArraySlice(newRows),
+func changesFrom<T: Identifiable where T: Equatable>(oldArray: [T], to newArray: [T]) -> [Change] {
+    return changes(from: ArraySlice(oldArray), to: ArraySlice(newArray),
         comparator: { $0.hasSameIdentity($1) }, equation: ==)
 }
 
