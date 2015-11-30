@@ -263,7 +263,7 @@ extension OTPTokenListViewController: TokenListPresenter {
         if let ephemera = ephemera {
             switch ephemera {
             case .Success(let message):
-                    SVProgressHUD.showSuccessWithStatus(message)
+                SVProgressHUD.showSuccessWithStatus(message)
             case .Error(let message):
                 SVProgressHUD.showErrorWithStatus(message)
             }
