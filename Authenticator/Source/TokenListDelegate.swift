@@ -27,4 +27,6 @@ import OneTimePassword
 
 protocol TokenListDelegate: class {
     func updatePersistentToken(persistentToken: PersistentToken)
+    func moveTokenFromIndex(origin: Int, toIndex destination: Int)
+    func removeTokenAtIndex(index: Int)
 }

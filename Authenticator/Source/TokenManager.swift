@@ -108,6 +108,13 @@ class TokenManager {
             // TODO: Handle the updatePersistentToken(_:withToken:) failure
         }
     }
+}
+
+extension TokenManager: TokenListDelegate {
+    func updatePersistentToken(persistentToken: PersistentToken) {
+        let newToken = persistentToken.token.updatedToken()
+        saveToken(newToken, toPersistentToken: persistentToken)
+    }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
         let persistentToken = persistentTokens[origin]
@@ -126,7 +133,10 @@ class TokenManager {
             // TODO: Handle the deletePersistentToken(_:) failure
         }
     }
+}
 
+
+extension TokenManager {
     // MARK: Token Order
 
     private static let kOTPKeychainEntriesArray = "OTPKeychainEntries"
@@ -145,12 +155,5 @@ class TokenManager {
     private func saveTokenOrder() {
         let persistentIdentifiers = persistentTokens.map { $0.identifier }
         TokenManager.savePersistentIdentifiers(persistentIdentifiers)
-    }
-}
-
-extension TokenManager: TokenListDelegate {
-    func updatePersistentToken(persistentToken: PersistentToken) {
-        let newToken = persistentToken.token.updatedToken()
-        saveToken(newToken, toPersistentToken: persistentToken)
     }
 }

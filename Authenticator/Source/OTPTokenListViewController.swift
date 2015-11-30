@@ -197,7 +197,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            tokenManager.removeTokenAtIndex(indexPath.row)
+            delegate?.removeTokenAtIndex(indexPath.row)
         }
     }
 
@@ -206,7 +206,7 @@ extension OTPTokenListViewController /* UITableViewDataSource */ {
         toIndexPath destinationIndexPath: NSIndexPath)
     {
         preventTableViewAnimations = true
-        self.tokenManager.moveTokenFromIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
+        delegate?.moveTokenFromIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
         preventTableViewAnimations = false
     }
 
