@@ -129,7 +129,7 @@ class OTPTokenListViewController: UITableViewController, TokenRowDelegate {
 
     func tick() {
         // Update currently-visible cells
-        updateWithViewModel(tokenManager.viewModel)
+        updateWithViewModel(tokenManager.viewModel, ephemera: nil)
 
         if let period = viewModel.ringPeriod where period > 0 {
             self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
@@ -254,14 +254,19 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 }
 
 extension OTPTokenListViewController: TokenListPresenter {
-    func updateWithViewModel(viewModel: TokenListViewModel, successMessage: String? = nil) {
+    func updateWithViewModel(viewModel: TokenListViewModel, ephemera: TokenListEphemera?) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         self.viewModel = viewModel
         updateTableViewWithChanges(changes)
         updatePeripheralViews()
         // Show ephemeral message
-        if let message = successMessage {
-            SVProgressHUD.showSuccessWithStatus(message)
+        if let ephemera = ephemera {
+            switch ephemera {
+            case .Success(let message):
+                    SVProgressHUD.showSuccessWithStatus(message)
+            case .Error(let message):
+                SVProgressHUD.showErrorWithStatus(message)
+            }
         }
     }
 
