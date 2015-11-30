@@ -29,7 +29,7 @@ import SVProgressHUD
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
-    private let tokenManager = TokenManager()
+    private let tokenList = TokenList()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -47,9 +47,9 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        tokenManager.delegate = self
-        let rootViewController = OTPTokenListViewController(viewModel: tokenManager.viewModel, delegate: tokenManager)
-        tokenManager.presenter = rootViewController
+        tokenList.delegate = self
+        let rootViewController = OTPTokenListViewController(viewModel: tokenList.viewModel, delegate: tokenList)
+        tokenList.presenter = rootViewController
         let navController = UINavigationController(rootViewController: rootViewController)
         navController.navigationBar.translucent = false
         navController.toolbar.translucent = false
@@ -69,7 +69,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
 
             let acceptHandler: (UIAlertAction) -> Void = { [weak self] (_) in
-                self?.tokenManager.addToken(token)
+                self?.tokenList.addToken(token)
             }
 
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
@@ -91,7 +91,7 @@ extension OTPAppDelegate: MasterPresenter {
             let scannerViewController = TokenScannerViewController() { [weak self] (event) in
                 switch event {
                 case .Save(let token):
-                    self?.tokenManager.addToken(token)
+                    self?.tokenList.addToken(token)
                 case .Close:
                     self?.dismissViewController()
                 }
@@ -101,7 +101,7 @@ extension OTPAppDelegate: MasterPresenter {
             let form = TokenEntryForm() { [weak self] (event) in
                 switch event {
                 case .Save(let token):
-                    self?.tokenManager.addToken(token)
+                    self?.tokenList.addToken(token)
                 case .Close:
                     self?.dismissViewController()
                 }
@@ -115,7 +115,7 @@ extension OTPAppDelegate: MasterPresenter {
         let form = TokenEditForm(token: persistentToken.token) { [weak self] (event) in
             switch event {
             case .Save(let token):
-                self?.tokenManager.saveToken(token, toPersistentToken: persistentToken)
+                self?.tokenList.saveToken(token, toPersistentToken: persistentToken)
             case .Close:
                 self?.dismissViewController()
             }
