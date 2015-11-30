@@ -29,6 +29,7 @@ import OneTimePassword
 import UIKit
 
 class TokenManager {
+    weak var delegate: MasterPresenter?
     weak var presenter: TokenListPresenter?
 
     private let keychain = Keychain.sharedInstance
@@ -116,6 +117,14 @@ class TokenManager {
 }
 
 extension TokenManager: TokenListDelegate {
+    func beginAddToken() {
+        delegate?.beginAddToken()
+    }
+
+    func beginEditPersistentToken(persistentToken: PersistentToken) {
+        delegate?.beginEditPersistentToken(persistentToken)
+    }
+
     func updatePersistentToken(persistentToken: PersistentToken) {
         let newToken = persistentToken.token.updatedToken()
         saveToken(newToken, toPersistentToken: persistentToken)

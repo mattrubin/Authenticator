@@ -26,6 +26,9 @@
 import OneTimePassword
 
 protocol TokenListDelegate: class {
+    func beginAddToken()
+    func beginEditPersistentToken(persistentToken: PersistentToken)
+
     func updatePersistentToken(persistentToken: PersistentToken)
     func copyPassword(password: String)
 

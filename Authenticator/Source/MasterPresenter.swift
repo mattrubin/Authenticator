@@ -26,7 +26,7 @@
 import UIKit
 import OneTimePassword
 
-protocol MasterPresenter {
+protocol MasterPresenter: class {
     func beginAddToken()
     func beginEditPersistentToken(persistentToken: PersistentToken)
 }
