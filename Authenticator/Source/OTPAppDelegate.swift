@@ -67,12 +67,15 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
 
-            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { [weak self] (action) in
+            let acceptHandler: (UIAlertAction) -> Void = { [weak self] (_) in
                 self?.tokenManager.addToken(token)
-            }))
+            }
 
-            window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: acceptHandler))
+
+            window?.rootViewController?
+                .presentViewController(alert, animated: true, completion: nil)
 
             return true
         }
@@ -123,7 +126,8 @@ extension OTPAppDelegate: MasterPresenter {
     private func presentViewController(viewController: UIViewController) {
         let navController = UINavigationController(rootViewController: viewController)
         navController.navigationBar.translucent = false
-        window?.rootViewController?.presentViewController(navController, animated: true, completion: nil)
+        window?.rootViewController?
+            .presentViewController(navController, animated: true, completion: nil)
     }
 
     private func dismissViewController() {
