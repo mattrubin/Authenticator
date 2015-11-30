@@ -49,7 +49,8 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        let rootViewController = TokenListViewController(viewModel: tokenList.viewModel, delegate: tokenList)
+        let rootViewController = TokenListViewController(viewModel: tokenList.viewModel,
+            delegate: tokenList)
         tokenList.presenter = rootViewController
         let navController = UINavigationController(rootViewController: rootViewController)
         navController.navigationBar.translucent = false
