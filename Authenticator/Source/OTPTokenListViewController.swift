@@ -257,11 +257,15 @@ extension OTPTokenListViewController /* UITableViewDelegate */ {
 }
 
 extension OTPTokenListViewController: TokenListPresenter {
-    func updateWithViewModel(viewModel: TokenListViewModel) {
+    func updateWithViewModel(viewModel: TokenListViewModel, successMessage: String? = nil) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         self.viewModel = viewModel
         updateTableViewWithChanges(changes)
         updatePeripheralViews()
+        // Show ephemeral message
+        if let message = successMessage {
+            SVProgressHUD.showSuccessWithStatus(message)
+        }
     }
 
     func updateTableViewWithChanges(changes: [Change]) {

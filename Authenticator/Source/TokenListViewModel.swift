@@ -28,5 +28,5 @@ struct TokenListViewModel {
 }
 
 protocol TokenListPresenter: class {
-    func updateWithViewModel(viewModel: TokenListViewModel)
+    func updateWithViewModel(viewModel: TokenListViewModel, successMessage: String?)
 }
