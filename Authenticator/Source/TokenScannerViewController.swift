@@ -27,19 +27,15 @@ import AVFoundation
 import OneTimePassword
 import SVProgressHUD
 
-protocol TokenScannerViewControllerDelegate: class, TokenEntryFormDelegate {
-    func handleAction(action: AppAction)
-}
-
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
-    private weak var delegate: TokenScannerViewControllerDelegate?
+    private weak var actionHandler: ActionHandler?
 
     // MARK: Initialization
 
-    init(delegate: TokenScannerViewControllerDelegate) {
-        self.delegate = delegate
+    init(actionHandler: ActionHandler) {
+        self.actionHandler = actionHandler
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -90,14 +86,14 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     func cancel() {
-        delegate?.handleAction(.CancelTokenEntry)
+        actionHandler?.handleAction(.CancelTokenEntry)
     }
 
     func addTokenManually() {
-        guard let delegate = delegate else {
+        guard let actionHandler = actionHandler else {
             return
         }
-        let form = TokenEntryForm(delegate: delegate)
+        let form = TokenEntryForm(actionHandler: actionHandler)
         let entryController = TokenFormViewController(form: form)
         navigationController?.pushViewController(entryController, animated: true)
     }
@@ -116,7 +112,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         // Halt the video capture
         scanner.stop()
         // Inform the delegate that an auth URL was captured
-        delegate?.handleAction(.SaveNewToken(token))
+        actionHandler?.handleAction(.SaveNewToken(token))
     }
 
     func handleError(error: ErrorType) {

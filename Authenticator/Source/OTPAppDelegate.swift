@@ -90,10 +90,10 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 extension OTPAppDelegate: MasterPresenter {
     func beginAddToken() {
         if QRScanner.deviceCanScan {
-            let scannerViewController = TokenScannerViewController(delegate: self)
+            let scannerViewController = TokenScannerViewController(actionHandler: self)
             presentViewController(scannerViewController)
         } else {
-            let form = TokenEntryForm(delegate: self)
+            let form = TokenEntryForm(actionHandler: self)
             let formController = TokenFormViewController(form: form)
             presentViewController(formController)
         }
@@ -117,7 +117,7 @@ extension OTPAppDelegate: MasterPresenter {
     }
 }
 
-extension OTPAppDelegate: TokenEntryFormDelegate, TokenScannerViewControllerDelegate {
+extension OTPAppDelegate: ActionHandler {
     func handleAction(action: AppAction) {
         switch action {
         case .SaveNewToken(let token):

@@ -35,3 +35,7 @@ enum AppAction {
     case CancelTokenEntry
     case SaveNewToken(Token)
 }
+
+protocol ActionHandler: class {
+    func handleAction(action: AppAction)
+}
