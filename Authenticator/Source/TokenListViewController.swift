@@ -68,22 +68,24 @@ class TokenListViewController: UITableViewController {
         self.title = "Authenticator"
         self.view.backgroundColor = UIColor.otpBackgroundColor
 
+        // Configure table view
         self.tableView.separatorStyle = .None
         self.tableView.indicatorStyle = .White
         self.tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         self.tableView.allowsSelectionDuringEditing = true
 
-        let ringBarItem = UIBarButtonItem(customView: self.ring)
-        self.navigationItem.leftBarButtonItem = ringBarItem
+        // Configure navigation bar
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.ring)
 
-        let addButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addToken"))
+        // Configure toolbar
         self.toolbarItems = [
             self.editButtonItem(),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil),
-            addButtonItem
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addToken"))
         ]
         self.navigationController?.toolbarHidden = false
 
+        // Configure "no tokens" label
         self.noTokensLabel.frame = CGRectMake(0, 0,
             self.view.bounds.size.width,
             self.view.bounds.size.height * 0.6)
