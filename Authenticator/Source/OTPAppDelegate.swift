@@ -100,7 +100,7 @@ extension OTPAppDelegate: MasterPresenter {
     }
 
     func beginEditPersistentToken(persistentToken: PersistentToken) {
-        let form = TokenEditForm(persistentToken: persistentToken, delegate: self)
+        let form = TokenEditForm(persistentToken: persistentToken, actionHandler: self)
         let editController = TokenFormViewController(form: form)
         presentViewController(editController)
     }
@@ -125,17 +125,10 @@ extension OTPAppDelegate: ActionHandler {
             dismissViewController()
         case .CancelTokenEntry:
             dismissViewController()
-        }
-    }
-}
-
-extension OTPAppDelegate: TokenEditFormDelegate {
-    func handleAction(action: TokenEditForm.Action) {
-        switch action {
         case let .SaveChanges(token, persistentToken):
             tokenList.saveToken(token, toPersistentToken: persistentToken)
             dismissViewController()
-        case .Cancel:
+        case .CancelTokenEdit:
             dismissViewController()
         }
     }

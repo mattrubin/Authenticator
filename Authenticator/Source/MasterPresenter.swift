@@ -34,6 +34,9 @@ protocol MasterPresenter: class {
 enum AppAction {
     case CancelTokenEntry
     case SaveNewToken(Token)
+
+    case CancelTokenEdit
+    case SaveChanges(Token, PersistentToken)
 }
 
 protocol ActionHandler: class {
