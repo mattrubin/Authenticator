@@ -93,14 +93,7 @@ extension OTPAppDelegate: MasterPresenter {
             let scannerViewController = TokenScannerViewController(delegate: self)
             presentViewController(scannerViewController)
         } else {
-            let form = TokenEntryForm() { [weak self] (event) in
-                switch event {
-                case .Save(let token):
-                    self?.tokenList.addToken(token)
-                case .Close:
-                    self?.dismissViewController()
-                }
-            }
+            let form = TokenEntryForm(delegate: self)
             let formController = TokenFormViewController(form: form)
             presentViewController(formController)
         }
@@ -121,6 +114,18 @@ extension OTPAppDelegate: MasterPresenter {
 
     private func dismissViewController() {
         window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+extension OTPAppDelegate: TokenEntryFormDelegate {
+    func handleAction(action: TokenEntryForm.Action) {
+        switch action {
+        case .Save(let token):
+            tokenList.addToken(token)
+            dismissViewController()
+        case .Cancel:
+            dismissViewController()
+        }
     }
 }
 

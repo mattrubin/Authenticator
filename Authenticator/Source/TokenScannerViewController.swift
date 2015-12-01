@@ -27,7 +27,7 @@ import AVFoundation
 import OneTimePassword
 import SVProgressHUD
 
-protocol TokenScannerViewControllerDelegate: class {
+protocol TokenScannerViewControllerDelegate: class, TokenEntryFormDelegate {
     func handleAction(action: TokenScannerViewController.Action)
 }
 
@@ -35,7 +35,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
 
-    // MARK: Events
+    // MARK: Actions
 
     enum Action {
         case Cancel
@@ -102,15 +102,10 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     }
 
     func addTokenManually() {
-        let form = TokenEntryForm() { [weak delegate] (event) in
-            // Forward corresponding events to the scanner callback
-            switch event {
-            case .Save(let token):
-                delegate?.handleAction(.Save(token))
-            case .Close:
-                delegate?.handleAction(.Cancel)
-            }
+        guard let delegate = delegate else {
+            return
         }
+        let form = TokenEntryForm(delegate: delegate)
         let entryController = TokenFormViewController(form: form)
         navigationController?.pushViewController(entryController, animated: true)
     }

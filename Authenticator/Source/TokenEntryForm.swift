@@ -26,6 +26,10 @@
 import Foundation
 import OneTimePassword
 
+protocol TokenEntryFormDelegate: class {
+    func handleAction(action: TokenEntryForm.Action)
+}
+
 private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
@@ -34,12 +38,12 @@ class TokenEntryForm: TokenForm {
 
     // MARK: Events
 
-    enum Event {
+    enum Action {
+        case Cancel
         case Save(Token)
-        case Close
     }
 
-    private let callback: (Event) -> ()
+    private weak var delegate: TokenEntryFormDelegate?
 
     // MARK: State
 
@@ -72,8 +76,8 @@ class TokenEntryForm: TokenForm {
 
     // MARK: Initialization
 
-    init(callback: (Event) -> ()) {
-        self.callback = callback
+    init(delegate: TokenEntryFormDelegate) {
+        self.delegate = delegate
         state = State(
             issuer: "",
             name: "",
@@ -196,7 +200,7 @@ extension TokenEntryForm {
 
 private extension TokenEntryForm {
     func cancel() {
-        callback(.Close)
+        delegate?.handleAction(.Cancel)
     }
 
     func submit() {
@@ -224,8 +228,7 @@ private extension TokenEntryForm {
                             generator: generator
                         )
 
-                        callback(.Save(token))
-                        callback(.Close)
+                        delegate?.handleAction(.Save(token))
                         return
                 }
             }
