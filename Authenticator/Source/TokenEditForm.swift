@@ -39,12 +39,19 @@ class TokenEditForm: TokenForm {
     // MARK: State
 
     private struct State {
+        let persistentToken: PersistentToken
+
         var issuer: String
         var name: String
-        let generator: Generator
 
         var isValid: Bool {
             return !(issuer.isEmpty && name.isEmpty)
+        }
+
+        init(persistentToken: PersistentToken) {
+            self.persistentToken = persistentToken
+            issuer = persistentToken.token.issuer
+            name = persistentToken.token.name
         }
     }
 
@@ -100,13 +107,9 @@ class TokenEditForm: TokenForm {
 
     // MARK: Initialization
 
-    init(token: Token, callback: (Event) -> ()) {
+    init(persistentToken: PersistentToken, callback: (Event) -> ()) {
         self.callback = callback
-        state = State(
-            issuer: token.issuer,
-            name: token.name,
-            generator: token.generator
-        )
+        state = State(persistentToken: persistentToken)
     }
 
     // MARK: Actions
@@ -121,7 +124,7 @@ class TokenEditForm: TokenForm {
         let token = Token(
             name: state.name,
             issuer: state.issuer,
-            generator: state.generator
+            generator: state.persistentToken.token.generator
         )
         callback(.Save(token))
         callback(.Close)

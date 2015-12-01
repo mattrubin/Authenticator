@@ -114,7 +114,7 @@ extension OTPAppDelegate: MasterPresenter {
     }
 
     func beginEditPersistentToken(persistentToken: PersistentToken) {
-        let form = TokenEditForm(token: persistentToken.token) { [weak self] (event) in
+        let form = TokenEditForm(persistentToken: persistentToken) { [weak self] (event) in
             switch event {
             case .Save(let token):
                 self?.tokenList.saveToken(token, toPersistentToken: persistentToken)
