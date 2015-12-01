@@ -27,28 +27,31 @@ import AVFoundation
 import OneTimePassword
 import SVProgressHUD
 
+protocol TokenScannerViewControllerDelegate: class {
+    func handleAction(action: TokenScannerViewController.Action)
+}
+
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
 
     // MARK: Events
 
-    enum Event {
+    enum Action {
+        case Cancel
         case Save(Token)
-        case Close
     }
 
-    private let callback: (Event) -> ()
+    private weak var delegate: TokenScannerViewControllerDelegate?
 
     // MARK: Initialization
 
-    init(callback: (Event) -> ()) {
-        self.callback = callback
+    init(delegate: TokenScannerViewControllerDelegate) {
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
-        callback = { (event) in /* empty */ }
         super.init(coder: aDecoder)
     }
 
@@ -95,17 +98,17 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     func cancel() {
-        callback(.Close)
+        delegate?.handleAction(.Cancel)
     }
 
     func addTokenManually() {
-        let form = TokenEntryForm() { [callback] (event) in
+        let form = TokenEntryForm() { [weak delegate] (event) in
             // Forward corresponding events to the scanner callback
             switch event {
             case .Save(let token):
-                callback(.Save(token))
+                delegate?.handleAction(.Save(token))
             case .Close:
-                callback(.Close)
+                delegate?.handleAction(.Cancel)
             }
         }
         let entryController = TokenFormViewController(form: form)
@@ -126,8 +129,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         // Halt the video capture
         scanner.stop()
         // Inform the delegate that an auth URL was captured
-        callback(.Save(token))
-        callback(.Close)
+        delegate?.handleAction(.Save(token))
     }
 
     func handleError(error: ErrorType) {
