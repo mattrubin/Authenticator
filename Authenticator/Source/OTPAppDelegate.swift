@@ -132,12 +132,13 @@ extension OTPAppDelegate: MasterPresenter {
 }
 
 extension OTPAppDelegate: TokenEditFormDelegate {
-    func handleEvent(event: TokenEditForm.Event) {
-        switch event {
-        case let .Save(token, persistentToken):
-            self.tokenList.saveToken(token, toPersistentToken: persistentToken)
-        case .Close:
-            self.dismissViewController()
+    func handleAction(action: TokenEditForm.Action) {
+        switch action {
+        case let .SaveChanges(token, persistentToken):
+            tokenList.saveToken(token, toPersistentToken: persistentToken)
+            dismissViewController()
+        case .Cancel:
+            dismissViewController()
         }
     }
 }
