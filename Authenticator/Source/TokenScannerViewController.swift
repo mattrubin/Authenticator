@@ -28,20 +28,12 @@ import OneTimePassword
 import SVProgressHUD
 
 protocol TokenScannerViewControllerDelegate: class, TokenEntryFormDelegate {
-    func handleAction(action: TokenScannerViewController.Action)
+    func handleAction(action: AppAction)
 }
 
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
-
-    // MARK: Actions
-
-    enum Action {
-        case Cancel
-        case Save(Token)
-    }
-
     private weak var delegate: TokenScannerViewControllerDelegate?
 
     // MARK: Initialization
@@ -98,7 +90,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     func cancel() {
-        delegate?.handleAction(.Cancel)
+        delegate?.handleAction(.CancelTokenEntry)
     }
 
     func addTokenManually() {
@@ -124,7 +116,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         // Halt the video capture
         scanner.stop()
         // Inform the delegate that an auth URL was captured
-        delegate?.handleAction(.Save(token))
+        delegate?.handleAction(.SaveNewToken(token))
     }
 
     func handleError(error: ErrorType) {

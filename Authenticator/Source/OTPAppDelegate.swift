@@ -117,13 +117,13 @@ extension OTPAppDelegate: MasterPresenter {
     }
 }
 
-extension OTPAppDelegate: TokenEntryFormDelegate {
-    func handleAction(action: TokenEntryForm.Action) {
+extension OTPAppDelegate: TokenEntryFormDelegate, TokenScannerViewControllerDelegate {
+    func handleAction(action: AppAction) {
         switch action {
-        case .Save(let token):
+        case .SaveNewToken(let token):
             tokenList.addToken(token)
             dismissViewController()
-        case .Cancel:
+        case .CancelTokenEntry:
             dismissViewController()
         }
     }
@@ -134,18 +134,6 @@ extension OTPAppDelegate: TokenEditFormDelegate {
         switch action {
         case let .SaveChanges(token, persistentToken):
             tokenList.saveToken(token, toPersistentToken: persistentToken)
-            dismissViewController()
-        case .Cancel:
-            dismissViewController()
-        }
-    }
-}
-
-extension OTPAppDelegate: TokenScannerViewControllerDelegate {
-    func handleAction(action: TokenScannerViewController.Action) {
-        switch action {
-        case .Save(let token):
-            tokenList.addToken(token)
             dismissViewController()
         case .Cancel:
             dismissViewController()

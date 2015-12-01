@@ -30,3 +30,8 @@ protocol MasterPresenter: class {
     func beginAddToken()
     func beginEditPersistentToken(persistentToken: PersistentToken)
 }
+
+enum AppAction {
+    case CancelTokenEntry
+    case SaveNewToken(Token)
+}
