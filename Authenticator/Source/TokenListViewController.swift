@@ -64,11 +64,14 @@ class TokenListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.title = "Authenticator"
         self.view.backgroundColor = UIColor.otpBackgroundColor
 
         self.tableView.separatorStyle = .None
         self.tableView.indicatorStyle = .White
+        self.tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        self.tableView.allowsSelectionDuringEditing = true
 
         let ringBarItem = UIBarButtonItem(customView: self.ring)
         self.navigationItem.leftBarButtonItem = ringBarItem
@@ -80,9 +83,6 @@ class TokenListViewController: UITableViewController {
             addButtonItem
         ]
         self.navigationController?.toolbarHidden = false
-
-        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
-        self.tableView.allowsSelectionDuringEditing = true
 
         self.noTokensLabel.frame = CGRectMake(0, 0,
             self.view.bounds.size.width,
