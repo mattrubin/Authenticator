@@ -24,7 +24,6 @@
 //
 
 import UIKit
-import OneTimePassword
 import SVProgressHUD
 
 class TokenListViewController: UITableViewController {
@@ -91,6 +90,7 @@ class TokenListViewController: UITableViewController {
             self.view.bounds.size.height * 0.6)
         self.view.addSubview(self.noTokensLabel)
 
+        // Update with current viewModel
         self.updatePeripheralViews()
     }
 
