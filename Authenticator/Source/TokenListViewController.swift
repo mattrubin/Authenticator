@@ -48,7 +48,8 @@ class TokenListViewController: UITableViewController {
             attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
         noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
             attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!]))
-        noTokenString.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)!],
+        noTokenString.addAttributes(
+            [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)!],
             range: (noTokenString.string as NSString).rangeOfString("+"))
 
         let label = UILabel()
@@ -142,7 +143,9 @@ extension TokenListViewController {
         return viewModel.rowModels.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)
+        -> UITableViewCell
+    {
         let cell = tableView.dequeueReusableCellWithClass(TokenRowCell.self)
         updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
@@ -154,7 +157,10 @@ extension TokenListViewController {
         cell.delegate = self
     }
 
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(tableView: UITableView,
+        commitEditingStyle editingStyle: UITableViewCellEditingStyle,
+        forRowAtIndexPath indexPath: NSIndexPath)
+    {
         if editingStyle == .Delete {
             delegate?.deleteTokenAtIndex(indexPath.row)
         }
@@ -173,7 +179,9 @@ extension TokenListViewController {
 
 // MARK: UITableViewDelegate
 extension TokenListViewController {
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath)
+        -> CGFloat
+    {
         return 85
     }
 }
