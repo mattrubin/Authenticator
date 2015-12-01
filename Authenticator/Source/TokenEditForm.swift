@@ -24,17 +24,21 @@
 
 import OneTimePassword
 
+protocol TokenEditFormDelegate: class {
+    func handleEvent(event: TokenEditForm.Event)
+}
+
 class TokenEditForm: TokenForm {
     weak var presenter: TokenFormPresenter?
 
     // MARK: Events
 
     enum Event {
-        case Save(Token)
+        case Save(Token, PersistentToken)
         case Close
     }
 
-    private let callback: (Event) -> ()
+    private weak var delegate: TokenEditFormDelegate?
 
     // MARK: State
 
@@ -107,15 +111,15 @@ class TokenEditForm: TokenForm {
 
     // MARK: Initialization
 
-    init(persistentToken: PersistentToken, callback: (Event) -> ()) {
-        self.callback = callback
+    init(persistentToken: PersistentToken, delegate: TokenEditFormDelegate) {
         state = State(persistentToken: persistentToken)
+        self.delegate = delegate
     }
 
     // MARK: Actions
 
     func cancel() {
-        callback(.Close)
+        delegate?.handleEvent(.Close)
     }
 
     func submit() {
@@ -126,7 +130,7 @@ class TokenEditForm: TokenForm {
             issuer: state.issuer,
             generator: state.persistentToken.token.generator
         )
-        callback(.Save(token))
-        callback(.Close)
+        delegate?.handleEvent(.Save(token, state.persistentToken))
+        delegate?.handleEvent(.Close)
     }
 }
