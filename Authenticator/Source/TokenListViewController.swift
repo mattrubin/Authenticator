@@ -44,7 +44,21 @@ class TokenListViewController: UITableViewController {
 
     private var displayLink: CADisplayLink?
     private let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
-    private let noTokensLabel = UILabel()
+    private lazy var noTokensLabel: UILabel = {
+        let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
+            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
+        noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
+            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+        noTokenString.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)!],
+            range: (noTokenString.string as NSString).rangeOfString("+"))
+
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.attributedText = noTokenString
+        label.textAlignment = .Center
+        label.textColor = UIColor.otpForegroundColor
+        return label
+    }()
 
     // MARK: View Lifecycle
 
@@ -70,16 +84,6 @@ class TokenListViewController: UITableViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
         self.tableView.allowsSelectionDuringEditing = true
 
-        self.noTokensLabel.numberOfLines = 2
-        let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
-            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
-        noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
-            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!]))
-        noTokenString.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)!],
-            range: (noTokenString.string as NSString).rangeOfString("+"))
-        self.noTokensLabel.attributedText = noTokenString
-        self.noTokensLabel.textAlignment = .Center
-        self.noTokensLabel.textColor = UIColor.otpForegroundColor
         self.noTokensLabel.frame = CGRectMake(0, 0,
             self.view.bounds.size.width,
             self.view.bounds.size.height * 0.6)
