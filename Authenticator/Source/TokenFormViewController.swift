@@ -355,14 +355,3 @@ extension TokenFormViewController: TextFieldRowCellDelegate {
         }
     }
 }
-
-extension UITableView {
-    func dequeueReusableCellWithClass<Cell: UITableViewCell>(cellClass: Cell.Type) -> Cell {
-        let reuseIdentifier = NSStringFromClass(cellClass)
-        if let cell = dequeueReusableCellWithIdentifier(reuseIdentifier) as? Cell {
-            return cell
-        } else {
-            return Cell(style: .Default, reuseIdentifier: reuseIdentifier)
-        }
-    }
-}

@@ -24,7 +24,6 @@
 //
 
 import UIKit
-import OneTimePassword
 import SVProgressHUD
 
 class TokenListViewController: UITableViewController {
@@ -44,49 +43,55 @@ class TokenListViewController: UITableViewController {
 
     private var displayLink: CADisplayLink?
     private let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
-    private let noTokensLabel = UILabel()
+    private lazy var noTokensLabel: UILabel = {
+        let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
+            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
+        noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
+            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!]))
+        noTokenString.addAttributes(
+            [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)!],
+            range: (noTokenString.string as NSString).rangeOfString("+"))
+
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.attributedText = noTokenString
+        label.textAlignment = .Center
+        label.textColor = UIColor.otpForegroundColor
+        return label
+    }()
 
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.title = "Authenticator"
         self.view.backgroundColor = UIColor.otpBackgroundColor
 
-        self.tableView.registerClass(TokenRowCell.self, forCellReuseIdentifier: NSStringFromClass(TokenRowCell.self))
-
+        // Configure table view
         self.tableView.separatorStyle = .None
         self.tableView.indicatorStyle = .White
+        self.tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        self.tableView.allowsSelectionDuringEditing = true
 
-        let ringBarItem = UIBarButtonItem(customView: self.ring)
-        self.navigationItem.leftBarButtonItem = ringBarItem
+        // Configure navigation bar
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.ring)
 
-        let addButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addToken"))
+        // Configure toolbar
         self.toolbarItems = [
             self.editButtonItem(),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil),
-            addButtonItem
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addToken"))
         ]
         self.navigationController?.toolbarHidden = false
 
-        self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
-        self.tableView.allowsSelectionDuringEditing = true
-
-        self.noTokensLabel.numberOfLines = 2
-        let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
-            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
-        noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
-            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!]))
-        noTokenString.addAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)!],
-            range: (noTokenString.string as NSString).rangeOfString("+"))
-        self.noTokensLabel.attributedText = noTokenString
-        self.noTokensLabel.textAlignment = .Center
-        self.noTokensLabel.textColor = UIColor.otpForegroundColor
+        // Configure "no tokens" label
         self.noTokensLabel.frame = CGRectMake(0, 0,
             self.view.bounds.size.width,
             self.view.bounds.size.height * 0.6)
         self.view.addSubview(self.noTokensLabel)
 
+        // Update with current viewModel
         self.updatePeripheralViews()
     }
 
@@ -138,11 +143,11 @@ extension TokenListViewController {
         return viewModel.rowModels.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(TokenRowCell.self), forIndexPath: indexPath)
-        if let cell = cell as? TokenRowCell {
-            updateCell(cell, forRowAtIndexPath: indexPath)
-        }
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)
+        -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCellWithClass(TokenRowCell.self)
+        updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
     }
 
@@ -152,7 +157,10 @@ extension TokenListViewController {
         cell.delegate = self
     }
 
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(tableView: UITableView,
+        commitEditingStyle editingStyle: UITableViewCellEditingStyle,
+        forRowAtIndexPath indexPath: NSIndexPath)
+    {
         if editingStyle == .Delete {
             delegate?.deleteTokenAtIndex(indexPath.row)
         }
@@ -171,7 +179,9 @@ extension TokenListViewController {
 
 // MARK: UITableViewDelegate
 extension TokenListViewController {
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath)
+        -> CGFloat
+    {
         return 85
     }
 }
