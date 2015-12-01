@@ -29,7 +29,7 @@ import OneTimePassword
 import UIKit
 
 class TokenList {
-    weak var delegate: MasterPresenter?
+    private weak var actionHandler: ActionHandler?
     weak var presenter: TokenListPresenter?
 
     private let keychain = Keychain.sharedInstance
@@ -39,8 +39,8 @@ class TokenList {
         }
     }
 
-    init(delegate: MasterPresenter) {
-        self.delegate = delegate
+    init(actionHandler: ActionHandler) {
+        self.actionHandler = actionHandler
         do {
             let persistentTokenSet = try keychain.allPersistentTokens()
             let sortedIdentifiers = TokenList.persistentIdentifiers()
@@ -119,11 +119,11 @@ class TokenList {
 
 extension TokenList: TokenListDelegate {
     func beginAddToken() {
-        delegate?.beginAddToken()
+        actionHandler?.handleAction(.BeginTokenEntry)
     }
 
     func beginEditPersistentToken(persistentToken: PersistentToken) {
-        delegate?.beginEditPersistentToken(persistentToken)
+        actionHandler?.handleAction(.BeginTokenEdit(persistentToken))
     }
 
     func updatePersistentToken(persistentToken: PersistentToken) {

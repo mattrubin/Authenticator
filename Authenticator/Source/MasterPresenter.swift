@@ -26,15 +26,12 @@
 import UIKit
 import OneTimePassword
 
-protocol MasterPresenter: class {
-    func beginAddToken()
-    func beginEditPersistentToken(persistentToken: PersistentToken)
-}
-
 enum AppAction {
+    case BeginTokenEntry
     case CancelTokenEntry
     case SaveNewToken(Token)
 
+    case BeginTokenEdit(PersistentToken)
     case CancelTokenEdit
     case SaveChanges(Token, PersistentToken)
 }

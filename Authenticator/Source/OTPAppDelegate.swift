@@ -30,7 +30,7 @@ import SVProgressHUD
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
     private lazy var tokenList: TokenList = {
-        TokenList(delegate: self)
+        TokenList(actionHandler: self)
     }()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
@@ -87,22 +87,38 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-extension OTPAppDelegate: MasterPresenter {
-    func beginAddToken() {
-        if QRScanner.deviceCanScan {
-            let scannerViewController = TokenScannerViewController(actionHandler: self)
-            presentViewController(scannerViewController)
-        } else {
-            let form = TokenEntryForm(actionHandler: self)
-            let formController = TokenFormViewController(form: form)
-            presentViewController(formController)
-        }
-    }
+extension OTPAppDelegate: ActionHandler {
+    func handleAction(action: AppAction) {
+        switch action {
+        case .BeginTokenEntry:
+            if QRScanner.deviceCanScan {
+                let scannerViewController = TokenScannerViewController(actionHandler: self)
+                presentViewController(scannerViewController)
+            } else {
+                let form = TokenEntryForm(actionHandler: self)
+                let formController = TokenFormViewController(form: form)
+                presentViewController(formController)
+            }
 
-    func beginEditPersistentToken(persistentToken: PersistentToken) {
-        let form = TokenEditForm(persistentToken: persistentToken, actionHandler: self)
-        let editController = TokenFormViewController(form: form)
-        presentViewController(editController)
+        case .SaveNewToken(let token):
+            tokenList.addToken(token)
+            dismissViewController()
+
+        case .CancelTokenEntry:
+            dismissViewController()
+
+        case .BeginTokenEdit(let persistentToken):
+            let form = TokenEditForm(persistentToken: persistentToken, actionHandler: self)
+            let editController = TokenFormViewController(form: form)
+            presentViewController(editController)
+
+        case let .SaveChanges(token, persistentToken):
+            tokenList.saveToken(token, toPersistentToken: persistentToken)
+            dismissViewController()
+
+        case .CancelTokenEdit:
+            dismissViewController()
+        }
     }
 
     private func presentViewController(viewController: UIViewController) {
@@ -114,22 +130,5 @@ extension OTPAppDelegate: MasterPresenter {
 
     private func dismissViewController() {
         window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
-    }
-}
-
-extension OTPAppDelegate: ActionHandler {
-    func handleAction(action: AppAction) {
-        switch action {
-        case .SaveNewToken(let token):
-            tokenList.addToken(token)
-            dismissViewController()
-        case .CancelTokenEntry:
-            dismissViewController()
-        case let .SaveChanges(token, persistentToken):
-            tokenList.saveToken(token, toPersistentToken: persistentToken)
-            dismissViewController()
-        case .CancelTokenEdit:
-            dismissViewController()
-        }
     }
 }
