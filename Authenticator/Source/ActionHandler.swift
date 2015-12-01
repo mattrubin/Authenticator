@@ -1,5 +1,5 @@
 //
-//  MasterPresenter.swift
+//  ActionHandler.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -23,7 +23,6 @@
 //  SOFTWARE.
 //
 
-import UIKit
 import OneTimePassword
 
 enum AppAction {
