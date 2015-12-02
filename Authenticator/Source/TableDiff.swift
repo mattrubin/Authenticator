@@ -51,6 +51,47 @@ private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<
     comparator rowsHaveSameIdentity: (Row, Row) -> Bool, equation rowsAreEqual: (Row, Row) -> Bool)
     -> [Change]
 {
+    print("OLD: \(oldRows)")
+    print("NEW: \(newRows)")
+    let MAX = oldRows.count + newRows.count
+    if MAX == 0 {
+        return []
+    }
+    print("\(MAX) = \(oldRows.count) + \(newRows.count)")
+    var V = Array(count: (2 * MAX + 1), repeatedValue: 0)
+    for D in 0...MAX {
+        print("Finding \(D)-change paths:")
+        for k in (-D).stride(through: D, by: 2) {
+            print("  in diagonal \(k)")
+            var x: Int
+            if k == -D || (k != D && V[k-1 + MAX] < V[k+1 + MAX]) {
+                x = V[k+1 + MAX]
+                print("    the best predecessor comes from diagonal \(k+1)")
+                print("    which reached point (\(x),\(x-k-1)))")
+            } else {
+                x = V[k-1 + MAX] + 1
+                print("    the best predecessor comes from diagonal \(k-1)")
+                print("    which reached point (\(x-1),\(x-k)))")
+            }
+            var y = x - k
+            print("    so with one step we can reach point (\(x),\(y)))")
+            while x < oldRows.count && y < newRows.count && rowsHaveSameIdentity(oldRows[x+1 - 1], newRows[y+1 - 1]) {
+                (x, y) = (x+1, y+1)
+                print("      which can slide to (\(x),\(y)))")
+            }
+            V[k + MAX] = x
+            if x>=oldRows.count && y>=newRows.count {
+                print("       taking us to our goal, with a \(D)-change path")
+                return oldRows.indices.map({ .Delete(index: $0) }) + newRows.indices.map({ .Insert(index: $0) })
+            }
+        }
+    }
+    fatalError()
+    return oldRows.indices.map({ .Delete(index: $0) }) + newRows.indices.map({ .Insert(index: $0) })
+}
+
+/*
+{
     // Work from the end to preserve earlier indices when recursing
     switch (oldRows.last, newRows.last) {
     case let (.Some(oldRow), .Some(newRow)):
@@ -120,3 +161,4 @@ private func changesWithDeletion<Row>(from oldRows: ArraySlice<Row>, to newRows:
         comparator: comparator, equation: equation)
     return [deletion] + changesAfterDeletion
 }
+*/
