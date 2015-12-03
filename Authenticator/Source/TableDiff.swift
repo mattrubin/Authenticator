@@ -38,20 +38,20 @@ enum Change {
 }
 
 func changesFrom<T>(oldArray: [T], to newArray: [T], hasSameIdentity: (T, T) -> Bool) -> [Change] {
-    return changes(from: oldArray, to: newArray,
-        comparator: hasSameIdentity, equation: { (_, _) in false })
+    return changesFrom(oldArray, to: newArray,
+        hasSameIdentity: hasSameIdentity, isEqual: { (_, _) in false })
 }
 
 func changesFrom<T: Identifiable where T: Equatable>(oldArray: [T], to newArray: [T]) -> [Change] {
-    return changes(from: oldArray, to: newArray,
-        comparator: { $0.hasSameIdentity($1) }, equation: ==)
+    return changesFrom(oldArray, to: newArray,
+        hasSameIdentity: { $0.hasSameIdentity($1) }, isEqual: ==)
 }
 
-private func changes<Row>(from oldRows: [Row], to newRows: [Row],
-    comparator rowsHaveSameIdentity: (Row, Row) -> Bool, equation rowsAreEqual: (Row, Row) -> Bool)
+private func changesFrom<T>(oldItems: [T], to newItems: [T],
+    hasSameIdentity: (T, T) -> Bool, isEqual: (T, T) -> Bool)
     -> [Change]
 {
-    let MAX = oldRows.count + newRows.count
+    let MAX = oldItems.count + newItems.count
     if MAX == 0 {
         return []
     }
@@ -76,15 +76,15 @@ private func changes<Row>(from oldRows: [Row], to newRows: [Row],
                 changes = changes + [.Delete(index: x - 1)]
             }
             var y = x - k
-            while x < oldRows.count && y < newRows.count && rowsHaveSameIdentity(oldRows[x], newRows[y]) {
-                if !rowsAreEqual(oldRows[x], newRows[y]) {
+            while x < oldItems.count && y < newItems.count && hasSameIdentity(oldItems[x], newItems[y]) {
+                if !isEqual(oldItems[x], newItems[y]) {
                     changes = changes + [.Update(oldIndex: x, newIndex: y)]
                 }
                 (x, y) = (x+1, y+1)
             }
             V[k + MAX] = x
             changesInDiagonal[k + MAX] = changes
-            if x >= oldRows.count && y >= newRows.count {
+            if x >= oldItems.count && y >= newItems.count {
                 print(changes)
                 return changes
             }
@@ -92,5 +92,5 @@ private func changes<Row>(from oldRows: [Row], to newRows: [Row],
     }
     // With MAX = oldRows.count + newRows.count, a solution must be found by the above algorithm
     // but here's a delete-and-insert-everything fallback, just in case.
-    return oldRows.indices.map({ .Delete(index: $0) }) + newRows.indices.map({ .Insert(index: $0) })
+    return oldItems.indices.map({ .Delete(index: $0) }) + newItems.indices.map({ .Insert(index: $0) })
 }
