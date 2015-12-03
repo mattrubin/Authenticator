@@ -38,16 +38,16 @@ enum Change {
 }
 
 func changesFrom<T>(oldArray: [T], to newArray: [T], hasSameIdentity: (T, T) -> Bool) -> [Change] {
-    return changes(from: ArraySlice(oldArray), to: ArraySlice(newArray),
+    return changes(from: oldArray, to: newArray,
         comparator: hasSameIdentity, equation: { (_, _) in false })
 }
 
 func changesFrom<T: Identifiable where T: Equatable>(oldArray: [T], to newArray: [T]) -> [Change] {
-    return changes(from: ArraySlice(oldArray), to: ArraySlice(newArray),
+    return changes(from: oldArray, to: newArray,
         comparator: { $0.hasSameIdentity($1) }, equation: ==)
 }
 
-private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<Row>,
+private func changes<Row>(from oldRows: [Row], to newRows: [Row],
     comparator rowsHaveSameIdentity: (Row, Row) -> Bool, equation rowsAreEqual: (Row, Row) -> Bool)
     -> [Change]
 {
