@@ -105,6 +105,19 @@ class TokenEditForm: TokenForm {
         }
     }
 
+    func updateField(field: Form.OptionField, withValue value: TokenType) {
+        fatalError()
+    }
+
+    func updateField(field: Form.OptionField, withValue value: Int) {
+        fatalError()
+    }
+
+    func updateField(field: Form.OptionField, withValue value: Generator.Algorithm) {
+        fatalError()
+    }
+
+
     // MARK: Initialization
 
     init(persistentToken: PersistentToken, actionHandler: ActionHandler) {

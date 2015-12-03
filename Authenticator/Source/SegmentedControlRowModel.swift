@@ -26,10 +26,11 @@
 import OneTimePassword
 
 protocol SegmentedControlRowModel {
+    typealias Identifier
     typealias Value: Equatable
     var segments: [(title: String, value: Value)] { get }
     var value: Value { get }
-    var changeAction: (Value) -> () { get }
+    var identifier: Identifier { get }
 }
 
 enum TokenType {
@@ -43,11 +44,10 @@ struct TokenTypeRowViewModel: SegmentedControlRowModel {
         (title: "Counter Based", value: Value.Counter),
     ]
     let value: Value
-    let changeAction: (Value) -> ()
+    let identifier = Form.OptionField.TokenType
 
-    init(value: Value, changeAction: (Value) -> ()) {
+    init(value: Value) {
         self.value = value
-        self.changeAction = changeAction
     }
 }
 
@@ -59,11 +59,10 @@ struct DigitCountRowViewModel: SegmentedControlRowModel {
         (title: "8 Digits", value: 8),
     ]
     let value: Value
-    let changeAction: (Value) -> ()
+    let identifier = Form.OptionField.DigitCount
 
-    init(value: Value, changeAction: (Value) -> ()) {
+    init(value: Value) {
         self.value = value
-        self.changeAction = changeAction
     }
 }
 
@@ -75,10 +74,9 @@ struct AlgorithmRowViewModel: SegmentedControlRowModel {
         (title: "SHA-512", value: Value.SHA512),
     ]
     let value: Value
-    let changeAction: (Value) -> ()
+    let identifier = Form.OptionField.Algorithm
 
-    init(value: Value, changeAction: (Value) -> ()) {
+    init(value: Value) {
         self.value = value
-        self.changeAction = changeAction
     }
 }

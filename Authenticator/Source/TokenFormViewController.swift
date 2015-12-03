@@ -231,16 +231,25 @@ extension TokenFormViewController {
         case .TokenTypeRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<TokenTypeRowViewModel>.self)
             cell.updateWithViewModel(viewModel)
+            cell.changeAction = { [weak self] (field, value) in
+                self?.form?.updateField(field, withValue: value)
+            }
             return cell
 
         case .DigitCountRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<DigitCountRowViewModel>.self)
             cell.updateWithViewModel(viewModel)
+            cell.changeAction = { [weak self] (field, value) in
+                self?.form?.updateField(field, withValue: value)
+            }
             return cell
 
         case .AlgorithmRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<AlgorithmRowViewModel>.self)
             cell.updateWithViewModel(viewModel)
+            cell.changeAction = { [weak self] (field, value) in
+                self?.form?.updateField(field, withValue: value)
+            }
             return cell
         }
     }

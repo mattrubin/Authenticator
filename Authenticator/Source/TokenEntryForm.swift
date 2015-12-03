@@ -146,30 +146,30 @@ extension TokenEntryForm {
 
     private var tokenTypeRowModel: Form.RowModel {
         let model = TokenTypeRowViewModel(
-            value: state.tokenType,
-            changeAction: { [weak self] (newTokenType) -> () in
-                self?.state.tokenType = newTokenType
-            }
+            value: state.tokenType
+//            changeAction: { [weak self] (newTokenType) -> () in
+//                self?.state.tokenType = newTokenType
+//            }
         )
         return .TokenTypeRow(model)
     }
 
     private var digitCountRowModel: Form.RowModel {
         let model = DigitCountRowViewModel(
-            value: state.digitCount,
-            changeAction: { [weak self] (newDigitCount) -> () in
-                self?.state.digitCount = newDigitCount
-            }
+            value: state.digitCount
+//            changeAction: { [weak self] (newDigitCount) -> () in
+//                self?.state.digitCount = newDigitCount
+//            }
         )
         return .DigitCountRow(model)
     }
 
     private var algorithmRowModel: Form.RowModel {
         let model = AlgorithmRowViewModel(
-            value: state.algorithm,
-            changeAction: { [weak self] (newAlgorithm) -> () in
-                self?.state.algorithm = newAlgorithm
-            }
+            value: state.algorithm
+//            changeAction: { [weak self] (newAlgorithm) -> () in
+//                self?.state.algorithm = newAlgorithm
+//            }
         )
         return .AlgorithmRow(model)
     }
@@ -185,6 +185,33 @@ extension TokenEntryForm {
             state.name = value
         case .Secret:
             state.secret = value
+        }
+    }
+
+    func updateField(field: Form.OptionField, withValue value: TokenType) {
+        switch field {
+        case .TokenType:
+            state.tokenType = value
+        default:
+            fatalError()
+        }
+    }
+
+    func updateField(field: Form.OptionField, withValue value: Int) {
+        switch field {
+        case .DigitCount:
+            state.digitCount = value
+        default:
+            fatalError()
+        }
+    }
+
+    func updateField(field: Form.OptionField, withValue value: Generator.Algorithm) {
+        switch field {
+        case .Algorithm:
+            state.algorithm = value
+        default:
+            fatalError()
         }
     }
 }

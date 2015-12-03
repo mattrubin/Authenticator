@@ -52,4 +52,9 @@ enum Form: TableViewModelFamily {
         case Name
         case Secret
     }
+    enum OptionField: Equatable {
+        case TokenType
+        case DigitCount
+        case Algorithm
+    }
 }

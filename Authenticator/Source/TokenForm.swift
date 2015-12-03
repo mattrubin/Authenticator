@@ -22,10 +22,15 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import OneTimePassword
+
 protocol TokenForm {
     var viewModel: TableViewModel<Form> { get }
     weak var presenter: TokenFormPresenter? { get set }
     func updateField(field: Form.Field, withValue value: String)
+    func updateField(field: Form.OptionField, withValue value: TokenType)
+    func updateField(field: Form.OptionField, withValue value: Int)
+    func updateField(field: Form.OptionField, withValue value: Generator.Algorithm)
 }
 
 protocol TokenFormPresenter: class {
