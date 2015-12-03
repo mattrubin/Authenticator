@@ -38,18 +38,17 @@ enum Change {
 }
 
 func changesFrom<T: Identifiable>(oldItems: [T], to newItems: [T]) -> [Change] {
-    return changesFrom(oldItems, to: newItems,
-        hasSameIdentity: { $0.hasSameIdentity($1) }, isEqual: { (_, _) in false })
+    return changesFrom(oldItems, to: newItems, hasSameIdentity: { $0.hasSameIdentity($1) },
+        isEqual: { (_, _) in false })
 }
 
 func changesFrom<T: Identifiable where T: Equatable>(oldItems: [T], to newItems: [T]) -> [Change] {
-    return changesFrom(oldItems, to: newItems,
-        hasSameIdentity: { $0.hasSameIdentity($1) }, isEqual: ==)
+    return changesFrom(oldItems, to: newItems, hasSameIdentity: { $0.hasSameIdentity($1) },
+        isEqual: ==)
 }
 
-private func changesFrom<T>(oldItems: [T], to newItems: [T],
-    hasSameIdentity: (T, T) -> Bool, isEqual: (T, T) -> Bool)
-    -> [Change]
+private func changesFrom<T>(oldItems: [T], to newItems: [T], hasSameIdentity: (T, T) -> Bool,
+    isEqual: (T, T) -> Bool) -> [Change]
 {
     let MAX = oldItems.count + newItems.count
     if MAX == 0 {
