@@ -37,13 +37,13 @@ enum Change {
     case Move(fromIndex: Int, toIndex: Int)
 }
 
-func changesFrom<T: Identifiable>(oldArray: [T], to newArray: [T]) -> [Change] {
-    return changesFrom(oldArray, to: newArray,
+func changesFrom<T: Identifiable>(oldItems: [T], to newItems: [T]) -> [Change] {
+    return changesFrom(oldItems, to: newItems,
         hasSameIdentity: { $0.hasSameIdentity($1) }, isEqual: { (_, _) in false })
 }
 
-func changesFrom<T: Identifiable where T: Equatable>(oldArray: [T], to newArray: [T]) -> [Change] {
-    return changesFrom(oldArray, to: newArray,
+func changesFrom<T: Identifiable where T: Equatable>(oldItems: [T], to newItems: [T]) -> [Change] {
+    return changesFrom(oldItems, to: newItems,
         hasSameIdentity: { $0.hasSameIdentity($1) }, isEqual: ==)
 }
 
@@ -90,7 +90,7 @@ private func changesFrom<T>(oldItems: [T], to newItems: [T],
             }
         }
     }
-    // With MAX = oldRows.count + newRows.count, a solution must be found by the above algorithm
+    // With MAX = oldItems.count + newItems.count, a solution must be found by the above algorithm
     // but here's a delete-and-insert-everything fallback, just in case.
     return oldItems.indices.map({ .Delete(index: $0) }) + newItems.indices.map({ .Insert(index: $0) })
 }
