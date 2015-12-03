@@ -225,9 +225,7 @@ extension TokenFormViewController {
         switch rowModel {
         case .TextFieldRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell.self)
-            cell.updateWithViewModel(viewModel, changeAction: { [weak self] in
-                self?.form?.updateField($0, withValue: $1)
-                })
+            cell.updateWithViewModel(viewModel)
             return cell
 
         case .TokenTypeRow(let viewModel):
@@ -263,9 +261,7 @@ extension TokenFormViewController {
         switch rowModel {
         case .TextFieldRow(let viewModel):
             if let cell = cell as? TextFieldRowCell {
-                cell.updateWithViewModel(viewModel, changeAction: { [weak self] in
-                    self?.form?.updateField($0, withValue: $1)
-                    })
+                cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
@@ -346,5 +342,9 @@ extension TokenFormViewController: TextFieldRowCellDelegate {
             // Try to submit the form
             viewModel.doneKeyAction?()
         }
+    }
+
+    func textFieldCellChangedValue(value: String, forField field: Form.Field) {
+        form?.updateField(field, withValue: value)
     }
 }
