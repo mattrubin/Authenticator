@@ -31,15 +31,7 @@ private let defaultCounterFactor = Generator.Factor.Counter(0)
 
 class TokenEntryForm: TokenForm {
     weak var presenter: TokenFormPresenter?
-
-    // MARK: Events
-
-    enum Event {
-        case Save(Token)
-        case Close
-    }
-
-    private let callback: (Event) -> ()
+    private weak var actionHandler: ActionHandler?
 
     // MARK: State
 
@@ -72,8 +64,8 @@ class TokenEntryForm: TokenForm {
 
     // MARK: Initialization
 
-    init(callback: (Event) -> ()) {
-        self.callback = callback
+    init(actionHandler: ActionHandler) {
+        self.actionHandler = actionHandler
         state = State(
             issuer: "",
             name: "",
@@ -196,7 +188,7 @@ extension TokenEntryForm {
 
 private extension TokenEntryForm {
     func cancel() {
-        callback(.Close)
+        actionHandler?.handleAction(.CancelTokenEntry)
     }
 
     func submit() {
@@ -224,8 +216,7 @@ private extension TokenEntryForm {
                             generator: generator
                         )
 
-                        callback(.Save(token))
-                        callback(.Close)
+                        actionHandler?.handleAction(.SaveNewToken(token))
                         return
                 }
             }

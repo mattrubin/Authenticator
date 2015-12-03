@@ -30,25 +30,16 @@ import SVProgressHUD
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
-
-    // MARK: Events
-
-    enum Event {
-        case Save(Token)
-        case Close
-    }
-
-    private let callback: (Event) -> ()
+    private weak var actionHandler: ActionHandler?
 
     // MARK: Initialization
 
-    init(callback: (Event) -> ()) {
-        self.callback = callback
+    init(actionHandler: ActionHandler) {
+        self.actionHandler = actionHandler
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
-        callback = { (event) in /* empty */ }
         super.init(coder: aDecoder)
     }
 
@@ -95,19 +86,15 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     func cancel() {
-        callback(.Close)
+        actionHandler?.handleAction(.CancelTokenEntry)
     }
 
     func addTokenManually() {
-        let form = TokenEntryForm() { [callback] (event) in
-            // Forward corresponding events to the scanner callback
-            switch event {
-            case .Save(let token):
-                callback(.Save(token))
-            case .Close:
-                callback(.Close)
-            }
+        // TODO: Route screen change through ActionHandler
+        guard let actionHandler = actionHandler else {
+            return
         }
+        let form = TokenEntryForm(actionHandler: actionHandler)
         let entryController = TokenFormViewController(form: form)
         navigationController?.pushViewController(entryController, animated: true)
     }
@@ -126,8 +113,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         // Halt the video capture
         scanner.stop()
         // Inform the delegate that an auth URL was captured
-        callback(.Save(token))
-        callback(.Close)
+        actionHandler?.handleAction(.SaveNewToken(token))
     }
 
     func handleError(error: ErrorType) {
