@@ -78,10 +78,7 @@ class TokenEditForm: TokenForm {
 
     private var issuerRowModel: Form.RowModel {
         let model = IssuerRowViewModel(
-            value: state.issuer,
-            changeAction: { [weak self] (newIssuer) -> () in
-                self?.state.issuer = newIssuer
-            }
+            value: state.issuer
         )
         return .TextFieldRow(model)
     }
@@ -89,12 +86,23 @@ class TokenEditForm: TokenForm {
     private var nameRowModel: Form.RowModel {
         let model = NameRowViewModel(
             value: state.name,
-            returnKeyType: .Done,
-            changeAction: { [weak self] (newName) -> () in
-                self?.state.name = newName
-            }
+            returnKeyType: .Done
         )
         return .TextFieldRow(model)
+    }
+
+    // MARK: Action handling
+
+    func updateField(field: Form.Field, withValue value: String) {
+        print("Update \(field) to \"\(value)\"")
+        switch field {
+        case .Issuer:
+            state.issuer = value
+        case .Name:
+            state.name = value
+        case .Secret:
+            fatalError()
+        }
     }
 
     // MARK: Initialization

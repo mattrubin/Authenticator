@@ -34,11 +34,10 @@ struct IssuerRowViewModel: TextFieldRowViewModel {
     let returnKeyType: UIReturnKeyType = .Next
 
     let value: String
-    let changeAction: (String) -> ()
+    let identifier: Form.Field = .Issuer
 
-    init(value: String, changeAction: (String) -> ()) {
+    init(value: String) {
         self.value = value
-        self.changeAction = changeAction
     }
 }
 
@@ -52,12 +51,11 @@ struct NameRowViewModel: TextFieldRowViewModel {
     let returnKeyType: UIReturnKeyType
 
     let value: String
-    let changeAction: (String) -> ()
+    let identifier: Form.Field = .Name
 
-    init(value: String, returnKeyType: UIReturnKeyType, changeAction: (String) -> ()) {
+    init(value: String, returnKeyType: UIReturnKeyType) {
         self.value = value
         self.returnKeyType = returnKeyType
-        self.changeAction = changeAction
     }
 }
 
@@ -71,10 +69,9 @@ struct SecretRowViewModel: TextFieldRowViewModel {
     let returnKeyType: UIReturnKeyType = .Done
 
     let value: String
-    let changeAction: (String) -> ()
+    let identifier: Form.Field = .Secret
 
-    init(value: String, changeAction: (String) -> ()) {
+    init(value: String) {
         self.value = value
-        self.changeAction = changeAction
     }
 }

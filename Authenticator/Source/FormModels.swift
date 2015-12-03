@@ -46,4 +46,10 @@ enum Form: TableViewModelFamily {
             }
         }
     }
+
+    enum Field: Equatable {
+        case Issuer
+        case Name
+        case Secret
+    }
 }

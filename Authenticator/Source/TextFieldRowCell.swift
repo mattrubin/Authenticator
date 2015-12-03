@@ -34,7 +34,7 @@ protocol TextFieldRowViewModel {
     var returnKeyType: UIReturnKeyType { get }
 
     var value: String { get }
-    var changeAction: (String) -> () { get }
+    var identifier: Form.Field { get }
 }
 
 protocol TextFieldRowCellDelegate: class {
@@ -42,12 +42,16 @@ protocol TextFieldRowCellDelegate: class {
 }
 
 class TextFieldRowCell: UITableViewCell {
+    typealias Identifier = Form.Field
+    typealias Value = String
+    typealias ChangeAction = (Identifier, Value) -> Void
+
     private static let preferredHeight: CGFloat = 74
 
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
-    var changeAction: ((String) -> ())?
-
+    private var changeAction: ChangeAction?
+    private var identifier: Identifier?
 
     // MARK: - Init
 
@@ -82,7 +86,7 @@ class TextFieldRowCell: UITableViewCell {
 
     // MARK: - View Model
 
-    func updateWithViewModel(viewModel: TextFieldRowViewModel) {
+    func updateWithViewModel(viewModel: TextFieldRowViewModel, changeAction: ChangeAction) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
 
@@ -96,7 +100,8 @@ class TextFieldRowCell: UITableViewCell {
         if textField.text != viewModel.value {
             textField.text = viewModel.value
         }
-        changeAction = viewModel.changeAction
+        identifier = viewModel.identifier
+        self.changeAction = changeAction
     }
 
     static func heightWithViewModel(viewModel: TextFieldRowViewModel) -> CGFloat {
@@ -107,7 +112,9 @@ class TextFieldRowCell: UITableViewCell {
 
     func textFieldValueChanged() {
         let newText = textField.text ?? ""
-        changeAction?(newText)
+        if let identifier = identifier {
+            changeAction?(identifier, newText)
+        }
     }
 }
 
