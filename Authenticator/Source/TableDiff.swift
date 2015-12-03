@@ -31,7 +31,7 @@ protocol Identifiable {
 
 enum Change {
     case Insert(index: Int)
-    case Update(index: Int)
+    case Update(oldIndex: Int, newIndex: Int)
     case Delete(index: Int)
     // TODO: Consolidate matching Inserts and Deletes into Moves
     case Move(fromIndex: Int, toIndex: Int)
@@ -60,20 +60,22 @@ private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<
         for k in (-D).stride(through: D, by: 2) {
             var x: Int
             var changes: [Change]
+            if D == 0 {
+                x = 0
+                changes = []
+            } else
             if k == -D || (k != D && V[k-1 + MAX].0 < V[k+1 + MAX].0) {
                 (x, changes) = V[k+1 + MAX]
-                if D != 0 {
-                    changes = changes + [.Insert(index: x-k - 1)]
-                }
+                changes = changes + [.Insert(index: x-k - 1)]
             } else {
                 (x, changes) = V[k-1 + MAX]
                 x = x + 1
                 changes = changes + [.Delete(index: x - 1)]
             }
             var y = x - k
-            while x < oldRows.count && y < newRows.count && rowsHaveSameIdentity(oldRows[x+1 - 1], newRows[y+1 - 1]) {
-                if !rowsAreEqual(oldRows[x+1 - 1], newRows[y+1 - 1]) {
-                    changes = changes + [.Update(index: x)]
+            while x < oldRows.count && y < newRows.count && rowsHaveSameIdentity(oldRows[x], newRows[y]) {
+                if !rowsAreEqual(oldRows[x], newRows[y]) {
+                    changes = changes + [.Update(oldIndex: x, newIndex: y)]
                 }
                 (x, y) = (x+1, y+1)
             }

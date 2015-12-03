@@ -55,7 +55,7 @@ class TokenFormViewController: UITableViewController {
                     case .Insert(let rowIndex):
                         let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    case .Update(let rowIndex):
+                    case let .Update(rowIndex, _):
                         let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                         updateRowAtIndexPath(indexPath)
                     case .Delete(let rowIndex):
