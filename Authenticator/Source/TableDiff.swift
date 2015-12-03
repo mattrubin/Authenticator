@@ -37,9 +37,9 @@ enum Change {
     case Move(fromIndex: Int, toIndex: Int)
 }
 
-func changesFrom<T>(oldArray: [T], to newArray: [T], hasSameIdentity: (T, T) -> Bool) -> [Change] {
+func changesFrom<T: Identifiable>(oldArray: [T], to newArray: [T]) -> [Change] {
     return changesFrom(oldArray, to: newArray,
-        hasSameIdentity: hasSameIdentity, isEqual: { (_, _) in false })
+        hasSameIdentity: { $0.hasSameIdentity($1) }, isEqual: { (_, _) in false })
 }
 
 func changesFrom<T: Identifiable where T: Equatable>(oldArray: [T], to newArray: [T]) -> [Change] {
