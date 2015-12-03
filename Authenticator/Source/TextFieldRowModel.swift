@@ -24,7 +24,7 @@
 
 import UIKit
 
-protocol TextFieldRowViewModel {
+protocol TextFieldRowModel {
     var label: String { get }
     var placeholder: String { get }
 
@@ -37,7 +37,7 @@ protocol TextFieldRowViewModel {
     var identifier: Form.Field { get }
 }
 
-struct IssuerRowViewModel: TextFieldRowViewModel {
+struct IssuerRowViewModel: TextFieldRowModel {
     let label = "Issuer"
     let placeholder = "Some Website"
 
@@ -54,7 +54,7 @@ struct IssuerRowViewModel: TextFieldRowViewModel {
     }
 }
 
-struct NameRowViewModel: TextFieldRowViewModel {
+struct NameRowViewModel: TextFieldRowModel {
     let label = "Account Name"
     let placeholder = "user@example.com"
 
@@ -72,7 +72,7 @@ struct NameRowViewModel: TextFieldRowViewModel {
     }
 }
 
-struct SecretRowViewModel: TextFieldRowViewModel {
+struct SecretRowViewModel: TextFieldRowModel {
     let label = "Secret Key"
     let placeholder = "•••• •••• •••• ••••"
 

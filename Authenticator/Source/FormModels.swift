@@ -28,7 +28,7 @@ enum Form: TableViewModelFamily {
     }
 
     enum RowModel: Identifiable {
-        case TextFieldRow(TextFieldRowViewModel)
+        case TextFieldRow(TextFieldRowModel)
         case TokenTypeRow(TokenTypeRowViewModel)
         case DigitCountRow(DigitCountRowViewModel)
         case AlgorithmRow(AlgorithmRowViewModel)

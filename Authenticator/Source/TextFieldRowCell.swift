@@ -69,7 +69,7 @@ class TextFieldRowCell: UITableViewCell {
 
     // MARK: - View Model
 
-    func updateWithViewModel(viewModel: TextFieldRowViewModel) {
+    func updateWithViewModel(viewModel: TextFieldRowModel) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
 
@@ -86,7 +86,7 @@ class TextFieldRowCell: UITableViewCell {
         identifier = viewModel.identifier
     }
 
-    static func heightWithViewModel(viewModel: TextFieldRowViewModel) -> CGFloat {
+    static func heightWithViewModel(viewModel: TextFieldRowModel) -> CGFloat {
         return preferredHeight
     }
 
