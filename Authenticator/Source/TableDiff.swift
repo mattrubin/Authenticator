@@ -55,7 +55,9 @@ private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<
     if MAX == 0 {
         return []
     }
-    var V: [(Int, [Change])] = Array(count: (2 * MAX + 1), repeatedValue: (0, []))
+    let numDiagonals = (2 * MAX) + 1
+    var V: [Int] = Array(count: numDiagonals, repeatedValue: 0)
+    var changesInDiagonal: [[Change]] = Array(count: numDiagonals, repeatedValue: [])
     for D in 0...MAX {
         for k in (-D).stride(through: D, by: 2) {
             var x: Int
@@ -64,12 +66,13 @@ private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<
                 x = 0
                 changes = []
             } else
-            if k == -D || (k != D && V[k-1 + MAX].0 < V[k+1 + MAX].0) {
-                (x, changes) = V[k+1 + MAX]
+            if k == -D || (k != D && V[k-1 + MAX] < V[k+1 + MAX]) {
+                x = V[k+1 + MAX]
+                changes = changesInDiagonal[k+1 + MAX]
                 changes = changes + [.Insert(index: x-k - 1)]
             } else {
-                (x, changes) = V[k-1 + MAX]
-                x = x + 1
+                x = V[k-1 + MAX] + 1
+                changes = changesInDiagonal[k-1 + MAX]
                 changes = changes + [.Delete(index: x - 1)]
             }
             var y = x - k
@@ -79,8 +82,10 @@ private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<
                 }
                 (x, y) = (x+1, y+1)
             }
-            V[k + MAX] = (x, changes)
+            V[k + MAX] = x
+            changesInDiagonal[k + MAX] = changes
             if x >= oldRows.count && y >= newRows.count {
+                print(changes)
                 return changes
             }
         }
