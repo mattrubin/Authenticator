@@ -80,12 +80,12 @@ private func changes<Row>(from oldRows: ArraySlice<Row>, to newRows: ArraySlice<
                 (x, y) = (x+1, y+1)
             }
             V[k + MAX] = (x, changes)
-            if x>=oldRows.count && y>=newRows.count {
+            if x >= oldRows.count && y >= newRows.count {
                 return changes
             }
         }
     }
-    fatalError()
+    // With MAX = oldRows.count + newRows.count, a solution must be found by the above algorithm
+    // but here's a delete-and-insert-everything fallback, just in case.
     return oldRows.indices.map({ .Delete(index: $0) }) + newRows.indices.map({ .Insert(index: $0) })
 }
-
