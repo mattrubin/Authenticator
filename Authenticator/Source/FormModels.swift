@@ -27,10 +27,23 @@ enum Form: TableViewModelFamily {
         case ButtonHeader(ButtonHeaderViewModel)
     }
 
-    enum RowModel {
+    enum RowModel: Identifiable {
         case TextFieldRow(TextFieldRowViewModel)
         case TokenTypeRow(TokenTypeRowViewModel)
         case DigitCountRow(DigitCountRowViewModel)
         case AlgorithmRow(AlgorithmRowViewModel)
+
+        func hasSameIdentity(other: RowModel) -> Bool {
+            // As currently used, form rows don't move around much, so comparing the row
+            // type is sufficient here. For more complex changes, row models should be
+            // compared for identity.
+            switch (self, other) {
+            case (.TextFieldRow, .TextFieldRow): return true
+            case (.TokenTypeRow, .TokenTypeRow): return true
+            case (.DigitCountRow, .DigitCountRow): return true
+            case (.AlgorithmRow, .AlgorithmRow): return true
+            default: return false
+            }
+        }
     }
 }

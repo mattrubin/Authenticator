@@ -38,24 +38,13 @@ class TokenFormViewController: UITableViewController {
             for sectionIndex in oldValue.sections.indices {
                 let oldSection = oldValue.sections[sectionIndex]
                 let newSection = viewModel.sections[sectionIndex]
-                let changes = changesFrom(oldSection.rows, to: newSection.rows, hasSameIdentity: {
-                    // As currently used, form rows don't move around much, so comparing the row
-                    // type is sufficient here. For more complex changes, row models should be
-                    // compared for identity.
-                    switch ($0, $1) {
-                    case (.TextFieldRow, .TextFieldRow): return true
-                    case (.TokenTypeRow, .TokenTypeRow): return true
-                    case (.DigitCountRow, .DigitCountRow): return true
-                    case (.AlgorithmRow, .AlgorithmRow): return true
-                    default: return false
-                    }
-                })
+                let changes = changesFrom(oldSection.rows, to: newSection.rows)
                 for change in changes {
                     switch change {
                     case .Insert(let rowIndex):
                         let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    case .Update(let rowIndex):
+                    case let .Update(rowIndex, _):
                         let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                         updateRowAtIndexPath(indexPath)
                     case .Delete(let rowIndex):
