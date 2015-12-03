@@ -1,5 +1,5 @@
 //
-//  OTPTextFieldCell+TokenForm.swift
+//  TextFieldRowModel.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Matt Rubin
@@ -23,6 +23,19 @@
 //
 
 import UIKit
+
+protocol TextFieldRowViewModel {
+    var label: String { get }
+    var placeholder: String { get }
+
+    var autocapitalizationType: UITextAutocapitalizationType { get }
+    var autocorrectionType: UITextAutocorrectionType { get }
+    var keyboardType: UIKeyboardType { get }
+    var returnKeyType: UIReturnKeyType { get }
+
+    var value: String { get }
+    var identifier: Form.Field { get }
+}
 
 struct IssuerRowViewModel: TextFieldRowViewModel {
     let label = "Issuer"

@@ -24,33 +24,17 @@
 
 import UIKit
 
-protocol TextFieldRowViewModel {
-    var label: String { get }
-    var placeholder: String { get }
-
-    var autocapitalizationType: UITextAutocapitalizationType { get }
-    var autocorrectionType: UITextAutocorrectionType { get }
-    var keyboardType: UIKeyboardType { get }
-    var returnKeyType: UIReturnKeyType { get }
-
-    var value: String { get }
-    var identifier: Form.Field { get }
-}
-
 protocol TextFieldRowCellDelegate: class {
     func textFieldCellDidReturn(textFieldCell: TextFieldRowCell)
     func textFieldCellChangedValue(value: String, forField field: Form.Field)
 }
 
 class TextFieldRowCell: UITableViewCell {
-    typealias Identifier = Form.Field
-    typealias Value = String
-
     private static let preferredHeight: CGFloat = 74
 
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
-    private var identifier: Identifier?
+    private var identifier: Form.Field?
 
     // MARK: - Init
 
