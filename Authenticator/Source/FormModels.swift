@@ -22,6 +22,8 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import OneTimePassword
+
 enum Form: TableViewModelFamily {
     enum HeaderModel {
         case ButtonHeader(ButtonHeaderViewModel)
@@ -56,5 +58,11 @@ enum Form: TableViewModelFamily {
         case TokenType
         case DigitCount
         case Algorithm
+    }
+
+    enum Action {
+        case TokenType(Authenticator.TokenType)
+        case DigitCount(Int)
+        case Algorithm(Generator.Algorithm)
     }
 }

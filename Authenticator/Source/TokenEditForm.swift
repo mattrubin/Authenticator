@@ -105,18 +105,9 @@ class TokenEditForm: TokenForm {
         }
     }
 
-    func updateField(field: Form.OptionField, withValue value: TokenType) {
+    func handleAction(action: Form.Action) {
         fatalError()
     }
-
-    func updateField(field: Form.OptionField, withValue value: Int) {
-        fatalError()
-    }
-
-    func updateField(field: Form.OptionField, withValue value: Generator.Algorithm) {
-        fatalError()
-    }
-
 
     // MARK: Initialization
 

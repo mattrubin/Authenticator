@@ -31,6 +31,7 @@ protocol SegmentedControlRowModel {
     var segments: [(title: String, value: Value)] { get }
     var value: Value { get }
     var identifier: Identifier { get }
+    var actionForValue: (Value) -> Form.Action { get }
 }
 
 enum TokenType {
@@ -45,6 +46,9 @@ struct TokenTypeRowViewModel: SegmentedControlRowModel {
     ]
     let value: Value
     let identifier = Form.OptionField.TokenType
+    let actionForValue: (Value) -> Form.Action = { (value) in
+        return Form.Action.TokenType(value)
+    }
 
     init(value: Value) {
         self.value = value
@@ -60,6 +64,9 @@ struct DigitCountRowViewModel: SegmentedControlRowModel {
     ]
     let value: Value
     let identifier = Form.OptionField.DigitCount
+    let actionForValue: (Value) -> Form.Action = { (value) in
+        return Form.Action.DigitCount(value)
+    }
 
     init(value: Value) {
         self.value = value
@@ -75,6 +82,9 @@ struct AlgorithmRowViewModel: SegmentedControlRowModel {
     ]
     let value: Value
     let identifier = Form.OptionField.Algorithm
+    let actionForValue: (Value) -> Form.Action = { (value) in
+        return Form.Action.Algorithm(value)
+    }
 
     init(value: Value) {
         self.value = value

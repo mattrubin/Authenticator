@@ -28,9 +28,7 @@ protocol TokenForm {
     var viewModel: TableViewModel<Form> { get }
     weak var presenter: TokenFormPresenter? { get set }
     func updateField(field: Form.Field, withValue value: String)
-    func updateField(field: Form.OptionField, withValue value: TokenType)
-    func updateField(field: Form.OptionField, withValue value: Int)
-    func updateField(field: Form.OptionField, withValue value: Generator.Algorithm)
+    func handleAction(action: Form.Action)
 }
 
 protocol TokenFormPresenter: class {

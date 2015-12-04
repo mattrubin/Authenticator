@@ -188,30 +188,14 @@ extension TokenEntryForm {
         }
     }
 
-    func updateField(field: Form.OptionField, withValue value: TokenType) {
-        switch field {
-        case .TokenType:
+    func handleAction(action: Form.Action) {
+        switch action {
+        case .TokenType(let value):
             state.tokenType = value
-        default:
-            fatalError()
-        }
-    }
-
-    func updateField(field: Form.OptionField, withValue value: Int) {
-        switch field {
-        case .DigitCount:
+        case .DigitCount(let value):
             state.digitCount = value
-        default:
-            fatalError()
-        }
-    }
-
-    func updateField(field: Form.OptionField, withValue value: Generator.Algorithm) {
-        switch field {
-        case .Algorithm:
+        case .Algorithm(let value):
             state.algorithm = value
-        default:
-            fatalError()
         }
     }
 }

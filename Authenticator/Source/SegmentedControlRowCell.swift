@@ -34,8 +34,9 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewC
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
     private var identifier: ViewModel.Identifier?
+    var actionForValue: ((Value) -> Form.Action)?
 
-    var changeAction: ((ViewModel.Identifier, Value) -> ())?
+    var changeAction: ((Form.Action) -> ())?
 
     var value: Value {
         return values[segmentedControl.selectedSegmentIndex]
@@ -69,6 +70,7 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewC
 
     func updateWithViewModel(viewModel: ViewModel) {
         identifier = viewModel.identifier
+        actionForValue = viewModel.actionForValue
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
@@ -89,8 +91,8 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewC
     // MARK: - Target Action
 
     func segmentedControlValueChanged() {
-        if let identifier = identifier {
-            changeAction?(identifier, value)
+        if let action = actionForValue?(value) {
+            changeAction?(action)
         }
     }
 }
