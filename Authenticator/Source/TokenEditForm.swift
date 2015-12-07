@@ -77,24 +77,33 @@ class TokenEditForm: TokenForm {
     }
 
     private var issuerRowModel: Form.RowModel {
-        let model = IssuerRowViewModel(
+        let model = IssuerRowModel(
             value: state.issuer,
-            changeAction: { [weak self] (newIssuer) -> () in
-                self?.state.issuer = newIssuer
-            }
+            changeAction: Form.Action.Issuer
         )
         return .TextFieldRow(model)
     }
 
     private var nameRowModel: Form.RowModel {
-        let model = NameRowViewModel(
+        let model = NameRowModel(
             value: state.name,
             returnKeyType: .Done,
-            changeAction: { [weak self] (newName) -> () in
-                self?.state.name = newName
-            }
+            changeAction: Form.Action.Name
         )
         return .TextFieldRow(model)
+    }
+
+    // MARK: Action handling
+
+    func handleAction(action: Form.Action) {
+        switch action {
+        case .Issuer(let value):
+            state.issuer = value
+        case .Name(let value):
+            state.name = value
+        default:
+            fatalError()
+        }
     }
 
     // MARK: Initialization

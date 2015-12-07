@@ -22,16 +22,18 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import OneTimePassword
+
 enum Form: TableViewModelFamily {
     enum HeaderModel {
         case ButtonHeader(ButtonHeaderViewModel)
     }
 
     enum RowModel: Identifiable {
-        case TextFieldRow(TextFieldRowViewModel)
-        case TokenTypeRow(TokenTypeRowViewModel)
-        case DigitCountRow(DigitCountRowViewModel)
-        case AlgorithmRow(AlgorithmRowViewModel)
+        case TextFieldRow(TextFieldRowModel)
+        case TokenTypeRow(TokenTypeRowModel)
+        case DigitCountRow(DigitCountRowModel)
+        case AlgorithmRow(AlgorithmRowModel)
 
         func hasSameIdentity(other: RowModel) -> Bool {
             // As currently used, form rows don't move around much, so comparing the row
@@ -45,5 +47,14 @@ enum Form: TableViewModelFamily {
             default: return false
             }
         }
+    }
+
+    enum Action {
+        case Issuer(String)
+        case Name(String)
+        case Secret(String)
+        case TokenType(Authenticator.TokenType)
+        case DigitCount(Int)
+        case Algorithm(Generator.Algorithm)
     }
 }

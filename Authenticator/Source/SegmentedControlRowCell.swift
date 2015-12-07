@@ -2,44 +2,44 @@
 //  SegmentedControlRowCell.swift
 //  Authenticator
 //
-//  Copyright (c) 2014 Matt Rubin
+//  Copyright (c) 2014-2015 Authenticator authors
 //
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-//  the Software, and to permit persons to whom the Software is furnished to do so,
-//  subject to the following conditions:
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
 //  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-//  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-//  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-//  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-//  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 //
 
 import UIKit
 
-protocol SegmentedControlRowViewModel {
-    typealias Value: Equatable
-    var segments: [(title: String, value: Value)] { get }
-    var value: Value { get }
-    var changeAction: (Value) -> () { get }
+protocol SegmentedControlRowCellDelegate: class {
+    func handleAction(action: Form.Action)
 }
 
 // "static stored properties not yet supported in generic types"
 private let preferredHeight: CGFloat = 54
 
-class SegmentedControlRowCell<ViewModel: SegmentedControlRowViewModel>: UITableViewCell {
+class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewCell {
     typealias Value = ViewModel.Value
+
+    weak var delegate: SegmentedControlRowCellDelegate?
 
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
-    private var changeAction: ((Value) -> ())?
+    private var changeAction: ((Value) -> Form.Action)?
 
     var value: Value {
         return values[segmentedControl.selectedSegmentIndex]
@@ -93,6 +93,8 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowViewModel>: UITableV
     // MARK: - Target Action
 
     func segmentedControlValueChanged() {
-        changeAction?(value)
+        if let action = changeAction?(value) {
+            delegate?.handleAction(action)
+        }
     }
 }

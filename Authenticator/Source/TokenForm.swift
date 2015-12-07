@@ -25,6 +25,7 @@
 protocol TokenForm {
     var viewModel: TableViewModel<Form> { get }
     weak var presenter: TokenFormPresenter? { get set }
+    func handleAction(action: Form.Action)
 }
 
 protocol TokenFormPresenter: class {

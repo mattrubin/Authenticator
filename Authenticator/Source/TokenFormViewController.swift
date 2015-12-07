@@ -25,6 +25,10 @@
 import UIKit
 import SVProgressHUD
 
+typealias TokenTypeRowCell = SegmentedControlRowCell<TokenTypeRowModel>
+typealias DigitCountRowCell = SegmentedControlRowCell<DigitCountRowModel>
+typealias AlgorithmRowCell = SegmentedControlRowCell<AlgorithmRowModel>
+
 class TokenFormViewController: UITableViewController {
     private var form: TokenForm?
     private var viewModel: TableViewModel<Form> = EmptyTableViewModel() {
@@ -226,21 +230,25 @@ extension TokenFormViewController {
         case .TextFieldRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell.self)
             cell.updateWithViewModel(viewModel)
+            cell.delegate = self
             return cell
 
         case .TokenTypeRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<TokenTypeRowViewModel>.self)
+            let cell = tableView.dequeueReusableCellWithClass(TokenTypeRowCell.self)
             cell.updateWithViewModel(viewModel)
+            cell.delegate = self
             return cell
 
         case .DigitCountRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<DigitCountRowViewModel>.self)
+            let cell = tableView.dequeueReusableCellWithClass(DigitCountRowCell.self)
             cell.updateWithViewModel(viewModel)
+            cell.delegate = self
             return cell
 
         case .AlgorithmRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<AlgorithmRowViewModel>.self)
+            let cell = tableView.dequeueReusableCellWithClass(AlgorithmRowCell.self)
             cell.updateWithViewModel(viewModel)
+            cell.delegate = self
             return cell
         }
     }
@@ -266,19 +274,19 @@ extension TokenFormViewController {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .TokenTypeRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<TokenTypeRowViewModel> {
+            if let cell = cell as? TokenTypeRowCell {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .DigitCountRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<DigitCountRowViewModel> {
+            if let cell = cell as? DigitCountRowCell {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .AlgorithmRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<AlgorithmRowViewModel> {
+            if let cell = cell as? AlgorithmRowCell {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -291,11 +299,11 @@ extension TokenFormViewController {
         case .TextFieldRow(let viewModel):
             return TextFieldRowCell.heightWithViewModel(viewModel)
         case .TokenTypeRow(let viewModel):
-            return SegmentedControlRowCell.heightWithViewModel(viewModel)
+            return TokenTypeRowCell.heightWithViewModel(viewModel)
         case .DigitCountRow(let viewModel):
-            return SegmentedControlRowCell.heightWithViewModel(viewModel)
+            return DigitCountRowCell.heightWithViewModel(viewModel)
         case .AlgorithmRow(let viewModel):
-            return SegmentedControlRowCell.heightWithViewModel(viewModel)
+            return AlgorithmRowCell.heightWithViewModel(viewModel)
         }
     }
 
@@ -326,7 +334,7 @@ extension TokenFormViewController: TokenFormPresenter {
     }
 }
 
-extension TokenFormViewController: TextFieldRowCellDelegate {
+extension TokenFormViewController: TextFieldRowCellDelegate, SegmentedControlRowCellDelegate {
     func textFieldCellDidReturn(textFieldCell: TextFieldRowCell) {
         // Unfocus the field that returned
         textFieldCell.unfocus()
@@ -342,5 +350,9 @@ extension TokenFormViewController: TextFieldRowCellDelegate {
             // Try to submit the form
             viewModel.doneKeyAction?()
         }
+    }
+
+    func handleAction(action: Form.Action) {
+        form?.handleAction(action)
     }
 }

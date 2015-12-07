@@ -123,64 +123,71 @@ extension TokenEntryForm {
     }
 
     private var issuerRowModel: Form.RowModel {
-        let model = IssuerRowViewModel(
+        let model = IssuerRowModel(
             value: state.issuer,
-            changeAction: { [weak self] (newIssuer) -> () in
-                self?.state.issuer = newIssuer
-            }
+            changeAction: Form.Action.Issuer
         )
         return .TextFieldRow(model)
     }
 
     private var nameRowModel: Form.RowModel {
-        let model = NameRowViewModel(
+        let model = NameRowModel(
             value: state.name,
             returnKeyType: .Next,
-            changeAction: { [weak self] (newName) -> () in
-                self?.state.name = newName
-            }
+            changeAction: Form.Action.Name
         )
         return .TextFieldRow(model)
     }
 
     private var secretRowModel: Form.RowModel {
-        let model = SecretRowViewModel(
+        let model = SecretRowModel(
             value: state.secret,
-            changeAction: { [weak self] (newSecret) -> () in
-                self?.state.secret = newSecret
-            }
+            changeAction: Form.Action.Secret
         )
         return .TextFieldRow(model)
     }
 
     private var tokenTypeRowModel: Form.RowModel {
-        let model = TokenTypeRowViewModel(
+        let model = TokenTypeRowModel(
             value: state.tokenType,
-            changeAction: { [weak self] (newTokenType) -> () in
-                self?.state.tokenType = newTokenType
-            }
+            changeAction: Form.Action.TokenType
         )
         return .TokenTypeRow(model)
     }
 
     private var digitCountRowModel: Form.RowModel {
-        let model = DigitCountRowViewModel(
+        let model = DigitCountRowModel(
             value: state.digitCount,
-            changeAction: { [weak self] (newDigitCount) -> () in
-                self?.state.digitCount = newDigitCount
-            }
+            changeAction: Form.Action.DigitCount
         )
         return .DigitCountRow(model)
     }
 
     private var algorithmRowModel: Form.RowModel {
-        let model = AlgorithmRowViewModel(
+        let model = AlgorithmRowModel(
             value: state.algorithm,
-            changeAction: { [weak self] (newAlgorithm) -> () in
-                self?.state.algorithm = newAlgorithm
-            }
+            changeAction: Form.Action.Algorithm
         )
         return .AlgorithmRow(model)
+    }
+
+    // MARK: Action handling
+
+    func handleAction(action: Form.Action) {
+        switch action {
+        case .Issuer(let value):
+            state.issuer = value
+        case .Name(let value):
+            state.name = value
+        case .Secret(let value):
+            state.secret = value
+        case .TokenType(let value):
+            state.tokenType = value
+        case .DigitCount(let value):
+            state.digitCount = value
+        case .Algorithm(let value):
+            state.algorithm = value
+        }
     }
 }
 
