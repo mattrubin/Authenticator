@@ -25,17 +25,21 @@
 
 import UIKit
 
+protocol SegmentedControlRowCellDelegate: class {
+    func handleAction(action: Form.Action)
+}
+
 // "static stored properties not yet supported in generic types"
 private let preferredHeight: CGFloat = 54
 
 class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewCell {
     typealias Value = ViewModel.Value
 
+    weak var delegate: TextFieldRowCellDelegate?
+
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
-    var actionForValue: ((Value) -> Form.Action)?
-
-    var changeAction: ((Form.Action) -> ())?
+    private var changeAction: ((Value) -> Form.Action)?
 
     var value: Value {
         return values[segmentedControl.selectedSegmentIndex]
@@ -68,7 +72,7 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewC
     // MARK: - View Model
 
     func updateWithViewModel(viewModel: ViewModel) {
-        actionForValue = viewModel.changeAction
+        changeAction = viewModel.changeAction
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
@@ -89,8 +93,8 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewC
     // MARK: - Target Action
 
     func segmentedControlValueChanged() {
-        if let action = actionForValue?(value) {
-            changeAction?(action)
+        if let action = changeAction?(value) {
+            delegate?.handleAction(action)
         }
     }
 }

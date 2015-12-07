@@ -35,8 +35,7 @@ class TextFieldRowCell: UITableViewCell {
 
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
-    var changeAction: ((String) -> Form.Action)?
-
+    private var changeAction: ((String) -> Form.Action)?
 
     // MARK: - Init
 
@@ -96,8 +95,8 @@ class TextFieldRowCell: UITableViewCell {
 
     func textFieldValueChanged() {
         let newText = textField.text ?? ""
-        if let changeAction = changeAction {
-            delegate?.handleAction(changeAction(newText))
+        if let action = changeAction?(newText) {
+            delegate?.handleAction(action)
         }
     }
 }
