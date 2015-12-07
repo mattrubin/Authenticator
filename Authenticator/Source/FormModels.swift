@@ -49,11 +49,6 @@ enum Form: TableViewModelFamily {
         }
     }
 
-    enum Field: Equatable {
-        case Issuer
-        case Name
-        case Secret
-    }
     enum OptionField: Equatable {
         case TokenType
         case DigitCount
@@ -61,6 +56,9 @@ enum Form: TableViewModelFamily {
     }
 
     enum Action {
+        case Issuer(String)
+        case Name(String)
+        case Secret(String)
         case TokenType(Authenticator.TokenType)
         case DigitCount(Int)
         case Algorithm(Generator.Algorithm)

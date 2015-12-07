@@ -27,7 +27,7 @@ import UIKit
 
 protocol TextFieldRowCellDelegate: class {
     func textFieldCellDidReturn(textFieldCell: TextFieldRowCell)
-    func textFieldCellChangedValue(value: String, forField field: Form.Field)
+    func handleAction(action: Form.Action)
 }
 
 class TextFieldRowCell: UITableViewCell {
@@ -35,7 +35,8 @@ class TextFieldRowCell: UITableViewCell {
 
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
-    private var identifier: Form.Field?
+    var changeAction: ((String) -> Form.Action)?
+
 
     // MARK: - Init
 
@@ -84,7 +85,7 @@ class TextFieldRowCell: UITableViewCell {
         if textField.text != viewModel.value {
             textField.text = viewModel.value
         }
-        identifier = viewModel.identifier
+        changeAction = viewModel.changeAction
     }
 
     static func heightWithViewModel(viewModel: TextFieldRowModel) -> CGFloat {
@@ -95,8 +96,8 @@ class TextFieldRowCell: UITableViewCell {
 
     func textFieldValueChanged() {
         let newText = textField.text ?? ""
-        if let identifier = identifier {
-            delegate?.textFieldCellChangedValue(newText, forField: identifier)
+        if let changeAction = changeAction {
+            delegate?.handleAction(changeAction(newText))
         }
     }
 }

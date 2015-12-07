@@ -124,7 +124,8 @@ extension TokenEntryForm {
 
     private var issuerRowModel: Form.RowModel {
         let model = IssuerRowViewModel(
-            value: state.issuer
+            value: state.issuer,
+            changeAction: Form.Action.Issuer
         )
         return .TextFieldRow(model)
     }
@@ -132,14 +133,16 @@ extension TokenEntryForm {
     private var nameRowModel: Form.RowModel {
         let model = NameRowViewModel(
             value: state.name,
-            returnKeyType: .Next
+            returnKeyType: .Next,
+            changeAction: Form.Action.Name
         )
         return .TextFieldRow(model)
     }
 
     private var secretRowModel: Form.RowModel {
         let model = SecretRowViewModel(
-            value: state.secret
+            value: state.secret,
+            changeAction: Form.Action.Secret
         )
         return .TextFieldRow(model)
     }
@@ -176,20 +179,14 @@ extension TokenEntryForm {
 
     // MARK: Action handling
 
-    func updateField(field: Form.Field, withValue value: String) {
-        print("Update \(field) to \"\(value)\"")
-        switch field {
-        case .Issuer:
-            state.issuer = value
-        case .Name:
-            state.name = value
-        case .Secret:
-            state.secret = value
-        }
-    }
-
     func handleAction(action: Form.Action) {
         switch action {
+        case .Issuer(let value):
+            state.issuer = value
+        case .Name(let value):
+            state.name = value
+        case .Secret(let value):
+            state.secret = value
         case .TokenType(let value):
             state.tokenType = value
         case .DigitCount(let value):

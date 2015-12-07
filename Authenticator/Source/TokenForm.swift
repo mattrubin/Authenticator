@@ -27,7 +27,6 @@ import OneTimePassword
 protocol TokenForm {
     var viewModel: TableViewModel<Form> { get }
     weak var presenter: TokenFormPresenter? { get set }
-    func updateField(field: Form.Field, withValue value: String)
     func handleAction(action: Form.Action)
 }
 

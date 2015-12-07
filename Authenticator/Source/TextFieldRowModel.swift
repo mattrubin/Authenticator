@@ -35,7 +35,7 @@ protocol TextFieldRowModel {
     var returnKeyType: UIReturnKeyType { get }
 
     var value: String { get }
-    var identifier: Form.Field { get }
+    var changeAction: (String) -> Form.Action { get }
 }
 
 struct IssuerRowViewModel: TextFieldRowModel {
@@ -48,10 +48,11 @@ struct IssuerRowViewModel: TextFieldRowModel {
     let returnKeyType: UIReturnKeyType = .Next
 
     let value: String
-    let identifier: Form.Field = .Issuer
+    let changeAction: (String) -> Form.Action
 
-    init(value: String) {
+    init(value: String, changeAction: (String) -> Form.Action) {
         self.value = value
+        self.changeAction = changeAction
     }
 }
 
@@ -65,11 +66,12 @@ struct NameRowViewModel: TextFieldRowModel {
     let returnKeyType: UIReturnKeyType
 
     let value: String
-    let identifier: Form.Field = .Name
+    let changeAction: (String) -> Form.Action
 
-    init(value: String, returnKeyType: UIReturnKeyType) {
+    init(value: String, returnKeyType: UIReturnKeyType, changeAction: (String) -> Form.Action) {
         self.value = value
         self.returnKeyType = returnKeyType
+        self.changeAction = changeAction
     }
 }
 
@@ -83,9 +85,10 @@ struct SecretRowViewModel: TextFieldRowModel {
     let returnKeyType: UIReturnKeyType = .Done
 
     let value: String
-    let identifier: Form.Field = .Secret
+    let changeAction: (String) -> Form.Action
 
-    init(value: String) {
+    init(value: String, changeAction: (String) -> Form.Action) {
         self.value = value
+        self.changeAction = changeAction
     }
 }

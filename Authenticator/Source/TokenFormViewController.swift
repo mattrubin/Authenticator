@@ -353,7 +353,7 @@ extension TokenFormViewController: TextFieldRowCellDelegate {
         }
     }
 
-    func textFieldCellChangedValue(value: String, forField field: Form.Field) {
-        form?.updateField(field, withValue: value)
+    func handleAction(action: Form.Action) {
+        form?.handleAction(action)
     }
 }
