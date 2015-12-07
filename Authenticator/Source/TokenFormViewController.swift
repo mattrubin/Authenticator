@@ -230,19 +230,19 @@ extension TokenFormViewController {
             return cell
 
         case .TokenTypeRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<TokenTypeRowViewModel>.self)
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<TokenTypeRowModel>.self)
             cell.updateWithViewModel(viewModel)
             cell.delegate = self
             return cell
 
         case .DigitCountRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<DigitCountRowViewModel>.self)
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<DigitCountRowModel>.self)
             cell.updateWithViewModel(viewModel)
             cell.delegate = self
             return cell
 
         case .AlgorithmRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<AlgorithmRowViewModel>.self)
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<AlgorithmRowModel>.self)
             cell.updateWithViewModel(viewModel)
             cell.delegate = self
             return cell
@@ -270,19 +270,19 @@ extension TokenFormViewController {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .TokenTypeRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<TokenTypeRowViewModel> {
+            if let cell = cell as? SegmentedControlRowCell<TokenTypeRowModel> {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .DigitCountRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<DigitCountRowViewModel> {
+            if let cell = cell as? SegmentedControlRowCell<DigitCountRowModel> {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .AlgorithmRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<AlgorithmRowViewModel> {
+            if let cell = cell as? SegmentedControlRowCell<AlgorithmRowModel> {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)

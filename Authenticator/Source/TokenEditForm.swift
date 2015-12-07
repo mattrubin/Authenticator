@@ -77,7 +77,7 @@ class TokenEditForm: TokenForm {
     }
 
     private var issuerRowModel: Form.RowModel {
-        let model = IssuerRowViewModel(
+        let model = IssuerRowModel(
             value: state.issuer,
             changeAction: Form.Action.Issuer
         )
@@ -85,7 +85,7 @@ class TokenEditForm: TokenForm {
     }
 
     private var nameRowModel: Form.RowModel {
-        let model = NameRowViewModel(
+        let model = NameRowModel(
             value: state.name,
             returnKeyType: .Done,
             changeAction: Form.Action.Name

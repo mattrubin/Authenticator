@@ -36,7 +36,7 @@ enum TokenType {
     case Counter, Timer
 }
 
-struct TokenTypeRowViewModel: SegmentedControlRowModel {
+struct TokenTypeRowModel: SegmentedControlRowModel {
     typealias Value = TokenType
     let segments = [
         (title: "Time Based", value: Value.Timer),
@@ -51,7 +51,7 @@ struct TokenTypeRowViewModel: SegmentedControlRowModel {
     }
 }
 
-struct DigitCountRowViewModel: SegmentedControlRowModel {
+struct DigitCountRowModel: SegmentedControlRowModel {
     typealias Value = Int
     let segments = [
         (title: "6 Digits", value: 6),
@@ -67,7 +67,7 @@ struct DigitCountRowViewModel: SegmentedControlRowModel {
     }
 }
 
-struct AlgorithmRowViewModel: SegmentedControlRowModel {
+struct AlgorithmRowModel: SegmentedControlRowModel {
     typealias Value = Generator.Algorithm
     let segments = [
         (title: "SHA-1", value: Value.SHA1),

@@ -123,7 +123,7 @@ extension TokenEntryForm {
     }
 
     private var issuerRowModel: Form.RowModel {
-        let model = IssuerRowViewModel(
+        let model = IssuerRowModel(
             value: state.issuer,
             changeAction: Form.Action.Issuer
         )
@@ -131,7 +131,7 @@ extension TokenEntryForm {
     }
 
     private var nameRowModel: Form.RowModel {
-        let model = NameRowViewModel(
+        let model = NameRowModel(
             value: state.name,
             returnKeyType: .Next,
             changeAction: Form.Action.Name
@@ -140,7 +140,7 @@ extension TokenEntryForm {
     }
 
     private var secretRowModel: Form.RowModel {
-        let model = SecretRowViewModel(
+        let model = SecretRowModel(
             value: state.secret,
             changeAction: Form.Action.Secret
         )
@@ -148,7 +148,7 @@ extension TokenEntryForm {
     }
 
     private var tokenTypeRowModel: Form.RowModel {
-        let model = TokenTypeRowViewModel(
+        let model = TokenTypeRowModel(
             value: state.tokenType,
             changeAction: Form.Action.TokenType
         )
@@ -156,7 +156,7 @@ extension TokenEntryForm {
     }
 
     private var digitCountRowModel: Form.RowModel {
-        let model = DigitCountRowViewModel(
+        let model = DigitCountRowModel(
             value: state.digitCount,
             changeAction: Form.Action.DigitCount
         )
@@ -164,7 +164,7 @@ extension TokenEntryForm {
     }
 
     private var algorithmRowModel: Form.RowModel {
-        let model = AlgorithmRowViewModel(
+        let model = AlgorithmRowModel(
             value: state.algorithm,
             changeAction: Form.Action.Algorithm
         )

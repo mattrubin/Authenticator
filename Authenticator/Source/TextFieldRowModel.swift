@@ -38,7 +38,7 @@ protocol TextFieldRowModel {
     var changeAction: (String) -> Form.Action { get }
 }
 
-struct IssuerRowViewModel: TextFieldRowModel {
+struct IssuerRowModel: TextFieldRowModel {
     let label = "Issuer"
     let placeholder = "Some Website"
 
@@ -56,7 +56,7 @@ struct IssuerRowViewModel: TextFieldRowModel {
     }
 }
 
-struct NameRowViewModel: TextFieldRowModel {
+struct NameRowModel: TextFieldRowModel {
     let label = "Account Name"
     let placeholder = "user@example.com"
 
@@ -75,7 +75,7 @@ struct NameRowViewModel: TextFieldRowModel {
     }
 }
 
-struct SecretRowViewModel: TextFieldRowModel {
+struct SecretRowModel: TextFieldRowModel {
     let label = "Secret Key"
     let placeholder = "•••• •••• •••• ••••"
 
