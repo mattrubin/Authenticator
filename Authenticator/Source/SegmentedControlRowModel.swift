@@ -26,11 +26,9 @@
 import OneTimePassword
 
 protocol SegmentedControlRowModel {
-    typealias Identifier
     typealias Value: Equatable
     var segments: [(title: String, value: Value)] { get }
     var value: Value { get }
-    var identifier: Identifier { get }
     var actionForValue: (Value) -> Form.Action { get }
 }
 
@@ -45,7 +43,6 @@ struct TokenTypeRowViewModel: SegmentedControlRowModel {
         (title: "Counter Based", value: Value.Counter),
     ]
     let value: Value
-    let identifier = Form.OptionField.TokenType
     let actionForValue: (Value) -> Form.Action = { (value) in
         return Form.Action.TokenType(value)
     }
@@ -63,7 +60,6 @@ struct DigitCountRowViewModel: SegmentedControlRowModel {
         (title: "8 Digits", value: 8),
     ]
     let value: Value
-    let identifier = Form.OptionField.DigitCount
     let actionForValue: (Value) -> Form.Action = { (value) in
         return Form.Action.DigitCount(value)
     }
@@ -81,7 +77,6 @@ struct AlgorithmRowViewModel: SegmentedControlRowModel {
         (title: "SHA-512", value: Value.SHA512),
     ]
     let value: Value
-    let identifier = Form.OptionField.Algorithm
     let actionForValue: (Value) -> Form.Action = { (value) in
         return Form.Action.Algorithm(value)
     }
