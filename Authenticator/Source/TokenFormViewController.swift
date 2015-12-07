@@ -25,6 +25,10 @@
 import UIKit
 import SVProgressHUD
 
+typealias TokenTypeRowCell = SegmentedControlRowCell<TokenTypeRowModel>
+typealias DigitCountRowCell = SegmentedControlRowCell<DigitCountRowModel>
+typealias AlgorithmRowCell = SegmentedControlRowCell<AlgorithmRowModel>
+
 class TokenFormViewController: UITableViewController {
     private var form: TokenForm?
     private var viewModel: TableViewModel<Form> = EmptyTableViewModel() {
@@ -230,19 +234,19 @@ extension TokenFormViewController {
             return cell
 
         case .TokenTypeRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<TokenTypeRowModel>.self)
+            let cell = tableView.dequeueReusableCellWithClass(TokenTypeRowCell.self)
             cell.updateWithViewModel(viewModel)
             cell.delegate = self
             return cell
 
         case .DigitCountRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<DigitCountRowModel>.self)
+            let cell = tableView.dequeueReusableCellWithClass(DigitCountRowCell.self)
             cell.updateWithViewModel(viewModel)
             cell.delegate = self
             return cell
 
         case .AlgorithmRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<AlgorithmRowModel>.self)
+            let cell = tableView.dequeueReusableCellWithClass(AlgorithmRowCell.self)
             cell.updateWithViewModel(viewModel)
             cell.delegate = self
             return cell
@@ -270,19 +274,19 @@ extension TokenFormViewController {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .TokenTypeRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<TokenTypeRowModel> {
+            if let cell = cell as? TokenTypeRowCell {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .DigitCountRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<DigitCountRowModel> {
+            if let cell = cell as? DigitCountRowCell {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .AlgorithmRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<AlgorithmRowModel> {
+            if let cell = cell as? AlgorithmRowCell {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -295,11 +299,11 @@ extension TokenFormViewController {
         case .TextFieldRow(let viewModel):
             return TextFieldRowCell.heightWithViewModel(viewModel)
         case .TokenTypeRow(let viewModel):
-            return SegmentedControlRowCell.heightWithViewModel(viewModel)
+            return TokenTypeRowCell.heightWithViewModel(viewModel)
         case .DigitCountRow(let viewModel):
-            return SegmentedControlRowCell.heightWithViewModel(viewModel)
+            return DigitCountRowCell.heightWithViewModel(viewModel)
         case .AlgorithmRow(let viewModel):
-            return SegmentedControlRowCell.heightWithViewModel(viewModel)
+            return AlgorithmRowCell.heightWithViewModel(viewModel)
         }
     }
 
