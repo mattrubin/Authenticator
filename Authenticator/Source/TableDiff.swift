@@ -74,11 +74,12 @@ private func changesFrom<T>(oldItems: [T], to newItems: [T], hasSameIdentity: (T
                 changes = changes + [.Delete(index: x - 1)]
             }
             var y = x - k
-            while x < oldItems.count && y < newItems.count && hasSameIdentity(oldItems[x], newItems[y]) {
-                if !isEqual(oldItems[x], newItems[y]) {
-                    changes = changes + [.Update(oldIndex: x, newIndex: y)]
-                }
-                (x, y) = (x+1, y+1)
+            while x < oldItems.count && y < newItems.count
+                && hasSameIdentity(oldItems[x], newItems[y]) {
+                    if !isEqual(oldItems[x], newItems[y]) {
+                        changes = changes + [.Update(oldIndex: x, newIndex: y)]
+                    }
+                    (x, y) = (x+1, y+1)
             }
             V[k + MAX] = x
             changesInDiagonal[k + MAX] = changes
@@ -89,5 +90,6 @@ private func changesFrom<T>(oldItems: [T], to newItems: [T], hasSameIdentity: (T
     }
     // With MAX = oldItems.count + newItems.count, a solution must be found by the above algorithm
     // but here's a delete-and-insert-everything fallback, just in case.
-    return oldItems.indices.map({ .Delete(index: $0) }) + newItems.indices.map({ .Insert(index: $0) })
+    return oldItems.indices.map({ .Delete(index: $0) })
+        + newItems.indices.map({ .Insert(index: $0) })
 }
