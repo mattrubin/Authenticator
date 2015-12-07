@@ -35,7 +35,7 @@ private let preferredHeight: CGFloat = 54
 class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewCell {
     typealias Value = ViewModel.Value
 
-    weak var delegate: TextFieldRowCellDelegate?
+    weak var delegate: SegmentedControlRowCellDelegate?
 
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []

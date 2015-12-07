@@ -330,7 +330,7 @@ extension TokenFormViewController: TokenFormPresenter {
     }
 }
 
-extension TokenFormViewController: TextFieldRowCellDelegate {
+extension TokenFormViewController: TextFieldRowCellDelegate, SegmentedControlRowCellDelegate {
     func textFieldCellDidReturn(textFieldCell: TextFieldRowCell) {
         // Unfocus the field that returned
         textFieldCell.unfocus()
