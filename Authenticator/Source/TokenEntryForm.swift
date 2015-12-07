@@ -149,30 +149,24 @@ extension TokenEntryForm {
 
     private var tokenTypeRowModel: Form.RowModel {
         let model = TokenTypeRowViewModel(
-            value: state.tokenType
-//            changeAction: { [weak self] (newTokenType) -> () in
-//                self?.state.tokenType = newTokenType
-//            }
+            value: state.tokenType,
+            changeAction: Form.Action.TokenType
         )
         return .TokenTypeRow(model)
     }
 
     private var digitCountRowModel: Form.RowModel {
         let model = DigitCountRowViewModel(
-            value: state.digitCount
-//            changeAction: { [weak self] (newDigitCount) -> () in
-//                self?.state.digitCount = newDigitCount
-//            }
+            value: state.digitCount,
+            changeAction: Form.Action.DigitCount
         )
         return .DigitCountRow(model)
     }
 
     private var algorithmRowModel: Form.RowModel {
         let model = AlgorithmRowViewModel(
-            value: state.algorithm
-//            changeAction: { [weak self] (newAlgorithm) -> () in
-//                self?.state.algorithm = newAlgorithm
-//            }
+            value: state.algorithm,
+            changeAction: Form.Action.Algorithm
         )
         return .AlgorithmRow(model)
     }

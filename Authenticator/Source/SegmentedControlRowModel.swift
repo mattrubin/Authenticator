@@ -29,7 +29,7 @@ protocol SegmentedControlRowModel {
     typealias Value: Equatable
     var segments: [(title: String, value: Value)] { get }
     var value: Value { get }
-    var actionForValue: (Value) -> Form.Action { get }
+    var changeAction: (Value) -> Form.Action { get }
 }
 
 enum TokenType {
@@ -43,12 +43,11 @@ struct TokenTypeRowViewModel: SegmentedControlRowModel {
         (title: "Counter Based", value: Value.Counter),
     ]
     let value: Value
-    let actionForValue: (Value) -> Form.Action = { (value) in
-        return Form.Action.TokenType(value)
-    }
+    let changeAction: (Value) -> Form.Action
 
-    init(value: Value) {
+    init(value: Value, changeAction: (Value) -> Form.Action) {
         self.value = value
+        self.changeAction = changeAction
     }
 }
 
@@ -60,12 +59,11 @@ struct DigitCountRowViewModel: SegmentedControlRowModel {
         (title: "8 Digits", value: 8),
     ]
     let value: Value
-    let actionForValue: (Value) -> Form.Action = { (value) in
-        return Form.Action.DigitCount(value)
-    }
+    let changeAction: (Value) -> Form.Action
 
-    init(value: Value) {
+    init(value: Value, changeAction: (Value) -> Form.Action) {
         self.value = value
+        self.changeAction = changeAction
     }
 }
 
@@ -77,11 +75,10 @@ struct AlgorithmRowViewModel: SegmentedControlRowModel {
         (title: "SHA-512", value: Value.SHA512),
     ]
     let value: Value
-    let actionForValue: (Value) -> Form.Action = { (value) in
-        return Form.Action.Algorithm(value)
-    }
+    let changeAction: (Value) -> Form.Action
 
-    init(value: Value) {
+    init(value: Value, changeAction: (Value) -> Form.Action) {
         self.value = value
+        self.changeAction = changeAction
     }
 }

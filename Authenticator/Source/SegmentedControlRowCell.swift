@@ -68,7 +68,7 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewC
     // MARK: - View Model
 
     func updateWithViewModel(viewModel: ViewModel) {
-        actionForValue = viewModel.actionForValue
+        actionForValue = viewModel.changeAction
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
