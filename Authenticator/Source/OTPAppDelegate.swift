@@ -55,9 +55,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         let rootViewController = TokenListViewController(viewModel: tokenList.viewModel,
             delegate: tokenList)
         tokenList.presenter = rootViewController
-        let navController = UINavigationController(rootViewController: rootViewController)
-        navController.navigationBar.translucent = false
-        navController.toolbar.translucent = false
+        let navController = OpaqueNavigationController(rootViewController: rootViewController)
 
         self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()

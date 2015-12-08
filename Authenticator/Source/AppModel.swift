@@ -100,8 +100,7 @@ extension AppModel: ActionHandler {
     }
 
     private func presentViewController(viewController: UIViewController) {
-        let navController = UINavigationController(rootViewController: viewController)
-        navController.navigationBar.translucent = false
+        let navController = OpaqueNavigationController(rootViewController: viewController)
         window?.rootViewController?
             .presentViewController(navController, animated: true, completion: nil)
     }

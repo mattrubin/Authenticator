@@ -15,6 +15,7 @@
 		C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708AB19CFB0750033128B /* TokenListViewController.swift */; };
 		C93AD15219CD51BE007480E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AD15119CD51BE007480E9 /* Colors.swift */; };
 		C93BD6231C167CD100FFFB8F /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6221C167CD100FFFB8F /* AppModel.swift */; };
+		C93BD6251C16841D00FFFB8F /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6241C16841D00FFFB8F /* AppViewController.swift */; };
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
@@ -92,6 +93,7 @@
 		C931A6021BFF707E00706A1C /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		C93AD15119CD51BE007480E9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		C93BD6221C167CD100FFFB8F /* AppModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		C93BD6241C16841D00FFFB8F /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
 		C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5581A7ECB3100E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A56A1A7F772600E08B1E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Configurations/Debug.xcconfig; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			children = (
 				1D3623250D0F684500981E51 /* OTPAppDelegate.swift */,
 				C93BD6221C167CD100FFFB8F /* AppModel.swift */,
+				C93BD6241C16841D00FFFB8F /* AppViewController.swift */,
 				C9BA64E71C0C26BA00610C7C /* ActionHandler.swift */,
 				C98C1C4917D2F03400A07D3F /* Display */,
 				C98C1C4617D2EE6500A07D3F /* Entry */,
@@ -534,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C93AD15219CD51BE007480E9 /* Colors.swift in Sources */,
+				C93BD6251C16841D00FFFB8F /* AppViewController.swift in Sources */,
 				C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */,
 				C9AAB0811B9187F8000CE547 /* TokenForm.swift in Sources */,
 				C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */,
