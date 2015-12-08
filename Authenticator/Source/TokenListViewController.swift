@@ -129,7 +129,7 @@ class TokenListViewController: UITableViewController {
     }
 
     func addToken() {
-        actionHandler?.beginAddToken()
+        actionHandler?.handleAction(.BeginAddToken)
     }
 }
 

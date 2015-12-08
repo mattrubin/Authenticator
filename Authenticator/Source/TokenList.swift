@@ -118,6 +118,13 @@ class TokenList {
 }
 
 extension TokenList: TokenListActionHandler {
+    func handleAction(action: TokenList.Action) {
+        switch action {
+        case .BeginAddToken:
+            beginAddToken()
+        }
+    }
+
     func beginAddToken() {
         actionHandler?.handleAction(.BeginTokenEntry)
     }

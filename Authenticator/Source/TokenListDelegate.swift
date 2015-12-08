@@ -25,8 +25,15 @@
 
 import OneTimePassword
 
+extension TokenList {
+    enum Action {
+        case BeginAddToken
+    }
+}
+
 protocol TokenListActionHandler: class {
-    func beginAddToken()
+    func handleAction(action: TokenList.Action)
+
     func beginEditPersistentToken(persistentToken: PersistentToken)
 
     func updatePersistentToken(persistentToken: PersistentToken)
