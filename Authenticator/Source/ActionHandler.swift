@@ -33,6 +33,8 @@ enum AppAction {
     case BeginTokenEdit(PersistentToken)
     case CancelTokenEdit
     case SaveChanges(Token, PersistentToken)
+
+    case AddTokenFromURL(Token)
 }
 
 protocol ActionHandler: class {

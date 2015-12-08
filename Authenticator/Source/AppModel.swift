@@ -28,7 +28,7 @@ import UIKit
 class AppModel {
     weak var presenter: AppPresenter?
 
-    /*private*/ lazy var tokenList: TokenList = {
+    private lazy var tokenList: TokenList = {
         TokenList(actionHandler: self)
     }()
 
@@ -88,6 +88,9 @@ extension AppModel: ActionHandler {
 
         case .CancelTokenEdit:
             modalState = .None
+
+        case .AddTokenFromURL(let token):
+            tokenList.addToken(token)
         }
     }
 }

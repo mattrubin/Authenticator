@@ -32,10 +32,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     lazy var appModel: AppModel = {
         return AppModel(window: self.window)
     }()
-    @available(*, deprecated=1.0)
-    var tokenList: TokenList {
-        return appModel.tokenList
-    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -70,7 +66,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
 
             let acceptHandler: (UIAlertAction) -> Void = { [weak self] (_) in
-                self?.tokenList.addToken(token)
+                self?.appModel.handleAction(.AddTokenFromURL(token))
             }
 
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
