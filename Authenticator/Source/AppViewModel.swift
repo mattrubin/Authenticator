@@ -1,5 +1,5 @@
 //
-//  ActionHandler.swift
+//  AppViewModel.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -23,21 +23,18 @@
 //  SOFTWARE.
 //
 
-import OneTimePassword
+struct AppViewModel {
+    let tokenList: TokenList
+    let modal: Modal
 
-enum AppAction {
-    case BeginTokenEntry
-    case BeginManualTokenEntry
-    case CancelTokenEntry
-    case SaveNewToken(Token)
-
-    case BeginTokenEdit(PersistentToken)
-    case CancelTokenEdit
-    case SaveChanges(Token, PersistentToken)
-
-    case AddTokenFromURL(Token)
+    enum Modal {
+        case None
+        case Scanner
+        case EntryForm(TokenEntryForm)
+        case EditForm(TokenEditForm)
+    }
 }
 
-protocol ActionHandler: class {
-    func handleAction(action: AppAction)
+protocol AppPresenter: class {
+    func updateWithViewModel(viewModel: AppViewModel)
 }

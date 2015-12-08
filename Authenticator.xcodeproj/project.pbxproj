@@ -14,6 +14,9 @@
 		C914B8C51C0BFDF900D2B751 /* TokenListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C914B8C41C0BFDF900D2B751 /* TokenListDelegate.swift */; };
 		C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708AB19CFB0750033128B /* TokenListViewController.swift */; };
 		C93AD15219CD51BE007480E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AD15119CD51BE007480E9 /* Colors.swift */; };
+		C93BD6231C167CD100FFFB8F /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6221C167CD100FFFB8F /* AppModel.swift */; };
+		C93BD6251C16841D00FFFB8F /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6241C16841D00FFFB8F /* AppViewController.swift */; };
+		C93BD6291C168EBF00FFFB8F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6281C168EBF00FFFB8F /* AppViewModel.swift */; };
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
@@ -90,6 +93,9 @@
 		C931A5FF1BFF6FA600706A1C /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		C931A6021BFF707E00706A1C /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		C93AD15119CD51BE007480E9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		C93BD6221C167CD100FFFB8F /* AppModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		C93BD6241C16841D00FFFB8F /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
+		C93BD6281C168EBF00FFFB8F /* AppViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5581A7ECB3100E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A56A1A7F772600E08B1E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Configurations/Debug.xcconfig; sourceTree = "<group>"; };
@@ -162,6 +168,9 @@
 			isa = PBXGroup;
 			children = (
 				1D3623250D0F684500981E51 /* OTPAppDelegate.swift */,
+				C93BD6221C167CD100FFFB8F /* AppModel.swift */,
+				C93BD6281C168EBF00FFFB8F /* AppViewModel.swift */,
+				C93BD6241C16841D00FFFB8F /* AppViewController.swift */,
 				C9BA64E71C0C26BA00610C7C /* ActionHandler.swift */,
 				C98C1C4917D2F03400A07D3F /* Display */,
 				C98C1C4617D2EE6500A07D3F /* Entry */,
@@ -531,6 +540,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C93AD15219CD51BE007480E9 /* Colors.swift in Sources */,
+				C93BD6251C16841D00FFFB8F /* AppViewController.swift in Sources */,
 				C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */,
 				C9AAB0811B9187F8000CE547 /* TokenForm.swift in Sources */,
 				C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */,
@@ -543,6 +553,7 @@
 				C9919CE21BA733FD006237C1 /* Section.swift in Sources */,
 				C9D6C8461906CD54004F0E08 /* TextFieldRowCell.swift in Sources */,
 				C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */,
+				C93BD6231C167CD100FFFB8F /* AppModel.swift in Sources */,
 				C9BA64E81C0C26BA00610C7C /* ActionHandler.swift in Sources */,
 				C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */,
 				C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */,
@@ -554,6 +565,7 @@
 				C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */,
 				C914B8C51C0BFDF900D2B751 /* TokenListDelegate.swift in Sources */,
 				C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */,
+				C93BD6291C168EBF00FFFB8F /* AppViewModel.swift in Sources */,
 				C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */,
 				C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */,
 				C910ADC11BF0315A00C988F5 /* TokenList.swift in Sources */,
