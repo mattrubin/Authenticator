@@ -72,12 +72,11 @@ extension AppModel: ActionHandler {
     func handleAction(action: AppAction) {
         switch action {
         case .BeginTokenEntry:
-            if QRScanner.deviceCanScan {
-                modalState = .EntryScanner
-            } else {
-                let form = TokenEntryForm(actionHandler: self)
-                modalState = .EntryForm(form)
+            guard QRScanner.deviceCanScan else {
+                handleAction(.BeginManualTokenEntry)
+                break
             }
+            modalState = .EntryScanner
 
         case .BeginManualTokenEntry:
             let form = TokenEntryForm(actionHandler: self)
