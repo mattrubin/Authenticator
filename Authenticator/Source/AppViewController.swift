@@ -84,7 +84,7 @@ extension AppViewController: AppPresenter {
         case .None:
             dismissViewController()
 
-        case .EntryScanner:
+        case .Scanner:
             let scannerViewController = TokenScannerViewController(actionHandler: self)
             presentViewController(scannerViewController)
 

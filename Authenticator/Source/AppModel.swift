@@ -38,7 +38,7 @@ class AppModel {
         }
     }
 
-    /*private*/ enum ModalState {
+    private enum ModalState {
         case None
         case EntryScanner
         case EntryForm(TokenEntryForm)
@@ -50,9 +50,20 @@ class AppModel {
     }
 
     var viewModel: AppViewModel {
+        let modal: AppViewModel.Modal
+        switch modalState {
+        case .None:
+            modal = .None
+        case .EntryScanner:
+            modal = .Scanner
+        case .EntryForm(let form):
+            modal = .EntryForm(form)
+        case .EditForm(let form):
+            modal = .EditForm(form)
+        }
         return AppViewModel(
             tokenList: tokenList,
-            modal: modalState
+            modal: modal
         )
     }
 }

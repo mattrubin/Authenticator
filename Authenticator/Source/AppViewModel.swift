@@ -25,7 +25,14 @@
 
 struct AppViewModel {
     let tokenList: TokenList
-    let modal: AppModel.ModalState
+    let modal: Modal
+
+    enum Modal {
+        case None
+        case Scanner
+        case EntryForm(TokenEntryForm)
+        case EditForm(TokenEditForm)
+    }
 }
 
 protocol AppPresenter: class {
