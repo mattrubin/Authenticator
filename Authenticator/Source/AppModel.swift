@@ -26,34 +26,19 @@
 import UIKit
 
 class AppModel {
+    weak var presenter: AppPresenter?
+
     /*private*/ lazy var tokenList: TokenList = {
         TokenList(actionHandler: self)
     }()
 
     private var modalState: ModalState {
         didSet {
-            print(modalState)
-            switch modalState {
-            case .None:
-                dismissViewController()
-
-            case .EntryScanner:
-                let scannerViewController = TokenScannerViewController(actionHandler: self)
-                presentViewController(scannerViewController)
-
-            case .EntryForm(let form):
-                let formController = TokenFormViewController(form: form)
-                presentViewController(formController)
-
-            case .EditForm(let form):
-                let editController = TokenFormViewController(form: form)
-                presentViewController(editController)
-            }
-
+            presenter?.updateWithViewModel(viewModel)
         }
     }
 
-    private enum ModalState {
+    /*private*/ enum ModalState {
         case None
         case EntryScanner
         case EntryForm(TokenEntryForm)
@@ -69,7 +54,8 @@ class AppModel {
 
     var viewModel: AppViewModel {
         return AppViewModel(
-            tokenList: tokenList
+            tokenList: tokenList,
+            modal: modalState
         )
     }
 }
@@ -103,15 +89,5 @@ extension AppModel: ActionHandler {
         case .CancelTokenEdit:
             modalState = .None
         }
-    }
-
-    private func presentViewController(viewController: UIViewController) {
-        let navController = OpaqueNavigationController(rootViewController: viewController)
-        window?.rootViewController?
-            .presentViewController(navController, animated: true, completion: nil)
-    }
-
-    private func dismissViewController() {
-        window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }

@@ -35,8 +35,11 @@ class OpaqueNavigationController: UINavigationController {
 
 class AppViewController: OpaqueNavigationController {
     private var tokenListViewController: TokenListViewController
+    private var modalNavController: UINavigationController?
+    private weak var actionHandler: ActionHandler?
 
-    init(viewModel: AppViewModel) {
+    init(viewModel: AppViewModel, actionHandler: ActionHandler) {
+        self.actionHandler = actionHandler
         let tokenList = viewModel.tokenList
         tokenListViewController = TokenListViewController(viewModel: tokenList.viewModel,
             delegate: tokenList)
@@ -47,5 +50,51 @@ class AppViewController: OpaqueNavigationController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+
+    private func presentViewController(viewController: UIViewController) {
+        if let navController = modalNavController {
+            navController.setViewControllers([viewController], animated: true)
+        } else {
+            let navController = OpaqueNavigationController(rootViewController: viewController)
+            presentViewController(navController, animated: true, completion: nil)
+            modalNavController = navController
+        }
+    }
+
+    private func dismissViewController() {
+        if modalNavController != nil {
+            modalNavController = nil
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+}
+
+extension AppViewController: ActionHandler {
+    func handleAction(action: AppAction) {
+        actionHandler?.handleAction(action)
+    }
+}
+
+extension AppViewController: AppPresenter {
+    func updateWithViewModel(viewModel: AppViewModel) {
+        let modalState = viewModel.modal
+        switch modalState {
+        case .None:
+            dismissViewController()
+
+        case .EntryScanner:
+            let scannerViewController = TokenScannerViewController(actionHandler: self)
+            presentViewController(scannerViewController)
+
+        case .EntryForm(let form):
+            let formController = TokenFormViewController(form: form)
+            presentViewController(formController)
+
+        case .EditForm(let form):
+            let editController = TokenFormViewController(form: form)
+            presentViewController(editController)
+        }
     }
 }

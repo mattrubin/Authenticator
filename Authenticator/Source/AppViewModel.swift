@@ -25,4 +25,9 @@
 
 struct AppViewModel {
     let tokenList: TokenList
+    let modal: AppModel.ModalState
+}
+
+protocol AppPresenter: class {
+    func updateWithViewModel(viewModel: AppViewModel)
 }

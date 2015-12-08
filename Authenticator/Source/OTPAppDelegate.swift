@@ -53,7 +53,8 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        let navController = AppViewController(viewModel: appModel.viewModel)
+        let navController = AppViewController(viewModel: appModel.viewModel, actionHandler: appModel)
+        appModel.presenter = navController
         self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()
 
