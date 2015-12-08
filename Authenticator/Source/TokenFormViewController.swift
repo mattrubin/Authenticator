@@ -30,7 +30,7 @@ typealias DigitCountRowCell = SegmentedControlRowCell<DigitCountRowModel>
 typealias AlgorithmRowCell = SegmentedControlRowCell<AlgorithmRowModel>
 
 class TokenFormViewController: UITableViewController {
-    private var form: TokenForm?
+    private weak var actionHandler: FormActionHandler?
     private var viewModel: TableViewModel<Form> = EmptyTableViewModel() {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
@@ -67,9 +67,9 @@ class TokenFormViewController: UITableViewController {
 
     init(form: TokenForm) {
         super.init(style: .Grouped)
-        var presentedForm = form
+        let presentedForm = form
         presentedForm.presenter = self
-        self.form = presentedForm
+        self.actionHandler = presentedForm
         viewModel = presentedForm.viewModel
     }
 
@@ -353,6 +353,6 @@ extension TokenFormViewController: TextFieldRowCellDelegate, SegmentedControlRow
     }
 
     func handleAction(action: Form.Action) {
-        form?.handleAction(action)
+        actionHandler?.handleAction(action)
     }
 }
