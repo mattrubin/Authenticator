@@ -45,10 +45,7 @@ class AppModel {
         case EditForm(TokenEditForm)
     }
 
-    let window: UIWindow?
-
-    init(window: UIWindow?) {
-        self.window = window
+    init() {
         modalState = .None
     }
 
