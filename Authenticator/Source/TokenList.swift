@@ -117,7 +117,7 @@ class TokenList {
     }
 }
 
-extension TokenList: TokenListDelegate {
+extension TokenList: TokenListActionHandler {
     func beginAddToken() {
         actionHandler?.handleAction(.BeginTokenEntry)
     }

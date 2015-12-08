@@ -25,7 +25,7 @@
 
 import OneTimePassword
 
-protocol TokenListDelegate: class {
+protocol TokenListActionHandler: class {
     func beginAddToken()
     func beginEditPersistentToken(persistentToken: PersistentToken)
 

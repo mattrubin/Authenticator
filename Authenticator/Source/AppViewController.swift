@@ -42,7 +42,7 @@ class AppViewController: OpaqueNavigationController {
         self.actionHandler = actionHandler
         let tokenList = viewModel.tokenList
         tokenListViewController = TokenListViewController(viewModel: tokenList.viewModel,
-            delegate: tokenList)
+            actionHandler: tokenList)
         tokenList.presenter = tokenListViewController
         super.init(nibName: nil, bundle: nil)
         self.viewControllers = [tokenListViewController]
