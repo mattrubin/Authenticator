@@ -87,11 +87,15 @@ extension AppViewController: AppPresenter {
             presentViewController(scannerViewController)
 
         case .EntryForm(let form):
-            let formController = TokenFormViewController(form: form)
+            let formController = TokenFormViewController(viewModel: form.viewModel,
+                actionHandler: form)
+            form.presenter = formController
             presentViewController(formController)
 
         case .EditForm(let form):
-            let editController = TokenFormViewController(form: form)
+            let editController = TokenFormViewController(viewModel: form.viewModel,
+                actionHandler: form)
+            form.presenter = editController
             presentViewController(editController)
         }
     }

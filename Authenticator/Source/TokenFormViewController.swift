@@ -30,8 +30,8 @@ typealias DigitCountRowCell = SegmentedControlRowCell<DigitCountRowModel>
 typealias AlgorithmRowCell = SegmentedControlRowCell<AlgorithmRowModel>
 
 class TokenFormViewController: UITableViewController {
-    private var form: TokenForm?
-    private var viewModel: TableViewModel<Form> = EmptyTableViewModel() {
+    private weak var actionHandler: FormActionHandler?
+    private var viewModel: TableViewModel<Form> {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
                 // Automatic updates aren't implemented for changing number of sections
@@ -65,16 +65,14 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
-    init(form: TokenForm) {
+    init(viewModel: TableViewModel<Form>, actionHandler: FormActionHandler) {
+        self.viewModel = viewModel
+        self.actionHandler = actionHandler
         super.init(style: .Grouped)
-        var presentedForm = form
-        presentedForm.presenter = self
-        self.form = presentedForm
-        viewModel = presentedForm.viewModel
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - View Lifecycle
@@ -353,6 +351,6 @@ extension TokenFormViewController: TextFieldRowCellDelegate, SegmentedControlRow
     }
 
     func handleAction(action: Form.Action) {
-        form?.handleAction(action)
+        actionHandler?.handleAction(action)
     }
 }

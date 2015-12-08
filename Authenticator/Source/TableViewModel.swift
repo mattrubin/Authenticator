@@ -82,7 +82,3 @@ extension TableViewModel {
         return sections[section].header
     }
 }
-
-func EmptyTableViewModel<T>() -> TableViewModel<T> {
-    return TableViewModel(title: "", sections: [])
-}
