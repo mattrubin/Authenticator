@@ -40,3 +40,18 @@ class OpaqueNavigationController: UINavigationController {
         super.init(coder: aDecoder)
     }
 }
+
+class AppViewController: OpaqueNavigationController {
+    let tokenListViewController: TokenListViewController
+
+    init(tokenList: TokenList) {
+        tokenListViewController = TokenListViewController(viewModel: tokenList.viewModel,
+            delegate: tokenList)
+        tokenList.presenter = tokenListViewController
+        super.init(rootViewController: tokenListViewController)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
