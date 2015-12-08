@@ -31,7 +31,7 @@ typealias AlgorithmRowCell = SegmentedControlRowCell<AlgorithmRowModel>
 
 class TokenFormViewController: UITableViewController {
     private weak var actionHandler: FormActionHandler?
-    private var viewModel: TableViewModel<Form> = EmptyTableViewModel() {
+    private var viewModel: TableViewModel<Form> {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
                 // Automatic updates aren't implemented for changing number of sections
@@ -72,7 +72,7 @@ class TokenFormViewController: UITableViewController {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - View Lifecycle
