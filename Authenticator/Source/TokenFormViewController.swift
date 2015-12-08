@@ -65,12 +65,12 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
-    init(form: TokenForm) {
+    init(viewModel: TableViewModel<Form>, form: TokenForm) {
+        self.viewModel = viewModel
         super.init(style: .Grouped)
         let presentedForm = form
         presentedForm.presenter = self
         self.actionHandler = presentedForm
-        viewModel = presentedForm.viewModel
     }
 
     required init?(coder aDecoder: NSCoder) {
