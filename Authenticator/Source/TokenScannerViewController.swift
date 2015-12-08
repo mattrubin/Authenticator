@@ -90,13 +90,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     }
 
     func addTokenManually() {
-        // TODO: Route screen change through ActionHandler
-        guard let actionHandler = actionHandler else {
-            return
-        }
-        let form = TokenEntryForm(actionHandler: actionHandler)
-        let entryController = TokenFormViewController(form: form)
-        navigationController?.pushViewController(entryController, animated: true)
+        actionHandler?.handleAction(.BeginManualTokenEntry)
     }
 
     // MARK: QRScannerDelegate

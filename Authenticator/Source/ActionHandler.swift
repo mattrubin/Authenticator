@@ -27,6 +27,7 @@ import OneTimePassword
 
 enum AppAction {
     case BeginTokenEntry
+    case BeginManualTokenEntry
     case CancelTokenEntry
     case SaveNewToken(Token)
 

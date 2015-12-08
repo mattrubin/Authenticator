@@ -68,6 +68,10 @@ extension AppModel: ActionHandler {
                 modalState = .EntryForm(form)
             }
 
+        case .BeginManualTokenEntry:
+            let form = TokenEntryForm(actionHandler: self)
+            modalState = .EntryForm(form)
+
         case .SaveNewToken(let token):
             tokenList.addToken(token)
             modalState = .None
