@@ -29,9 +29,12 @@ import SVProgressHUD
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
-    private lazy var tokenList: TokenList = {
-        TokenList(actionHandler: self)
+    lazy var appModel: AppModel = {
+        return AppModel(window: self.window)
     }()
+    var tokenList: TokenList {
+        return appModel.tokenList
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -84,51 +87,5 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return false
-    }
-}
-
-extension OTPAppDelegate: ActionHandler {
-    func handleAction(action: AppAction) {
-        switch action {
-        case .BeginTokenEntry:
-            if QRScanner.deviceCanScan {
-                let scannerViewController = TokenScannerViewController(actionHandler: self)
-                presentViewController(scannerViewController)
-            } else {
-                let form = TokenEntryForm(actionHandler: self)
-                let formController = TokenFormViewController(form: form)
-                presentViewController(formController)
-            }
-
-        case .SaveNewToken(let token):
-            tokenList.addToken(token)
-            dismissViewController()
-
-        case .CancelTokenEntry:
-            dismissViewController()
-
-        case .BeginTokenEdit(let persistentToken):
-            let form = TokenEditForm(persistentToken: persistentToken, actionHandler: self)
-            let editController = TokenFormViewController(form: form)
-            presentViewController(editController)
-
-        case let .SaveChanges(token, persistentToken):
-            tokenList.saveToken(token, toPersistentToken: persistentToken)
-            dismissViewController()
-
-        case .CancelTokenEdit:
-            dismissViewController()
-        }
-    }
-
-    private func presentViewController(viewController: UIViewController) {
-        let navController = UINavigationController(rootViewController: viewController)
-        navController.navigationBar.translucent = false
-        window?.rootViewController?
-            .presentViewController(navController, animated: true, completion: nil)
-    }
-
-    private func dismissViewController() {
-        window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }

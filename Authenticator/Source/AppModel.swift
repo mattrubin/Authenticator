@@ -1,0 +1,84 @@
+//
+//  AppModel.swift
+//  Authenticator
+//
+//  Copyright (c) 2015 Authenticator authors
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
+//
+
+import UIKit
+
+class AppModel {
+    /*private*/ lazy var tokenList: TokenList = {
+        TokenList(actionHandler: self)
+    }()
+
+    let window: UIWindow?
+    
+    init(window: UIWindow?) {
+        self.window = window
+    }
+}
+
+extension AppModel: ActionHandler {
+    func handleAction(action: AppAction) {
+        switch action {
+        case .BeginTokenEntry:
+            if QRScanner.deviceCanScan {
+                let scannerViewController = TokenScannerViewController(actionHandler: self)
+                presentViewController(scannerViewController)
+            } else {
+                let form = TokenEntryForm(actionHandler: self)
+                let formController = TokenFormViewController(form: form)
+                presentViewController(formController)
+            }
+
+        case .SaveNewToken(let token):
+            tokenList.addToken(token)
+            dismissViewController()
+
+        case .CancelTokenEntry:
+            dismissViewController()
+
+        case .BeginTokenEdit(let persistentToken):
+            let form = TokenEditForm(persistentToken: persistentToken, actionHandler: self)
+            let editController = TokenFormViewController(form: form)
+            presentViewController(editController)
+
+        case let .SaveChanges(token, persistentToken):
+            tokenList.saveToken(token, toPersistentToken: persistentToken)
+            dismissViewController()
+
+        case .CancelTokenEdit:
+            dismissViewController()
+        }
+    }
+
+    private func presentViewController(viewController: UIViewController) {
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.navigationBar.translucent = false
+        window?.rootViewController?
+            .presentViewController(navController, animated: true, completion: nil)
+    }
+
+    private func dismissViewController() {
+        window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
