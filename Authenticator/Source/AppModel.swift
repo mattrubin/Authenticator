@@ -30,10 +30,41 @@ class AppModel {
         TokenList(actionHandler: self)
     }()
 
+    private var modalState: ModalState {
+        didSet {
+            print(modalState)
+            switch modalState {
+            case .None:
+                dismissViewController()
+
+            case .EntryScanner:
+                let scannerViewController = TokenScannerViewController(actionHandler: self)
+                presentViewController(scannerViewController)
+
+            case .EntryForm(let form):
+                let formController = TokenFormViewController(form: form)
+                presentViewController(formController)
+
+            case .EditForm(let form):
+                let editController = TokenFormViewController(form: form)
+                presentViewController(editController)
+            }
+
+        }
+    }
+
+    private enum ModalState {
+        case None
+        case EntryScanner
+        case EntryForm(TokenEntryForm)
+        case EditForm(TokenEditForm)
+    }
+
     let window: UIWindow?
-    
+
     init(window: UIWindow?) {
         self.window = window
+        modalState = .None
     }
 }
 
@@ -42,32 +73,29 @@ extension AppModel: ActionHandler {
         switch action {
         case .BeginTokenEntry:
             if QRScanner.deviceCanScan {
-                let scannerViewController = TokenScannerViewController(actionHandler: self)
-                presentViewController(scannerViewController)
+                modalState = .EntryScanner
             } else {
                 let form = TokenEntryForm(actionHandler: self)
-                let formController = TokenFormViewController(form: form)
-                presentViewController(formController)
+                modalState = .EntryForm(form)
             }
 
         case .SaveNewToken(let token):
             tokenList.addToken(token)
-            dismissViewController()
+            modalState = .None
 
         case .CancelTokenEntry:
-            dismissViewController()
+            modalState = .None
 
         case .BeginTokenEdit(let persistentToken):
             let form = TokenEditForm(persistentToken: persistentToken, actionHandler: self)
-            let editController = TokenFormViewController(form: form)
-            presentViewController(editController)
+            modalState = .EditForm(form)
 
         case let .SaveChanges(token, persistentToken):
             tokenList.saveToken(token, toPersistentToken: persistentToken)
-            dismissViewController()
+            modalState = .None
 
         case .CancelTokenEdit:
-            dismissViewController()
+            modalState = .None
         }
     }
 
