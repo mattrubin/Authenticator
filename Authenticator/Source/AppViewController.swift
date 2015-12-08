@@ -26,34 +26,22 @@
 import UIKit
 
 class OpaqueNavigationController: UINavigationController {
-    override init(rootViewController: UIViewController) {
-        super.init(rootViewController: rootViewController)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         navigationBar.translucent = false
         toolbar.translucent = false
-    }
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
 }
 
 class AppViewController: OpaqueNavigationController {
-    private var tokenListViewController: TokenListViewController?
+    private var tokenListViewController: TokenListViewController
 
     init(tokenList: TokenList) {
-        let rootViewController = TokenListViewController(viewModel: tokenList.viewModel,
+        tokenListViewController = TokenListViewController(viewModel: tokenList.viewModel,
             delegate: tokenList)
-        tokenList.presenter = rootViewController
-        super.init(rootViewController: rootViewController)
-        tokenListViewController = rootViewController
-    }
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        tokenList.presenter = tokenListViewController
+        super.init(nibName: nil, bundle: nil)
+        self.viewControllers = [tokenListViewController]
     }
 
     required init?(coder aDecoder: NSCoder) {
