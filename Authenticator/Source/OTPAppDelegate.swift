@@ -32,6 +32,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     lazy var appModel: AppModel = {
         return AppModel(window: self.window)
     }()
+    @available(*, deprecated=1.0)
     var tokenList: TokenList {
         return appModel.tokenList
     }
@@ -52,7 +53,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        let navController = AppViewController(tokenList: tokenList)
+        let navController = AppViewController(viewModel: appModel.viewModel)
         self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()
 

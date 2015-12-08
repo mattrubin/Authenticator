@@ -66,6 +66,12 @@ class AppModel {
         self.window = window
         modalState = .None
     }
+
+    var viewModel: AppViewModel {
+        return AppViewModel(
+            tokenList: tokenList
+        )
+    }
 }
 
 extension AppModel: ActionHandler {

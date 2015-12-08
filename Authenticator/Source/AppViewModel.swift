@@ -1,5 +1,5 @@
 //
-//  AppViewController.swift
+//  AppViewModel.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -23,29 +23,6 @@
 //  SOFTWARE.
 //
 
-import UIKit
-
-class OpaqueNavigationController: UINavigationController {
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationBar.translucent = false
-        toolbar.translucent = false
-    }
-}
-
-class AppViewController: OpaqueNavigationController {
-    private var tokenListViewController: TokenListViewController
-
-    init(viewModel: AppViewModel) {
-        let tokenList = viewModel.tokenList
-        tokenListViewController = TokenListViewController(viewModel: tokenList.viewModel,
-            delegate: tokenList)
-        tokenList.presenter = tokenListViewController
-        super.init(nibName: nil, bundle: nil)
-        self.viewControllers = [tokenListViewController]
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+struct AppViewModel {
+    let tokenList: TokenList
 }
