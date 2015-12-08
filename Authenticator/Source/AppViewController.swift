@@ -52,7 +52,6 @@ class AppViewController: OpaqueNavigationController {
         fatalError("init(coder:) has not been implemented")
     }
 
-
     private func presentViewController(viewController: UIViewController) {
         if let navController = modalNavController {
             navController.setViewControllers([viewController], animated: true)
@@ -79,8 +78,7 @@ extension AppViewController: ActionHandler {
 
 extension AppViewController: AppPresenter {
     func updateWithViewModel(viewModel: AppViewModel) {
-        let modalState = viewModel.modal
-        switch modalState {
+        switch viewModel.modal {
         case .None:
             dismissViewController()
 
