@@ -42,13 +42,18 @@ class OpaqueNavigationController: UINavigationController {
 }
 
 class AppViewController: OpaqueNavigationController {
-    let tokenListViewController: TokenListViewController
+    private var tokenListViewController: TokenListViewController?
 
     init(tokenList: TokenList) {
-        tokenListViewController = TokenListViewController(viewModel: tokenList.viewModel,
+        let rootViewController = TokenListViewController(viewModel: tokenList.viewModel,
             delegate: tokenList)
-        tokenList.presenter = tokenListViewController
-        super.init(rootViewController: tokenListViewController)
+        tokenList.presenter = rootViewController
+        super.init(rootViewController: rootViewController)
+        tokenListViewController = rootViewController
+    }
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
     required init?(coder aDecoder: NSCoder) {
