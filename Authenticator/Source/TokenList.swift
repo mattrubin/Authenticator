@@ -122,37 +122,49 @@ extension TokenList: TokenListActionHandler {
         switch action {
         case .BeginAddToken:
             beginAddToken()
+        case .BeginEditPersistentToken(let persistentToken):
+            beginEditPersistentToken(persistentToken)
+        case .UpdatePersistentToken(let persistentToken):
+            updatePersistentToken(persistentToken)
+        case .CopyPassword(let password):
+            copyPassword(password)
+        case let .MoveToken(fromIndex, toIndex):
+            moveTokenFromIndex(fromIndex, toIndex: toIndex)
+        case .DeleteTokenAtIndex(let index):
+            deleteTokenAtIndex(index)
+        case .UpdateViewModel:
+            updateViewModel()
         }
     }
 
-    func beginAddToken() {
+    private func beginAddToken() {
         actionHandler?.handleAction(.BeginTokenEntry)
     }
 
-    func beginEditPersistentToken(persistentToken: PersistentToken) {
+    private func beginEditPersistentToken(persistentToken: PersistentToken) {
         actionHandler?.handleAction(.BeginTokenEdit(persistentToken))
     }
 
-    func updatePersistentToken(persistentToken: PersistentToken) {
+    private func updatePersistentToken(persistentToken: PersistentToken) {
         let newToken = persistentToken.token.updatedToken()
         saveToken(newToken, toPersistentToken: persistentToken)
     }
 
-    func copyPassword(password: String) {
+    private func copyPassword(password: String) {
         let pasteboard = UIPasteboard.generalPasteboard()
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         // Show an emphemeral success message in the view
         presenter?.updateWithViewModel(viewModel, ephemeralMessage: .Success("Copied"))
     }
 
-    func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
+    private func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
         let persistentToken = persistentTokens[origin]
         persistentTokens.removeAtIndex(origin)
         persistentTokens.insert(persistentToken, atIndex: destination)
         saveTokenOrder()
     }
 
-    func deleteTokenAtIndex(index: Int) {
+    private func deleteTokenAtIndex(index: Int) {
         do {
             let persistentToken = persistentTokens[index]
             try keychain.deletePersistentToken(persistentToken)
@@ -165,7 +177,7 @@ extension TokenList: TokenListActionHandler {
         }
     }
 
-    func updateViewModel() {
+    private func updateViewModel() {
         presenter?.updateWithViewModel(viewModel, ephemeralMessage: nil)
     }
 }

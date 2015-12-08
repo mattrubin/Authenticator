@@ -119,7 +119,7 @@ class TokenListViewController: UITableViewController {
 
     func tick() {
         // Update currently-visible cells
-        actionHandler?.updateViewModel()
+        actionHandler?.handleAction(.UpdateViewModel)
 
         if let period = viewModel.ringPeriod where period > 0 {
             self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
@@ -162,7 +162,7 @@ extension TokenListViewController {
         forRowAtIndexPath indexPath: NSIndexPath)
     {
         if editingStyle == .Delete {
-            actionHandler?.deleteTokenAtIndex(indexPath.row)
+            actionHandler?.handleAction(.DeleteTokenAtIndex(indexPath.row))
         }
     }
 
@@ -171,7 +171,8 @@ extension TokenListViewController {
         toIndexPath destinationIndexPath: NSIndexPath)
     {
         preventTableViewAnimations = true
-        actionHandler?.moveTokenFromIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
+        actionHandler?.handleAction(.MoveToken(fromIndex: sourceIndexPath.row,
+            toIndex: destinationIndexPath.row))
         preventTableViewAnimations = false
     }
 
@@ -191,11 +192,11 @@ extension TokenListViewController: TokenRowDelegate {
     func handleAction(action: TokenRowModel.Action) {
         switch action {
         case .UpdatePersistentToken(let persistentToken):
-            actionHandler?.updatePersistentToken(persistentToken)
+            actionHandler?.handleAction(.UpdatePersistentToken(persistentToken))
         case .CopyPassword(let password):
-            actionHandler?.copyPassword(password)
+            actionHandler?.handleAction(.CopyPassword(password))
         case .EditPersistentToken(let persistentToken):
-            actionHandler?.beginEditPersistentToken(persistentToken)
+            actionHandler?.handleAction(.BeginEditPersistentToken(persistentToken))
         }
     }
 }
