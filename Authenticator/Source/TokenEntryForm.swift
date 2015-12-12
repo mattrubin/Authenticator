@@ -85,12 +85,8 @@ extension TokenEntryForm {
     var viewModel: TableViewModel<Form> {
         return TableViewModel(
             title: "Add Token",
-            leftBarButton: BarButtonViewModel(style: .Cancel) { [weak self] in
-                self?.cancel()
-            },
-            rightBarButton: BarButtonViewModel(style: .Done, enabled: state.isValid) { [weak self] in
-                self?.submit()
-            },
+            leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
+            rightBarButton: BarButtonViewModel(style: .Done, enabled: state.isValid, action: .Submit),
             sections: [
                 [
                     issuerRowModel,
@@ -185,8 +181,10 @@ extension TokenEntryForm {
             state.digitCount = value
         case .Algorithm(let value):
             state.algorithm = value
+        case .Cancel:
+            cancel()
         case .Submit:
-            self.submit()
+            submit()
         }
     }
 }

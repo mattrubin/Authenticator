@@ -130,11 +130,15 @@ class TokenFormViewController: UITableViewController {
     // MARK: - Target Actions
 
     func leftBarButtonAction() {
-        viewModel.leftBarButton?.action()
+        if let action = viewModel.leftBarButton?.action {
+            actionHandler?.handleAction(action)
+        }
     }
 
     func rightBarButtonAction() {
-        viewModel.rightBarButton?.action()
+        if let action = viewModel.rightBarButton?.action {
+            actionHandler?.handleAction(action)
+        }
     }
 
     // MARK: - UITableViewDataSource
@@ -195,8 +199,8 @@ class TokenFormViewController: UITableViewController {
 extension TokenFormViewController {
     // MARK: Bar Button View Model
 
-    private func barButtomItemForViewModel(viewModel: BarButtonViewModel, target: AnyObject?, action: Selector) -> UIBarButtonItem {
-        func systemItemForStyle(style: BarButtonViewModel.Style) -> UIBarButtonSystemItem {
+    private func barButtomItemForViewModel(viewModel: BarButtonViewModel<Form.Action>, target: AnyObject?, action: Selector) -> UIBarButtonItem {
+        func systemItemForStyle(style: BarButtonStyle) -> UIBarButtonSystemItem {
             switch style {
             case .Done: return .Done
             case .Cancel: return .Cancel

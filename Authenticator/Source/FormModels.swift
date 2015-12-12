@@ -57,6 +57,7 @@ enum Form: TableViewModelFamily {
         case DigitCount(Int)
         case Algorithm(Generator.Algorithm)
 
+        case Cancel
         case Submit
     }
 }

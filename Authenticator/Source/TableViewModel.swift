@@ -32,15 +32,15 @@ protocol TableViewModelFamily {
 
 struct TableViewModel<Models: TableViewModelFamily> {
     var title: String
-    var leftBarButton: BarButtonViewModel?
-    var rightBarButton: BarButtonViewModel?
+    var leftBarButton: BarButtonViewModel<Models.Action>?
+    var rightBarButton: BarButtonViewModel<Models.Action>?
     var sections: [Section<Models.HeaderModel, Models.RowModel>]
     var doneKeyAction: Models.Action
     var errorMessage: String?
 
     init(title: String,
-        leftBarButton: BarButtonViewModel? = nil,
-        rightBarButton: BarButtonViewModel? = nil,
+        leftBarButton: BarButtonViewModel<Models.Action>? = nil,
+        rightBarButton: BarButtonViewModel<Models.Action>? = nil,
         sections: [Section<Models.HeaderModel, Models.RowModel>],
         doneKeyAction: Models.Action,
         errorMessage: String? = nil) {
