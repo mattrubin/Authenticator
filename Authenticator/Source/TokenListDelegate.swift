@@ -25,16 +25,22 @@
 
 import OneTimePassword
 
-protocol TokenListDelegate: class {
-    func beginAddToken()
-    func beginEditPersistentToken(persistentToken: PersistentToken)
+extension TokenList {
+    enum Action {
+        case BeginAddToken
+        case BeginEditPersistentToken(PersistentToken)
 
-    func updatePersistentToken(persistentToken: PersistentToken)
-    func copyPassword(password: String)
+        case UpdatePersistentToken(PersistentToken)
+        case CopyPassword(String)
 
-    func moveTokenFromIndex(origin: Int, toIndex destination: Int)
-    func deleteTokenAtIndex(index: Int)
+        case MoveToken(fromIndex: Int, toIndex: Int)
+        case DeleteTokenAtIndex(Int)
 
-    // TODO: remove this method and have the component auto-update the view model on time change
-    func updateViewModel()
+        // TODO: remove this action and have the component auto-update the view model on time change
+        case UpdateViewModel
+    }
+}
+
+protocol TokenListActionHandler: class {
+    func handleAction(action: TokenList.Action)
 }

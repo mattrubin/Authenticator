@@ -27,13 +27,13 @@ import UIKit
 import SVProgressHUD
 
 class TokenListViewController: UITableViewController {
-    private weak var delegate: TokenListDelegate?
+    private weak var actionHandler: TokenListActionHandler?
     private var viewModel: TokenListViewModel
     private var preventTableViewAnimations = false
 
-    init(viewModel: TokenListViewModel, delegate: TokenListDelegate?) {
+    init(viewModel: TokenListViewModel, actionHandler: TokenListActionHandler) {
         self.viewModel = viewModel
-        self.delegate = delegate
+        self.actionHandler = actionHandler
         super.init(style: .Plain)
     }
 
@@ -119,7 +119,7 @@ class TokenListViewController: UITableViewController {
 
     func tick() {
         // Update currently-visible cells
-        delegate?.updateViewModel()
+        actionHandler?.handleAction(.UpdateViewModel)
 
         if let period = viewModel.ringPeriod where period > 0 {
             self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
@@ -129,7 +129,7 @@ class TokenListViewController: UITableViewController {
     }
 
     func addToken() {
-        delegate?.beginAddToken()
+        actionHandler?.handleAction(.BeginAddToken)
     }
 }
 
@@ -162,7 +162,7 @@ extension TokenListViewController {
         forRowAtIndexPath indexPath: NSIndexPath)
     {
         if editingStyle == .Delete {
-            delegate?.deleteTokenAtIndex(indexPath.row)
+            actionHandler?.handleAction(.DeleteTokenAtIndex(indexPath.row))
         }
     }
 
@@ -171,7 +171,8 @@ extension TokenListViewController {
         toIndexPath destinationIndexPath: NSIndexPath)
     {
         preventTableViewAnimations = true
-        delegate?.moveTokenFromIndex(sourceIndexPath.row, toIndex: destinationIndexPath.row)
+        actionHandler?.handleAction(.MoveToken(fromIndex: sourceIndexPath.row,
+            toIndex: destinationIndexPath.row))
         preventTableViewAnimations = false
     }
 
@@ -191,11 +192,11 @@ extension TokenListViewController: TokenRowDelegate {
     func handleAction(action: TokenRowModel.Action) {
         switch action {
         case .UpdatePersistentToken(let persistentToken):
-            delegate?.updatePersistentToken(persistentToken)
+            actionHandler?.handleAction(.UpdatePersistentToken(persistentToken))
         case .CopyPassword(let password):
-            delegate?.copyPassword(password)
+            actionHandler?.handleAction(.CopyPassword(password))
         case .EditPersistentToken(let persistentToken):
-            delegate?.beginEditPersistentToken(persistentToken)
+            actionHandler?.handleAction(.BeginEditPersistentToken(persistentToken))
         }
     }
 }
