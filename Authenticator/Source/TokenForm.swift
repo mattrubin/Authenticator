@@ -22,7 +22,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-protocol TokenForm: FormActionHandler {
+protocol TokenForm {
     var viewModel: TableViewModel<Form> { get }
     weak var presenter: TokenFormPresenter? { get set }
 }

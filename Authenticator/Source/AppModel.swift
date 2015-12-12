@@ -102,6 +102,16 @@ extension AppModel: ActionHandler {
 
         case .AddTokenFromURL(let token):
             tokenList.addToken(token)
+
+        case .TokenEntryFormAction(let action):
+            if case .EntryForm(let form) = modalState {
+                form.handleAction(action)
+            }
+
+        case .TokenEditFormAction(let action):
+            if case .EditForm(let form) = modalState {
+                form.handleAction(action)
+            }
         }
     }
 }

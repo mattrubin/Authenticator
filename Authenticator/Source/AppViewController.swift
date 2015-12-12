@@ -37,6 +37,8 @@ class AppViewController: OpaqueNavigationController {
     private var tokenListViewController: TokenListViewController
     private var modalNavController: UINavigationController?
     private weak var actionHandler: ActionHandler?
+    private let entryFormActionHandler: FormActionMapper
+    private let editFormActionHandler: FormActionMapper
 
     init(viewModel: AppViewModel, actionHandler: ActionHandler) {
         self.actionHandler = actionHandler
@@ -44,6 +46,14 @@ class AppViewController: OpaqueNavigationController {
         tokenListViewController = TokenListViewController(viewModel: tokenList.viewModel,
             actionHandler: tokenList)
         tokenList.presenter = tokenListViewController
+
+        entryFormActionHandler = FormActionMapper(actionHandler: actionHandler, transform: {
+            .TokenEntryFormAction($0)
+        })
+        editFormActionHandler = FormActionMapper(actionHandler: actionHandler, transform: {
+            .TokenEditFormAction($0)
+        })
+
         super.init(nibName: nil, bundle: nil)
         self.viewControllers = [tokenListViewController]
     }
@@ -88,15 +98,29 @@ extension AppViewController: AppPresenter {
 
         case .EntryForm(let form):
             let formController = TokenFormViewController(viewModel: form.viewModel,
-                actionHandler: form)
+                actionHandler: entryFormActionHandler)
             form.presenter = formController
             presentViewController(formController)
 
         case .EditForm(let form):
             let editController = TokenFormViewController(viewModel: form.viewModel,
-                actionHandler: form)
+                actionHandler: editFormActionHandler)
             form.presenter = editController
             presentViewController(editController)
         }
+    }
+}
+
+class FormActionMapper: FormActionHandler {
+    let actionHandler: ActionHandler
+    let transform: (Form.Action) -> AppAction
+
+    func handleAction(action: Form.Action) {
+        actionHandler.handleAction(transform(action))
+    }
+
+    init(actionHandler: ActionHandler, transform: (Form.Action) -> AppAction) {
+        self.actionHandler = actionHandler
+        self.transform = transform
     }
 }
