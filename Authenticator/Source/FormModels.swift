@@ -56,5 +56,7 @@ enum Form: TableViewModelFamily {
         case TokenType(Authenticator.TokenType)
         case DigitCount(Int)
         case Algorithm(Generator.Algorithm)
+
+        case Submit
     }
 }

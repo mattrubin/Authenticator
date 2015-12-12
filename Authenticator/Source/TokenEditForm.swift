@@ -70,9 +70,7 @@ class TokenEditForm: TokenForm {
                     nameRowModel,
                 ]
             ],
-            doneKeyAction: { [weak self] in
-                self?.submit()
-            }
+            doneKeyAction: .Submit
         )
     }
 
@@ -101,8 +99,16 @@ class TokenEditForm: TokenForm {
             state.issuer = value
         case .Name(let value):
             state.name = value
-        default:
+        case .Secret:
             fatalError()
+        case .TokenType:
+            fatalError()
+        case .DigitCount:
+            fatalError()
+        case .Algorithm:
+            fatalError()
+        case .Submit:
+            self.submit()
         }
     }
 

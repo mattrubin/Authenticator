@@ -27,6 +27,7 @@ import Foundation
 protocol TableViewModelFamily {
     typealias HeaderModel
     typealias RowModel
+    typealias Action
 }
 
 struct TableViewModel<Models: TableViewModelFamily> {
@@ -34,14 +35,14 @@ struct TableViewModel<Models: TableViewModelFamily> {
     var leftBarButton: BarButtonViewModel?
     var rightBarButton: BarButtonViewModel?
     var sections: [Section<Models.HeaderModel, Models.RowModel>]
-    var doneKeyAction: (() -> ())?
+    var doneKeyAction: Models.Action
     var errorMessage: String?
 
     init(title: String,
         leftBarButton: BarButtonViewModel? = nil,
         rightBarButton: BarButtonViewModel? = nil,
         sections: [Section<Models.HeaderModel, Models.RowModel>],
-        doneKeyAction: (() -> ())? = nil,
+        doneKeyAction: Models.Action,
         errorMessage: String? = nil) {
             self.title = title
             self.leftBarButton = leftBarButton

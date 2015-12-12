@@ -346,7 +346,7 @@ extension TokenFormViewController: TextFieldRowCellDelegate, SegmentedControlRow
             }
         } else if textFieldCell.textField.returnKeyType == .Done {
             // Try to submit the form
-            viewModel.doneKeyAction?()
+            actionHandler?.handleAction(viewModel.doneKeyAction)
         }
     }
 

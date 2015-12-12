@@ -107,9 +107,7 @@ extension TokenEntryForm {
                         ]
                 ),
             ],
-            doneKeyAction: { [weak self] in
-                self?.submit()
-            },
+            doneKeyAction: .Submit,
             errorMessage: state.submitFailed ? "Invalid Token" : nil
         )
     }
@@ -187,6 +185,8 @@ extension TokenEntryForm {
             state.digitCount = value
         case .Algorithm(let value):
             state.algorithm = value
+        case .Submit:
+            self.submit()
         }
     }
 }
