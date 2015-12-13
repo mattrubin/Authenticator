@@ -115,10 +115,12 @@ struct TokenEditForm {
 
     // MARK: Actions
 
+    @warn_unused_result
     private func cancel() -> AppAction {
         return .CancelTokenEdit
     }
 
+    @warn_unused_result
     private func submit() -> AppAction? {
         guard state.isValid else {
             // TODO: Show error message?
