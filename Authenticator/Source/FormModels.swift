@@ -26,7 +26,7 @@ import OneTimePassword
 
 enum Form: TableViewModelFamily {
     enum HeaderModel {
-        case ButtonHeader(ButtonHeaderViewModel)
+        case ButtonHeader(ButtonHeaderViewModel<Action>)
     }
 
     enum RowModel: Identifiable {
@@ -57,6 +57,7 @@ enum Form: TableViewModelFamily {
         case DigitCount(Int)
         case Algorithm(Generator.Algorithm)
 
+        case ShowAdvancedOptions
         case Cancel
         case Submit
     }

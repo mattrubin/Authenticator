@@ -103,6 +103,8 @@ class TokenEditForm: TokenForm {
             fatalError()
         case .Algorithm:
             fatalError()
+        case .ShowAdvancedOptions:
+            fatalError()
         case .Cancel:
             cancel()
         case .Submit:

@@ -314,7 +314,9 @@ extension TokenFormViewController {
     func viewForHeaderModel(headerModel: Form.HeaderModel) -> UIView {
         switch headerModel {
         case .ButtonHeader(let viewModel):
-            return ButtonHeaderView(viewModel: viewModel)
+            return ButtonHeaderView(viewModel: viewModel) { [weak actionHandler] in
+                actionHandler?.handleAction($0)
+            }
         }
     }
 

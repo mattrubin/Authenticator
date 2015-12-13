@@ -109,10 +109,10 @@ extension TokenEntryForm {
     }
 
     private var advancedSectionHeader: Form.HeaderModel {
-        let model = ButtonHeaderViewModel(title: "Advanced Options") { [weak self] in
-            self?.state.showsAdvancedOptions = true
-            // TODO: Scroll to the newly-expanded section
-        }
+        let model = ButtonHeaderViewModel(
+            title: "Advanced Options",
+            action: Form.Action.ShowAdvancedOptions
+        )
         return .ButtonHeader(model)
     }
 
@@ -181,6 +181,8 @@ extension TokenEntryForm {
             state.digitCount = value
         case .Algorithm(let value):
             state.algorithm = value
+        case .ShowAdvancedOptions:
+            showAdvancedOptions()
         case .Cancel:
             cancel()
         case .Submit:
@@ -192,6 +194,11 @@ extension TokenEntryForm {
 // MARK: Actions
 
 private extension TokenEntryForm {
+    func showAdvancedOptions() {
+        state.showsAdvancedOptions = true
+        // TODO: Scroll to the newly-expanded section
+    }
+
     func cancel() {
         actionHandler?.handleAction(.CancelTokenEntry)
     }
