@@ -24,10 +24,10 @@
 
 import OneTimePassword
 
-struct TokenEditForm: TokenForm {
-    weak var presenter: TokenFormPresenter?
-
+struct TokenEditForm {
     // MARK: State
+
+    private var state: State
 
     private struct State {
         let persistentToken: PersistentToken
@@ -43,12 +43,6 @@ struct TokenEditForm: TokenForm {
             self.persistentToken = persistentToken
             issuer = persistentToken.token.issuer
             name = persistentToken.token.name
-        }
-    }
-
-    private var state: State {
-        didSet {
-            presenter?.updateWithViewModel(viewModel)
         }
     }
 
