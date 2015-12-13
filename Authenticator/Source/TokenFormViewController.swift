@@ -238,19 +238,19 @@ extension TokenFormViewController {
         case .TokenTypeRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(TokenTypeRowCell.self)
             cell.updateWithViewModel(viewModel)
-            cell.delegate = self
+            cell.actionHandler = actionHandler
             return cell
 
         case .DigitCountRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(DigitCountRowCell.self)
             cell.updateWithViewModel(viewModel)
-            cell.delegate = self
+            cell.actionHandler = actionHandler
             return cell
 
         case .AlgorithmRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(AlgorithmRowCell.self)
             cell.updateWithViewModel(viewModel)
-            cell.delegate = self
+            cell.actionHandler = actionHandler
             return cell
         }
     }
@@ -336,7 +336,7 @@ extension TokenFormViewController {
     }
 }
 
-extension TokenFormViewController: TextFieldRowCellDelegate, SegmentedControlRowCellDelegate {
+extension TokenFormViewController: TextFieldRowCellDelegate {
     func textFieldCellDidReturn(textFieldCell: TextFieldRowCell) {
         // Unfocus the field that returned
         textFieldCell.unfocus()
