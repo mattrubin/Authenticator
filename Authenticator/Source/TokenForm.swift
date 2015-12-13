@@ -22,15 +22,6 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-protocol TokenForm {
-    var viewModel: TableViewModel<Form> { get }
-    weak var presenter: TokenFormPresenter? { get set }
-}
-
 protocol FormActionHandler: class {
     func handleAction(action: Form.Action)
-}
-
-protocol TokenFormPresenter: class {
-    func updateWithViewModel(viewModel: TableViewModel<Form>)
 }

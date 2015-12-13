@@ -80,7 +80,6 @@ extension AppModel: ActionHandler {
 
         case .BeginManualTokenEntry:
             let form = TokenEntryForm()
-            form.presenter = self
             modalState = .EntryForm(form)
 
         case .SaveNewToken(let token):
@@ -122,11 +121,5 @@ extension AppModel: ActionHandler {
                 }
             }
         }
-    }
-}
-
-extension AppModel: TokenFormPresenter {
-    func updateWithViewModel(viewModel: TableViewModel<Form>) {
-        presenter?.updateWithViewModel(self.viewModel)
     }
 }

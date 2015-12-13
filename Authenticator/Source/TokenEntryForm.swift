@@ -29,10 +29,10 @@ import OneTimePassword
 private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
-class TokenEntryForm: TokenForm {
-    weak var presenter: TokenFormPresenter?
-
+class TokenEntryForm {
     // MARK: State
+
+    private var state: State
 
     private struct State {
         var issuer: String
@@ -51,13 +51,6 @@ class TokenEntryForm: TokenForm {
 
         mutating func resetEphemera() {
             submitFailed = false
-        }
-    }
-
-    private var state: State {
-        didSet {
-            presenter?.updateWithViewModel(viewModel)
-            state.resetEphemera()
         }
     }
 

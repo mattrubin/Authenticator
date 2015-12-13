@@ -328,7 +328,7 @@ extension TokenFormViewController {
     }
 }
 
-extension TokenFormViewController: TokenFormPresenter {
+extension TokenFormViewController {
     func updateWithViewModel(viewModel: TableViewModel<Form>) {
         self.viewModel = viewModel
         updateBarButtonItems()
