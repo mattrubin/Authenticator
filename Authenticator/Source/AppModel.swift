@@ -105,7 +105,10 @@ extension AppModel: ActionHandler {
 
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
-                let resultingAppAction = form.handleAction(action)
+                var newForm = form
+                let resultingAppAction = newForm.handleAction(action)
+                modalState = .EntryForm(newForm)
+                // Handle the resulting action after committing the changes of the initial action
                 if let resultingAppAction = resultingAppAction {
                     handleAction(resultingAppAction)
                 }
@@ -116,6 +119,7 @@ extension AppModel: ActionHandler {
                 var newForm = form
                 let resultingAppAction = newForm.handleAction(action)
                 modalState = .EditForm(newForm)
+                // Handle the resulting action after committing the changes of the initial action
                 if let resultingAppAction = resultingAppAction {
                     handleAction(resultingAppAction)
                 }

@@ -29,7 +29,7 @@ import OneTimePassword
 private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
-class TokenEntryForm {
+struct TokenEntryForm {
     // MARK: State
 
     private var state: State
@@ -158,7 +158,7 @@ extension TokenEntryForm {
 
     // MARK: Action handling
     @warn_unused_result
-    func handleAction(action: Form.Action) -> AppAction? {
+    mutating func handleAction(action: Form.Action) -> AppAction? {
         switch action {
         case .Issuer(let value):
             state.issuer = value
@@ -186,18 +186,18 @@ extension TokenEntryForm {
 // MARK: Actions
 
 private extension TokenEntryForm {
-    func showAdvancedOptions() {
+    mutating func showAdvancedOptions() {
         state.showsAdvancedOptions = true
         // TODO: Scroll to the newly-expanded section
     }
 
     @warn_unused_result
-    func cancel() -> AppAction {
+    mutating func cancel() -> AppAction {
         return .CancelTokenEntry
     }
 
     @warn_unused_result
-    func submit() -> AppAction? {
+    mutating func submit() -> AppAction? {
         if !state.isValid {
             // TODO: Show error message?
             return nil
