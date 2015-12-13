@@ -86,7 +86,7 @@ extension TokenEntryForm {
         return TableViewModel(
             title: "Add Token",
             leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
-            rightBarButton: BarButtonViewModel(style: .Done, enabled: state.isValid, action: .Submit),
+            rightBarButton: BarButtonViewModel(style: .Done, action: .Submit, enabled: state.isValid),
             sections: [
                 [
                     issuerRowModel,

@@ -59,7 +59,7 @@ class TokenEditForm: TokenForm {
         return TableViewModel(
             title: "Edit Token",
             leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
-            rightBarButton: BarButtonViewModel(style: .Done, enabled: state.isValid, action: .Submit),
+            rightBarButton: BarButtonViewModel(style: .Done, action: .Submit, enabled: state.isValid),
             sections: [
                 [
                     issuerRowModel,

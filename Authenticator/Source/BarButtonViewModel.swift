@@ -29,12 +29,12 @@ enum BarButtonStyle {
 
 struct BarButtonViewModel<Action> {
     let style: BarButtonStyle
-    let enabled: Bool
     let action: Action
+    let enabled: Bool
 
-    init(style: BarButtonStyle, enabled: Bool = true, action: Action) {
+    init(style: BarButtonStyle, action: Action, enabled: Bool = true) {
         self.style = style
-        self.enabled = enabled
         self.action = action
+        self.enabled = enabled
     }
 }
