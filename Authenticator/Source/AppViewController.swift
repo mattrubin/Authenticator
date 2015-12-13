@@ -124,11 +124,11 @@ extension AppViewController: AppPresenter {
 }
 
 class FormActionMapper: FormActionHandler {
-    let actionHandler: ActionHandler
-    let transform: (Form.Action) -> AppAction
+    private weak var actionHandler: ActionHandler?
+    private let transform: (Form.Action) -> AppAction
 
     func handleAction(action: Form.Action) {
-        actionHandler.handleAction(transform(action))
+        actionHandler?.handleAction(transform(action))
     }
 
     init(actionHandler: ActionHandler, transform: (Form.Action) -> AppAction) {
