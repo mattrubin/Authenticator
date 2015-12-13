@@ -79,7 +79,7 @@ extension AppModel: ActionHandler {
             modalState = .EntryScanner
 
         case .BeginManualTokenEntry:
-            let form = TokenEntryForm(actionHandler: self)
+            let form = TokenEntryForm()
             form.presenter = self
             modalState = .EntryForm(form)
 
@@ -106,7 +106,10 @@ extension AppModel: ActionHandler {
 
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
-                form.handleAction(action)
+                let resultingAppAction = form.handleAction(action)
+                if let resultingAppAction = resultingAppAction {
+                    handleAction(resultingAppAction)
+                }
             }
 
         case .TokenEditFormAction(let action):
