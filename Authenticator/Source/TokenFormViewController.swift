@@ -232,6 +232,7 @@ extension TokenFormViewController {
         case .TextFieldRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell.self)
             cell.updateWithViewModel(viewModel)
+            cell.actionHandler = actionHandler
             cell.delegate = self
             return cell
 
@@ -352,9 +353,5 @@ extension TokenFormViewController: TextFieldRowCellDelegate {
             // Try to submit the form
             actionHandler(viewModel.doneKeyAction)
         }
-    }
-
-    func handleAction(action: Form.Action) {
-        actionHandler(action)
     }
 }
