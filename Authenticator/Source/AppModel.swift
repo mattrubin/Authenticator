@@ -91,7 +91,7 @@ extension AppModel: ActionHandler {
             modalState = .None
 
         case .BeginTokenEdit(let persistentToken):
-            let form = TokenEditForm(persistentToken: persistentToken, actionHandler: self)
+            var form = TokenEditForm(persistentToken: persistentToken)
             form.presenter = self
             modalState = .EditForm(form)
 
@@ -112,7 +112,12 @@ extension AppModel: ActionHandler {
 
         case .TokenEditFormAction(let action):
             if case .EditForm(let form) = modalState {
-                form.handleAction(action)
+                var newForm = form
+                let resultingAppAction = newForm.handleAction(action)
+                modalState = .EditForm(newForm)
+                if let resultingAppAction = resultingAppAction {
+                    handleAction(resultingAppAction)
+                }
             }
         }
     }
