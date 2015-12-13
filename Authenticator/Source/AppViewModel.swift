@@ -30,8 +30,8 @@ struct AppViewModel {
     enum Modal {
         case None
         case Scanner
-        case EntryForm(TokenEntryForm)
-        case EditForm(TokenEditForm)
+        case EntryForm(TableViewModel<Form>)
+        case EditForm(TableViewModel<Form>)
     }
 }
 

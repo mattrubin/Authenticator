@@ -34,16 +34,29 @@ class OpaqueNavigationController: UINavigationController {
 }
 
 class AppViewController: OpaqueNavigationController {
+    private var currentViewModel: AppViewModel
+
     private var tokenListViewController: TokenListViewController
     private var modalNavController: UINavigationController?
     private weak var actionHandler: ActionHandler?
+    private let entryFormActionHandler: FormActionMapper
+    private let editFormActionHandler: FormActionMapper
 
     init(viewModel: AppViewModel, actionHandler: ActionHandler) {
+        self.currentViewModel = viewModel
         self.actionHandler = actionHandler
         let tokenList = viewModel.tokenList
         tokenListViewController = TokenListViewController(viewModel: tokenList.viewModel,
             actionHandler: tokenList)
         tokenList.presenter = tokenListViewController
+
+        entryFormActionHandler = FormActionMapper(actionHandler: actionHandler, transform: {
+            .TokenEntryFormAction($0)
+        })
+        editFormActionHandler = FormActionMapper(actionHandler: actionHandler, transform: {
+            .TokenEditFormAction($0)
+        })
+
         super.init(nibName: nil, bundle: nil)
         self.viewControllers = [tokenListViewController]
     }
@@ -86,17 +99,40 @@ extension AppViewController: AppPresenter {
             let scannerViewController = TokenScannerViewController(actionHandler: self)
             presentViewController(scannerViewController)
 
-        case .EntryForm(let form):
-            let formController = TokenFormViewController(viewModel: form.viewModel,
-                actionHandler: form)
-            form.presenter = formController
-            presentViewController(formController)
+        case .EntryForm(let formViewModel):
+            if case .EntryForm = currentViewModel.modal,
+                let editController = modalNavController?.topViewController as? TokenFormViewController {
+                editController.updateWithViewModel(formViewModel)
+            } else {
+                let formController = TokenFormViewController(viewModel: formViewModel,
+                    actionHandler: entryFormActionHandler)
+                presentViewController(formController)
+            }
 
-        case .EditForm(let form):
-            let editController = TokenFormViewController(viewModel: form.viewModel,
-                actionHandler: form)
-            form.presenter = editController
-            presentViewController(editController)
+        case .EditForm(let formViewModel):
+            if case .EditForm = currentViewModel.modal,
+                let editController = modalNavController?.topViewController as? TokenFormViewController {
+                editController.updateWithViewModel(formViewModel)
+            } else {
+                let editController = TokenFormViewController(viewModel: formViewModel,
+                    actionHandler: editFormActionHandler)
+                presentViewController(editController)
+            }
         }
+        currentViewModel = viewModel
+    }
+}
+
+class FormActionMapper: FormActionHandler {
+    private weak var actionHandler: ActionHandler?
+    private let transform: (Form.Action) -> AppAction
+
+    func handleAction(action: Form.Action) {
+        actionHandler?.handleAction(transform(action))
+    }
+
+    init(actionHandler: ActionHandler, transform: (Form.Action) -> AppAction) {
+        self.actionHandler = actionHandler
+        self.transform = transform
     }
 }

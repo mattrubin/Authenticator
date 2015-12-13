@@ -57,9 +57,9 @@ class AppModel {
         case .EntryScanner:
             modal = .Scanner
         case .EntryForm(let form):
-            modal = .EntryForm(form)
+            modal = .EntryForm(form.viewModel)
         case .EditForm(let form):
-            modal = .EditForm(form)
+            modal = .EditForm(form.viewModel)
         }
         return AppViewModel(
             tokenList: tokenList,
@@ -80,6 +80,7 @@ extension AppModel: ActionHandler {
 
         case .BeginManualTokenEntry:
             let form = TokenEntryForm(actionHandler: self)
+            form.presenter = self
             modalState = .EntryForm(form)
 
         case .SaveNewToken(let token):
@@ -91,6 +92,7 @@ extension AppModel: ActionHandler {
 
         case .BeginTokenEdit(let persistentToken):
             let form = TokenEditForm(persistentToken: persistentToken, actionHandler: self)
+            form.presenter = self
             modalState = .EditForm(form)
 
         case let .SaveChanges(token, persistentToken):
@@ -102,6 +104,22 @@ extension AppModel: ActionHandler {
 
         case .AddTokenFromURL(let token):
             tokenList.addToken(token)
+
+        case .TokenEntryFormAction(let action):
+            if case .EntryForm(let form) = modalState {
+                form.handleAction(action)
+            }
+
+        case .TokenEditFormAction(let action):
+            if case .EditForm(let form) = modalState {
+                form.handleAction(action)
+            }
         }
+    }
+}
+
+extension AppModel: TokenFormPresenter {
+    func updateWithViewModel(viewModel: TableViewModel<Form>) {
+        presenter?.updateWithViewModel(self.viewModel)
     }
 }
