@@ -85,12 +85,8 @@ extension TokenEntryForm {
     var viewModel: TableViewModel<Form> {
         return TableViewModel(
             title: "Add Token",
-            leftBarButton: BarButtonViewModel(style: .Cancel) { [weak self] in
-                self?.cancel()
-            },
-            rightBarButton: BarButtonViewModel(style: .Done, enabled: state.isValid) { [weak self] in
-                self?.submit()
-            },
+            leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
+            rightBarButton: BarButtonViewModel(style: .Done, action: .Submit, enabled: state.isValid),
             sections: [
                 [
                     issuerRowModel,
@@ -107,18 +103,16 @@ extension TokenEntryForm {
                         ]
                 ),
             ],
-            doneKeyAction: { [weak self] in
-                self?.submit()
-            },
+            doneKeyAction: .Submit,
             errorMessage: state.submitFailed ? "Invalid Token" : nil
         )
     }
 
     private var advancedSectionHeader: Form.HeaderModel {
-        let model = ButtonHeaderViewModel(title: "Advanced Options") { [weak self] in
-            self?.state.showsAdvancedOptions = true
-            // TODO: Scroll to the newly-expanded section
-        }
+        let model = ButtonHeaderViewModel(
+            title: "Advanced Options",
+            action: Form.Action.ShowAdvancedOptions
+        )
         return .ButtonHeader(model)
     }
 
@@ -187,6 +181,12 @@ extension TokenEntryForm {
             state.digitCount = value
         case .Algorithm(let value):
             state.algorithm = value
+        case .ShowAdvancedOptions:
+            showAdvancedOptions()
+        case .Cancel:
+            cancel()
+        case .Submit:
+            submit()
         }
     }
 }
@@ -194,6 +194,11 @@ extension TokenEntryForm {
 // MARK: Actions
 
 private extension TokenEntryForm {
+    func showAdvancedOptions() {
+        state.showsAdvancedOptions = true
+        // TODO: Scroll to the newly-expanded section
+    }
+
     func cancel() {
         actionHandler?.handleAction(.CancelTokenEntry)
     }

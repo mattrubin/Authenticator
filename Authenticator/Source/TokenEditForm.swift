@@ -58,21 +58,15 @@ class TokenEditForm: TokenForm {
     var viewModel: TableViewModel<Form> {
         return TableViewModel(
             title: "Edit Token",
-            leftBarButton: BarButtonViewModel(style: .Cancel) { [weak self] in
-                self?.cancel()
-            },
-            rightBarButton: BarButtonViewModel(style: .Done, enabled: state.isValid) { [weak self] in
-                self?.submit()
-            },
+            leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
+            rightBarButton: BarButtonViewModel(style: .Done, action: .Submit, enabled: state.isValid),
             sections: [
                 [
                     issuerRowModel,
                     nameRowModel,
                 ]
             ],
-            doneKeyAction: { [weak self] in
-                self?.submit()
-            }
+            doneKeyAction: .Submit
         )
     }
 
@@ -101,8 +95,20 @@ class TokenEditForm: TokenForm {
             state.issuer = value
         case .Name(let value):
             state.name = value
-        default:
+        case .Secret:
             fatalError()
+        case .TokenType:
+            fatalError()
+        case .DigitCount:
+            fatalError()
+        case .Algorithm:
+            fatalError()
+        case .ShowAdvancedOptions:
+            fatalError()
+        case .Cancel:
+            cancel()
+        case .Submit:
+            submit()
         }
     }
 
@@ -115,11 +121,11 @@ class TokenEditForm: TokenForm {
 
     // MARK: Actions
 
-    func cancel() {
+    private func cancel() {
         actionHandler?.handleAction(.CancelTokenEdit)
     }
 
-    func submit() {
+    private func submit() {
         guard state.isValid else { return }
 
         let token = Token(

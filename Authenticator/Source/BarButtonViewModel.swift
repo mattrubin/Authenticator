@@ -22,19 +22,19 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-struct BarButtonViewModel {
-    enum Style {
-        case Done
-        case Cancel
-    }
+enum BarButtonStyle {
+    case Done
+    case Cancel
+}
 
-    let style: Style
+struct BarButtonViewModel<Action> {
+    let style: BarButtonStyle
+    let action: Action
     let enabled: Bool
-    let action: () -> ()
 
-    init(style: Style, enabled: Bool = true, action: () -> ()) {
+    init(style: BarButtonStyle, action: Action, enabled: Bool = true) {
         self.style = style
-        self.enabled = enabled
         self.action = action
+        self.enabled = enabled
     }
 }

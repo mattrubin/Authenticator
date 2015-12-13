@@ -24,20 +24,21 @@
 
 import UIKit
 
-struct ButtonHeaderViewModel {
+struct ButtonHeaderViewModel<Action> {
     let title: String
-    let action: (() -> ())?
+    let action: Action?
 
-    init(title: String, action: (() -> ())? = nil) {
+    init(title: String, action: Action? = nil) {
         self.title = title
         self.action = action
     }
 }
 
-class ButtonHeaderView: UIButton {
-    private static let preferredHeight: CGFloat = 54
+private let preferredHeight: CGFloat = 54
 
-    private var buttonAction: (() -> ())?
+class ButtonHeaderView<Action>: UIButton {
+    private var buttonAction: Action?
+    private var actionHandler: ((Action) -> ())?
 
     // MARK: - Init
 
@@ -63,23 +64,26 @@ class ButtonHeaderView: UIButton {
 
     // MARK: - View Model
 
-    convenience init(viewModel: ButtonHeaderViewModel) {
+    convenience init(viewModel: ButtonHeaderViewModel<Action>, actionHandler: (Action) -> ()) {
         self.init()
+        self.actionHandler = actionHandler
         updateWithViewModel(viewModel)
     }
 
-    func updateWithViewModel(viewModel: ButtonHeaderViewModel) {
+    func updateWithViewModel(viewModel: ButtonHeaderViewModel<Action>) {
         setTitle(viewModel.title, forState: .Normal)
         buttonAction = viewModel.action
     }
 
-    static func heightWithViewModel(viewModel: ButtonHeaderViewModel) -> CGFloat {
+    static func heightWithViewModel(viewModel: ButtonHeaderViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 
     // MARK: - Target Action
 
     func buttonWasPressed() {
-        buttonAction?()
+        if let action = buttonAction {
+            actionHandler?(action)
+        }
     }
 }
