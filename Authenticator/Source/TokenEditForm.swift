@@ -24,11 +24,10 @@
 
 import OneTimePassword
 
-class TokenEditForm: TokenForm {
-    weak var presenter: TokenFormPresenter?
-    private weak var actionHandler: ActionHandler?
-
+struct TokenEditForm {
     // MARK: State
+
+    private var state: State
 
     private struct State {
         let persistentToken: PersistentToken
@@ -44,12 +43,6 @@ class TokenEditForm: TokenForm {
             self.persistentToken = persistentToken
             issuer = persistentToken.token.issuer
             name = persistentToken.token.name
-        }
-    }
-
-    private var state: State {
-        didSet {
-            presenter?.updateWithViewModel(viewModel)
         }
     }
 
@@ -89,7 +82,8 @@ class TokenEditForm: TokenForm {
 
     // MARK: Action handling
 
-    func handleAction(action: Form.Action) {
+    @warn_unused_result
+    mutating func handleAction(action: Form.Action) -> AppAction? {
         switch action {
         case .Issuer(let value):
             state.issuer = value
@@ -106,33 +100,38 @@ class TokenEditForm: TokenForm {
         case .ShowAdvancedOptions:
             fatalError()
         case .Cancel:
-            cancel()
+            return cancel()
         case .Submit:
-            submit()
+            return submit()
         }
+        return nil
     }
 
     // MARK: Initialization
 
-    init(persistentToken: PersistentToken, actionHandler: ActionHandler) {
+    init(persistentToken: PersistentToken) {
         state = State(persistentToken: persistentToken)
-        self.actionHandler = actionHandler
     }
 
     // MARK: Actions
 
-    private func cancel() {
-        actionHandler?.handleAction(.CancelTokenEdit)
+    @warn_unused_result
+    private func cancel() -> AppAction {
+        return .CancelTokenEdit
     }
 
-    private func submit() {
-        guard state.isValid else { return }
+    @warn_unused_result
+    private func submit() -> AppAction? {
+        guard state.isValid else {
+            // TODO: Show error message?
+            return nil
+        }
 
         let token = Token(
             name: state.name,
             issuer: state.issuer,
             generator: state.persistentToken.token.generator
         )
-        actionHandler?.handleAction(.SaveChanges(token, state.persistentToken))
+        return .SaveChanges(token, state.persistentToken)
     }
 }

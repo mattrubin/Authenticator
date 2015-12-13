@@ -79,8 +79,7 @@ extension AppModel: ActionHandler {
             modalState = .EntryScanner
 
         case .BeginManualTokenEntry:
-            let form = TokenEntryForm(actionHandler: self)
-            form.presenter = self
+            let form = TokenEntryForm()
             modalState = .EntryForm(form)
 
         case .SaveNewToken(let token):
@@ -91,8 +90,7 @@ extension AppModel: ActionHandler {
             modalState = .None
 
         case .BeginTokenEdit(let persistentToken):
-            let form = TokenEditForm(persistentToken: persistentToken, actionHandler: self)
-            form.presenter = self
+            let form = TokenEditForm(persistentToken: persistentToken)
             modalState = .EditForm(form)
 
         case let .SaveChanges(token, persistentToken):
@@ -107,19 +105,25 @@ extension AppModel: ActionHandler {
 
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
-                form.handleAction(action)
+                var newForm = form
+                let resultingAppAction = newForm.handleAction(action)
+                modalState = .EntryForm(newForm)
+                // Handle the resulting action after committing the changes of the initial action
+                if let resultingAppAction = resultingAppAction {
+                    handleAction(resultingAppAction)
+                }
             }
 
         case .TokenEditFormAction(let action):
             if case .EditForm(let form) = modalState {
-                form.handleAction(action)
+                var newForm = form
+                let resultingAppAction = newForm.handleAction(action)
+                modalState = .EditForm(newForm)
+                // Handle the resulting action after committing the changes of the initial action
+                if let resultingAppAction = resultingAppAction {
+                    handleAction(resultingAppAction)
+                }
             }
         }
-    }
-}
-
-extension AppModel: TokenFormPresenter {
-    func updateWithViewModel(viewModel: TableViewModel<Form>) {
-        presenter?.updateWithViewModel(self.viewModel)
     }
 }

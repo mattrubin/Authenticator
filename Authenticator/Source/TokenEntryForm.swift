@@ -29,11 +29,10 @@ import OneTimePassword
 private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
-class TokenEntryForm: TokenForm {
-    weak var presenter: TokenFormPresenter?
-    private weak var actionHandler: ActionHandler?
-
+struct TokenEntryForm {
     // MARK: State
+
+    private var state: State
 
     private struct State {
         var issuer: String
@@ -55,17 +54,9 @@ class TokenEntryForm: TokenForm {
         }
     }
 
-    private var state: State {
-        didSet {
-            presenter?.updateWithViewModel(viewModel)
-            state.resetEphemera()
-        }
-    }
-
     // MARK: Initialization
 
-    init(actionHandler: ActionHandler) {
-        self.actionHandler = actionHandler
+    init() {
         state = State(
             issuer: "",
             name: "",
@@ -166,8 +157,9 @@ extension TokenEntryForm {
     }
 
     // MARK: Action handling
-
-    func handleAction(action: Form.Action) {
+    @warn_unused_result
+    mutating func handleAction(action: Form.Action) -> AppAction? {
+        state.resetEphemera()
         switch action {
         case .Issuer(let value):
             state.issuer = value
@@ -184,27 +176,33 @@ extension TokenEntryForm {
         case .ShowAdvancedOptions:
             showAdvancedOptions()
         case .Cancel:
-            cancel()
+            return cancel()
         case .Submit:
-            submit()
+            return submit()
         }
+        return nil
     }
 }
 
 // MARK: Actions
 
 private extension TokenEntryForm {
-    func showAdvancedOptions() {
+    mutating func showAdvancedOptions() {
         state.showsAdvancedOptions = true
         // TODO: Scroll to the newly-expanded section
     }
 
-    func cancel() {
-        actionHandler?.handleAction(.CancelTokenEntry)
+    @warn_unused_result
+    mutating func cancel() -> AppAction {
+        return .CancelTokenEntry
     }
 
-    func submit() {
-        if !state.isValid { return }
+    @warn_unused_result
+    mutating func submit() -> AppAction? {
+        if !state.isValid {
+            // TODO: Show error message?
+            return nil
+        }
 
         if let secret = NSData(base32String: state.secret) {
             if secret.length > 0 {
@@ -228,13 +226,13 @@ private extension TokenEntryForm {
                             generator: generator
                         )
 
-                        actionHandler?.handleAction(.SaveNewToken(token))
-                        return
+                        return .SaveNewToken(token)
                 }
             }
         }
 
         // If the method hasn't returned by this point, token creation failed
         state.submitFailed = true
+        return nil
     }
 }
