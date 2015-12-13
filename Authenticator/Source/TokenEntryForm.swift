@@ -159,6 +159,7 @@ extension TokenEntryForm {
     // MARK: Action handling
     @warn_unused_result
     mutating func handleAction(action: Form.Action) -> AppAction? {
+        state.resetEphemera()
         switch action {
         case .Issuer(let value):
             state.issuer = value
