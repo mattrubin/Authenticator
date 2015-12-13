@@ -30,7 +30,7 @@ typealias DigitCountRowCell = SegmentedControlRowCell<DigitCountRowModel>
 typealias AlgorithmRowCell = SegmentedControlRowCell<AlgorithmRowModel>
 
 class TokenFormViewController: UITableViewController {
-    private weak var actionHandler: FormActionHandler?
+    private var actionHandler: (Form.Action) -> ()
     private var viewModel: TableViewModel<Form> {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
@@ -65,7 +65,7 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
-    init(viewModel: TableViewModel<Form>, actionHandler: FormActionHandler) {
+    init(viewModel: TableViewModel<Form>, actionHandler: (Form.Action) -> ()) {
         self.viewModel = viewModel
         self.actionHandler = actionHandler
         super.init(style: .Grouped)
@@ -131,13 +131,13 @@ class TokenFormViewController: UITableViewController {
 
     func leftBarButtonAction() {
         if let action = viewModel.leftBarButton?.action {
-            actionHandler?.handleAction(action)
+            actionHandler(action)
         }
     }
 
     func rightBarButtonAction() {
         if let action = viewModel.rightBarButton?.action {
-            actionHandler?.handleAction(action)
+            actionHandler(action)
         }
     }
 
@@ -314,9 +314,7 @@ extension TokenFormViewController {
     func viewForHeaderModel(headerModel: Form.HeaderModel) -> UIView {
         switch headerModel {
         case .ButtonHeader(let viewModel):
-            return ButtonHeaderView(viewModel: viewModel) { [weak actionHandler] in
-                actionHandler?.handleAction($0)
-            }
+            return ButtonHeaderView(viewModel: viewModel, actionHandler: actionHandler)
         }
     }
 
@@ -352,11 +350,11 @@ extension TokenFormViewController: TextFieldRowCellDelegate, SegmentedControlRow
             }
         } else if textFieldCell.textField.returnKeyType == .Done {
             // Try to submit the form
-            actionHandler?.handleAction(viewModel.doneKeyAction)
+            actionHandler(viewModel.doneKeyAction)
         }
     }
 
     func handleAction(action: Form.Action) {
-        actionHandler?.handleAction(action)
+        actionHandler(action)
     }
 }
