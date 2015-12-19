@@ -29,9 +29,9 @@ protocol SegmentedControlRowModel {
     typealias Value: Equatable
     typealias Action
 
-    var segments: [(title: String, value: Value)] { get }
     var value: Value { get }
     var changeAction: (Value) -> Action { get }
+    var segments: [(title: String, value: Value)] { get }
 }
 
 enum TokenType {
@@ -40,47 +40,53 @@ enum TokenType {
 
 struct TokenTypeRowModel: SegmentedControlRowModel {
     typealias Value = TokenType
+    typealias Action = Form.Action
+
+    init(value: Value, changeAction: (Value) -> Action) {
+        self.value = value
+        self.changeAction = changeAction
+    }
+
+    let value: Value
+    let changeAction: (Value) -> Action
     let segments = [
         (title: "Time Based", value: Value.Timer),
         (title: "Counter Based", value: Value.Counter),
     ]
-    let value: Value
-    let changeAction: (Value) -> Form.Action
-
-    init(value: Value, changeAction: (Value) -> Form.Action) {
-        self.value = value
-        self.changeAction = changeAction
-    }
 }
 
 struct DigitCountRowModel: SegmentedControlRowModel {
     typealias Value = Int
+    typealias Action = Form.Action
+
+    init(value: Value, changeAction: (Value) -> Action) {
+        self.value = value
+        self.changeAction = changeAction
+    }
+
+    let value: Value
+    let changeAction: (Value) -> Action
     let segments = [
         (title: "6 Digits", value: 6),
         (title: "7 Digits", value: 7),
         (title: "8 Digits", value: 8),
     ]
-    let value: Value
-    let changeAction: (Value) -> Form.Action
-
-    init(value: Value, changeAction: (Value) -> Form.Action) {
-        self.value = value
-        self.changeAction = changeAction
-    }
 }
 
 struct AlgorithmRowModel: SegmentedControlRowModel {
     typealias Value = Generator.Algorithm
+    typealias Action = Form.Action
+
+    init(value: Value, changeAction: (Value) -> Action) {
+        self.value = value
+        self.changeAction = changeAction
+    }
+
+    let value: Value
+    let changeAction: (Value) -> Action
     let segments = [
         (title: "SHA-1", value: Value.SHA1),
         (title: "SHA-256", value: Value.SHA256),
         (title: "SHA-512", value: Value.SHA512),
     ]
-    let value: Value
-    let changeAction: (Value) -> Form.Action
-
-    init(value: Value, changeAction: (Value) -> Form.Action) {
-        self.value = value
-        self.changeAction = changeAction
-    }
 }
