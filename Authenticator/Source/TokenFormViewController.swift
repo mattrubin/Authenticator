@@ -30,7 +30,7 @@ typealias DigitCountRowCell = SegmentedControlRowCell<DigitCountRowModel>
 typealias AlgorithmRowCell = SegmentedControlRowCell<AlgorithmRowModel>
 
 class TokenFormViewController: UITableViewController {
-    private weak var actionHandler: FormActionHandler?
+    private let dispatchAction: (Form.Action) -> ()
     private var viewModel: TableViewModel<Form> {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
@@ -65,9 +65,9 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
-    init(viewModel: TableViewModel<Form>, actionHandler: FormActionHandler) {
+    init(viewModel: TableViewModel<Form>, dispatchAction: (Form.Action) -> ()) {
         self.viewModel = viewModel
-        self.actionHandler = actionHandler
+        self.dispatchAction = dispatchAction
         super.init(style: .Grouped)
     }
 
@@ -131,13 +131,13 @@ class TokenFormViewController: UITableViewController {
 
     func leftBarButtonAction() {
         if let action = viewModel.leftBarButton?.action {
-            actionHandler?.handleAction(action)
+            dispatchAction(action)
         }
     }
 
     func rightBarButtonAction() {
         if let action = viewModel.rightBarButton?.action {
-            actionHandler?.handleAction(action)
+            dispatchAction(action)
         }
     }
 
@@ -232,25 +232,26 @@ extension TokenFormViewController {
         case .TextFieldRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell.self)
             cell.updateWithViewModel(viewModel)
+            cell.dispatchAction = dispatchAction
             cell.delegate = self
             return cell
 
         case .TokenTypeRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(TokenTypeRowCell.self)
             cell.updateWithViewModel(viewModel)
-            cell.delegate = self
+            cell.dispatchAction = dispatchAction
             return cell
 
         case .DigitCountRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(DigitCountRowCell.self)
             cell.updateWithViewModel(viewModel)
-            cell.delegate = self
+            cell.dispatchAction = dispatchAction
             return cell
 
         case .AlgorithmRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(AlgorithmRowCell.self)
             cell.updateWithViewModel(viewModel)
-            cell.delegate = self
+            cell.dispatchAction = dispatchAction
             return cell
         }
     }
@@ -314,9 +315,7 @@ extension TokenFormViewController {
     func viewForHeaderModel(headerModel: Form.HeaderModel) -> UIView {
         switch headerModel {
         case .ButtonHeader(let viewModel):
-            return ButtonHeaderView(viewModel: viewModel) { [weak actionHandler] in
-                actionHandler?.handleAction($0)
-            }
+            return ButtonHeaderView(viewModel: viewModel, dispatchAction: dispatchAction)
         }
     }
 
@@ -338,7 +337,7 @@ extension TokenFormViewController {
     }
 }
 
-extension TokenFormViewController: TextFieldRowCellDelegate, SegmentedControlRowCellDelegate {
+extension TokenFormViewController: TextFieldRowCellDelegate {
     func textFieldCellDidReturn(textFieldCell: TextFieldRowCell) {
         // Unfocus the field that returned
         textFieldCell.unfocus()
@@ -352,11 +351,7 @@ extension TokenFormViewController: TextFieldRowCellDelegate, SegmentedControlRow
             }
         } else if textFieldCell.textField.returnKeyType == .Done {
             // Try to submit the form
-            actionHandler?.handleAction(viewModel.doneKeyAction)
+            dispatchAction(viewModel.doneKeyAction)
         }
-    }
-
-    func handleAction(action: Form.Action) {
-        actionHandler?.handleAction(action)
     }
 }

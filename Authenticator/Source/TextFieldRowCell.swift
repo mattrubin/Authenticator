@@ -27,7 +27,6 @@ import UIKit
 
 protocol TextFieldRowCellDelegate: class {
     func textFieldCellDidReturn(textFieldCell: TextFieldRowCell)
-    func handleAction(action: Form.Action)
 }
 
 class TextFieldRowCell: UITableViewCell {
@@ -35,6 +34,7 @@ class TextFieldRowCell: UITableViewCell {
 
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
+    var dispatchAction: ((Form.Action) -> ())?
     private var changeAction: ((String) -> Form.Action)?
 
     // MARK: - Init
@@ -96,7 +96,7 @@ class TextFieldRowCell: UITableViewCell {
     func textFieldValueChanged() {
         let newText = textField.text ?? ""
         if let action = changeAction?(newText) {
-            delegate?.handleAction(action)
+            dispatchAction?(action)
         }
     }
 }
