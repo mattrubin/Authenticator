@@ -232,26 +232,26 @@ extension TokenFormViewController {
         case .TextFieldRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell.self)
             cell.updateWithViewModel(viewModel)
-            cell.actionHandler = dispatchAction
+            cell.dispatchAction = dispatchAction
             cell.delegate = self
             return cell
 
         case .TokenTypeRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(TokenTypeRowCell.self)
             cell.updateWithViewModel(viewModel)
-            cell.actionHandler = dispatchAction
+            cell.dispatchAction = dispatchAction
             return cell
 
         case .DigitCountRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(DigitCountRowCell.self)
             cell.updateWithViewModel(viewModel)
-            cell.actionHandler = dispatchAction
+            cell.dispatchAction = dispatchAction
             return cell
 
         case .AlgorithmRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(AlgorithmRowCell.self)
             cell.updateWithViewModel(viewModel)
-            cell.actionHandler = dispatchAction
+            cell.dispatchAction = dispatchAction
             return cell
         }
     }

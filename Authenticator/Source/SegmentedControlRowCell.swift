@@ -31,7 +31,7 @@ private let preferredHeight: CGFloat = 54
 class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewCell {
     typealias Value = ViewModel.Value
 
-    var actionHandler: ((Form.Action) -> ())?
+    var dispatchAction: ((Form.Action) -> ())?
 
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
@@ -90,7 +90,7 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewC
 
     func segmentedControlValueChanged() {
         if let action = changeAction?(value) {
-            actionHandler?(action)
+            dispatchAction?(action)
         }
     }
 }
