@@ -28,14 +28,12 @@ import UIKit
 // "static stored properties not yet supported in generic types"
 private let preferredHeight: CGFloat = 54
 
-class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewCell {
-    typealias Value = ViewModel.Value
-
-    var dispatchAction: ((Form.Action) -> ())?
+class SegmentedControlRowCell<Value: Equatable, Action>: UITableViewCell {
+    var dispatchAction: ((Action) -> ())?
 
     private let segmentedControl = UISegmentedControl()
     private var values: [Value] = []
-    private var changeAction: ((Value) -> Form.Action)?
+    private var changeAction: ((Value) -> Action)?
 
     var value: Value {
         return values[segmentedControl.selectedSegmentIndex]
@@ -67,7 +65,7 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewC
 
     // MARK: - View Model
 
-    func updateWithViewModel(viewModel: ViewModel) {
+    func updateWithViewModel<ViewModel: SegmentedControlRowModel where ViewModel.Value == Value, ViewModel.Action == Action>(viewModel: ViewModel) {
         changeAction = viewModel.changeAction
         // Remove any old segments
         segmentedControl.removeAllSegments()
@@ -82,7 +80,7 @@ class SegmentedControlRowCell<ViewModel: SegmentedControlRowModel>: UITableViewC
         segmentedControl.selectedSegmentIndex = values.indexOf(viewModel.value) ?? 0
     }
 
-    static func heightWithViewModel(viewModel: ViewModel) -> CGFloat {
+    static func heightWithViewModel<ViewModel: SegmentedControlRowModel where ViewModel.Value == Value, ViewModel.Action == Action>(viewModel: ViewModel) -> CGFloat {
         return preferredHeight
     }
 

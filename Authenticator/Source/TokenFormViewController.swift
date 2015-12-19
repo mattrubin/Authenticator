@@ -23,11 +23,12 @@
 //
 
 import UIKit
+import OneTimePassword
 import SVProgressHUD
 
-typealias TokenTypeRowCell = SegmentedControlRowCell<TokenTypeRowModel>
-typealias DigitCountRowCell = SegmentedControlRowCell<DigitCountRowModel>
-typealias AlgorithmRowCell = SegmentedControlRowCell<AlgorithmRowModel>
+typealias TokenTypeRowCell = SegmentedControlRowCell<TokenType, Form.Action>
+typealias DigitCountRowCell = SegmentedControlRowCell<Int, Form.Action>
+typealias AlgorithmRowCell = SegmentedControlRowCell<Generator.Algorithm, Form.Action>
 
 class TokenFormViewController: UITableViewController {
     private let dispatchAction: (Form.Action) -> ()

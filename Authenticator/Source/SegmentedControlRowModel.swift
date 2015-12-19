@@ -27,9 +27,11 @@ import OneTimePassword
 
 protocol SegmentedControlRowModel {
     typealias Value: Equatable
+    typealias Action
+
     var segments: [(title: String, value: Value)] { get }
     var value: Value { get }
-    var changeAction: (Value) -> Form.Action { get }
+    var changeAction: (Value) -> Action { get }
 }
 
 enum TokenType {
