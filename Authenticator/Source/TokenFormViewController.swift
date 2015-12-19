@@ -65,9 +65,9 @@ class TokenFormViewController: UITableViewController {
         }
     }
 
-    init(viewModel: TableViewModel<Form>, actionHandler: (Form.Action) -> ()) {
+    init(viewModel: TableViewModel<Form>, dispatchAction: (Form.Action) -> ()) {
         self.viewModel = viewModel
-        dispatchAction = actionHandler
+        self.dispatchAction = dispatchAction
         super.init(style: .Grouped)
     }
 

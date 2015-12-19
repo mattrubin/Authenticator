@@ -96,7 +96,7 @@ extension AppViewController: AppPresenter {
                     editController.updateWithViewModel(formViewModel)
             } else {
                 let formController = TokenFormViewController(viewModel: formViewModel,
-                    actionHandler: { [weak actionHandler] in
+                    dispatchAction: { [weak actionHandler] in
                         actionHandler?.handleAction(.TokenEntryFormAction($0))
                     })
                 presentViewController(formController)
@@ -108,7 +108,7 @@ extension AppViewController: AppPresenter {
                     editController.updateWithViewModel(formViewModel)
             } else {
                 let editController = TokenFormViewController(viewModel: formViewModel,
-                    actionHandler: { [weak actionHandler] in
+                    dispatchAction: { [weak actionHandler] in
                         actionHandler?.handleAction(.TokenEditFormAction($0))
                     })
                 presentViewController(editController)
