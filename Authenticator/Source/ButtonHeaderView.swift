@@ -38,7 +38,7 @@ private let preferredHeight: CGFloat = 54
 
 class ButtonHeaderView<Action>: UIButton {
     private var buttonAction: Action?
-    private var actionHandler: ((Action) -> ())?
+    private var dispatchAction: ((Action) -> ())?
 
     // MARK: - Init
 
@@ -64,9 +64,9 @@ class ButtonHeaderView<Action>: UIButton {
 
     // MARK: - View Model
 
-    convenience init(viewModel: ButtonHeaderViewModel<Action>, actionHandler: (Action) -> ()) {
+    convenience init(viewModel: ButtonHeaderViewModel<Action>, dispatchAction: (Action) -> ()) {
         self.init()
-        self.actionHandler = actionHandler
+        self.dispatchAction = dispatchAction
         updateWithViewModel(viewModel)
     }
 
@@ -83,7 +83,7 @@ class ButtonHeaderView<Action>: UIButton {
 
     func buttonWasPressed() {
         if let action = buttonAction {
-            actionHandler?(action)
+            dispatchAction?(action)
         }
     }
 }
