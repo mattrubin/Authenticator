@@ -26,16 +26,17 @@
 import UIKit
 
 protocol TextFieldRowCellDelegate: class {
-    func textFieldCellDidReturn(textFieldCell: TextFieldRowCell)
+    func textFieldCellDidReturn<Action>(textFieldCell: TextFieldRowCell<Action>)
 }
 
-class TextFieldRowCell: UITableViewCell {
-    private static let preferredHeight: CGFloat = 74
+private let preferredHeight: CGFloat = 74
+
+class TextFieldRowCell<Action>: UITableViewCell {
 
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
-    var dispatchAction: ((Form.Action) -> ())?
-    private var changeAction: ((String) -> Form.Action)?
+    var dispatchAction: ((Action) -> ())?
+    private var changeAction: ((String) -> Action)?
 
     // MARK: - Init
 
@@ -70,7 +71,7 @@ class TextFieldRowCell: UITableViewCell {
 
     // MARK: - View Model
 
-    func updateWithViewModel(viewModel: TextFieldRowModel) {
+    func updateWithViewModel<ViewModel: TextFieldRowModel where ViewModel.Action == Action>(viewModel: ViewModel) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
 
@@ -87,7 +88,7 @@ class TextFieldRowCell: UITableViewCell {
         changeAction = viewModel.changeAction
     }
 
-    static func heightWithViewModel(viewModel: TextFieldRowModel) -> CGFloat {
+    static func heightWithViewModel<ViewModel: TextFieldRowModel where ViewModel.Action == Action>(viewModel: ViewModel) -> CGFloat {
         return preferredHeight
     }
 

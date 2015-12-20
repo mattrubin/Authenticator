@@ -26,6 +26,8 @@
 import UIKit
 
 protocol TextFieldRowModel {
+    typealias Action
+
     var label: String { get }
     var placeholder: String { get }
 
@@ -35,7 +37,7 @@ protocol TextFieldRowModel {
     var returnKeyType: UIReturnKeyType { get }
 
     var value: String { get }
-    var changeAction: (String) -> Form.Action { get }
+    var changeAction: (String) -> Action { get }
 }
 
 struct IssuerRowModel: TextFieldRowModel {

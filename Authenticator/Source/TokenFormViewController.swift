@@ -26,6 +26,9 @@ import UIKit
 import OneTimePassword
 import SVProgressHUD
 
+typealias IssuerRowCell = TextFieldRowCell<Form.Action>
+typealias NameRowCell = TextFieldRowCell<Form.Action>
+typealias SecretRowCell = TextFieldRowCell<Form.Action>
 typealias TokenTypeRowCell = SegmentedControlRowCell<TokenType, Form.Action>
 typealias DigitCountRowCell = SegmentedControlRowCell<Int, Form.Action>
 typealias AlgorithmRowCell = SegmentedControlRowCell<Generator.Algorithm, Form.Action>
@@ -166,7 +169,7 @@ class TokenFormViewController: UITableViewController {
         cell.selectionStyle = .None
 
         cell.textLabel?.textColor = .otpForegroundColor
-        if let cell = cell as? TextFieldRowCell {
+        if let cell = cell as? TextFieldRowCell<Form.Action> {
             cell.textField.backgroundColor = .otpLightColor
             cell.textField.tintColor = .otpDarkColor
             cell.delegate = self
@@ -230,8 +233,22 @@ extension TokenFormViewController {
 
     func cellForRowModel(rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
-        case .TextFieldRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell.self)
+        case .IssuerRow(let viewModel):
+            let cell = tableView.dequeueReusableCellWithClass(IssuerRowCell.self)
+            cell.updateWithViewModel(viewModel)
+            cell.dispatchAction = dispatchAction
+            cell.delegate = self
+            return cell
+
+        case .NameRow(let viewModel):
+            let cell = tableView.dequeueReusableCellWithClass(NameRowCell.self)
+            cell.updateWithViewModel(viewModel)
+            cell.dispatchAction = dispatchAction
+            cell.delegate = self
+            return cell
+
+        case .SecretRow(let viewModel):
+            let cell = tableView.dequeueReusableCellWithClass(SecretRowCell.self)
             cell.updateWithViewModel(viewModel)
             cell.dispatchAction = dispatchAction
             cell.delegate = self
@@ -271,8 +288,20 @@ extension TokenFormViewController {
         }
 
         switch rowModel {
-        case .TextFieldRow(let viewModel):
-            if let cell = cell as? TextFieldRowCell {
+        case .IssuerRow(let viewModel):
+            if let cell = cell as? IssuerRowCell {
+                cell.updateWithViewModel(viewModel)
+            } else {
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            }
+        case .NameRow(let viewModel):
+            if let cell = cell as? NameRowCell {
+                cell.updateWithViewModel(viewModel)
+            } else {
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            }
+        case .SecretRow(let viewModel):
+            if let cell = cell as? SecretRowCell {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -300,8 +329,12 @@ extension TokenFormViewController {
 
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
-        case .TextFieldRow(let viewModel):
-            return TextFieldRowCell.heightWithViewModel(viewModel)
+        case .IssuerRow(let viewModel):
+            return IssuerRowCell.heightWithViewModel(viewModel)
+        case .NameRow(let viewModel):
+            return NameRowCell.heightWithViewModel(viewModel)
+        case .SecretRow(let viewModel):
+            return SecretRowCell.heightWithViewModel(viewModel)
         case .TokenTypeRow(let viewModel):
             return TokenTypeRowCell.heightWithViewModel(viewModel)
         case .DigitCountRow(let viewModel):
@@ -339,7 +372,7 @@ extension TokenFormViewController {
 }
 
 extension TokenFormViewController: TextFieldRowCellDelegate {
-    func textFieldCellDidReturn(textFieldCell: TextFieldRowCell) {
+    func textFieldCellDidReturn<T>(textFieldCell: TextFieldRowCell<T>) {
         // Unfocus the field that returned
         textFieldCell.unfocus()
 

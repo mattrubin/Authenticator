@@ -30,7 +30,9 @@ enum Form: TableViewModelFamily {
     }
 
     enum RowModel: Identifiable {
-        case TextFieldRow(TextFieldRowModel)
+        case IssuerRow(IssuerRowModel)
+        case NameRow(NameRowModel)
+        case SecretRow(SecretRowModel)
         case TokenTypeRow(TokenTypeRowModel)
         case DigitCountRow(DigitCountRowModel)
         case AlgorithmRow(AlgorithmRowModel)
@@ -40,7 +42,9 @@ enum Form: TableViewModelFamily {
             // type is sufficient here. For more complex changes, row models should be
             // compared for identity.
             switch (self, other) {
-            case (.TextFieldRow, .TextFieldRow): return true
+            case (.IssuerRow, .IssuerRow): return true
+            case (.NameRow, .NameRow): return true
+            case (.SecretRow, .SecretRow): return true
             case (.TokenTypeRow, .TokenTypeRow): return true
             case (.DigitCountRow, .DigitCountRow): return true
             case (.AlgorithmRow, .AlgorithmRow): return true

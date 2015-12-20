@@ -112,7 +112,7 @@ extension TokenEntryForm {
             value: state.issuer,
             changeAction: Form.Action.Issuer
         )
-        return .TextFieldRow(model)
+        return .IssuerRow(model)
     }
 
     private var nameRowModel: Form.RowModel {
@@ -121,7 +121,7 @@ extension TokenEntryForm {
             returnKeyType: .Next,
             changeAction: Form.Action.Name
         )
-        return .TextFieldRow(model)
+        return .NameRow(model)
     }
 
     private var secretRowModel: Form.RowModel {
@@ -129,7 +129,7 @@ extension TokenEntryForm {
             value: state.secret,
             changeAction: Form.Action.Secret
         )
-        return .TextFieldRow(model)
+        return .SecretRow(model)
     }
 
     private var tokenTypeRowModel: Form.RowModel {
