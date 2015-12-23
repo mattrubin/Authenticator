@@ -148,6 +148,11 @@ img.screenshot {
     margin: 15px auto;
 }
 
+#logo {
+    width: 100px;
+    height: 100px;
+}
+
 
 /* ==========================================================================
    Media Queries
@@ -158,6 +163,11 @@ img.screenshot {
     img.screenshot {
         display: inline-block;
         margin: 15px;
+    }
+
+    #logo {
+        width: 150px;
+        height: 150px;
     }
 
 /* ====================
