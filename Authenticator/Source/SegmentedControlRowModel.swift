@@ -26,12 +26,10 @@
 import OneTimePassword
 
 protocol SegmentedControlRowModel {
-    typealias Value: Equatable
     typealias Action
 
-    var value: Value { get }
-    var changeAction: (Value) -> Action { get }
-    var segments: [(title: String, value: Value)] { get }
+    var segments: [(title: String, action: Action)] { get }
+    var selectedSegmentIndex: Int? { get }
 }
 
 enum TokenType {
@@ -43,16 +41,18 @@ struct TokenTypeRowModel: SegmentedControlRowModel {
     typealias Action = Form.Action
 
     init(value: Value, changeAction: (Value) -> Action) {
-        self.value = value
-        self.changeAction = changeAction
+        let options = [
+            (title: "Time Based", value: Value.Timer),
+            (title: "Counter Based", value: Value.Counter),
+        ]
+        segments = options.map({ option in
+            return (title: option.title, action: changeAction(option.value))
+        })
+        selectedSegmentIndex = options.map({ $0.value }).indexOf(value)
     }
 
-    let value: Value
-    let changeAction: (Value) -> Action
-    let segments = [
-        (title: "Time Based", value: Value.Timer),
-        (title: "Counter Based", value: Value.Counter),
-    ]
+    let segments: [(title: String, action: Action)]
+    let selectedSegmentIndex: Int?
 }
 
 struct DigitCountRowModel: SegmentedControlRowModel {
@@ -66,11 +66,19 @@ struct DigitCountRowModel: SegmentedControlRowModel {
 
     let value: Value
     let changeAction: (Value) -> Action
-    let segments = [
+    let options = [
         (title: "6 Digits", value: 6),
         (title: "7 Digits", value: 7),
         (title: "8 Digits", value: 8),
     ]
+    var segments: [(title: String, action: Action)] {
+        return options.map({ option in
+            return (title: option.title, action: changeAction(option.value))
+        })
+    }
+    var selectedSegmentIndex: Int? {
+        return options.map({ $0.value }).indexOf(value)
+    }
 }
 
 struct AlgorithmRowModel: SegmentedControlRowModel {
@@ -84,9 +92,17 @@ struct AlgorithmRowModel: SegmentedControlRowModel {
 
     let value: Value
     let changeAction: (Value) -> Action
-    let segments = [
+    let options = [
         (title: "SHA-1", value: Value.SHA1),
         (title: "SHA-256", value: Value.SHA256),
         (title: "SHA-512", value: Value.SHA512),
     ]
+    var segments: [(title: String, action: Action)] {
+        return options.map({ option in
+            return (title: option.title, action: changeAction(option.value))
+        })
+    }
+    var selectedSegmentIndex: Int? {
+        return options.map({ $0.value }).indexOf(value)
+    }
 }
