@@ -28,7 +28,7 @@ import UIKit
 // "static stored properties not yet supported in generic types"
 private let preferredHeight: CGFloat = 54
 
-class SegmentedControlRowCell<Value: Equatable, Action>: UITableViewCell {
+class SegmentedControlRowCell<Action>: UITableViewCell {
     var dispatchAction: ((Action) -> ())?
 
     private let segmentedControl = UISegmentedControl()
