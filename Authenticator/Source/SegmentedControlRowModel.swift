@@ -37,67 +37,51 @@ enum TokenType {
 }
 
 struct TokenTypeRowModel<Action>: SegmentedControlRowModel {
-    init(value: TokenType, changeAction: (TokenType) -> Action) {
+    let segments: [(title: String, action: Action)]
+    let selectedSegmentIndex: Int?
+
+    init(value: TokenType, @noescape changeAction: (TokenType) -> Action) {
         let options = [
             (title: "Time Based", value: TokenType.Timer),
             (title: "Counter Based", value: TokenType.Counter),
         ]
         segments = options.map({ option in
-            return (title: option.title, action: changeAction(option.value))
+            (title: option.title, action: changeAction(option.value))
         })
         selectedSegmentIndex = options.map({ $0.value }).indexOf(value)
     }
-
-    let segments: [(title: String, action: Action)]
-    let selectedSegmentIndex: Int?
 }
 
 struct DigitCountRowModel<Action>: SegmentedControlRowModel {
-    typealias Value = Int
+    let segments: [(title: String, action: Action)]
+    let selectedSegmentIndex: Int?
 
-    init(value: Value, changeAction: (Value) -> Action) {
-        self.value = value
-        self.changeAction = changeAction
-    }
-
-    let value: Value
-    let changeAction: (Value) -> Action
-    let options = [
-        (title: "6 Digits", value: 6),
-        (title: "7 Digits", value: 7),
-        (title: "8 Digits", value: 8),
-    ]
-    var segments: [(title: String, action: Action)] {
-        return options.map({ option in
-            return (title: option.title, action: changeAction(option.value))
+    init(value: Int, @noescape changeAction: (Int) -> Action) {
+        let options = [
+            (title: "6 Digits", value: 6),
+            (title: "7 Digits", value: 7),
+            (title: "8 Digits", value: 8),
+        ]
+        segments = options.map({ option in
+            (title: option.title, action: changeAction(option.value))
         })
-    }
-    var selectedSegmentIndex: Int? {
-        return options.map({ $0.value }).indexOf(value)
+        selectedSegmentIndex = options.map({ $0.value }).indexOf(value)
     }
 }
 
 struct AlgorithmRowModel<Action>: SegmentedControlRowModel {
-    typealias Value = Generator.Algorithm
+    let segments: [(title: String, action: Action)]
+    let selectedSegmentIndex: Int?
 
-    init(value: Value, changeAction: (Value) -> Action) {
-        self.value = value
-        self.changeAction = changeAction
-    }
-
-    let value: Value
-    let changeAction: (Value) -> Action
-    let options = [
-        (title: "SHA-1", value: Value.SHA1),
-        (title: "SHA-256", value: Value.SHA256),
-        (title: "SHA-512", value: Value.SHA512),
-    ]
-    var segments: [(title: String, action: Action)] {
-        return options.map({ option in
-            return (title: option.title, action: changeAction(option.value))
+    init(value: Generator.Algorithm, @noescape changeAction: (Generator.Algorithm) -> Action) {
+        let options = [
+            (title: "SHA-1", value: Generator.Algorithm.SHA1),
+            (title: "SHA-256", value: Generator.Algorithm.SHA256),
+            (title: "SHA-512", value: Generator.Algorithm.SHA512),
+        ]
+        segments = options.map({ option in
+            (title: option.title, action: changeAction(option.value))
         })
-    }
-    var selectedSegmentIndex: Int? {
-        return options.map({ $0.value }).indexOf(value)
+        selectedSegmentIndex = options.map({ $0.value }).indexOf(value)
     }
 }
