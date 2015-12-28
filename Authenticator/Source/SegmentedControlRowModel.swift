@@ -36,14 +36,11 @@ enum TokenType {
     case Counter, Timer
 }
 
-struct TokenTypeRowModel: SegmentedControlRowModel {
-    typealias Value = TokenType
-    typealias Action = Form.Action
-
-    init(value: Value, changeAction: (Value) -> Action) {
+struct TokenTypeRowModel<Action>: SegmentedControlRowModel {
+    init(value: TokenType, changeAction: (TokenType) -> Action) {
         let options = [
-            (title: "Time Based", value: Value.Timer),
-            (title: "Counter Based", value: Value.Counter),
+            (title: "Time Based", value: TokenType.Timer),
+            (title: "Counter Based", value: TokenType.Counter),
         ]
         segments = options.map({ option in
             return (title: option.title, action: changeAction(option.value))
@@ -55,9 +52,8 @@ struct TokenTypeRowModel: SegmentedControlRowModel {
     let selectedSegmentIndex: Int?
 }
 
-struct DigitCountRowModel: SegmentedControlRowModel {
+struct DigitCountRowModel<Action>: SegmentedControlRowModel {
     typealias Value = Int
-    typealias Action = Form.Action
 
     init(value: Value, changeAction: (Value) -> Action) {
         self.value = value
@@ -81,9 +77,8 @@ struct DigitCountRowModel: SegmentedControlRowModel {
     }
 }
 
-struct AlgorithmRowModel: SegmentedControlRowModel {
+struct AlgorithmRowModel<Action>: SegmentedControlRowModel {
     typealias Value = Generator.Algorithm
-    typealias Action = Form.Action
 
     init(value: Value, changeAction: (Value) -> Action) {
         self.value = value
