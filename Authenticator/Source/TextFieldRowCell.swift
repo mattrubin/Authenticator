@@ -34,7 +34,7 @@ private let preferredHeight: CGFloat = 74
 class TextFieldRowCell<Action>: UITableViewCell {
 
     let textField = UITextField()
-    var delegateAdapter: TextFieldRowCellDelegateAdapter?
+    private var delegateAdapter: TextFieldRowCellDelegateAdapter?
     weak var delegate: TextFieldRowCellDelegate?
     var dispatchAction: ((Action) -> ())?
     private var changeAction: ((String) -> Action)?
@@ -125,7 +125,7 @@ extension TextFieldRowCell: FocusCell {
 // necessary to handle `UITextFieldDelegate` delegate calls. The original error message was:
 //  > non-@objc method 'textFieldShouldReturn' cannot satisfy optional requirement of @objc
 //  > protocol 'UITextFieldDelegate'
-class TextFieldRowCellDelegateAdapter: NSObject, UITextFieldDelegate {
+private class TextFieldRowCellDelegateAdapter: NSObject, UITextFieldDelegate {
     let textFieldShouldReturnAction: UITextField -> Bool
 
     init(textFieldShouldReturnAction: UITextField -> Bool) {
