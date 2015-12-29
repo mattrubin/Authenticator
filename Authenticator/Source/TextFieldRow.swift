@@ -1,5 +1,5 @@
 //
-//  TextFieldRowCell.swift
+//  TextFieldRow.swift
 //  Authenticator
 //
 //  Copyright (c) 2014-2015 Authenticator authors
@@ -24,6 +24,19 @@
 //
 
 import UIKit
+
+struct TextFieldRowModel<Action> {
+    let label: String
+    let placeholder: String
+
+    let autocapitalizationType: UITextAutocapitalizationType
+    let autocorrectionType: UITextAutocorrectionType
+    let keyboardType: UIKeyboardType
+    let returnKeyType: UIReturnKeyType
+
+    let value: String
+    let changeAction: (String) -> Action
+}
 
 protocol TextFieldRowCellDelegate: class {
     func textFieldCellDidReturn<Action>(textFieldCell: TextFieldRowCell<Action>)
