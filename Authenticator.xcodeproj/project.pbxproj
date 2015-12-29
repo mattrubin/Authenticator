@@ -367,9 +367,9 @@
 		C9B0B9501BC9159300BD5844 /* Forms */ = {
 			isa = PBXGroup;
 			children = (
-				C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */,
 				C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */,
 				C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */,
+				C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */,
 			);
 			name = Forms;
 			sourceTree = "<group>";
