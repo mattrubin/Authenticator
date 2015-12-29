@@ -31,9 +31,9 @@ enum Form: TableViewModelFamily {
 
     enum RowModel: Identifiable {
         case TextFieldRow(TextFieldRowModel)
-        case TokenTypeRow(TokenTypeRowModel)
-        case DigitCountRow(DigitCountRowModel)
-        case AlgorithmRow(AlgorithmRowModel)
+        case TokenTypeRow(TokenTypeRowModel<Action>)
+        case DigitCountRow(DigitCountRowModel<Action>)
+        case AlgorithmRow(AlgorithmRowModel<Action>)
 
         func hasSameIdentity(other: RowModel) -> Bool {
             // As currently used, form rows don't move around much, so comparing the row
