@@ -25,22 +25,7 @@
 
 import UIKit
 
-protocol TextFieldRowModel {
-    typealias Action
-
-    var label: String { get }
-    var placeholder: String { get }
-
-    var autocapitalizationType: UITextAutocapitalizationType { get }
-    var autocorrectionType: UITextAutocorrectionType { get }
-    var keyboardType: UIKeyboardType { get }
-    var returnKeyType: UIReturnKeyType { get }
-
-    var value: String { get }
-    var changeAction: (String) -> Action { get }
-}
-
-struct IssuerRowModel: TextFieldRowModel {
+struct TextFieldRowModel<Action> {
     let label: String
     let placeholder: String
 
@@ -50,9 +35,9 @@ struct IssuerRowModel: TextFieldRowModel {
     let returnKeyType: UIReturnKeyType
 
     let value: String
-    let changeAction: (String) -> Form.Action
+    let changeAction: (String) -> Action
 
-    init(value: String, changeAction: (String) -> Form.Action) {
+    init(issuerValue value: String, changeAction: (String) -> Action) {
         label = "Issuer"
         placeholder = "Some Website"
 
@@ -64,21 +49,8 @@ struct IssuerRowModel: TextFieldRowModel {
         self.value = value
         self.changeAction = changeAction
     }
-}
 
-struct NameRowModel: TextFieldRowModel {
-    let label: String
-    let placeholder: String
-
-    let autocapitalizationType: UITextAutocapitalizationType
-    let autocorrectionType: UITextAutocorrectionType
-    let keyboardType: UIKeyboardType
-    let returnKeyType: UIReturnKeyType
-
-    let value: String
-    let changeAction: (String) -> Form.Action
-
-    init(value: String, returnKeyType: UIReturnKeyType, changeAction: (String) -> Form.Action) {
+    init(nameValue value: String, returnKeyType: UIReturnKeyType, changeAction: (String) -> Action) {
         label = "Account Name"
         placeholder = "user@example.com"
 
@@ -90,21 +62,8 @@ struct NameRowModel: TextFieldRowModel {
         self.value = value
         self.changeAction = changeAction
     }
-}
 
-struct SecretRowModel: TextFieldRowModel {
-    let label: String
-    let placeholder: String
-
-    let autocapitalizationType: UITextAutocapitalizationType
-    let autocorrectionType: UITextAutocorrectionType
-    let keyboardType: UIKeyboardType
-    let returnKeyType: UIReturnKeyType
-
-    let value: String
-    let changeAction: (String) -> Form.Action
-
-    init(value: String, changeAction: (String) -> Form.Action) {
+    init(secretValue value: String, changeAction: (String) -> Action) {
         label = "Secret Key"
         placeholder = "•••• •••• •••• ••••"
 
