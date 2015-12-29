@@ -121,8 +121,9 @@ extension TextFieldRowCell: FocusCell {
 }
 
 
-// A Swift generic class cannot satisfy certain Objective-C delegate methods, so this adapter is
-// necessary to handle `UITextFieldDelegate` delegate calls. The original error message was:
+// A Swift generic class cannot have an @objc method, and an @objc methid id needed to satisfy
+// certain Objective-C delegate methods, so this adapter is necessary to handle
+// `UITextFieldDelegate` delegate calls. The original error message was:
 //  > non-@objc method 'textFieldShouldReturn' cannot satisfy optional requirement of @objc
 //  > protocol 'UITextFieldDelegate'
 private class TextFieldRowCellDelegateAdapter: NSObject, UITextFieldDelegate {
@@ -132,7 +133,7 @@ private class TextFieldRowCellDelegateAdapter: NSObject, UITextFieldDelegate {
         self.textFieldShouldReturnAction = textFieldShouldReturnAction
     }
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    @objc func textFieldShouldReturn(textField: UITextField) -> Bool {
         return textFieldShouldReturnAction(textField)
     }
 }
