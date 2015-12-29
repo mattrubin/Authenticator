@@ -41,55 +41,78 @@ protocol TextFieldRowModel {
 }
 
 struct IssuerRowModel: TextFieldRowModel {
-    let label = "Issuer"
-    let placeholder = "Some Website"
+    let label: String
+    let placeholder: String
 
-    let autocapitalizationType: UITextAutocapitalizationType = .Words
-    let autocorrectionType: UITextAutocorrectionType = .Default
-    let keyboardType: UIKeyboardType = .Default
-    let returnKeyType: UIReturnKeyType = .Next
+    let autocapitalizationType: UITextAutocapitalizationType
+    let autocorrectionType: UITextAutocorrectionType
+    let keyboardType: UIKeyboardType
+    let returnKeyType: UIReturnKeyType
 
     let value: String
     let changeAction: (String) -> Form.Action
 
     init(value: String, changeAction: (String) -> Form.Action) {
+        label = "Issuer"
+        placeholder = "Some Website"
+
+        autocapitalizationType = .Words
+        autocorrectionType = .Default
+        keyboardType = .Default
+        returnKeyType = .Next
+
         self.value = value
         self.changeAction = changeAction
     }
 }
 
 struct NameRowModel: TextFieldRowModel {
-    let label = "Account Name"
-    let placeholder = "user@example.com"
+    let label: String
+    let placeholder: String
 
-    let autocapitalizationType: UITextAutocapitalizationType = .None
-    let autocorrectionType: UITextAutocorrectionType = .No
-    let keyboardType: UIKeyboardType = .EmailAddress
+    let autocapitalizationType: UITextAutocapitalizationType
+    let autocorrectionType: UITextAutocorrectionType
+    let keyboardType: UIKeyboardType
     let returnKeyType: UIReturnKeyType
 
     let value: String
     let changeAction: (String) -> Form.Action
 
     init(value: String, returnKeyType: UIReturnKeyType, changeAction: (String) -> Form.Action) {
-        self.value = value
+        label = "Account Name"
+        placeholder = "user@example.com"
+
+        autocapitalizationType = .None
+        autocorrectionType = .No
+        keyboardType = .EmailAddress
         self.returnKeyType = returnKeyType
+
+        self.value = value
         self.changeAction = changeAction
     }
 }
 
 struct SecretRowModel: TextFieldRowModel {
-    let label = "Secret Key"
-    let placeholder = "•••• •••• •••• ••••"
+    let label: String
+    let placeholder: String
 
-    let autocapitalizationType: UITextAutocapitalizationType = .None
-    let autocorrectionType: UITextAutocorrectionType = .No
-    let keyboardType: UIKeyboardType = .Default
-    let returnKeyType: UIReturnKeyType = .Done
+    let autocapitalizationType: UITextAutocapitalizationType
+    let autocorrectionType: UITextAutocorrectionType
+    let keyboardType: UIKeyboardType
+    let returnKeyType: UIReturnKeyType
 
     let value: String
     let changeAction: (String) -> Form.Action
 
     init(value: String, changeAction: (String) -> Form.Action) {
+        label = "Secret Key"
+        placeholder = "•••• •••• •••• ••••"
+
+        autocapitalizationType = .None
+        autocorrectionType = .No
+        keyboardType = .Default
+        returnKeyType = .Done
+
         self.value = value
         self.changeAction = changeAction
     }
