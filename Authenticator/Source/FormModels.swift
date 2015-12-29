@@ -31,9 +31,7 @@ enum Form: TableViewModelFamily {
 
     enum RowModel: Identifiable {
         case TextFieldRow(TextFieldRowModel<Action>)
-        case TokenTypeRow(TokenTypeRowModel<Action>)
-        case DigitCountRow(DigitCountRowModel<Action>)
-        case AlgorithmRow(AlgorithmRowModel<Action>)
+        case SegmentedControlRow(SegmentedControlRowModel<Action>)
 
         func hasSameIdentity(other: RowModel) -> Bool {
             // As currently used, form rows don't move around much, so comparing the row
@@ -41,9 +39,7 @@ enum Form: TableViewModelFamily {
             // compared for identity.
             switch (self, other) {
             case (.TextFieldRow, .TextFieldRow): return true
-            case (.TokenTypeRow, .TokenTypeRow): return true
-            case (.DigitCountRow, .DigitCountRow): return true
-            case (.AlgorithmRow, .AlgorithmRow): return true
+            case (.SegmentedControlRow, .SegmentedControlRow): return true
             default: return false
             }
         }

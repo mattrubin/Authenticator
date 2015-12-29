@@ -108,16 +108,16 @@ extension TokenEntryForm {
     }
 
     private var issuerRowModel: Form.RowModel {
-        let model = IssuerRowModel(
-            value: state.issuer,
+        let model = TextFieldRowModel(
+            issuer: state.issuer,
             changeAction: Form.Action.Issuer
         )
         return .TextFieldRow(model)
     }
 
     private var nameRowModel: Form.RowModel {
-        let model = NameRowModel(
-            value: state.name,
+        let model = TextFieldRowModel(
+            name: state.name,
             returnKeyType: .Next,
             changeAction: Form.Action.Name
         )
@@ -125,35 +125,35 @@ extension TokenEntryForm {
     }
 
     private var secretRowModel: Form.RowModel {
-        let model = SecretRowModel(
-            value: state.secret,
+        let model = TextFieldRowModel(
+            secret: state.secret,
             changeAction: Form.Action.Secret
         )
         return .TextFieldRow(model)
     }
 
     private var tokenTypeRowModel: Form.RowModel {
-        let model = TokenTypeRowModel(
-            value: state.tokenType,
+        let model = SegmentedControlRowModel(
+            tokenType: state.tokenType,
             changeAction: Form.Action.TokenType
         )
-        return .TokenTypeRow(model)
+        return .SegmentedControlRow(model)
     }
 
     private var digitCountRowModel: Form.RowModel {
-        let model = DigitCountRowModel(
-            value: state.digitCount,
+        let model = SegmentedControlRowModel(
+            digitCount: state.digitCount,
             changeAction: Form.Action.DigitCount
         )
-        return .DigitCountRow(model)
+        return .SegmentedControlRow(model)
     }
 
     private var algorithmRowModel: Form.RowModel {
-        let model = AlgorithmRowModel(
-            value: state.algorithm,
+        let model = SegmentedControlRowModel(
+            algorithm: state.algorithm,
             changeAction: Form.Action.Algorithm
         )
-        return .AlgorithmRow(model)
+        return .SegmentedControlRow(model)
     }
 
     // MARK: Action handling
