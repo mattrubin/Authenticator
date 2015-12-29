@@ -33,9 +33,9 @@ enum Form: TableViewModelFamily {
         case IssuerRow(IssuerRowModel)
         case NameRow(NameRowModel)
         case SecretRow(SecretRowModel)
-        case TokenTypeRow(TokenTypeRowModel)
-        case DigitCountRow(DigitCountRowModel)
-        case AlgorithmRow(AlgorithmRowModel)
+        case TokenTypeRow(TokenTypeRowModel<Action>)
+        case DigitCountRow(DigitCountRowModel<Action>)
+        case AlgorithmRow(AlgorithmRowModel<Action>)
 
         func hasSameIdentity(other: RowModel) -> Bool {
             // As currently used, form rows don't move around much, so comparing the row

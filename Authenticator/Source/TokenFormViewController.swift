@@ -23,15 +23,11 @@
 //
 
 import UIKit
-import OneTimePassword
 import SVProgressHUD
 
 typealias IssuerRowCell = TextFieldRowCell<Form.Action>
 typealias NameRowCell = TextFieldRowCell<Form.Action>
 typealias SecretRowCell = TextFieldRowCell<Form.Action>
-typealias TokenTypeRowCell = SegmentedControlRowCell<TokenType, Form.Action>
-typealias DigitCountRowCell = SegmentedControlRowCell<Int, Form.Action>
-typealias AlgorithmRowCell = SegmentedControlRowCell<Generator.Algorithm, Form.Action>
 
 class TokenFormViewController: UITableViewController {
     private let dispatchAction: (Form.Action) -> ()
@@ -255,19 +251,19 @@ extension TokenFormViewController {
             return cell
 
         case .TokenTypeRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(TokenTypeRowCell.self)
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<Form.Action>.self)
             cell.updateWithViewModel(viewModel)
             cell.dispatchAction = dispatchAction
             return cell
 
         case .DigitCountRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(DigitCountRowCell.self)
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<Form.Action>.self)
             cell.updateWithViewModel(viewModel)
             cell.dispatchAction = dispatchAction
             return cell
 
         case .AlgorithmRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(AlgorithmRowCell.self)
+            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<Form.Action>.self)
             cell.updateWithViewModel(viewModel)
             cell.dispatchAction = dispatchAction
             return cell
@@ -307,19 +303,19 @@ extension TokenFormViewController {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .TokenTypeRow(let viewModel):
-            if let cell = cell as? TokenTypeRowCell {
+            if let cell = cell as? SegmentedControlRowCell<Form.Action> {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .DigitCountRow(let viewModel):
-            if let cell = cell as? DigitCountRowCell {
+            if let cell = cell as? SegmentedControlRowCell<Form.Action> {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
         case .AlgorithmRow(let viewModel):
-            if let cell = cell as? AlgorithmRowCell {
+            if let cell = cell as? SegmentedControlRowCell<Form.Action> {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -336,11 +332,11 @@ extension TokenFormViewController {
         case .SecretRow(let viewModel):
             return SecretRowCell.heightWithViewModel(viewModel)
         case .TokenTypeRow(let viewModel):
-            return TokenTypeRowCell.heightWithViewModel(viewModel)
+            return SegmentedControlRowCell<Form.Action>.heightWithViewModel(viewModel)
         case .DigitCountRow(let viewModel):
-            return DigitCountRowCell.heightWithViewModel(viewModel)
+            return SegmentedControlRowCell<Form.Action>.heightWithViewModel(viewModel)
         case .AlgorithmRow(let viewModel):
-            return AlgorithmRowCell.heightWithViewModel(viewModel)
+            return SegmentedControlRowCell<Form.Action>.heightWithViewModel(viewModel)
         }
     }
 

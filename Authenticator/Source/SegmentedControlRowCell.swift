@@ -28,16 +28,11 @@ import UIKit
 // "static stored properties not yet supported in generic types"
 private let preferredHeight: CGFloat = 54
 
-class SegmentedControlRowCell<Value: Equatable, Action>: UITableViewCell {
+class SegmentedControlRowCell<Action>: UITableViewCell {
     var dispatchAction: ((Action) -> ())?
 
     private let segmentedControl = UISegmentedControl()
-    private var values: [Value] = []
-    private var changeAction: ((Value) -> Action)?
-
-    var value: Value {
-        return values[segmentedControl.selectedSegmentIndex]
-    }
+    private var actions: [Action] = []
 
     // MARK: - Init
 
@@ -65,8 +60,7 @@ class SegmentedControlRowCell<Value: Equatable, Action>: UITableViewCell {
 
     // MARK: - View Model
 
-    func updateWithViewModel<ViewModel: SegmentedControlRowModel where ViewModel.Value == Value, ViewModel.Action == Action>(viewModel: ViewModel) {
-        changeAction = viewModel.changeAction
+    func updateWithViewModel<ViewModel: SegmentedControlRowModel where ViewModel.Action == Action>(viewModel: ViewModel) {
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
@@ -74,21 +68,20 @@ class SegmentedControlRowCell<Value: Equatable, Action>: UITableViewCell {
             let segment = viewModel.segments[i]
             segmentedControl.insertSegmentWithTitle(segment.title, atIndex: i, animated: false)
         }
-        // Store values
-        values = viewModel.segments.map { $0.value }
-        // Select the initial value
-        segmentedControl.selectedSegmentIndex = values.indexOf(viewModel.value) ?? 0
+        // Store the action associated with each segment
+        actions = viewModel.segments.map({ $0.action })
+        // Select the initial segment
+        segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControlNoSegment
     }
 
-    static func heightWithViewModel<ViewModel: SegmentedControlRowModel where ViewModel.Value == Value, ViewModel.Action == Action>(viewModel: ViewModel) -> CGFloat {
+    static func heightWithViewModel<ViewModel: SegmentedControlRowModel where ViewModel.Action == Action>(viewModel: ViewModel) -> CGFloat {
         return preferredHeight
     }
 
     // MARK: - Target Action
 
     func segmentedControlValueChanged() {
-        if let action = changeAction?(value) {
-            dispatchAction?(action)
-        }
+        let action = actions[segmentedControl.selectedSegmentIndex]
+        dispatchAction?(action)
     }
 }
