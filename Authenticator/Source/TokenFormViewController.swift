@@ -223,7 +223,7 @@ extension TokenFormViewController {
 
     // MARK: Row Model
 
-    func cellForRowModel(rowModel: TokenFormRowModel<Form.Action>, inTableView tableView: UITableView) -> UITableViewCell {
+    func cellForRowModel(rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
         case let .TextFieldRow(row):
             let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell<Form.Action>.self)
@@ -269,7 +269,7 @@ extension TokenFormViewController {
         }
     }
 
-    func heightForRowModel(rowModel: TokenFormRowModel<Form.Action>) -> CGFloat {
+    func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
         case let .TextFieldRow(row):
             return TextFieldRowCell<Form.Action>.heightWithViewModel(row.viewModel)
@@ -280,14 +280,14 @@ extension TokenFormViewController {
 
     // MARK: Header Model
 
-    func viewForHeaderModel(headerModel: TokenFormHeaderModel<Form.Action>) -> UIView {
+    func viewForHeaderModel(headerModel: Form.HeaderModel) -> UIView {
         switch headerModel {
         case let .ButtonHeader(header):
             return ButtonHeaderView(viewModel: header.viewModel, dispatchAction: dispatchAction)
         }
     }
 
-    func heightForHeaderModel(headerModel: TokenFormHeaderModel<Form.Action>) -> CGFloat {
+    func heightForHeaderModel(headerModel: Form.HeaderModel) -> CGFloat {
         switch headerModel {
         case let .ButtonHeader(header):
             return ButtonHeaderView.heightWithViewModel(header.viewModel)
