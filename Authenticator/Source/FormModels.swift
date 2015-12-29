@@ -26,21 +26,21 @@ import OneTimePassword
 
 enum Form: TableViewModelFamily {
     enum HeaderModel {
-        case ButtonHeader(ButtonHeaderViewModel<Action>)
+        case ButtonHeader(identity: String, viewModel: ButtonHeaderViewModel<Action>)
     }
 
     enum RowModel: Identifiable {
-        case TextFieldRow(TextFieldRowModel<Action>)
-        case SegmentedControlRow(SegmentedControlRowModel<Action>)
+        case TextFieldRow(identity: String, viewModel: TextFieldRowViewModel<Action>)
+        case SegmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
 
         func hasSameIdentity(other: RowModel) -> Bool {
-            // As currently used, form rows don't move around much, so comparing the row
-            // type is sufficient here. For more complex changes, row models should be
-            // compared for identity.
             switch (self, other) {
-            case (.TextFieldRow, .TextFieldRow): return true
-            case (.SegmentedControlRow, .SegmentedControlRow): return true
-            default: return false
+            case let (.TextFieldRow(rowA), .TextFieldRow(rowB)):
+                return rowA.identity == rowB.identity
+            case let (.SegmentedControlRow(rowA), .SegmentedControlRow(rowB)):
+                return rowA.identity == rowB.identity
+            default:
+                return false
             }
         }
     }

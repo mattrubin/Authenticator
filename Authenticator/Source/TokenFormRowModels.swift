@@ -30,7 +30,7 @@ enum TokenType {
     case Counter, Timer
 }
 
-extension TextFieldRowModel {
+extension TextFieldRowViewModel {
     init(issuer value: String, changeAction: (String) -> Action) {
         label = "Issuer"
         placeholder = "Some Website"
@@ -71,7 +71,7 @@ extension TextFieldRowModel {
     }
 }
 
-extension SegmentedControlRowModel {
+extension SegmentedControlRowViewModel {
     init(tokenType value: TokenType, @noescape changeAction: (TokenType) -> Action) {
         let options = [
             (title: "Time Based", value: TokenType.Timer),
