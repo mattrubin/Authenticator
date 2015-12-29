@@ -25,21 +25,7 @@
 
 import OneTimePassword
 
-struct TokenEditForm: TableViewModelRepresentable {
-    enum Action {
-        case Issuer(String)
-        case Name(String)
-        case Cancel
-        case Submit
-    }
-
-    typealias HeaderModel = TokenFormHeaderModel<Action>
-    typealias RowModel = TokenFormRowModel<Action>
-
-    typealias ViewModel = TableViewModel<TokenEditForm>
-
-    // MARK: State
-
+struct TokenEditForm {
     private let persistentToken: PersistentToken
 
     private var issuer: String
@@ -58,9 +44,25 @@ struct TokenEditForm: TableViewModelRepresentable {
     }
 }
 
+// MARK: Associated Types
+
+extension TokenEditForm: TableViewModelRepresentable {
+    enum Action {
+        case Issuer(String)
+        case Name(String)
+        case Cancel
+        case Submit
+    }
+
+    typealias HeaderModel = TokenFormHeaderModel<Action>
+    typealias RowModel = TokenFormRowModel<Action>
+}
+
 // MARK: View Model
 
 extension TokenEditForm {
+    typealias ViewModel = TableViewModel<TokenEditForm>
+
     var viewModel: ViewModel {
         return TableViewModel(
             title: "Edit Token",

@@ -29,27 +29,7 @@ import OneTimePassword
 private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
-struct TokenEntryForm: TableViewModelRepresentable {
-    enum Action {
-        case Issuer(String)
-        case Name(String)
-        case Secret(String)
-        case TokenType(Authenticator.TokenType)
-        case DigitCount(Int)
-        case Algorithm(Generator.Algorithm)
-
-        case ShowAdvancedOptions
-        case Cancel
-        case Submit
-    }
-
-    typealias HeaderModel = TokenFormHeaderModel<Action>
-    typealias RowModel = TokenFormRowModel<Action>
-
-    typealias ViewModel = TableViewModel<TokenEntryForm>
-
-    // MARK: State
-
+struct TokenEntryForm {
     var issuer: String = ""
     var name: String = ""
     var secret: String = ""
@@ -69,9 +49,31 @@ struct TokenEntryForm: TableViewModelRepresentable {
     }
 }
 
+// MARK: Associated Types
+
+extension TokenEntryForm: TableViewModelRepresentable {
+    enum Action {
+        case Issuer(String)
+        case Name(String)
+        case Secret(String)
+        case TokenType(Authenticator.TokenType)
+        case DigitCount(Int)
+        case Algorithm(Generator.Algorithm)
+
+        case ShowAdvancedOptions
+        case Cancel
+        case Submit
+    }
+
+    typealias HeaderModel = TokenFormHeaderModel<Action>
+    typealias RowModel = TokenFormRowModel<Action>
+}
+
 // MARK: View Model
 
 extension TokenEntryForm {
+    typealias ViewModel = TableViewModel<TokenEntryForm>
+
     var viewModel: ViewModel {
         return TableViewModel(
             title: "Add Token",
