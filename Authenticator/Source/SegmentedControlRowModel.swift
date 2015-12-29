@@ -25,18 +25,6 @@
 
 import OneTimePassword
 
-struct SegmentedControlRowModel<Action> {
-    let segments: [(title: String, action: Action)]
-    let selectedSegmentIndex: Int?
-
-    init<V: Equatable>(options: [(title: String, value: V)], value: V, @noescape changeAction: (V) -> Action) {
-        segments = options.map({ option in
-            (title: option.title, action: changeAction(option.value))
-        })
-        selectedSegmentIndex = options.map({ $0.value }).indexOf(value)
-    }
-}
-
 enum TokenType {
     case Counter, Timer
 }

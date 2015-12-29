@@ -25,19 +25,6 @@
 
 import UIKit
 
-struct TextFieldRowModel<Action> {
-    let label: String
-    let placeholder: String
-
-    let autocapitalizationType: UITextAutocapitalizationType
-    let autocorrectionType: UITextAutocorrectionType
-    let keyboardType: UIKeyboardType
-    let returnKeyType: UIReturnKeyType
-
-    let value: String
-    let changeAction: (String) -> Action
-}
-
 extension TextFieldRowModel {
     init(issuer value: String, changeAction: (String) -> Action) {
         label = "Issuer"

@@ -43,8 +43,8 @@
 		C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */; };
 		C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09521BA9133B008C54FE /* FocusCell.swift */; };
 		C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09541BA91D1C008C54FE /* TableViewModel.swift */; };
-		C9D6C83F1906BD68004F0E08 /* SegmentedControlRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* SegmentedControlRowCell.swift */; };
-		C9D6C8461906CD54004F0E08 /* TextFieldRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* TextFieldRowCell.swift */; };
+		C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */; };
+		C9D6C8461906CD54004F0E08 /* TextFieldRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */; };
 		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
 		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
@@ -137,8 +137,8 @@
 		C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenFormViewController.swift; sourceTree = "<group>"; };
 		C9CC09521BA9133B008C54FE /* FocusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusCell.swift; sourceTree = "<group>"; };
 		C9CC09541BA91D1C008C54FE /* TableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
-		C9D6C83E1906BD68004F0E08 /* SegmentedControlRowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlRowCell.swift; sourceTree = "<group>"; };
-		C9D6C8451906CD54004F0E08 /* TextFieldRowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldRowCell.swift; sourceTree = "<group>"; };
+		C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlRow.swift; sourceTree = "<group>"; };
+		C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldRow.swift; sourceTree = "<group>"; };
 		C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPProgressRing.swift; sourceTree = "<group>"; };
 		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
@@ -382,9 +382,9 @@
 			isa = PBXGroup;
 			children = (
 				C9CC09521BA9133B008C54FE /* FocusCell.swift */,
-				C9D6C83E1906BD68004F0E08 /* SegmentedControlRowCell.swift */,
+				C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */,
 				C9AAB0781B9113BF000CE547 /* SegmentedControlRowModel.swift */,
-				C9D6C8451906CD54004F0E08 /* TextFieldRowCell.swift */,
+				C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */,
 				C9078D171AB7E90A0068A11D /* TextFieldRowModel.swift */,
 				C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */,
 			);
@@ -547,7 +547,7 @@
 				C9AAB0791B9113BF000CE547 /* SegmentedControlRowModel.swift in Sources */,
 				1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */,
 				C9919CE21BA733FD006237C1 /* Section.swift in Sources */,
-				C9D6C8461906CD54004F0E08 /* TextFieldRowCell.swift in Sources */,
+				C9D6C8461906CD54004F0E08 /* TextFieldRow.swift in Sources */,
 				C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */,
 				C93BD6231C167CD100FFFB8F /* AppModel.swift in Sources */,
 				C9BA64E81C0C26BA00610C7C /* ActionHandler.swift in Sources */,
@@ -556,7 +556,7 @@
 				C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */,
 				C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */,
 				C99069D1180CBAC900BAEF53 /* TokenScannerViewController.swift in Sources */,
-				C9D6C83F1906BD68004F0E08 /* SegmentedControlRowCell.swift in Sources */,
+				C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */,
 				8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */,
 				C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */,
 				C914B8C51C0BFDF900D2B751 /* TokenListDelegate.swift in Sources */,
