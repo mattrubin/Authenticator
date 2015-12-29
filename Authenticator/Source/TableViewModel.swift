@@ -24,7 +24,17 @@
 
 import Foundation
 
-struct TableViewModel<HeaderModel, RowModel, Action> {
+protocol TableViewModelFamily {
+    typealias HeaderModel
+    typealias RowModel
+    typealias Action
+}
+
+struct TableViewModel<T: TableViewModelFamily> {
+    typealias HeaderModel = T.HeaderModel
+    typealias RowModel = T.RowModel
+    typealias Action = T.Action
+
     var title: String
     var leftBarButton: BarButtonViewModel<Action>?
     var rightBarButton: BarButtonViewModel<Action>?

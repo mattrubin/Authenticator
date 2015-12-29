@@ -25,9 +25,10 @@
 import UIKit
 import SVProgressHUD
 
-class TokenFormViewController<Action>: UITableViewController {
+class TokenFormViewController<Form: TableViewModelFamily where Form.HeaderModel == TokenFormHeaderModel<Form.Action>, Form.RowModel == TokenFormRowModel<Form.Action>>: UITableViewController {
+    typealias Action = Form.Action
     private let dispatchAction: (Action) -> ()
-    private var viewModel: TableViewModel<TokenFormHeaderModel<Action>, TokenFormRowModel<Action>, Action> {
+    private var viewModel: TableViewModel<Form> {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
                 // Automatic updates aren't implemented for changing number of sections
@@ -61,7 +62,7 @@ class TokenFormViewController<Action>: UITableViewController {
         }
     }
 
-    init(viewModel: TableViewModel<TokenFormHeaderModel<Action>, TokenFormRowModel<Action>, Action>, dispatchAction: (Action) -> ()) {
+    init(viewModel: TableViewModel<Form>, dispatchAction: (Action) -> ()) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(style: .Grouped)
@@ -296,7 +297,7 @@ extension TokenFormViewController {
 }
 
 extension TokenFormViewController {
-    func updateWithViewModel(viewModel: TableViewModel<TokenFormHeaderModel<Action>, TokenFormRowModel<Action>, Action>) {
+    func updateWithViewModel(viewModel: TableViewModel<Form>) {
         self.viewModel = viewModel
         updateBarButtonItems()
         if let errorMessage = viewModel.errorMessage {

@@ -92,7 +92,7 @@ extension AppViewController: AppPresenter {
 
         case .EntryForm(let formViewModel):
             if case .EntryForm = currentViewModel.modal,
-                let editController = modalNavController?.topViewController as? TokenFormViewController<TokenEntryForm.Action> {
+                let editController = modalNavController?.topViewController as? TokenFormViewController<TokenEntryForm> {
                     editController.updateWithViewModel(formViewModel)
             } else {
                 let formController = TokenFormViewController(viewModel: formViewModel,
@@ -104,7 +104,7 @@ extension AppViewController: AppPresenter {
 
         case .EditForm(let formViewModel):
             if case .EditForm = currentViewModel.modal,
-                let editController = modalNavController?.topViewController as? TokenFormViewController<TokenEditForm.Action> {
+                let editController = modalNavController?.topViewController as? TokenFormViewController<TokenEditForm> {
                     editController.updateWithViewModel(formViewModel)
             } else {
                 let editController = TokenFormViewController(viewModel: formViewModel,

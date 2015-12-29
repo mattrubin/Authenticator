@@ -24,7 +24,7 @@
 
 import OneTimePassword
 
-struct TokenEditForm {
+struct TokenEditForm: TableViewModelFamily {
     enum Action {
         case Issuer(String)
         case Name(String)
@@ -34,7 +34,8 @@ struct TokenEditForm {
 
     typealias HeaderModel = TokenFormHeaderModel<Action>
     typealias RowModel = TokenFormRowModel<Action>
-    typealias ViewModel = TableViewModel<HeaderModel, RowModel, Action>
+
+    typealias ViewModel = TableViewModel<TokenEditForm>
 
     // MARK: State
 

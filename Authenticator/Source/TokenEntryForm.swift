@@ -29,7 +29,7 @@ import OneTimePassword
 private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
-struct TokenEntryForm {
+struct TokenEntryForm: TableViewModelFamily {
     enum Action {
         case Issuer(String)
         case Name(String)
@@ -45,7 +45,8 @@ struct TokenEntryForm {
 
     typealias HeaderModel = TokenFormHeaderModel<Action>
     typealias RowModel = TokenFormRowModel<Action>
-    typealias ViewModel = TableViewModel<HeaderModel, RowModel, Action>
+
+    typealias ViewModel = TableViewModel<TokenEntryForm>
 
     // MARK: State
 
