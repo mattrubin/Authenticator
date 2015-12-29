@@ -34,13 +34,13 @@ enum Form: TableViewModelFamily {
         case SegmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
 
         func hasSameIdentity(other: RowModel) -> Bool {
-            // As currently used, form rows don't move around much, so comparing the row
-            // type is sufficient here. For more complex changes, row models should be
-            // compared for identity.
             switch (self, other) {
-            case (.TextFieldRow, .TextFieldRow): return true
-            case (.SegmentedControlRow, .SegmentedControlRow): return true
-            default: return false
+            case let (.TextFieldRow(rowA), .TextFieldRow(rowB)):
+                return rowA.identity == rowB.identity
+            case let (.SegmentedControlRow(rowA), .SegmentedControlRow(rowB)):
+                return rowA.identity == rowB.identity
+            default:
+                return false
             }
         }
     }
