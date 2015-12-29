@@ -92,8 +92,8 @@ extension AppViewController: AppPresenter {
 
         case .EntryForm(let formViewModel):
             if case .EntryForm = currentViewModel.modal,
-                let editController = modalNavController?.topViewController as? TokenFormViewController<TokenEntryForm> {
-                    editController.updateWithViewModel(formViewModel)
+                let entryController = modalNavController?.topViewController as? TokenFormViewController<TokenEntryForm> {
+                    entryController.updateWithViewModel(formViewModel)
             } else {
                 let formController = TokenFormViewController(viewModel: formViewModel,
                     dispatchAction: { [weak actionHandler] in
