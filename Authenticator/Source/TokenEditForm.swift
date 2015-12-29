@@ -68,7 +68,7 @@ struct TokenEditForm {
             issuerValue: state.issuer,
             changeAction: Form.Action.Issuer
         )
-        return .IssuerRow(model)
+        return .TextFieldRow(model)
     }
 
     private var nameRowModel: Form.RowModel {
@@ -77,7 +77,7 @@ struct TokenEditForm {
             returnKeyType: .Done,
             changeAction: Form.Action.Name
         )
-        return .NameRow(model)
+        return .TextFieldRow(model)
     }
 
     // MARK: Action handling

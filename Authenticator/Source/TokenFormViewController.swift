@@ -25,10 +25,6 @@
 import UIKit
 import SVProgressHUD
 
-typealias IssuerRowCell = TextFieldRowCell<Form.Action>
-typealias NameRowCell = TextFieldRowCell<Form.Action>
-typealias SecretRowCell = TextFieldRowCell<Form.Action>
-
 class TokenFormViewController: UITableViewController {
     private let dispatchAction: (Form.Action) -> ()
     private var viewModel: TableViewModel<Form> {
@@ -229,22 +225,8 @@ extension TokenFormViewController {
 
     func cellForRowModel(rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
-        case .IssuerRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(IssuerRowCell.self)
-            cell.updateWithViewModel(viewModel)
-            cell.dispatchAction = dispatchAction
-            cell.delegate = self
-            return cell
-
-        case .NameRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(NameRowCell.self)
-            cell.updateWithViewModel(viewModel)
-            cell.dispatchAction = dispatchAction
-            cell.delegate = self
-            return cell
-
-        case .SecretRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SecretRowCell.self)
+        case .TextFieldRow(let viewModel):
+            let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell<Form.Action>.self)
             cell.updateWithViewModel(viewModel)
             cell.dispatchAction = dispatchAction
             cell.delegate = self
@@ -284,20 +266,8 @@ extension TokenFormViewController {
         }
 
         switch rowModel {
-        case .IssuerRow(let viewModel):
-            if let cell = cell as? IssuerRowCell {
-                cell.updateWithViewModel(viewModel)
-            } else {
-                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            }
-        case .NameRow(let viewModel):
-            if let cell = cell as? NameRowCell {
-                cell.updateWithViewModel(viewModel)
-            } else {
-                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            }
-        case .SecretRow(let viewModel):
-            if let cell = cell as? SecretRowCell {
+        case .TextFieldRow(let viewModel):
+            if let cell = cell as? TextFieldRowCell<Form.Action> {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -325,12 +295,8 @@ extension TokenFormViewController {
 
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
-        case .IssuerRow(let viewModel):
-            return IssuerRowCell.heightWithViewModel(viewModel)
-        case .NameRow(let viewModel):
-            return NameRowCell.heightWithViewModel(viewModel)
-        case .SecretRow(let viewModel):
-            return SecretRowCell.heightWithViewModel(viewModel)
+        case .TextFieldRow(let viewModel):
+            return TextFieldRowCell<Form.Action>.heightWithViewModel(viewModel)
         case .TokenTypeRow(let viewModel):
             return SegmentedControlRowCell<Form.Action>.heightWithViewModel(viewModel)
         case .DigitCountRow(let viewModel):
