@@ -232,19 +232,7 @@ extension TokenFormViewController {
             cell.delegate = self
             return cell
 
-        case .TokenTypeRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<Form.Action>.self)
-            cell.updateWithViewModel(viewModel)
-            cell.dispatchAction = dispatchAction
-            return cell
-
-        case .DigitCountRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<Form.Action>.self)
-            cell.updateWithViewModel(viewModel)
-            cell.dispatchAction = dispatchAction
-            return cell
-
-        case .AlgorithmRow(let viewModel):
+        case .SegmentedControlRow(let viewModel):
             let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<Form.Action>.self)
             cell.updateWithViewModel(viewModel)
             cell.dispatchAction = dispatchAction
@@ -272,19 +260,7 @@ extension TokenFormViewController {
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
-        case .TokenTypeRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<Form.Action> {
-                cell.updateWithViewModel(viewModel)
-            } else {
-                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            }
-        case .DigitCountRow(let viewModel):
-            if let cell = cell as? SegmentedControlRowCell<Form.Action> {
-                cell.updateWithViewModel(viewModel)
-            } else {
-                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            }
-        case .AlgorithmRow(let viewModel):
+        case .SegmentedControlRow(let viewModel):
             if let cell = cell as? SegmentedControlRowCell<Form.Action> {
                 cell.updateWithViewModel(viewModel)
             } else {
@@ -297,11 +273,7 @@ extension TokenFormViewController {
         switch rowModel {
         case .TextFieldRow(let viewModel):
             return TextFieldRowCell<Form.Action>.heightWithViewModel(viewModel)
-        case .TokenTypeRow(let viewModel):
-            return SegmentedControlRowCell<Form.Action>.heightWithViewModel(viewModel)
-        case .DigitCountRow(let viewModel):
-            return SegmentedControlRowCell<Form.Action>.heightWithViewModel(viewModel)
-        case .AlgorithmRow(let viewModel):
+        case .SegmentedControlRow(let viewModel):
             return SegmentedControlRowCell<Form.Action>.heightWithViewModel(viewModel)
         }
     }

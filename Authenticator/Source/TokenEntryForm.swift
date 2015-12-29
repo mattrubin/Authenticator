@@ -133,27 +133,27 @@ extension TokenEntryForm {
     }
 
     private var tokenTypeRowModel: Form.RowModel {
-        let model = TokenTypeRowModel(
-            value: state.tokenType,
+        let model = SegmentedControlRowModel(
+            tokenType: state.tokenType,
             changeAction: Form.Action.TokenType
         )
-        return .TokenTypeRow(model)
+        return .SegmentedControlRow(model)
     }
 
     private var digitCountRowModel: Form.RowModel {
-        let model = DigitCountRowModel(
-            value: state.digitCount,
+        let model = SegmentedControlRowModel(
+            digitCount: state.digitCount,
             changeAction: Form.Action.DigitCount
         )
-        return .DigitCountRow(model)
+        return .SegmentedControlRow(model)
     }
 
     private var algorithmRowModel: Form.RowModel {
-        let model = AlgorithmRowModel(
-            value: state.algorithm,
+        let model = SegmentedControlRowModel(
+            algorithm: state.algorithm,
             changeAction: Form.Action.Algorithm
         )
-        return .AlgorithmRow(model)
+        return .SegmentedControlRow(model)
     }
 
     // MARK: Action handling
