@@ -25,9 +25,15 @@
 import OneTimePassword
 
 struct TokenEditForm {
-    typealias HeaderModel = TokenFormHeaderModel<TokenEntryAction>
-    typealias RowModel = TokenFormRowModel<TokenEntryAction>
-    typealias Action = TokenEntryAction
+    enum Action {
+        case Issuer(String)
+        case Name(String)
+        case Cancel
+        case Submit
+    }
+
+    typealias HeaderModel = TokenFormHeaderModel<Action>
+    typealias RowModel = TokenFormRowModel<Action>
     typealias ViewModel = TableViewModel<HeaderModel, RowModel, Action>
 
     // MARK: State
@@ -98,16 +104,6 @@ struct TokenEditForm {
             state.issuer = value
         case .Name(let value):
             state.name = value
-        case .Secret:
-            fatalError()
-        case .TokenType:
-            fatalError()
-        case .DigitCount:
-            fatalError()
-        case .Algorithm:
-            fatalError()
-        case .ShowAdvancedOptions:
-            fatalError()
         case .Cancel:
             return cancel()
         case .Submit:

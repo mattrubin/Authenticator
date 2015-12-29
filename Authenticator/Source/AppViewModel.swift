@@ -31,7 +31,7 @@ struct AppViewModel {
         case None
         case Scanner
         case EntryForm(TableViewModel<TokenFormHeaderModel<TokenEntryAction>, TokenFormRowModel<TokenEntryAction>, TokenEntryAction>)
-        case EditForm(TableViewModel<TokenFormHeaderModel<TokenEntryAction>, TokenFormRowModel<TokenEntryAction>, TokenEntryAction>)
+        case EditForm(TableViewModel<TokenEditForm.HeaderModel, TokenEditForm.RowModel, TokenEditForm.Action>)
     }
 }
 
