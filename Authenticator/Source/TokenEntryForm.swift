@@ -216,39 +216,41 @@ extension TokenEntryForm {
     @warn_unused_result
     private mutating func submit() -> AppAction? {
         guard isValid else {
-            // TODO: Show error message?
+            // TODO: Show more specific error messages for different failure cases
+            submitFailed = true
             return nil
         }
 
-        if let secret = NSData(base32String: secret) {
-            if secret.length > 0 {
-                let factor: Generator.Factor
-                switch tokenType {
-                case .Counter:
-                    factor = defaultCounterFactor
-                case .Timer:
-                    factor = defaultTimerFactor
-                }
-
-                if let generator = Generator(
-                    factor: factor,
-                    secret: secret,
-                    algorithm: algorithm,
-                    digits: digitCount
-                    ) {
-                        let token = Token(
-                            name: name,
-                            issuer: issuer,
-                            generator: generator
-                        )
-
-                        return .SaveNewToken(token)
-                }
-            }
+        guard let secretData = NSData(base32String: secret)
+            where secretData.length > 0 else {
+                submitFailed = true
+                return nil
         }
 
-        // If the method hasn't returned by this point, token creation failed
-        submitFailed = true
-        return nil
+        let factor: Generator.Factor
+        switch tokenType {
+        case .Counter:
+            factor = defaultCounterFactor
+        case .Timer:
+            factor = defaultTimerFactor
+        }
+
+        guard let generator = Generator(
+            factor: factor,
+            secret: secretData,
+            algorithm: algorithm,
+            digits: digitCount
+            ) else {
+                submitFailed = true
+                return nil
+        }
+
+        let token = Token(
+            name: name,
+            issuer: issuer,
+            generator: generator
+        )
+
+        return .SaveNewToken(token)
     }
 }
