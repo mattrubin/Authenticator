@@ -108,16 +108,16 @@ extension TokenEntryForm {
     }
 
     private var issuerRowModel: Form.RowModel {
-        let model = TextFieldRowModel(
-            issuerValue: state.issuer,
+        let model = IssuerRowModel(
+            value: state.issuer,
             changeAction: Form.Action.Issuer
         )
         return .TextFieldRow(model)
     }
 
     private var nameRowModel: Form.RowModel {
-        let model = TextFieldRowModel(
-            nameValue: state.name,
+        let model = NameRowModel(
+            value: state.name,
             returnKeyType: .Next,
             changeAction: Form.Action.Name
         )
@@ -125,8 +125,8 @@ extension TokenEntryForm {
     }
 
     private var secretRowModel: Form.RowModel {
-        let model = TextFieldRowModel(
-            secretValue: state.secret,
+        let model = SecretRowModel(
+            value: state.secret,
             changeAction: Form.Action.Secret
         )
         return .TextFieldRow(model)
