@@ -64,20 +64,24 @@ struct TokenEditForm {
     }
 
     private var issuerRowModel: Form.RowModel {
-        let model = TextFieldRowModel(
-            issuer: state.issuer,
-            changeAction: Form.Action.Issuer
+        return .TextFieldRow(
+            identity: "token.issuer",
+            viewModel: TextFieldRowModel(
+                issuer: state.issuer,
+                changeAction: Form.Action.Issuer
+            )
         )
-        return .TextFieldRow(model)
     }
 
     private var nameRowModel: Form.RowModel {
-        let model = TextFieldRowModel(
-            name: state.name,
-            returnKeyType: .Done,
-            changeAction: Form.Action.Name
+        return .TextFieldRow(
+            identity: "token.name",
+            viewModel: TextFieldRowModel(
+                name: state.name,
+                returnKeyType: .Done,
+                changeAction: Form.Action.Name
+            )
         )
-        return .TextFieldRow(model)
     }
 
     // MARK: Action handling

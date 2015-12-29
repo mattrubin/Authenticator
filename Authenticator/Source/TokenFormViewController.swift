@@ -225,16 +225,16 @@ extension TokenFormViewController {
 
     func cellForRowModel(rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
-        case .TextFieldRow(let viewModel):
+        case let .TextFieldRow(row):
             let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell<Form.Action>.self)
-            cell.updateWithViewModel(viewModel)
+            cell.updateWithViewModel(row.viewModel)
             cell.dispatchAction = dispatchAction
             cell.delegate = self
             return cell
 
-        case .SegmentedControlRow(let viewModel):
+        case let .SegmentedControlRow(row):
             let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<Form.Action>.self)
-            cell.updateWithViewModel(viewModel)
+            cell.updateWithViewModel(row.viewModel)
             cell.dispatchAction = dispatchAction
             return cell
         }
@@ -254,15 +254,15 @@ extension TokenFormViewController {
         }
 
         switch rowModel {
-        case .TextFieldRow(let viewModel):
+        case let .TextFieldRow(row):
             if let cell = cell as? TextFieldRowCell<Form.Action> {
-                cell.updateWithViewModel(viewModel)
+                cell.updateWithViewModel(row.viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
-        case .SegmentedControlRow(let viewModel):
+        case let .SegmentedControlRow(row):
             if let cell = cell as? SegmentedControlRowCell<Form.Action> {
-                cell.updateWithViewModel(viewModel)
+                cell.updateWithViewModel(row.viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             }
@@ -271,10 +271,10 @@ extension TokenFormViewController {
 
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
-        case .TextFieldRow(let viewModel):
-            return TextFieldRowCell<Form.Action>.heightWithViewModel(viewModel)
-        case .SegmentedControlRow(let viewModel):
-            return SegmentedControlRowCell<Form.Action>.heightWithViewModel(viewModel)
+        case let .TextFieldRow(row):
+            return TextFieldRowCell<Form.Action>.heightWithViewModel(row.viewModel)
+        case let .SegmentedControlRow(row):
+            return SegmentedControlRowCell<Form.Action>.heightWithViewModel(row.viewModel)
         }
     }
 

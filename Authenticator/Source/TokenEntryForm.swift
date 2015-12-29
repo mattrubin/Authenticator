@@ -108,52 +108,64 @@ extension TokenEntryForm {
     }
 
     private var issuerRowModel: Form.RowModel {
-        let model = TextFieldRowModel(
-            issuer: state.issuer,
-            changeAction: Form.Action.Issuer
+        return .TextFieldRow(
+            identity: "token.issuer",
+            viewModel: TextFieldRowModel(
+                issuer: state.issuer,
+                changeAction: Form.Action.Issuer
+            )
         )
-        return .TextFieldRow(model)
     }
 
     private var nameRowModel: Form.RowModel {
-        let model = TextFieldRowModel(
-            name: state.name,
-            returnKeyType: .Next,
-            changeAction: Form.Action.Name
+        return .TextFieldRow(
+            identity: "token.name",
+            viewModel: TextFieldRowModel(
+                name: state.name,
+                returnKeyType: .Next,
+                changeAction: Form.Action.Name
+            )
         )
-        return .TextFieldRow(model)
     }
 
     private var secretRowModel: Form.RowModel {
-        let model = TextFieldRowModel(
-            secret: state.secret,
-            changeAction: Form.Action.Secret
+        return .TextFieldRow(
+            identity: "token.secret",
+            viewModel: TextFieldRowModel(
+                secret: state.secret,
+                changeAction: Form.Action.Secret
+            )
         )
-        return .TextFieldRow(model)
     }
 
     private var tokenTypeRowModel: Form.RowModel {
-        let model = SegmentedControlRowModel(
-            tokenType: state.tokenType,
-            changeAction: Form.Action.TokenType
+        return .SegmentedControlRow(
+            identity: "token.tokenType",
+            viewModel: SegmentedControlRowModel(
+                tokenType: state.tokenType,
+                changeAction: Form.Action.TokenType
+            )
         )
-        return .SegmentedControlRow(model)
     }
 
     private var digitCountRowModel: Form.RowModel {
-        let model = SegmentedControlRowModel(
-            digitCount: state.digitCount,
-            changeAction: Form.Action.DigitCount
+        return .SegmentedControlRow(
+            identity: "token.digitCount",
+            viewModel: SegmentedControlRowModel(
+                digitCount: state.digitCount,
+                changeAction: Form.Action.DigitCount
+            )
         )
-        return .SegmentedControlRow(model)
     }
 
     private var algorithmRowModel: Form.RowModel {
-        let model = SegmentedControlRowModel(
-            algorithm: state.algorithm,
-            changeAction: Form.Action.Algorithm
+        return .SegmentedControlRow(
+            identity: "token.algorithm",
+            viewModel: SegmentedControlRowModel(
+                algorithm: state.algorithm,
+                changeAction: Form.Action.Algorithm
+            )
         )
-        return .SegmentedControlRow(model)
     }
 
     // MARK: Action handling
