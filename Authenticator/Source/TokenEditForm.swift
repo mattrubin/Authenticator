@@ -25,7 +25,7 @@
 
 import OneTimePassword
 
-struct TokenEditForm: TableViewModelFamily {
+struct TokenEditForm: TableViewModelRepresentable {
     enum Action {
         case Issuer(String)
         case Name(String)

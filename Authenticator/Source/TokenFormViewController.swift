@@ -26,7 +26,7 @@
 import UIKit
 import SVProgressHUD
 
-class TokenFormViewController<Form: TableViewModelFamily where Form.HeaderModel == TokenFormHeaderModel<Form.Action>, Form.RowModel == TokenFormRowModel<Form.Action>>: UITableViewController {
+class TokenFormViewController<Form: TableViewModelRepresentable where Form.HeaderModel == TokenFormHeaderModel<Form.Action>, Form.RowModel == TokenFormRowModel<Form.Action>>: UITableViewController {
     private let dispatchAction: (Form.Action) -> ()
     private var viewModel: TableViewModel<Form> {
         didSet {

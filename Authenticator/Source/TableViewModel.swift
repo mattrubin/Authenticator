@@ -25,13 +25,13 @@
 
 import Foundation
 
-protocol TableViewModelFamily {
+protocol TableViewModelRepresentable {
     typealias HeaderModel
     typealias RowModel
     typealias Action
 }
 
-struct TableViewModel<Models: TableViewModelFamily> {
+struct TableViewModel<Models: TableViewModelRepresentable> {
     var title: String
     var leftBarButton: BarButtonViewModel<Models.Action>?
     var rightBarButton: BarButtonViewModel<Models.Action>?
