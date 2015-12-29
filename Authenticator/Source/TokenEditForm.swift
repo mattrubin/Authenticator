@@ -66,7 +66,7 @@ struct TokenEditForm {
     private var issuerRowModel: Form.RowModel {
         return .TextFieldRow(
             identity: "token.issuer",
-            viewModel: TextFieldRowModel(
+            viewModel: TextFieldRowViewModel(
                 issuer: state.issuer,
                 changeAction: Form.Action.Issuer
             )
@@ -76,7 +76,7 @@ struct TokenEditForm {
     private var nameRowModel: Form.RowModel {
         return .TextFieldRow(
             identity: "token.name",
-            viewModel: TextFieldRowModel(
+            viewModel: TextFieldRowViewModel(
                 name: state.name,
                 returnKeyType: .Done,
                 changeAction: Form.Action.Name

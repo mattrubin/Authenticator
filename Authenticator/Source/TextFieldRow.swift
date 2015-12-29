@@ -25,7 +25,7 @@
 
 import UIKit
 
-struct TextFieldRowModel<Action> {
+struct TextFieldRowViewModel<Action> {
     let label: String
     let placeholder: String
 
@@ -92,7 +92,7 @@ class TextFieldRowCell<Action>: UITableViewCell {
 
     // MARK: - View Model
 
-    func updateWithViewModel(viewModel: TextFieldRowModel<Action>) {
+    func updateWithViewModel(viewModel: TextFieldRowViewModel<Action>) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
 
@@ -109,7 +109,7 @@ class TextFieldRowCell<Action>: UITableViewCell {
         changeAction = viewModel.changeAction
     }
 
-    static func heightWithViewModel(viewModel: TextFieldRowModel<Action>) -> CGFloat {
+    static func heightWithViewModel(viewModel: TextFieldRowViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 

@@ -25,7 +25,7 @@
 
 import UIKit
 
-struct SegmentedControlRowModel<Action> {
+struct SegmentedControlRowViewModel<Action> {
     let segments: [(title: String, action: Action)]
     let selectedSegmentIndex: Int?
 
@@ -72,7 +72,7 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
 
     // MARK: - View Model
 
-    func updateWithViewModel(viewModel: SegmentedControlRowModel<Action>) {
+    func updateWithViewModel(viewModel: SegmentedControlRowViewModel<Action>) {
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
@@ -86,7 +86,7 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
         segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControlNoSegment
     }
 
-    static func heightWithViewModel(viewModel: SegmentedControlRowModel<Action>) -> CGFloat {
+    static func heightWithViewModel(viewModel: SegmentedControlRowViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 

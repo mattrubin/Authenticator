@@ -30,8 +30,8 @@ enum Form: TableViewModelFamily {
     }
 
     enum RowModel: Identifiable {
-        case TextFieldRow(identity: String, viewModel: TextFieldRowModel<Action>)
-        case SegmentedControlRow(identity: String, viewModel: SegmentedControlRowModel<Action>)
+        case TextFieldRow(identity: String, viewModel: TextFieldRowViewModel<Action>)
+        case SegmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
 
         func hasSameIdentity(other: RowModel) -> Bool {
             // As currently used, form rows don't move around much, so comparing the row

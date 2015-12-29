@@ -112,7 +112,7 @@ extension TokenEntryForm {
     private var issuerRowModel: Form.RowModel {
         return .TextFieldRow(
             identity: "token.issuer",
-            viewModel: TextFieldRowModel(
+            viewModel: TextFieldRowViewModel(
                 issuer: state.issuer,
                 changeAction: Form.Action.Issuer
             )
@@ -122,7 +122,7 @@ extension TokenEntryForm {
     private var nameRowModel: Form.RowModel {
         return .TextFieldRow(
             identity: "token.name",
-            viewModel: TextFieldRowModel(
+            viewModel: TextFieldRowViewModel(
                 name: state.name,
                 returnKeyType: .Next,
                 changeAction: Form.Action.Name
@@ -133,7 +133,7 @@ extension TokenEntryForm {
     private var secretRowModel: Form.RowModel {
         return .TextFieldRow(
             identity: "token.secret",
-            viewModel: TextFieldRowModel(
+            viewModel: TextFieldRowViewModel(
                 secret: state.secret,
                 changeAction: Form.Action.Secret
             )
@@ -143,7 +143,7 @@ extension TokenEntryForm {
     private var tokenTypeRowModel: Form.RowModel {
         return .SegmentedControlRow(
             identity: "token.tokenType",
-            viewModel: SegmentedControlRowModel(
+            viewModel: SegmentedControlRowViewModel(
                 tokenType: state.tokenType,
                 changeAction: Form.Action.TokenType
             )
@@ -153,7 +153,7 @@ extension TokenEntryForm {
     private var digitCountRowModel: Form.RowModel {
         return .SegmentedControlRow(
             identity: "token.digitCount",
-            viewModel: SegmentedControlRowModel(
+            viewModel: SegmentedControlRowViewModel(
                 digitCount: state.digitCount,
                 changeAction: Form.Action.DigitCount
             )
@@ -163,7 +163,7 @@ extension TokenEntryForm {
     private var algorithmRowModel: Form.RowModel {
         return .SegmentedControlRow(
             identity: "token.algorithm",
-            viewModel: SegmentedControlRowModel(
+            viewModel: SegmentedControlRowViewModel(
                 algorithm: state.algorithm,
                 changeAction: Form.Action.Algorithm
             )
