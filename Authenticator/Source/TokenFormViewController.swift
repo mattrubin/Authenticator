@@ -23,7 +23,6 @@
 //
 
 import UIKit
-import OneTimePassword
 import SVProgressHUD
 
 class TokenFormViewController: UITableViewController {
