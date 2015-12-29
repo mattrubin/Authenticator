@@ -26,7 +26,7 @@ import OneTimePassword
 
 enum Form: TableViewModelFamily {
     enum HeaderModel {
-        case ButtonHeader(ButtonHeaderViewModel<Action>)
+        case ButtonHeader(identity: String, viewModel: ButtonHeaderViewModel<Action>)
     }
 
     enum RowModel: Identifiable {

@@ -282,15 +282,15 @@ extension TokenFormViewController {
 
     func viewForHeaderModel(headerModel: Form.HeaderModel) -> UIView {
         switch headerModel {
-        case .ButtonHeader(let viewModel):
-            return ButtonHeaderView(viewModel: viewModel, dispatchAction: dispatchAction)
+        case let .ButtonHeader(header):
+            return ButtonHeaderView(viewModel: header.viewModel, dispatchAction: dispatchAction)
         }
     }
 
     func heightForHeaderModel(headerModel: Form.HeaderModel) -> CGFloat {
         switch headerModel {
-        case .ButtonHeader(let viewModel):
-            return ButtonHeaderView.heightWithViewModel(viewModel)
+        case let .ButtonHeader(header):
+            return ButtonHeaderView.heightWithViewModel(header.viewModel)
         }
     }
 }

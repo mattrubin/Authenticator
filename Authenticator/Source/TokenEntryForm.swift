@@ -100,11 +100,13 @@ extension TokenEntryForm {
     }
 
     private var advancedSectionHeader: Form.HeaderModel {
-        let model = ButtonHeaderViewModel(
-            title: "Advanced Options",
-            action: Form.Action.ShowAdvancedOptions
+        return .ButtonHeader(
+            identity: "advanced-options",
+            viewModel: ButtonHeaderViewModel(
+                title: "Advanced Options",
+                action: Form.Action.ShowAdvancedOptions
+            )
         )
-        return .ButtonHeader(model)
     }
 
     private var issuerRowModel: Form.RowModel {
