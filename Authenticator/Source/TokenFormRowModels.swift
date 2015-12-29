@@ -1,5 +1,5 @@
 //
-//  TextFieldRowModel.swift
+//  TokenFormRowModels.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -24,6 +24,11 @@
 //
 
 import UIKit
+import OneTimePassword
+
+enum TokenType {
+    case Counter, Timer
+}
 
 extension TextFieldRowModel {
     init(issuer value: String, changeAction: (String) -> Action) {
@@ -63,5 +68,33 @@ extension TextFieldRowModel {
 
         self.value = value
         self.changeAction = changeAction
+    }
+}
+
+extension SegmentedControlRowModel {
+    init(tokenType value: TokenType, @noescape changeAction: (TokenType) -> Action) {
+        let options = [
+            (title: "Time Based", value: TokenType.Timer),
+            (title: "Counter Based", value: TokenType.Counter),
+        ]
+        self.init(options: options, value: value, changeAction: changeAction)
+    }
+
+    init(digitCount value: Int, @noescape changeAction: (Int) -> Action) {
+        let options = [
+            (title: "6 Digits", value: 6),
+            (title: "7 Digits", value: 7),
+            (title: "8 Digits", value: 8),
+        ]
+        self.init(options: options, value: value, changeAction: changeAction)
+    }
+
+    init(algorithm value: Generator.Algorithm, @noescape changeAction: (Generator.Algorithm) -> Action) {
+        let options = [
+            (title: "SHA-1", value: Generator.Algorithm.SHA1),
+            (title: "SHA-256", value: Generator.Algorithm.SHA256),
+            (title: "SHA-512", value: Generator.Algorithm.SHA512),
+        ]
+        self.init(options: options, value: value, changeAction: changeAction)
     }
 }
