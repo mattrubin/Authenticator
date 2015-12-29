@@ -30,22 +30,27 @@ private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
 struct TokenEntryForm {
-    var issuer: String = ""
-    var name: String = ""
-    var secret: String = ""
-    var tokenType: TokenType = .Timer
-    var digitCount: Int = 6
-    var algorithm: Generator.Algorithm = .SHA1
+    private var issuer: String = ""
+    private var name: String = ""
+    private var secret: String = ""
+    private var tokenType: TokenType = .Timer
+    private var digitCount: Int = 6
+    private var algorithm: Generator.Algorithm = .SHA1
 
-    var showsAdvancedOptions: Bool = false
-    var submitFailed: Bool = false
+    private var showsAdvancedOptions: Bool = false
+    private var submitFailed: Bool = false
 
-    var isValid: Bool {
+    private var isValid: Bool {
         return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
     }
 
-    mutating func resetEphemera() {
+    private mutating func resetEphemera() {
         submitFailed = false
+    }
+
+    // MARK: Initialization
+
+    init() {
     }
 }
 
