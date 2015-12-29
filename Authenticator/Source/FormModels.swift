@@ -43,16 +43,3 @@ import OneTimePassword
             }
         }
     }
-
-    enum TokenEntryAction {
-        case Issuer(String)
-        case Name(String)
-        case Secret(String)
-        case TokenType(Authenticator.TokenType)
-        case DigitCount(Int)
-        case Algorithm(Generator.Algorithm)
-
-        case ShowAdvancedOptions
-        case Cancel
-        case Submit
-    }

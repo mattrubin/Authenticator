@@ -30,9 +30,21 @@ private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
 struct TokenEntryForm {
-    typealias HeaderModel = TokenFormHeaderModel<TokenEntryAction>
-    typealias RowModel = TokenFormRowModel<TokenEntryAction>
-    typealias Action = TokenEntryAction
+    enum Action {
+        case Issuer(String)
+        case Name(String)
+        case Secret(String)
+        case TokenType(Authenticator.TokenType)
+        case DigitCount(Int)
+        case Algorithm(Generator.Algorithm)
+
+        case ShowAdvancedOptions
+        case Cancel
+        case Submit
+    }
+
+    typealias HeaderModel = TokenFormHeaderModel<Action>
+    typealias RowModel = TokenFormRowModel<Action>
     typealias ViewModel = TableViewModel<HeaderModel, RowModel, Action>
 
     // MARK: State
