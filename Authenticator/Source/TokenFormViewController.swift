@@ -334,7 +334,7 @@ extension TokenFormViewController {
 }
 
 extension TokenFormViewController: TextFieldRowCellDelegate {
-    func textFieldCellDidReturn<T>(textFieldCell: TextFieldRowCell<T>) {
+    func textFieldCellDidReturn<Action>(textFieldCell: TextFieldRowCell<Action>) {
         // Unfocus the field that returned
         textFieldCell.unfocus()
 
