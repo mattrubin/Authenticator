@@ -26,16 +26,18 @@
 import UIKit
 
 protocol TextFieldRowCellDelegate: class {
-    func textFieldCellDidReturn(textFieldCell: TextFieldRowCell)
+    func textFieldCellDidReturn<Action>(textFieldCell: TextFieldRowCell<Action>)
 }
 
-class TextFieldRowCell: UITableViewCell {
-    private static let preferredHeight: CGFloat = 74
+private let preferredHeight: CGFloat = 74
+
+class TextFieldRowCell<Action>: UITableViewCell {
 
     let textField = UITextField()
+    private var delegateAdapter: TextFieldRowCellDelegateAdapter?
     weak var delegate: TextFieldRowCellDelegate?
-    var dispatchAction: ((Form.Action) -> ())?
-    private var changeAction: ((String) -> Form.Action)?
+    var dispatchAction: ((Action) -> ())?
+    private var changeAction: ((String) -> Action)?
 
     // MARK: - Init
 
@@ -54,7 +56,14 @@ class TextFieldRowCell: UITableViewCell {
     private func configureSubviews() {
         textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 17)
 
-        textField.delegate = self
+        delegateAdapter = TextFieldRowCellDelegateAdapter { [weak self] (textField) in
+            if let sself = self {
+                sself.delegate?.textFieldCellDidReturn(sself)
+            }
+            return false
+        }
+
+        textField.delegate = delegateAdapter
         textField.addTarget(self, action: Selector("textFieldValueChanged"), forControlEvents: UIControlEvents.EditingChanged)
         textField.borderStyle = .RoundedRect
         textField.font = UIFont(name: "HelveticaNeue-Light", size: 16)
@@ -70,7 +79,7 @@ class TextFieldRowCell: UITableViewCell {
 
     // MARK: - View Model
 
-    func updateWithViewModel(viewModel: TextFieldRowModel) {
+    func updateWithViewModel(viewModel: TextFieldRowModel<Action>) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
 
@@ -87,7 +96,7 @@ class TextFieldRowCell: UITableViewCell {
         changeAction = viewModel.changeAction
     }
 
-    static func heightWithViewModel(viewModel: TextFieldRowModel) -> CGFloat {
+    static func heightWithViewModel(viewModel: TextFieldRowModel<Action>) -> CGFloat {
         return preferredHeight
     }
 
@@ -101,13 +110,6 @@ class TextFieldRowCell: UITableViewCell {
     }
 }
 
-extension TextFieldRowCell: UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        delegate?.textFieldCellDidReturn(self)
-        return false
-    }
-}
-
 extension TextFieldRowCell: FocusCell {
     func focus() -> Bool {
         return textField.becomeFirstResponder()
@@ -115,5 +117,22 @@ extension TextFieldRowCell: FocusCell {
 
     func unfocus() -> Bool {
         return textField.resignFirstResponder()
+    }
+}
+
+
+// A Swift generic class cannot satisfy certain Objective-C delegate methods, so this adapter is
+// necessary to handle `UITextFieldDelegate` delegate calls. The original error message was:
+//  > non-@objc method 'textFieldShouldReturn' cannot satisfy optional requirement of @objc
+//  > protocol 'UITextFieldDelegate'
+private class TextFieldRowCellDelegateAdapter: NSObject, UITextFieldDelegate {
+    let textFieldShouldReturnAction: UITextField -> Bool
+
+    init(textFieldShouldReturnAction: UITextField -> Bool) {
+        self.textFieldShouldReturnAction = textFieldShouldReturnAction
+    }
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        return textFieldShouldReturnAction(textField)
     }
 }

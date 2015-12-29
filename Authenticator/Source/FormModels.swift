@@ -30,7 +30,7 @@ enum Form: TableViewModelFamily {
     }
 
     enum RowModel: Identifiable {
-        case TextFieldRow(TextFieldRowModel)
+        case TextFieldRow(TextFieldRowModel<Action>)
         case TokenTypeRow(TokenTypeRowModel<Action>)
         case DigitCountRow(DigitCountRowModel<Action>)
         case AlgorithmRow(AlgorithmRowModel<Action>)

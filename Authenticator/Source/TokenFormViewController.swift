@@ -161,7 +161,7 @@ class TokenFormViewController: UITableViewController {
         cell.selectionStyle = .None
 
         cell.textLabel?.textColor = .otpForegroundColor
-        if let cell = cell as? TextFieldRowCell {
+        if let cell = cell as? TextFieldRowCell<Form.Action> {
             cell.textField.backgroundColor = .otpLightColor
             cell.textField.tintColor = .otpDarkColor
             cell.delegate = self
@@ -226,7 +226,7 @@ extension TokenFormViewController {
     func cellForRowModel(rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell.self)
+            let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell<Form.Action>.self)
             cell.updateWithViewModel(viewModel)
             cell.dispatchAction = dispatchAction
             cell.delegate = self
@@ -267,7 +267,7 @@ extension TokenFormViewController {
 
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            if let cell = cell as? TextFieldRowCell {
+            if let cell = cell as? TextFieldRowCell<Form.Action> {
                 cell.updateWithViewModel(viewModel)
             } else {
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -296,7 +296,7 @@ extension TokenFormViewController {
     func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
         case .TextFieldRow(let viewModel):
-            return TextFieldRowCell.heightWithViewModel(viewModel)
+            return TextFieldRowCell<Form.Action>.heightWithViewModel(viewModel)
         case .TokenTypeRow(let viewModel):
             return SegmentedControlRowCell<Form.Action>.heightWithViewModel(viewModel)
         case .DigitCountRow(let viewModel):
@@ -334,7 +334,7 @@ extension TokenFormViewController {
 }
 
 extension TokenFormViewController: TextFieldRowCellDelegate {
-    func textFieldCellDidReturn(textFieldCell: TextFieldRowCell) {
+    func textFieldCellDidReturn<Action>(textFieldCell: TextFieldRowCell<Action>) {
         // Unfocus the field that returned
         textFieldCell.unfocus()
 
