@@ -56,9 +56,11 @@ struct TokenEditForm: TableViewModelRepresentable {
         issuer = persistentToken.token.issuer
         name = persistentToken.token.name
     }
+}
 
-    // MARK: View Model
+// MARK: View Model
 
+extension TokenEditForm {
     var viewModel: ViewModel {
         return TableViewModel(
             title: "Edit Token",
@@ -94,9 +96,11 @@ struct TokenEditForm: TableViewModelRepresentable {
             )
         )
     }
+}
 
-    // MARK: Actions
+// MARK: Actions
 
+extension TokenEditForm {
     @warn_unused_result
     mutating func handleAction(action: Action) -> AppAction? {
         switch action {

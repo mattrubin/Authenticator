@@ -187,8 +187,11 @@ extension TokenEntryForm {
             )
         )
     }
+}
 
-    // MARK: Action handling
+// MARK: Actions
+
+extension TokenEntryForm {
     @warn_unused_result
     mutating func handleAction(action: Action) -> AppAction? {
         state.resetEphemera()
@@ -214,23 +217,19 @@ extension TokenEntryForm {
         }
         return nil
     }
-}
 
-// MARK: Actions
-
-private extension TokenEntryForm {
-    mutating func showAdvancedOptions() {
+    private mutating func showAdvancedOptions() {
         state.showsAdvancedOptions = true
         // TODO: Scroll to the newly-expanded section
     }
 
     @warn_unused_result
-    mutating func cancel() -> AppAction {
+    private mutating func cancel() -> AppAction {
         return .CancelTokenEntry
     }
 
     @warn_unused_result
-    mutating func submit() -> AppAction? {
+    private mutating func submit() -> AppAction? {
         if !state.isValid {
             // TODO: Show error message?
             return nil
