@@ -193,18 +193,14 @@ extension TokenEntryForm {
         case let .Algorithm(algorithm):
             self.algorithm = algorithm
         case .ShowAdvancedOptions:
-            showAdvancedOptions()
+            showsAdvancedOptions = true
+            // TODO: Scroll to the newly-expanded section
         case .Cancel:
             return cancel()
         case .Submit:
             return submit()
         }
         return nil
-    }
-
-    private mutating func showAdvancedOptions() {
-        showsAdvancedOptions = true
-        // TODO: Scroll to the newly-expanded section
     }
 
     @warn_unused_result
