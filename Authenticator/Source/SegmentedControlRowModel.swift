@@ -28,6 +28,13 @@ import OneTimePassword
 struct SegmentedControlRowModel<Action> {
     let segments: [(title: String, action: Action)]
     let selectedSegmentIndex: Int?
+
+    init<V: Equatable>(options: [(title: String, value: V)], value: V, @noescape changeAction: (V) -> Action) {
+        segments = options.map({ option in
+            (title: option.title, action: changeAction(option.value))
+        })
+        selectedSegmentIndex = options.map({ $0.value }).indexOf(value)
+    }
 }
 
 enum TokenType {
@@ -40,10 +47,7 @@ extension SegmentedControlRowModel {
             (title: "Time Based", value: TokenType.Timer),
             (title: "Counter Based", value: TokenType.Counter),
         ]
-        segments = options.map({ option in
-            (title: option.title, action: changeAction(option.value))
-        })
-        selectedSegmentIndex = options.map({ $0.value }).indexOf(value)
+        self.init(options: options, value: value, changeAction: changeAction)
     }
 
     init(digitCount value: Int, @noescape changeAction: (Int) -> Action) {
@@ -52,10 +56,7 @@ extension SegmentedControlRowModel {
             (title: "7 Digits", value: 7),
             (title: "8 Digits", value: 8),
         ]
-        segments = options.map({ option in
-            (title: option.title, action: changeAction(option.value))
-        })
-        selectedSegmentIndex = options.map({ $0.value }).indexOf(value)
+        self.init(options: options, value: value, changeAction: changeAction)
     }
 
     init(algorithm value: Generator.Algorithm, @noescape changeAction: (Generator.Algorithm) -> Action) {
@@ -64,9 +65,6 @@ extension SegmentedControlRowModel {
             (title: "SHA-256", value: Generator.Algorithm.SHA256),
             (title: "SHA-512", value: Generator.Algorithm.SHA512),
         ]
-        segments = options.map({ option in
-            (title: option.title, action: changeAction(option.value))
-        })
-        selectedSegmentIndex = options.map({ $0.value }).indexOf(value)
+        self.init(options: options, value: value, changeAction: changeAction)
     }
 }
