@@ -29,7 +29,25 @@ import OneTimePassword
 private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
-struct TokenEntryForm {
+struct TokenEntryForm: TableViewModelRepresentable {
+    enum Action {
+        case Issuer(String)
+        case Name(String)
+        case Secret(String)
+        case TokenType(Authenticator.TokenType)
+        case DigitCount(Int)
+        case Algorithm(Generator.Algorithm)
+
+        case ShowAdvancedOptions
+        case Cancel
+        case Submit
+    }
+
+    typealias HeaderModel = TokenFormHeaderModel<Action>
+    typealias RowModel = TokenFormRowModel<Action>
+
+    typealias ViewModel = TableViewModel<TokenEntryForm>
+
     // MARK: State
 
     private var state: State
@@ -73,7 +91,7 @@ struct TokenEntryForm {
 // MARK: View Model
 
 extension TokenEntryForm {
-    var viewModel: TableViewModel<Form> {
+    var viewModel: ViewModel {
         return TableViewModel(
             title: "Add Token",
             leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
@@ -99,80 +117,80 @@ extension TokenEntryForm {
         )
     }
 
-    private var advancedSectionHeader: Form.HeaderModel {
+    private var advancedSectionHeader: HeaderModel {
         return .ButtonHeader(
             identity: "advanced-options",
             viewModel: ButtonHeaderViewModel(
                 title: "Advanced Options",
-                action: Form.Action.ShowAdvancedOptions
+                action: Action.ShowAdvancedOptions
             )
         )
     }
 
-    private var issuerRowModel: Form.RowModel {
+    private var issuerRowModel: RowModel {
         return .TextFieldRow(
             identity: "token.issuer",
             viewModel: TextFieldRowViewModel(
                 issuer: state.issuer,
-                changeAction: Form.Action.Issuer
+                changeAction: Action.Issuer
             )
         )
     }
 
-    private var nameRowModel: Form.RowModel {
+    private var nameRowModel: RowModel {
         return .TextFieldRow(
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
                 name: state.name,
                 returnKeyType: .Next,
-                changeAction: Form.Action.Name
+                changeAction: Action.Name
             )
         )
     }
 
-    private var secretRowModel: Form.RowModel {
+    private var secretRowModel: RowModel {
         return .TextFieldRow(
             identity: "token.secret",
             viewModel: TextFieldRowViewModel(
                 secret: state.secret,
-                changeAction: Form.Action.Secret
+                changeAction: Action.Secret
             )
         )
     }
 
-    private var tokenTypeRowModel: Form.RowModel {
+    private var tokenTypeRowModel: RowModel {
         return .SegmentedControlRow(
             identity: "token.tokenType",
             viewModel: SegmentedControlRowViewModel(
                 tokenType: state.tokenType,
-                changeAction: Form.Action.TokenType
+                changeAction: Action.TokenType
             )
         )
     }
 
-    private var digitCountRowModel: Form.RowModel {
+    private var digitCountRowModel: RowModel {
         return .SegmentedControlRow(
             identity: "token.digitCount",
             viewModel: SegmentedControlRowViewModel(
                 digitCount: state.digitCount,
-                changeAction: Form.Action.DigitCount
+                changeAction: Action.DigitCount
             )
         )
     }
 
-    private var algorithmRowModel: Form.RowModel {
+    private var algorithmRowModel: RowModel {
         return .SegmentedControlRow(
             identity: "token.algorithm",
             viewModel: SegmentedControlRowViewModel(
                 algorithm: state.algorithm,
-                changeAction: Form.Action.Algorithm
+                changeAction: Action.Algorithm
             )
         )
     }
 
     // MARK: Action handling
     @warn_unused_result
-    mutating func handleAction(action: Form.Action) -> AppAction? {
+    mutating func handleAction(action: Action) -> AppAction? {
         state.resetEphemera()
         switch action {
         case .Issuer(let value):

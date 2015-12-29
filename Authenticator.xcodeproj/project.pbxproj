@@ -22,7 +22,6 @@
 		C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97CDF291BEEA82B00D64406 /* CommonCrypto.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CDF2B1BEEC90100D64406 /* QRScanner.swift */; };
-		C9800C491BCAA81D00CCB9B7 /* FormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9800C481BCAA81D00CCB9B7 /* FormModels.swift */; };
 		C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */; };
 		C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */; };
 		C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */; };
@@ -31,7 +30,7 @@
 		C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */; };
 		C9919CE21BA733FD006237C1 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CE11BA733FD006237C1 /* Section.swift */; };
 		C99B85251BC9AB7100A6C75D /* BarButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */; };
-		C9AAB0791B9113BF000CE547 /* TokenFormRowModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0781B9113BF000CE547 /* TokenFormRowModels.swift */; };
+		C9AAB0791B9113BF000CE547 /* TokenFormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */; };
 		C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */; };
 		C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328C1C09495D0076F77E /* TableDiff.swift */; };
 		C9B7328F1C0A8AE60076F77E /* TokenListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */; };
@@ -114,7 +113,6 @@
 		C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SVProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CommonCrypto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97CDF2B1BEEC90100D64406 /* QRScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScanner.swift; sourceTree = "<group>"; };
-		C9800C481BCAA81D00CCB9B7 /* FormModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormModels.swift; sourceTree = "<group>"; };
 		C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthenticatorTests.m; sourceTree = "<group>"; };
 		C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRowModel.swift; sourceTree = "<group>"; };
 		C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRowCell.swift; sourceTree = "<group>"; };
@@ -124,7 +122,7 @@
 		C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonHeaderView.swift; sourceTree = "<group>"; };
 		C9919CE11BA733FD006237C1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarButtonViewModel.swift; sourceTree = "<group>"; };
-		C9AAB0781B9113BF000CE547 /* TokenFormRowModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenFormRowModels.swift; sourceTree = "<group>"; };
+		C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenFormModels.swift; sourceTree = "<group>"; };
 		C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEditForm.swift; sourceTree = "<group>"; };
 		C9B7328C1C09495D0076F77E /* TableDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDiff.swift; sourceTree = "<group>"; };
 		C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewModel.swift; sourceTree = "<group>"; };
@@ -369,10 +367,9 @@
 		C9B0B9501BC9159300BD5844 /* Forms */ = {
 			isa = PBXGroup;
 			children = (
-				C9800C481BCAA81D00CCB9B7 /* FormModels.swift */,
-				C9AAB0781B9113BF000CE547 /* TokenFormRowModels.swift */,
 				C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */,
 				C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */,
+				C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */,
 			);
 			name = Forms;
 			sourceTree = "<group>";
@@ -537,11 +534,10 @@
 				C93BD6251C16841D00FFFB8F /* AppViewController.swift in Sources */,
 				C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */,
 				C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */,
-				C9800C491BCAA81D00CCB9B7 /* FormModels.swift in Sources */,
 				C9BA64EA1C0C4FBC00610C7C /* UITableView+ReusableCells.swift in Sources */,
 				C9B7328F1C0A8AE60076F77E /* TokenListViewModel.swift in Sources */,
 				C99B85251BC9AB7100A6C75D /* BarButtonViewModel.swift in Sources */,
-				C9AAB0791B9113BF000CE547 /* TokenFormRowModels.swift in Sources */,
+				C9AAB0791B9113BF000CE547 /* TokenFormModels.swift in Sources */,
 				1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */,
 				C9919CE21BA733FD006237C1 /* Section.swift in Sources */,
 				C9D6C8461906CD54004F0E08 /* TextFieldRow.swift in Sources */,

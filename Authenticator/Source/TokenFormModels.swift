@@ -1,5 +1,5 @@
 //
-//  TokenFormRowModels.swift
+//  TokenFormModels.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -25,6 +25,26 @@
 
 import UIKit
 import OneTimePassword
+
+enum TokenFormHeaderModel<Action> {
+    case ButtonHeader(identity: String, viewModel: ButtonHeaderViewModel<Action>)
+}
+
+enum TokenFormRowModel<Action>: Identifiable {
+    case TextFieldRow(identity: String, viewModel: TextFieldRowViewModel<Action>)
+    case SegmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
+
+    func hasSameIdentity(other: TokenFormRowModel) -> Bool {
+        switch (self, other) {
+        case let (.TextFieldRow(rowA), .TextFieldRow(rowB)):
+            return rowA.identity == rowB.identity
+        case let (.SegmentedControlRow(rowA), .SegmentedControlRow(rowB)):
+            return rowA.identity == rowB.identity
+        default:
+            return false
+        }
+    }
+}
 
 enum TokenType {
     case Counter, Timer

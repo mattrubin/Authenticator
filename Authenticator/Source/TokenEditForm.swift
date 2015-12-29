@@ -2,29 +2,42 @@
 //  TokenEditForm.swift
 //  Authenticator
 //
-//  Copyright (c) 2015 Matt Rubin
+//  Copyright (c) 2015 Authenticator authors
 //
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-//  the Software, and to permit persons to whom the Software is furnished to do so,
-//  subject to the following conditions:
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
 //  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-//  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-//  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-//  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-//  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 //
 
 import OneTimePassword
 
-struct TokenEditForm {
+struct TokenEditForm: TableViewModelRepresentable {
+    enum Action {
+        case Issuer(String)
+        case Name(String)
+        case Cancel
+        case Submit
+    }
+
+    typealias HeaderModel = TokenFormHeaderModel<Action>
+    typealias RowModel = TokenFormRowModel<Action>
+
+    typealias ViewModel = TableViewModel<TokenEditForm>
+
     // MARK: State
 
     private var state: State
@@ -48,7 +61,7 @@ struct TokenEditForm {
 
     // MARK: View Model
 
-    var viewModel: TableViewModel<Form> {
+    var viewModel: ViewModel {
         return TableViewModel(
             title: "Edit Token",
             leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
@@ -63,23 +76,23 @@ struct TokenEditForm {
         )
     }
 
-    private var issuerRowModel: Form.RowModel {
+    private var issuerRowModel: RowModel {
         return .TextFieldRow(
             identity: "token.issuer",
             viewModel: TextFieldRowViewModel(
                 issuer: state.issuer,
-                changeAction: Form.Action.Issuer
+                changeAction: Action.Issuer
             )
         )
     }
 
-    private var nameRowModel: Form.RowModel {
+    private var nameRowModel: RowModel {
         return .TextFieldRow(
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
                 name: state.name,
                 returnKeyType: .Done,
-                changeAction: Form.Action.Name
+                changeAction: Action.Name
             )
         )
     }
@@ -87,22 +100,12 @@ struct TokenEditForm {
     // MARK: Action handling
 
     @warn_unused_result
-    mutating func handleAction(action: Form.Action) -> AppAction? {
+    mutating func handleAction(action: Action) -> AppAction? {
         switch action {
         case .Issuer(let value):
             state.issuer = value
         case .Name(let value):
             state.name = value
-        case .Secret:
-            fatalError()
-        case .TokenType:
-            fatalError()
-        case .DigitCount:
-            fatalError()
-        case .Algorithm:
-            fatalError()
-        case .ShowAdvancedOptions:
-            fatalError()
         case .Cancel:
             return cancel()
         case .Submit:
