@@ -31,23 +31,19 @@ protocol TableViewModelFamily {
     typealias Action
 }
 
-struct TableViewModel<T: TableViewModelFamily> {
-    typealias HeaderModel = T.HeaderModel
-    typealias RowModel = T.RowModel
-    typealias Action = T.Action
-
+struct TableViewModel<Models: TableViewModelFamily> {
     var title: String
-    var leftBarButton: BarButtonViewModel<Action>?
-    var rightBarButton: BarButtonViewModel<Action>?
-    var sections: [Section<HeaderModel, RowModel>]
-    var doneKeyAction: Action
+    var leftBarButton: BarButtonViewModel<Models.Action>?
+    var rightBarButton: BarButtonViewModel<Models.Action>?
+    var sections: [Section<Models.HeaderModel, Models.RowModel>]
+    var doneKeyAction: Models.Action
     var errorMessage: String?
 
     init(title: String,
-        leftBarButton: BarButtonViewModel<Action>? = nil,
-        rightBarButton: BarButtonViewModel<Action>? = nil,
-        sections: [Section<HeaderModel, RowModel>],
-        doneKeyAction: Action,
+        leftBarButton: BarButtonViewModel<Models.Action>? = nil,
+        rightBarButton: BarButtonViewModel<Models.Action>? = nil,
+        sections: [Section<Models.HeaderModel, Models.RowModel>],
+        doneKeyAction: Models.Action,
         errorMessage: String? = nil) {
             self.title = title
             self.leftBarButton = leftBarButton
@@ -70,7 +66,7 @@ extension TableViewModel {
         return sections[section].rows.count
     }
 
-    func modelForRowAtIndexPath(indexPath: NSIndexPath) -> RowModel? {
+    func modelForRowAtIndexPath(indexPath: NSIndexPath) -> Models.RowModel? {
         guard sections.indices.contains(indexPath.section) else {
             return nil
         }
@@ -81,7 +77,7 @@ extension TableViewModel {
         return section.rows[indexPath.row]
     }
 
-    func modelForHeaderInSection(section: Int) -> HeaderModel? {
+    func modelForHeaderInSection(section: Int) -> Models.HeaderModel? {
         guard sections.indices.contains(section) else {
             return nil
         }
