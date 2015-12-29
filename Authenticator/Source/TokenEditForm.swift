@@ -25,6 +25,11 @@
 import OneTimePassword
 
 struct TokenEditForm {
+    typealias HeaderModel = TokenFormHeaderModel<TokenEntryAction>
+    typealias RowModel = TokenFormRowModel<TokenEntryAction>
+    typealias Action = TokenEntryAction
+    typealias ViewModel = TableViewModel<HeaderModel, RowModel, Action>
+
     // MARK: State
 
     private var state: State
@@ -48,7 +53,7 @@ struct TokenEditForm {
 
     // MARK: View Model
 
-    var viewModel: TableViewModel<Form> {
+    var viewModel: ViewModel {
         return TableViewModel(
             title: "Edit Token",
             leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
@@ -63,23 +68,23 @@ struct TokenEditForm {
         )
     }
 
-    private var issuerRowModel: Form.RowModel {
+    private var issuerRowModel: RowModel {
         return .TextFieldRow(
             identity: "token.issuer",
             viewModel: TextFieldRowViewModel(
                 issuer: state.issuer,
-                changeAction: Form.Action.Issuer
+                changeAction: Action.Issuer
             )
         )
     }
 
-    private var nameRowModel: Form.RowModel {
+    private var nameRowModel: RowModel {
         return .TextFieldRow(
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
                 name: state.name,
                 returnKeyType: .Done,
-                changeAction: Form.Action.Name
+                changeAction: Action.Name
             )
         )
     }
@@ -87,7 +92,7 @@ struct TokenEditForm {
     // MARK: Action handling
 
     @warn_unused_result
-    mutating func handleAction(action: Form.Action) -> AppAction? {
+    mutating func handleAction(action: Action) -> AppAction? {
         switch action {
         case .Issuer(let value):
             state.issuer = value

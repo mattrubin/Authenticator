@@ -24,16 +24,15 @@
 
 import OneTimePassword
 
-enum Form: TableViewModelFamily {
-    enum HeaderModel {
+    enum TokenFormHeaderModel<Action> {
         case ButtonHeader(identity: String, viewModel: ButtonHeaderViewModel<Action>)
     }
 
-    enum RowModel: Identifiable {
+    enum TokenFormRowModel<Action>: Identifiable {
         case TextFieldRow(identity: String, viewModel: TextFieldRowViewModel<Action>)
         case SegmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
 
-        func hasSameIdentity(other: RowModel) -> Bool {
+        func hasSameIdentity(other: TokenFormRowModel) -> Bool {
             switch (self, other) {
             case let (.TextFieldRow(rowA), .TextFieldRow(rowB)):
                 return rowA.identity == rowB.identity
@@ -45,7 +44,7 @@ enum Form: TableViewModelFamily {
         }
     }
 
-    enum Action {
+    enum TokenEntryAction {
         case Issuer(String)
         case Name(String)
         case Secret(String)
@@ -57,4 +56,3 @@ enum Form: TableViewModelFamily {
         case Cancel
         case Submit
     }
-}

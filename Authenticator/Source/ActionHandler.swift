@@ -37,8 +37,8 @@ enum AppAction {
 
     case AddTokenFromURL(Token)
 
-    case TokenEntryFormAction(Form.Action)
-    case TokenEditFormAction(Form.Action)
+    case TokenEntryFormAction(TokenEntryForm.Action)
+    case TokenEditFormAction(TokenEditForm.Action)
 }
 
 protocol ActionHandler: class {
