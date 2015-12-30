@@ -166,8 +166,9 @@
 				C93BD6281C168EBF00FFFB8F /* AppViewModel.swift */,
 				C93BD6241C16841D00FFFB8F /* AppViewController.swift */,
 				C9BA64E71C0C26BA00610C7C /* ActionHandler.swift */,
-				C98C1C4917D2F03400A07D3F /* Display */,
-				C98C1C4617D2EE6500A07D3F /* Entry */,
+				C98C1C4917D2F03400A07D3F /* Token List */,
+				C9B0B9501BC9159300BD5844 /* Forms */,
+				C97CDF2D1BEF10B300D64406 /* Scanner */,
 				C98C1C4E17D2F14500A07D3F /* Utility */,
 			);
 			path = Source;
@@ -311,19 +312,7 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
-		C98C1C4617D2EE6500A07D3F /* Entry */ = {
-			isa = PBXGroup;
-			children = (
-				C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */,
-				C9B0B9501BC9159300BD5844 /* Forms */,
-				C9B0B94F1BC9158200BD5844 /* View Models */,
-				C9D6C8401906BD6F004F0E08 /* Cells */,
-				C97CDF2D1BEF10B300D64406 /* Scanner */,
-			);
-			name = Entry;
-			sourceTree = "<group>";
-		};
-		C98C1C4917D2F03400A07D3F /* Display */ = {
+		C98C1C4917D2F03400A07D3F /* Token List */ = {
 			isa = PBXGroup;
 			children = (
 				C910ADC01BF0315A00C988F5 /* TokenList.swift */,
@@ -333,7 +322,7 @@
 				C98C1C4517D2EDF500A07D3F /* Cells */,
 				C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */,
 			);
-			name = Display;
+			name = "Token List";
 			sourceTree = "<group>";
 		};
 		C98C1C4E17D2F14500A07D3F /* Utility */ = {
@@ -358,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				C9CC09541BA91D1C008C54FE /* TableViewModel.swift */,
+				C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */,
 				C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */,
 				C9919CE11BA733FD006237C1 /* Section.swift */,
 			);
@@ -369,20 +359,22 @@
 			children = (
 				C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */,
 				C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */,
-				C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */,
+				C9B0B94F1BC9158200BD5844 /* View Models */,
+				C9D6C8401906BD6F004F0E08 /* Views */,
 			);
 			name = Forms;
 			sourceTree = "<group>";
 		};
-		C9D6C8401906BD6F004F0E08 /* Cells */ = {
+		C9D6C8401906BD6F004F0E08 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */,
 				C9CC09521BA9133B008C54FE /* FocusCell.swift */,
 				C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */,
 				C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */,
 				C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */,
 			);
-			name = Cells;
+			name = Views;
 			sourceTree = "<group>";
 		};
 		C9F75C921843CFFD00B6FA14 /* App Icon */ = {
