@@ -166,7 +166,7 @@
 				C93BD6281C168EBF00FFFB8F /* AppViewModel.swift */,
 				C93BD6241C16841D00FFFB8F /* AppViewController.swift */,
 				C9BA64E71C0C26BA00610C7C /* ActionHandler.swift */,
-				C98C1C4917D2F03400A07D3F /* Display */,
+				C98C1C4917D2F03400A07D3F /* Token List */,
 				C9B0B9501BC9159300BD5844 /* Forms */,
 				C97CDF2D1BEF10B300D64406 /* Scanner */,
 				C98C1C4E17D2F14500A07D3F /* Utility */,
@@ -312,7 +312,7 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
-		C98C1C4917D2F03400A07D3F /* Display */ = {
+		C98C1C4917D2F03400A07D3F /* Token List */ = {
 			isa = PBXGroup;
 			children = (
 				C910ADC01BF0315A00C988F5 /* TokenList.swift */,
@@ -322,7 +322,7 @@
 				C98C1C4517D2EDF500A07D3F /* Cells */,
 				C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */,
 			);
-			name = Display;
+			name = "Token List";
 			sourceTree = "<group>";
 		};
 		C98C1C4E17D2F14500A07D3F /* Utility */ = {
