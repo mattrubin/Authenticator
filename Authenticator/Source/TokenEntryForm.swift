@@ -29,7 +29,34 @@ import OneTimePassword
 private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
-struct TokenEntryForm: TableViewModelRepresentable {
+struct TokenEntryForm {
+    private var issuer: String = ""
+    private var name: String = ""
+    private var secret: String = ""
+    private var tokenType: TokenType = .Timer
+    private var digitCount: Int = 6
+    private var algorithm: Generator.Algorithm = .SHA1
+
+    private var showsAdvancedOptions: Bool = false
+    private var submitFailed: Bool = false
+
+    private var isValid: Bool {
+        return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
+    }
+
+    private mutating func resetEphemera() {
+        submitFailed = false
+    }
+
+    // MARK: Initialization
+
+    init() {
+    }
+}
+
+// MARK: Associated Types
+
+extension TokenEntryForm: TableViewModelRepresentable {
     enum Action {
         case Issuer(String)
         case Name(String)
@@ -45,57 +72,18 @@ struct TokenEntryForm: TableViewModelRepresentable {
 
     typealias HeaderModel = TokenFormHeaderModel<Action>
     typealias RowModel = TokenFormRowModel<Action>
-
-    typealias ViewModel = TableViewModel<TokenEntryForm>
-
-    // MARK: State
-
-    private var state: State
-
-    private struct State {
-        var issuer: String
-        var name: String
-        var secret: String
-        var tokenType: TokenType
-        var digitCount: Int
-        var algorithm: Generator.Algorithm
-
-        var showsAdvancedOptions: Bool
-        var submitFailed: Bool
-
-        var isValid: Bool {
-            return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
-        }
-
-        mutating func resetEphemera() {
-            submitFailed = false
-        }
-    }
-
-    // MARK: Initialization
-
-    init() {
-        state = State(
-            issuer: "",
-            name: "",
-            secret: "",
-            tokenType: .Timer,
-            digitCount: 6,
-            algorithm: .SHA1,
-            showsAdvancedOptions: false,
-            submitFailed: false
-        )
-    }
 }
 
 // MARK: View Model
 
 extension TokenEntryForm {
+    typealias ViewModel = TableViewModel<TokenEntryForm>
+
     var viewModel: ViewModel {
         return TableViewModel(
             title: "Add Token",
             leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
-            rightBarButton: BarButtonViewModel(style: .Done, action: .Submit, enabled: state.isValid),
+            rightBarButton: BarButtonViewModel(style: .Done, action: .Submit, enabled: isValid),
             sections: [
                 [
                     issuerRowModel,
@@ -104,7 +92,7 @@ extension TokenEntryForm {
                 ],
                 Section(
                     header: advancedSectionHeader,
-                    rows: !state.showsAdvancedOptions ? [] :
+                    rows: !showsAdvancedOptions ? [] :
                         [
                             tokenTypeRowModel,
                             digitCountRowModel,
@@ -113,7 +101,7 @@ extension TokenEntryForm {
                 ),
             ],
             doneKeyAction: .Submit,
-            errorMessage: state.submitFailed ? "Invalid Token" : nil
+            errorMessage: submitFailed ? "Invalid Token" : nil
         )
     }
 
@@ -131,7 +119,7 @@ extension TokenEntryForm {
         return .TextFieldRow(
             identity: "token.issuer",
             viewModel: TextFieldRowViewModel(
-                issuer: state.issuer,
+                issuer: issuer,
                 changeAction: Action.Issuer
             )
         )
@@ -141,7 +129,7 @@ extension TokenEntryForm {
         return .TextFieldRow(
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
-                name: state.name,
+                name: name,
                 returnKeyType: .Next,
                 changeAction: Action.Name
             )
@@ -152,7 +140,7 @@ extension TokenEntryForm {
         return .TextFieldRow(
             identity: "token.secret",
             viewModel: TextFieldRowViewModel(
-                secret: state.secret,
+                secret: secret,
                 changeAction: Action.Secret
             )
         )
@@ -162,7 +150,7 @@ extension TokenEntryForm {
         return .SegmentedControlRow(
             identity: "token.tokenType",
             viewModel: SegmentedControlRowViewModel(
-                tokenType: state.tokenType,
+                tokenType: tokenType,
                 changeAction: Action.TokenType
             )
         )
@@ -172,7 +160,7 @@ extension TokenEntryForm {
         return .SegmentedControlRow(
             identity: "token.digitCount",
             viewModel: SegmentedControlRowViewModel(
-                digitCount: state.digitCount,
+                digitCount: digitCount,
                 changeAction: Action.DigitCount
             )
         )
@@ -182,31 +170,36 @@ extension TokenEntryForm {
         return .SegmentedControlRow(
             identity: "token.algorithm",
             viewModel: SegmentedControlRowViewModel(
-                algorithm: state.algorithm,
+                algorithm: algorithm,
                 changeAction: Action.Algorithm
             )
         )
     }
+}
 
-    // MARK: Action handling
+// MARK: Actions
+
+extension TokenEntryForm {
     @warn_unused_result
     mutating func handleAction(action: Action) -> AppAction? {
-        state.resetEphemera()
+        // TODO: Standardize approach to ephemera handling across screens
+        resetEphemera()
         switch action {
-        case .Issuer(let value):
-            state.issuer = value
-        case .Name(let value):
-            state.name = value
-        case .Secret(let value):
-            state.secret = value
-        case .TokenType(let value):
-            state.tokenType = value
-        case .DigitCount(let value):
-            state.digitCount = value
-        case .Algorithm(let value):
-            state.algorithm = value
+        case let .Issuer(issuer):
+            self.issuer = issuer
+        case let .Name(name):
+            self.name = name
+        case let .Secret(secret):
+            self.secret = secret
+        case let .TokenType(tokenType):
+            self.tokenType = tokenType
+        case let .DigitCount(digitCount):
+            self.digitCount = digitCount
+        case let .Algorithm(algorithm):
+            self.algorithm = algorithm
         case .ShowAdvancedOptions:
-            showAdvancedOptions()
+            showsAdvancedOptions = true
+            // TODO: Scroll to the newly-expanded section
         case .Cancel:
             return cancel()
         case .Submit:
@@ -214,57 +207,50 @@ extension TokenEntryForm {
         }
         return nil
     }
-}
-
-// MARK: Actions
-
-private extension TokenEntryForm {
-    mutating func showAdvancedOptions() {
-        state.showsAdvancedOptions = true
-        // TODO: Scroll to the newly-expanded section
-    }
 
     @warn_unused_result
-    mutating func cancel() -> AppAction {
+    private mutating func cancel() -> AppAction {
         return .CancelTokenEntry
     }
 
     @warn_unused_result
-    mutating func submit() -> AppAction? {
-        if !state.isValid {
-            // TODO: Show error message?
+    private mutating func submit() -> AppAction? {
+        guard isValid else {
+            // TODO: Show more specific error messages for different failure cases
+            submitFailed = true
             return nil
         }
 
-        if let secret = NSData(base32String: state.secret) {
-            if secret.length > 0 {
-                let factor: Generator.Factor
-                switch state.tokenType {
-                case .Counter:
-                    factor = defaultCounterFactor
-                case .Timer:
-                    factor = defaultTimerFactor
-                }
-
-                if let generator = Generator(
-                    factor: factor,
-                    secret: secret,
-                    algorithm: state.algorithm,
-                    digits: state.digitCount
-                    ) {
-                        let token = Token(
-                            name: state.name,
-                            issuer: state.issuer,
-                            generator: generator
-                        )
-
-                        return .SaveNewToken(token)
-                }
-            }
+        guard let secretData = NSData(base32String: secret)
+            where secretData.length > 0 else {
+                submitFailed = true
+                return nil
         }
 
-        // If the method hasn't returned by this point, token creation failed
-        state.submitFailed = true
-        return nil
+        let factor: Generator.Factor
+        switch tokenType {
+        case .Counter:
+            factor = defaultCounterFactor
+        case .Timer:
+            factor = defaultTimerFactor
+        }
+
+        guard let generator = Generator(
+            factor: factor,
+            secret: secretData,
+            algorithm: algorithm,
+            digits: digitCount
+            ) else {
+                submitFailed = true
+                return nil
+        }
+
+        let token = Token(
+            name: name,
+            issuer: issuer,
+            generator: generator
+        )
+
+        return .SaveNewToken(token)
     }
 }

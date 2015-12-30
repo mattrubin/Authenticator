@@ -25,7 +25,28 @@
 
 import OneTimePassword
 
-struct TokenEditForm: TableViewModelRepresentable {
+struct TokenEditForm {
+    private let persistentToken: PersistentToken
+
+    private var issuer: String
+    private var name: String
+
+    private var isValid: Bool {
+        return !(issuer.isEmpty && name.isEmpty)
+    }
+
+    // MARK: Initialization
+
+    init(persistentToken: PersistentToken) {
+        self.persistentToken = persistentToken
+        issuer = persistentToken.token.issuer
+        name = persistentToken.token.name
+    }
+}
+
+// MARK: Associated Types
+
+extension TokenEditForm: TableViewModelRepresentable {
     enum Action {
         case Issuer(String)
         case Name(String)
@@ -35,37 +56,18 @@ struct TokenEditForm: TableViewModelRepresentable {
 
     typealias HeaderModel = TokenFormHeaderModel<Action>
     typealias RowModel = TokenFormRowModel<Action>
+}
 
+// MARK: View Model
+
+extension TokenEditForm {
     typealias ViewModel = TableViewModel<TokenEditForm>
-
-    // MARK: State
-
-    private var state: State
-
-    private struct State {
-        let persistentToken: PersistentToken
-
-        var issuer: String
-        var name: String
-
-        var isValid: Bool {
-            return !(issuer.isEmpty && name.isEmpty)
-        }
-
-        init(persistentToken: PersistentToken) {
-            self.persistentToken = persistentToken
-            issuer = persistentToken.token.issuer
-            name = persistentToken.token.name
-        }
-    }
-
-    // MARK: View Model
 
     var viewModel: ViewModel {
         return TableViewModel(
             title: "Edit Token",
             leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
-            rightBarButton: BarButtonViewModel(style: .Done, action: .Submit, enabled: state.isValid),
+            rightBarButton: BarButtonViewModel(style: .Done, action: .Submit, enabled: isValid),
             sections: [
                 [
                     issuerRowModel,
@@ -80,7 +82,7 @@ struct TokenEditForm: TableViewModelRepresentable {
         return .TextFieldRow(
             identity: "token.issuer",
             viewModel: TextFieldRowViewModel(
-                issuer: state.issuer,
+                issuer: issuer,
                 changeAction: Action.Issuer
             )
         )
@@ -90,22 +92,24 @@ struct TokenEditForm: TableViewModelRepresentable {
         return .TextFieldRow(
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
-                name: state.name,
+                name: name,
                 returnKeyType: .Done,
                 changeAction: Action.Name
             )
         )
     }
+}
 
-    // MARK: Action handling
+// MARK: Actions
 
+extension TokenEditForm {
     @warn_unused_result
     mutating func handleAction(action: Action) -> AppAction? {
         switch action {
-        case .Issuer(let value):
-            state.issuer = value
-        case .Name(let value):
-            state.name = value
+        case let .Issuer(issuer):
+            self.issuer = issuer
+        case let .Name(name):
+            self.name = name
         case .Cancel:
             return cancel()
         case .Submit:
@@ -114,14 +118,6 @@ struct TokenEditForm: TableViewModelRepresentable {
         return nil
     }
 
-    // MARK: Initialization
-
-    init(persistentToken: PersistentToken) {
-        state = State(persistentToken: persistentToken)
-    }
-
-    // MARK: Actions
-
     @warn_unused_result
     private func cancel() -> AppAction {
         return .CancelTokenEdit
@@ -129,16 +125,16 @@ struct TokenEditForm: TableViewModelRepresentable {
 
     @warn_unused_result
     private func submit() -> AppAction? {
-        guard state.isValid else {
+        guard isValid else {
             // TODO: Show error message?
             return nil
         }
 
         let token = Token(
-            name: state.name,
-            issuer: state.issuer,
-            generator: state.persistentToken.token.generator
+            name: name,
+            issuer: issuer,
+            generator: persistentToken.token.generator
         )
-        return .SaveChanges(token, state.persistentToken)
+        return .SaveChanges(token, persistentToken)
     }
 }
