@@ -202,7 +202,7 @@ extension TokenListViewController: TokenRowDelegate {
 }
 
 // MARK: TokenListPresenter
-extension TokenListViewController: TokenListPresenter {
+extension TokenListViewController {
     func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         self.viewModel = viewModel

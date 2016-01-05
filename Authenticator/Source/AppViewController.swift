@@ -43,12 +43,10 @@ class AppViewController: OpaqueNavigationController {
     init(viewModel: AppViewModel, actionHandler: ActionHandler) {
         self.currentViewModel = viewModel
         self.actionHandler = actionHandler
-        let tokenList = viewModel.tokenList
-        tokenListViewController = TokenListViewController(viewModel: tokenList.viewModel,
+        tokenListViewController = TokenListViewController(viewModel: viewModel.tokenList,
             dispatchAction: { [weak actionHandler] in
                 actionHandler?.handleAction(.TokenListAction($0))
             })
-        tokenList.presenter = tokenListViewController
 
         super.init(nibName: nil, bundle: nil)
         self.viewControllers = [tokenListViewController]
@@ -84,6 +82,13 @@ extension AppViewController: ActionHandler {
 
 extension AppViewController: AppPresenter {
     func updateWithViewModel(viewModel: AppViewModel) {
+        updateWithViewModel(viewModel, ephemeralTokenListMessage: nil)
+    }
+
+    func updateWithViewModel(viewModel: AppViewModel, ephemeralTokenListMessage: EphemeralMessage?) {
+        tokenListViewController.updateWithViewModel(viewModel.tokenList,
+            ephemeralMessage: ephemeralTokenListMessage)
+
         switch viewModel.modal {
         case .None:
             dismissViewController()

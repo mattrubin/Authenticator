@@ -29,7 +29,9 @@ class AppModel {
     weak var presenter: AppPresenter?
 
     private lazy var tokenList: TokenList = {
-        TokenList(actionHandler: self)
+        let tokenList = TokenList(actionHandler: self)
+        tokenList.presenter = self
+        return tokenList
     }()
 
     private var modalState: ModalState {
@@ -62,9 +64,15 @@ class AppModel {
             modal = .EditForm(form.viewModel)
         }
         return AppViewModel(
-            tokenList: tokenList,
+            tokenList: tokenList.viewModel,
             modal: modal
         )
+    }
+}
+
+extension AppModel: TokenListPresenter {
+    func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?) {
+        presenter?.updateWithViewModel(self.viewModel, ephemeralTokenListMessage: ephemeralMessage)
     }
 }
 
