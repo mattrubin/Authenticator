@@ -103,6 +103,9 @@ extension AppModel: ActionHandler {
         case .AddTokenFromURL(let token):
             tokenList.addToken(token)
 
+        case .TokenListAction(let action):
+            tokenList.handleAction(action)
+
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
                 var newForm = form

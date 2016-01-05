@@ -37,6 +37,7 @@ enum AppAction {
 
     case AddTokenFromURL(Token)
 
+    case TokenListAction(TokenList.Action)
     case TokenEntryFormAction(TokenEntryForm.Action)
     case TokenEditFormAction(TokenEditForm.Action)
 }
