@@ -36,7 +36,7 @@ class AppModel {
 
     private var modalState: ModalState {
         didSet {
-            presenter?.updateWithViewModel(viewModel)
+            updatePresenter()
         }
     }
 
@@ -53,7 +53,6 @@ class AppModel {
 
     var viewModel: AppViewModel {
         let tokenListViewModel = tokenList.viewModel
-        tokenList.resetEphemera()
 
         let modal: AppViewModel.Modal
         switch modalState {
@@ -72,11 +71,20 @@ class AppModel {
             modal: modal
         )
     }
+
+    func resetEphemera() {
+        tokenList.resetEphemera()
+    }
+
+    private func updatePresenter() {
+        presenter?.updateWithViewModel(viewModel)
+        resetEphemera()
+    }
 }
 
 extension AppModel: TokenListPresenter {
     func updateWithViewModel(viewModel: TokenListViewModel) {
-        presenter?.updateWithViewModel(self.viewModel)
+        updatePresenter()
     }
 }
 
