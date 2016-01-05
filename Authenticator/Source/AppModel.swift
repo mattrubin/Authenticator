@@ -52,6 +52,9 @@ class AppModel {
     }
 
     var viewModel: AppViewModel {
+        let tokenListViewModel = tokenList.viewModel
+        tokenList.resetEphemera()
+
         let modal: AppViewModel.Modal
         switch modalState {
         case .None:
@@ -63,16 +66,17 @@ class AppModel {
         case .EditForm(let form):
             modal = .EditForm(form.viewModel)
         }
+
         return AppViewModel(
-            tokenList: tokenList.viewModel,
+            tokenList: tokenListViewModel,
             modal: modal
         )
     }
 }
 
 extension AppModel: TokenListPresenter {
-    func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?) {
-        presenter?.updateWithViewModel(self.viewModel, ephemeralTokenListMessage: ephemeralMessage)
+    func updateWithViewModel(viewModel: TokenListViewModel) {
+        presenter?.updateWithViewModel(self.viewModel)
     }
 }
 

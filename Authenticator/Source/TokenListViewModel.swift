@@ -28,6 +28,7 @@ import Foundation
 struct TokenListViewModel {
     let rowModels: [TokenRowModel]
     let ringPeriod: NSTimeInterval?
+    let ephemeralMessage: EphemeralMessage?
 }
 
 enum EphemeralMessage {
@@ -36,5 +37,5 @@ enum EphemeralMessage {
 }
 
 protocol TokenListPresenter: class {
-    func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?)
+    func updateWithViewModel(viewModel: TokenListViewModel)
 }

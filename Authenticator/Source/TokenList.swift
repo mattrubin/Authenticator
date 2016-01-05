@@ -35,8 +35,13 @@ class TokenList {
     private let keychain = Keychain.sharedInstance
     private var persistentTokens: [PersistentToken] {
         didSet {
-            presenter?.updateWithViewModel(viewModel, ephemeralMessage: nil)
+            presenter?.updateWithViewModel(viewModel)
         }
+    }
+    private var ephemeralMessage: EphemeralMessage?
+
+    func resetEphemera() {
+        ephemeralMessage = nil
     }
 
     init(actionHandler: ActionHandler) {
@@ -73,7 +78,8 @@ class TokenList {
         let rowModels = persistentTokens.map(TokenRowModel.init)
         return TokenListViewModel(
             rowModels: rowModels,
-            ringPeriod: timeBasedTokenPeriods.first
+            ringPeriod: timeBasedTokenPeriods.first,
+            ephemeralMessage: ephemeralMessage
         )
     }
 
@@ -154,7 +160,8 @@ extension TokenList {
         let pasteboard = UIPasteboard.generalPasteboard()
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         // Show an emphemeral success message in the view
-        presenter?.updateWithViewModel(viewModel, ephemeralMessage: .Success("Copied"))
+        ephemeralMessage = .Success("Copied")
+        presenter?.updateWithViewModel(viewModel)
     }
 
     private func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
@@ -172,13 +179,13 @@ extension TokenList {
             saveTokenOrder()
         } catch {
             // Show an emphemeral failure message
-            let errorMessage = "Deletion Failed:\n\(error)"
-            presenter?.updateWithViewModel(viewModel, ephemeralMessage: .Error(errorMessage))
+            ephemeralMessage = .Error("Deletion Failed:\n\(error)")
+            presenter?.updateWithViewModel(viewModel)
         }
     }
 
     private func updateViewModel() {
-        presenter?.updateWithViewModel(viewModel, ephemeralMessage: nil)
+        presenter?.updateWithViewModel(viewModel)
     }
 }
 

@@ -82,12 +82,7 @@ extension AppViewController: ActionHandler {
 
 extension AppViewController: AppPresenter {
     func updateWithViewModel(viewModel: AppViewModel) {
-        updateWithViewModel(viewModel, ephemeralTokenListMessage: nil)
-    }
-
-    func updateWithViewModel(viewModel: AppViewModel, ephemeralTokenListMessage: EphemeralMessage?) {
-        tokenListViewController.updateWithViewModel(viewModel.tokenList,
-            ephemeralMessage: ephemeralTokenListMessage)
+        tokenListViewController.updateWithViewModel(viewModel.tokenList)
 
         switch viewModel.modal {
         case .None:
