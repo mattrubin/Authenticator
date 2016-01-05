@@ -117,7 +117,7 @@ class TokenList {
     }
 }
 
-extension TokenList: TokenListActionHandler {
+extension TokenList {
     func handleAction(action: TokenList.Action) {
         switch action {
         case .BeginAddToken:

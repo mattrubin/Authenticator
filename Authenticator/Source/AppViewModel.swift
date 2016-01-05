@@ -24,17 +24,18 @@
 //
 
 struct AppViewModel {
-    let tokenList: TokenList
+    let tokenList: TokenListViewModel
     let modal: Modal
 
     enum Modal {
         case None
         case Scanner
-        case EntryForm(TableViewModel<TokenEntryForm>)
-        case EditForm(TableViewModel<TokenEditForm>)
+        case EntryForm(TokenEntryForm.ViewModel)
+        case EditForm(TokenEditForm.ViewModel)
     }
 }
 
 protocol AppPresenter: class {
     func updateWithViewModel(viewModel: AppViewModel)
+    func updateWithViewModel(viewModel: AppViewModel, ephemeralTokenListMessage: EphemeralMessage?)
 }

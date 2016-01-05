@@ -40,7 +40,3 @@ extension TokenList {
         case UpdateViewModel
     }
 }
-
-protocol TokenListActionHandler: class {
-    func handleAction(action: TokenList.Action)
-}
