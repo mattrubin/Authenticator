@@ -72,13 +72,8 @@ class AppModel {
         )
     }
 
-    func resetEphemera() {
-        tokenList.resetEphemera()
-    }
-
     private func updatePresenter() {
         presenter?.updateWithViewModel(viewModel)
-        resetEphemera()
     }
 }
 

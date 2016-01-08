@@ -40,10 +40,6 @@ class TokenList {
     }
     private var ephemeralMessage: EphemeralMessage?
 
-    func resetEphemera() {
-        ephemeralMessage = nil
-    }
-
     init(actionHandler: ActionHandler) {
         self.actionHandler = actionHandler
         do {
@@ -125,6 +121,9 @@ class TokenList {
 
 extension TokenList {
     func handleAction(action: TokenList.Action) {
+        // Reset any ephemeral state set by the previous action
+        resetEphemera()
+
         switch action {
         case .BeginAddToken:
             beginAddToken()
@@ -141,6 +140,10 @@ extension TokenList {
         case .UpdateViewModel:
             updateViewModel()
         }
+    }
+
+    private func resetEphemera() {
+        ephemeralMessage = nil
     }
 
     private func beginAddToken() {
