@@ -36,7 +36,7 @@ class AppModel {
 
     private var modalState: ModalState {
         didSet {
-            updatePresenter()
+            presenter?.updateWithViewModel(viewModel)
         }
     }
 
@@ -71,15 +71,11 @@ class AppModel {
             modal: modal
         )
     }
-
-    private func updatePresenter() {
-        presenter?.updateWithViewModel(viewModel)
-    }
 }
 
 extension AppModel: TokenListPresenter {
     func updateWithViewModel(viewModel: TokenListViewModel) {
-        updatePresenter()
+        presenter?.updateWithViewModel(self.viewModel)
     }
 }
 
