@@ -52,8 +52,6 @@ class AppModel {
     }
 
     var viewModel: AppViewModel {
-        let tokenListViewModel = tokenList.viewModel
-
         let modal: AppViewModel.Modal
         switch modalState {
         case .None:
@@ -67,7 +65,7 @@ class AppModel {
         }
 
         return AppViewModel(
-            tokenList: tokenListViewModel,
+            tokenList: tokenList.viewModel,
             modal: modal
         )
     }
