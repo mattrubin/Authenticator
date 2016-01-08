@@ -1,5 +1,5 @@
 //
-//  TokenList.swift
+//  TokenStore.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -28,7 +28,7 @@ import MobileCoreServices
 import OneTimePassword
 import UIKit
 
-class TokenList {
+class TokenStore {
     private weak var actionHandler: ActionHandler?
     weak var presenter: TokenListPresenter?
 
@@ -44,7 +44,7 @@ class TokenList {
         self.actionHandler = actionHandler
         do {
             let persistentTokenSet = try keychain.allPersistentTokens()
-            let sortedIdentifiers = TokenList.persistentIdentifiers()
+            let sortedIdentifiers = TokenStore.persistentIdentifiers()
 
             persistentTokens = persistentTokenSet.sort({ (A, B) in
                 let indexOfA = sortedIdentifiers.indexOf(A.identifier)
@@ -119,7 +119,7 @@ class TokenList {
     }
 }
 
-extension TokenList {
+extension TokenStore {
     func handleAction(action: TokenList.Action) {
         // Reset any ephemeral state set by the previous action
         resetEphemera()
@@ -192,7 +192,7 @@ extension TokenList {
     }
 }
 
-extension TokenList {
+extension TokenStore {
     // MARK: Token Order
 
     private static let kOTPKeychainEntriesArray = "OTPKeychainEntries"
@@ -210,6 +210,6 @@ extension TokenList {
 
     private func saveTokenOrder() {
         let persistentIdentifiers = persistentTokens.map { $0.identifier }
-        TokenList.savePersistentIdentifiers(persistentIdentifiers)
+        TokenStore.savePersistentIdentifiers(persistentIdentifiers)
     }
 }

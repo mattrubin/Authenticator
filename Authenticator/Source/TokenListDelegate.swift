@@ -25,7 +25,7 @@
 
 import OneTimePassword
 
-extension TokenList {
+struct TokenList {
     enum Action {
         case BeginAddToken
         case BeginEditPersistentToken(PersistentToken)

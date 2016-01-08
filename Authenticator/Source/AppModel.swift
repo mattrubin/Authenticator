@@ -28,10 +28,10 @@ import UIKit
 class AppModel {
     weak var presenter: AppPresenter?
 
-    private lazy var tokenList: TokenList = {
-        let tokenList = TokenList(actionHandler: self)
-        tokenList.presenter = self
-        return tokenList
+    private lazy var tokenStore: TokenStore = {
+        let tokenStore = TokenStore(actionHandler: self)
+        tokenStore.presenter = self
+        return tokenStore
     }()
 
     private var modalState: ModalState {
@@ -65,7 +65,7 @@ class AppModel {
         }
 
         return AppViewModel(
-            tokenList: tokenList.viewModel,
+            tokenList: tokenStore.viewModel,
             modal: modal
         )
     }
@@ -92,7 +92,7 @@ extension AppModel: ActionHandler {
             modalState = .EntryForm(form)
 
         case .SaveNewToken(let token):
-            tokenList.addToken(token)
+            tokenStore.addToken(token)
             modalState = .None
 
         case .CancelTokenEntry:
@@ -103,17 +103,17 @@ extension AppModel: ActionHandler {
             modalState = .EditForm(form)
 
         case let .SaveChanges(token, persistentToken):
-            tokenList.saveToken(token, toPersistentToken: persistentToken)
+            tokenStore.saveToken(token, toPersistentToken: persistentToken)
             modalState = .None
 
         case .CancelTokenEdit:
             modalState = .None
 
         case .AddTokenFromURL(let token):
-            tokenList.addToken(token)
+            tokenStore.addToken(token)
 
         case .TokenListAction(let action):
-            tokenList.handleAction(action)
+            tokenStore.handleAction(action)
 
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
