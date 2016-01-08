@@ -203,13 +203,13 @@ extension TokenListViewController: TokenRowDelegate {
 
 // MARK: TokenListPresenter
 extension TokenListViewController {
-    func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?) {
+    func updateWithViewModel(viewModel: TokenListViewModel) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         self.viewModel = viewModel
         updateTableViewWithChanges(changes)
         updatePeripheralViews()
         // Show ephemeral message
-        if let ephemeralMessage = ephemeralMessage {
+        if let ephemeralMessage = viewModel.ephemeralMessage {
             switch ephemeralMessage {
             case .Success(let message):
                 SVProgressHUD.showSuccessWithStatus(message)

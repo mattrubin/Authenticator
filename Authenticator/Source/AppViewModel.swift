@@ -37,5 +37,4 @@ struct AppViewModel {
 
 protocol AppPresenter: class {
     func updateWithViewModel(viewModel: AppViewModel)
-    func updateWithViewModel(viewModel: AppViewModel, ephemeralTokenListMessage: EphemeralMessage?)
 }

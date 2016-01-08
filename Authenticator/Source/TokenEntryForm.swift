@@ -44,10 +44,6 @@ struct TokenEntryForm {
         return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
     }
 
-    private mutating func resetEphemera() {
-        submitFailed = false
-    }
-
     // MARK: Initialization
 
     init() {
@@ -182,8 +178,9 @@ extension TokenEntryForm {
 extension TokenEntryForm {
     @warn_unused_result
     mutating func handleAction(action: Action) -> AppAction? {
-        // TODO: Standardize approach to ephemera handling across screens
+        // Reset any ephemeral state set by the previous action
         resetEphemera()
+
         switch action {
         case let .Issuer(issuer):
             self.issuer = issuer
@@ -206,6 +203,10 @@ extension TokenEntryForm {
             return submit()
         }
         return nil
+    }
+
+    private mutating func resetEphemera() {
+        submitFailed = false
     }
 
     @warn_unused_result

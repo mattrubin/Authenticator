@@ -63,6 +63,7 @@ class AppModel {
         case .EditForm(let form):
             modal = .EditForm(form.viewModel)
         }
+
         return AppViewModel(
             tokenList: tokenList.viewModel,
             modal: modal
@@ -71,8 +72,8 @@ class AppModel {
 }
 
 extension AppModel: TokenListPresenter {
-    func updateWithViewModel(viewModel: TokenListViewModel, ephemeralMessage: EphemeralMessage?) {
-        presenter?.updateWithViewModel(self.viewModel, ephemeralTokenListMessage: ephemeralMessage)
+    func updateWithViewModel(viewModel: TokenListViewModel) {
+        presenter?.updateWithViewModel(self.viewModel)
     }
 }
 
