@@ -116,7 +116,11 @@ extension AppModel: ActionHandler {
             tokenStore.addToken(token)
 
         case .TokenListAction(let action):
-            tokenStore.handleAction(action)
+            let resultingAppAction = tokenList.handleAction(action)
+            // Handle the resulting action after committing the changes of the initial action
+            if let resultingAppAction = resultingAppAction {
+                handleAction(resultingAppAction)
+            }
 
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
@@ -139,6 +143,9 @@ extension AppModel: ActionHandler {
                     handleAction(resultingAppAction)
                 }
             }
+
+        case .TokenStoreAction(let action):
+            tokenStore.handleAction(action)
         }
     }
 }

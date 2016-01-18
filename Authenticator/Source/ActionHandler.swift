@@ -40,6 +40,8 @@ enum AppAction {
     case TokenListAction(TokenList.Action)
     case TokenEntryFormAction(TokenEntryForm.Action)
     case TokenEditFormAction(TokenEditForm.Action)
+
+    case TokenStoreAction(TokenList.Action)
 }
 
 protocol ActionHandler: class {

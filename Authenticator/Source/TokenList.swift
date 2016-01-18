@@ -73,4 +73,29 @@ extension TokenList {
         // TODO: remove this action and have the component auto-update the view model on time change
         case UpdateViewModel
     }
+
+    func handleAction(action: Action) -> AppAction? {
+        switch action {
+        case .BeginAddToken:
+            return .TokenStoreAction(.BeginAddToken)
+
+        case .BeginEditPersistentToken(let persistentToken):
+            return .TokenStoreAction(.BeginEditPersistentToken(persistentToken))
+
+        case .UpdatePersistentToken(let persistentToken):
+            return .TokenStoreAction(.UpdatePersistentToken(persistentToken))
+
+        case .CopyPassword(let password):
+            return .TokenStoreAction(.CopyPassword(password))
+
+        case let .MoveToken(fromIndex, toIndex):
+            return .TokenStoreAction(.MoveToken(fromIndex: fromIndex, toIndex: toIndex))
+
+        case .DeleteTokenAtIndex(let index):
+            return .TokenStoreAction(.DeleteTokenAtIndex(index))
+
+        case .UpdateViewModel:
+            return .TokenStoreAction(.UpdateViewModel)
+        }
+    }
 }
