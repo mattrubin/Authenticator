@@ -33,12 +33,12 @@ class TokenStore {
     weak var presenter: TokenListPresenter?
 
     private let keychain = Keychain.sharedInstance
-    private var persistentTokens: [PersistentToken] {
+    private(set) var persistentTokens: [PersistentToken] {
         didSet {
             presenter?.update()
         }
     }
-    private var ephemeralMessage: EphemeralMessage?
+    private(set) var ephemeralMessage: EphemeralMessage?
 
     init(actionHandler: ActionHandler) {
         self.actionHandler = actionHandler
@@ -70,26 +70,6 @@ class TokenStore {
 
     // MARK: -
 
-    var viewModel: TokenListViewModel {
-        let rowModels = persistentTokens.map(TokenRowModel.init)
-        return TokenListViewModel(
-            rowModels: rowModels,
-            ringPeriod: timeBasedTokenPeriods.first,
-            ephemeralMessage: ephemeralMessage
-        )
-    }
-
-    /// Returns a sorted, uniqued array of the periods of timer-based tokens
-    private var timeBasedTokenPeriods: [NSTimeInterval] {
-        let periods = persistentTokens.reduce(Set<NSTimeInterval>()) {
-            (var periods, persistentToken) in
-            if case .Timer(let period) = persistentToken.token.generator.factor {
-                periods.insert(period)
-            }
-            return periods
-        }
-        return Array(periods).sort()
-    }
 
     func addToken(token: Token) {
         do {

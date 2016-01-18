@@ -23,10 +23,38 @@
 //  SOFTWARE.
 //
 
+import Foundation
+import OneTimePassword
+
 struct TokenList {
-    let tokenStore: TokenStore
+    private var persistentTokens: [PersistentToken]
+    private var ephemeralMessage: EphemeralMessage?
+
+    init(tokenStore: TokenStore) {
+        persistentTokens = tokenStore.persistentTokens
+        ephemeralMessage = tokenStore.ephemeralMessage
+    }
+
+    // MARK: View Model
 
     var viewModel: TokenListViewModel {
-        return tokenStore.viewModel
+        let rowModels = persistentTokens.map(TokenRowModel.init)
+        return TokenListViewModel(
+            rowModels: rowModels,
+            ringPeriod: timeBasedTokenPeriods.first,
+            ephemeralMessage: ephemeralMessage
+        )
+    }
+
+    /// Returns a sorted, uniqued array of the periods of timer-based tokens
+    private var timeBasedTokenPeriods: [NSTimeInterval] {
+        let periods = persistentTokens.reduce(Set<NSTimeInterval>()) {
+            (var periods, persistentToken) in
+            if case .Timer(let period) = persistentToken.token.generator.factor {
+                periods.insert(period)
+            }
+            return periods
+        }
+        return Array(periods).sort()
     }
 }
