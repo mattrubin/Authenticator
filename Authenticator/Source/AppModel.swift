@@ -33,6 +33,9 @@ class AppModel {
         tokenStore.presenter = self
         return tokenStore
     }()
+    private var tokenList: TokenList {
+        return TokenList(tokenStore: tokenStore)
+    }
 
     private var modalState: ModalState {
         didSet {
@@ -65,7 +68,7 @@ class AppModel {
         }
 
         return AppViewModel(
-            tokenList: tokenStore.viewModel,
+            tokenList: tokenList.viewModel,
             modal: modal
         )
     }

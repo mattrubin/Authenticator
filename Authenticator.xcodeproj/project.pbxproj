@@ -46,6 +46,7 @@
 		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
 		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
+		C9F7A8611C4D90B50082E5AE /* TokenList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,7 @@
 		C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPProgressRing.swift; sourceTree = "<group>"; };
 		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
+		C9F7A8601C4D90B50082E5AE /* TokenList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,6 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				C910ADC01BF0315A00C988F5 /* TokenStore.swift */,
+				C9F7A8601C4D90B50082E5AE /* TokenList.swift */,
 				C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */,
 				C92708AB19CFB0750033128B /* TokenListViewController.swift */,
 				C914B8C41C0BFDF900D2B751 /* TokenListDelegate.swift */,
@@ -547,6 +550,7 @@
 				C914B8C51C0BFDF900D2B751 /* TokenListDelegate.swift in Sources */,
 				C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */,
 				C93BD6291C168EBF00FFFB8F /* AppViewModel.swift in Sources */,
+				C9F7A8611C4D90B50082E5AE /* TokenList.swift in Sources */,
 				C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */,
 				C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */,
 				C910ADC11BF0315A00C988F5 /* TokenStore.swift in Sources */,

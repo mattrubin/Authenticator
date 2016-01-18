@@ -1,5 +1,5 @@
 //
-//  TokenListDelegate.swift
+//  TokenList.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -23,20 +23,10 @@
 //  SOFTWARE.
 //
 
-import OneTimePassword
+struct TokenList {
+    let tokenStore: TokenStore
 
-extension TokenList {
-    enum Action {
-        case BeginAddToken
-        case BeginEditPersistentToken(PersistentToken)
-
-        case UpdatePersistentToken(PersistentToken)
-        case CopyPassword(String)
-
-        case MoveToken(fromIndex: Int, toIndex: Int)
-        case DeleteTokenAtIndex(Int)
-
-        // TODO: remove this action and have the component auto-update the view model on time change
-        case UpdateViewModel
+    var viewModel: TokenListViewModel {
+        return tokenStore.viewModel
     }
 }
