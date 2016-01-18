@@ -100,7 +100,21 @@ class TokenStore {
 }
 
 extension TokenStore {
-    func handleAction(action: TokenList.Action) {
+    enum Action {
+        case BeginAddToken
+        case BeginEditPersistentToken(PersistentToken)
+
+        case UpdatePersistentToken(PersistentToken)
+        case CopyPassword(String)
+
+        case MoveToken(fromIndex: Int, toIndex: Int)
+        case DeleteTokenAtIndex(Int)
+
+        // TODO: remove this action and have the component auto-update the view model on time change
+        case UpdateViewModel
+    }
+
+    func handleAction(action: Action) {
         // Reset any ephemeral state set by the previous action
         resetEphemera()
 
