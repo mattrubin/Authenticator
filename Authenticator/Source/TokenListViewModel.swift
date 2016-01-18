@@ -37,5 +37,5 @@ enum EphemeralMessage {
 }
 
 protocol TokenListPresenter: class {
-    func updateWithViewModel(viewModel: TokenListViewModel)
+    func update()
 }

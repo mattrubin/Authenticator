@@ -75,7 +75,7 @@ class AppModel {
 }
 
 extension AppModel: TokenListPresenter {
-    func updateWithViewModel(viewModel: TokenListViewModel) {
+    func update() {
         presenter?.updateWithViewModel(self.viewModel)
     }
 }

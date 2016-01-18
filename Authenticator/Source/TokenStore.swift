@@ -35,7 +35,7 @@ class TokenStore {
     private let keychain = Keychain.sharedInstance
     private var persistentTokens: [PersistentToken] {
         didSet {
-            presenter?.updateWithViewModel(viewModel)
+            presenter?.update()
         }
     }
     private var ephemeralMessage: EphemeralMessage?
@@ -164,7 +164,7 @@ extension TokenStore {
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         // Show an emphemeral success message in the view
         ephemeralMessage = .Success("Copied")
-        presenter?.updateWithViewModel(viewModel)
+        presenter?.update()
     }
 
     private func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
@@ -183,12 +183,12 @@ extension TokenStore {
         } catch {
             // Show an emphemeral failure message
             ephemeralMessage = .Error("Deletion Failed:\n\(error)")
-            presenter?.updateWithViewModel(viewModel)
+            presenter?.update()
         }
     }
 
     private func updateViewModel() {
-        presenter?.updateWithViewModel(viewModel)
+        presenter?.update()
     }
 }
 
