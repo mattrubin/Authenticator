@@ -98,9 +98,6 @@ extension TokenStore {
     enum Action {
         case MoveToken(fromIndex: Int, toIndex: Int)
         case DeleteTokenAtIndex(Int)
-
-        // TODO: remove this action and have the component auto-update the view model on time change
-        case UpdateViewModel
     }
 
     func handleAction(action: Action) {
@@ -109,8 +106,6 @@ extension TokenStore {
             moveTokenFromIndex(fromIndex, toIndex: toIndex)
         case .DeleteTokenAtIndex(let index):
             deleteTokenAtIndex(index)
-        case .UpdateViewModel:
-            updateViewModel()
         }
     }
 
@@ -135,10 +130,6 @@ extension TokenStore {
         } catch {
             // TODO: Handle the deletePersistentToken(_:) failure
         }
-    }
-
-    private func updateViewModel() {
-        presenter?.update()
     }
 }
 

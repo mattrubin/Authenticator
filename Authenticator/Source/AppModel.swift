@@ -57,6 +57,9 @@ class AppModel {
         // TODO: Initialize token list with tokens from the token store
         tokenList = TokenList()
         modalState = .None
+
+        // TODO: Remove this update when the token list is initialized correctly above
+        tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
     }
 
     var viewModel: AppViewModel {

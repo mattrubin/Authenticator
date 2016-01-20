@@ -105,7 +105,11 @@ extension TokenList {
             return .TokenStoreAction(.DeleteTokenAtIndex(index))
 
         case .UpdateViewModel:
-            return .TokenStoreAction(.UpdateViewModel)
+            // TODO: Currently, this action causes a view model update simply because the call to
+            //       resetEphemera() above causes the variable containing this TokenList to be set.
+            //       This action should trigger a more reliable method for ensuring the view model
+            //       is updated.
+            return nil
         }
     }
 
