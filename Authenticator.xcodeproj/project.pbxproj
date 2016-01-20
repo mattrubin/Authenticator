@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* OTPAppDelegate.swift */; };
 		8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */; };
-		C910ADC11BF0315A00C988F5 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C910ADC01BF0315A00C988F5 /* TokenStore.swift */; };
+		C910ADC11BF0315A00C988F5 /* TokenList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C910ADC01BF0315A00C988F5 /* TokenList.swift */; };
 		C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708AB19CFB0750033128B /* TokenListViewController.swift */; };
 		C93AD15219CD51BE007480E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AD15119CD51BE007480E9 /* Colors.swift */; };
 		C93BD6231C167CD100FFFB8F /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6221C167CD100FFFB8F /* AppModel.swift */; };
@@ -45,7 +45,7 @@
 		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
 		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
-		C9F7A8611C4D90B50082E5AE /* TokenList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenList.swift */; };
+		C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,7 +81,7 @@
 		8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerOverlayView.swift; sourceTree = "<group>"; };
 		8B2B8AE1118BA49F00437315 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C910ADC01BF0315A00C988F5 /* TokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+		C910ADC01BF0315A00C988F5 /* TokenList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenList.swift; sourceTree = "<group>"; };
 		C92708AB19CFB0750033128B /* TokenListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewController.swift; sourceTree = "<group>"; };
 		C931A5FC1BFF6F9D00706A1C /* .hound.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hound.yml; sourceTree = "<group>"; };
 		C931A5FE1BFF6FA600706A1C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -137,7 +137,7 @@
 		C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPProgressRing.swift; sourceTree = "<group>"; };
 		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
-		C9F7A8601C4D90B50082E5AE /* TokenList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenList.swift; sourceTree = "<group>"; };
+		C9F7A8601C4D90B50082E5AE /* TokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +166,7 @@
 				C93BD6281C168EBF00FFFB8F /* AppViewModel.swift */,
 				C93BD6241C16841D00FFFB8F /* AppViewController.swift */,
 				C9BA64E71C0C26BA00610C7C /* ActionHandler.swift */,
+				C9F7A8621C4F2E200082E5AE /* Data Store */,
 				C98C1C4917D2F03400A07D3F /* Token List */,
 				C9B0B9501BC9159300BD5844 /* Forms */,
 				C97CDF2D1BEF10B300D64406 /* Scanner */,
@@ -315,8 +316,7 @@
 		C98C1C4917D2F03400A07D3F /* Token List */ = {
 			isa = PBXGroup;
 			children = (
-				C910ADC01BF0315A00C988F5 /* TokenStore.swift */,
-				C9F7A8601C4D90B50082E5AE /* TokenList.swift */,
+				C910ADC01BF0315A00C988F5 /* TokenList.swift */,
 				C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */,
 				C92708AB19CFB0750033128B /* TokenListViewController.swift */,
 				C98C1C4517D2EDF500A07D3F /* Cells */,
@@ -386,6 +386,14 @@
 				C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */,
 			);
 			name = "App Icon";
+			sourceTree = "<group>";
+		};
+		C9F7A8621C4F2E200082E5AE /* Data Store */ = {
+			isa = PBXGroup;
+			children = (
+				C9F7A8601C4D90B50082E5AE /* TokenStore.swift */,
+			);
+			name = "Data Store";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -546,10 +554,10 @@
 				C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */,
 				C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */,
 				C93BD6291C168EBF00FFFB8F /* AppViewModel.swift in Sources */,
-				C9F7A8611C4D90B50082E5AE /* TokenList.swift in Sources */,
+				C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */,
 				C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */,
 				C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */,
-				C910ADC11BF0315A00C988F5 /* TokenStore.swift in Sources */,
+				C910ADC11BF0315A00C988F5 /* TokenList.swift in Sources */,
 				C9919CDD1BA64EED006237C1 /* TokenEntryForm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
