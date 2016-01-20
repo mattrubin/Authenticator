@@ -88,7 +88,7 @@ extension TokenList {
             return .BeginTokenEdit(persistentToken)
 
         case .UpdatePersistentToken(let persistentToken):
-            return .TokenStoreAction(.UpdatePersistentToken(persistentToken))
+            return .UpdateToken(persistentToken)
 
         case .CopyPassword(let password):
             return .TokenStoreAction(.CopyPassword(password))

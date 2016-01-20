@@ -99,7 +99,6 @@ class TokenStore {
 
 extension TokenStore {
     enum Action {
-        case UpdatePersistentToken(PersistentToken)
         case CopyPassword(String)
 
         case MoveToken(fromIndex: Int, toIndex: Int)
@@ -114,8 +113,6 @@ extension TokenStore {
         resetEphemera()
 
         switch action {
-        case .UpdatePersistentToken(let persistentToken):
-            updatePersistentToken(persistentToken)
         case .CopyPassword(let password):
             copyPassword(password)
         case let .MoveToken(fromIndex, toIndex):
@@ -131,7 +128,7 @@ extension TokenStore {
         ephemeralMessage = nil
     }
 
-    private func updatePersistentToken(persistentToken: PersistentToken) {
+    func updatePersistentToken(persistentToken: PersistentToken) {
         let newToken = persistentToken.token.updatedToken()
         saveToken(newToken, toPersistentToken: persistentToken)
     }

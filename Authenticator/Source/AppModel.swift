@@ -154,6 +154,9 @@ extension AppModel: ActionHandler {
 
         case .TokenStoreAction(let action):
             tokenStore.handleAction(action)
+
+        case .UpdateToken(let persistentToken):
+            tokenStore.updatePersistentToken(persistentToken)
         }
     }
 }
