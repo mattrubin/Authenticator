@@ -154,11 +154,14 @@ extension AppModel: ActionHandler {
                 }
             }
 
-        case .TokenStoreAction(let action):
-            tokenStore.handleAction(action)
-
         case .UpdateToken(let persistentToken):
             tokenStore.updatePersistentToken(persistentToken)
+
+        case let .MoveToken(fromIndex, toIndex):
+            tokenStore.moveTokenFromIndex(fromIndex, toIndex: toIndex)
+
+        case .DeleteTokenAtIndex(let index):
+            tokenStore.deleteTokenAtIndex(index)
         }
     }
 }

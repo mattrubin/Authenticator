@@ -99,10 +99,10 @@ extension TokenList {
             return nil
 
         case let .MoveToken(fromIndex, toIndex):
-            return .TokenStoreAction(.MoveToken(fromIndex: fromIndex, toIndex: toIndex))
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
 
         case .DeleteTokenAtIndex(let index):
-            return .TokenStoreAction(.DeleteTokenAtIndex(index))
+            return .DeleteTokenAtIndex(index)
 
         case .UpdateViewModel:
             // TODO: Currently, this action causes a view model update simply because the call to

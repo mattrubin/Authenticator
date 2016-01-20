@@ -41,8 +41,9 @@ enum AppAction {
     case TokenEntryFormAction(TokenEntryForm.Action)
     case TokenEditFormAction(TokenEditForm.Action)
 
-    case TokenStoreAction(TokenStore.Action)
     case UpdateToken(PersistentToken)
+    case MoveToken(fromIndex: Int, toIndex: Int)
+    case DeleteTokenAtIndex(Int)
 }
 
 protocol ActionHandler: class {

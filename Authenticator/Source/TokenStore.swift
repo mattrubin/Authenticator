@@ -62,9 +62,10 @@ class TokenStore {
             // TODO: Handle the token loading error
         }
     }
+}
 
-    // MARK: -
-
+extension TokenStore {
+    // MARK: Actions
 
     func addToken(token: Token) {
         do {
@@ -92,36 +93,20 @@ class TokenStore {
             // TODO: Handle the updatePersistentToken(_:withToken:) failure
         }
     }
-}
-
-extension TokenStore {
-    enum Action {
-        case MoveToken(fromIndex: Int, toIndex: Int)
-        case DeleteTokenAtIndex(Int)
-    }
-
-    func handleAction(action: Action) {
-        switch action {
-        case let .MoveToken(fromIndex, toIndex):
-            moveTokenFromIndex(fromIndex, toIndex: toIndex)
-        case .DeleteTokenAtIndex(let index):
-            deleteTokenAtIndex(index)
-        }
-    }
 
     func updatePersistentToken(persistentToken: PersistentToken) {
         let newToken = persistentToken.token.updatedToken()
         saveToken(newToken, toPersistentToken: persistentToken)
     }
 
-    private func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
+    func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
         let persistentToken = persistentTokens[origin]
         persistentTokens.removeAtIndex(origin)
         persistentTokens.insert(persistentToken, atIndex: destination)
         saveTokenOrder()
     }
 
-    private func deleteTokenAtIndex(index: Int) {
+    func deleteTokenAtIndex(index: Int) {
         do {
             let persistentToken = persistentTokens[index]
             try keychain.deletePersistentToken(persistentToken)
