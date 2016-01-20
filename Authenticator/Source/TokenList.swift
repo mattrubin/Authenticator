@@ -79,6 +79,7 @@ extension TokenList {
         case UpdateViewModel
     }
 
+    @warn_unused_result
     mutating func handleAction(action: Action) -> AppAction? {
         // Reset any ephemeral state set by the previous action
         resetEphemera()
