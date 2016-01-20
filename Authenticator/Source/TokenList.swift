@@ -71,11 +71,10 @@ extension TokenList {
         case BeginEditPersistentToken(PersistentToken)
 
         case UpdatePersistentToken(PersistentToken)
-        case CopyPassword(String)
-
         case MoveToken(fromIndex: Int, toIndex: Int)
         case DeleteTokenAtIndex(Int)
 
+        case CopyPassword(String)
         // TODO: remove this action and have the component auto-update the view model on time change
         case UpdateViewModel
     }
@@ -87,22 +86,18 @@ extension TokenList {
         switch action {
         case .BeginAddToken:
             return .BeginTokenEntry
-
         case .BeginEditPersistentToken(let persistentToken):
             return .BeginTokenEdit(persistentToken)
-
         case .UpdatePersistentToken(let persistentToken):
             return .UpdateToken(persistentToken)
+        case let .MoveToken(fromIndex, toIndex):
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
+        case .DeleteTokenAtIndex(let index):
+            return .DeleteTokenAtIndex(index)
 
         case .CopyPassword(let password):
             copyPassword(password)
             return nil
-
-        case let .MoveToken(fromIndex, toIndex):
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
-
-        case .DeleteTokenAtIndex(let index):
-            return .DeleteTokenAtIndex(index)
 
         case .UpdateViewModel:
             // TODO: Currently, this action causes a view model update simply because the call to
