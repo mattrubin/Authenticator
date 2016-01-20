@@ -82,10 +82,10 @@ extension TokenList {
     func handleAction(action: Action) -> AppAction? {
         switch action {
         case .BeginAddToken:
-            return .TokenStoreAction(.BeginAddToken)
+            return .BeginTokenEntry
 
         case .BeginEditPersistentToken(let persistentToken):
-            return .TokenStoreAction(.BeginEditPersistentToken(persistentToken))
+            return .BeginTokenEdit(persistentToken)
 
         case .UpdatePersistentToken(let persistentToken):
             return .TokenStoreAction(.UpdatePersistentToken(persistentToken))

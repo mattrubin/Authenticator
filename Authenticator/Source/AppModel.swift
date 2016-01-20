@@ -29,7 +29,7 @@ class AppModel {
     weak var presenter: AppPresenter?
 
     private lazy var tokenStore: TokenStore = {
-        let tokenStore = TokenStore(actionHandler: self)
+        let tokenStore = TokenStore()
         tokenStore.presenter = self
         return tokenStore
     }()

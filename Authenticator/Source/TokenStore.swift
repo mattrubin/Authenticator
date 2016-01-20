@@ -29,7 +29,6 @@ import OneTimePassword
 import UIKit
 
 class TokenStore {
-    private weak var actionHandler: ActionHandler?
     weak var presenter: TokenListPresenter?
 
     private let keychain = Keychain.sharedInstance
@@ -40,8 +39,7 @@ class TokenStore {
     }
     private(set) var ephemeralMessage: EphemeralMessage?
 
-    init(actionHandler: ActionHandler) {
-        self.actionHandler = actionHandler
+    init() {
         do {
             let persistentTokenSet = try keychain.allPersistentTokens()
             let sortedIdentifiers = TokenStore.persistentIdentifiers()
@@ -101,9 +99,6 @@ class TokenStore {
 
 extension TokenStore {
     enum Action {
-        case BeginAddToken
-        case BeginEditPersistentToken(PersistentToken)
-
         case UpdatePersistentToken(PersistentToken)
         case CopyPassword(String)
 
@@ -119,10 +114,6 @@ extension TokenStore {
         resetEphemera()
 
         switch action {
-        case .BeginAddToken:
-            beginAddToken()
-        case .BeginEditPersistentToken(let persistentToken):
-            beginEditPersistentToken(persistentToken)
         case .UpdatePersistentToken(let persistentToken):
             updatePersistentToken(persistentToken)
         case .CopyPassword(let password):
@@ -138,14 +129,6 @@ extension TokenStore {
 
     private func resetEphemera() {
         ephemeralMessage = nil
-    }
-
-    private func beginAddToken() {
-        actionHandler?.handleAction(.BeginTokenEntry)
-    }
-
-    private func beginEditPersistentToken(persistentToken: PersistentToken) {
-        actionHandler?.handleAction(.BeginTokenEdit(persistentToken))
     }
 
     private func updatePersistentToken(persistentToken: PersistentToken) {
