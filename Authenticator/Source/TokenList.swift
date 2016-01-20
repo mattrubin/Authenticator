@@ -30,9 +30,14 @@ struct TokenList {
     private var persistentTokens: [PersistentToken]
     private var ephemeralMessage: EphemeralMessage?
 
-    init(tokenStore: TokenStore) {
-        persistentTokens = tokenStore.persistentTokens
-        ephemeralMessage = tokenStore.ephemeralMessage
+    init() {
+        persistentTokens = []
+        ephemeralMessage = nil
+    }
+
+    mutating func updateWithpersistentTokens(persistentTokens: [PersistentToken], ephemeralMessage: EphemeralMessage?) {
+        self.persistentTokens = persistentTokens
+        self.ephemeralMessage = ephemeralMessage
     }
 
     // MARK: View Model

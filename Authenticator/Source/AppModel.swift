@@ -33,8 +33,11 @@ class AppModel {
         tokenStore.presenter = self
         return tokenStore
     }()
+
     private var tokenList: TokenList {
-        return TokenList(tokenStore: tokenStore)
+        didSet {
+            presenter?.updateWithViewModel(viewModel)
+        }
     }
 
     private var modalState: ModalState {
@@ -51,6 +54,8 @@ class AppModel {
     }
 
     init() {
+        // TODO: Initialize token list with tokens from the token store
+        tokenList = TokenList()
         modalState = .None
     }
 
@@ -76,6 +81,9 @@ class AppModel {
 
 extension AppModel: TokenListPresenter {
     func update() {
+        // When the token store signals an update, update the token list with its contents
+        tokenList.updateWithpersistentTokens(tokenStore.persistentTokens,
+            ephemeralMessage: tokenStore.ephemeralMessage)
         presenter?.updateWithViewModel(self.viewModel)
     }
 }
