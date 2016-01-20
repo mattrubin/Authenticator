@@ -23,12 +23,10 @@
 //  SOFTWARE.
 //
 
-import UIKit
-
 class AppModel {
     weak var presenter: AppPresenter?
 
-    private var tokenStore: TokenStore
+    private let tokenStore = TokenStore()
 
     private var tokenList: TokenList {
         didSet {
@@ -50,8 +48,6 @@ class AppModel {
     }
 
     init() {
-        tokenStore = TokenStore()
-
         tokenList = TokenList(persistentTokens: tokenStore.persistentTokens)
         modalState = .None
     }
