@@ -28,11 +28,7 @@ import UIKit
 class AppModel {
     weak var presenter: AppPresenter?
 
-    private lazy var tokenStore: TokenStore = {
-        let tokenStore = TokenStore()
-        tokenStore.presenter = self
-        return tokenStore
-    }()
+    private var tokenStore: TokenStore
 
     private var tokenList: TokenList {
         didSet {
@@ -54,12 +50,12 @@ class AppModel {
     }
 
     init() {
-        // TODO: Initialize token list with tokens from the token store
-        tokenList = TokenList()
+        tokenStore = TokenStore()
+
+        tokenList = TokenList(persistentTokens: tokenStore.persistentTokens)
         modalState = .None
 
-        // TODO: Remove this update when the token list is initialized correctly above
-        tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+        tokenStore.presenter = self
     }
 
     var viewModel: AppViewModel {

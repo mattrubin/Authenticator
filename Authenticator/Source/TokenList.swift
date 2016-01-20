@@ -32,8 +32,8 @@ struct TokenList {
     private var persistentTokens: [PersistentToken]
     private var ephemeralMessage: EphemeralMessage?
 
-    init() {
-        persistentTokens = []
+    init(persistentTokens: [PersistentToken]) {
+        self.persistentTokens = persistentTokens
         ephemeralMessage = nil
     }
 
