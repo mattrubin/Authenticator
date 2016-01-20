@@ -24,6 +24,8 @@
 //
 
 import Foundation
+import UIKit
+import MobileCoreServices
 import OneTimePassword
 
 struct TokenList {
@@ -91,7 +93,8 @@ extension TokenList {
             return .UpdateToken(persistentToken)
 
         case .CopyPassword(let password):
-            return .TokenStoreAction(.CopyPassword(password))
+            copyPassword(password)
+            return nil
 
         case let .MoveToken(fromIndex, toIndex):
             return .TokenStoreAction(.MoveToken(fromIndex: fromIndex, toIndex: toIndex))
@@ -102,5 +105,13 @@ extension TokenList {
         case .UpdateViewModel:
             return .TokenStoreAction(.UpdateViewModel)
         }
+    }
+
+    private func copyPassword(password: String) {
+        let pasteboard = UIPasteboard.generalPasteboard()
+        pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
+        // Show an ephemeral success message in the view
+        // TODO: restore this message
+//        ephemeralMessage = .Success("Copied")
     }
 }

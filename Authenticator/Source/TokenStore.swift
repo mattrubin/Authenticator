@@ -24,9 +24,7 @@
 //
 
 import Foundation
-import MobileCoreServices
 import OneTimePassword
-import UIKit
 
 class TokenStore {
     weak var presenter: TokenListPresenter?
@@ -99,8 +97,6 @@ class TokenStore {
 
 extension TokenStore {
     enum Action {
-        case CopyPassword(String)
-
         case MoveToken(fromIndex: Int, toIndex: Int)
         case DeleteTokenAtIndex(Int)
 
@@ -113,8 +109,6 @@ extension TokenStore {
         resetEphemera()
 
         switch action {
-        case .CopyPassword(let password):
-            copyPassword(password)
         case let .MoveToken(fromIndex, toIndex):
             moveTokenFromIndex(fromIndex, toIndex: toIndex)
         case .DeleteTokenAtIndex(let index):
@@ -131,14 +125,6 @@ extension TokenStore {
     func updatePersistentToken(persistentToken: PersistentToken) {
         let newToken = persistentToken.token.updatedToken()
         saveToken(newToken, toPersistentToken: persistentToken)
-    }
-
-    private func copyPassword(password: String) {
-        let pasteboard = UIPasteboard.generalPasteboard()
-        pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
-        // Show an emphemeral success message in the view
-        ephemeralMessage = .Success("Copied")
-        presenter?.update()
     }
 
     private func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
