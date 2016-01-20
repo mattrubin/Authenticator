@@ -57,6 +57,11 @@ class TokenStore {
             // TODO: Handle the token loading error
         }
     }
+
+    private func saveTokenOrder() {
+        let persistentIdentifiers = persistentTokens.map { $0.identifier }
+        userDefaults.savePersistentIdentifiers(persistentIdentifiers)
+    }
 }
 
 extension TokenStore {
@@ -123,12 +128,5 @@ private extension NSUserDefaults {
     func savePersistentIdentifiers(identifiers: [NSData]) {
         setObject(identifiers, forKey: kOTPKeychainEntriesArray)
         synchronize()
-    }
-}
-
-extension TokenStore {
-    private func saveTokenOrder() {
-        let persistentIdentifiers = persistentTokens.map { $0.identifier }
-        userDefaults.savePersistentIdentifiers(persistentIdentifiers)
     }
 }
