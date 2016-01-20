@@ -54,8 +54,6 @@ class AppModel {
 
         tokenList = TokenList(persistentTokens: tokenStore.persistentTokens)
         modalState = .None
-
-        tokenStore.presenter = self
     }
 
     var viewModel: AppViewModel {
@@ -78,14 +76,6 @@ class AppModel {
     }
 }
 
-extension AppModel: TokenListPresenter {
-    func update() {
-        // When the token store signals an update, update the token list with its contents
-        tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
-        presenter?.updateWithViewModel(self.viewModel)
-    }
-}
-
 extension AppModel: ActionHandler {
     func handleAction(action: AppAction) {
         switch action {
@@ -102,6 +92,7 @@ extension AppModel: ActionHandler {
 
         case .SaveNewToken(let token):
             tokenStore.addToken(token)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
             modalState = .None
 
         case .CancelTokenEntry:
@@ -113,6 +104,7 @@ extension AppModel: ActionHandler {
 
         case let .SaveChanges(token, persistentToken):
             tokenStore.saveToken(token, toPersistentToken: persistentToken)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
             modalState = .None
 
         case .CancelTokenEdit:
@@ -120,6 +112,7 @@ extension AppModel: ActionHandler {
 
         case .AddTokenFromURL(let token):
             tokenStore.addToken(token)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
 
         case .TokenListAction(let action):
             let resultingAppAction = tokenList.handleAction(action)
@@ -152,12 +145,15 @@ extension AppModel: ActionHandler {
 
         case .UpdateToken(let persistentToken):
             tokenStore.updatePersistentToken(persistentToken)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
 
         case let .MoveToken(fromIndex, toIndex):
             tokenStore.moveTokenFromIndex(fromIndex, toIndex: toIndex)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
 
         case .DeleteTokenAtIndex(let index):
             tokenStore.deleteTokenAtIndex(index)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
         }
     }
 }

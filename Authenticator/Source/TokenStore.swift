@@ -27,14 +27,8 @@ import Foundation
 import OneTimePassword
 
 class TokenStore {
-    weak var presenter: TokenListPresenter?
-
     private let keychain = Keychain.sharedInstance
-    private(set) var persistentTokens: [PersistentToken] {
-        didSet {
-            presenter?.update()
-        }
-    }
+    private(set) var persistentTokens: [PersistentToken]
 
     init() {
         do {

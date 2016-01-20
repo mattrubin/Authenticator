@@ -35,7 +35,3 @@ enum EphemeralMessage {
     case Success(String)
     case Error(String)
 }
-
-protocol TokenListPresenter: class {
-    func update()
-}
