@@ -24,51 +24,24 @@
 //
 
 import Foundation
+import UIKit
 import MobileCoreServices
 import OneTimePassword
-import UIKit
 
-class TokenList {
-    private weak var actionHandler: ActionHandler?
-    weak var presenter: TokenListPresenter?
-
-    private let keychain = Keychain.sharedInstance
-    private var persistentTokens: [PersistentToken] {
-        didSet {
-            presenter?.updateWithViewModel(viewModel)
-        }
-    }
+struct TokenList {
+    private var persistentTokens: [PersistentToken]
     private var ephemeralMessage: EphemeralMessage?
 
-    init(actionHandler: ActionHandler) {
-        self.actionHandler = actionHandler
-        do {
-            let persistentTokenSet = try keychain.allPersistentTokens()
-            let sortedIdentifiers = TokenList.persistentIdentifiers()
-
-            persistentTokens = persistentTokenSet.sort({ (A, B) in
-                let indexOfA = sortedIdentifiers.indexOf(A.identifier)
-                let indexOfB = sortedIdentifiers.indexOf(B.identifier)
-
-                switch (indexOfA, indexOfB) {
-                case (.Some(let iA), .Some(let iB)) where iA < iB:
-                    return true
-                default:
-                    return false
-                }
-            })
-
-            if persistentTokens.count > sortedIdentifiers.count {
-                // If lost tokens were found and appended, save the full list of tokens
-                saveTokenOrder()
-            }
-        } catch {
-            persistentTokens = []
-            // TODO: Handle the token loading error
-        }
+    init(persistentTokens: [PersistentToken]) {
+        self.persistentTokens = persistentTokens
+        ephemeralMessage = nil
     }
 
-    // MARK: -
+    mutating func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
+        self.persistentTokens = persistentTokens
+    }
+
+    // MARK: View Model
 
     var viewModel: TokenListViewModel {
         let rowModels = persistentTokens.map(TokenRowModel.init)
@@ -90,126 +63,60 @@ class TokenList {
         }
         return Array(periods).sort()
     }
-
-    func addToken(token: Token) {
-        do {
-            let newPersistentToken = try keychain.addToken(token)
-            persistentTokens.append(newPersistentToken)
-            saveTokenOrder()
-            // TODO: Scroll to the new token (added at the bottom)
-        } catch {
-            // TODO: Handle the addToken(_:) failure
-        }
-    }
-
-    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
-        do {
-            let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
-                withToken: token)
-            // Update the in-memory token, which is still the origin of the table view's data
-            persistentTokens = persistentTokens.map {
-                if $0.identifier == updatedPersistentToken.identifier {
-                    return updatedPersistentToken
-                }
-                return $0
-            }
-        } catch {
-            // TODO: Handle the updatePersistentToken(_:withToken:) failure
-        }
-    }
 }
 
 extension TokenList {
-    func handleAction(action: TokenList.Action) {
+    enum Action {
+        case BeginAddToken
+        case BeginEditPersistentToken(PersistentToken)
+
+        case UpdatePersistentToken(PersistentToken)
+        case MoveToken(fromIndex: Int, toIndex: Int)
+        case DeleteTokenAtIndex(Int)
+
+        case CopyPassword(String)
+        // TODO: remove this action and have the component auto-update the view model on time change
+        case UpdateViewModel
+    }
+
+    @warn_unused_result
+    mutating func handleAction(action: Action) -> AppAction? {
         // Reset any ephemeral state set by the previous action
         resetEphemera()
 
         switch action {
         case .BeginAddToken:
-            beginAddToken()
+            return .BeginTokenEntry
         case .BeginEditPersistentToken(let persistentToken):
-            beginEditPersistentToken(persistentToken)
+            return .BeginTokenEdit(persistentToken)
         case .UpdatePersistentToken(let persistentToken):
-            updatePersistentToken(persistentToken)
+            return .UpdateToken(persistentToken)
+        case let .MoveToken(fromIndex, toIndex):
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
+        case .DeleteTokenAtIndex(let index):
+            return .DeleteTokenAtIndex(index)
+
         case .CopyPassword(let password):
             copyPassword(password)
-        case let .MoveToken(fromIndex, toIndex):
-            moveTokenFromIndex(fromIndex, toIndex: toIndex)
-        case .DeleteTokenAtIndex(let index):
-            deleteTokenAtIndex(index)
+            return nil
+
         case .UpdateViewModel:
-            updateViewModel()
+            // TODO: Currently, this action causes a view model update simply because the call to
+            //       resetEphemera() above causes the variable containing this TokenList to be set.
+            //       This action should trigger a more reliable method for ensuring the view model
+            //       is updated.
+            return nil
         }
     }
 
-    private func resetEphemera() {
+    private mutating func resetEphemera() {
         ephemeralMessage = nil
     }
 
-    private func beginAddToken() {
-        actionHandler?.handleAction(.BeginTokenEntry)
-    }
-
-    private func beginEditPersistentToken(persistentToken: PersistentToken) {
-        actionHandler?.handleAction(.BeginTokenEdit(persistentToken))
-    }
-
-    private func updatePersistentToken(persistentToken: PersistentToken) {
-        let newToken = persistentToken.token.updatedToken()
-        saveToken(newToken, toPersistentToken: persistentToken)
-    }
-
-    private func copyPassword(password: String) {
+    private mutating func copyPassword(password: String) {
         let pasteboard = UIPasteboard.generalPasteboard()
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
-        // Show an emphemeral success message in the view
+        // Show an ephemeral success message in the view
         ephemeralMessage = .Success("Copied")
-        presenter?.updateWithViewModel(viewModel)
-    }
-
-    private func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
-        let persistentToken = persistentTokens[origin]
-        persistentTokens.removeAtIndex(origin)
-        persistentTokens.insert(persistentToken, atIndex: destination)
-        saveTokenOrder()
-    }
-
-    private func deleteTokenAtIndex(index: Int) {
-        do {
-            let persistentToken = persistentTokens[index]
-            try keychain.deletePersistentToken(persistentToken)
-            persistentTokens.removeAtIndex(index)
-            saveTokenOrder()
-        } catch {
-            // Show an emphemeral failure message
-            ephemeralMessage = .Error("Deletion Failed:\n\(error)")
-            presenter?.updateWithViewModel(viewModel)
-        }
-    }
-
-    private func updateViewModel() {
-        presenter?.updateWithViewModel(viewModel)
-    }
-}
-
-extension TokenList {
-    // MARK: Token Order
-
-    private static let kOTPKeychainEntriesArray = "OTPKeychainEntries"
-
-    private static func persistentIdentifiers() -> [NSData] {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        return defaults.arrayForKey(kOTPKeychainEntriesArray) as? [NSData] ?? []
-    }
-
-    private static func savePersistentIdentifiers(identifiers: [NSData]) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(identifiers, forKey: kOTPKeychainEntriesArray)
-        defaults.synchronize()
-    }
-
-    private func saveTokenOrder() {
-        let persistentIdentifiers = persistentTokens.map { $0.identifier }
-        TokenList.savePersistentIdentifiers(persistentIdentifiers)
     }
 }

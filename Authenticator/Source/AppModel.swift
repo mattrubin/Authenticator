@@ -23,16 +23,16 @@
 //  SOFTWARE.
 //
 
-import UIKit
-
 class AppModel {
     weak var presenter: AppPresenter?
 
-    private lazy var tokenList: TokenList = {
-        let tokenList = TokenList(actionHandler: self)
-        tokenList.presenter = self
-        return tokenList
-    }()
+    private let tokenStore = TokenStore()
+
+    private var tokenList: TokenList {
+        didSet {
+            presenter?.updateWithViewModel(viewModel)
+        }
+    }
 
     private var modalState: ModalState {
         didSet {
@@ -48,6 +48,7 @@ class AppModel {
     }
 
     init() {
+        tokenList = TokenList(persistentTokens: tokenStore.persistentTokens)
         modalState = .None
     }
 
@@ -71,12 +72,6 @@ class AppModel {
     }
 }
 
-extension AppModel: TokenListPresenter {
-    func updateWithViewModel(viewModel: TokenListViewModel) {
-        presenter?.updateWithViewModel(self.viewModel)
-    }
-}
-
 extension AppModel: ActionHandler {
     func handleAction(action: AppAction) {
         switch action {
@@ -92,7 +87,8 @@ extension AppModel: ActionHandler {
             modalState = .EntryForm(form)
 
         case .SaveNewToken(let token):
-            tokenList.addToken(token)
+            tokenStore.addToken(token)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
             modalState = .None
 
         case .CancelTokenEntry:
@@ -103,17 +99,23 @@ extension AppModel: ActionHandler {
             modalState = .EditForm(form)
 
         case let .SaveChanges(token, persistentToken):
-            tokenList.saveToken(token, toPersistentToken: persistentToken)
+            tokenStore.saveToken(token, toPersistentToken: persistentToken)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
             modalState = .None
 
         case .CancelTokenEdit:
             modalState = .None
 
         case .AddTokenFromURL(let token):
-            tokenList.addToken(token)
+            tokenStore.addToken(token)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
 
         case .TokenListAction(let action):
-            tokenList.handleAction(action)
+            let resultingAppAction = tokenList.handleAction(action)
+            // Handle the resulting action after committing the changes of the initial action
+            if let resultingAppAction = resultingAppAction {
+                handleAction(resultingAppAction)
+            }
 
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
@@ -136,6 +138,18 @@ extension AppModel: ActionHandler {
                     handleAction(resultingAppAction)
                 }
             }
+
+        case .UpdateToken(let persistentToken):
+            tokenStore.updatePersistentToken(persistentToken)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+
+        case let .MoveToken(fromIndex, toIndex):
+            tokenStore.moveTokenFromIndex(fromIndex, toIndex: toIndex)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+
+        case .DeleteTokenAtIndex(let index):
+            tokenStore.deleteTokenAtIndex(index)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
         }
     }
 }
