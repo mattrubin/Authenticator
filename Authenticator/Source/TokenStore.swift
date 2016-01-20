@@ -27,11 +27,13 @@ import Foundation
 import OneTimePassword
 
 class TokenStore {
-    private let keychain = Keychain.sharedInstance
-    private let userDefaults = NSUserDefaults.standardUserDefaults()
+    private let keychain: Keychain
+    private let userDefaults: NSUserDefaults
     private(set) var persistentTokens: [PersistentToken]
 
-    init() {
+    init(keychain: Keychain, userDefaults: NSUserDefaults) {
+        self.keychain = keychain
+        self.userDefaults = userDefaults
         do {
             let persistentTokenSet = try keychain.allPersistentTokens()
             let sortedIdentifiers = userDefaults.persistentIdentifiers()

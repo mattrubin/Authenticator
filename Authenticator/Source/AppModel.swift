@@ -23,10 +23,16 @@
 //  SOFTWARE.
 //
 
+import Foundation
+import OneTimePassword
+
 class AppModel {
     weak var presenter: AppPresenter?
 
-    private let tokenStore = TokenStore()
+    private let tokenStore = TokenStore(
+        keychain: Keychain.sharedInstance,
+        userDefaults: NSUserDefaults.standardUserDefaults()
+    )
 
     private var tokenList: TokenList {
         didSet {
