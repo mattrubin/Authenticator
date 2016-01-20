@@ -28,12 +28,13 @@ import OneTimePassword
 
 class TokenStore {
     private let keychain = Keychain.sharedInstance
+    private let userDefaults = NSUserDefaults.standardUserDefaults()
     private(set) var persistentTokens: [PersistentToken]
 
     init() {
         do {
             let persistentTokenSet = try keychain.allPersistentTokens()
-            let sortedIdentifiers = TokenStore.persistentIdentifiers()
+            let sortedIdentifiers = userDefaults.persistentIdentifiers()
 
             persistentTokens = persistentTokenSet.sort({ (A, B) in
                 let indexOfA = sortedIdentifiers.indexOf(A.identifier)
@@ -112,24 +113,22 @@ extension TokenStore {
     }
 }
 
+private let kOTPKeychainEntriesArray = "OTPKeychainEntries"
+
+private extension NSUserDefaults {
+    func persistentIdentifiers() -> [NSData] {
+        return arrayForKey(kOTPKeychainEntriesArray) as? [NSData] ?? []
+    }
+
+    func savePersistentIdentifiers(identifiers: [NSData]) {
+        setObject(identifiers, forKey: kOTPKeychainEntriesArray)
+        synchronize()
+    }
+}
+
 extension TokenStore {
-    // MARK: Token Order
-
-    private static let kOTPKeychainEntriesArray = "OTPKeychainEntries"
-
-    private static func persistentIdentifiers() -> [NSData] {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        return defaults.arrayForKey(kOTPKeychainEntriesArray) as? [NSData] ?? []
-    }
-
-    private static func savePersistentIdentifiers(identifiers: [NSData]) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(identifiers, forKey: kOTPKeychainEntriesArray)
-        defaults.synchronize()
-    }
-
     private func saveTokenOrder() {
         let persistentIdentifiers = persistentTokens.map { $0.identifier }
-        TokenStore.savePersistentIdentifiers(persistentIdentifiers)
+        userDefaults.savePersistentIdentifiers(persistentIdentifiers)
     }
 }
