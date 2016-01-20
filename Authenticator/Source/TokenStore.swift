@@ -35,7 +35,6 @@ class TokenStore {
             presenter?.update()
         }
     }
-    private(set) var ephemeralMessage: EphemeralMessage?
 
     init() {
         do {
@@ -105,9 +104,6 @@ extension TokenStore {
     }
 
     func handleAction(action: Action) {
-        // Reset any ephemeral state set by the previous action
-        resetEphemera()
-
         switch action {
         case let .MoveToken(fromIndex, toIndex):
             moveTokenFromIndex(fromIndex, toIndex: toIndex)
@@ -116,10 +112,6 @@ extension TokenStore {
         case .UpdateViewModel:
             updateViewModel()
         }
-    }
-
-    private func resetEphemera() {
-        ephemeralMessage = nil
     }
 
     func updatePersistentToken(persistentToken: PersistentToken) {
@@ -141,9 +133,7 @@ extension TokenStore {
             persistentTokens.removeAtIndex(index)
             saveTokenOrder()
         } catch {
-            // Show an emphemeral failure message
-            ephemeralMessage = .Error("Deletion Failed:\n\(error)")
-            presenter?.update()
+            // TODO: Handle the deletePersistentToken(_:) failure
         }
     }
 

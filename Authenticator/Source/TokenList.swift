@@ -37,9 +37,8 @@ struct TokenList {
         ephemeralMessage = nil
     }
 
-    mutating func updateWithpersistentTokens(persistentTokens: [PersistentToken], ephemeralMessage: EphemeralMessage?) {
+    mutating func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
         self.persistentTokens = persistentTokens
-        self.ephemeralMessage = ephemeralMessage
     }
 
     // MARK: View Model
@@ -81,7 +80,10 @@ extension TokenList {
         case UpdateViewModel
     }
 
-    func handleAction(action: Action) -> AppAction? {
+    mutating func handleAction(action: Action) -> AppAction? {
+        // Reset any ephemeral state set by the previous action
+        resetEphemera()
+
         switch action {
         case .BeginAddToken:
             return .BeginTokenEntry
@@ -107,11 +109,14 @@ extension TokenList {
         }
     }
 
-    private func copyPassword(password: String) {
+    private mutating func resetEphemera() {
+        ephemeralMessage = nil
+    }
+
+    private mutating func copyPassword(password: String) {
         let pasteboard = UIPasteboard.generalPasteboard()
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         // Show an ephemeral success message in the view
-        // TODO: restore this message
-//        ephemeralMessage = .Success("Copied")
+        ephemeralMessage = .Success("Copied")
     }
 }

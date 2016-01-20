@@ -82,8 +82,7 @@ class AppModel {
 extension AppModel: TokenListPresenter {
     func update() {
         // When the token store signals an update, update the token list with its contents
-        tokenList.updateWithpersistentTokens(tokenStore.persistentTokens,
-            ephemeralMessage: tokenStore.ephemeralMessage)
+        tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
         presenter?.updateWithViewModel(self.viewModel)
     }
 }
