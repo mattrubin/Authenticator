@@ -120,6 +120,8 @@ extension TokenStore {
     }
 }
 
+// MARK: - Token Order Persistence
+
 private let kOTPKeychainEntriesArray = "OTPKeychainEntries"
 
 private extension NSUserDefaults {
