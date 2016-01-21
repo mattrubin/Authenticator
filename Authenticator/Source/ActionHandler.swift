@@ -43,7 +43,7 @@ enum AppAction {
 
     case UpdateToken(PersistentToken)
     case MoveToken(fromIndex: Int, toIndex: Int)
-    case DeleteTokenAtIndex(Int)
+    case DeletePersistentToken(PersistentToken)
 }
 
 protocol ActionHandler: class {

@@ -108,11 +108,12 @@ extension TokenStore {
         saveTokenOrder()
     }
 
-    func deleteTokenAtIndex(index: Int) {
+    func deletePersistentToken(persistentToken: PersistentToken) {
         do {
-            let persistentToken = persistentTokens[index]
             try keychain.deletePersistentToken(persistentToken)
-            persistentTokens.removeAtIndex(index)
+            if let index = persistentTokens.indexOf(persistentToken) {
+                persistentTokens.removeAtIndex(index)
+            }
             saveTokenOrder()
         } catch {
             // TODO: Handle the deletePersistentToken(_:) failure

@@ -27,17 +27,14 @@ import Foundation
 import OneTimePassword
 
 struct TokenRowModel: Equatable, Identifiable {
-    enum Action: Equatable {
-        case UpdatePersistentToken(PersistentToken)
-        case EditPersistentToken(PersistentToken)
-        case CopyPassword(String)
-    }
+    typealias Action = TokenList.Action
 
     let name, issuer, password: String
     let showsButton: Bool
     let buttonAction: Action
     let selectAction: Action
     let editAction: Action
+    let deleteAction: Action
 
     private let identifier: NSData
 
@@ -53,6 +50,7 @@ struct TokenRowModel: Equatable, Identifiable {
         buttonAction = .UpdatePersistentToken(persistentToken)
         selectAction = .CopyPassword(password)
         editAction = .EditPersistentToken(persistentToken)
+        deleteAction = .DeletePersistentToken(persistentToken)
         identifier = persistentToken.identifier
     }
 
@@ -69,18 +67,6 @@ func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
         && (lhs.buttonAction == rhs.buttonAction)
         && (lhs.selectAction == rhs.selectAction)
         && (lhs.editAction == rhs.editAction)
+        && (lhs.deleteAction == rhs.deleteAction)
         && (lhs.identifier == rhs.identifier)
-}
-
-func == (lhs: TokenRowModel.Action, rhs: TokenRowModel.Action) -> Bool {
-    switch (lhs, rhs) {
-    case let (.UpdatePersistentToken(l), .UpdatePersistentToken(r)):
-        return l == r
-    case let (.EditPersistentToken(l), .EditPersistentToken(r)):
-        return l == r
-    case let (.CopyPassword(l), .CopyPassword(r)):
-        return l == r
-    default:
-        return false
-    }
 }

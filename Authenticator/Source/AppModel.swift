@@ -148,8 +148,8 @@ extension AppModel: ActionHandler {
             tokenStore.moveTokenFromIndex(fromIndex, toIndex: toIndex)
             tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
 
-        case .DeleteTokenAtIndex(let index):
-            tokenStore.deleteTokenAtIndex(index)
+        case .DeletePersistentToken(let persistentToken):
+            tokenStore.deletePersistentToken(persistentToken)
             tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
         }
     }

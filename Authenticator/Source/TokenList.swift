@@ -66,13 +66,13 @@ struct TokenList {
 }
 
 extension TokenList {
-    enum Action {
+    enum Action: Equatable {
         case BeginAddToken
-        case BeginEditPersistentToken(PersistentToken)
+        case EditPersistentToken(PersistentToken)
 
         case UpdatePersistentToken(PersistentToken)
         case MoveToken(fromIndex: Int, toIndex: Int)
-        case DeleteTokenAtIndex(Int)
+        case DeletePersistentToken(PersistentToken)
 
         case CopyPassword(String)
         // TODO: remove this action and have the component auto-update the view model on time change
@@ -87,14 +87,14 @@ extension TokenList {
         switch action {
         case .BeginAddToken:
             return .BeginTokenEntry
-        case .BeginEditPersistentToken(let persistentToken):
+        case .EditPersistentToken(let persistentToken):
             return .BeginTokenEdit(persistentToken)
         case .UpdatePersistentToken(let persistentToken):
             return .UpdateToken(persistentToken)
         case let .MoveToken(fromIndex, toIndex):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
-        case .DeleteTokenAtIndex(let index):
-            return .DeleteTokenAtIndex(index)
+        case .DeletePersistentToken(let persistentToken):
+            return .DeletePersistentToken(persistentToken)
 
         case .CopyPassword(let password):
             copyPassword(password)
@@ -119,4 +119,35 @@ extension TokenList {
         // Show an ephemeral success message in the view
         ephemeralMessage = .Success("Copied")
     }
+}
+
+func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
+    switch lhs {
+    case .BeginAddToken:
+        return rhs == .BeginAddToken
+    case let .EditPersistentToken(l):
+        if case let .EditPersistentToken(r) = rhs {
+            return l == r
+        }
+    case let .UpdatePersistentToken(l):
+        if case let .UpdatePersistentToken(r) = rhs {
+            return l == r
+        }
+    case let .MoveToken(l):
+        if case let .MoveToken(r) = rhs {
+            return l.fromIndex == r.fromIndex
+                && l.toIndex == r.toIndex
+        }
+    case let .DeletePersistentToken(l):
+        if case let .DeletePersistentToken(r) = rhs {
+            return l == r
+        }
+    case let .CopyPassword(l):
+        if case let .CopyPassword(r) = rhs {
+            return l == r
+        }
+    case .UpdateViewModel:
+        return rhs == .UpdateViewModel
+    }
+    return false
 }
