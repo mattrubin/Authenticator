@@ -191,16 +191,7 @@ extension TokenListViewController {
 // MARK: TokenRowDelegate
 extension TokenListViewController: TokenRowDelegate {
     func handleAction(action: TokenRowModel.Action) {
-        switch action {
-        case .UpdatePersistentToken(let persistentToken):
-            dispatchAction(.UpdatePersistentToken(persistentToken))
-        case .CopyPassword(let password):
-            dispatchAction(.CopyPassword(password))
-        case .EditPersistentToken(let persistentToken):
-            dispatchAction(.BeginEditPersistentToken(persistentToken))
-        case .DeletePersistentToken(let persistentToken):
-            dispatchAction(.DeletePersistentToken(persistentToken))
-        }
+        dispatchAction(action)
     }
 }
 

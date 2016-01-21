@@ -68,7 +68,7 @@ struct TokenList {
 extension TokenList {
     enum Action {
         case BeginAddToken
-        case BeginEditPersistentToken(PersistentToken)
+        case EditPersistentToken(PersistentToken)
 
         case UpdatePersistentToken(PersistentToken)
         case MoveToken(fromIndex: Int, toIndex: Int)
@@ -87,7 +87,7 @@ extension TokenList {
         switch action {
         case .BeginAddToken:
             return .BeginTokenEntry
-        case .BeginEditPersistentToken(let persistentToken):
+        case .EditPersistentToken(let persistentToken):
             return .BeginTokenEdit(persistentToken)
         case .UpdatePersistentToken(let persistentToken):
             return .UpdateToken(persistentToken)
