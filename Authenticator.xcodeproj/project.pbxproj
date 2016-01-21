@@ -160,10 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				1D3623250D0F684500981E51 /* OTPAppDelegate.swift */,
-				C93BD6221C167CD100FFFB8F /* Root.swift */,
-				C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */,
-				C93BD6241C16841D00FFFB8F /* RootViewController.swift */,
 				C9F7A8621C4F2E200082E5AE /* Data Store */,
+				C981BBF21C5094A500A30CBA /* Root Component */,
 				C98C1C4917D2F03400A07D3F /* Token List */,
 				C9B0B9501BC9159300BD5844 /* Forms */,
 				C97CDF2D1BEF10B300D64406 /* Scanner */,
@@ -299,6 +297,16 @@
 				8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */,
 			);
 			name = Scanner;
+			sourceTree = "<group>";
+		};
+		C981BBF21C5094A500A30CBA /* Root Component */ = {
+			isa = PBXGroup;
+			children = (
+				C93BD6221C167CD100FFFB8F /* Root.swift */,
+				C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */,
+				C93BD6241C16841D00FFFB8F /* RootViewController.swift */,
+			);
+			name = "Root Component";
 			sourceTree = "<group>";
 		};
 		C98C1C4517D2EDF500A07D3F /* Cells */ = {
