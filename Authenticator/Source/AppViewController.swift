@@ -38,14 +38,15 @@ class AppViewController: OpaqueNavigationController {
 
     private var tokenListViewController: TokenListViewController
     private var modalNavController: UINavigationController?
-    private weak var actionHandler: ActionHandler?
 
-    init(viewModel: AppViewModel, actionHandler: ActionHandler) {
+    private let dispatchAction: (AppAction) -> ()
+
+    init(viewModel: AppViewModel, dispatchAction: (AppAction) -> ()) {
         self.currentViewModel = viewModel
-        self.actionHandler = actionHandler
+        self.dispatchAction = dispatchAction
         tokenListViewController = TokenListViewController(viewModel: viewModel.tokenList,
-            dispatchAction: { [weak actionHandler] in
-                actionHandler?.handleAction(.TokenListAction($0))
+            dispatchAction: { [dispatchAction] in
+                dispatchAction(.TokenListAction($0))
             })
 
         super.init(nibName: nil, bundle: nil)
@@ -83,10 +84,7 @@ extension AppViewController: AppPresenter {
             dismissViewController()
 
         case .Scanner:
-            let scannerViewController = TokenScannerViewController(dispatchAction: {
-                [weak actionHandler] in
-                actionHandler?.handleAction($0)
-            })
+            let scannerViewController = TokenScannerViewController(dispatchAction: dispatchAction)
             presentViewController(scannerViewController)
 
         case .EntryForm(let formViewModel):
@@ -95,8 +93,8 @@ extension AppViewController: AppPresenter {
                     entryController.updateWithViewModel(formViewModel)
             } else {
                 let formController = TokenFormViewController(viewModel: formViewModel,
-                    dispatchAction: { [weak actionHandler] in
-                        actionHandler?.handleAction(.TokenEntryFormAction($0))
+                    dispatchAction: { [dispatchAction] in
+                        dispatchAction(.TokenEntryFormAction($0))
                     })
                 presentViewController(formController)
             }
@@ -107,8 +105,8 @@ extension AppViewController: AppPresenter {
                     editController.updateWithViewModel(formViewModel)
             } else {
                 let editController = TokenFormViewController(viewModel: formViewModel,
-                    dispatchAction: { [weak actionHandler] in
-                        actionHandler?.handleAction(.TokenEditFormAction($0))
+                    dispatchAction: { [dispatchAction] in
+                        dispatchAction(.TokenEditFormAction($0))
                     })
                 presentViewController(editController)
             }
