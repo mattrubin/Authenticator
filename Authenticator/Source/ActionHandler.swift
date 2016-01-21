@@ -46,6 +46,7 @@ enum AppAction {
     case DeletePersistentToken(PersistentToken)
 }
 
+@available(*, deprecated=1)
 protocol ActionHandler: class {
     func handleAction(action: AppAction)
 }
