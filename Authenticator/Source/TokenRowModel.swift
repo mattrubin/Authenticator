@@ -30,6 +30,7 @@ struct TokenRowModel: Equatable, Identifiable {
     enum Action: Equatable {
         case UpdatePersistentToken(PersistentToken)
         case EditPersistentToken(PersistentToken)
+        case DeletePersistentToken(PersistentToken)
         case CopyPassword(String)
     }
 
@@ -38,6 +39,7 @@ struct TokenRowModel: Equatable, Identifiable {
     let buttonAction: Action
     let selectAction: Action
     let editAction: Action
+    let deleteAction: Action
 
     private let identifier: NSData
 
@@ -53,6 +55,7 @@ struct TokenRowModel: Equatable, Identifiable {
         buttonAction = .UpdatePersistentToken(persistentToken)
         selectAction = .CopyPassword(password)
         editAction = .EditPersistentToken(persistentToken)
+        deleteAction = .DeletePersistentToken(persistentToken)
         identifier = persistentToken.identifier
     }
 
@@ -80,6 +83,10 @@ func == (lhs: TokenRowModel.Action, rhs: TokenRowModel.Action) -> Bool {
         }
     case let .EditPersistentToken(l):
         if case let .EditPersistentToken(r) = rhs {
+            return l == r
+        }
+    case let .DeletePersistentToken(l):
+        if case let .DeletePersistentToken(r) = rhs {
             return l == r
         }
     case let .CopyPassword(l):

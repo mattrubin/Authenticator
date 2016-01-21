@@ -161,8 +161,9 @@ extension TokenListViewController {
         commitEditingStyle editingStyle: UITableViewCellEditingStyle,
         forRowAtIndexPath indexPath: NSIndexPath)
     {
+        let rowModel = viewModel.rowModels[indexPath.row]
         if editingStyle == .Delete {
-            dispatchAction(.DeleteTokenAtIndex(indexPath.row))
+            handleAction(rowModel.deleteAction)
         }
     }
 
@@ -197,6 +198,8 @@ extension TokenListViewController: TokenRowDelegate {
             dispatchAction(.CopyPassword(password))
         case .EditPersistentToken(let persistentToken):
             dispatchAction(.BeginEditPersistentToken(persistentToken))
+        case .DeletePersistentToken(let persistentToken):
+            dispatchAction(.DeletePersistentToken(persistentToken))
         }
     }
 }

@@ -72,7 +72,7 @@ extension TokenList {
 
         case UpdatePersistentToken(PersistentToken)
         case MoveToken(fromIndex: Int, toIndex: Int)
-        case DeleteTokenAtIndex(Int)
+        case DeletePersistentToken(PersistentToken)
 
         case CopyPassword(String)
         // TODO: remove this action and have the component auto-update the view model on time change
@@ -93,8 +93,8 @@ extension TokenList {
             return .UpdateToken(persistentToken)
         case let .MoveToken(fromIndex, toIndex):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
-        case .DeleteTokenAtIndex(let index):
-            return .DeleteTokenAtIndex(index)
+        case .DeletePersistentToken(let persistentToken):
+            return .DeletePersistentToken(persistentToken)
 
         case .CopyPassword(let password):
             copyPassword(password)
