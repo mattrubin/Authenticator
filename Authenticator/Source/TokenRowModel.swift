@@ -73,14 +73,19 @@ func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
 }
 
 func == (lhs: TokenRowModel.Action, rhs: TokenRowModel.Action) -> Bool {
-    switch (lhs, rhs) {
-    case let (.UpdatePersistentToken(l), .UpdatePersistentToken(r)):
-        return l == r
-    case let (.EditPersistentToken(l), .EditPersistentToken(r)):
-        return l == r
-    case let (.CopyPassword(l), .CopyPassword(r)):
-        return l == r
-    default:
-        return false
+    switch lhs {
+    case let .UpdatePersistentToken(l):
+        if case let .UpdatePersistentToken(r) = rhs {
+            return l == r
+        }
+    case let .EditPersistentToken(l):
+        if case let .EditPersistentToken(r) = rhs {
+            return l == r
+        }
+    case let .CopyPassword(l):
+        if case let .CopyPassword(r) = rhs {
+            return l == r
+        }
     }
+    return false
 }
