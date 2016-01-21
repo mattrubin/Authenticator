@@ -70,34 +70,3 @@ func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
         && (lhs.deleteAction == rhs.deleteAction)
         && (lhs.identifier == rhs.identifier)
 }
-
-func == (lhs: TokenRowModel.Action, rhs: TokenRowModel.Action) -> Bool {
-    switch lhs {
-    case .BeginAddToken:
-        return rhs == .BeginAddToken
-    case let .EditPersistentToken(l):
-        if case let .EditPersistentToken(r) = rhs {
-            return l == r
-        }
-    case let .UpdatePersistentToken(l):
-        if case let .UpdatePersistentToken(r) = rhs {
-            return l == r
-        }
-    case let .MoveToken(l):
-        if case let .MoveToken(r) = rhs {
-            return l.fromIndex == r.fromIndex
-                && l.toIndex == r.toIndex
-        }
-    case let .DeletePersistentToken(l):
-        if case let .DeletePersistentToken(r) = rhs {
-            return l == r
-        }
-    case let .CopyPassword(l):
-        if case let .CopyPassword(r) = rhs {
-            return l == r
-        }
-    case .UpdateViewModel:
-        return rhs == .UpdateViewModel
-    }
-    return false
-}
