@@ -177,7 +177,7 @@ extension TokenEntryForm {
 
 extension TokenEntryForm {
     @warn_unused_result
-    mutating func handleAction(action: Action) -> AppAction? {
+    mutating func handleAction(action: Action) -> Root.Action? {
         // Reset any ephemeral state set by the previous action
         resetEphemera()
 
@@ -210,12 +210,12 @@ extension TokenEntryForm {
     }
 
     @warn_unused_result
-    private mutating func cancel() -> AppAction {
+    private mutating func cancel() -> Root.Action {
         return .CancelTokenEntry
     }
 
     @warn_unused_result
-    private mutating func submit() -> AppAction? {
+    private mutating func submit() -> Root.Action? {
         guard isValid else {
             // TODO: Show more specific error messages for different failure cases
             submitFailed = true

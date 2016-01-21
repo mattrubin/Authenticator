@@ -12,9 +12,9 @@
 		C910ADC11BF0315A00C988F5 /* TokenList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C910ADC01BF0315A00C988F5 /* TokenList.swift */; };
 		C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708AB19CFB0750033128B /* TokenListViewController.swift */; };
 		C93AD15219CD51BE007480E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AD15119CD51BE007480E9 /* Colors.swift */; };
-		C93BD6231C167CD100FFFB8F /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6221C167CD100FFFB8F /* AppModel.swift */; };
-		C93BD6251C16841D00FFFB8F /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6241C16841D00FFFB8F /* AppViewController.swift */; };
-		C93BD6291C168EBF00FFFB8F /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6281C168EBF00FFFB8F /* AppViewModel.swift */; };
+		C93BD6231C167CD100FFFB8F /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6221C167CD100FFFB8F /* Root.swift */; };
+		C93BD6251C16841D00FFFB8F /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6241C16841D00FFFB8F /* RootViewController.swift */; };
+		C93BD6291C168EBF00FFFB8F /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */; };
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
@@ -33,7 +33,6 @@
 		C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */; };
 		C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328C1C09495D0076F77E /* TableDiff.swift */; };
 		C9B7328F1C0A8AE60076F77E /* TokenListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */; };
-		C9BA64E81C0C26BA00610C7C /* ActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA64E71C0C26BA00610C7C /* ActionHandler.swift */; };
 		C9BA64EA1C0C4FBC00610C7C /* UITableView+ReusableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA64E91C0C4FBC00610C7C /* UITableView+ReusableCells.swift */; };
 		C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */; };
 		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
@@ -88,9 +87,9 @@
 		C931A5FF1BFF6FA600706A1C /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		C931A6021BFF707E00706A1C /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		C93AD15119CD51BE007480E9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		C93BD6221C167CD100FFFB8F /* AppModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
-		C93BD6241C16841D00FFFB8F /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
-		C93BD6281C168EBF00FFFB8F /* AppViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		C93BD6221C167CD100FFFB8F /* Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
+		C93BD6241C16841D00FFFB8F /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A5581A7ECB3100E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C944A56A1A7F772600E08B1E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Configurations/Debug.xcconfig; sourceTree = "<group>"; };
@@ -125,7 +124,6 @@
 		C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEditForm.swift; sourceTree = "<group>"; };
 		C9B7328C1C09495D0076F77E /* TableDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDiff.swift; sourceTree = "<group>"; };
 		C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewModel.swift; sourceTree = "<group>"; };
-		C9BA64E71C0C26BA00610C7C /* ActionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionHandler.swift; sourceTree = "<group>"; };
 		C9BA64E91C0C4FBC00610C7C /* UITableView+ReusableCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+ReusableCells.swift"; sourceTree = "<group>"; };
 		C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		C9C6CCA11842E331000100C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -162,11 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				1D3623250D0F684500981E51 /* OTPAppDelegate.swift */,
-				C93BD6221C167CD100FFFB8F /* AppModel.swift */,
-				C93BD6281C168EBF00FFFB8F /* AppViewModel.swift */,
-				C93BD6241C16841D00FFFB8F /* AppViewController.swift */,
-				C9BA64E71C0C26BA00610C7C /* ActionHandler.swift */,
 				C9F7A8621C4F2E200082E5AE /* Data Store */,
+				C981BBF21C5094A500A30CBA /* Root Component */,
 				C98C1C4917D2F03400A07D3F /* Token List */,
 				C9B0B9501BC9159300BD5844 /* Forms */,
 				C97CDF2D1BEF10B300D64406 /* Scanner */,
@@ -302,6 +297,16 @@
 				8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */,
 			);
 			name = Scanner;
+			sourceTree = "<group>";
+		};
+		C981BBF21C5094A500A30CBA /* Root Component */ = {
+			isa = PBXGroup;
+			children = (
+				C93BD6221C167CD100FFFB8F /* Root.swift */,
+				C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */,
+				C93BD6241C16841D00FFFB8F /* RootViewController.swift */,
+			);
+			name = "Root Component";
 			sourceTree = "<group>";
 		};
 		C98C1C4517D2EDF500A07D3F /* Cells */ = {
@@ -531,7 +536,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C93AD15219CD51BE007480E9 /* Colors.swift in Sources */,
-				C93BD6251C16841D00FFFB8F /* AppViewController.swift in Sources */,
+				C93BD6251C16841D00FFFB8F /* RootViewController.swift in Sources */,
 				C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */,
 				C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */,
 				C9BA64EA1C0C4FBC00610C7C /* UITableView+ReusableCells.swift in Sources */,
@@ -542,8 +547,7 @@
 				C9919CE21BA733FD006237C1 /* Section.swift in Sources */,
 				C9D6C8461906CD54004F0E08 /* TextFieldRow.swift in Sources */,
 				C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */,
-				C93BD6231C167CD100FFFB8F /* AppModel.swift in Sources */,
-				C9BA64E81C0C26BA00610C7C /* ActionHandler.swift in Sources */,
+				C93BD6231C167CD100FFFB8F /* Root.swift in Sources */,
 				C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */,
 				C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */,
 				C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */,
@@ -553,7 +557,7 @@
 				8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */,
 				C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */,
 				C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */,
-				C93BD6291C168EBF00FFFB8F /* AppViewModel.swift in Sources */,
+				C93BD6291C168EBF00FFFB8F /* RootViewModel.swift in Sources */,
 				C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */,
 				C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */,
 				C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */,

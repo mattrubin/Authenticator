@@ -1,5 +1,5 @@
 //
-//  AppModel.swift
+//  Root.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -23,7 +23,9 @@
 //  SOFTWARE.
 //
 
-class AppModel {
+import OneTimePassword
+
+class Root {
     weak var presenter: AppPresenter?
 
     private let tokenStore: TokenStore
@@ -53,8 +55,8 @@ class AppModel {
         modalState = .None
     }
 
-    var viewModel: AppViewModel {
-        let modal: AppViewModel.Modal
+    var viewModel: RootViewModel {
+        let modal: RootViewModel.Modal
         switch modalState {
         case .None:
             modal = .None
@@ -66,15 +68,36 @@ class AppModel {
             modal = .EditForm(form.viewModel)
         }
 
-        return AppViewModel(
+        return RootViewModel(
             tokenList: tokenList.viewModel,
             modal: modal
         )
     }
 }
 
-extension AppModel {
-    func handleAction(action: AppAction) {
+extension Root {
+    enum Action {
+        case BeginTokenEntry
+        case BeginManualTokenEntry
+        case CancelTokenEntry
+        case SaveNewToken(Token)
+
+        case BeginTokenEdit(PersistentToken)
+        case CancelTokenEdit
+        case SaveChanges(Token, PersistentToken)
+
+        case AddTokenFromURL(Token)
+
+        case TokenListAction(TokenList.Action)
+        case TokenEntryFormAction(TokenEntryForm.Action)
+        case TokenEditFormAction(TokenEditForm.Action)
+
+        case UpdateToken(PersistentToken)
+        case MoveToken(fromIndex: Int, toIndex: Int)
+        case DeletePersistentToken(PersistentToken)
+    }
+
+    func handleAction(action: Action) {
         switch action {
         case .BeginTokenEntry:
             guard QRScanner.deviceCanScan else {

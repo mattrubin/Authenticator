@@ -29,7 +29,7 @@ import SVProgressHUD
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
-    let appModel = AppModel(
+    let root = Root(
         store: TokenStore(
             keychain: Keychain.sharedInstance,
             userDefaults: NSUserDefaults.standardUserDefaults()
@@ -52,11 +52,11 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        let navController = AppViewController(viewModel: appModel.viewModel,
-            dispatchAction: { [weak appModel] in
-                appModel?.handleAction($0)
+        let navController = RootViewController(viewModel: root.viewModel,
+            dispatchAction: { [weak root] in
+                root?.handleAction($0)
             })
-        appModel.presenter = navController
+        root.presenter = navController
         self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()
 
@@ -72,7 +72,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
 
             let acceptHandler: (UIAlertAction) -> Void = { [weak self] (_) in
-                self?.appModel.handleAction(.AddTokenFromURL(token))
+                self?.root.handleAction(.AddTokenFromURL(token))
             }
 
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
