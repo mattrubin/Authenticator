@@ -1,5 +1,5 @@
 //
-//  AppViewModel.swift
+//  RootViewModel.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -23,7 +23,7 @@
 //  SOFTWARE.
 //
 
-struct AppViewModel {
+struct RootViewModel {
     let tokenList: TokenListViewModel
     let modal: Modal
 
@@ -36,5 +36,5 @@ struct AppViewModel {
 }
 
 protocol AppPresenter: class {
-    func updateWithViewModel(viewModel: AppViewModel)
+    func updateWithViewModel(viewModel: RootViewModel)
 }

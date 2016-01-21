@@ -55,8 +55,8 @@ class Root {
         modalState = .None
     }
 
-    var viewModel: AppViewModel {
-        let modal: AppViewModel.Modal
+    var viewModel: RootViewModel {
+        let modal: RootViewModel.Modal
         switch modalState {
         case .None:
             modal = .None
@@ -68,7 +68,7 @@ class Root {
             modal = .EditForm(form.viewModel)
         }
 
-        return AppViewModel(
+        return RootViewModel(
             tokenList: tokenList.viewModel,
             modal: modal
         )
