@@ -31,11 +31,11 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
 
-    private let dispatchAction: (AppAction) -> ()
+    private let dispatchAction: (Root.Action) -> ()
 
     // MARK: Initialization
 
-    init(dispatchAction: (AppAction) -> ()) {
+    init(dispatchAction: (Root.Action) -> ()) {
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
     }

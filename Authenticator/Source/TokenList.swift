@@ -80,7 +80,7 @@ extension TokenList {
     }
 
     @warn_unused_result
-    mutating func handleAction(action: Action) -> AppAction? {
+    mutating func handleAction(action: Action) -> Root.Action? {
         // Reset any ephemeral state set by the previous action
         resetEphemera()
 

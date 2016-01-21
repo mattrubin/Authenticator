@@ -104,7 +104,7 @@ extension TokenEditForm {
 
 extension TokenEditForm {
     @warn_unused_result
-    mutating func handleAction(action: Action) -> AppAction? {
+    mutating func handleAction(action: Action) -> Root.Action? {
         switch action {
         case let .Issuer(issuer):
             self.issuer = issuer
@@ -119,12 +119,12 @@ extension TokenEditForm {
     }
 
     @warn_unused_result
-    private func cancel() -> AppAction {
+    private func cancel() -> Root.Action {
         return .CancelTokenEdit
     }
 
     @warn_unused_result
-    private func submit() -> AppAction? {
+    private func submit() -> Root.Action? {
         guard isValid else {
             // TODO: Show error message?
             return nil

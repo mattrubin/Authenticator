@@ -23,6 +23,8 @@
 //  SOFTWARE.
 //
 
+import OneTimePassword
+
 class Root {
     weak var presenter: AppPresenter?
 
@@ -74,7 +76,28 @@ class Root {
 }
 
 extension Root {
-    func handleAction(action: AppAction) {
+    enum Action {
+        case BeginTokenEntry
+        case BeginManualTokenEntry
+        case CancelTokenEntry
+        case SaveNewToken(Token)
+
+        case BeginTokenEdit(PersistentToken)
+        case CancelTokenEdit
+        case SaveChanges(Token, PersistentToken)
+
+        case AddTokenFromURL(Token)
+
+        case TokenListAction(TokenList.Action)
+        case TokenEntryFormAction(TokenEntryForm.Action)
+        case TokenEditFormAction(TokenEditForm.Action)
+
+        case UpdateToken(PersistentToken)
+        case MoveToken(fromIndex: Int, toIndex: Int)
+        case DeletePersistentToken(PersistentToken)
+    }
+
+    func handleAction(action: Action) {
         switch action {
         case .BeginTokenEntry:
             guard QRScanner.deviceCanScan else {

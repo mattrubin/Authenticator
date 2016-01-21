@@ -39,9 +39,9 @@ class AppViewController: OpaqueNavigationController {
     private var tokenListViewController: TokenListViewController
     private var modalNavController: UINavigationController?
 
-    private let dispatchAction: (AppAction) -> ()
+    private let dispatchAction: (Root.Action) -> ()
 
-    init(viewModel: AppViewModel, dispatchAction: (AppAction) -> ()) {
+    init(viewModel: AppViewModel, dispatchAction: (Root.Action) -> ()) {
         self.currentViewModel = viewModel
         self.dispatchAction = dispatchAction
         tokenListViewController = TokenListViewController(viewModel: viewModel.tokenList,
