@@ -67,6 +67,7 @@ func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
         && (lhs.buttonAction == rhs.buttonAction)
         && (lhs.selectAction == rhs.selectAction)
         && (lhs.editAction == rhs.editAction)
+        && (lhs.deleteAction == rhs.deleteAction)
         && (lhs.identifier == rhs.identifier)
 }
 
