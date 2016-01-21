@@ -74,12 +74,6 @@ class AppViewController: OpaqueNavigationController {
     }
 }
 
-extension AppViewController: ActionHandler {
-    func handleAction(action: AppAction) {
-        actionHandler?.handleAction(action)
-    }
-}
-
 extension AppViewController: AppPresenter {
     func updateWithViewModel(viewModel: AppViewModel) {
         tokenListViewController.updateWithViewModel(viewModel.tokenList)
@@ -89,7 +83,10 @@ extension AppViewController: AppPresenter {
             dismissViewController()
 
         case .Scanner:
-            let scannerViewController = TokenScannerViewController(actionHandler: self)
+            let scannerViewController = TokenScannerViewController(dispatchAction: {
+                [weak actionHandler] in
+                actionHandler?.handleAction($0)
+            })
             presentViewController(scannerViewController)
 
         case .EntryForm(let formViewModel):
