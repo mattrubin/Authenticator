@@ -45,7 +45,3 @@ enum AppAction {
     case MoveToken(fromIndex: Int, toIndex: Int)
     case DeletePersistentToken(PersistentToken)
 }
-
-protocol ActionHandler: class {
-    func handleAction(action: AppAction)
-}

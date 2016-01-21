@@ -30,17 +30,18 @@ import SVProgressHUD
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
-    private weak var actionHandler: ActionHandler?
+
+    private let dispatchAction: (AppAction) -> ()
 
     // MARK: Initialization
 
-    init(actionHandler: ActionHandler) {
-        self.actionHandler = actionHandler
+    init(dispatchAction: (AppAction) -> ()) {
+        self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: View Lifecycle
@@ -86,11 +87,11 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     func cancel() {
-        actionHandler?.handleAction(.CancelTokenEntry)
+        dispatchAction(.CancelTokenEntry)
     }
 
     func addTokenManually() {
-        actionHandler?.handleAction(.BeginManualTokenEntry)
+        dispatchAction(.BeginManualTokenEntry)
     }
 
     // MARK: QRScannerDelegate
@@ -107,7 +108,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         // Halt the video capture
         scanner.stop()
         // Inform the delegate that an auth URL was captured
-        actionHandler?.handleAction(.SaveNewToken(token))
+        dispatchAction(.SaveNewToken(token))
     }
 
     func handleError(error: ErrorType) {

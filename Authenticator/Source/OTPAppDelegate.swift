@@ -53,7 +53,9 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setDefaultStyle(.Dark)
 
         let navController = AppViewController(viewModel: appModel.viewModel,
-            actionHandler: appModel)
+            dispatchAction: { [weak appModel] in
+                appModel?.handleAction($0)
+            })
         appModel.presenter = navController
         self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()

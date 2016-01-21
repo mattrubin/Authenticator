@@ -73,7 +73,7 @@ class AppModel {
     }
 }
 
-extension AppModel: ActionHandler {
+extension AppModel {
     func handleAction(action: AppAction) {
         switch action {
         case .BeginTokenEntry:
