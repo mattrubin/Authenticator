@@ -26,7 +26,7 @@
 class AppModel {
     weak var presenter: AppPresenter?
 
-    private let tokenStore = TokenStore()
+    private let tokenStore: TokenStore
 
     private var tokenList: TokenList {
         didSet {
@@ -47,7 +47,8 @@ class AppModel {
         case EditForm(TokenEditForm)
     }
 
-    init() {
+    init(store: TokenStore) {
+        tokenStore = store
         tokenList = TokenList(persistentTokens: tokenStore.persistentTokens)
         modalState = .None
     }
