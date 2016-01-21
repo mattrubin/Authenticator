@@ -25,12 +25,8 @@
 
 import UIKit
 
-protocol TokenRowDelegate: class {
-    func handleAction(action: TokenRowModel.Action)
-}
-
 class TokenRowCell: UITableViewCell {
-    weak var delegate: TokenRowDelegate?
+    var dispatchAction: ((TokenRowModel.Action) -> ())?
     private var rowModel: TokenRowModel?
 
     private let titleLabel = UILabel()
@@ -151,16 +147,16 @@ class TokenRowCell: UITableViewCell {
 
         if selected, let rowModel = rowModel {
             if self.editing {
-                delegate?.handleAction(rowModel.editAction)
+                dispatchAction?(rowModel.editAction)
             } else {
-                delegate?.handleAction(rowModel.selectAction)
+                dispatchAction?(rowModel.selectAction)
             }
         }
     }
 
     func generateNextPassword() {
         if let action = rowModel?.buttonAction {
-            delegate?.handleAction(action)
+            dispatchAction?(action)
         }
     }
 }

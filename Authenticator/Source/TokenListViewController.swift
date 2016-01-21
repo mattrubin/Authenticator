@@ -154,7 +154,7 @@ extension TokenListViewController {
     private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
         cell.updateWithRowModel(rowModel)
-        cell.delegate = self
+        cell.dispatchAction = dispatchAction
     }
 
     override func tableView(tableView: UITableView,
@@ -163,7 +163,7 @@ extension TokenListViewController {
     {
         let rowModel = viewModel.rowModels[indexPath.row]
         if editingStyle == .Delete {
-            handleAction(rowModel.deleteAction)
+            dispatchAction(rowModel.deleteAction)
         }
     }
 
@@ -185,13 +185,6 @@ extension TokenListViewController {
         -> CGFloat
     {
         return 85
-    }
-}
-
-// MARK: TokenRowDelegate
-extension TokenListViewController: TokenRowDelegate {
-    func handleAction(action: TokenRowModel.Action) {
-        dispatchAction(action)
     }
 }
 
