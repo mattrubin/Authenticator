@@ -1,5 +1,5 @@
 //
-//  AppModel.swift
+//  Root.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -23,7 +23,7 @@
 //  SOFTWARE.
 //
 
-class AppModel {
+class Root {
     weak var presenter: AppPresenter?
 
     private let tokenStore: TokenStore
@@ -73,7 +73,7 @@ class AppModel {
     }
 }
 
-extension AppModel {
+extension Root {
     func handleAction(action: AppAction) {
         switch action {
         case .BeginTokenEntry:
