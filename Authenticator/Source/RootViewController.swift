@@ -1,5 +1,5 @@
 //
-//  AppViewController.swift
+//  RootViewController.swift
 //  Authenticator
 //
 //  Copyright (c) 2015 Authenticator authors
@@ -33,7 +33,7 @@ class OpaqueNavigationController: UINavigationController {
     }
 }
 
-class AppViewController: OpaqueNavigationController {
+class RootViewController: OpaqueNavigationController {
     private var currentViewModel: RootViewModel
 
     private var tokenListViewController: TokenListViewController
@@ -75,7 +75,7 @@ class AppViewController: OpaqueNavigationController {
     }
 }
 
-extension AppViewController: AppPresenter {
+extension RootViewController: AppPresenter {
     func updateWithViewModel(viewModel: RootViewModel) {
         tokenListViewController.updateWithViewModel(viewModel.tokenList)
 
