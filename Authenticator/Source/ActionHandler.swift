@@ -45,8 +45,3 @@ enum AppAction {
     case MoveToken(fromIndex: Int, toIndex: Int)
     case DeletePersistentToken(PersistentToken)
 }
-
-@available(*, deprecated=1)
-protocol ActionHandler: class {
-    func handleAction(action: AppAction)
-}
