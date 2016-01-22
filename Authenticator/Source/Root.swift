@@ -125,7 +125,7 @@ extension Root {
     }
 
     @warn_unused_result
-    func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
+    private func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
         switch effect {
         case .BeginTokenEntry:
             guard QRScanner.deviceCanScan else {
@@ -152,7 +152,7 @@ extension Root {
     }
 
     @warn_unused_result
-    func handleTokenEntryEffect(effect: TokenEntryForm.Effect) -> Effect? {
+    private func handleTokenEntryEffect(effect: TokenEntryForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
@@ -165,7 +165,7 @@ extension Root {
     }
 
     @warn_unused_result
-    func handleTokenEditEffect(effect: TokenEditForm.Effect) -> Effect? {
+    private func handleTokenEditEffect(effect: TokenEditForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
@@ -178,7 +178,7 @@ extension Root {
     }
 
     @warn_unused_result
-    func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) -> Effect? {
+    private func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
@@ -194,7 +194,7 @@ extension Root {
         }
     }
 
-    func beginManualTokenEntry() {
+    private func beginManualTokenEntry() {
         let form = TokenEntryForm()
         modalState = .EntryForm(form)
     }
