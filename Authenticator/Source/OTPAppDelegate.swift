@@ -30,16 +30,7 @@ import SVProgressHUD
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
 
-    let store = TokenStore(
-        keychain: Keychain.sharedInstance,
-        userDefaults: NSUserDefaults.standardUserDefaults()
-    )
-    var root = Root(persistentTokens: []) {
-        didSet {
-            rootViewController?.updateWithViewModel(root.viewModel)
-        }
-    }
-    var rootViewController: RootViewController?
+    let app = AppController()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -57,11 +48,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        root.updateWithPersistentTokens(store.persistentTokens)
-        rootViewController = RootViewController(viewModel: root.viewModel,
-            dispatchAction: handleAction)
-
-        self.window?.rootViewController = rootViewController
+        self.window?.rootViewController = app.rootViewController
         self.window?.makeKeyAndVisible()
 
         return true
@@ -75,8 +62,8 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
 
-            let acceptHandler: (UIAlertAction) -> Void = { [weak self] (_) in
-                self?.handleEffect(.AddToken(token))
+            let acceptHandler: (UIAlertAction) -> Void = { [weak app] (_) in
+                app?.addTokenFromURL(token)
             }
 
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
@@ -89,32 +76,5 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return false
-    }
-
-    private func handleAction(action: Root.Action) {
-        let sideEffect = root.update(action)
-        if let effect = sideEffect {
-            handleEffect(effect)
-        }
-    }
-
-    private func handleEffect(effect: Root.Effect) {
-        switch effect {
-        case .AddToken(let token):
-            store.addToken(token)
-
-        case let .SaveToken(token, persistentToken):
-            store.saveToken(token, toPersistentToken: persistentToken)
-
-        case .UpdatePersistentToken(let persistentToken):
-            store.updatePersistentToken(persistentToken)
-
-        case let .MoveToken(fromIndex, toIndex):
-            store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-
-        case .DeletePersistentToken(let persistentToken):
-            store.deletePersistentToken(persistentToken)
-        }
-        root.updateWithPersistentTokens(store.persistentTokens)
     }
 }
