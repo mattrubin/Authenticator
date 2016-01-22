@@ -109,7 +109,7 @@ extension TokenEditForm {
     }
 
     @warn_unused_result
-    mutating func handleAction(action: Action) -> Effect? {
+    mutating func update(action: Action) -> Effect? {
         switch action {
         case let .Issuer(issuer):
             self.issuer = issuer

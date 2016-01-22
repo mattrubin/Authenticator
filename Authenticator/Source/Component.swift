@@ -31,5 +31,5 @@ protocol Component {
     // MARK: Update
     typealias Action
     typealias Effect
-    mutating func handleAction(action: Action) -> Effect?
+    mutating func update(action: Action) -> Effect?
 }
