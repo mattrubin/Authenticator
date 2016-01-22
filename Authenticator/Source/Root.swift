@@ -145,11 +145,11 @@ extension Root {
         case .TokenEditFormAction(let action):
             if case .EditForm(let form) = modalState {
                 var newForm = form
-                let resultingAppAction = newForm.handleAction(action)
+                let effect = newForm.handleAction(action)
                 modalState = .EditForm(newForm)
-                // Handle the resulting action after committing the changes of the initial action
-                if let resultingAppAction = resultingAppAction {
-                    handleTokenEditEffect(resultingAppAction)
+                // Handle the resulting effect after committing the changes of the initial action
+                if let effect = effect {
+                    handleTokenEditEffect(effect)
                 }
             }
 
@@ -169,7 +169,7 @@ extension Root {
 
     func handleTokenEditEffect(effect: TokenEditForm.Effect) {
         switch effect {
-        case .CancelTokenEdit:
+        case .Cancel:
             modalState = .None
 
         case let .SaveChanges(token, persistentToken):

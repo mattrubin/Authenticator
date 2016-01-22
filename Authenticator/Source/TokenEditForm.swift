@@ -104,7 +104,7 @@ extension TokenEditForm {
 
 extension TokenEditForm {
     enum Effect {
-        case CancelTokenEdit
+        case Cancel
         case SaveChanges(Token, PersistentToken)
     }
     
@@ -116,16 +116,11 @@ extension TokenEditForm {
         case let .Name(name):
             self.name = name
         case .Cancel:
-            return cancel()
+            return .Cancel
         case .Submit:
             return submit()
         }
         return nil
-    }
-
-    @warn_unused_result
-    private func cancel() -> Effect {
-        return .CancelTokenEdit
     }
 
     @warn_unused_result
