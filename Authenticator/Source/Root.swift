@@ -77,8 +77,6 @@ class Root {
 
 extension Root {
     enum Action {
-        case AddTokenFromURL(Token)
-
         case TokenListAction(TokenList.Action)
         case TokenEntryFormAction(TokenEntryForm.Action)
         case TokenEditFormAction(TokenEditForm.Action)
@@ -93,9 +91,6 @@ extension Root {
     @warn_unused_result
     func handleAction(action: Action) -> Effect? {
         switch action {
-        case .AddTokenFromURL(let token):
-            return .AddToken(token)
-
         case .TokenListAction(let action):
             let sideEffect = tokenList.handleAction(action)
             // Handle the resulting action after committing the changes of the initial action
