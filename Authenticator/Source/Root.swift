@@ -25,7 +25,7 @@
 
 import OneTimePassword
 
-struct Root {
+struct Root: Component {
     private var tokenList: TokenList
     private var modalState: ModalState
 
@@ -79,10 +79,10 @@ extension Root {
     }
 
     @warn_unused_result
-    mutating func handleAction(action: Action) -> Effect? {
+    mutating func update(action: Action) -> Effect? {
         switch action {
         case .TokenListAction(let action):
-            let effect = tokenList.handleAction(action)
+            let effect = tokenList.update(action)
             // Handle the resulting action after committing the changes of the initial action
             if let effect = effect {
                 return handleTokenListEffect(effect)
@@ -91,7 +91,7 @@ extension Root {
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
                 var newForm = form
-                let effect = newForm.handleAction(action)
+                let effect = newForm.update(action)
                 modalState = .EntryForm(newForm)
                 // Handle the resulting action after committing the changes of the initial action
                 if let effect = effect {
@@ -102,7 +102,7 @@ extension Root {
         case .TokenEditFormAction(let action):
             if case .EditForm(let form) = modalState {
                 var newForm = form
-                let effect = newForm.handleAction(action)
+                let effect = newForm.update(action)
                 modalState = .EditForm(newForm)
                 // Handle the resulting effect after committing the changes of the initial action
                 if let effect = effect {
@@ -120,11 +120,11 @@ extension Root {
     private mutating func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
         switch effect {
         case .BeginTokenEntry:
-            guard QRScanner.deviceCanScan else {
-                beginManualTokenEntry()
-                return nil
+            if QRScanner.deviceCanScan {
+                modalState = .EntryScanner
+            } else {
+                modalState = .EntryForm(TokenEntryForm())
             }
-            modalState = .EntryScanner
             return nil
 
         case .BeginTokenEdit(let persistentToken):
@@ -177,18 +177,13 @@ extension Root {
             return nil
 
         case .BeginManualTokenEntry:
-            beginManualTokenEntry()
+            modalState = .EntryForm(TokenEntryForm())
             return nil
 
         case .SaveNewToken(let token):
             modalState = .None
             return .AddToken(token)
         }
-    }
-
-    private mutating func beginManualTokenEntry() {
-        let form = TokenEntryForm()
-        modalState = .EntryForm(form)
     }
 
     mutating func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {

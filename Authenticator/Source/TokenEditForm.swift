@@ -25,7 +25,7 @@
 
 import OneTimePassword
 
-struct TokenEditForm {
+struct TokenEditForm: Component {
     private let persistentToken: PersistentToken
 
     private var issuer: String
@@ -109,7 +109,7 @@ extension TokenEditForm {
     }
 
     @warn_unused_result
-    mutating func handleAction(action: Action) -> Effect? {
+    mutating func update(action: Action) -> Effect? {
         switch action {
         case let .Issuer(issuer):
             self.issuer = issuer
