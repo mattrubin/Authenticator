@@ -25,7 +25,7 @@
 
 import OneTimePassword
 
-struct TokenEditForm {
+struct TokenEditForm: Component {
     private let persistentToken: PersistentToken
 
     private var issuer: String

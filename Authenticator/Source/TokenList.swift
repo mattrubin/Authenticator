@@ -28,7 +28,7 @@ import UIKit
 import MobileCoreServices
 import OneTimePassword
 
-struct TokenList {
+struct TokenList: Component {
     private var persistentTokens: [PersistentToken]
     private var ephemeralMessage: EphemeralMessage?
 

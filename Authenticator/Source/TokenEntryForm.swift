@@ -29,7 +29,7 @@ import OneTimePassword
 private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
-struct TokenEntryForm {
+struct TokenEntryForm: Component {
     private var issuer: String = ""
     private var name: String = ""
     private var secret: String = ""

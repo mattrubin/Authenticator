@@ -25,7 +25,7 @@
 
 import OneTimePassword
 
-struct Root {
+struct Root: Component {
     private var tokenList: TokenList
     private var modalState: ModalState
 
