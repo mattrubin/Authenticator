@@ -47,8 +47,8 @@ class Root {
         case EditForm(TokenEditForm)
     }
 
-    init(store: TokenStore) {
-        tokenList = TokenList(persistentTokens: store.persistentTokens)
+    init(persistentTokens: [PersistentToken]) {
+        tokenList = TokenList(persistentTokens: persistentTokens)
         modalState = .None
     }
 

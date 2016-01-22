@@ -35,7 +35,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         userDefaults: NSUserDefaults.standardUserDefaults()
     )
     lazy var root: Root = {
-        Root(store: self.store)
+        Root(persistentTokens: self.store.persistentTokens)
     }()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
