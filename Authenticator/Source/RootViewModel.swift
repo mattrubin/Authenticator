@@ -24,7 +24,7 @@
 //
 
 struct RootViewModel {
-    let tokenList: TokenListViewModel
+    let tokenList: TokenList.ViewModel
     let modal: ModalViewModel
 
     enum ModalViewModel {
