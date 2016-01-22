@@ -27,13 +27,13 @@ import Foundation
 import OneTimePassword
 
 class AppController {
-    let store: TokenStore
-    var root: Root {
+    private let store: TokenStore
+    private var root: Root {
         didSet {
             rootViewController.updateWithViewModel(root.viewModel)
         }
     }
-    lazy var rootViewController: RootViewController = {
+    private(set) lazy var rootViewController: RootViewController = {
         return RootViewController(viewModel: self.root.viewModel,
             dispatchAction: self.handleAction)
     }()
