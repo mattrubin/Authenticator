@@ -120,11 +120,11 @@ extension Root {
     private mutating func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
         switch effect {
         case .BeginTokenEntry:
-            guard QRScanner.deviceCanScan else {
+            if QRScanner.deviceCanScan {
+                modalState = .EntryScanner
+            } else {
                 modalState = .EntryForm(TokenEntryForm())
-                return nil
             }
-            modalState = .EntryScanner
             return nil
 
         case .BeginTokenEdit(let persistentToken):
