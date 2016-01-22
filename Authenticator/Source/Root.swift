@@ -96,32 +96,26 @@ extension Root {
     func handleAction(action: Action) -> Effect? {
         switch action {
         case .TokenListAction(let action):
-            let sideEffect = tokenList.handleAction(action)
+            let effect = tokenList.handleAction(action)
             // Handle the resulting action after committing the changes of the initial action
-            if let effect = sideEffect {
-                return handleTokenListEffect(effect)
-            }
+            return effect.flatMap(handleTokenListEffect)
 
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
                 var newForm = form
-                let sideEffect = newForm.handleAction(action)
+                let effect = newForm.handleAction(action)
                 modalState = .EntryForm(newForm)
                 // Handle the resulting action after committing the changes of the initial action
-                if let effect = sideEffect {
-                    return handleTokenEntryEffect(effect)
-                }
+                return effect.flatMap(handleTokenEntryEffect)
             }
 
         case .TokenEditFormAction(let action):
             if case .EditForm(let form) = modalState {
                 var newForm = form
-                let sideEffect = newForm.handleAction(action)
+                let effect = newForm.handleAction(action)
                 modalState = .EditForm(newForm)
                 // Handle the resulting effect after committing the changes of the initial action
-                if let effect = sideEffect {
-                    return handleTokenEditEffect(effect)
-                }
+                return effect.flatMap(handleTokenEditEffect)
             }
 
         case .TokenScannerEffect(let effect):
