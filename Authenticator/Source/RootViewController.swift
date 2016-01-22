@@ -84,8 +84,8 @@ extension RootViewController: AppPresenter {
             dismissViewController()
 
         case .Scanner:
-            let scannerViewController = TokenScannerViewController(dispatchAction:
-                { [dispatchAction] in
+            let scannerViewController = TokenScannerViewController(
+                dispatchAction: { [dispatchAction] in
                     dispatchAction(.TokenScannerEffect($0))
                 })
             presentViewController(scannerViewController)
