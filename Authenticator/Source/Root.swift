@@ -28,8 +28,6 @@ import OneTimePassword
 class Root {
     weak var presenter: AppPresenter?
 
-    /*private*/ let tokenStore: TokenStore
-
     private var tokenList: TokenList {
         didSet {
             presenter?.updateWithViewModel(viewModel)
@@ -50,8 +48,7 @@ class Root {
     }
 
     init(store: TokenStore) {
-        tokenStore = store
-        tokenList = TokenList(persistentTokens: tokenStore.persistentTokens)
+        tokenList = TokenList(persistentTokens: store.persistentTokens)
         modalState = .None
     }
 

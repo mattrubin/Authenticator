@@ -29,12 +29,14 @@ import SVProgressHUD
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
-    let root = Root(
-        store: TokenStore(
-            keychain: Keychain.sharedInstance,
-            userDefaults: NSUserDefaults.standardUserDefaults()
-        )
+
+    let store = TokenStore(
+        keychain: Keychain.sharedInstance,
+        userDefaults: NSUserDefaults.standardUserDefaults()
     )
+    lazy var root: Root = {
+        Root(store: self.store)
+    }()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -95,20 +97,20 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     private func handleEffect(effect: Root.Effect) {
         switch effect {
         case .AddToken(let token):
-            root.tokenStore.addToken(token)
+            store.addToken(token)
 
         case let .SaveToken(token, persistentToken):
-            root.tokenStore.saveToken(token, toPersistentToken: persistentToken)
+            store.saveToken(token, toPersistentToken: persistentToken)
 
         case .UpdatePersistentToken(let persistentToken):
-            root.tokenStore.updatePersistentToken(persistentToken)
+            store.updatePersistentToken(persistentToken)
 
         case let .MoveToken(fromIndex, toIndex):
-            root.tokenStore.moveTokenFromIndex(fromIndex, toIndex: toIndex)
+            store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
 
         case .DeletePersistentToken(let persistentToken):
-            root.tokenStore.deletePersistentToken(persistentToken)
+            store.deletePersistentToken(persistentToken)
         }
-        root.updateWithPersistentTokens(root.tokenStore.persistentTokens)
+        root.updateWithPersistentTokens(store.persistentTokens)
     }
 }
