@@ -96,7 +96,10 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         switch effect {
         case .AddToken(let token):
             root.tokenStore.addToken(token)
-            root.updateWithPersistentTokens(root.tokenStore.persistentTokens)
+
+        case let .SaveToken(token, persistentToken):
+            root.tokenStore.saveToken(token, toPersistentToken: persistentToken)
         }
+        root.updateWithPersistentTokens(root.tokenStore.persistentTokens)
     }
 }

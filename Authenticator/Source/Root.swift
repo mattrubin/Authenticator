@@ -86,6 +86,7 @@ extension Root {
 
     enum Effect {
         case AddToken(Token)
+        case SaveToken(Token, PersistentToken)
     }
 
     @warn_unused_result
@@ -116,7 +117,7 @@ extension Root {
                 modalState = .EditForm(newForm)
                 // Handle the resulting effect after committing the changes of the initial action
                 if let effect = sideEffect {
-                    handleTokenEditEffect(effect)
+                    return handleTokenEditEffect(effect)
                 }
             }
 
@@ -166,15 +167,16 @@ extension Root {
         }
     }
 
-    func handleTokenEditEffect(effect: TokenEditForm.Effect) {
+    @warn_unused_result
+    func handleTokenEditEffect(effect: TokenEditForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
+            return nil
 
         case let .SaveChanges(token, persistentToken):
-            tokenStore.saveToken(token, toPersistentToken: persistentToken)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
             modalState = .None
+            return .SaveToken(token, persistentToken)
         }
     }
 
