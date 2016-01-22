@@ -121,7 +121,7 @@ extension Root {
         switch effect {
         case .BeginTokenEntry:
             guard QRScanner.deviceCanScan else {
-                beginManualTokenEntry()
+                modalState = .EntryForm(TokenEntryForm())
                 return nil
             }
             modalState = .EntryScanner
@@ -177,18 +177,13 @@ extension Root {
             return nil
 
         case .BeginManualTokenEntry:
-            beginManualTokenEntry()
+            modalState = .EntryForm(TokenEntryForm())
             return nil
 
         case .SaveNewToken(let token):
             modalState = .None
             return .AddToken(token)
         }
-    }
-
-    private mutating func beginManualTokenEntry() {
-        let form = TokenEntryForm()
-        modalState = .EntryForm(form)
     }
 
     mutating func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
