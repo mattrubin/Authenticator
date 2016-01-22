@@ -34,9 +34,12 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         keychain: Keychain.sharedInstance,
         userDefaults: NSUserDefaults.standardUserDefaults()
     )
-    lazy var root: Root = {
-        Root(persistentTokens: self.store.persistentTokens)
-    }()
+    var root = Root(persistentTokens: []) {
+        didSet {
+            rootViewController?.updateWithViewModel(root.viewModel)
+        }
+    }
+    var rootViewController: RootViewController?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -54,10 +57,11 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        let navController = RootViewController(viewModel: root.viewModel,
+        root.updateWithPersistentTokens(store.persistentTokens)
+        rootViewController = RootViewController(viewModel: root.viewModel,
             dispatchAction: handleAction)
-        root.presenter = navController
-        self.window?.rootViewController = navController
+
+        self.window?.rootViewController = rootViewController
         self.window?.makeKeyAndVisible()
 
         return true

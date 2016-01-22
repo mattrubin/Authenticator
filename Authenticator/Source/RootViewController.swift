@@ -75,7 +75,7 @@ class RootViewController: OpaqueNavigationController {
     }
 }
 
-extension RootViewController: AppPresenter {
+extension RootViewController {
     func updateWithViewModel(viewModel: RootViewModel) {
         tokenListViewController.updateWithViewModel(viewModel.tokenList)
 
