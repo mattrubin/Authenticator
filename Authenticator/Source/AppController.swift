@@ -24,17 +24,18 @@
 //
 
 import Foundation
+import UIKit
 import OneTimePassword
 
 class AppController {
     private let store: TokenStore
-    private var root: Root {
+    private var component: Root {
         didSet {
-            rootViewController.updateWithViewModel(root.viewModel)
+            view.updateWithViewModel(component.viewModel)
         }
     }
-    private(set) lazy var rootViewController: RootViewController = {
-        return RootViewController(viewModel: self.root.viewModel,
+    private lazy var view: RootViewController = {
+        return RootViewController(viewModel: self.component.viewModel,
             dispatchAction: self.handleAction)
     }()
 
@@ -43,13 +44,13 @@ class AppController {
             keychain: Keychain.sharedInstance,
             userDefaults: NSUserDefaults.standardUserDefaults()
         )
-        root = Root(persistentTokens: store.persistentTokens)
+        component = Root(persistentTokens: store.persistentTokens)
     }
 
-    // MARK: - Internal updates
+    // MARK: - Update
 
     private func handleAction(action: Root.Action) {
-        let sideEffect = root.update(action)
+        let sideEffect = component.update(action)
         if let effect = sideEffect {
             handleEffect(effect)
         }
@@ -72,10 +73,14 @@ class AppController {
         case .DeletePersistentToken(let persistentToken):
             store.deletePersistentToken(persistentToken)
         }
-        root.updateWithPersistentTokens(store.persistentTokens)
+        component.updateWithPersistentTokens(store.persistentTokens)
     }
 
-    // MARK: - External updates
+    // MARK: - Public
+
+    var rootViewController: UIViewController {
+        return view
+    }
 
     func addTokenFromURL(token: Token) {
         handleEffect(.AddToken(token))
