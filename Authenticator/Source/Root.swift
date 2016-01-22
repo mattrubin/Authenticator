@@ -27,11 +27,11 @@ import OneTimePassword
 
 struct Root: Component {
     private var tokenList: TokenList
-    private var modalState: ModalState
+    private var modalState: Modal
 
-    private enum ModalState {
+    private enum Modal {
         case None
-        case EntryScanner
+        case Scanner
         case EntryForm(TokenEntryForm)
         case EditForm(TokenEditForm)
     }
@@ -42,11 +42,11 @@ struct Root: Component {
     }
 
     var viewModel: RootViewModel {
-        let modal: RootViewModel.Modal
+        let modal: RootViewModel.ModalViewModel
         switch modalState {
         case .None:
             modal = .None
-        case .EntryScanner:
+        case .Scanner:
             modal = .Scanner
         case .EntryForm(let form):
             modal = .EntryForm(form.viewModel)
@@ -121,7 +121,7 @@ extension Root {
         switch effect {
         case .BeginTokenEntry:
             if QRScanner.deviceCanScan {
-                modalState = .EntryScanner
+                modalState = .Scanner
             } else {
                 modalState = .EntryForm(TokenEntryForm())
             }
