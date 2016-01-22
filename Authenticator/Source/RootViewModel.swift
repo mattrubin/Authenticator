@@ -34,7 +34,3 @@ struct RootViewModel {
         case EditForm(TokenEditForm.ViewModel)
     }
 }
-
-protocol AppPresenter: class {
-    func updateWithViewModel(viewModel: RootViewModel)
-}
