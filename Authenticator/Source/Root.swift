@@ -28,8 +28,6 @@ import OneTimePassword
 class Root {
     weak var presenter: AppPresenter?
 
-    private let tokenStore: TokenStore
-
     private var tokenList: TokenList {
         didSet {
             presenter?.updateWithViewModel(viewModel)
@@ -49,9 +47,8 @@ class Root {
         case EditForm(TokenEditForm)
     }
 
-    init(store: TokenStore) {
-        tokenStore = store
-        tokenList = TokenList(persistentTokens: tokenStore.persistentTokens)
+    init(persistentTokens: [PersistentToken]) {
+        tokenList = TokenList(persistentTokens: persistentTokens)
         modalState = .None
     }
 
@@ -77,8 +74,6 @@ class Root {
 
 extension Root {
     enum Action {
-        case AddTokenFromURL(Token)
-
         case TokenListAction(TokenList.Action)
         case TokenEntryFormAction(TokenEntryForm.Action)
         case TokenEditFormAction(TokenEditForm.Action)
@@ -86,116 +81,122 @@ extension Root {
         case TokenScannerEffect(TokenScannerViewController.Effect)
     }
 
-    func handleAction(action: Action) {
-        switch action {
-        case .AddTokenFromURL(let token):
-            addToken(token)
+    enum Effect {
+        case AddToken(Token)
+        case SaveToken(Token, PersistentToken)
+        case UpdatePersistentToken(PersistentToken)
+        case MoveToken(fromIndex: Int, toIndex: Int)
+        case DeletePersistentToken(PersistentToken)
+    }
 
+    @warn_unused_result
+    func handleAction(action: Action) -> Effect? {
+        switch action {
         case .TokenListAction(let action):
-            let sideEffect = tokenList.handleAction(action)
+            let effect = tokenList.handleAction(action)
             // Handle the resulting action after committing the changes of the initial action
-            if let effect = sideEffect {
-                handleTokenListEffect(effect)
-            }
+            return effect.flatMap(handleTokenListEffect)
 
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
                 var newForm = form
-                let sideEffect = newForm.handleAction(action)
+                let effect = newForm.handleAction(action)
                 modalState = .EntryForm(newForm)
                 // Handle the resulting action after committing the changes of the initial action
-                if let effect = sideEffect {
-                    handleTokenEntryEffect(effect)
-                }
+                return effect.flatMap(handleTokenEntryEffect)
             }
 
         case .TokenEditFormAction(let action):
             if case .EditForm(let form) = modalState {
                 var newForm = form
-                let sideEffect = newForm.handleAction(action)
+                let effect = newForm.handleAction(action)
                 modalState = .EditForm(newForm)
                 // Handle the resulting effect after committing the changes of the initial action
-                if let effect = sideEffect {
-                    handleTokenEditEffect(effect)
-                }
+                return effect.flatMap(handleTokenEditEffect)
             }
 
         case .TokenScannerEffect(let effect):
-            handleTokenScannerEffect(effect)
+            return handleTokenScannerEffect(effect)
         }
+        return nil
     }
 
-    func handleTokenListEffect(effect: TokenList.Effect) {
+    @warn_unused_result
+    private func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
         switch effect {
         case .BeginTokenEntry:
             guard QRScanner.deviceCanScan else {
                 beginManualTokenEntry()
-                break
+                return nil
             }
             modalState = .EntryScanner
+            return nil
 
         case .BeginTokenEdit(let persistentToken):
             let form = TokenEditForm(persistentToken: persistentToken)
             modalState = .EditForm(form)
+            return nil
 
         case .UpdateToken(let persistentToken):
-            tokenStore.updatePersistentToken(persistentToken)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            return .UpdatePersistentToken(persistentToken)
 
         case let .MoveToken(fromIndex, toIndex):
-            tokenStore.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
 
         case .DeletePersistentToken(let persistentToken):
-            tokenStore.deletePersistentToken(persistentToken)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            return .DeletePersistentToken(persistentToken)
         }
     }
 
-    func handleTokenEntryEffect(effect: TokenEntryForm.Effect) {
+    @warn_unused_result
+    private func handleTokenEntryEffect(effect: TokenEntryForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
+            return nil
 
         case .SaveNewToken(let token):
-            addToken(token)
             modalState = .None
+            return .AddToken(token)
         }
     }
 
-    func handleTokenEditEffect(effect: TokenEditForm.Effect) {
+    @warn_unused_result
+    private func handleTokenEditEffect(effect: TokenEditForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
+            return nil
 
         case let .SaveChanges(token, persistentToken):
-            tokenStore.saveToken(token, toPersistentToken: persistentToken)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
             modalState = .None
+            return .SaveToken(token, persistentToken)
         }
     }
 
-    func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) {
+    @warn_unused_result
+    private func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
+            return nil
 
         case .BeginManualTokenEntry:
             beginManualTokenEntry()
+            return nil
 
         case .SaveNewToken(let token):
-            addToken(token)
             modalState = .None
+            return .AddToken(token)
         }
     }
 
-    func beginManualTokenEntry() {
+    private func beginManualTokenEntry() {
         let form = TokenEntryForm()
         modalState = .EntryForm(form)
     }
 
-    func addToken(token: Token) {
-        tokenStore.addToken(token)
-        tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+    func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
+        tokenList.updateWithPersistentTokens(persistentTokens)
     }
 }
