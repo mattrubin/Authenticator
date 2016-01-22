@@ -37,4 +37,32 @@ class AppController {
         }
     }
     var rootViewController: RootViewController?
+
+
+    func handleAction(action: Root.Action) {
+        let sideEffect = root.update(action)
+        if let effect = sideEffect {
+            handleEffect(effect)
+        }
+    }
+
+    func handleEffect(effect: Root.Effect) {
+        switch effect {
+        case .AddToken(let token):
+            store.addToken(token)
+
+        case let .SaveToken(token, persistentToken):
+            store.saveToken(token, toPersistentToken: persistentToken)
+
+        case .UpdatePersistentToken(let persistentToken):
+            store.updatePersistentToken(persistentToken)
+
+        case let .MoveToken(fromIndex, toIndex):
+            store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
+
+        case .DeletePersistentToken(let persistentToken):
+            store.deletePersistentToken(persistentToken)
+        }
+        root.updateWithPersistentTokens(store.persistentTokens)
+    }
 }

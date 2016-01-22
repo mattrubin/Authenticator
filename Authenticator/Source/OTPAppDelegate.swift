@@ -53,7 +53,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
         app.root.updateWithPersistentTokens(store.persistentTokens)
         app.rootViewController = RootViewController(viewModel: app.root.viewModel,
-            dispatchAction: handleAction)
+            dispatchAction: app.handleAction)
 
         self.window?.rootViewController = app.rootViewController
         self.window?.makeKeyAndVisible()
@@ -70,7 +70,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
 
             let acceptHandler: (UIAlertAction) -> Void = { [weak self] (_) in
-                self?.handleEffect(.AddToken(token))
+                self?.app.handleEffect(.AddToken(token))
             }
 
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
@@ -83,32 +83,5 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return false
-    }
-
-    private func handleAction(action: Root.Action) {
-        let sideEffect = app.root.update(action)
-        if let effect = sideEffect {
-            handleEffect(effect)
-        }
-    }
-
-    private func handleEffect(effect: Root.Effect) {
-        switch effect {
-        case .AddToken(let token):
-            store.addToken(token)
-
-        case let .SaveToken(token, persistentToken):
-            store.saveToken(token, toPersistentToken: persistentToken)
-
-        case .UpdatePersistentToken(let persistentToken):
-            store.updatePersistentToken(persistentToken)
-
-        case let .MoveToken(fromIndex, toIndex):
-            store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-
-        case .DeletePersistentToken(let persistentToken):
-            store.deletePersistentToken(persistentToken)
-        }
-        app.root.updateWithPersistentTokens(store.persistentTokens)
     }
 }
