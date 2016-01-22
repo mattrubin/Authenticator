@@ -37,6 +37,10 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     lazy var root: Root = {
         Root(persistentTokens: self.store.persistentTokens)
     }()
+    lazy var rootViewController: RootViewController = {
+        RootViewController(viewModel: self.root.viewModel,
+            dispatchAction: self.handleAction)
+    }()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -54,10 +58,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        let navController = RootViewController(viewModel: root.viewModel,
-            dispatchAction: handleAction)
-        root.presenter = navController
-        self.window?.rootViewController = navController
+        self.window?.rootViewController = rootViewController
         self.window?.makeKeyAndVisible()
 
         return true
@@ -92,6 +93,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         if let effect = sideEffect {
             handleEffect(effect)
         }
+        rootViewController.updateWithViewModel(root.viewModel)
     }
 
     private func handleEffect(effect: Root.Effect) {

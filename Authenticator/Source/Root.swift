@@ -26,19 +26,8 @@
 import OneTimePassword
 
 struct Root {
-    weak var presenter: AppPresenter?
-
-    private var tokenList: TokenList {
-        didSet {
-            presenter?.updateWithViewModel(viewModel)
-        }
-    }
-
-    private var modalState: ModalState {
-        didSet {
-            presenter?.updateWithViewModel(viewModel)
-        }
-    }
+    private var tokenList: TokenList
+    private var modalState: ModalState
 
     private enum ModalState {
         case None
