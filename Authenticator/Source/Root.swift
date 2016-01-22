@@ -25,7 +25,7 @@
 
 import OneTimePassword
 
-class Root {
+struct Root {
     weak var presenter: AppPresenter?
 
     private var tokenList: TokenList {
@@ -90,12 +90,14 @@ extension Root {
     }
 
     @warn_unused_result
-    func handleAction(action: Action) -> Effect? {
+    mutating func handleAction(action: Action) -> Effect? {
         switch action {
         case .TokenListAction(let action):
             let effect = tokenList.handleAction(action)
             // Handle the resulting action after committing the changes of the initial action
-            return effect.flatMap(handleTokenListEffect)
+            if let effect = effect {
+                return handleTokenListEffect(effect)
+            }
 
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
@@ -103,7 +105,9 @@ extension Root {
                 let effect = newForm.handleAction(action)
                 modalState = .EntryForm(newForm)
                 // Handle the resulting action after committing the changes of the initial action
-                return effect.flatMap(handleTokenEntryEffect)
+                if let effect = effect {
+                    return handleTokenEntryEffect(effect)
+                }
             }
 
         case .TokenEditFormAction(let action):
@@ -112,7 +116,9 @@ extension Root {
                 let effect = newForm.handleAction(action)
                 modalState = .EditForm(newForm)
                 // Handle the resulting effect after committing the changes of the initial action
-                return effect.flatMap(handleTokenEditEffect)
+                if let effect = effect {
+                    return handleTokenEditEffect(effect)
+                }
             }
 
         case .TokenScannerEffect(let effect):
@@ -122,7 +128,7 @@ extension Root {
     }
 
     @warn_unused_result
-    private func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
+    private mutating func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
         switch effect {
         case .BeginTokenEntry:
             guard QRScanner.deviceCanScan else {
@@ -149,7 +155,7 @@ extension Root {
     }
 
     @warn_unused_result
-    private func handleTokenEntryEffect(effect: TokenEntryForm.Effect) -> Effect? {
+    private mutating func handleTokenEntryEffect(effect: TokenEntryForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
@@ -162,7 +168,7 @@ extension Root {
     }
 
     @warn_unused_result
-    private func handleTokenEditEffect(effect: TokenEditForm.Effect) -> Effect? {
+    private mutating func handleTokenEditEffect(effect: TokenEditForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
@@ -175,7 +181,7 @@ extension Root {
     }
 
     @warn_unused_result
-    private func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) -> Effect? {
+    private mutating func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
@@ -191,12 +197,12 @@ extension Root {
         }
     }
 
-    private func beginManualTokenEntry() {
+    private mutating func beginManualTokenEntry() {
         let form = TokenEntryForm()
         modalState = .EntryForm(form)
     }
 
-    func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
+    mutating func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
         tokenList.updateWithPersistentTokens(persistentTokens)
     }
 }
