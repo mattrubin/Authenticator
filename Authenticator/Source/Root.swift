@@ -77,33 +77,19 @@ class Root {
 
 extension Root {
     enum Action {
-        case BeginTokenEntry
         case BeginManualTokenEntry
         case CancelTokenEntry
         case SaveNewToken(Token)
-
-        case BeginTokenEdit(PersistentToken)
 
         case AddTokenFromURL(Token)
 
         case TokenListAction(TokenList.Action)
         case TokenEntryFormAction(TokenEntryForm.Action)
         case TokenEditFormAction(TokenEditForm.Action)
-
-        case UpdateToken(PersistentToken)
-        case MoveToken(fromIndex: Int, toIndex: Int)
-        case DeletePersistentToken(PersistentToken)
     }
 
     func handleAction(action: Action) {
         switch action {
-        case .BeginTokenEntry:
-            guard QRScanner.deviceCanScan else {
-                handleAction(.BeginManualTokenEntry)
-                break
-            }
-            modalState = .EntryScanner
-
         case .BeginManualTokenEntry:
             let form = TokenEntryForm()
             modalState = .EntryForm(form)
@@ -116,19 +102,15 @@ extension Root {
         case .CancelTokenEntry:
             modalState = .None
 
-        case .BeginTokenEdit(let persistentToken):
-            let form = TokenEditForm(persistentToken: persistentToken)
-            modalState = .EditForm(form)
-
         case .AddTokenFromURL(let token):
             tokenStore.addToken(token)
             tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
 
         case .TokenListAction(let action):
-            let resultingAppAction = tokenList.handleAction(action)
+            let sideEffect = tokenList.handleAction(action)
             // Handle the resulting action after committing the changes of the initial action
-            if let resultingAppAction = resultingAppAction {
-                handleAction(resultingAppAction)
+            if let effect = sideEffect {
+                handleTokenListEffect(effect)
             }
 
         case .TokenEntryFormAction(let action):
@@ -152,6 +134,21 @@ extension Root {
                     handleTokenEditEffect(effect)
                 }
             }
+        }
+    }
+
+    func handleTokenListEffect(effect: TokenList.Effect) {
+        switch effect {
+        case .BeginTokenEntry:
+            guard QRScanner.deviceCanScan else {
+                handleAction(.BeginManualTokenEntry)
+                break
+            }
+            modalState = .EntryScanner
+
+        case .BeginTokenEdit(let persistentToken):
+            let form = TokenEditForm(persistentToken: persistentToken)
+            modalState = .EditForm(form)
 
         case .UpdateToken(let persistentToken):
             tokenStore.updatePersistentToken(persistentToken)
