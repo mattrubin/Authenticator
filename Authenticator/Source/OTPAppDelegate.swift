@@ -48,9 +48,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        app.rootViewController = RootViewController(viewModel: app.root.viewModel,
-            dispatchAction: app.handleAction)
-
         self.window?.rootViewController = app.rootViewController
         self.window?.makeKeyAndVisible()
 

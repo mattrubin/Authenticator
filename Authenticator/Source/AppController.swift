@@ -40,6 +40,8 @@ class AppController {
 
     init() {
         root = Root(persistentTokens: store.persistentTokens)
+        rootViewController = RootViewController(viewModel: root.viewModel,
+            dispatchAction: handleAction)
     }
 
     func handleAction(action: Root.Action) {
