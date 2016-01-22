@@ -62,8 +62,8 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
 
-            let acceptHandler: (UIAlertAction) -> Void = { [weak self] (_) in
-                self?.app.handleEffect(.AddToken(token))
+            let acceptHandler: (UIAlertAction) -> Void = { [weak app] (_) in
+                app?.addTokenFromURL(token)
             }
 
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))

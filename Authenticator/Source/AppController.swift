@@ -46,6 +46,8 @@ class AppController {
         root = Root(persistentTokens: store.persistentTokens)
     }
 
+    // MARK: - Internal updates
+
     private func handleAction(action: Root.Action) {
         let sideEffect = root.update(action)
         if let effect = sideEffect {
@@ -53,7 +55,7 @@ class AppController {
         }
     }
 
-    func handleEffect(effect: Root.Effect) {
+    private func handleEffect(effect: Root.Effect) {
         switch effect {
         case .AddToken(let token):
             store.addToken(token)
@@ -71,5 +73,11 @@ class AppController {
             store.deletePersistentToken(persistentToken)
         }
         root.updateWithPersistentTokens(store.persistentTokens)
+    }
+
+    // MARK: - External updates
+
+    func addTokenFromURL(token: Token) {
+        handleEffect(.AddToken(token))
     }
 }
