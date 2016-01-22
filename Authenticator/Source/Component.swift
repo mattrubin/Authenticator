@@ -24,6 +24,11 @@
 //
 
 protocol Component {
+    // MARK: View
+    typealias ViewModel
+    var viewModel: ViewModel { get }
+
+    // MARK: Update
     typealias Action
     typealias Effect
     mutating func handleAction(action: Action) -> Effect?
