@@ -31,4 +31,10 @@ class AppController {
         keychain: Keychain.sharedInstance,
         userDefaults: NSUserDefaults.standardUserDefaults()
     )
+    var root = Root(persistentTokens: []) {
+        didSet {
+            rootViewController?.updateWithViewModel(root.viewModel)
+        }
+    }
+    var rootViewController: RootViewController?
 }

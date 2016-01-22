@@ -35,13 +35,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         return app.store
     }
 
-    var root = Root(persistentTokens: []) {
-        didSet {
-            rootViewController?.updateWithViewModel(root.viewModel)
-        }
-    }
-    var rootViewController: RootViewController?
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
         UINavigationBar.appearance().tintColor = UIColor.otpBarForegroundColor
@@ -58,11 +51,11 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        root.updateWithPersistentTokens(store.persistentTokens)
-        rootViewController = RootViewController(viewModel: root.viewModel,
+        app.root.updateWithPersistentTokens(store.persistentTokens)
+        app.rootViewController = RootViewController(viewModel: app.root.viewModel,
             dispatchAction: handleAction)
 
-        self.window?.rootViewController = rootViewController
+        self.window?.rootViewController = app.rootViewController
         self.window?.makeKeyAndVisible()
 
         return true
@@ -93,7 +86,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func handleAction(action: Root.Action) {
-        let sideEffect = root.update(action)
+        let sideEffect = app.root.update(action)
         if let effect = sideEffect {
             handleEffect(effect)
         }
@@ -116,6 +109,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         case .DeletePersistentToken(let persistentToken):
             store.deletePersistentToken(persistentToken)
         }
-        root.updateWithPersistentTokens(store.persistentTokens)
+        app.root.updateWithPersistentTokens(store.persistentTokens)
     }
 }
