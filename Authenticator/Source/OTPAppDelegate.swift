@@ -99,6 +99,15 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
         case let .SaveToken(token, persistentToken):
             root.tokenStore.saveToken(token, toPersistentToken: persistentToken)
+
+        case .UpdatePersistentToken(let persistentToken):
+            root.tokenStore.updatePersistentToken(persistentToken)
+
+        case let .MoveToken(fromIndex, toIndex):
+            root.tokenStore.moveTokenFromIndex(fromIndex, toIndex: toIndex)
+
+        case .DeletePersistentToken(let persistentToken):
+            root.tokenStore.deletePersistentToken(persistentToken)
         }
         root.updateWithPersistentTokens(root.tokenStore.persistentTokens)
     }

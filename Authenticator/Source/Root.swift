@@ -87,6 +87,9 @@ extension Root {
     enum Effect {
         case AddToken(Token)
         case SaveToken(Token, PersistentToken)
+        case UpdatePersistentToken(PersistentToken)
+        case MoveToken(fromIndex: Int, toIndex: Int)
+        case DeletePersistentToken(PersistentToken)
     }
 
     @warn_unused_result
@@ -96,7 +99,7 @@ extension Root {
             let sideEffect = tokenList.handleAction(action)
             // Handle the resulting action after committing the changes of the initial action
             if let effect = sideEffect {
-                handleTokenListEffect(effect)
+                return handleTokenListEffect(effect)
             }
 
         case .TokenEntryFormAction(let action):
@@ -127,30 +130,30 @@ extension Root {
         return nil
     }
 
-    func handleTokenListEffect(effect: TokenList.Effect) {
+    @warn_unused_result
+    func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
         switch effect {
         case .BeginTokenEntry:
             guard QRScanner.deviceCanScan else {
                 beginManualTokenEntry()
-                break
+                return nil
             }
             modalState = .EntryScanner
+            return nil
 
         case .BeginTokenEdit(let persistentToken):
             let form = TokenEditForm(persistentToken: persistentToken)
             modalState = .EditForm(form)
+            return nil
 
         case .UpdateToken(let persistentToken):
-            tokenStore.updatePersistentToken(persistentToken)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            return .UpdatePersistentToken(persistentToken)
 
         case let .MoveToken(fromIndex, toIndex):
-            tokenStore.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
 
         case .DeletePersistentToken(let persistentToken):
-            tokenStore.deletePersistentToken(persistentToken)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            return .DeletePersistentToken(persistentToken)
         }
     }
 
