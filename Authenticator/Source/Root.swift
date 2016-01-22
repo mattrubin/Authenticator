@@ -27,7 +27,7 @@ import OneTimePassword
 
 struct Root: Component {
     private var tokenList: TokenList
-    private var modalState: Modal
+    private var modal: Modal
 
     private enum Modal {
         case None
@@ -38,25 +38,25 @@ struct Root: Component {
 
     init(persistentTokens: [PersistentToken]) {
         tokenList = TokenList(persistentTokens: persistentTokens)
-        modalState = .None
+        modal = .None
     }
 
     var viewModel: RootViewModel {
-        let modal: RootViewModel.ModalViewModel
-        switch modalState {
+        let modalViewModel: RootViewModel.ModalViewModel
+        switch modal {
         case .None:
-            modal = .None
+            modalViewModel = .None
         case .Scanner:
-            modal = .Scanner
+            modalViewModel = .Scanner
         case .EntryForm(let form):
-            modal = .EntryForm(form.viewModel)
+            modalViewModel = .EntryForm(form.viewModel)
         case .EditForm(let form):
-            modal = .EditForm(form.viewModel)
+            modalViewModel = .EditForm(form.viewModel)
         }
 
         return RootViewModel(
             tokenList: tokenList.viewModel,
-            modal: modal
+            modal: modalViewModel
         )
     }
 }
@@ -89,10 +89,10 @@ extension Root {
             }
 
         case .TokenEntryFormAction(let action):
-            if case .EntryForm(let form) = modalState {
+            if case .EntryForm(let form) = modal {
                 var newForm = form
                 let effect = newForm.update(action)
-                modalState = .EntryForm(newForm)
+                modal = .EntryForm(newForm)
                 // Handle the resulting action after committing the changes of the initial action
                 if let effect = effect {
                     return handleTokenEntryEffect(effect)
@@ -100,10 +100,10 @@ extension Root {
             }
 
         case .TokenEditFormAction(let action):
-            if case .EditForm(let form) = modalState {
+            if case .EditForm(let form) = modal {
                 var newForm = form
                 let effect = newForm.update(action)
-                modalState = .EditForm(newForm)
+                modal = .EditForm(newForm)
                 // Handle the resulting effect after committing the changes of the initial action
                 if let effect = effect {
                     return handleTokenEditEffect(effect)
@@ -121,15 +121,15 @@ extension Root {
         switch effect {
         case .BeginTokenEntry:
             if QRScanner.deviceCanScan {
-                modalState = .Scanner
+                modal = .Scanner
             } else {
-                modalState = .EntryForm(TokenEntryForm())
+                modal = .EntryForm(TokenEntryForm())
             }
             return nil
 
         case .BeginTokenEdit(let persistentToken):
             let form = TokenEditForm(persistentToken: persistentToken)
-            modalState = .EditForm(form)
+            modal = .EditForm(form)
             return nil
 
         case .UpdateToken(let persistentToken):
@@ -147,11 +147,11 @@ extension Root {
     private mutating func handleTokenEntryEffect(effect: TokenEntryForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
-            modalState = .None
+            modal = .None
             return nil
 
         case .SaveNewToken(let token):
-            modalState = .None
+            modal = .None
             return .AddToken(token)
         }
     }
@@ -160,11 +160,11 @@ extension Root {
     private mutating func handleTokenEditEffect(effect: TokenEditForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
-            modalState = .None
+            modal = .None
             return nil
 
         case let .SaveChanges(token, persistentToken):
-            modalState = .None
+            modal = .None
             return .SaveToken(token, persistentToken)
         }
     }
@@ -173,15 +173,15 @@ extension Root {
     private mutating func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) -> Effect? {
         switch effect {
         case .Cancel:
-            modalState = .None
+            modal = .None
             return nil
 
         case .BeginManualTokenEntry:
-            modalState = .EntryForm(TokenEntryForm())
+            modal = .EntryForm(TokenEntryForm())
             return nil
 
         case .SaveNewToken(let token):
-            modalState = .None
+            modal = .None
             return .AddToken(token)
         }
     }
