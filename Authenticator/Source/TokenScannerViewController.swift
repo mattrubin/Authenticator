@@ -87,13 +87,13 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     enum Effect {
+        case Cancel
         case BeginManualTokenEntry
-        case CancelTokenEntry
         case SaveNewToken(Token)
     }
 
     func cancel() {
-        dispatchAction(.CancelTokenEntry)
+        dispatchAction(.Cancel)
     }
 
     func addTokenManually() {

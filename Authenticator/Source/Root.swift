@@ -177,7 +177,7 @@ extension Root {
 
     func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) {
         switch effect {
-        case .CancelTokenEntry:
+        case .Cancel:
             modalState = .None
 
         case .BeginManualTokenEntry:
