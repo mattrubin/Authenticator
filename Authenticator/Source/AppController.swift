@@ -33,15 +33,16 @@ class AppController {
     )
     var root: Root {
         didSet {
-            rootViewController?.updateWithViewModel(root.viewModel)
+            rootViewController.updateWithViewModel(root.viewModel)
         }
     }
-    var rootViewController: RootViewController?
+    lazy var rootViewController: RootViewController = {
+        return RootViewController(viewModel: self.root.viewModel,
+            dispatchAction: self.handleAction)
+    }()
 
     init() {
         root = Root(persistentTokens: store.persistentTokens)
-        rootViewController = RootViewController(viewModel: root.viewModel,
-            dispatchAction: handleAction)
     }
 
     func handleAction(action: Root.Action) {
