@@ -93,6 +93,10 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func handleEffect(effect: Root.Effect) {
-
+        switch effect {
+        case .AddToken(let token):
+            root.tokenStore.addToken(token)
+            root.updateWithPersistentTokens(root.tokenStore.persistentTokens)
+        }
     }
 }

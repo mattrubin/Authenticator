@@ -28,7 +28,7 @@ import OneTimePassword
 class Root {
     weak var presenter: AppPresenter?
 
-    private let tokenStore: TokenStore
+    /*private*/ let tokenStore: TokenStore
 
     private var tokenList: TokenList {
         didSet {
@@ -87,14 +87,14 @@ extension Root {
     }
 
     enum Effect {
-
+        case AddToken(Token)
     }
 
     @warn_unused_result
     func handleAction(action: Action) -> Effect? {
         switch action {
         case .AddTokenFromURL(let token):
-            addToken(token)
+            return .AddToken(token)
 
         case .TokenListAction(let action):
             let sideEffect = tokenList.handleAction(action)
@@ -110,7 +110,7 @@ extension Root {
                 modalState = .EntryForm(newForm)
                 // Handle the resulting action after committing the changes of the initial action
                 if let effect = sideEffect {
-                    handleTokenEntryEffect(effect)
+                    return handleTokenEntryEffect(effect)
                 }
             }
 
@@ -126,7 +126,7 @@ extension Root {
             }
 
         case .TokenScannerEffect(let effect):
-            handleTokenScannerEffect(effect)
+            return handleTokenScannerEffect(effect)
         }
         return nil
     }
@@ -158,14 +158,16 @@ extension Root {
         }
     }
 
-    func handleTokenEntryEffect(effect: TokenEntryForm.Effect) {
+    @warn_unused_result
+    func handleTokenEntryEffect(effect: TokenEntryForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
+            return nil
 
         case .SaveNewToken(let token):
-            addToken(token)
             modalState = .None
+            return .AddToken(token)
         }
     }
 
@@ -181,17 +183,20 @@ extension Root {
         }
     }
 
-    func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) {
+    @warn_unused_result
+    func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modalState = .None
+            return nil
 
         case .BeginManualTokenEntry:
             beginManualTokenEntry()
+            return nil
 
         case .SaveNewToken(let token):
-            addToken(token)
             modalState = .None
+            return .AddToken(token)
         }
     }
 
@@ -200,8 +205,7 @@ extension Root {
         modalState = .EntryForm(form)
     }
 
-    func addToken(token: Token) {
-        tokenStore.addToken(token)
-        tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+    func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
+        tokenList.updateWithPersistentTokens(persistentTokens)
     }
 }
