@@ -34,7 +34,11 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         keychain: Keychain.sharedInstance,
         userDefaults: NSUserDefaults.standardUserDefaults()
     )
-    var root = Root(persistentTokens: [])
+    var root = Root(persistentTokens: []) {
+        didSet {
+            rootViewController.updateWithViewModel(root.viewModel)
+        }
+    }
     lazy var rootViewController: RootViewController = {
         RootViewController(viewModel: self.root.viewModel,
             dispatchAction: self.handleAction)
@@ -57,7 +61,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setDefaultStyle(.Dark)
 
         root.updateWithPersistentTokens(store.persistentTokens)
-        rootViewController.updateWithViewModel(root.viewModel)
 
         self.window?.rootViewController = rootViewController
         self.window?.makeKeyAndVisible()
@@ -94,7 +97,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         if let effect = sideEffect {
             handleEffect(effect)
         }
-        rootViewController.updateWithViewModel(root.viewModel)
     }
 
     private func handleEffect(effect: Root.Effect) {
