@@ -130,7 +130,7 @@ extension Root {
         switch effect {
         case .BeginTokenEntry:
             guard QRScanner.deviceCanScan else {
-                handleTokenScannerEffect(.BeginManualTokenEntry)
+                beginManualTokenEntry()
                 break
             }
             modalState = .EntryScanner
@@ -183,13 +183,17 @@ extension Root {
             modalState = .None
 
         case .BeginManualTokenEntry:
-            let form = TokenEntryForm()
-            modalState = .EntryForm(form)
+            beginManualTokenEntry()
 
         case .SaveNewToken(let token):
             tokenStore.addToken(token)
             tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
             modalState = .None
         }
+    }
+
+    func beginManualTokenEntry() {
+        let form = TokenEntryForm()
+        modalState = .EntryForm(form)
     }
 }
