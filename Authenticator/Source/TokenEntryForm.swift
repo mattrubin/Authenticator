@@ -177,7 +177,7 @@ extension TokenEntryForm {
 
 extension TokenEntryForm {
     enum Effect {
-        case CancelTokenEntry
+        case Cancel
         case SaveNewToken(Token)
     }
 
@@ -203,7 +203,7 @@ extension TokenEntryForm {
             showsAdvancedOptions = true
             // TODO: Scroll to the newly-expanded section
         case .Cancel:
-            return cancel()
+            return .Cancel
         case .Submit:
             return submit()
         }
@@ -212,11 +212,6 @@ extension TokenEntryForm {
 
     private mutating func resetEphemera() {
         submitFailed = false
-    }
-
-    @warn_unused_result
-    private mutating func cancel() -> Effect {
-        return .CancelTokenEntry
     }
 
     @warn_unused_result

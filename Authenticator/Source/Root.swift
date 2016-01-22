@@ -166,7 +166,7 @@ extension Root {
 
     func handleTokenEntryEffect(effect: TokenEntryForm.Effect) {
         switch effect {
-        case .CancelTokenEntry:
+        case .Cancel:
             modalState = .None
 
         case .SaveNewToken(let token):
