@@ -28,10 +28,10 @@ import SVProgressHUD
 
 class TokenListViewController: UITableViewController {
     private let dispatchAction: (TokenList.Action) -> ()
-    private var viewModel: TokenListViewModel
+    private var viewModel: TokenList.ViewModel
     private var preventTableViewAnimations = false
 
-    init(viewModel: TokenListViewModel, dispatchAction: (TokenList.Action) -> ()) {
+    init(viewModel: TokenList.ViewModel, dispatchAction: (TokenList.Action) -> ()) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(style: .Plain)
@@ -190,7 +190,7 @@ extension TokenListViewController {
 
 // MARK: TokenListPresenter
 extension TokenListViewController {
-    func updateWithViewModel(viewModel: TokenListViewModel) {
+    func updateWithViewModel(viewModel: TokenList.ViewModel) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         self.viewModel = viewModel
         updateTableViewWithChanges(changes)

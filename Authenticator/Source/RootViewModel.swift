@@ -24,10 +24,10 @@
 //
 
 struct RootViewModel {
-    let tokenList: TokenListViewModel
-    let modal: Modal
+    let tokenList: TokenList.ViewModel
+    let modal: ModalViewModel
 
-    enum Modal {
+    enum ModalViewModel {
         case None
         case Scanner
         case EntryForm(TokenEntryForm.ViewModel)
