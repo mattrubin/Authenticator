@@ -34,14 +34,14 @@ class OpaqueNavigationController: UINavigationController {
 }
 
 class RootViewController: OpaqueNavigationController {
-    private var currentViewModel: RootViewModel
+    private var currentViewModel: Root.ViewModel
 
     private var tokenListViewController: TokenListViewController
     private var modalNavController: UINavigationController?
 
     private let dispatchAction: (Root.Action) -> ()
 
-    init(viewModel: RootViewModel, dispatchAction: (Root.Action) -> ()) {
+    init(viewModel: Root.ViewModel, dispatchAction: (Root.Action) -> ()) {
         self.currentViewModel = viewModel
         self.dispatchAction = dispatchAction
         tokenListViewController = TokenListViewController(viewModel: viewModel.tokenList,
@@ -76,7 +76,7 @@ class RootViewController: OpaqueNavigationController {
 }
 
 extension RootViewController {
-    func updateWithViewModel(viewModel: RootViewModel) {
+    func updateWithViewModel(viewModel: Root.ViewModel) {
         tokenListViewController.updateWithViewModel(viewModel.tokenList)
 
         switch viewModel.modal {

@@ -53,14 +53,22 @@ struct Root: Component {
         tokenList = TokenList(persistentTokens: persistentTokens)
         modal = .None
     }
+}
 
-    var viewModel: RootViewModel {
-        return RootViewModel(
+// MARK: View
+
+extension Root {
+    typealias ViewModel = RootViewModel
+
+    var viewModel: ViewModel {
+        return ViewModel(
             tokenList: tokenList.viewModel,
             modal: modal.viewModel
         )
     }
 }
+
+// MARK: Update
 
 extension Root {
     enum Action {
