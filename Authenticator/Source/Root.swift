@@ -34,6 +34,19 @@ struct Root: Component {
         case Scanner
         case EntryForm(TokenEntryForm)
         case EditForm(TokenEditForm)
+
+        var viewModel: RootViewModel.ModalViewModel {
+            switch self {
+            case .None:
+                return .None
+            case .Scanner:
+                return .Scanner
+            case .EntryForm(let form):
+                return .EntryForm(form.viewModel)
+            case .EditForm(let form):
+                return .EditForm(form.viewModel)
+            }
+        }
     }
 
     init(persistentTokens: [PersistentToken]) {
@@ -42,21 +55,9 @@ struct Root: Component {
     }
 
     var viewModel: RootViewModel {
-        let modalViewModel: RootViewModel.ModalViewModel
-        switch modal {
-        case .None:
-            modalViewModel = .None
-        case .Scanner:
-            modalViewModel = .Scanner
-        case .EntryForm(let form):
-            modalViewModel = .EntryForm(form.viewModel)
-        case .EditForm(let form):
-            modalViewModel = .EditForm(form.viewModel)
-        }
-
         return RootViewModel(
             tokenList: tokenList.viewModel,
-            modal: modalViewModel
+            modal: modal.viewModel
         )
     }
 }
