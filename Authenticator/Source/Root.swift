@@ -116,21 +116,21 @@ extension Root {
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
                 var newForm = form
-                let resultingAppAction = newForm.handleAction(action)
+                let sideEffect = newForm.handleAction(action)
                 modalState = .EntryForm(newForm)
                 // Handle the resulting action after committing the changes of the initial action
-                if let resultingAppAction = resultingAppAction {
-                    handleAction(resultingAppAction)
+                if let effect = sideEffect {
+                    handleTokenEntryEffect(effect)
                 }
             }
 
         case .TokenEditFormAction(let action):
             if case .EditForm(let form) = modalState {
                 var newForm = form
-                let effect = newForm.handleAction(action)
+                let sideEffect = newForm.handleAction(action)
                 modalState = .EditForm(newForm)
                 // Handle the resulting effect after committing the changes of the initial action
-                if let effect = effect {
+                if let effect = sideEffect {
                     handleTokenEditEffect(effect)
                 }
             }
@@ -161,6 +161,18 @@ extension Root {
         case .DeletePersistentToken(let persistentToken):
             tokenStore.deletePersistentToken(persistentToken)
             tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+        }
+    }
+
+    func handleTokenEntryEffect(effect: TokenEntryForm.Effect) {
+        switch effect {
+        case .CancelTokenEntry:
+            modalState = .None
+
+        case .SaveNewToken(let token):
+            tokenStore.addToken(token)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            modalState = .None
         }
     }
 

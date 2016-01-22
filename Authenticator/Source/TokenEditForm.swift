@@ -107,7 +107,7 @@ extension TokenEditForm {
         case Cancel
         case SaveChanges(Token, PersistentToken)
     }
-    
+
     @warn_unused_result
     mutating func handleAction(action: Action) -> Effect? {
         switch action {
