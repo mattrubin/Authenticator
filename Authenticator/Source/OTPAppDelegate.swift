@@ -30,10 +30,11 @@ import SVProgressHUD
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
 
-    let store = TokenStore(
-        keychain: Keychain.sharedInstance,
-        userDefaults: NSUserDefaults.standardUserDefaults()
-    )
+    let app = AppController()
+    var store: TokenStore {
+        return app.store
+    }
+
     var root = Root(persistentTokens: []) {
         didSet {
             rootViewController?.updateWithViewModel(root.viewModel)
