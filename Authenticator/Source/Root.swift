@@ -83,8 +83,6 @@ extension Root {
         case SaveNewToken(Token)
 
         case BeginTokenEdit(PersistentToken)
-        case CancelTokenEdit
-        case SaveChanges(Token, PersistentToken)
 
         case AddTokenFromURL(Token)
 
@@ -122,14 +120,6 @@ extension Root {
             let form = TokenEditForm(persistentToken: persistentToken)
             modalState = .EditForm(form)
 
-        case let .SaveChanges(token, persistentToken):
-            tokenStore.saveToken(token, toPersistentToken: persistentToken)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
-            modalState = .None
-
-        case .CancelTokenEdit:
-            modalState = .None
-
         case .AddTokenFromURL(let token):
             tokenStore.addToken(token)
             tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
@@ -159,7 +149,7 @@ extension Root {
                 modalState = .EditForm(newForm)
                 // Handle the resulting action after committing the changes of the initial action
                 if let resultingAppAction = resultingAppAction {
-                    handleAction(resultingAppAction)
+                    handleTokenEditEffect(resultingAppAction)
                 }
             }
 
@@ -174,6 +164,18 @@ extension Root {
         case .DeletePersistentToken(let persistentToken):
             tokenStore.deletePersistentToken(persistentToken)
             tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+        }
+    }
+
+    func handleTokenEditEffect(effect: TokenEditForm.Effect) {
+        switch effect {
+        case .CancelTokenEdit:
+            modalState = .None
+
+        case let .SaveChanges(token, persistentToken):
+            tokenStore.saveToken(token, toPersistentToken: persistentToken)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            modalState = .None
         }
     }
 }
