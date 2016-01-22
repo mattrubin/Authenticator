@@ -31,9 +31,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
 
     let app = AppController()
-    var store: TokenStore {
-        return app.store
-    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
@@ -51,7 +48,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
 
-        app.root.updateWithPersistentTokens(store.persistentTokens)
         app.rootViewController = RootViewController(viewModel: app.root.viewModel,
             dispatchAction: app.handleAction)
 

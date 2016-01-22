@@ -31,13 +31,16 @@ class AppController {
         keychain: Keychain.sharedInstance,
         userDefaults: NSUserDefaults.standardUserDefaults()
     )
-    var root = Root(persistentTokens: []) {
+    var root: Root {
         didSet {
             rootViewController?.updateWithViewModel(root.viewModel)
         }
     }
     var rootViewController: RootViewController?
 
+    init() {
+        root = Root(persistentTokens: store.persistentTokens)
+    }
 
     func handleAction(action: Root.Action) {
         let sideEffect = root.update(action)
