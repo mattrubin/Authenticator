@@ -77,31 +77,17 @@ class Root {
 
 extension Root {
     enum Action {
-        case BeginManualTokenEntry
-        case CancelTokenEntry
-        case SaveNewToken(Token)
-
         case AddTokenFromURL(Token)
 
         case TokenListAction(TokenList.Action)
         case TokenEntryFormAction(TokenEntryForm.Action)
         case TokenEditFormAction(TokenEditForm.Action)
+
+        case TokenScannerEffect(TokenScannerViewController.Effect)
     }
 
     func handleAction(action: Action) {
         switch action {
-        case .BeginManualTokenEntry:
-            let form = TokenEntryForm()
-            modalState = .EntryForm(form)
-
-        case .SaveNewToken(let token):
-            tokenStore.addToken(token)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
-            modalState = .None
-
-        case .CancelTokenEntry:
-            modalState = .None
-
         case .AddTokenFromURL(let token):
             tokenStore.addToken(token)
             tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
@@ -134,6 +120,9 @@ extension Root {
                     handleTokenEditEffect(effect)
                 }
             }
+
+        case .TokenScannerEffect(let effect):
+            handleTokenScannerEffect(effect)
         }
     }
 
@@ -141,7 +130,7 @@ extension Root {
         switch effect {
         case .BeginTokenEntry:
             guard QRScanner.deviceCanScan else {
-                handleAction(.BeginManualTokenEntry)
+                handleTokenScannerEffect(.BeginManualTokenEntry)
                 break
             }
             modalState = .EntryScanner
@@ -183,6 +172,22 @@ extension Root {
 
         case let .SaveChanges(token, persistentToken):
             tokenStore.saveToken(token, toPersistentToken: persistentToken)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            modalState = .None
+        }
+    }
+
+    func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) {
+        switch effect {
+        case .CancelTokenEntry:
+            modalState = .None
+
+        case .BeginManualTokenEntry:
+            let form = TokenEntryForm()
+            modalState = .EntryForm(form)
+
+        case .SaveNewToken(let token):
+            tokenStore.addToken(token)
             tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
             modalState = .None
         }
