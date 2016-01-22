@@ -89,8 +89,7 @@ extension Root {
     func handleAction(action: Action) {
         switch action {
         case .AddTokenFromURL(let token):
-            tokenStore.addToken(token)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            addToken(token)
 
         case .TokenListAction(let action):
             let sideEffect = tokenList.handleAction(action)
@@ -159,8 +158,7 @@ extension Root {
             modalState = .None
 
         case .SaveNewToken(let token):
-            tokenStore.addToken(token)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            addToken(token)
             modalState = .None
         }
     }
@@ -186,8 +184,7 @@ extension Root {
             beginManualTokenEntry()
 
         case .SaveNewToken(let token):
-            tokenStore.addToken(token)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            addToken(token)
             modalState = .None
         }
     }
@@ -195,5 +192,10 @@ extension Root {
     func beginManualTokenEntry() {
         let form = TokenEntryForm()
         modalState = .EntryForm(form)
+    }
+
+    func addToken(token: Token) {
+        tokenStore.addToken(token)
+        tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
     }
 }
