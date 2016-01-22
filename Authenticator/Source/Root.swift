@@ -86,7 +86,12 @@ extension Root {
         case TokenScannerEffect(TokenScannerViewController.Effect)
     }
 
-    func handleAction(action: Action) {
+    enum Effect {
+
+    }
+
+    @warn_unused_result
+    func handleAction(action: Action) -> Effect? {
         switch action {
         case .AddTokenFromURL(let token):
             addToken(token)
@@ -123,6 +128,7 @@ extension Root {
         case .TokenScannerEffect(let effect):
             handleTokenScannerEffect(effect)
         }
+        return nil
     }
 
     func handleTokenListEffect(effect: TokenList.Effect) {

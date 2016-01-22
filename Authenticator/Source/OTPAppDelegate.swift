@@ -86,6 +86,13 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func handleAction(action: Root.Action) {
-        root.handleAction(action)
+        let sideEffect = root.handleAction(action)
+        if let effect = sideEffect {
+            handleEffect(effect)
+        }
+    }
+
+    private func handleEffect(effect: Root.Effect) {
+
     }
 }
