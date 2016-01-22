@@ -53,9 +53,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setDefaultStyle(.Dark)
 
         let navController = RootViewController(viewModel: root.viewModel,
-            dispatchAction: { [weak root] in
-                root?.handleAction($0)
-            })
+            dispatchAction: handleAction)
         root.presenter = navController
         self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()
@@ -72,7 +70,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
 
             let acceptHandler: (UIAlertAction) -> Void = { [weak self] (_) in
-                self?.root.handleAction(.AddTokenFromURL(token))
+                self?.handleAction(.AddTokenFromURL(token))
             }
 
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
@@ -85,5 +83,9 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return false
+    }
+
+    private func handleAction(action: Root.Action) {
+        root.handleAction(action)
     }
 }
