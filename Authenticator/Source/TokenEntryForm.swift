@@ -176,8 +176,13 @@ extension TokenEntryForm {
 // MARK: Actions
 
 extension TokenEntryForm {
+    enum Effect {
+        case Cancel
+        case SaveNewToken(Token)
+    }
+
     @warn_unused_result
-    mutating func handleAction(action: Action) -> Root.Action? {
+    mutating func handleAction(action: Action) -> Effect? {
         // Reset any ephemeral state set by the previous action
         resetEphemera()
 
@@ -198,7 +203,7 @@ extension TokenEntryForm {
             showsAdvancedOptions = true
             // TODO: Scroll to the newly-expanded section
         case .Cancel:
-            return cancel()
+            return .Cancel
         case .Submit:
             return submit()
         }
@@ -210,12 +215,7 @@ extension TokenEntryForm {
     }
 
     @warn_unused_result
-    private mutating func cancel() -> Root.Action {
-        return .CancelTokenEntry
-    }
-
-    @warn_unused_result
-    private mutating func submit() -> Root.Action? {
+    private mutating func submit() -> Effect? {
         guard isValid else {
             // TODO: Show more specific error messages for different failure cases
             submitFailed = true

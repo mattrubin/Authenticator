@@ -103,15 +103,20 @@ extension TokenEditForm {
 // MARK: Actions
 
 extension TokenEditForm {
+    enum Effect {
+        case Cancel
+        case SaveChanges(Token, PersistentToken)
+    }
+
     @warn_unused_result
-    mutating func handleAction(action: Action) -> Root.Action? {
+    mutating func handleAction(action: Action) -> Effect? {
         switch action {
         case let .Issuer(issuer):
             self.issuer = issuer
         case let .Name(name):
             self.name = name
         case .Cancel:
-            return cancel()
+            return .Cancel
         case .Submit:
             return submit()
         }
@@ -119,12 +124,7 @@ extension TokenEditForm {
     }
 
     @warn_unused_result
-    private func cancel() -> Root.Action {
-        return .CancelTokenEdit
-    }
-
-    @warn_unused_result
-    private func submit() -> Root.Action? {
+    private func submit() -> Effect? {
         guard isValid else {
             // TODO: Show error message?
             return nil

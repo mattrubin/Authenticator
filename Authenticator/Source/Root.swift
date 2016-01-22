@@ -77,91 +77,66 @@ class Root {
 
 extension Root {
     enum Action {
-        case BeginTokenEntry
-        case BeginManualTokenEntry
-        case CancelTokenEntry
-        case SaveNewToken(Token)
-
-        case BeginTokenEdit(PersistentToken)
-        case CancelTokenEdit
-        case SaveChanges(Token, PersistentToken)
-
         case AddTokenFromURL(Token)
 
         case TokenListAction(TokenList.Action)
         case TokenEntryFormAction(TokenEntryForm.Action)
         case TokenEditFormAction(TokenEditForm.Action)
 
-        case UpdateToken(PersistentToken)
-        case MoveToken(fromIndex: Int, toIndex: Int)
-        case DeletePersistentToken(PersistentToken)
+        case TokenScannerEffect(TokenScannerViewController.Effect)
     }
 
     func handleAction(action: Action) {
         switch action {
-        case .BeginTokenEntry:
-            guard QRScanner.deviceCanScan else {
-                handleAction(.BeginManualTokenEntry)
-                break
-            }
-            modalState = .EntryScanner
-
-        case .BeginManualTokenEntry:
-            let form = TokenEntryForm()
-            modalState = .EntryForm(form)
-
-        case .SaveNewToken(let token):
-            tokenStore.addToken(token)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
-            modalState = .None
-
-        case .CancelTokenEntry:
-            modalState = .None
-
-        case .BeginTokenEdit(let persistentToken):
-            let form = TokenEditForm(persistentToken: persistentToken)
-            modalState = .EditForm(form)
-
-        case let .SaveChanges(token, persistentToken):
-            tokenStore.saveToken(token, toPersistentToken: persistentToken)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
-            modalState = .None
-
-        case .CancelTokenEdit:
-            modalState = .None
-
         case .AddTokenFromURL(let token):
-            tokenStore.addToken(token)
-            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            addToken(token)
 
         case .TokenListAction(let action):
-            let resultingAppAction = tokenList.handleAction(action)
+            let sideEffect = tokenList.handleAction(action)
             // Handle the resulting action after committing the changes of the initial action
-            if let resultingAppAction = resultingAppAction {
-                handleAction(resultingAppAction)
+            if let effect = sideEffect {
+                handleTokenListEffect(effect)
             }
 
         case .TokenEntryFormAction(let action):
             if case .EntryForm(let form) = modalState {
                 var newForm = form
-                let resultingAppAction = newForm.handleAction(action)
+                let sideEffect = newForm.handleAction(action)
                 modalState = .EntryForm(newForm)
                 // Handle the resulting action after committing the changes of the initial action
-                if let resultingAppAction = resultingAppAction {
-                    handleAction(resultingAppAction)
+                if let effect = sideEffect {
+                    handleTokenEntryEffect(effect)
                 }
             }
 
         case .TokenEditFormAction(let action):
             if case .EditForm(let form) = modalState {
                 var newForm = form
-                let resultingAppAction = newForm.handleAction(action)
+                let sideEffect = newForm.handleAction(action)
                 modalState = .EditForm(newForm)
-                // Handle the resulting action after committing the changes of the initial action
-                if let resultingAppAction = resultingAppAction {
-                    handleAction(resultingAppAction)
+                // Handle the resulting effect after committing the changes of the initial action
+                if let effect = sideEffect {
+                    handleTokenEditEffect(effect)
                 }
             }
+
+        case .TokenScannerEffect(let effect):
+            handleTokenScannerEffect(effect)
+        }
+    }
+
+    func handleTokenListEffect(effect: TokenList.Effect) {
+        switch effect {
+        case .BeginTokenEntry:
+            guard QRScanner.deviceCanScan else {
+                beginManualTokenEntry()
+                break
+            }
+            modalState = .EntryScanner
+
+        case .BeginTokenEdit(let persistentToken):
+            let form = TokenEditForm(persistentToken: persistentToken)
+            modalState = .EditForm(form)
 
         case .UpdateToken(let persistentToken):
             tokenStore.updatePersistentToken(persistentToken)
@@ -175,5 +150,52 @@ extension Root {
             tokenStore.deletePersistentToken(persistentToken)
             tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
         }
+    }
+
+    func handleTokenEntryEffect(effect: TokenEntryForm.Effect) {
+        switch effect {
+        case .Cancel:
+            modalState = .None
+
+        case .SaveNewToken(let token):
+            addToken(token)
+            modalState = .None
+        }
+    }
+
+    func handleTokenEditEffect(effect: TokenEditForm.Effect) {
+        switch effect {
+        case .Cancel:
+            modalState = .None
+
+        case let .SaveChanges(token, persistentToken):
+            tokenStore.saveToken(token, toPersistentToken: persistentToken)
+            tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
+            modalState = .None
+        }
+    }
+
+    func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) {
+        switch effect {
+        case .Cancel:
+            modalState = .None
+
+        case .BeginManualTokenEntry:
+            beginManualTokenEntry()
+
+        case .SaveNewToken(let token):
+            addToken(token)
+            modalState = .None
+        }
+    }
+
+    func beginManualTokenEntry() {
+        let form = TokenEntryForm()
+        modalState = .EntryForm(form)
+    }
+
+    func addToken(token: Token) {
+        tokenStore.addToken(token)
+        tokenList.updateWithPersistentTokens(tokenStore.persistentTokens)
     }
 }

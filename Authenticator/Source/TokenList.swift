@@ -79,8 +79,17 @@ extension TokenList {
         case UpdateViewModel
     }
 
+    enum Effect {
+        case BeginTokenEntry
+        case BeginTokenEdit(PersistentToken)
+
+        case UpdateToken(PersistentToken)
+        case MoveToken(fromIndex: Int, toIndex: Int)
+        case DeletePersistentToken(PersistentToken)
+    }
+
     @warn_unused_result
-    mutating func handleAction(action: Action) -> Root.Action? {
+    mutating func handleAction(action: Action) -> Effect? {
         // Reset any ephemeral state set by the previous action
         resetEphemera()
 
