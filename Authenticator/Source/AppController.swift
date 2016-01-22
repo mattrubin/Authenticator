@@ -27,10 +27,7 @@ import Foundation
 import OneTimePassword
 
 class AppController {
-    let store = TokenStore(
-        keychain: Keychain.sharedInstance,
-        userDefaults: NSUserDefaults.standardUserDefaults()
-    )
+    let store: TokenStore
     var root: Root {
         didSet {
             rootViewController.updateWithViewModel(root.viewModel)
@@ -42,10 +39,14 @@ class AppController {
     }()
 
     init() {
+        store = TokenStore(
+            keychain: Keychain.sharedInstance,
+            userDefaults: NSUserDefaults.standardUserDefaults()
+        )
         root = Root(persistentTokens: store.persistentTokens)
     }
 
-    func handleAction(action: Root.Action) {
+    private func handleAction(action: Root.Action) {
         let sideEffect = root.update(action)
         if let effect = sideEffect {
             handleEffect(effect)
