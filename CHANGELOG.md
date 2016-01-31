@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.1.2.1] - 2014-09-19
+
 ## [1.1.2] - 2014-09-19
 
 [NEW] Support for larger screen sizes.
