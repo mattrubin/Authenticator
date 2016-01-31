@@ -67,7 +67,10 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        segmentedControl.frame = CGRectMake(20, 15, CGRectGetWidth(contentView.bounds) - 40, 29)
+
+        let margin: CGFloat = 20
+        let width = contentView.bounds.width - (2 * margin)
+        segmentedControl.frame = CGRect(x: margin, y: 15, width: width, height: 29)
     }
 
     // MARK: - View Model

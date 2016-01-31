@@ -86,7 +86,7 @@ class TokenRowCell: UITableViewCell {
         passwordLabel.frame.origin.y += 20
         passwordLabel.frame.size.height -= 30
 
-        nextPasswordButton.center = CGPointMake(CGRectGetMaxX(fullFrame) - 25, CGRectGetMidY(passwordLabel.frame))
+        nextPasswordButton.center = CGPoint(x: fullFrame.maxX - 25, y: passwordLabel.frame.midY)
     }
 
 

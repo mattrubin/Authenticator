@@ -86,8 +86,10 @@ class TextFieldRowCell<Action>: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        textLabel?.frame = CGRectMake(20, 15, CGRectGetWidth(contentView.bounds) - 40, 21)
-        textField.frame = CGRectMake(20, 44, CGRectGetWidth(contentView.bounds) - 40, 30)
+        let margin: CGFloat = 20
+        let width = contentView.bounds.width - (2 * margin)
+        textLabel?.frame = CGRect(x: margin, y: 15, width: width, height: 21)
+        textField.frame  = CGRect(x: margin, y: 44, width: width, height: 30)
     }
 
     // MARK: - View Model

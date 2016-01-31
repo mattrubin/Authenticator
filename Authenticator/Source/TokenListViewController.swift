@@ -42,7 +42,7 @@ class TokenListViewController: UITableViewController {
     }
 
     private var displayLink: CADisplayLink?
-    private let ring: OTPProgressRing = OTPProgressRing(frame: CGRectMake(0, 0, 22, 22))
+    private let ring: OTPProgressRing = OTPProgressRing(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
     private lazy var noTokensLabel: UILabel = {
         let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
             attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
@@ -86,9 +86,9 @@ class TokenListViewController: UITableViewController {
         self.navigationController?.toolbarHidden = false
 
         // Configure "no tokens" label
-        self.noTokensLabel.frame = CGRectMake(0, 0,
-            self.view.bounds.size.width,
-            self.view.bounds.size.height * 0.6)
+        self.noTokensLabel.frame = CGRect(x: 0, y: 0,
+            width: self.view.bounds.size.width,
+            height: self.view.bounds.size.height * 0.6)
         self.view.addSubview(self.noTokensLabel)
 
         // Update with current viewModel
