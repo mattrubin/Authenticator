@@ -207,7 +207,7 @@ extension TokenListViewController {
     }
 
     private func updateTableViewWithChanges(changes: [Change]) {
-        if preventTableViewAnimations {
+        if changes.isEmpty || preventTableViewAnimations {
             return
         }
 
