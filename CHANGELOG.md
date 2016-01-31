@@ -1,4 +1,4 @@
-# [Authenticator] Change Log
+# [Authenticator] Changelog
 All notable changes to the project will be documented in this file.
 
 [Authenticator]: https://github.com/mattrubin/Authenticator
