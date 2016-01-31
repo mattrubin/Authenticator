@@ -1,4 +1,15 @@
-# Changelog
+# Change Log
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+- Rewrote the app in Swift using an architecture inspired by [React], [Redux], and [Elm].  
+- Moved token models, persistence, and password generation to the [OneTimePassword] library.  
+
+[React]: http://facebook.github.io/react/
+[Redux]: http://redux.js.org
+[Elm]: http://elm-lang.org
+[OneTimePassword]: https://github.com/mattrubin/OneTimePassword
+
 
 ## [1.1.2.1] - 2014-09-19
 ### Fixed
@@ -58,6 +69,7 @@
 ## [1.0] - 2013-11-25
 
 
+[Unreleased]: https://github.com/mattrubin/Authenticator/compare/1.1.2.1...HEAD
 [1.1.2.1]: https://github.com/mattrubin/Authenticator/compare/1.1.2...1.1.2.1
 [1.1.2]: https://github.com/mattrubin/Authenticator/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/mattrubin/Authenticator/compare/1.1...1.1.1
