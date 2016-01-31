@@ -1,8 +1,8 @@
 # Changelog
 
 ## [1.1.2.1] - 2014-09-19
-
-- Bumped deployment target to iOS 8 
+### Fixed
+- Bumped deployment target to iOS 8 to support XIB-based launch screens.
 
 
 ## [1.1.2] - 2014-09-19
