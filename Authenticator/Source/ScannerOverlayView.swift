@@ -44,12 +44,14 @@ class ScannerOverlayView: UIView {
         UIColor(white: 0, alpha: 0.5).setFill()
         UIColor(white: 1, alpha: 0.2).setStroke()
 
-        let smallestDimension = min(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))
+        let smallestDimension = min(self.bounds.width, self.bounds.height)
         let windowSize = 0.9 * smallestDimension
-        let window = CGRect(x: CGRectGetMidX(rect) - windowSize/2,
-            y: CGRectGetMidY(rect) - windowSize/2,
+        let window = CGRect(
+            x: rect.midX - windowSize/2,
+            y: rect.midY - windowSize/2,
             width: windowSize,
-            height: windowSize)
+            height: windowSize
+        )
 
         CGContextFillRect(context, rect)
         CGContextClearRect(context, window)
