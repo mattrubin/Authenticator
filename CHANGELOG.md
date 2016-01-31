@@ -2,6 +2,9 @@
 
 ## [1.1.2.1] - 2014-09-19
 
+- Bumped deployment target to iOS 8 
+
+
 ## [1.1.2] - 2014-09-19
 
 [NEW] Support for larger screen sizes.
