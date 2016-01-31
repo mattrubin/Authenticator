@@ -1,8 +1,11 @@
-# Change Log
-All notable changes to this project will be documented in this file.
+# [Authenticator] Change Log
+All notable changes to the project will be documented in this file.
+
+[Authenticator]: https://github.com/mattrubin/Authenticator
+
 
 ## [Unreleased]
-- Rewrote the app in Swift using an architecture inspired by [React], [Redux], and [Elm].  
+- Rewrote the app in Swift using a new architecture inspired by [React], [Redux], and [Elm].  
 - Moved token models, persistence, and password generation to the [OneTimePassword] library.  
 
 [React]: http://facebook.github.io/react/
