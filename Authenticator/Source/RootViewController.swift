@@ -35,6 +35,9 @@ class OpaqueNavigationController: UINavigationController {
             NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
             NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!
         ]
+
+        toolbar.barTintColor = UIColor.otpBarBackgroundColor
+        toolbar.tintColor = UIColor.otpBarForegroundColor
     }
 
     override func viewWillAppear(animated: Bool) {
