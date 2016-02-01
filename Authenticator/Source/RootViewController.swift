@@ -29,6 +29,7 @@ class OpaqueNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationBar.translucent = false
         navigationBar.barTintColor = UIColor.otpBarBackgroundColor
         navigationBar.tintColor = UIColor.otpBarForegroundColor
         navigationBar.titleTextAttributes = [
@@ -36,14 +37,9 @@ class OpaqueNavigationController: UINavigationController {
             NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!
         ]
 
+        toolbar.translucent = false
         toolbar.barTintColor = UIColor.otpBarBackgroundColor
         toolbar.tintColor = UIColor.otpBarForegroundColor
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationBar.translucent = false
-        toolbar.translucent = false
     }
 }
 
