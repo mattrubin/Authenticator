@@ -26,10 +26,20 @@
 import UIKit
 
 class OpaqueNavigationController: UINavigationController {
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
         navigationBar.translucent = false
+        navigationBar.barTintColor = UIColor.otpBarBackgroundColor
+        navigationBar.tintColor = UIColor.otpBarForegroundColor
+        navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!
+        ]
+
         toolbar.translucent = false
+        toolbar.barTintColor = UIColor.otpBarBackgroundColor
+        toolbar.tintColor = UIColor.otpBarForegroundColor
     }
 }
 

@@ -34,16 +34,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     let app = AppController()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
-        UINavigationBar.appearance().barTintColor = UIColor.otpBarBackgroundColor
-        UINavigationBar.appearance().tintColor = UIColor.otpBarForegroundColor
-        UINavigationBar.appearance().titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!
-        ]
-
-        UIToolbar.appearance().barTintColor = UIColor.otpBarBackgroundColor
-        UIToolbar.appearance().tintColor = UIColor.otpBarForegroundColor
-
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!], forState: UIControlState.Normal)
 
         // Restore white-on-black style
