@@ -20,7 +20,6 @@
 		C94765091C646E5E00C7527E /* Cartfile.private in Resources */ = {isa = PBXBuildFile; fileRef = C94765081C646E5E00C7527E /* Cartfile.private */; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
 		C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C97CDF291BEEA82B00D64406 /* CommonCrypto.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CDF2B1BEEC90100D64406 /* QRScanner.swift */; };
 		C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */; };
 		C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */; };
@@ -68,7 +67,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */,
-				C97CDF291BEEA82B00D64406 /* CommonCrypto.framework in Copy Frameworks */,
 				C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */,
 				C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */,
 			);
@@ -113,7 +111,6 @@
 		C97B68C617D9226D005D1FE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C97CDF041BEE927200D64406 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
 		C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SVProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CommonCrypto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97CDF2B1BEEC90100D64406 /* QRScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScanner.swift; sourceTree = "<group>"; };
 		C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthenticatorTests.m; sourceTree = "<group>"; };
 		C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRowModel.swift; sourceTree = "<group>"; };
@@ -218,7 +215,6 @@
 			isa = PBXGroup;
 			children = (
 				C944A5581A7ECB3100E08B1E /* Base32.framework */,
-				C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */,
 				C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */,
 				C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */,
 			);
