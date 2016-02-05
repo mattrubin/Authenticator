@@ -8,9 +8,6 @@
       location = "group:Carthage/Checkouts/Base32/Base32.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Carthage/Checkouts/Crypto/Crypto.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Carthage/Checkouts/OneTimePassword/OneTimePassword.xcodeproj">
    </FileRef>
    <FileRef
