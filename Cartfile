@@ -1,3 +1,4 @@
-github "jspahrsummers/xcconfigs" ~> 0.8
+# Configuration for Carthage (https://github.com/Carthage/Carthage)
+
 github "mattrubin/OneTimePassword" "master"
 github "TransitApp/SVProgressHUD" ~> 2.0

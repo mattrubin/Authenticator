@@ -17,6 +17,7 @@
 		C93BD6291C168EBF00FFFB8F /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */; };
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C94765091C646E5E00C7527E /* Cartfile.private in Resources */ = {isa = PBXBuildFile; fileRef = C94765081C646E5E00C7527E /* Cartfile.private */; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
 		C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97CDF291BEEA82B00D64406 /* CommonCrypto.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF271BEEA7DA00D64406 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -105,6 +106,7 @@
 		C944A57A1A7F772600E08B1E /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
 		C944A57B1A7F772600E08B1E /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
 		C944A57C1A7F772600E08B1E /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		C94765081C646E5E00C7527E /* Cartfile.private */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
 		C959A63C190A69120042DEC0 /* Icon.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Icon.svg; sourceTree = "<group>"; };
 		C959A63E190A69E60042DEC0 /* GenerateIcons.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = GenerateIcons.sh; sourceTree = "<group>"; };
 		C9776E3318518801003D53CB /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				C931A6021BFF707E00706A1C /* Cartfile */,
+				C94765081C646E5E00C7527E /* Cartfile.private */,
 				C931A5FC1BFF6F9D00706A1C /* .hound.yml */,
 				C931A5FE1BFF6FA600706A1C /* .swiftlint.yml */,
 				C931A5FF1BFF6FA600706A1C /* .travis.yml */,
@@ -490,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */,
+				C94765091C646E5E00C7527E /* Cartfile.private in Resources */,
 				C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */,
 				C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */,
 				C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */,
