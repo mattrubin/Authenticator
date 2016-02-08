@@ -1,4 +1,4 @@
 github "mattrubin/Base32" "1.0.2+carthage"
 github "TransitApp/SVProgressHUD" "2.0-beta8"
 github "jspahrsummers/xcconfigs" "0.9"
-github "mattrubin/OneTimePassword" "2.0.0-beta.5"
+github "mattrubin/OneTimePassword" "2.0.0"
