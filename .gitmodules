@@ -9,4 +9,4 @@
 	url = https://github.com/mattrubin/Base32.git
 [submodule "Carthage/Checkouts/SVProgressHUD"]
 	path = Carthage/Checkouts/SVProgressHUD
-	url = https://github.com/TransitApp/SVProgressHUD.git
+	url = https://github.com/SVProgressHUD/SVProgressHUD.git
