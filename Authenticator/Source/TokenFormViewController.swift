@@ -196,7 +196,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
 extension TokenFormViewController {
     // MARK: Bar Button View Model
 
-    private func barButtomItemForViewModel(viewModel: BarButtonViewModel<Form.Action>, target: AnyObject?, action: Selector) -> UIBarButtonItem {
+    private func barButtonItemForViewModel(viewModel: BarButtonViewModel<Form.Action>, target: AnyObject?, action: Selector) -> UIBarButtonItem {
         func systemItemForStyle(style: BarButtonStyle) -> UIBarButtonSystemItem {
             switch style {
             case .Done: return .Done
@@ -204,23 +204,23 @@ extension TokenFormViewController {
             }
         }
 
-        let barButtomItem = UIBarButtonItem(
+        let barButtonItem = UIBarButtonItem(
             barButtonSystemItem: systemItemForStyle(viewModel.style),
             target: target,
             action: action
         )
-        barButtomItem.enabled = viewModel.enabled
-        return barButtomItem
+        barButtonItem.enabled = viewModel.enabled
+        return barButtonItem
     }
 
     func updateBarButtonItems() {
         navigationItem.leftBarButtonItem = viewModel.leftBarButton.map { (viewModel) in
             let action = #selector(TokenFormViewController.leftBarButtonAction)
-            return barButtomItemForViewModel(viewModel, target: self, action: action)
+            return barButtonItemForViewModel(viewModel, target: self, action: action)
         }
         navigationItem.rightBarButtonItem = viewModel.rightBarButton.map { (viewModel) in
             let action = #selector(TokenFormViewController.rightBarButtonAction)
-            return barButtomItemForViewModel(viewModel, target: self, action: action)
+            return barButtonItemForViewModel(viewModel, target: self, action: action)
         }
     }
 
