@@ -25,11 +25,11 @@
 
 protocol Component {
     // MARK: View
-    typealias ViewModel
+    associatedtype ViewModel
     var viewModel: ViewModel { get }
 
     // MARK: Update
-    typealias Action
-    typealias Effect
+    associatedtype Action
+    associatedtype Effect
     mutating func update(action: Action) -> Effect?
 }
