@@ -94,11 +94,16 @@ extension RootViewController {
             dismissViewController()
 
         case .Scanner:
-            let scannerViewController = TokenScannerViewController(
-                dispatchAction: { [dispatchAction] in
-                    dispatchAction(.TokenScannerEffect($0))
-                })
-            presentViewController(scannerViewController)
+            if case .Scanner = currentViewModel.modal,
+                let _ = modalNavController?.topViewController as? TokenScannerViewController {
+                // The scanner has no view model of its own to update
+            } else {
+                let scannerViewController = TokenScannerViewController(
+                    dispatchAction: { [dispatchAction] in
+                        dispatchAction(.TokenScannerEffect($0))
+                    })
+                presentViewController(scannerViewController)
+            }
 
         case .EntryForm(let formViewModel):
             if case .EntryForm = currentViewModel.modal,
