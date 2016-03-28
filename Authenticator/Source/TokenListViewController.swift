@@ -81,7 +81,7 @@ class TokenListViewController: UITableViewController {
         self.toolbarItems = [
             self.editButtonItem(),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addToken"))
+            UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(TokenListViewController.addToken))
         ]
         self.navigationController?.toolbarHidden = false
 
@@ -98,7 +98,7 @@ class TokenListViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.displayLink = CADisplayLink(target: self, selector: Selector("tick"))
+        self.displayLink = CADisplayLink(target: self, selector: #selector(TokenListViewController.tick))
         self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
     }
 

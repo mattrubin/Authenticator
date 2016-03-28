@@ -69,7 +69,7 @@ class TokenRowCell: UITableViewCell {
         contentView.addSubview(passwordLabel)
 
         nextPasswordButton.tintColor = .otpForegroundColor
-        nextPasswordButton.addTarget(self, action: "generateNextPassword", forControlEvents: .TouchUpInside)
+        nextPasswordButton.addTarget(self, action: #selector(TokenRowCell.generateNextPassword), forControlEvents: .TouchUpInside)
         contentView.addSubview(nextPasswordButton)
     }
 
