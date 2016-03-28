@@ -62,7 +62,8 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
 
     private func configureSubviews() {
         contentView.addSubview(segmentedControl)
-        segmentedControl.addTarget(self, action: #selector(SegmentedControlRowCell.segmentedControlValueChanged), forControlEvents: .ValueChanged)
+        let action = #selector(SegmentedControlRowCell.segmentedControlValueChanged)
+        segmentedControl.addTarget(self, action: action, forControlEvents: .ValueChanged)
     }
 
     override func layoutSubviews() {

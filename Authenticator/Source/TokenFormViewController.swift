@@ -215,10 +215,12 @@ extension TokenFormViewController {
 
     func updateBarButtonItems() {
         navigationItem.leftBarButtonItem = viewModel.leftBarButton.map { (viewModel) in
-            barButtomItemForViewModel(viewModel, target: self, action: #selector(TokenFormViewController.leftBarButtonAction))
+            let action = #selector(TokenFormViewController.leftBarButtonAction)
+            return barButtomItemForViewModel(viewModel, target: self, action: action)
         }
         navigationItem.rightBarButtonItem = viewModel.rightBarButton.map { (viewModel) in
-            barButtomItemForViewModel(viewModel, target: self, action: #selector(TokenFormViewController.rightBarButtonAction))
+            let action = #selector(TokenFormViewController.rightBarButtonAction)
+            return barButtomItemForViewModel(viewModel, target: self, action: action)
         }
     }
 
