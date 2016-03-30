@@ -77,7 +77,8 @@ class TextFieldRowCell<Action>: UITableViewCell {
         }
 
         textField.delegate = delegateAdapter
-        textField.addTarget(self, action: Selector("textFieldValueChanged"), forControlEvents: UIControlEvents.EditingChanged)
+        let action = #selector(TextFieldRowCell.textFieldValueChanged)
+        textField.addTarget(self, action: action, forControlEvents: .EditingChanged)
         textField.borderStyle = .RoundedRect
         textField.font = UIFont(name: "HelveticaNeue-Light", size: 16)
         contentView.addSubview(textField)

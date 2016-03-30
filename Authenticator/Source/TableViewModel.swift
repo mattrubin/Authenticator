@@ -26,9 +26,9 @@
 import Foundation
 
 protocol TableViewModelRepresentable {
-    typealias HeaderModel
-    typealias RowModel
-    typealias Action
+    associatedtype HeaderModel
+    associatedtype RowModel
+    associatedtype Action
 }
 
 struct TableViewModel<Models: TableViewModelRepresentable> {

@@ -56,12 +56,12 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .Cancel,
             target: self,
-            action: Selector("cancel")
+            action: #selector(TokenScannerViewController.cancel)
         )
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .Compose,
             target: self,
-            action: Selector("addTokenManually")
+            action: #selector(TokenScannerViewController.addTokenManually)
         )
 
         videoLayer.videoGravity = AVLayerVideoGravityResizeAspectFill

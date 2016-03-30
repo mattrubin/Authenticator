@@ -54,12 +54,11 @@ struct TokenList: Component {
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
     private var timeBasedTokenPeriods: [NSTimeInterval] {
-        let periods = persistentTokens.reduce(Set<NSTimeInterval>()) {
-            (var periods, persistentToken) in
+        var periods = Set<NSTimeInterval>()
+        persistentTokens.forEach { (persistentToken) in
             if case .Timer(let period) = persistentToken.token.generator.factor {
                 periods.insert(period)
             }
-            return periods
         }
         return Array(periods).sort()
     }
