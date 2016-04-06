@@ -30,12 +30,12 @@ import OneTimePassword
 
 struct TokenList: Component {
     private var persistentTokens: [PersistentToken]
-    private var time: DisplayTime
+    private var displayTime: DisplayTime
     private var ephemeralMessage: EphemeralMessage?
 
-    init(persistentTokens: [PersistentToken], time: DisplayTime) {
+    init(persistentTokens: [PersistentToken], displayTime: DisplayTime) {
         self.persistentTokens = persistentTokens
-        self.time = time
+        self.displayTime = displayTime
         ephemeralMessage = nil
     }
 
@@ -47,7 +47,7 @@ struct TokenList: Component {
 
     var viewModel: TokenListViewModel {
         let rowModels = persistentTokens.map({
-            TokenRowModel(persistentToken: $0, displayTime: time)
+            TokenRowModel(persistentToken: $0, displayTime: displayTime)
         })
         return TokenListViewModel(
             rowModels: rowModels,
@@ -77,7 +77,7 @@ struct TokenList: Component {
             // divide-by-zero error below.
             return 0
         }
-        return fmod(time.timeIntervalSince1970, ringPeriod) / ringPeriod
+        return fmod(displayTime.timeIntervalSince1970, ringPeriod) / ringPeriod
     }
 }
 
@@ -125,8 +125,8 @@ extension TokenList {
             copyPassword(password)
             return nil
 
-        case .UpdateViewModel(let time):
-            self.time = time
+        case .UpdateViewModel(let displayTime):
+            self.displayTime = displayTime
             return nil
         }
     }

@@ -45,7 +45,7 @@ class AppController {
             userDefaults: NSUserDefaults.standardUserDefaults()
         )
         let currentTime = DisplayTime(date: NSDate())
-        component = Root(persistentTokens: store.persistentTokens, time: currentTime)
+        component = Root(persistentTokens: store.persistentTokens, displayTime: currentTime)
     }
 
     // MARK: - Update
