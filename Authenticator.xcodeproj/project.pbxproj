@@ -17,6 +17,7 @@
 		C93BD6291C168EBF00FFFB8F /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */; };
 		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C968D1151CB4C639004ED7BB /* DisplayTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968D1141CB4C639004ED7BB /* DisplayTime.swift */; };
 		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
 		C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CDF2B1BEEC90100D64406 /* QRScanner.swift */; };
@@ -106,6 +107,7 @@
 		C94765081C646E5E00C7527E /* Cartfile.private */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
 		C959A63C190A69120042DEC0 /* Icon.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Icon.svg; sourceTree = "<group>"; };
 		C959A63E190A69E60042DEC0 /* GenerateIcons.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = GenerateIcons.sh; sourceTree = "<group>"; };
+		C968D1141CB4C639004ED7BB /* DisplayTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayTime.swift; sourceTree = "<group>"; };
 		C9776E3318518801003D53CB /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		C97B68C617D9226D005D1FE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C97CDF041BEE927200D64406 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 			children = (
 				C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */,
 				C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */,
+				C968D1141CB4C639004ED7BB /* DisplayTime.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				C99069D1180CBAC900BAEF53 /* TokenScannerViewController.swift in Sources */,
 				C9EB448E1C52A74200ACFA87 /* Component.swift in Sources */,
 				C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */,
+				C968D1151CB4C639004ED7BB /* DisplayTime.swift in Sources */,
 				8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */,
 				C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */,
 				C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */,

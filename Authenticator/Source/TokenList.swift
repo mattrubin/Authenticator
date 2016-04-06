@@ -30,10 +30,12 @@ import OneTimePassword
 
 struct TokenList: Component {
     private var persistentTokens: [PersistentToken]
+    private var time: DisplayTime
     private var ephemeralMessage: EphemeralMessage?
 
-    init(persistentTokens: [PersistentToken]) {
+    init(persistentTokens: [PersistentToken], time: DisplayTime) {
         self.persistentTokens = persistentTokens
+        self.time = time
         ephemeralMessage = nil
     }
 
@@ -45,10 +47,9 @@ struct TokenList: Component {
 
     var viewModel: TokenListViewModel {
         let rowModels = persistentTokens.map(TokenRowModel.init)
-        let currentTime = NSDate().timeIntervalSince1970
         return TokenListViewModel(
             rowModels: rowModels,
-            ringProgress: ringProgress(timeIntervalSince1970: currentTime),
+            ringProgress: ringProgress,
             ephemeralMessage: ephemeralMessage
         )
     }
@@ -64,7 +65,7 @@ struct TokenList: Component {
         return Array(periods).sort()
     }
 
-    private func ringProgress(timeIntervalSince1970 time: NSTimeInterval) -> Double? {
+    private var ringProgress: Double? {
         guard let ringPeriod = timeBasedTokenPeriods.first else {
             // If there are no time-based tokens, return nil to hide the progress ring.
             return nil
@@ -74,7 +75,7 @@ struct TokenList: Component {
             // divide-by-zero error below.
             return 0
         }
-        return fmod(time, ringPeriod) / ringPeriod
+        return fmod(time.timeIntervalSince1970, ringPeriod) / ringPeriod
     }
 }
 
@@ -89,7 +90,7 @@ extension TokenList {
 
         case CopyPassword(String)
         // TODO: remove this action and have the component auto-update the view model on time change
-        case UpdateViewModel
+        case UpdateViewModel(DisplayTime)
     }
 
     enum Effect {
@@ -122,11 +123,8 @@ extension TokenList {
             copyPassword(password)
             return nil
 
-        case .UpdateViewModel:
-            // TODO: Currently, this action causes a view model update simply because the call to
-            //       resetEphemera() above causes the variable containing this TokenList to be set.
-            //       This action should trigger a more reliable method for ensuring the view model
-            //       is updated.
+        case .UpdateViewModel(let time):
+            self.time = time
             return nil
         }
     }
@@ -168,8 +166,10 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
         if case let .CopyPassword(r) = rhs {
             return l == r
         }
-    case .UpdateViewModel:
-        return rhs == .UpdateViewModel
+    case let .UpdateViewModel(l):
+        if case let .UpdateViewModel(r) = rhs {
+            return l == r
+        }
     }
     return false
 }
