@@ -120,7 +120,7 @@ class TokenListViewController: UITableViewController {
     // MARK: Target Actions
 
     func tick() {
-        // Update the progress ring and currently-visible cells
+        // Dispatch an action to trigger a view model update.
         let newDisplayTime = DisplayTime(date: NSDate())
         dispatchAction(.UpdateViewModel(newDisplayTime))
     }

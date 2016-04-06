@@ -77,6 +77,7 @@ struct TokenList: Component {
             // divide-by-zero error below.
             return 0
         }
+        // Calculate the percentage progress in the current period.
         return fmod(displayTime.timeIntervalSince1970, ringPeriod) / ringPeriod
     }
 }
