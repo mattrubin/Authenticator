@@ -38,10 +38,11 @@ struct TokenRowModel: Equatable, Identifiable {
 
     private let identifier: NSData
 
-    init(persistentToken: PersistentToken) {
+    init(persistentToken: PersistentToken, displayTime: DisplayTime) {
         name = persistentToken.token.name
         issuer = persistentToken.token.issuer
-        password = persistentToken.token.currentPassword ?? ""
+        let timeInterval = displayTime.timeIntervalSince1970
+        password = (try? persistentToken.token.generator.passwordAtTime(timeInterval)) ?? ""
         if case .Counter = persistentToken.token.generator.factor {
             showsButton = true
         } else {

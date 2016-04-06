@@ -49,8 +49,8 @@ struct Root: Component {
         }
     }
 
-    init(persistentTokens: [PersistentToken]) {
-        tokenList = TokenList(persistentTokens: persistentTokens)
+    init(persistentTokens: [PersistentToken], displayTime: DisplayTime) {
+        tokenList = TokenList(persistentTokens: persistentTokens, displayTime: displayTime)
         modal = .None
     }
 }

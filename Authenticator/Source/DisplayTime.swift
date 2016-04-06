@@ -1,8 +1,8 @@
 //
-//  TokenListViewModel.swift
+//  DisplayTime.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2016 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,13 +25,15 @@
 
 import Foundation
 
-struct TokenListViewModel {
-    let rowModels: [TokenRowModel]
-    let ringProgress: Double?
-    let ephemeralMessage: EphemeralMessage?
+/// A simple value representing a moment in time, stored as the number of seconds since the epoch.
+struct DisplayTime: Equatable {
+    let timeIntervalSince1970: NSTimeInterval
+
+    init(date: NSDate) {
+        timeIntervalSince1970 = date.timeIntervalSince1970
+    }
 }
 
-enum EphemeralMessage {
-    case Success(String)
-    case Error(String)
+func == (lhs: DisplayTime, rhs: DisplayTime) -> Bool {
+    return lhs.timeIntervalSince1970 == rhs.timeIntervalSince1970
 }

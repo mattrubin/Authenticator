@@ -44,7 +44,8 @@ class AppController {
             keychain: Keychain.sharedInstance,
             userDefaults: NSUserDefaults.standardUserDefaults()
         )
-        component = Root(persistentTokens: store.persistentTokens)
+        let currentTime = DisplayTime(date: NSDate())
+        component = Root(persistentTokens: store.persistentTokens, displayTime: currentTime)
     }
 
     // MARK: - Update
