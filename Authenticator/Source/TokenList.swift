@@ -46,7 +46,9 @@ struct TokenList: Component {
     // MARK: View Model
 
     var viewModel: TokenListViewModel {
-        let rowModels = persistentTokens.map(TokenRowModel.init)
+        let rowModels = persistentTokens.map({
+            TokenRowModel(persistentToken: $0, displayTime: time)
+        })
         return TokenListViewModel(
             rowModels: rowModels,
             ringProgress: ringProgress,
