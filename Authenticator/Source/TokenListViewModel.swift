@@ -27,7 +27,7 @@ import Foundation
 
 struct TokenListViewModel {
     let rowModels: [TokenRowModel]
-    let ringPeriod: NSTimeInterval?
+    let ringProgress: Double?
     let ephemeralMessage: EphemeralMessage?
 }
 

@@ -45,9 +45,10 @@ struct TokenList: Component {
 
     var viewModel: TokenListViewModel {
         let rowModels = persistentTokens.map(TokenRowModel.init)
+        let currentTime = NSDate().timeIntervalSince1970
         return TokenListViewModel(
             rowModels: rowModels,
-            ringPeriod: timeBasedTokenPeriods.first,
+            ringProgress: ringProgress(timeIntervalSince1970: currentTime),
             ephemeralMessage: ephemeralMessage
         )
     }
@@ -61,6 +62,19 @@ struct TokenList: Component {
             }
         }
         return Array(periods).sort()
+    }
+
+    private func ringProgress(timeIntervalSince1970 time: NSTimeInterval) -> Double? {
+        guard let ringPeriod = timeBasedTokenPeriods.first else {
+            // If there are no time-based tokens, return nil to hide the progress ring.
+            return nil
+        }
+        guard ringPeriod > 0 else {
+            // If the period is >= zero, return zero to display the ring but avoid the potential
+            // divide-by-zero error below.
+            return 0
+        }
+        return fmod(time, ringPeriod) / ringPeriod
     }
 }
 

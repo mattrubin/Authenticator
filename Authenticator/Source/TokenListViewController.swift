@@ -122,12 +122,6 @@ class TokenListViewController: UITableViewController {
     func tick() {
         // Update currently-visible cells
         dispatchAction(.UpdateViewModel)
-
-        if let period = viewModel.ringPeriod where period > 0 {
-            self.ring.progress = fmod(NSDate().timeIntervalSince1970, period) / period
-        } else {
-            self.ring.progress = 0
-        }
     }
 
     func addToken() {
@@ -241,7 +235,10 @@ extension TokenListViewController {
 
     private func updatePeripheralViews() {
         // Show the countdown ring only if a time-based token is active
-        self.ring.hidden = (viewModel.ringPeriod == nil)
+        self.ring.hidden = (viewModel.ringProgress == nil)
+        if let ringProgress = viewModel.ringProgress {
+            ring.progress = ringProgress
+        }
 
         let hasTokens = !viewModel.rowModels.isEmpty
         editButtonItem().enabled = hasTokens
