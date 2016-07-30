@@ -17,6 +17,7 @@ Authenticator is a simple, free, and open source [two-factor authentication](htt
 <img src="Screenshots/ScreenshotScanToken4.0.png" width="160" alt="Authenticator Screenshot" /> &nbsp;
 <img src="Screenshots/ScreenshotAddToken4.0.png" width="160" alt="Authenticator Screenshot" />
 
+
 ## Getting Started
 
 1. Check out the latest version of the project:
@@ -34,16 +35,21 @@ Authenticator is a simple, free, and open source [two-factor authentication](htt
 
 4. Build and run the "Authenticator" scheme.
 
-## Dependencies
 
-Authenticator uses [Carthage](https://github.com/Carthage/Carthage) to manage its dependencies, but it does not currently use Carthage to build those dependencies. The dependent projects are checked out as submodules, are included in `Authenticator.xcworkspace`, and are built by Xcode as target dependencies of the Authenticator app.
+## Managing Dependencies
+
+Authenticator uses [Carthage] to manage its dependencies, but it does not currently use Carthage to build those dependencies. The dependency projects are checked out as submodules, are included in `Authenticator.xcworkspace`, and are built by Xcode as target dependencies of the Authenticator app.
 
 To check out the dependencies, simply follow the "Getting Started" instructions above.
 
-To update the dependencies, modify the [Cartfile](https://github.com/mattrubin/authenticator/blob/master/Cartfile) and run:
+To update the dependencies, modify the [Cartfile] and run:
 ```
-$ carthage update --no-build --use-submodules
+carthage update --no-build --use-submodules
 ```
+
+[Carthage]: https://github.com/Carthage/Carthage
+[Cartfile]: https://github.com/mattrubin/Authenticator/blob/master/Cartfile
+
 
 ## License
 

@@ -36,11 +36,11 @@ Please note that this project is released with a [Contributor Code of Conduct][c
 
 ## Managing Dependencies
 
-Authenticator uses [Carthage][] to manage its dependencies, but it does not currently use Carthage to build those dependencies. The dependency projects are checked out as submodules, are included in `Authenticator.xcworkspace`, and are built by Xcode as target dependencies of the Authenticator app.
+Authenticator uses [Carthage] to manage its dependencies, but it does not currently use Carthage to build those dependencies. The dependency projects are checked out as submodules, are included in `Authenticator.xcworkspace`, and are built by Xcode as target dependencies of the Authenticator app.
 
 To check out the dependencies, simply follow the "Getting Started" instructions above.
 
-To update the dependencies, modify the [Cartfile][] and run:
+To update the dependencies, modify the [Cartfile] and run:
 ```
 carthage update --no-build --use-submodules
 ```
