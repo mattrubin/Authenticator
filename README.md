@@ -19,12 +19,18 @@ Authenticator is a simple, free, and open source [two-factor authentication](htt
 
 ## Getting Started
 
-1. Check out the latest version of the project using Git.
+1. Check out the latest version of the project:
+  ```
+  git clone https://github.com/mattrubin/Authenticator.git
+  ```
 
-2. Check out the project's dependencies with `git submodule init` and `git submodule update`.
+2. Check out the project's dependencies:
+  ```
+  git submodule update --init --recursive
+  ```
 
 3. Open the `Authenticator.xcworkspace` file.
-> If you open the `.xcodeproj` instead, the app will not be able to find its dependencies.
+> If you open the `.xcodeproj` instead, the project will not be able to find its dependencies.
 
 4. Build and run the "Authenticator" scheme.
 
