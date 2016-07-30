@@ -38,6 +38,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
         // Restore white-on-black style
         SVProgressHUD.setDefaultStyle(.Dark)
+        SVProgressHUD.setMinimumDismissTimeInterval(1)
 
         self.window?.rootViewController = app.rootViewController
         self.window?.makeKeyAndVisible()
