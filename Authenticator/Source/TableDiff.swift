@@ -48,9 +48,7 @@ func changesFrom<T: Identifiable where T: Equatable>(oldItems: [T], to newItems:
 }
 
 // Diff algorithm from the Eugene Myers' paper "An O(ND) Difference Algorithm and Its Variations"
-private func changesFrom<T>(oldItems: [T], to newItems: [T], hasSameIdentity: (T, T) -> Bool,
-    isEqual: (T, T) -> Bool) -> [Change]
-{
+private func changesFrom<T>(oldItems: [T], to newItems: [T], hasSameIdentity: (T, T) -> Bool, isEqual: (T, T) -> Bool) -> [Change] {
     let MAX = oldItems.count + newItems.count
     guard MAX > 0 else { return [] }
     let numDiagonals = (2 * MAX) + 1
