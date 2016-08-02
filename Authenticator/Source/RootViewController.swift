@@ -34,6 +34,7 @@ class OpaqueNavigationController: UINavigationController {
         navigationBar.tintColor = UIColor.otpBarForegroundColor
         navigationBar.titleTextAttributes = [
             NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
+            // swiftlint:disable:next force_unwrapping
             NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!
         ]
 

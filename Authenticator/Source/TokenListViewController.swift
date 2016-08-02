@@ -44,6 +44,7 @@ class TokenListViewController: UITableViewController {
     private var displayLink: CADisplayLink?
     private let ring: OTPProgressRing = OTPProgressRing(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
     private lazy var noTokensLabel: UILabel = {
+        // swiftlint:disable force_unwrapping
         let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
             attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
         noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
@@ -51,6 +52,7 @@ class TokenListViewController: UITableViewController {
         noTokenString.addAttributes(
             [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)!],
             range: (noTokenString.string as NSString).rangeOfString("+"))
+        // swiftlint:enable force_unwrapping
 
         let label = UILabel()
         label.numberOfLines = 2

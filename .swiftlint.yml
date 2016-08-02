@@ -4,7 +4,7 @@ excluded:
   - Carthage
 opt_in_rules:
   - empty_count
-#  - force_unwrapping
+  - force_unwrapping
   - missing_docs
 disabled_rules:
   - conditional_binding_cascade
