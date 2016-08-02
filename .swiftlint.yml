@@ -8,6 +8,5 @@ opt_in_rules:
   - missing_docs
 disabled_rules:
   - conditional_binding_cascade
-  - cyclomatic_complexity
   - line_length
   - todo
