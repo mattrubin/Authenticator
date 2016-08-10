@@ -38,17 +38,25 @@ enum Change {
 }
 
 func changesFrom<T: Identifiable>(oldItems: [T], to newItems: [T]) -> [Change] {
-    return changesFrom(oldItems, to: newItems, hasSameIdentity: { $0.hasSameIdentity($1) },
-        isEqual: { (_, _) in false })
+    return changes(
+        from: oldItems,
+        to: newItems,
+        hasSameIdentity: { $0.hasSameIdentity($1) },
+        isEqual: { _ in false }
+    )
 }
 
 func changesFrom<T: Identifiable where T: Equatable>(oldItems: [T], to newItems: [T]) -> [Change] {
-    return changesFrom(oldItems, to: newItems, hasSameIdentity: { $0.hasSameIdentity($1) },
-        isEqual: ==)
+    return changes(
+        from: oldItems,
+        to: newItems,
+        hasSameIdentity: { $0.hasSameIdentity($1) },
+        isEqual: ==
+    )
 }
 
 // Diff algorithm from the Eugene Myers' paper "An O(ND) Difference Algorithm and Its Variations"
-private func changesFrom<T>(oldItems: [T], to newItems: [T], hasSameIdentity: (T, T) -> Bool, isEqual: (T, T) -> Bool) -> [Change] {
+private func changes<T>(from oldItems: [T], to newItems: [T], hasSameIdentity: (T, T) -> Bool, isEqual: (T, T) -> Bool) -> [Change] {
     let MAX = oldItems.count + newItems.count
     guard MAX > 0 else { return [] }
     let numDiagonals = (2 * MAX) + 1

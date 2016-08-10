@@ -35,8 +35,10 @@ class AppController {
         }
     }
     private lazy var view: RootViewController = {
-        return RootViewController(viewModel: self.component.viewModel,
-            dispatchAction: self.handleAction)
+        return RootViewController(
+            viewModel: self.component.viewModel,
+            dispatchAction: self.handleAction
+        )
     }()
 
     init() {
