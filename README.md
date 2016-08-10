@@ -25,8 +25,9 @@ Authenticator is a simple, free, and open source [two-factor authentication](htt
   git clone https://github.com/mattrubin/Authenticator.git
   ```
 
-2. Check out the project's dependencies:
+2. In the Authenticator directory, check out the project's dependencies:
   ```
+  cd Authenticator
   git submodule update --init --recursive
   ```
 
