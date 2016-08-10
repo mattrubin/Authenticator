@@ -89,9 +89,12 @@ class TokenListViewController: UITableViewController {
         self.navigationController?.toolbarHidden = false
 
         // Configure "no tokens" label
-        self.noTokensLabel.frame = CGRect(x: 0, y: 0,
+        self.noTokensLabel.frame = CGRect(
+            x: 0,
+            y: 0,
             width: self.view.bounds.size.width,
-            height: self.view.bounds.size.height * 0.6)
+            height: self.view.bounds.size.height * 0.6
+        )
         self.view.addSubview(self.noTokensLabel)
 
         // Update with current viewModel
@@ -161,10 +164,9 @@ extension TokenListViewController {
         }
     }
 
-    override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    override func tableView(tableView: UITableView, moveRowAtIndexPath source: NSIndexPath, toIndexPath destination: NSIndexPath) {
         preventTableViewAnimations = true
-        dispatchAction(.MoveToken(fromIndex: sourceIndexPath.row,
-            toIndex: destinationIndexPath.row))
+        dispatchAction(.MoveToken(fromIndex: source.row, toIndex: destination.row))
         preventTableViewAnimations = false
     }
 

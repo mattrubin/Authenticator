@@ -55,10 +55,12 @@ class RootViewController: OpaqueNavigationController {
     init(viewModel: Root.ViewModel, dispatchAction: (Root.Action) -> ()) {
         self.currentViewModel = viewModel
         self.dispatchAction = dispatchAction
-        tokenListViewController = TokenListViewController(viewModel: viewModel.tokenList,
+        tokenListViewController = TokenListViewController(
+            viewModel: viewModel.tokenList,
             dispatchAction: { [dispatchAction] in
                 dispatchAction(.TokenListAction($0))
-            })
+            }
+        )
 
         super.init(nibName: nil, bundle: nil)
         self.viewControllers = [tokenListViewController]
@@ -111,10 +113,12 @@ extension RootViewController {
                 let entryController = modalNavController?.topViewController as? TokenFormViewController<TokenEntryForm> {
                     entryController.updateWithViewModel(formViewModel)
             } else {
-                let formController = TokenFormViewController(viewModel: formViewModel,
+                let formController = TokenFormViewController(
+                    viewModel: formViewModel,
                     dispatchAction: { [dispatchAction] in
                         dispatchAction(.TokenEntryFormAction($0))
-                    })
+                    }
+                )
                 presentViewController(formController)
             }
 
@@ -123,10 +127,12 @@ extension RootViewController {
                 let editController = modalNavController?.topViewController as? TokenFormViewController<TokenEditForm> {
                     editController.updateWithViewModel(formViewModel)
             } else {
-                let editController = TokenFormViewController(viewModel: formViewModel,
+                let editController = TokenFormViewController(
+                    viewModel: formViewModel,
                     dispatchAction: { [dispatchAction] in
                         dispatchAction(.TokenEditFormAction($0))
-                    })
+                    }
+                )
                 presentViewController(editController)
             }
         }
