@@ -44,6 +44,7 @@ class TokenListViewController: UITableViewController {
     private var displayLink: CADisplayLink?
     private let ring: OTPProgressRing = OTPProgressRing(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
     private lazy var noTokensLabel: UILabel = {
+        // swiftlint:disable force_unwrapping
         let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
             attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
         noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
@@ -51,6 +52,7 @@ class TokenListViewController: UITableViewController {
         noTokenString.addAttributes(
             [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 25)!],
             range: (noTokenString.string as NSString).rangeOfString("+"))
+        // swiftlint:enable force_unwrapping
 
         let label = UILabel()
         label.numberOfLines = 2
@@ -140,9 +142,7 @@ extension TokenListViewController {
         return viewModel.rowModels.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)
-        -> UITableViewCell
-    {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithClass(TokenRowCell.self)
         updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
@@ -154,20 +154,14 @@ extension TokenListViewController {
         cell.dispatchAction = dispatchAction
     }
 
-    override func tableView(tableView: UITableView,
-        commitEditingStyle editingStyle: UITableViewCellEditingStyle,
-        forRowAtIndexPath indexPath: NSIndexPath)
-    {
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
         if editingStyle == .Delete {
             dispatchAction(rowModel.deleteAction)
         }
     }
 
-    override func tableView(tableView: UITableView,
-        moveRowAtIndexPath sourceIndexPath: NSIndexPath,
-        toIndexPath destinationIndexPath: NSIndexPath)
-    {
+    override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
         preventTableViewAnimations = true
         dispatchAction(.MoveToken(fromIndex: sourceIndexPath.row,
             toIndex: destinationIndexPath.row))
@@ -178,9 +172,7 @@ extension TokenListViewController {
 
 // MARK: UITableViewDelegate
 extension TokenListViewController {
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath)
-        -> CGFloat
-    {
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 85
     }
 }

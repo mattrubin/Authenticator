@@ -34,6 +34,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     let app = AppController()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+        // swiftlint:disable:next force_unwrapping
         UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!], forState: UIControlState.Normal)
 
         // Restore white-on-black style

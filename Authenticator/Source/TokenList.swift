@@ -145,34 +145,37 @@ extension TokenList {
 }
 
 func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
-    switch lhs {
-    case .BeginAddToken:
-        return rhs == .BeginAddToken
-    case let .EditPersistentToken(l):
-        if case let .EditPersistentToken(r) = rhs {
-            return l == r
-        }
-    case let .UpdatePersistentToken(l):
-        if case let .UpdatePersistentToken(r) = rhs {
-            return l == r
-        }
-    case let .MoveToken(l):
-        if case let .MoveToken(r) = rhs {
-            return l.fromIndex == r.fromIndex
-                && l.toIndex == r.toIndex
-        }
-    case let .DeletePersistentToken(l):
-        if case let .DeletePersistentToken(r) = rhs {
-            return l == r
-        }
-    case let .CopyPassword(l):
-        if case let .CopyPassword(r) = rhs {
-            return l == r
-        }
-    case let .UpdateViewModel(l):
-        if case let .UpdateViewModel(r) = rhs {
-            return l == r
-        }
+    switch (lhs, rhs) {
+    case (.BeginAddToken, .BeginAddToken):
+        return true
+
+    case let (.EditPersistentToken(l), .EditPersistentToken(r)):
+        return l == r
+
+    case let (.UpdatePersistentToken(l), .UpdatePersistentToken(r)):
+        return l == r
+
+    case let (.MoveToken(l), .MoveToken(r)):
+        return l.fromIndex == r.fromIndex
+            && l.toIndex == r.toIndex
+
+    case let (.DeletePersistentToken(l), .DeletePersistentToken(r)):
+        return l == r
+
+    case let (.CopyPassword(l), .CopyPassword(r)):
+        return l == r
+
+    case let (.UpdateViewModel(l), .UpdateViewModel(r)):
+        return l == r
+
+    case (.BeginAddToken, _),
+         (.EditPersistentToken, _),
+         (.UpdatePersistentToken, _),
+         (.MoveToken, _),
+         (.DeletePersistentToken, _),
+         (.CopyPassword, _),
+         (.UpdateViewModel, _):
+        // Unlike `default`, this final verbose case will cause an error if a new case is added.
+        return false
     }
-    return false
 }

@@ -2,11 +2,11 @@
 
 excluded:
   - Carthage
-enabled_rules:
+opt_in_rules:
   - empty_count
   - force_unwrapping
+  - missing_docs
 disabled_rules:
- - cyclomatic_complexity
- - line_length
- - opening_brace
- - todo
+  - conditional_binding_cascade
+  - line_length
+  - todo
