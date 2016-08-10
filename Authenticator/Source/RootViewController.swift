@@ -57,9 +57,7 @@ class RootViewController: OpaqueNavigationController {
         self.dispatchAction = dispatchAction
         tokenListViewController = TokenListViewController(
             viewModel: viewModel.tokenList,
-            dispatchAction: { [dispatchAction] in
-                dispatchAction(.TokenListAction($0))
-            }
+            dispatchAction: compose(Root.Action.TokenListAction, dispatchAction)
         )
 
         super.init(nibName: nil, bundle: nil)
@@ -102,9 +100,8 @@ extension RootViewController {
                 // The scanner has no view model of its own to update
             } else {
                 let scannerViewController = TokenScannerViewController(
-                    dispatchAction: { [dispatchAction] in
-                        dispatchAction(.TokenScannerEffect($0))
-                    })
+                    dispatchAction: compose(Root.Action.TokenScannerEffect, dispatchAction)
+                )
                 presentViewController(scannerViewController)
             }
 
@@ -115,9 +112,7 @@ extension RootViewController {
             } else {
                 let formController = TokenFormViewController(
                     viewModel: formViewModel,
-                    dispatchAction: { [dispatchAction] in
-                        dispatchAction(.TokenEntryFormAction($0))
-                    }
+                    dispatchAction: compose(Root.Action.TokenEntryFormAction, dispatchAction)
                 )
                 presentViewController(formController)
             }
@@ -129,13 +124,15 @@ extension RootViewController {
             } else {
                 let editController = TokenFormViewController(
                     viewModel: formViewModel,
-                    dispatchAction: { [dispatchAction] in
-                        dispatchAction(.TokenEditFormAction($0))
-                    }
+                    dispatchAction: compose(Root.Action.TokenEditFormAction, dispatchAction)
                 )
                 presentViewController(editController)
             }
         }
         currentViewModel = viewModel
     }
+}
+
+private func compose<A, B, C>(transform: A -> B, _ handler: B -> C) -> A -> C {
+    return { handler(transform($0)) }
 }
