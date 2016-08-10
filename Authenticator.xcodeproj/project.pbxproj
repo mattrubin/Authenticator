@@ -199,8 +199,10 @@
 				C931A5FB1BFF6F3A00706A1C /* Tools */,
 				C9776E32185187E8003D53CB /* Docs */,
 			);
+			indentWidth = 4;
 			name = CustomTemplate;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
