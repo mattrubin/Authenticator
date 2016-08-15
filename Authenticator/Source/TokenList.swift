@@ -94,6 +94,7 @@ extension TokenList {
         case CopyPassword(String)
         // TODO: remove this action and have the component auto-update the view model on time change
         case UpdateViewModel(DisplayTime)
+        case DismissEphemeralMessage
     }
 
     enum Effect {
@@ -107,9 +108,6 @@ extension TokenList {
 
     @warn_unused_result
     mutating func update(action: Action) -> Effect? {
-        // Reset any ephemeral state set by the previous action
-        resetEphemera()
-
         switch action {
         case .BeginAddToken:
             return .BeginTokenEntry
@@ -129,11 +127,11 @@ extension TokenList {
         case .UpdateViewModel(let displayTime):
             self.displayTime = displayTime
             return nil
-        }
-    }
 
-    private mutating func resetEphemera() {
-        ephemeralMessage = nil
+        case .DismissEphemeralMessage:
+            ephemeralMessage = nil
+            return nil
+        }
     }
 
     private mutating func copyPassword(password: String) {
@@ -168,13 +166,17 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
     case let (.UpdateViewModel(l), .UpdateViewModel(r)):
         return l == r
 
+    case (.DismissEphemeralMessage, .DismissEphemeralMessage):
+        return true
+
     case (.BeginAddToken, _),
          (.EditPersistentToken, _),
          (.UpdatePersistentToken, _),
          (.MoveToken, _),
          (.DeletePersistentToken, _),
          (.CopyPassword, _),
-         (.UpdateViewModel, _):
+         (.UpdateViewModel, _),
+         (.DismissEphemeralMessage, _):
         // Unlike `default`, this final verbose case will cause an error if a new case is added.
         return false
     }

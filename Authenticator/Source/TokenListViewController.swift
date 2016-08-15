@@ -194,6 +194,7 @@ extension TokenListViewController {
             case .Error(let message):
                 SVProgressHUD.showErrorWithStatus(message)
             }
+            dispatchAction(.DismissEphemeralMessage)
         }
     }
 
