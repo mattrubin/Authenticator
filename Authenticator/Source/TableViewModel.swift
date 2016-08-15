@@ -37,6 +37,7 @@ struct TableViewModel<Models: TableViewModelRepresentable> {
     var rightBarButton: BarButtonViewModel<Models.Action>?
     var sections: [Section<Models.HeaderModel, Models.RowModel>]
     var doneKeyAction: Models.Action
+    var dismissMessageAction: Models.Action
     var errorMessage: String?
 
     init(title: String,
@@ -44,12 +45,14 @@ struct TableViewModel<Models: TableViewModelRepresentable> {
         rightBarButton: BarButtonViewModel<Models.Action>? = nil,
         sections: [Section<Models.HeaderModel, Models.RowModel>],
         doneKeyAction: Models.Action,
+        dismissMessageAction: Models.Action,
         errorMessage: String? = nil) {
             self.title = title
             self.leftBarButton = leftBarButton
             self.rightBarButton = rightBarButton
             self.sections = sections
             self.doneKeyAction = doneKeyAction
+            self.dismissMessageAction = dismissMessageAction
             self.errorMessage = errorMessage
     }
 }

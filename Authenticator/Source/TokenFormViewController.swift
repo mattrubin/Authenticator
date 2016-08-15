@@ -304,6 +304,7 @@ extension TokenFormViewController {
         updateBarButtonItems()
         if let errorMessage = viewModel.errorMessage {
             SVProgressHUD.showErrorWithStatus(errorMessage)
+            dispatchAction(viewModel.dismissMessageAction)
         }
     }
 }
