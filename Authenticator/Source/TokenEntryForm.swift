@@ -99,8 +99,8 @@ extension TokenEntryForm {
                 ),
             ],
             doneKeyAction: .Submit,
-            errorMessage: submitFailed ? "Invalid Token" : nil,
-            dismissMessageAction: .DismissEphemeralMessage
+            dismissMessageAction: .DismissEphemeralMessage,
+            errorMessage: submitFailed ? "Invalid Token" : nil
         )
     }
 
