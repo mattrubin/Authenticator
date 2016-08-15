@@ -38,19 +38,22 @@ struct TableViewModel<Models: TableViewModelRepresentable> {
     var sections: [Section<Models.HeaderModel, Models.RowModel>]
     var doneKeyAction: Models.Action
     var errorMessage: String?
+    var dismissMessageAction: Models.Action?
 
     init(title: String,
         leftBarButton: BarButtonViewModel<Models.Action>? = nil,
         rightBarButton: BarButtonViewModel<Models.Action>? = nil,
         sections: [Section<Models.HeaderModel, Models.RowModel>],
         doneKeyAction: Models.Action,
-        errorMessage: String? = nil) {
+        errorMessage: String? = nil,
+        dismissMessageAction: Models.Action? = nil) {
             self.title = title
             self.leftBarButton = leftBarButton
             self.rightBarButton = rightBarButton
             self.sections = sections
             self.doneKeyAction = doneKeyAction
             self.errorMessage = errorMessage
+            self.dismissMessageAction = dismissMessageAction
     }
 }
 

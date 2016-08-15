@@ -64,6 +64,8 @@ extension TokenEntryForm: TableViewModelRepresentable {
         case ShowAdvancedOptions
         case Cancel
         case Submit
+
+        case DismissEphemeralMessage
     }
 
     typealias HeaderModel = TokenFormHeaderModel<Action>
@@ -97,7 +99,8 @@ extension TokenEntryForm {
                 ),
             ],
             doneKeyAction: .Submit,
-            errorMessage: submitFailed ? "Invalid Token" : nil
+            errorMessage: submitFailed ? "Invalid Token" : nil,
+            dismissMessageAction: .DismissEphemeralMessage
         )
     }
 
@@ -183,9 +186,6 @@ extension TokenEntryForm {
 
     @warn_unused_result
     mutating func update(action: Action) -> Effect? {
-        // Reset any ephemeral state set by the previous action
-        resetEphemera()
-
         switch action {
         case let .Issuer(issuer):
             self.issuer = issuer
@@ -206,12 +206,10 @@ extension TokenEntryForm {
             return .Cancel
         case .Submit:
             return submit()
+        case .DismissEphemeralMessage:
+            submitFailed = false
         }
         return nil
-    }
-
-    private mutating func resetEphemera() {
-        submitFailed = false
     }
 
     @warn_unused_result
