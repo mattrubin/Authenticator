@@ -200,6 +200,9 @@ extension Root {
             return .AddToken(token,
                              success: Action.TokenFormSucceeded,
                              failure: Action.TokenFormFailed)
+
+        case .ShowErrorMessage(let message):
+            return .ShowErrorMessage(message)
         }
     }
 
@@ -228,6 +231,9 @@ extension Root {
             return .SaveToken(token, persistentToken,
                               success: Action.TokenFormSucceeded,
                               failure: Action.TokenFormFailed)
+
+        case .ShowErrorMessage(let message):
+            return .ShowErrorMessage(message)
         }
     }
 

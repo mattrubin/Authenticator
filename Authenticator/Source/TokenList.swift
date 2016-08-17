@@ -153,7 +153,7 @@ extension TokenList {
     private mutating func copyPassword(password: String) -> Effect {
         let pasteboard = UIPasteboard.generalPasteboard()
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
-        // Show an ephemeral success message in the view
+        // Show an ephemeral success message.
         return .ShowSuccessMessage("Copied")
     }
 }
