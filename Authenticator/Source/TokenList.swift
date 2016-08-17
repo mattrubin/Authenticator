@@ -102,7 +102,7 @@ extension TokenList {
 
         case UpdateToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
         case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
-        case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
+        case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
 
         case ShowErrorMessage(ErrorType)
     }
@@ -126,7 +126,8 @@ extension TokenList {
 
         case .DeletePersistentToken(let persistentToken):
             return .DeletePersistentToken(persistentToken,
-                                          success: Action.UpdateWithPersistentTokens)
+                                          success: Action.UpdateWithPersistentTokens,
+                                          failure: Action._TokenChangeFailed)
 
         case .CopyPassword(let password):
             copyPassword(password)

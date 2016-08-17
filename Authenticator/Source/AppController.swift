@@ -90,9 +90,13 @@ class AppController {
             store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
             handleAction(success(store.persistentTokens))
 
-        case let .DeletePersistentToken(persistentToken, success):
-            store.deletePersistentToken(persistentToken)
-            handleAction(success(store.persistentTokens))
+        case let .DeletePersistentToken(persistentToken, success, failure):
+            do {
+                try store.deletePersistentToken(persistentToken)
+                handleAction(success(store.persistentTokens))
+            } catch {
+                handleAction(failure(error))
+            }
 
         case let .ShowErrorMessage(error):
             SVProgressHUD.showErrorWithStatus("Error: \(error)")

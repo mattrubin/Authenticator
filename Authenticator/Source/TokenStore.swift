@@ -99,16 +99,12 @@ extension TokenStore {
         saveTokenOrder()
     }
 
-    func deletePersistentToken(persistentToken: PersistentToken) {
-        do {
-            try keychain.deletePersistentToken(persistentToken)
-            if let index = persistentTokens.indexOf(persistentToken) {
-                persistentTokens.removeAtIndex(index)
-            }
-            saveTokenOrder()
-        } catch {
-            // TODO: Handle the deletePersistentToken(_:) failure
+    func deletePersistentToken(persistentToken: PersistentToken) throws {
+        try keychain.deletePersistentToken(persistentToken)
+        if let index = persistentTokens.indexOf(persistentToken) {
+            persistentTokens.removeAtIndex(index)
         }
+        saveTokenOrder()
     }
 }
 

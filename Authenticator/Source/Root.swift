@@ -92,7 +92,7 @@ extension Root {
         case SaveToken(Token, PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
         case UpdatePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
         case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
-        case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
+        case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
 
         case ShowErrorMessage(ErrorType)
     }
@@ -163,9 +163,10 @@ extension Root {
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
                               success: compose(success, Action.TokenListAction))
 
-        case let .DeletePersistentToken(persistentToken, success):
+        case let .DeletePersistentToken(persistentToken, success, failure):
             return .DeletePersistentToken(persistentToken,
-                                          success: compose(success, Action.TokenListAction))
+                                          success: compose(success, Action.TokenListAction),
+                                          failure: compose(failure, Action.TokenListAction))
 
         case .ShowErrorMessage(let error):
             return .ShowErrorMessage(error)
