@@ -208,6 +208,7 @@ extension Root {
         }
     }
 
+    @available(*, deprecated)
     mutating func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
         tokenList.updateWithPersistentTokens(persistentTokens)
     }

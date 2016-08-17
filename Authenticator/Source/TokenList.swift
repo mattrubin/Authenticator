@@ -39,6 +39,7 @@ struct TokenList: Component {
         ephemeralMessage = nil
     }
 
+    @available(*, deprecated)
     mutating func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
         self.persistentTokens = persistentTokens
     }
