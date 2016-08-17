@@ -26,7 +26,7 @@
 import Foundation
 import OneTimePassword
 
-struct TokenRowModel: Equatable, Identifiable {
+struct TokenRowModel: Identifiable {
     typealias Action = TokenList.Action
 
     let name, issuer, password: String
@@ -58,16 +58,4 @@ struct TokenRowModel: Equatable, Identifiable {
     func hasSameIdentity(other: TokenRowModel) -> Bool {
         return self.identifier.isEqualToData(other.identifier)
     }
-}
-
-func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
-    return (lhs.name == rhs.name)
-        && (lhs.issuer == rhs.issuer)
-        && (lhs.password == rhs.password)
-        && (lhs.showsButton == rhs.showsButton)
-        && (lhs.buttonAction == rhs.buttonAction)
-        && (lhs.selectAction == rhs.selectAction)
-        && (lhs.editAction == rhs.editAction)
-        && (lhs.deleteAction == rhs.deleteAction)
-        && (lhs.identifier == rhs.identifier)
 }

@@ -94,10 +94,8 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Update
 
     func updateWithRowModel(rowModel: TokenRowModel) {
-        if self.rowModel != rowModel {
-            updateAppearanceWithRowModel(rowModel)
-            self.rowModel = rowModel
-        }
+        updateAppearanceWithRowModel(rowModel)
+        self.rowModel = rowModel
     }
 
     private func updateAppearanceWithRowModel(rowModel: TokenRowModel?) {
