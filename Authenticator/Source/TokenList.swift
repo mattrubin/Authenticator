@@ -39,10 +39,6 @@ struct TokenList: Component {
         ephemeralMessage = nil
     }
 
-    mutating func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
-        self.persistentTokens = persistentTokens
-    }
-
     // MARK: View Model
 
     var viewModel: TokenListViewModel {
@@ -95,15 +91,17 @@ extension TokenList {
         // TODO: remove this action and have the component auto-update the view model on time change
         case UpdateViewModel(DisplayTime)
         case DismissEphemeralMessage
+
+        case UpdateWithPersistentTokens([PersistentToken])
     }
 
     enum Effect {
         case BeginTokenEntry
         case BeginTokenEdit(PersistentToken)
 
-        case UpdateToken(PersistentToken)
-        case MoveToken(fromIndex: Int, toIndex: Int)
-        case DeletePersistentToken(PersistentToken)
+        case UpdateToken(PersistentToken, success: ([PersistentToken]) -> Action)
+        case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
+        case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
     }
 
     @warn_unused_result
@@ -111,14 +109,20 @@ extension TokenList {
         switch action {
         case .BeginAddToken:
             return .BeginTokenEntry
+
         case .EditPersistentToken(let persistentToken):
             return .BeginTokenEdit(persistentToken)
+
         case .UpdatePersistentToken(let persistentToken):
-            return .UpdateToken(persistentToken)
+            return .UpdateToken(persistentToken, success: Action.UpdateWithPersistentTokens)
+
         case let .MoveToken(fromIndex, toIndex):
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
+                              success: Action.UpdateWithPersistentTokens)
+
         case .DeletePersistentToken(let persistentToken):
-            return .DeletePersistentToken(persistentToken)
+            return .DeletePersistentToken(persistentToken,
+                                          success: Action.UpdateWithPersistentTokens)
 
         case .CopyPassword(let password):
             copyPassword(password)
@@ -130,6 +134,10 @@ extension TokenList {
 
         case .DismissEphemeralMessage:
             ephemeralMessage = nil
+            return nil
+
+        case .UpdateWithPersistentTokens(let persistentTokens):
+            self.persistentTokens = persistentTokens
             return nil
         }
     }
@@ -169,6 +177,9 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
     case (.DismissEphemeralMessage, .DismissEphemeralMessage):
         return true
 
+    case let (.UpdateWithPersistentTokens(l), .UpdateWithPersistentTokens(r)):
+        return l == r
+
     case (.BeginAddToken, _),
          (.EditPersistentToken, _),
          (.UpdatePersistentToken, _),
@@ -176,7 +187,8 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
          (.DeletePersistentToken, _),
          (.CopyPassword, _),
          (.UpdateViewModel, _),
-         (.DismissEphemeralMessage, _):
+         (.DismissEphemeralMessage, _),
+         (.UpdateWithPersistentTokens, _):
         // Unlike `default`, this final verbose case will cause an error if a new case is added.
         return false
     }
