@@ -76,7 +76,7 @@ struct TokenList: Component {
 }
 
 extension TokenList {
-    enum Action: Equatable {
+    enum Action {
         case BeginAddToken
         case EditPersistentToken(PersistentToken)
 
@@ -155,49 +155,5 @@ extension TokenList {
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         // Show an ephemeral success message.
         return .ShowSuccessMessage("Copied")
-    }
-}
-
-func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
-    switch (lhs, rhs) {
-    case (.BeginAddToken, .BeginAddToken):
-        return true
-
-    case let (.EditPersistentToken(l), .EditPersistentToken(r)):
-        return l == r
-
-    case let (.UpdatePersistentToken(l), .UpdatePersistentToken(r)):
-        return l == r
-
-    case let (.MoveToken(l), .MoveToken(r)):
-        return l.fromIndex == r.fromIndex
-            && l.toIndex == r.toIndex
-
-    case let (.DeletePersistentToken(l), .DeletePersistentToken(r)):
-        return l == r
-
-    case let (.CopyPassword(l), .CopyPassword(r)):
-        return l == r
-
-    case let (.UpdateViewModel(l), .UpdateViewModel(r)):
-        return l == r
-
-    case let (.TokenChangeSucceeded(l), .TokenChangeSucceeded(r)):
-        return l == r
-
-    case (.TokenChangeFailed(_), .TokenChangeFailed(_)):
-        return false // FIXME
-
-    case (.BeginAddToken, _),
-         (.EditPersistentToken, _),
-         (.UpdatePersistentToken, _),
-         (.MoveToken, _),
-         (.DeletePersistentToken, _),
-         (.CopyPassword, _),
-         (.UpdateViewModel, _),
-         (.TokenChangeSucceeded, _),
-         (.TokenChangeFailed, _):
-        // Unlike `default`, this final verbose case will cause an error if a new case is added.
-        return false
     }
 }
