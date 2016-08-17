@@ -39,11 +39,6 @@ struct TokenList: Component {
         ephemeralMessage = nil
     }
 
-    @available(*, deprecated)
-    mutating func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
-        self.persistentTokens = persistentTokens
-    }
-
     // MARK: View Model
 
     var viewModel: TokenListViewModel {
@@ -96,6 +91,8 @@ extension TokenList {
         // TODO: remove this action and have the component auto-update the view model on time change
         case UpdateViewModel(DisplayTime)
         case DismissEphemeralMessage
+
+        case UpdateWithPersistentTokens([PersistentToken])
     }
 
     enum Effect {
@@ -131,6 +128,10 @@ extension TokenList {
 
         case .DismissEphemeralMessage:
             ephemeralMessage = nil
+            return nil
+
+        case .UpdateWithPersistentTokens(let persistentTokens):
+            self.persistentTokens = persistentTokens
             return nil
         }
     }
@@ -170,6 +171,9 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
     case (.DismissEphemeralMessage, .DismissEphemeralMessage):
         return true
 
+    case let (.UpdateWithPersistentTokens(l), .UpdateWithPersistentTokens(r)):
+        return l == r
+
     case (.BeginAddToken, _),
          (.EditPersistentToken, _),
          (.UpdatePersistentToken, _),
@@ -177,7 +181,8 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
          (.DeletePersistentToken, _),
          (.CopyPassword, _),
          (.UpdateViewModel, _),
-         (.DismissEphemeralMessage, _):
+         (.DismissEphemeralMessage, _),
+         (.UpdateWithPersistentTokens, _):
         // Unlike `default`, this final verbose case will cause an error if a new case is added.
         return false
     }

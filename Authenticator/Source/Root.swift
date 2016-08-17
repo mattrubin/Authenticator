@@ -101,7 +101,7 @@ extension Root {
         case .TokenScannerEffect(let effect):
             return handleTokenScannerEffect(effect)
         case .UpdatePersistentTokens(let persistentTokens):
-            tokenList.updateWithPersistentTokens(persistentTokens)
+            tokenList.update(.UpdateWithPersistentTokens(persistentTokens))
             return nil
         }
     }
