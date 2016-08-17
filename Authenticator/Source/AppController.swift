@@ -61,22 +61,26 @@ class AppController {
 
     private func handleEffect(effect: Root.Effect) {
         switch effect {
-        case .AddToken(let token):
+        case let .AddToken(token, success):
             store.addToken(token)
+            component.update(success(store.persistentTokens))
 
-        case let .SaveToken(token, persistentToken):
+        case let .SaveToken(token, persistentToken, success):
             store.saveToken(token, toPersistentToken: persistentToken)
+            component.update(success(store.persistentTokens))
 
-        case .UpdatePersistentToken(let persistentToken):
+        case let .UpdatePersistentToken(persistentToken, success):
             store.updatePersistentToken(persistentToken)
+            component.update(success(store.persistentTokens))
 
-        case let .MoveToken(fromIndex, toIndex):
+        case let .MoveToken(fromIndex, toIndex, success):
             store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
+            component.update(success(store.persistentTokens))
 
-        case .DeletePersistentToken(let persistentToken):
+        case let .DeletePersistentToken(persistentToken, success):
             store.deletePersistentToken(persistentToken)
+            component.update(success(store.persistentTokens))
         }
-        component.update(.UpdatePersistentTokens(store.persistentTokens))
     }
 
     // MARK: - Public
@@ -86,6 +90,6 @@ class AppController {
     }
 
     func addTokenFromURL(token: Token) {
-        handleEffect(.AddToken(token))
+        handleEffect(.AddToken(token, success: Root.Action.UpdatePersistentTokens))
     }
 }

@@ -82,11 +82,11 @@ extension Root {
     }
 
     enum Effect {
-        case AddToken(Token)
-        case SaveToken(Token, PersistentToken)
-        case UpdatePersistentToken(PersistentToken)
-        case MoveToken(fromIndex: Int, toIndex: Int)
-        case DeletePersistentToken(PersistentToken)
+        case AddToken(Token, success: ([PersistentToken]) -> Action)
+        case SaveToken(Token, PersistentToken, success: ([PersistentToken]) -> Action)
+        case UpdatePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
+        case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
+        case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
     }
 
     @warn_unused_result
@@ -132,13 +132,14 @@ extension Root {
             return nil
 
         case .UpdateToken(let persistentToken):
-            return .UpdatePersistentToken(persistentToken)
+            return .UpdatePersistentToken(persistentToken, success: Action.UpdatePersistentTokens)
 
         case let .MoveToken(fromIndex, toIndex):
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
+                              success: Action.UpdatePersistentTokens)
 
         case .DeletePersistentToken(let persistentToken):
-            return .DeletePersistentToken(persistentToken)
+            return .DeletePersistentToken(persistentToken, success: Action.UpdatePersistentTokens)
         }
     }
 
@@ -165,7 +166,7 @@ extension Root {
 
         case .SaveNewToken(let token):
             modal = .None
-            return .AddToken(token)
+            return .AddToken(token, success: Action.UpdatePersistentTokens)
         }
     }
 
@@ -192,7 +193,7 @@ extension Root {
 
         case let .SaveChanges(token, persistentToken):
             modal = .None
-            return .SaveToken(token, persistentToken)
+            return .SaveToken(token, persistentToken, success: Action.UpdatePersistentTokens)
         }
     }
 
@@ -209,7 +210,7 @@ extension Root {
 
         case .SaveNewToken(let token):
             modal = .None
-            return .AddToken(token)
+            return .AddToken(token, success: Action.UpdatePersistentTokens)
         }
     }
 }
