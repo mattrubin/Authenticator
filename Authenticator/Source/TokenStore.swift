@@ -73,7 +73,6 @@ extension TokenStore {
         let newPersistentToken = try keychain.addToken(token)
         persistentTokens.append(newPersistentToken)
         saveTokenOrder()
-        // TODO: Scroll to the new token (added at the bottom)
     }
 
     func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {

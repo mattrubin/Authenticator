@@ -80,6 +80,7 @@ extension Root {
 
         case UpdateWithPersistentTokens([PersistentToken])
 
+        case _AddTokenSucceeded([PersistentToken])
         case _AddTokenFailed(ErrorType)
     }
 
@@ -108,6 +109,11 @@ extension Root {
         case .UpdateWithPersistentTokens(let persistentTokens):
             return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
 
+        case ._AddTokenSucceeded(let persistentTokens):
+            // Dismiss the modal entry form.
+            modal = .None
+            // TODO: Scroll to the new token (added at the bottom)
+            return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
         case ._AddTokenFailed(let error):
             return .ShowErrorMessage(error)
         }
@@ -174,9 +180,8 @@ extension Root {
             return nil
 
         case .SaveNewToken(let token):
-            // TODO: Only dismiss the modal if the action succeeds.
-            modal = .None
-            return .AddToken(token, success: Action.UpdateWithPersistentTokens,
+            return .AddToken(token,
+                             success: Action._AddTokenSucceeded,
                              failure: Action._AddTokenFailed)
         }
     }
