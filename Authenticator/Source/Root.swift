@@ -77,6 +77,8 @@ extension Root {
         case TokenEditFormAction(TokenEditForm.Action)
 
         case TokenScannerEffect(TokenScannerViewController.Effect)
+
+        case UpdateWithPersistentTokens([PersistentToken])
     }
 
     enum Effect {
@@ -98,6 +100,9 @@ extension Root {
             return handleTokenEditFormAction(action)
         case .TokenScannerEffect(let effect):
             return handleTokenScannerEffect(effect)
+
+        case .UpdateWithPersistentTokens(let persistentTokens):
+            return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
         }
     }
 
@@ -164,9 +169,7 @@ extension Root {
         case .SaveNewToken(let token):
             // TODO: Only dismiss the modal if the action succeeds.
             modal = .None
-            // On success, update the token list with the new array of persistent tokens.
-            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
-            return .AddToken(token, success: success)
+            return .AddToken(token, success: Action.UpdateWithPersistentTokens)
         }
     }
 
@@ -194,9 +197,7 @@ extension Root {
         case let .SaveChanges(token, persistentToken):
             // TODO: Only dismiss the modal if the action succeeds.
             modal = .None
-            // On success, update the token list with the new array of persistent tokens.
-            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
-            return .SaveToken(token, persistentToken, success: success)
+            return .SaveToken(token, persistentToken, success: Action.UpdateWithPersistentTokens)
         }
     }
 
@@ -214,9 +215,7 @@ extension Root {
         case .SaveNewToken(let token):
             // TODO: Only dismiss the modal if the action succeeds.
             modal = .None
-            // On success, update the token list with the new array of persistent tokens.
-            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
-            return .AddToken(token, success: success)
+            return .AddToken(token, success: Action.UpdateWithPersistentTokens)
         }
     }
 }

@@ -90,7 +90,7 @@ class AppController {
     }
 
     func addTokenFromURL(token: Token) {
-        handleEffect(.AddToken(token,
-            success: { Root.Action.TokenListAction(TokenList.Action.UpdateWithPersistentTokens($0)) }))
+        // TODO: Add Root.Action.AddTokenFromURL
+        handleEffect(.AddToken(token, success: Root.Action.UpdateWithPersistentTokens))
     }
 }
