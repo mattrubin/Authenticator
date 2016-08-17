@@ -76,7 +76,7 @@ class AppController {
         case .DeletePersistentToken(let persistentToken):
             store.deletePersistentToken(persistentToken)
         }
-        component.updateWithPersistentTokens(store.persistentTokens)
+        component.update(.UpdatePersistentTokens(store.persistentTokens))
     }
 
     // MARK: - Public

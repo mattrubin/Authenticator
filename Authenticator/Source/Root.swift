@@ -77,6 +77,8 @@ extension Root {
         case TokenEditFormAction(TokenEditForm.Action)
 
         case TokenScannerEffect(TokenScannerViewController.Effect)
+
+        case UpdatePersistentTokens([PersistentToken])
     }
 
     enum Effect {
@@ -98,6 +100,9 @@ extension Root {
             return handleTokenEditFormAction(action)
         case .TokenScannerEffect(let effect):
             return handleTokenScannerEffect(effect)
+        case .UpdatePersistentTokens(let persistentTokens):
+            tokenList.updateWithPersistentTokens(persistentTokens)
+            return nil
         }
     }
 
@@ -206,10 +211,5 @@ extension Root {
             modal = .None
             return .AddToken(token)
         }
-    }
-
-    @available(*, deprecated)
-    mutating func updateWithPersistentTokens(persistentTokens: [PersistentToken]) {
-        tokenList.updateWithPersistentTokens(persistentTokens)
     }
 }
