@@ -70,9 +70,13 @@ class AppController {
                 handleAction(failure(error))
             }
 
-        case let .SaveToken(token, persistentToken, success):
-            store.saveToken(token, toPersistentToken: persistentToken)
-            handleAction(success(store.persistentTokens))
+        case let .SaveToken(token, persistentToken, success, failure):
+            do {
+                try store.saveToken(token, toPersistentToken: persistentToken)
+                handleAction(success(store.persistentTokens))
+            } catch {
+                handleAction(failure(error))
+            }
 
         case let .UpdatePersistentToken(persistentToken, success):
             store.updatePersistentToken(persistentToken)

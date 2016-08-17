@@ -75,25 +75,25 @@ extension TokenStore {
         saveTokenOrder()
     }
 
-    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
-        do {
-            let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
-                withToken: token)
-            // Update the in-memory token, which is still the origin of the table view's data
-            persistentTokens = persistentTokens.map {
-                if $0.identifier == updatedPersistentToken.identifier {
-                    return updatedPersistentToken
-                }
-                return $0
+    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
+        let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
+                                                                        withToken: token)
+        // Update the in-memory token, which is still the origin of the table view's data
+        persistentTokens = persistentTokens.map {
+            if $0.identifier == updatedPersistentToken.identifier {
+                return updatedPersistentToken
             }
-        } catch {
-            // TODO: Handle the updatePersistentToken(_:withToken:) failure
+            return $0
         }
     }
 
     func updatePersistentToken(persistentToken: PersistentToken) {
         let newToken = persistentToken.token.updatedToken()
-        saveToken(newToken, toPersistentToken: persistentToken)
+        do {
+            try saveToken(newToken, toPersistentToken: persistentToken)
+        } catch {
+            // FIXME: handle errors
+        }
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) {

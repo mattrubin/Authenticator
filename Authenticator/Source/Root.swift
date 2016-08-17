@@ -82,11 +82,14 @@ extension Root {
 
         case _AddTokenSucceeded([PersistentToken])
         case _AddTokenFailed(ErrorType)
+
+        case _SaveTokenSucceeded([PersistentToken])
+        case _SaveTokenFailed(ErrorType)
     }
 
     enum Effect {
         case AddToken(Token, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
-        case SaveToken(Token, PersistentToken, success: ([PersistentToken]) -> Action)
+        case SaveToken(Token, PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
         case UpdatePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
         case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
         case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
@@ -115,6 +118,13 @@ extension Root {
             // TODO: Scroll to the new token (added at the bottom)
             return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
         case ._AddTokenFailed(let error):
+            return .ShowErrorMessage(error)
+
+        case ._SaveTokenSucceeded(let persistentTokens):
+            // Dismiss the modal edit form.
+            modal = .None
+            return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
+        case ._SaveTokenFailed(let error):
             return .ShowErrorMessage(error)
         }
     }
@@ -208,9 +218,9 @@ extension Root {
             return nil
 
         case let .SaveChanges(token, persistentToken):
-            // TODO: Only dismiss the modal if the action succeeds.
-            modal = .None
-            return .SaveToken(token, persistentToken, success: Action.UpdateWithPersistentTokens)
+            return .SaveToken(token, persistentToken,
+                              success: Action._SaveTokenSucceeded,
+                              failure: Action._SaveTokenFailed)
         }
     }
 
