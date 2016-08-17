@@ -77,8 +77,6 @@ extension Root {
         case TokenEditFormAction(TokenEditForm.Action)
 
         case TokenScannerEffect(TokenScannerViewController.Effect)
-
-        case UpdatePersistentTokens([PersistentToken])
     }
 
     enum Effect {
@@ -100,9 +98,6 @@ extension Root {
             return handleTokenEditFormAction(action)
         case .TokenScannerEffect(let effect):
             return handleTokenScannerEffect(effect)
-        case .UpdatePersistentTokens(let persistentTokens):
-            tokenList.update(.UpdateWithPersistentTokens(persistentTokens))
-            return nil
         }
     }
 
@@ -132,14 +127,16 @@ extension Root {
             return nil
 
         case .UpdateToken(let persistentToken):
-            return .UpdatePersistentToken(persistentToken, success: Action.UpdatePersistentTokens)
+            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
+            return .UpdatePersistentToken(persistentToken, success: success)
 
         case let .MoveToken(fromIndex, toIndex):
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: Action.UpdatePersistentTokens)
+            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex, success: success)
 
         case .DeletePersistentToken(let persistentToken):
-            return .DeletePersistentToken(persistentToken, success: Action.UpdatePersistentTokens)
+            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
+            return .DeletePersistentToken(persistentToken, success: success)
         }
     }
 
@@ -166,7 +163,8 @@ extension Root {
 
         case .SaveNewToken(let token):
             modal = .None
-            return .AddToken(token, success: Action.UpdatePersistentTokens)
+            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
+            return .AddToken(token, success: success)
         }
     }
 
@@ -193,7 +191,8 @@ extension Root {
 
         case let .SaveChanges(token, persistentToken):
             modal = .None
-            return .SaveToken(token, persistentToken, success: Action.UpdatePersistentTokens)
+            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
+            return .SaveToken(token, persistentToken, success: success)
         }
     }
 
@@ -210,7 +209,12 @@ extension Root {
 
         case .SaveNewToken(let token):
             modal = .None
-            return .AddToken(token, success: Action.UpdatePersistentTokens)
+            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
+            return .AddToken(token, success: success)
         }
     }
+}
+
+private func compose<A, B, C>(transform: A -> B, _ handler: B -> C) -> A -> C {
+    return { handler(transform($0)) }
 }
