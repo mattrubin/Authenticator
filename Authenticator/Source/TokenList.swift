@@ -99,9 +99,9 @@ extension TokenList {
         case BeginTokenEntry
         case BeginTokenEdit(PersistentToken)
 
-        case UpdateToken(PersistentToken)
-        case MoveToken(fromIndex: Int, toIndex: Int)
-        case DeletePersistentToken(PersistentToken)
+        case UpdateToken(PersistentToken, success: ([PersistentToken]) -> Action)
+        case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
+        case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
     }
 
     @warn_unused_result
@@ -112,11 +112,11 @@ extension TokenList {
         case .EditPersistentToken(let persistentToken):
             return .BeginTokenEdit(persistentToken)
         case .UpdatePersistentToken(let persistentToken):
-            return .UpdateToken(persistentToken)
+            return .UpdateToken(persistentToken, success: Action.UpdateWithPersistentTokens)
         case let .MoveToken(fromIndex, toIndex):
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex)
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex, success: Action.UpdateWithPersistentTokens)
         case .DeletePersistentToken(let persistentToken):
-            return .DeletePersistentToken(persistentToken)
+            return .DeletePersistentToken(persistentToken, success: Action.UpdateWithPersistentTokens)
 
         case .CopyPassword(let password):
             copyPassword(password)

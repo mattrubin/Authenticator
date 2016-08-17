@@ -126,17 +126,17 @@ extension Root {
             modal = .EditForm(form)
             return nil
 
-        case .UpdateToken(let persistentToken):
-            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
-            return .UpdatePersistentToken(persistentToken, success: success)
+        case let .UpdateToken(persistentToken, success):
+            return .UpdatePersistentToken(persistentToken,
+                                          success: compose(success, Action.TokenListAction))
 
-        case let .MoveToken(fromIndex, toIndex):
-            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex, success: success)
+        case let .MoveToken(fromIndex, toIndex, success):
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
+                              success: compose(success, Action.TokenListAction))
 
-        case .DeletePersistentToken(let persistentToken):
-            let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
-            return .DeletePersistentToken(persistentToken, success: success)
+        case let .DeletePersistentToken(persistentToken, success):
+            return .DeletePersistentToken(persistentToken,
+                                          success: compose(success, Action.TokenListAction))
         }
     }
 
