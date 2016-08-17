@@ -162,7 +162,9 @@ extension Root {
             return nil
 
         case .SaveNewToken(let token):
+            // TODO: Only dismiss the modal if the action succeeds.
             modal = .None
+            // On success, update the token list with the new array of persistent tokens.
             let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
             return .AddToken(token, success: success)
         }
@@ -190,7 +192,9 @@ extension Root {
             return nil
 
         case let .SaveChanges(token, persistentToken):
+            // TODO: Only dismiss the modal if the action succeeds.
             modal = .None
+            // On success, update the token list with the new array of persistent tokens.
             let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
             return .SaveToken(token, persistentToken, success: success)
         }
@@ -208,7 +212,9 @@ extension Root {
             return nil
 
         case .SaveNewToken(let token):
+            // TODO: Only dismiss the modal if the action succeeds.
             modal = .None
+            // On success, update the token list with the new array of persistent tokens.
             let success = compose(TokenList.Action.UpdateWithPersistentTokens, Action.TokenListAction)
             return .AddToken(token, success: success)
         }
