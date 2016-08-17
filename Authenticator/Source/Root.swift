@@ -239,7 +239,9 @@ extension Root {
             return nil
 
         case .SaveNewToken(let token):
-            return .AddToken(token, success: Action.TokenFormSucceeded, failure: Action.TokenFormFailed)
+            return .AddToken(token,
+                             success: Action.TokenFormSucceeded,
+                             failure: Action.TokenFormFailed)
         }
     }
 }
