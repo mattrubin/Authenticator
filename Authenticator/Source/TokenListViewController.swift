@@ -199,6 +199,7 @@ extension TokenListViewController {
     }
 
     private func updateTableViewWithChanges(changes: [Change]) {
+        // TODO: Scroll to a newly added token (added at the bottom)
         if changes.isEmpty || preventTableViewAnimations {
             return
         }

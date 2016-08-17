@@ -26,6 +26,7 @@
 import Foundation
 import UIKit
 import OneTimePassword
+import SVProgressHUD
 
 class AppController {
     private let store: TokenStore
@@ -61,25 +62,44 @@ class AppController {
 
     private func handleEffect(effect: Root.Effect) {
         switch effect {
-        case let .AddToken(token, success):
-            store.addToken(token)
-            handleAction(success(store.persistentTokens))
+        case let .AddToken(token, success, failure):
+            do {
+                try store.addToken(token)
+                handleAction(success(store.persistentTokens))
+            } catch {
+                handleAction(failure(error))
+            }
 
-        case let .SaveToken(token, persistentToken, success):
-            store.saveToken(token, toPersistentToken: persistentToken)
-            handleAction(success(store.persistentTokens))
+        case let .SaveToken(token, persistentToken, success, failure):
+            do {
+                try store.saveToken(token, toPersistentToken: persistentToken)
+                handleAction(success(store.persistentTokens))
+            } catch {
+                handleAction(failure(error))
+            }
 
-        case let .UpdatePersistentToken(persistentToken, success):
-            store.updatePersistentToken(persistentToken)
-            handleAction(success(store.persistentTokens))
+        case let .UpdatePersistentToken(persistentToken, success, failure):
+            do {
+                try store.updatePersistentToken(persistentToken)
+                handleAction(success(store.persistentTokens))
+            } catch {
+                handleAction(failure(error))
+            }
 
         case let .MoveToken(fromIndex, toIndex, success):
             store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
             handleAction(success(store.persistentTokens))
 
-        case let .DeletePersistentToken(persistentToken, success):
-            store.deletePersistentToken(persistentToken)
-            handleAction(success(store.persistentTokens))
+        case let .DeletePersistentToken(persistentToken, success, failure):
+            do {
+                try store.deletePersistentToken(persistentToken)
+                handleAction(success(store.persistentTokens))
+            } catch {
+                handleAction(failure(error))
+            }
+
+        case let .ShowErrorMessage(errorMessage):
+            SVProgressHUD.showErrorWithStatus(errorMessage)
         }
     }
 
@@ -91,6 +111,7 @@ class AppController {
 
     func addTokenFromURL(token: Token) {
         // TODO: Add Root.Action.AddTokenFromURL
-        handleEffect(.AddToken(token, success: Root.Action.UpdateWithPersistentTokens))
+        handleEffect(.AddToken(token, success: Root.Action.TokenFormSucceeded,
+            failure: Root.Action.TokenFormFailed))
     }
 }

@@ -69,36 +69,27 @@ class TokenStore {
 extension TokenStore {
     // MARK: Actions
 
-    func addToken(token: Token) {
-        do {
-            let newPersistentToken = try keychain.addToken(token)
-            persistentTokens.append(newPersistentToken)
-            saveTokenOrder()
-            // TODO: Scroll to the new token (added at the bottom)
-        } catch {
-            // TODO: Handle the addToken(_:) failure
-        }
+    func addToken(token: Token) throws {
+        let newPersistentToken = try keychain.addToken(token)
+        persistentTokens.append(newPersistentToken)
+        saveTokenOrder()
     }
 
-    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {
-        do {
-            let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
-                withToken: token)
-            // Update the in-memory token, which is still the origin of the table view's data
-            persistentTokens = persistentTokens.map {
-                if $0.identifier == updatedPersistentToken.identifier {
-                    return updatedPersistentToken
-                }
-                return $0
+    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
+        let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
+                                                                        withToken: token)
+        // Update the in-memory token, which is still the origin of the table view's data
+        persistentTokens = persistentTokens.map {
+            if $0.identifier == updatedPersistentToken.identifier {
+                return updatedPersistentToken
             }
-        } catch {
-            // TODO: Handle the updatePersistentToken(_:withToken:) failure
+            return $0
         }
     }
 
-    func updatePersistentToken(persistentToken: PersistentToken) {
+    func updatePersistentToken(persistentToken: PersistentToken) throws {
         let newToken = persistentToken.token.updatedToken()
-        saveToken(newToken, toPersistentToken: persistentToken)
+        try saveToken(newToken, toPersistentToken: persistentToken)
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
@@ -108,16 +99,12 @@ extension TokenStore {
         saveTokenOrder()
     }
 
-    func deletePersistentToken(persistentToken: PersistentToken) {
-        do {
-            try keychain.deletePersistentToken(persistentToken)
-            if let index = persistentTokens.indexOf(persistentToken) {
-                persistentTokens.removeAtIndex(index)
-            }
-            saveTokenOrder()
-        } catch {
-            // TODO: Handle the deletePersistentToken(_:) failure
+    func deletePersistentToken(persistentToken: PersistentToken) throws {
+        try keychain.deletePersistentToken(persistentToken)
+        if let index = persistentTokens.indexOf(persistentToken) {
+            persistentTokens.removeAtIndex(index)
         }
+        saveTokenOrder()
     }
 }
 
@@ -132,6 +119,6 @@ private extension NSUserDefaults {
 
     func savePersistentIdentifiers(identifiers: [NSData]) {
         setObject(identifiers, forKey: kOTPKeychainEntriesArray)
-        synchronize()
+        synchronize() // TODO: Remove call to deprecated synchronize()
     }
 }

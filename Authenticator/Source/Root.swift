@@ -78,15 +78,31 @@ extension Root {
 
         case TokenScannerEffect(TokenScannerViewController.Effect)
 
-        case UpdateWithPersistentTokens([PersistentToken])
+        case TokenFormSucceeded([PersistentToken])
+        case TokenFormFailed(ErrorType)
     }
 
     enum Effect {
-        case AddToken(Token, success: ([PersistentToken]) -> Action)
-        case SaveToken(Token, PersistentToken, success: ([PersistentToken]) -> Action)
-        case UpdatePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
-        case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
-        case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
+        case AddToken(Token,
+            success: ([PersistentToken]) -> Action,
+            failure: (ErrorType) -> Action)
+
+        case SaveToken(Token, PersistentToken,
+            success: ([PersistentToken]) -> Action,
+            failure: (ErrorType) -> Action)
+
+        case UpdatePersistentToken(PersistentToken,
+            success: ([PersistentToken]) -> Action,
+            failure: (ErrorType) -> Action)
+
+        case MoveToken(fromIndex: Int, toIndex: Int,
+            success: ([PersistentToken]) -> Action)
+
+        case DeletePersistentToken(PersistentToken,
+            success: ([PersistentToken]) -> Action,
+            failure: (ErrorType) -> Action)
+
+        case ShowErrorMessage(String)
     }
 
     @warn_unused_result
@@ -101,8 +117,13 @@ extension Root {
         case .TokenScannerEffect(let effect):
             return handleTokenScannerEffect(effect)
 
-        case .UpdateWithPersistentTokens(let persistentTokens):
-            return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
+        case .TokenFormSucceeded(let persistentTokens):
+            // Dismiss the modal form.
+            modal = .None
+            return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
+        case .TokenFormFailed(let error):
+            // TODO: Better error messages
+            return .ShowErrorMessage("Error: \(error)")
         }
     }
 
@@ -131,17 +152,22 @@ extension Root {
             modal = .EditForm(form)
             return nil
 
-        case let .UpdateToken(persistentToken, success):
+        case let .UpdateToken(persistentToken, success, failure):
             return .UpdatePersistentToken(persistentToken,
-                                          success: compose(success, Action.TokenListAction))
+                                          success: compose(success, Action.TokenListAction),
+                                          failure: compose(failure, Action.TokenListAction))
 
         case let .MoveToken(fromIndex, toIndex, success):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
                               success: compose(success, Action.TokenListAction))
 
-        case let .DeletePersistentToken(persistentToken, success):
+        case let .DeletePersistentToken(persistentToken, success, failure):
             return .DeletePersistentToken(persistentToken,
-                                          success: compose(success, Action.TokenListAction))
+                                          success: compose(success, Action.TokenListAction),
+                                          failure: compose(failure, Action.TokenListAction))
+
+        case .ShowErrorMessage(let error):
+            return .ShowErrorMessage(error)
         }
     }
 
@@ -167,9 +193,9 @@ extension Root {
             return nil
 
         case .SaveNewToken(let token):
-            // TODO: Only dismiss the modal if the action succeeds.
-            modal = .None
-            return .AddToken(token, success: Action.UpdateWithPersistentTokens)
+            return .AddToken(token,
+                             success: Action.TokenFormSucceeded,
+                             failure: Action.TokenFormFailed)
         }
     }
 
@@ -195,9 +221,9 @@ extension Root {
             return nil
 
         case let .SaveChanges(token, persistentToken):
-            // TODO: Only dismiss the modal if the action succeeds.
-            modal = .None
-            return .SaveToken(token, persistentToken, success: Action.UpdateWithPersistentTokens)
+            return .SaveToken(token, persistentToken,
+                              success: Action.TokenFormSucceeded,
+                              failure: Action.TokenFormFailed)
         }
     }
 
@@ -213,9 +239,9 @@ extension Root {
             return nil
 
         case .SaveNewToken(let token):
-            // TODO: Only dismiss the modal if the action succeeds.
-            modal = .None
-            return .AddToken(token, success: Action.UpdateWithPersistentTokens)
+            return .AddToken(token,
+                             success: Action.TokenFormSucceeded,
+                             failure: Action.TokenFormFailed)
         }
     }
 }
