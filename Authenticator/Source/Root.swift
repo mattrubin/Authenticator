@@ -78,11 +78,8 @@ extension Root {
 
         case TokenScannerEffect(TokenScannerViewController.Effect)
 
-        case TokenEntrySucceeded([PersistentToken])
-        case TokenEntryFailed(ErrorType)
-
-        case TokenEditSucceeded([PersistentToken])
-        case TokenEditFailed(ErrorType)
+        case TokenFormSucceeded([PersistentToken])
+        case TokenFormFailed(ErrorType)
     }
 
     enum Effect {
@@ -107,19 +104,11 @@ extension Root {
         case .TokenScannerEffect(let effect):
             return handleTokenScannerEffect(effect)
 
-        case .TokenEntrySucceeded(let persistentTokens):
-            // Dismiss the modal entry form.
+        case .TokenFormSucceeded(let persistentTokens):
+            // Dismiss the modal form.
             modal = .None
             return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
-        case .TokenEntryFailed(let error):
-            // TODO: Better error messages
-            return .ShowErrorMessage("Error: \(error)")
-
-        case .TokenEditSucceeded(let persistentTokens):
-            // Dismiss the modal edit form.
-            modal = .None
-            return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
-        case .TokenEditFailed(let error):
+        case .TokenFormFailed(let error):
             // TODO: Better error messages
             return .ShowErrorMessage("Error: \(error)")
         }
@@ -192,8 +181,8 @@ extension Root {
 
         case .SaveNewToken(let token):
             return .AddToken(token,
-                             success: Action.TokenEntrySucceeded,
-                             failure: Action.TokenEntryFailed)
+                             success: Action.TokenFormSucceeded,
+                             failure: Action.TokenFormFailed)
         }
     }
 
@@ -220,8 +209,8 @@ extension Root {
 
         case let .SaveChanges(token, persistentToken):
             return .SaveToken(token, persistentToken,
-                              success: Action.TokenEditSucceeded,
-                              failure: Action.TokenEditFailed)
+                              success: Action.TokenFormSucceeded,
+                              failure: Action.TokenFormFailed)
         }
     }
 
@@ -237,7 +226,7 @@ extension Root {
             return nil
 
         case .SaveNewToken(let token):
-            return .AddToken(token, success: Action.TokenEntrySucceeded, failure: Action.TokenEntryFailed)
+            return .AddToken(token, success: Action.TokenFormSucceeded, failure: Action.TokenFormFailed)
         }
     }
 }
