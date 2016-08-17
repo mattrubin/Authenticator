@@ -78,10 +78,8 @@ extension Root {
 
         case TokenScannerEffect(TokenScannerViewController.Effect)
 
-        case UpdateWithPersistentTokens([PersistentToken])
-
-        case _AddTokenSucceeded([PersistentToken])
-        case _AddTokenFailed(ErrorType)
+        case TokenEntrySucceeded([PersistentToken])
+        case TokenEntryFailed(ErrorType)
 
         case _SaveTokenSucceeded([PersistentToken])
         case _SaveTokenFailed(ErrorType)
@@ -109,15 +107,12 @@ extension Root {
         case .TokenScannerEffect(let effect):
             return handleTokenScannerEffect(effect)
 
-        case .UpdateWithPersistentTokens(let persistentTokens):
-            return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
-
-        case ._AddTokenSucceeded(let persistentTokens):
+        case .TokenEntrySucceeded(let persistentTokens):
             // Dismiss the modal entry form.
             modal = .None
             // TODO: Scroll to the new token (added at the bottom)
             return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
-        case ._AddTokenFailed(let error):
+        case .TokenEntryFailed(let error):
             return .ShowErrorMessage(error)
 
         case ._SaveTokenSucceeded(let persistentTokens):
@@ -196,8 +191,8 @@ extension Root {
 
         case .SaveNewToken(let token):
             return .AddToken(token,
-                             success: Action._AddTokenSucceeded,
-                             failure: Action._AddTokenFailed)
+                             success: Action.TokenEntrySucceeded,
+                             failure: Action.TokenEntryFailed)
         }
     }
 
@@ -241,9 +236,7 @@ extension Root {
             return nil
 
         case .SaveNewToken(let token):
-            // TODO: Only dismiss the modal if the action succeeds.
-            modal = .None
-            return .AddToken(token, success: Action.UpdateWithPersistentTokens, failure: Action._AddTokenFailed)
+            return .AddToken(token, success: Action.TokenEntrySucceeded, failure: Action.TokenEntryFailed)
         }
     }
 }
