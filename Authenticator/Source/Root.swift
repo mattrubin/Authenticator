@@ -111,14 +111,14 @@ extension Root {
             // Dismiss the modal entry form.
             modal = .None
             // TODO: Scroll to the new token (added at the bottom)
-            return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
+            return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
         case .TokenEntryFailed(let error):
             return .ShowErrorMessage(error)
 
         case .TokenEditSucceeded(let persistentTokens):
             // Dismiss the modal edit form.
             modal = .None
-            return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
+            return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
         case .TokenEditFailed(let error):
             return .ShowErrorMessage(error)
         }

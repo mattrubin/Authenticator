@@ -92,8 +92,8 @@ extension TokenList {
         case UpdateViewModel(DisplayTime)
         case DismissEphemeralMessage
 
-        case UpdateWithPersistentTokens([PersistentToken])
-        case _TokenChangeFailed(ErrorType)
+        case TokenChangeSucceeded([PersistentToken])
+        case TokenChangeFailed(ErrorType)
     }
 
     enum Effect {
@@ -117,17 +117,17 @@ extension TokenList {
             return .BeginTokenEdit(persistentToken)
 
         case .UpdatePersistentToken(let persistentToken):
-            return .UpdateToken(persistentToken, success: Action.UpdateWithPersistentTokens,
-                                failure: Action._TokenChangeFailed)
+            return .UpdateToken(persistentToken, success: Action.TokenChangeSucceeded,
+                                failure: Action.TokenChangeFailed)
 
         case let .MoveToken(fromIndex, toIndex):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: Action.UpdateWithPersistentTokens)
+                              success: Action.TokenChangeSucceeded)
 
         case .DeletePersistentToken(let persistentToken):
             return .DeletePersistentToken(persistentToken,
-                                          success: Action.UpdateWithPersistentTokens,
-                                          failure: Action._TokenChangeFailed)
+                                          success: Action.TokenChangeSucceeded,
+                                          failure: Action.TokenChangeFailed)
 
         case .CopyPassword(let password):
             copyPassword(password)
@@ -141,11 +141,11 @@ extension TokenList {
             ephemeralMessage = nil
             return nil
 
-        case .UpdateWithPersistentTokens(let persistentTokens):
+        case .TokenChangeSucceeded(let persistentTokens):
             self.persistentTokens = persistentTokens
             return nil
 
-        case ._TokenChangeFailed(let error):
+        case .TokenChangeFailed(let error):
             return .ShowErrorMessage(error)
         }
     }
@@ -185,10 +185,10 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
     case (.DismissEphemeralMessage, .DismissEphemeralMessage):
         return true
 
-    case let (.UpdateWithPersistentTokens(l), .UpdateWithPersistentTokens(r)):
+    case let (.TokenChangeSucceeded(l), .TokenChangeSucceeded(r)):
         return l == r
 
-    case (._TokenChangeFailed(_), ._TokenChangeFailed(_)):
+    case (.TokenChangeFailed(_), .TokenChangeFailed(_)):
         return false // FIXME
 
     case (.BeginAddToken, _),
@@ -199,8 +199,8 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
          (.CopyPassword, _),
          (.UpdateViewModel, _),
          (.DismissEphemeralMessage, _),
-         (.UpdateWithPersistentTokens, _),
-         (._TokenChangeFailed, _):
+         (.TokenChangeSucceeded, _),
+         (.TokenChangeFailed, _):
         // Unlike `default`, this final verbose case will cause an error if a new case is added.
         return false
     }
