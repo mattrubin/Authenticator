@@ -100,9 +100,16 @@ extension TokenList {
         case BeginTokenEntry
         case BeginTokenEdit(PersistentToken)
 
-        case UpdateToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
-        case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
-        case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
+        case UpdateToken(PersistentToken,
+            success: ([PersistentToken]) -> Action,
+            failure: (ErrorType) -> Action)
+
+        case MoveToken(fromIndex: Int, toIndex: Int,
+            success: ([PersistentToken]) -> Action)
+
+        case DeletePersistentToken(PersistentToken,
+            success: ([PersistentToken]) -> Action,
+            failure: (ErrorType) -> Action)
 
         case ShowErrorMessage(String)
     }

@@ -83,11 +83,24 @@ extension Root {
     }
 
     enum Effect {
-        case AddToken(Token, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
-        case SaveToken(Token, PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
-        case UpdatePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
-        case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
-        case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
+        case AddToken(Token,
+            success: ([PersistentToken]) -> Action,
+            failure: (ErrorType) -> Action)
+
+        case SaveToken(Token, PersistentToken,
+            success: ([PersistentToken]) -> Action,
+            failure: (ErrorType) -> Action)
+
+        case UpdatePersistentToken(PersistentToken,
+            success: ([PersistentToken]) -> Action,
+            failure: (ErrorType) -> Action)
+
+        case MoveToken(fromIndex: Int, toIndex: Int,
+            success: ([PersistentToken]) -> Action)
+
+        case DeletePersistentToken(PersistentToken,
+            success: ([PersistentToken]) -> Action,
+            failure: (ErrorType) -> Action)
 
         case ShowErrorMessage(String)
     }
