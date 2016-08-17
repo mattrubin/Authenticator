@@ -69,15 +69,11 @@ class TokenStore {
 extension TokenStore {
     // MARK: Actions
 
-    func addToken(token: Token) {
-        do {
-            let newPersistentToken = try keychain.addToken(token)
-            persistentTokens.append(newPersistentToken)
-            saveTokenOrder()
-            // TODO: Scroll to the new token (added at the bottom)
-        } catch {
-            // TODO: Handle the addToken(_:) failure
-        }
+    func addToken(token: Token) throws {
+        let newPersistentToken = try keychain.addToken(token)
+        persistentTokens.append(newPersistentToken)
+        saveTokenOrder()
+        // TODO: Scroll to the new token (added at the bottom)
     }
 
     func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) {

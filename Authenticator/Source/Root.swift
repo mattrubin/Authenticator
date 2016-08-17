@@ -79,14 +79,18 @@ extension Root {
         case TokenScannerEffect(TokenScannerViewController.Effect)
 
         case UpdateWithPersistentTokens([PersistentToken])
+
+        case _AddTokenFailed(ErrorType)
     }
 
     enum Effect {
-        case AddToken(Token, success: ([PersistentToken]) -> Action)
+        case AddToken(Token, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
         case SaveToken(Token, PersistentToken, success: ([PersistentToken]) -> Action)
         case UpdatePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
         case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
         case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
+
+        case ShowErrorMessage(ErrorType)
     }
 
     @warn_unused_result
@@ -103,6 +107,9 @@ extension Root {
 
         case .UpdateWithPersistentTokens(let persistentTokens):
             return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
+
+        case ._AddTokenFailed(let error):
+            return .ShowErrorMessage(error)
         }
     }
 
@@ -169,7 +176,8 @@ extension Root {
         case .SaveNewToken(let token):
             // TODO: Only dismiss the modal if the action succeeds.
             modal = .None
-            return .AddToken(token, success: Action.UpdateWithPersistentTokens)
+            return .AddToken(token, success: Action.UpdateWithPersistentTokens,
+                             failure: Action._AddTokenFailed)
         }
     }
 
@@ -215,7 +223,7 @@ extension Root {
         case .SaveNewToken(let token):
             // TODO: Only dismiss the modal if the action succeeds.
             modal = .None
-            return .AddToken(token, success: Action.UpdateWithPersistentTokens)
+            return .AddToken(token, success: Action.UpdateWithPersistentTokens, failure: Action._AddTokenFailed)
         }
     }
 }
