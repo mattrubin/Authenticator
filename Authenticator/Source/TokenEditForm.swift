@@ -127,7 +127,7 @@ extension TokenEditForm {
     @warn_unused_result
     private mutating func submit() -> Effect? {
         guard isValid else {
-            return .ShowErrorMessage("Invalid Token")
+            return .ShowErrorMessage("An issuer or name is required.")
         }
 
         let token = Token(

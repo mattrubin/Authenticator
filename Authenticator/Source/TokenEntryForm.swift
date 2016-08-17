@@ -210,12 +210,12 @@ extension TokenEntryForm {
     private mutating func submit() -> Effect? {
         guard isValid else {
             // TODO: Show more specific error messages for different failure cases
-            return .ShowErrorMessage("Invalid Token")
+            return .ShowErrorMessage("A secret and some identifier are required.")
         }
 
         guard let secretData = NSData(base32String: secret)
             where secretData.length > 0 else {
-                return .ShowErrorMessage("Invalid Token")
+                return .ShowErrorMessage("The secret key is invalid.")
         }
 
         let factor: Generator.Factor
@@ -232,6 +232,8 @@ extension TokenEntryForm {
             algorithm: algorithm,
             digits: digitCount
             ) else {
+                // This UI doesn't allow the user to create an invalid period or digit count,
+                // so a generic error message is acceptable here.
                 return .ShowErrorMessage("Invalid Token")
         }
 
