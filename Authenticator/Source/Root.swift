@@ -81,8 +81,8 @@ extension Root {
         case TokenEntrySucceeded([PersistentToken])
         case TokenEntryFailed(ErrorType)
 
-        case _SaveTokenSucceeded([PersistentToken])
-        case _SaveTokenFailed(ErrorType)
+        case TokenEditSucceeded([PersistentToken])
+        case TokenEditFailed(ErrorType)
     }
 
     enum Effect {
@@ -115,11 +115,11 @@ extension Root {
         case .TokenEntryFailed(let error):
             return .ShowErrorMessage(error)
 
-        case ._SaveTokenSucceeded(let persistentTokens):
+        case .TokenEditSucceeded(let persistentTokens):
             // Dismiss the modal edit form.
             modal = .None
             return handleTokenListAction(.UpdateWithPersistentTokens(persistentTokens))
-        case ._SaveTokenFailed(let error):
+        case .TokenEditFailed(let error):
             return .ShowErrorMessage(error)
         }
     }
@@ -219,8 +219,8 @@ extension Root {
 
         case let .SaveChanges(token, persistentToken):
             return .SaveToken(token, persistentToken,
-                              success: Action._SaveTokenSucceeded,
-                              failure: Action._SaveTokenFailed)
+                              success: Action.TokenEditSucceeded,
+                              failure: Action.TokenEditFailed)
         }
     }
 
