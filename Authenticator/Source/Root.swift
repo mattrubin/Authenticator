@@ -79,6 +79,8 @@ extension Root {
         case TokenScannerEffect(TokenScannerViewController.Effect)
 
         case AddTokenFromURL(Token)
+        case AddTokenFromURLSucceeded([PersistentToken])
+        case AddTokenFromURLFailed(ErrorType)
 
         case TokenFormSucceeded([PersistentToken])
         case TokenFormFailed(ErrorType)
@@ -122,8 +124,12 @@ extension Root {
 
         case .AddTokenFromURL(let token):
             return .AddToken(token,
-                             success: Action.TokenFormSucceeded,
-                             failure: Action.TokenFormFailed)
+                             success: Action.AddTokenFromURLSucceeded,
+                             failure: Action.AddTokenFromURLFailed)
+        case .AddTokenFromURLSucceeded(let persistentTokens):
+            return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
+        case .AddTokenFromURLFailed:
+            return .ShowErrorMessage("Failed to add token.")
 
         case .TokenFormSucceeded(let persistentTokens):
             // Dismiss the modal form.
