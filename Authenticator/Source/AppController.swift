@@ -78,9 +78,13 @@ class AppController {
                 handleAction(failure(error))
             }
 
-        case let .UpdatePersistentToken(persistentToken, success):
-            store.updatePersistentToken(persistentToken)
-            handleAction(success(store.persistentTokens))
+        case let .UpdatePersistentToken(persistentToken, success, failure):
+            do {
+                try store.updatePersistentToken(persistentToken)
+                handleAction(success(store.persistentTokens))
+            } catch {
+                handleAction(failure(error))
+            }
 
         case let .MoveToken(fromIndex, toIndex, success):
             store.moveTokenFromIndex(fromIndex, toIndex: toIndex)

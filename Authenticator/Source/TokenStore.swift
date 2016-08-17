@@ -87,13 +87,9 @@ extension TokenStore {
         }
     }
 
-    func updatePersistentToken(persistentToken: PersistentToken) {
+    func updatePersistentToken(persistentToken: PersistentToken) throws {
         let newToken = persistentToken.token.updatedToken()
-        do {
-            try saveToken(newToken, toPersistentToken: persistentToken)
-        } catch {
-            // FIXME: handle errors
-        }
+        try saveToken(newToken, toPersistentToken: persistentToken)
     }
 
     func moveTokenFromIndex(origin: Int, toIndex destination: Int) {

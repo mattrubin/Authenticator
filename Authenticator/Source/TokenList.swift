@@ -93,15 +93,18 @@ extension TokenList {
         case DismissEphemeralMessage
 
         case UpdateWithPersistentTokens([PersistentToken])
+        case _TokenChangeFailed(ErrorType)
     }
 
     enum Effect {
         case BeginTokenEntry
         case BeginTokenEdit(PersistentToken)
 
-        case UpdateToken(PersistentToken, success: ([PersistentToken]) -> Action)
+        case UpdateToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
         case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
         case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
+
+        case ShowErrorMessage(ErrorType)
     }
 
     @warn_unused_result
@@ -114,7 +117,8 @@ extension TokenList {
             return .BeginTokenEdit(persistentToken)
 
         case .UpdatePersistentToken(let persistentToken):
-            return .UpdateToken(persistentToken, success: Action.UpdateWithPersistentTokens)
+            return .UpdateToken(persistentToken, success: Action.UpdateWithPersistentTokens,
+                                failure: Action._TokenChangeFailed)
 
         case let .MoveToken(fromIndex, toIndex):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
@@ -139,6 +143,9 @@ extension TokenList {
         case .UpdateWithPersistentTokens(let persistentTokens):
             self.persistentTokens = persistentTokens
             return nil
+
+        case ._TokenChangeFailed(let error):
+            return .ShowErrorMessage(error)
         }
     }
 
@@ -180,6 +187,9 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
     case let (.UpdateWithPersistentTokens(l), .UpdateWithPersistentTokens(r)):
         return l == r
 
+    case (._TokenChangeFailed(_), ._TokenChangeFailed(_)):
+        return false // FIXME
+
     case (.BeginAddToken, _),
          (.EditPersistentToken, _),
          (.UpdatePersistentToken, _),
@@ -188,7 +198,8 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
          (.CopyPassword, _),
          (.UpdateViewModel, _),
          (.DismissEphemeralMessage, _),
-         (.UpdateWithPersistentTokens, _):
+         (.UpdateWithPersistentTokens, _),
+         (._TokenChangeFailed, _):
         // Unlike `default`, this final verbose case will cause an error if a new case is added.
         return false
     }

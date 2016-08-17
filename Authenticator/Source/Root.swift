@@ -90,7 +90,7 @@ extension Root {
     enum Effect {
         case AddToken(Token, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
         case SaveToken(Token, PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
-        case UpdatePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
+        case UpdatePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
         case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
         case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action)
 
@@ -154,9 +154,10 @@ extension Root {
             modal = .EditForm(form)
             return nil
 
-        case let .UpdateToken(persistentToken, success):
+        case let .UpdateToken(persistentToken, success, failure):
             return .UpdatePersistentToken(persistentToken,
-                                          success: compose(success, Action.TokenListAction))
+                                          success: compose(success, Action.TokenListAction),
+                                          failure: compose(failure, Action.TokenListAction))
 
         case let .MoveToken(fromIndex, toIndex, success):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
@@ -165,6 +166,9 @@ extension Root {
         case let .DeletePersistentToken(persistentToken, success):
             return .DeletePersistentToken(persistentToken,
                                           success: compose(success, Action.TokenListAction))
+
+        case .ShowErrorMessage(let error):
+            return .ShowErrorMessage(error)
         }
     }
 
