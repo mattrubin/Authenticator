@@ -103,6 +103,7 @@ extension Root {
             failure: (ErrorType) -> Action)
 
         case ShowErrorMessage(String)
+        case ShowSuccessMessage(String)
     }
 
     @warn_unused_result
@@ -166,8 +167,11 @@ extension Root {
                                           success: compose(success, Action.TokenListAction),
                                           failure: compose(failure, Action.TokenListAction))
 
-        case .ShowErrorMessage(let error):
-            return .ShowErrorMessage(error)
+        case .ShowErrorMessage(let message):
+            return .ShowErrorMessage(message)
+
+        case .ShowSuccessMessage(let message):
+            return .ShowSuccessMessage(message)
         }
     }
 

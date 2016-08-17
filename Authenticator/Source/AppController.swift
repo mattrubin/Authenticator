@@ -100,6 +100,9 @@ class AppController {
 
         case let .ShowErrorMessage(errorMessage):
             SVProgressHUD.showErrorWithStatus(errorMessage)
+
+        case let .ShowSuccessMessage(message):
+            SVProgressHUD.showSuccessWithStatus(message)
         }
     }
 

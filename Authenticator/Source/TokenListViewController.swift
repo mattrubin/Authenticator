@@ -24,7 +24,6 @@
 //
 
 import UIKit
-import SVProgressHUD
 
 class TokenListViewController: UITableViewController {
     private let dispatchAction: (TokenList.Action) -> ()
@@ -186,16 +185,6 @@ extension TokenListViewController {
         self.viewModel = viewModel
         updateTableViewWithChanges(changes)
         updatePeripheralViews()
-        // Show ephemeral message
-        if let ephemeralMessage = viewModel.ephemeralMessage {
-            switch ephemeralMessage {
-            case .Success(let message):
-                SVProgressHUD.showSuccessWithStatus(message)
-            case .Error(let message):
-                SVProgressHUD.showErrorWithStatus(message)
-            }
-            dispatchAction(.DismissEphemeralMessage)
-        }
     }
 
     private func updateTableViewWithChanges(changes: [Change]) {

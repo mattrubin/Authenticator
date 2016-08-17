@@ -28,10 +28,4 @@ import Foundation
 struct TokenListViewModel {
     let rowModels: [TokenRowModel]
     let ringProgress: Double?
-    let ephemeralMessage: EphemeralMessage?
-}
-
-enum EphemeralMessage {
-    case Success(String)
-    case Error(String)
 }
