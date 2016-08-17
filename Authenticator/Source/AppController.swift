@@ -113,8 +113,6 @@ class AppController {
     }
 
     func addTokenFromURL(token: Token) {
-        // TODO: Add Root.Action.AddTokenFromURL
-        handleEffect(.AddToken(token, success: Root.Action.TokenFormSucceeded,
-            failure: Root.Action.TokenFormFailed))
+        handleAction(.AddTokenFromURL(token))
     }
 }
