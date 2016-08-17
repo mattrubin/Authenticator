@@ -209,7 +209,6 @@ extension TokenEntryForm {
     @warn_unused_result
     private mutating func submit() -> Effect? {
         guard isValid else {
-            // TODO: Show more specific error messages for different failure cases
             return .ShowErrorMessage("A secret and some identifier are required.")
         }
 
