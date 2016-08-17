@@ -93,6 +93,7 @@ extension TokenEditForm {
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
                 name: name,
+                // TODO: Change the behavior of the return key based on validation of the form.
                 returnKeyType: .Done,
                 changeAction: Action.Name
             )

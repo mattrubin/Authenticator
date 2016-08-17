@@ -135,6 +135,7 @@ extension TokenEntryForm {
             identity: "token.secret",
             viewModel: TextFieldRowViewModel(
                 secret: secret,
+                // TODO: Change the behavior of the return key based on validation of the form.
                 changeAction: Action.Secret
             )
         )
