@@ -109,14 +109,20 @@ extension TokenList {
         switch action {
         case .BeginAddToken:
             return .BeginTokenEntry
+
         case .EditPersistentToken(let persistentToken):
             return .BeginTokenEdit(persistentToken)
+
         case .UpdatePersistentToken(let persistentToken):
             return .UpdateToken(persistentToken, success: Action.UpdateWithPersistentTokens)
+
         case let .MoveToken(fromIndex, toIndex):
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex, success: Action.UpdateWithPersistentTokens)
+            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
+                              success: Action.UpdateWithPersistentTokens)
+
         case .DeletePersistentToken(let persistentToken):
-            return .DeletePersistentToken(persistentToken, success: Action.UpdateWithPersistentTokens)
+            return .DeletePersistentToken(persistentToken,
+                                          success: Action.UpdateWithPersistentTokens)
 
         case .CopyPassword(let password):
             copyPassword(password)
