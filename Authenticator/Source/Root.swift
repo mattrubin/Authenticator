@@ -80,10 +80,11 @@ extension Root {
 
         case AddTokenFromURL(Token)
         case AddTokenFromURLSucceeded([PersistentToken])
-        case AddTokenFromURLFailed(ErrorType)
 
         case TokenFormSucceeded([PersistentToken])
-        case TokenFormFailed(ErrorType)
+
+        case AddTokenFailed(ErrorType)
+        case SaveTokenFailed(ErrorType)
     }
 
     enum Effect {
@@ -125,19 +126,19 @@ extension Root {
         case .AddTokenFromURL(let token):
             return .AddToken(token,
                              success: Action.AddTokenFromURLSucceeded,
-                             failure: Action.AddTokenFromURLFailed)
+                             failure: Action.AddTokenFailed)
         case .AddTokenFromURLSucceeded(let persistentTokens):
             return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
-        case .AddTokenFromURLFailed:
-            return .ShowErrorMessage("Failed to add token.")
 
         case .TokenFormSucceeded(let persistentTokens):
             // Dismiss the modal form.
             modal = .None
             return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
-        case .TokenFormFailed(let error):
-            // TODO: Better error messages
-            return .ShowErrorMessage("Error: \(error)")
+
+        case .AddTokenFailed:
+            return .ShowErrorMessage("Failed to add token.")
+        case .SaveTokenFailed:
+            return .ShowErrorMessage("Failed to save token.")
         }
     }
 
@@ -212,7 +213,7 @@ extension Root {
         case .SaveNewToken(let token):
             return .AddToken(token,
                              success: Action.TokenFormSucceeded,
-                             failure: Action.TokenFormFailed)
+                             failure: Action.AddTokenFailed)
 
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
@@ -243,7 +244,7 @@ extension Root {
         case let .SaveChanges(token, persistentToken):
             return .SaveToken(token, persistentToken,
                               success: Action.TokenFormSucceeded,
-                              failure: Action.TokenFormFailed)
+                              failure: Action.SaveTokenFailed)
 
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
@@ -264,7 +265,7 @@ extension Root {
         case .SaveNewToken(let token):
             return .AddToken(token,
                              success: Action.TokenFormSucceeded,
-                             failure: Action.TokenFormFailed)
+                             failure: Action.AddTokenFailed)
         }
     }
 }
