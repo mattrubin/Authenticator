@@ -110,7 +110,6 @@ extension Root {
         case .TokenEntrySucceeded(let persistentTokens):
             // Dismiss the modal entry form.
             modal = .None
-            // TODO: Scroll to the new token (added at the bottom)
             return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
         case .TokenEntryFailed(let error):
             // TODO: Better error messages
