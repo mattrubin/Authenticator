@@ -63,23 +63,23 @@ class AppController {
         switch effect {
         case let .AddToken(token, success):
             store.addToken(token)
-            component.update(success(store.persistentTokens))
+            handleAction(success(store.persistentTokens))
 
         case let .SaveToken(token, persistentToken, success):
             store.saveToken(token, toPersistentToken: persistentToken)
-            component.update(success(store.persistentTokens))
+            handleAction(success(store.persistentTokens))
 
         case let .UpdatePersistentToken(persistentToken, success):
             store.updatePersistentToken(persistentToken)
-            component.update(success(store.persistentTokens))
+            handleAction(success(store.persistentTokens))
 
         case let .MoveToken(fromIndex, toIndex, success):
             store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-            component.update(success(store.persistentTokens))
+            handleAction(success(store.persistentTokens))
 
         case let .DeletePersistentToken(persistentToken, success):
             store.deletePersistentToken(persistentToken)
-            component.update(success(store.persistentTokens))
+            handleAction(success(store.persistentTokens))
         }
     }
 
