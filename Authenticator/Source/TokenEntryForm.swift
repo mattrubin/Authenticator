@@ -38,7 +38,6 @@ struct TokenEntryForm: Component {
     private var algorithm: Generator.Algorithm = .SHA1
 
     private var showsAdvancedOptions: Bool = false
-    private var submitFailed: Bool = false
 
     private var isValid: Bool {
         return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
@@ -64,8 +63,6 @@ extension TokenEntryForm: TableViewModelRepresentable {
         case ShowAdvancedOptions
         case Cancel
         case Submit
-
-        case DismissEphemeralMessage
     }
 
     typealias HeaderModel = TokenFormHeaderModel<Action>
@@ -98,9 +95,7 @@ extension TokenEntryForm {
                         ]
                 ),
             ],
-            doneKeyAction: .Submit,
-            dismissMessageAction: .DismissEphemeralMessage,
-            errorMessage: submitFailed ? "Invalid Token" : nil
+            doneKeyAction: .Submit
         )
     }
 
@@ -182,6 +177,7 @@ extension TokenEntryForm {
     enum Effect {
         case Cancel
         case SaveNewToken(Token)
+        case ShowErrorMessage(String)
     }
 
     @warn_unused_result
@@ -206,8 +202,6 @@ extension TokenEntryForm {
             return .Cancel
         case .Submit:
             return submit()
-        case .DismissEphemeralMessage:
-            submitFailed = false
         }
         return nil
     }
@@ -216,14 +210,12 @@ extension TokenEntryForm {
     private mutating func submit() -> Effect? {
         guard isValid else {
             // TODO: Show more specific error messages for different failure cases
-            submitFailed = true
-            return nil
+            return .ShowErrorMessage("Invalid Token")
         }
 
         guard let secretData = NSData(base32String: secret)
             where secretData.length > 0 else {
-                submitFailed = true
-                return nil
+                return .ShowErrorMessage("Invalid Token")
         }
 
         let factor: Generator.Factor
@@ -240,8 +232,7 @@ extension TokenEntryForm {
             algorithm: algorithm,
             digits: digitCount
             ) else {
-                submitFailed = true
-                return nil
+                return .ShowErrorMessage("Invalid Token")
         }
 
         let token = Token(

@@ -24,7 +24,6 @@
 //
 
 import UIKit
-import SVProgressHUD
 
 class TokenFormViewController<Form: TableViewModelRepresentable where Form.HeaderModel == TokenFormHeaderModel<Form.Action>, Form.RowModel == TokenFormRowModel<Form.Action>>: UITableViewController {
     private let dispatchAction: (Form.Action) -> ()
@@ -302,10 +301,6 @@ extension TokenFormViewController {
     func updateWithViewModel(viewModel: TableViewModel<Form>) {
         self.viewModel = viewModel
         updateBarButtonItems()
-        if let errorMessage = viewModel.errorMessage {
-            SVProgressHUD.showErrorWithStatus(errorMessage)
-            dispatchAction(viewModel.dismissMessageAction)
-        }
     }
 }
 

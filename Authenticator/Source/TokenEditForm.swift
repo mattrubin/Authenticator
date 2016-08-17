@@ -31,8 +31,6 @@ struct TokenEditForm: Component {
     private var issuer: String
     private var name: String
 
-    private var submitFailed: Bool = false
-
     private var isValid: Bool {
         return !(issuer.isEmpty && name.isEmpty)
     }
@@ -54,8 +52,6 @@ extension TokenEditForm: TableViewModelRepresentable {
         case Name(String)
         case Cancel
         case Submit
-
-        case DismissEphemeralMessage
     }
 
     typealias HeaderModel = TokenFormHeaderModel<Action>
@@ -78,9 +74,7 @@ extension TokenEditForm {
                     nameRowModel,
                 ]
             ],
-            doneKeyAction: .Submit,
-            dismissMessageAction: .DismissEphemeralMessage,
-            errorMessage: submitFailed ? "Invalid Token" : nil
+            doneKeyAction: .Submit
         )
     }
 
@@ -112,6 +106,7 @@ extension TokenEditForm {
     enum Effect {
         case Cancel
         case SaveChanges(Token, PersistentToken)
+        case ShowErrorMessage(String)
     }
 
     @warn_unused_result
@@ -125,8 +120,6 @@ extension TokenEditForm {
             return .Cancel
         case .Submit:
             return submit()
-        case .DismissEphemeralMessage:
-            submitFailed = false
         }
         return nil
     }
@@ -134,8 +127,7 @@ extension TokenEditForm {
     @warn_unused_result
     private mutating func submit() -> Effect? {
         guard isValid else {
-            submitFailed = true
-            return nil
+            return .ShowErrorMessage("Invalid Token")
         }
 
         let token = Token(

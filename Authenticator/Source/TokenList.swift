@@ -31,12 +31,10 @@ import OneTimePassword
 struct TokenList: Component {
     private var persistentTokens: [PersistentToken]
     private var displayTime: DisplayTime
-    private var ephemeralMessage: EphemeralMessage?
 
     init(persistentTokens: [PersistentToken], displayTime: DisplayTime) {
         self.persistentTokens = persistentTokens
         self.displayTime = displayTime
-        ephemeralMessage = nil
     }
 
     // MARK: View Model
@@ -47,8 +45,7 @@ struct TokenList: Component {
         })
         return TokenListViewModel(
             rowModels: rowModels,
-            ringProgress: ringProgress,
-            ephemeralMessage: ephemeralMessage
+            ringProgress: ringProgress
         )
     }
 
@@ -90,7 +87,6 @@ extension TokenList {
         case CopyPassword(String)
         // TODO: remove this action and have the component auto-update the view model on time change
         case UpdateViewModel(DisplayTime)
-        case DismissEphemeralMessage
 
         case TokenChangeSucceeded([PersistentToken])
         case TokenChangeFailed(ErrorType)
@@ -112,6 +108,7 @@ extension TokenList {
             failure: (ErrorType) -> Action)
 
         case ShowErrorMessage(String)
+        case ShowSuccessMessage(String)
     }
 
     @warn_unused_result
@@ -137,15 +134,10 @@ extension TokenList {
                                           failure: Action.TokenChangeFailed)
 
         case .CopyPassword(let password):
-            copyPassword(password)
-            return nil
+            return copyPassword(password)
 
         case .UpdateViewModel(let displayTime):
             self.displayTime = displayTime
-            return nil
-
-        case .DismissEphemeralMessage:
-            ephemeralMessage = nil
             return nil
 
         case .TokenChangeSucceeded(let persistentTokens):
@@ -158,11 +150,11 @@ extension TokenList {
         }
     }
 
-    private mutating func copyPassword(password: String) {
+    private mutating func copyPassword(password: String) -> Effect {
         let pasteboard = UIPasteboard.generalPasteboard()
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
-        // Show an ephemeral success message in the view
-        ephemeralMessage = .Success("Copied")
+        // Show an ephemeral success message.
+        return .ShowSuccessMessage("Copied")
     }
 }
 
@@ -190,9 +182,6 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
     case let (.UpdateViewModel(l), .UpdateViewModel(r)):
         return l == r
 
-    case (.DismissEphemeralMessage, .DismissEphemeralMessage):
-        return true
-
     case let (.TokenChangeSucceeded(l), .TokenChangeSucceeded(r)):
         return l == r
 
@@ -206,7 +195,6 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
          (.DeletePersistentToken, _),
          (.CopyPassword, _),
          (.UpdateViewModel, _),
-         (.DismissEphemeralMessage, _),
          (.TokenChangeSucceeded, _),
          (.TokenChangeFailed, _):
         // Unlike `default`, this final verbose case will cause an error if a new case is added.
