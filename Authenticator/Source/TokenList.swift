@@ -104,7 +104,7 @@ extension TokenList {
         case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
         case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
 
-        case ShowErrorMessage(ErrorType)
+        case ShowErrorMessage(String)
     }
 
     @warn_unused_result
@@ -146,7 +146,8 @@ extension TokenList {
             return nil
 
         case .TokenChangeFailed(let error):
-            return .ShowErrorMessage(error)
+            // TODO: Better error messages
+            return .ShowErrorMessage("Error: \(error)")
         }
     }
 

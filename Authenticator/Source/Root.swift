@@ -92,7 +92,7 @@ extension Root {
         case MoveToken(fromIndex: Int, toIndex: Int, success: ([PersistentToken]) -> Action)
         case DeletePersistentToken(PersistentToken, success: ([PersistentToken]) -> Action, failure: (ErrorType) -> Action)
 
-        case ShowErrorMessage(ErrorType)
+        case ShowErrorMessage(String)
     }
 
     @warn_unused_result
@@ -113,14 +113,16 @@ extension Root {
             // TODO: Scroll to the new token (added at the bottom)
             return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
         case .TokenEntryFailed(let error):
-            return .ShowErrorMessage(error)
+            // TODO: Better error messages
+            return .ShowErrorMessage("Error: \(error)")
 
         case .TokenEditSucceeded(let persistentTokens):
             // Dismiss the modal edit form.
             modal = .None
             return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
         case .TokenEditFailed(let error):
-            return .ShowErrorMessage(error)
+            // TODO: Better error messages
+            return .ShowErrorMessage("Error: \(error)")
         }
     }
 

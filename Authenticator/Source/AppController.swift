@@ -98,8 +98,8 @@ class AppController {
                 handleAction(failure(error))
             }
 
-        case let .ShowErrorMessage(error):
-            SVProgressHUD.showErrorWithStatus("Error: \(error)")
+        case let .ShowErrorMessage(errorMessage):
+            SVProgressHUD.showErrorWithStatus(errorMessage)
         }
     }
 
