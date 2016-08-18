@@ -93,6 +93,7 @@ extension TokenEditForm {
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
                 name: name,
+                // TODO: Change the behavior of the return key based on validation of the form.
                 returnKeyType: .Done,
                 changeAction: Action.Name
             )
@@ -127,7 +128,7 @@ extension TokenEditForm {
     @warn_unused_result
     private mutating func submit() -> Effect? {
         guard isValid else {
-            return .ShowErrorMessage("Invalid Token")
+            return .ShowErrorMessage("An issuer or name is required.")
         }
 
         let token = Token(

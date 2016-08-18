@@ -89,7 +89,8 @@ extension TokenList {
         case UpdateViewModel(DisplayTime)
 
         case TokenChangeSucceeded([PersistentToken])
-        case TokenChangeFailed(ErrorType)
+        case UpdateTokenFailed(ErrorType)
+        case DeleteTokenFailed(ErrorType)
     }
 
     enum Effect {
@@ -122,7 +123,7 @@ extension TokenList {
 
         case .UpdatePersistentToken(let persistentToken):
             return .UpdateToken(persistentToken, success: Action.TokenChangeSucceeded,
-                                failure: Action.TokenChangeFailed)
+                                failure: Action.UpdateTokenFailed)
 
         case let .MoveToken(fromIndex, toIndex):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
@@ -131,7 +132,7 @@ extension TokenList {
         case .DeletePersistentToken(let persistentToken):
             return .DeletePersistentToken(persistentToken,
                                           success: Action.TokenChangeSucceeded,
-                                          failure: Action.TokenChangeFailed)
+                                          failure: Action.DeleteTokenFailed)
 
         case .CopyPassword(let password):
             return copyPassword(password)
@@ -144,9 +145,10 @@ extension TokenList {
             self.persistentTokens = persistentTokens
             return nil
 
-        case .TokenChangeFailed(let error):
-            // TODO: Better error messages
-            return .ShowErrorMessage("Error: \(error)")
+        case .UpdateTokenFailed:
+            return .ShowErrorMessage("Failed to update token.")
+        case .DeleteTokenFailed:
+            return .ShowErrorMessage("Failed to delete token.")
         }
     }
 
