@@ -8,7 +8,7 @@ opt_in_rules:
   - force_unwrapping
   - missing_docs
   - private_outlet
-#  - vertical_whitespace
+  - vertical_whitespace
 disabled_rules:
   - line_length
   - todo
