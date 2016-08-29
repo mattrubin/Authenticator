@@ -3,10 +3,12 @@
 excluded:
   - Carthage
 opt_in_rules:
+  - conditional_returns_on_newline
   - empty_count
   - force_unwrapping
   - missing_docs
+  - private_outlet
+  - vertical_whitespace
 disabled_rules:
-  - conditional_binding_cascade
   - line_length
   - todo

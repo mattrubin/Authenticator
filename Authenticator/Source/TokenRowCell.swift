@@ -33,7 +33,6 @@ class TokenRowCell: UITableViewCell {
     private let passwordLabel = UILabel()
     private let nextPasswordButton = UIButton(type: .ContactAdd)
 
-
     // MARK: - Setup
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -53,7 +52,6 @@ class TokenRowCell: UITableViewCell {
         configureSubviews()
         updateAppearanceWithRowModel(rowModel)
     }
-
 
     // MARK: - Subviews
 
@@ -89,7 +87,6 @@ class TokenRowCell: UITableViewCell {
 
         nextPasswordButton.center = CGPoint(x: fullFrame.maxX - 25, y: passwordLabel.frame.midY)
     }
-
 
     // MARK: - Update
 
@@ -127,7 +124,6 @@ class TokenRowCell: UITableViewCell {
     private func setPassword(password: String) {
         passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSKernAttributeName: 2])
     }
-
 
     // MARK: - Editing
 
