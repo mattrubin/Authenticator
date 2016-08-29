@@ -120,7 +120,9 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
     // MARK: - UITextFieldDelegate
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        delegate?.textFieldCellDidReturn(self)
+        if textField === self.textField {
+            delegate?.textFieldCellDidReturn(self)
+        }
         return false
     }
 }
