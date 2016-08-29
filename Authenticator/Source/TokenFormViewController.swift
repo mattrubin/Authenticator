@@ -309,6 +309,7 @@ extension TokenFormViewController: TextFieldRowCellDelegate {
         // Unfocus the field that returned
         textFieldCell.unfocus()
 
+        // swiftlint:disable:next conditional_returns_on_newline
         if textFieldCell.textField.returnKeyType == .Next {
             // Try to focus the next text field cell
             if let currentIndexPath = tableView.indexPathForCell(textFieldCell) {
@@ -316,6 +317,7 @@ extension TokenFormViewController: TextFieldRowCellDelegate {
                     nextFocusCell.focus()
                 }
             }
+            // swiftlint:disable:next conditional_returns_on_newline
         } else if textFieldCell.textField.returnKeyType == .Done {
             // Try to submit the form
             dispatchAction(viewModel.doneKeyAction)
