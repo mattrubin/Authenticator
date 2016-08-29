@@ -44,10 +44,9 @@ protocol TextFieldRowCellDelegate: class {
 
 private let preferredHeight: CGFloat = 74
 
-class TextFieldRowCell<Action>: UITableViewCell {
+class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
 
     let textField = UITextField()
-    private var delegateAdapter: TextFieldRowCellDelegateAdapter?
     weak var delegate: TextFieldRowCellDelegate?
     var dispatchAction: ((Action) -> ())?
     private var changeAction: ((String) -> Action)?
@@ -69,14 +68,7 @@ class TextFieldRowCell<Action>: UITableViewCell {
     private func configureSubviews() {
         textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 17)
 
-        delegateAdapter = TextFieldRowCellDelegateAdapter { [weak self] (textField) in
-            if let sself = self {
-                sself.delegate?.textFieldCellDidReturn(sself)
-            }
-            return false
-        }
-
-        textField.delegate = delegateAdapter
+        textField.delegate = self
         let action = #selector(TextFieldRowCell.textFieldValueChanged)
         textField.addTarget(self, action: action, forControlEvents: .EditingChanged)
         textField.borderStyle = .RoundedRect
@@ -124,6 +116,13 @@ class TextFieldRowCell<Action>: UITableViewCell {
             dispatchAction?(action)
         }
     }
+
+    // MARK: - UITextFieldDelegate
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        delegate?.textFieldCellDidReturn(self)
+        return false
+    }
 }
 
 extension TextFieldRowCell: FocusCell {
@@ -133,22 +132,5 @@ extension TextFieldRowCell: FocusCell {
 
     func unfocus() -> Bool {
         return textField.resignFirstResponder()
-    }
-}
-
-// A Swift generic class cannot have an @objc method, and an @objc method is needed to satisfy
-// certain Objective-C delegate methods, so this adapter is necessary to handle
-// `UITextFieldDelegate` delegate calls. The original error message was:
-//  > non-@objc method 'textFieldShouldReturn' cannot satisfy optional requirement of @objc
-//  > protocol 'UITextFieldDelegate'
-private class TextFieldRowCellDelegateAdapter: NSObject, UITextFieldDelegate {
-    let textFieldShouldReturnAction: UITextField -> Bool
-
-    init(textFieldShouldReturnAction: UITextField -> Bool) {
-        self.textFieldShouldReturnAction = textFieldShouldReturnAction
-    }
-
-    @objc func textFieldShouldReturn(textField: UITextField) -> Bool {
-        return textFieldShouldReturnAction(textField)
     }
 }
