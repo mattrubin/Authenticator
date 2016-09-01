@@ -210,10 +210,6 @@ extension TokenListViewController {
             case .Delete(let rowIndex):
                 let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            case let .Move(fromRowIndex, toRowIndex):
-                let origin = NSIndexPath(forRow: fromRowIndex, inSection: sectionIndex)
-                let destination = NSIndexPath(forRow: toRowIndex, inSection: sectionIndex)
-                tableView.moveRowAtIndexPath(origin, toIndexPath: destination)
             }
         }
         tableView.endUpdates()
