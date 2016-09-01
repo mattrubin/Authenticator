@@ -33,8 +33,6 @@ enum Change {
     case Insert(index: Int)
     case Update(oldIndex: Int, newIndex: Int)
     case Delete(index: Int)
-    // TODO: Consolidate matching Inserts and Deletes into Moves
-    case Move(fromIndex: Int, toIndex: Int)
 }
 
 func changesFrom<T: Identifiable>(oldItems: [T], to newItems: [T]) -> [Change] {
