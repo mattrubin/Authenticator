@@ -117,6 +117,5 @@ private extension NSUserDefaults {
 
     func savePersistentIdentifiers(identifiers: [NSData]) {
         setObject(identifiers, forKey: kOTPKeychainEntriesArray)
-        synchronize() // TODO: Remove call to deprecated synchronize()
     }
 }
