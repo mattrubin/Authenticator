@@ -31,32 +31,30 @@ class TokenStore {
     private let userDefaults: NSUserDefaults
     private(set) var persistentTokens: [PersistentToken]
 
-    init(keychain: Keychain, userDefaults: NSUserDefaults) {
+    // Throws an error if the initial state could not be loaded from the keychain.
+    init(keychain: Keychain, userDefaults: NSUserDefaults) throws {
         self.keychain = keychain
         self.userDefaults = userDefaults
-        do {
-            let persistentTokenSet = try keychain.allPersistentTokens()
-            let sortedIdentifiers = userDefaults.persistentIdentifiers()
 
-            persistentTokens = persistentTokenSet.sort({ (A, B) in
-                let indexOfA = sortedIdentifiers.indexOf(A.identifier)
-                let indexOfB = sortedIdentifiers.indexOf(B.identifier)
+        // Try to load persistent tokens.
+        let persistentTokenSet = try keychain.allPersistentTokens()
+        let sortedIdentifiers = userDefaults.persistentIdentifiers()
 
-                switch (indexOfA, indexOfB) {
-                case (.Some(let iA), .Some(let iB)) where iA < iB:
-                    return true
-                default:
-                    return false
-                }
-            })
+        persistentTokens = persistentTokenSet.sort({ (A, B) in
+            let indexOfA = sortedIdentifiers.indexOf(A.identifier)
+            let indexOfB = sortedIdentifiers.indexOf(B.identifier)
 
-            if persistentTokens.count > sortedIdentifiers.count {
-                // If lost tokens were found and appended, save the full list of tokens
-                saveTokenOrder()
+            switch (indexOfA, indexOfB) {
+            case (.Some(let iA), .Some(let iB)) where iA < iB:
+                return true
+            default:
+                return false
             }
-        } catch {
-            persistentTokens = []
-            // TODO: Handle the token loading error
+        })
+
+        if persistentTokens.count > sortedIdentifiers.count {
+            // If lost tokens were found and appended, save the full list of tokens
+            saveTokenOrder()
         }
     }
 
@@ -119,6 +117,5 @@ private extension NSUserDefaults {
 
     func savePersistentIdentifiers(identifiers: [NSData]) {
         setObject(identifiers, forKey: kOTPKeychainEntriesArray)
-        synchronize() // TODO: Remove call to deprecated synchronize()
     }
 }
