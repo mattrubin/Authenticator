@@ -43,10 +43,15 @@ class AppController {
     }()
 
     init() {
-        store = TokenStore(
-            keychain: Keychain.sharedInstance,
-            userDefaults: NSUserDefaults.standardUserDefaults()
-        )
+        do {
+            store = try TokenStore(
+                keychain: Keychain.sharedInstance,
+                userDefaults: NSUserDefaults.standardUserDefaults()
+            )
+        } catch {
+            // If the TokenStore could not be created, the app is unusable.
+            fatalError("Failed to load token store: \(error)")
+        }
         let currentTime = DisplayTime(date: NSDate())
         component = Root(persistentTokens: store.persistentTokens, displayTime: currentTime)
     }
