@@ -44,7 +44,9 @@ class OTPProgressRing: UIView {
     }
 
     override func drawRect(rect: CGRect) {
-        let context = UIGraphicsGetCurrentContext()
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return
+        }
 
         let halfLineWidth = lineWidth / 2
         let ringRect = self.bounds.insetBy(dx: halfLineWidth, dy: halfLineWidth)

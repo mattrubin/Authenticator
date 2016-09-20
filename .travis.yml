@@ -5,10 +5,15 @@ language: objective-c
 xcode_workspace: Authenticator.xcworkspace
 xcode_scheme: Authenticator
 
-osx_image: xcode7.3
-xcode_sdk: iphonesimulator9.3
+osx_image: xcode8
+xcode_sdk: iphonesimulator10.0
+
+matrix:
+  include:
+    - osx_image: xcode7.3
+      xcode_sdk: iphonesimulator9.3
 
 before_install:
   - git submodule update --init --recursive
 
-script: xctool -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK build
+script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK build | xcpretty -c
