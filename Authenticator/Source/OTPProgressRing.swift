@@ -49,19 +49,19 @@ class OTPProgressRing: UIView {
         let halfLineWidth = lineWidth / 2
         let ringRect = self.bounds.insetBy(dx: halfLineWidth, dy: halfLineWidth)
 
-        CGContextSetLineWidth(context, lineWidth)
+        CGContextSetLineWidth(context!, lineWidth)
 
-        CGContextSetStrokeColorWithColor(context, self.tintColor.colorWithAlphaComponent(0.2).CGColor)
-        CGContextStrokeEllipseInRect(context, ringRect)
+        CGContextSetStrokeColorWithColor(context!, self.tintColor.colorWithAlphaComponent(0.2).CGColor)
+        CGContextStrokeEllipseInRect(context!, ringRect)
 
-        CGContextSetStrokeColorWithColor(context, self.tintColor.CGColor)
-        CGContextAddArc(context,
+        CGContextSetStrokeColorWithColor(context!, self.tintColor.CGColor)
+        CGContextAddArc(context!,
             ringRect.midX,
             ringRect.midY,
             ringRect.width/2,
             CGFloat(-M_PI_2),
             CGFloat(2 * M_PI * self.progress - M_PI_2),
             1)
-        CGContextStrokePath(context)
+        CGContextStrokePath(context!)
     }
 }

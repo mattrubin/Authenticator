@@ -53,8 +53,8 @@ class ScannerOverlayView: UIView {
             height: windowSize
         )
 
-        CGContextFillRect(context, rect)
-        CGContextClearRect(context, window)
-        CGContextStrokeRect(context, window)
+        CGContextFillRect(context!, rect)
+        CGContextClearRect(context!, window)
+        CGContextStrokeRect(context!, window)
     }
 }
