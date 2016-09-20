@@ -39,7 +39,9 @@ class ScannerOverlayView: UIView {
     }
 
     override func drawRect(rect: CGRect) {
-        let context = UIGraphicsGetCurrentContext()
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return
+        }
 
         UIColor(white: 0, alpha: 0.5).setFill()
         UIColor(white: 1, alpha: 0.2).setStroke()
@@ -53,8 +55,8 @@ class ScannerOverlayView: UIView {
             height: windowSize
         )
 
-        CGContextFillRect(context!, rect)
-        CGContextClearRect(context!, window)
-        CGContextStrokeRect(context!, window)
+        CGContextFillRect(context, rect)
+        CGContextClearRect(context, window)
+        CGContextStrokeRect(context, window)
     }
 }
