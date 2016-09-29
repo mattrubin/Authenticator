@@ -41,11 +41,14 @@ class TokenListViewController: UITableViewController {
     }
 
     private var displayLink: CADisplayLink?
-    private let ring: OTPProgressRing = OTPProgressRing(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
+    private var searchBar = SearchField(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 44 )))
+    private var ring: OTPProgressRing {
+        get { return searchBar.ring }
+    }
     private lazy var noTokensLabel: UILabel = {
         // swiftlint:disable force_unwrapping
         let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
-            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
+                                                      attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
         noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
             attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!]))
         noTokenString.addAttributes(
@@ -66,6 +69,8 @@ class TokenListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tableView.keyboardDismissMode = .Interactive
+
         self.title = "Authenticator"
         self.view.backgroundColor = UIColor.otpBackgroundColor
 
@@ -76,7 +81,8 @@ class TokenListViewController: UITableViewController {
         self.tableView.allowsSelectionDuringEditing = true
 
         // Configure navigation bar
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.ring)
+        self.navigationItem.titleView = searchBar;
+
 
         // Configure toolbar
         let addAction = #selector(TokenListViewController.addToken)
@@ -136,9 +142,6 @@ class TokenListViewController: UITableViewController {
 
 // MARK: UITableViewDataSource
 extension TokenListViewController {
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.rowModels.count
@@ -217,9 +220,11 @@ extension TokenListViewController {
 
     private func updatePeripheralViews() {
         // Show the countdown ring only if a time-based token is active
-        self.ring.hidden = (viewModel.ringProgress == nil)
+        // self.ring.hidden = (viewModel.ringProgress == nil)
         if let ringProgress = viewModel.ringProgress {
             ring.progress = ringProgress
+        } else {
+            ring.progress = 0.5
         }
 
         let hasTokens = !viewModel.rowModels.isEmpty
@@ -231,4 +236,69 @@ extension TokenListViewController {
             self.setEditing(false, animated: true)
         }
     }
+}
+
+class SearchField : UIView {
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupTextField()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupTextField()
+    }
+
+    override var frame: CGRect {
+        get { return super.frame }
+        set {
+            NSLog("Overriding frame \(newValue)")
+            super.frame = newValue
+        }
+    }
+
+    private(set) internal var ring: OTPProgressRing = OTPProgressRing(frame: CGRect(origin: .zero, size: CGSize(width: 22, height: 22)))
+
+    private(set) internal var textField: UITextField = UITextField()
+
+    private func setupTextField() {
+        ring.tintColor = UIColor.otpLightColor
+        textField.placeholder = "Authenticator"
+        textField.textColor = UIColor.otpLightColor
+        textField.backgroundColor = UIColor.otpLightColor.colorWithAlphaComponent(0.2)
+        textField.leftView = ring;
+        textField.leftViewMode = .Always
+        textField.borderStyle = .RoundedRect
+        textField.clearButtonMode = .WhileEditing
+        textField.sizeToFit()
+        addSubview(textField)
+    }
+
+    override func intrinsicContentSize() -> CGSize {
+        return ring.frame.union(textField.frame).size;
+    }
+
+    override func alignmentRectForFrame(frame: CGRect) -> CGRect {
+        NSLog("Alignment rect \(frame)")
+        return super.alignmentRectForFrame(frame)
+    }
+
+    override func sizeThatFits(size: CGSize) -> CGSize {
+        let fieldSize = textField.frame.size;
+        let fits = CGSize(width: max(size.width, fieldSize.width), height: fieldSize.height)
+        NSLog("Size that fits: \(size) \(fits)")
+        return fits;
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // center the text field
+        var textFieldFrame = textField.frame
+        textFieldFrame.size.width = bounds.size.width
+        textField.frame = textFieldFrame
+        textField.center = CGPoint(x: bounds.size.width * 0.5, y: bounds.size.height * 0.5)
+    }
+
 }
