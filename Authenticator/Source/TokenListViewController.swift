@@ -48,7 +48,7 @@ class TokenListViewController: UITableViewController, UITextFieldDelegate {
     private lazy var noTokensLabel: UILabel = {
         // swiftlint:disable force_unwrapping
         let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
-                                                      attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
+            attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!])
         noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
             attributes: [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 17)!]))
         noTokenString.addAttributes(
@@ -81,7 +81,7 @@ class TokenListViewController: UITableViewController, UITextFieldDelegate {
         self.tableView.allowsSelectionDuringEditing = true
 
         // Configure navigation bar
-        self.navigationItem.titleView = searchBar;
+        self.navigationItem.titleView = searchBar
 
         self.searchBar.delegate = self
 
@@ -110,7 +110,12 @@ class TokenListViewController: UITableViewController, UITextFieldDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(onTextFieldUpdated), name: UITextFieldTextDidChangeNotification, object: searchBar.textField)
+        NSNotificationCenter
+            .defaultCenter()
+            .addObserver(self,
+                         selector: #selector(onTextFieldUpdated),
+                         name: UITextFieldTextDidChangeNotification,
+                         object: searchBar.textField)
 
         let selector = #selector(TokenListViewController.tick)
         self.displayLink = CADisplayLink(target: self, selector: selector)
@@ -196,7 +201,8 @@ extension TokenListViewController {
         updatePeripheralViews()
     }
 
-    private func updateTableViewWithChanges(changes: [Change], whileFiltering isFiltering: Bool = false) {
+    private func updateTableViewWithChanges(changes: [Change],
+                                            whileFiltering isFiltering: Bool = false) {
         // TODO: Scroll to a newly added token (added at the bottom)
         if changes.isEmpty || preventTableViewAnimations {
             return
@@ -234,7 +240,8 @@ extension TokenListViewController {
         // Show the countdown ring only if a time-based token is active
         searchBar.textField.leftViewMode = hasTokens ? .Always : .Never
         searchBar.textField.enabled = hasTokens
-        searchBar.textField.backgroundColor = hasTokens ? UIColor.otpLightColor.colorWithAlphaComponent(0.1) : UIColor.clearColor()
+        searchBar.textField.backgroundColor = hasTokens ?
+            UIColor.otpLightColor.colorWithAlphaComponent(0.1) : UIColor.clearColor()
         if let ringProgress = viewModel.ringProgress {
             ring.progress = ringProgress
         }
@@ -304,13 +311,17 @@ class SearchField : UIView {
 
     private func setupTextField() {
         ring.tintColor = UIColor.otpLightColor
+        let placeHolderAttributes = [
+            NSForegroundColorAttributeName: UIColor.otpLightColor,
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 16)!
+        ]
         textField.attributedPlaceholder = NSAttributedString(
             string: "Authenticator",
-            attributes: [NSForegroundColorAttributeName: UIColor.otpLightColor, NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 16)!]
+            attributes: placeHolderAttributes
         )
         textField.textColor = UIColor.otpLightColor
         textField.backgroundColor = UIColor.otpLightColor.colorWithAlphaComponent(0.2)
-        textField.leftView = ring;
+        textField.leftView = ring
         textField.leftViewMode = .Always
         textField.borderStyle = .RoundedRect
         textField.clearButtonMode = .WhileEditing
@@ -330,9 +341,9 @@ class SearchField : UIView {
     }
 
     override func sizeThatFits(size: CGSize) -> CGSize {
-        let fieldSize = textField.frame.size;
+        let fieldSize = textField.frame.size
         let fits = CGSize(width: max(size.width, fieldSize.width), height: fieldSize.height)
-        return fits;
+        return fits
     }
 
     override func layoutSubviews() {
@@ -347,7 +358,7 @@ class SearchField : UIView {
 
 }
 
-class SearchTextField : UITextField {
+class SearchTextField: UITextField {
     override func leftViewRectForBounds(bounds: CGRect) -> CGRect {
         return super.leftViewRectForBounds(bounds).offsetBy(dx: 6, dy: 0)
     }

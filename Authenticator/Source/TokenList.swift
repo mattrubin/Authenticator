@@ -47,9 +47,11 @@ struct TokenList: Component {
     var viewModel: TokenListViewModel {
         var op: (PersistentToken) -> Bool = { token in true }
         if let filter = filter where !filter.isEmpty {
-            let options: NSStringCompareOptions = [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch]
+            let options: NSStringCompareOptions = [.CaseInsensitiveSearch,
+                                                   .DiacriticInsensitiveSearch]
             op = { (token) -> Bool in
-                return ( token.token.issuer.rangeOfString(filter, options: options ) != nil || token.token.name.rangeOfString(filter, options: options ) != nil )
+                return ( token.token.issuer.rangeOfString(filter, options: options ) != nil ||
+                    token.token.name.rangeOfString(filter, options: options ) != nil )
             }
         }
         let rowModels = persistentTokens.filter(op).map({
