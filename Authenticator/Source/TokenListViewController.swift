@@ -41,7 +41,9 @@ class TokenListViewController: UITableViewController, UITextFieldDelegate {
     }
 
     private var displayLink: CADisplayLink?
-    private var searchBar = SearchField(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 44 )))
+    private var searchBar = SearchField(frame: CGRect(
+        origin: .zero,
+        size: CGSize(width: 0, height: 44 )))
     private var ring: OTPProgressRing {
         get { return searchBar.ring }
     }
@@ -256,7 +258,7 @@ extension TokenListViewController {
     }
 }
 
-extension TokenListViewController : UITextViewDelegate {
+extension TokenListViewController: UITextViewDelegate {
     // Dismisses keyboard when return is pressed
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -276,7 +278,7 @@ extension TokenListViewController : UITextViewDelegate {
 
 // MARK: Custom search field for navigation bar
 
-class SearchField : UIView {
+class SearchField: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -305,9 +307,11 @@ class SearchField : UIView {
         get { return textField.text }
     }
 
-    private(set) internal var ring: OTPProgressRing = OTPProgressRing(frame: CGRect(origin: .zero, size: CGSize(width: 22, height: 22)))
+    let ring = OTPProgressRing(
+        frame: CGRect(origin: .zero, size: CGSize(width: 22, height: 22))
+    )
 
-    private(set) internal var textField: UITextField = SearchTextField()
+    let textField: UITextField = SearchTextField()
 
     private func setupTextField() {
         ring.tintColor = UIColor.otpLightColor
@@ -333,7 +337,7 @@ class SearchField : UIView {
     }
 
     override func intrinsicContentSize() -> CGSize {
-        return ring.frame.union(textField.frame).size;
+        return ring.frame.union(textField.frame).size
     }
 
     override func alignmentRectForFrame(frame: CGRect) -> CGRect {
