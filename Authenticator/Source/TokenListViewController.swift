@@ -290,14 +290,6 @@ class SearchField: UIView {
         setupTextField()
     }
 
-    override var frame: CGRect {
-        get { return super.frame }
-        set {
-            NSLog("Overriding frame \(newValue)")
-            super.frame = newValue
-        }
-    }
-
     var delegate: UITextFieldDelegate? {
         get { return textField.delegate }
         set { textField.delegate = newValue }
