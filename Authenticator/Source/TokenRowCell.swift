@@ -130,6 +130,7 @@ class TokenRowCell: UITableViewCell {
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
 
+        self.showsReorderControl = editing && rowModel?.canSort ?? true
         UIView.animateWithDuration(0.3) {
             self.passwordLabel.alpha = !editing ? 1 : 0.2
             self.nextPasswordButton.alpha = !editing ? 1 : 0

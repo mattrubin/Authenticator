@@ -31,7 +31,12 @@ import OneTimePassword
 struct TokenList: Component {
     private var persistentTokens: [PersistentToken]
     private var displayTime: DisplayTime
-
+    private var filter: String?
+    private var isFiltering: Bool {
+        get {
+            return !(filter ?? "").isEmpty
+        }
+    }
     init(persistentTokens: [PersistentToken], displayTime: DisplayTime) {
         self.persistentTokens = persistentTokens
         self.displayTime = displayTime
@@ -40,12 +45,20 @@ struct TokenList: Component {
     // MARK: View Model
 
     var viewModel: TokenListViewModel {
-        let rowModels = persistentTokens.map({
-            TokenRowModel(persistentToken: $0, displayTime: displayTime)
+        var op: (PersistentToken) -> Bool = { token in true }
+        if let filter = filter where !filter.isEmpty {
+            let options: NSStringCompareOptions = [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch]
+            op = { (token) -> Bool in
+                return ( token.token.issuer.rangeOfString(filter, options: options ) != nil || token.token.name.rangeOfString(filter, options: options ) != nil )
+            }
+        }
+        let rowModels = persistentTokens.filter(op).map({
+            TokenRowModel(persistentToken: $0, displayTime: displayTime, canSort: !isFiltering)
         })
         return TokenListViewModel(
             rowModels: rowModels,
-            ringProgress: ringProgress
+            ringProgress: ringProgress,
+            totalTokens: persistentTokens.count
         )
     }
 
@@ -91,6 +104,9 @@ extension TokenList {
         case TokenChangeSucceeded([PersistentToken])
         case UpdateTokenFailed(ErrorType)
         case DeleteTokenFailed(ErrorType)
+
+        case Filter(String)
+        case ClearFilter()
     }
 
     enum Effect {
@@ -143,6 +159,14 @@ extension TokenList {
 
         case .TokenChangeSucceeded(let persistentTokens):
             self.persistentTokens = persistentTokens
+            return nil
+
+        case .Filter(let filter):
+            self.filter = filter
+            return nil
+
+        case .ClearFilter():
+            self.filter = nil
             return nil
 
         case .UpdateTokenFailed:

@@ -28,4 +28,8 @@ import Foundation
 struct TokenListViewModel {
     let rowModels: [TokenRowModel]
     let ringProgress: Double?
+    let totalTokens: Int
+    var isFiltering: Bool {
+        get { return totalTokens > rowModels.count }
+    }
 }
