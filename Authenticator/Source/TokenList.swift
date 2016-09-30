@@ -45,16 +45,7 @@ struct TokenList: Component {
     // MARK: View Model
 
     var viewModel: TokenListViewModel {
-        var op: (PersistentToken) -> Bool = { token in true }
-        if let filter = filter where !filter.isEmpty {
-            let options: NSStringCompareOptions = [.CaseInsensitiveSearch,
-                                                   .DiacriticInsensitiveSearch]
-            op = { (token) -> Bool in
-                return ( token.token.issuer.rangeOfString(filter, options: options ) != nil ||
-                    token.token.name.rangeOfString(filter, options: options ) != nil )
-            }
-        }
-        let rowModels = persistentTokens.filter(op).map({
+        let rowModels = filteredTokens.map({
             TokenRowModel(persistentToken: $0, displayTime: displayTime, canSort: !isFiltering)
         })
         return TokenListViewModel(
@@ -87,6 +78,20 @@ struct TokenList: Component {
         }
         // Calculate the percentage progress in the current period.
         return fmod(displayTime.timeIntervalSince1970, ringPeriod) / ringPeriod
+    }
+
+    private var filteredTokens: [PersistentToken] {
+        get {
+            guard let filter = self.filter where !filter.isEmpty else {
+                return self.persistentTokens
+            }
+            let options: NSStringCompareOptions = [.CaseInsensitiveSearch,
+                .DiacriticInsensitiveSearch]
+            return self.persistentTokens.filter() {
+                ( $0.token.issuer.rangeOfString(filter, options: options ) != nil ||
+                    $0.token.name.rangeOfString(filter, options: options ) != nil )
+            }
+        }
     }
 }
 
