@@ -33,9 +33,7 @@ struct TokenList: Component {
     private var displayTime: DisplayTime
     private var filter: String?
     private var isFiltering: Bool {
-        get {
-            return !(filter ?? "").isEmpty
-        }
+        return !(filter ?? "").isEmpty
     }
     init(persistentTokens: [PersistentToken], displayTime: DisplayTime) {
         self.persistentTokens = persistentTokens
@@ -81,16 +79,14 @@ struct TokenList: Component {
     }
 
     private var filteredTokens: [PersistentToken] {
-        get {
-            guard let filter = self.filter where !filter.isEmpty else {
-                return self.persistentTokens
-            }
-            let options: NSStringCompareOptions = [.CaseInsensitiveSearch,
-                .DiacriticInsensitiveSearch]
-            return self.persistentTokens.filter() {
-                ( $0.token.issuer.rangeOfString(filter, options: options ) != nil ||
-                    $0.token.name.rangeOfString(filter, options: options ) != nil )
-            }
+        guard let filter = self.filter where !filter.isEmpty else {
+            return self.persistentTokens
+        }
+        let options: NSStringCompareOptions = [.CaseInsensitiveSearch,
+            .DiacriticInsensitiveSearch]
+        return self.persistentTokens.filter() {
+            ( $0.token.issuer.rangeOfString(filter, options: options ) != nil ||
+                $0.token.name.rangeOfString(filter, options: options ) != nil )
         }
     }
 }
