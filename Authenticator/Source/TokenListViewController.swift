@@ -112,12 +112,8 @@ class TokenListViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        NSNotificationCenter
-            .defaultCenter()
-            .addObserver(self,
-                         selector: #selector(onTextFieldUpdated),
-                         name: UITextFieldTextDidChangeNotification,
-                         object: searchBar.textField)
+        let searchSelector = #selector(TokenListViewController.filterTokens)
+        searchBar.textField.addTarget(self, action: searchSelector, forControlEvents: .EditingChanged)
 
         let selector = #selector(TokenListViewController.tick)
         self.displayLink = CADisplayLink(target: self, selector: selector)
@@ -126,8 +122,6 @@ class TokenListViewController: UITableViewController {
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-
-        NSNotificationCenter.defaultCenter().removeObserver(self)
 
         self.editing = false
     }
@@ -150,6 +144,14 @@ class TokenListViewController: UITableViewController {
     func addToken() {
         dispatchAction(.BeginAddToken)
     }
+
+    func filterTokens() {
+        guard let filter = searchBar.text else {
+            return dispatchAction(.ClearFilter)
+        }
+        dispatchAction(.Filter(filter))
+    }
+
 }
 
 // MARK: UITableViewDataSource
@@ -263,15 +265,6 @@ extension TokenListViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
-    }
-
-    // Responds to NSNotification posted by the textField when the content is changed
-    func onTextFieldUpdated(notification: NSNotification) {
-        if let filter = self.searchBar.text {
-            dispatchAction(.Filter(filter))
-        } else {
-            dispatchAction(.ClearFilter())
-        }
     }
 
 }
