@@ -113,7 +113,9 @@ class TokenListViewController: UITableViewController {
         super.viewWillAppear(animated)
 
         let searchSelector = #selector(TokenListViewController.filterTokens)
-        searchBar.textField.addTarget(self, action: searchSelector, forControlEvents: .EditingChanged)
+        searchBar.textField.addTarget(self,
+                                      action: searchSelector,
+                                      forControlEvents: .EditingChanged)
 
         let selector = #selector(TokenListViewController.tick)
         self.displayLink = CADisplayLink(target: self, selector: selector)
