@@ -327,10 +327,6 @@ class SearchField: UIView {
         return ring.frame.union(textField.frame).size
     }
 
-    override func alignmentRectForFrame(frame: CGRect) -> CGRect {
-        return super.alignmentRectForFrame(frame)
-    }
-
     override func sizeThatFits(size: CGSize) -> CGSize {
         let fieldSize = textField.frame.size
         let fits = CGSize(width: max(size.width, fieldSize.width), height: fieldSize.height)
