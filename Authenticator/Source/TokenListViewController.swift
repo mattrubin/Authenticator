@@ -242,7 +242,9 @@ extension TokenListViewController {
     private func updatePeripheralViews() {
         let hasTokens = viewModel.totalTokens > 0
         // Show the countdown ring only if a time-based token is active
-        searchBar.textField.leftViewMode = hasTokens ? .Always : .Never
+        searchBar.textField.leftViewMode = viewModel.ringProgress != nil ? .Always : .Never
+
+        // Only display text field as editable if there are tokens to filter
         searchBar.textField.enabled = hasTokens
         searchBar.textField.backgroundColor = hasTokens ?
             UIColor.otpLightColor.colorWithAlphaComponent(0.1) : UIColor.clearColor()
