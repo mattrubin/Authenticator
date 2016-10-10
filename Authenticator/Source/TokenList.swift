@@ -109,7 +109,7 @@ extension TokenList {
         case DeleteTokenFailed(ErrorType)
 
         case Filter(String)
-        case ClearFilter()
+        case ClearFilter
     }
 
     enum Effect {
@@ -168,7 +168,7 @@ extension TokenList {
             self.filter = filter
             return nil
 
-        case .ClearFilter():
+        case .ClearFilter:
             self.filter = nil
             return nil
 
