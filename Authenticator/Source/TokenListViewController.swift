@@ -193,20 +193,23 @@ extension TokenListViewController {
             return
         }
 
-        // TODO: if the changes require no changes in position, just update the visible cells
+        // Check if there are any updates that require insert/delete/move of existing cell
+        // if there are none, tableView.beginUpdates and tableView.endUpdates are not required
         let changedPositions: Bool = changes.reduce(false) { (positionChanged, change) -> Bool in
-            if ( positionChanged ) { return positionChanged }
+            if positionChanged { return positionChanged }
             switch change {
                 case let .Update(oldIndex, newIndex):
                     return oldIndex != newIndex
                 case .Insert:
-                    return true;
+                    return true
                 case .Delete:
                     return true
             }
 
         }
 
+        // no positions were changed so just update visible/allocated TokenRowCell
+        // instances and return early
         if !changedPositions {
             changes.forEach({ (change) in
                 switch change {
