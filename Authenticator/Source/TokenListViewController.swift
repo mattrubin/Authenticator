@@ -105,7 +105,7 @@ class TokenListViewController: UITableViewController {
 
         let selector = #selector(TokenListViewController.tick)
         self.displayLink = CADisplayLink(target: self, selector: selector)
-        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
+        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -190,6 +190,39 @@ extension TokenListViewController {
     private func updateTableViewWithChanges(changes: [Change]) {
         // TODO: Scroll to a newly added token (added at the bottom)
         if changes.isEmpty || preventTableViewAnimations {
+            return
+        }
+
+        // TODO: if the changes require no changes in position, just update the visible cells
+        let changedPositions: Bool = changes.reduce(false) { (positionChanged, change) -> Bool in
+            if ( positionChanged ) { return positionChanged }
+            switch change {
+                case let .Update(oldIndex, newIndex):
+                    return oldIndex != newIndex
+                case .Insert:
+                    return true;
+                case .Delete:
+                    return true
+            }
+
+        }
+
+        if !changedPositions {
+            changes.forEach({ (change) in
+                switch change {
+                case let .Update( _, row ):
+                    let indexPath = NSIndexPath(forRow: row, inSection: 0)
+                    guard let cell = tableView.cellForRowAtIndexPath(indexPath)
+                        as? TokenRowCell else {
+                        return
+                    }
+                    updateCell(cell, forRowAtIndexPath: indexPath)
+                case .Insert:
+                    break
+                case .Delete:
+                    break
+                }
+            })
             return
         }
 
