@@ -44,7 +44,7 @@ struct TokenList: Component {
 
     var viewModel: TokenListViewModel {
         let rowModels = filteredTokens.map({
-            TokenRowModel(persistentToken: $0, displayTime: displayTime, canSort: !isFiltering)
+            TokenRowModel(persistentToken: $0, displayTime: displayTime, conReorder: !isFiltering)
         })
         return TokenListViewModel(
             rowModels: rowModels,

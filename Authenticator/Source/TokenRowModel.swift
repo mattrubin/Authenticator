@@ -31,7 +31,7 @@ struct TokenRowModel: Identifiable {
 
     let name, issuer, password: String
     let showsButton: Bool
-    let canSort: Bool
+    let canReorder: Bool
     let buttonAction: Action
     let selectAction: Action
     let editAction: Action
@@ -40,7 +40,7 @@ struct TokenRowModel: Identifiable {
     private let identifier: NSData
 
     init(persistentToken: PersistentToken, displayTime: DisplayTime,
-         canSort sortable: Bool = true) {
+         conReorder reorderable: Bool = true) {
         name = persistentToken.token.name
         issuer = persistentToken.token.issuer
         let timeInterval = displayTime.timeIntervalSince1970
@@ -55,7 +55,7 @@ struct TokenRowModel: Identifiable {
         editAction = .EditPersistentToken(persistentToken)
         deleteAction = .DeletePersistentToken(persistentToken)
         identifier = persistentToken.identifier
-        canSort = sortable
+        canReorder = reorderable
     }
 
     func hasSameIdentity(other: TokenRowModel) -> Bool {
