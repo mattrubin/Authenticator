@@ -25,7 +25,7 @@
 
 import UIKit
 
-class TokenListViewController: UITableViewController, UITextFieldDelegate {
+class TokenListViewController: UITableViewController {
     private let dispatchAction: (TokenList.Action) -> ()
     private var viewModel: TokenList.ViewModel
     private var preventTableViewAnimations = false
@@ -258,7 +258,7 @@ extension TokenListViewController {
     }
 }
 
-extension TokenListViewController: UITextViewDelegate {
+extension TokenListViewController: UITextFieldDelegate {
     // Dismisses keyboard when return is pressed
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
