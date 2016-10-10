@@ -80,7 +80,7 @@ private func changes<T>(from oldItems: [T], to newItems: [T], hasSameIdentity: (
             var y = x - k
             while x < oldItems.count && y < newItems.count
                 && hasSameIdentity(oldItems[x], newItems[y]) {
-                    if !isEqual(oldItems[x], newItems[y]) && (x != y) {
+                    if !isEqual(oldItems[x], newItems[y]) {
                         changes = changes + [.Update(oldIndex: x, newIndex: y)]
                     }
                     (x, y) = (x+1, y+1)
