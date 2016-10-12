@@ -159,3 +159,31 @@ extension TokenList {
         return .ShowSuccessMessage("Copied")
     }
 }
+
+extension TokenList.Action: Equatable {}
+func ==(lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
+    switch (lhs, rhs) {
+    case (.BeginAddToken, .BeginAddToken):
+        return true
+    case let (.EditPersistentToken(l), .EditPersistentToken(r)):
+        return l == r
+    case let (.UpdatePersistentToken(l), .UpdatePersistentToken(r)):
+        return l == r
+    case let (.MoveToken(l), .MoveToken(r)):
+        return l == r
+    case let (.DeletePersistentToken(l), .DeletePersistentToken(r)):
+        return l == r
+    case let (.CopyPassword(l), .CopyPassword(r)):
+        return l == r
+    case let (.UpdateViewModel(l), .UpdateViewModel(r)):
+        return l == r
+    case let (.TokenChangeSucceeded(l), .TokenChangeSucceeded(r)):
+        return l == r
+    case (.UpdateTokenFailed(_), .UpdateTokenFailed(_)):
+        return false // FIXME
+    case (.DeleteTokenFailed(_), .DeleteTokenFailed(_)):
+        return false // FIXME
+    case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _), (.MoveToken, _), (.DeletePersistentToken, _), (.CopyPassword, _), (.UpdateViewModel, _), (.TokenChangeSucceeded, _), (.UpdateTokenFailed, _), (.DeleteTokenFailed, _):
+        return false
+    }
+}

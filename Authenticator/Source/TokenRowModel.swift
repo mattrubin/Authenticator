@@ -59,3 +59,16 @@ struct TokenRowModel: Identifiable {
         return self.identifier.isEqualToData(other.identifier)
     }
 }
+
+extension TokenRowModel: Equatable {}
+func ==(lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
+    return (lhs.name == rhs.name)
+        && (lhs.issuer == rhs.issuer)
+        && (lhs.password == rhs.password)
+        && (lhs.showsButton == rhs.showsButton)
+        && (lhs.buttonAction == rhs.buttonAction)
+        && (lhs.selectAction == rhs.selectAction)
+        && (lhs.editAction == rhs.editAction)
+        && (lhs.deleteAction == rhs.deleteAction)
+        && (lhs.identifier == rhs.identifier)
+}
