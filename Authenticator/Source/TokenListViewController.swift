@@ -211,21 +211,19 @@ extension TokenListViewController {
         // no positions were changed so just update visible/allocated TokenRowCell
         // instances and return early
         if !changedPositions {
-            changes.forEach({ (change) in
+            for change in changes {
                 switch change {
-                case let .Update( _, row ):
+                case let .Update(_, row):
                     let indexPath = NSIndexPath(forRow: row, inSection: 0)
-                    guard let cell = tableView.cellForRowAtIndexPath(indexPath)
-                        as? TokenRowCell else {
-                        return
+                    if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
+                        updateCell(cell, forRowAtIndexPath: indexPath)
                     }
-                    updateCell(cell, forRowAtIndexPath: indexPath)
                 case .Insert:
                     break
                 case .Delete:
                     break
                 }
-            })
+            }
             return
         }
 
