@@ -193,25 +193,22 @@ extension TokenListViewController {
             return
         }
 
-        // Check if there are any updates that require insert/delete/move of existing cell
-        // if there are none, tableView.beginUpdates and tableView.endUpdates are not required
-        let changedPositions: Bool = changes.reduce(false) { (positionChanged, change) -> Bool in
+        // Determine if there are any updates that require insert/delete/move animations.
+        // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
+        let updatesNeedAnimations = changes.reduce(false) { (positionChanged, change) -> Bool in
             if positionChanged { return positionChanged }
             switch change {
-                case let .Update(oldIndex, newIndex):
-                    return oldIndex != newIndex
-                case .Insert:
-                    return true
-                case .Delete:
-                    return true
+            case .Insert, .Delete:
+                return true
+            case .Update:
+                return false
             }
-
         }
 
         let sectionIndex = 0
 
         // Only perform a table view updates group if there are changes which require animations.
-        if changedPositions {
+        if updatesNeedAnimations {
             tableView.beginUpdates()
             for change in changes {
                 switch change {
