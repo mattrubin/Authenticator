@@ -193,9 +193,9 @@ extension TokenListViewController {
             return
         }
 
-        // Determine if there are any updates that require insert/delete/move animations.
+        // Determine if there are any changes that require insert/delete/move animations.
         // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
-        let updatesNeedAnimations = changes.contains { change in
+        let changesNeedAnimations = changes.contains { change in
             switch change {
             case .Insert, .Delete:
                 return true
@@ -203,10 +203,11 @@ extension TokenListViewController {
                 return false
             }
         }
+
         let sectionIndex = 0
 
         // Only perform a table view updates group if there are changes which require animations.
-        if updatesNeedAnimations {
+        if changesNeedAnimations {
             tableView.beginUpdates()
             for change in changes {
                 switch change {
