@@ -40,7 +40,7 @@ struct TokenRowModel: Identifiable {
     private let identifier: NSData
 
     init(persistentToken: PersistentToken, displayTime: DisplayTime,
-         conReorder reorderable: Bool = true) {
+         canReorder reorderable: Bool = true) {
         name = persistentToken.token.name
         issuer = persistentToken.token.issuer
         let timeInterval = displayTime.timeIntervalSince1970
