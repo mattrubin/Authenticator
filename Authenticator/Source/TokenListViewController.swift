@@ -195,7 +195,7 @@ extension TokenListViewController {
 
         // Determine if there are any updates that require insert/delete/move animations.
         // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
-        let updatesNeedAnimations = changes.containsInsertOrDelete()
+        let updatesNeedAnimations = changes.contains { !$0.isUpdate() }
         let sectionIndex = 0
 
         // Only perform a table view updates group if there are changes which require animations.
@@ -249,14 +249,9 @@ extension TokenListViewController {
     }
 }
 
-// Allows an extension on CollectionType containing ChangeType
-protocol ChangeType {
-    func isUpdate() -> Bool
-}
 
-// Change conforms to ChangeType so [Change] will contain extensions
-// to CollectionType
-extension Change : ChangeType {
+// Helper method to see if a change is a .Update type
+extension Change {
     func isUpdate() -> Bool {
         switch self {
         case .Update:
@@ -264,13 +259,5 @@ extension Change : ChangeType {
         default:
             return false
         }
-    }
-}
-
-// Extension on collection type that determines if a list of changes contain a
-// .Insert or .Delete type
-extension CollectionType where Generator.Element : ChangeType {
-    func containsInsertOrDelete() -> Bool {
-        return contains { !$0.isUpdate() }
     }
 }
