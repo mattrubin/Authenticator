@@ -195,7 +195,14 @@ extension TokenListViewController {
 
         // Determine if there are any updates that require insert/delete/move animations.
         // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
-        let updatesNeedAnimations = changes.contains { !$0.isUpdate() }
+        let updatesNeedAnimations = changes.contains { change in
+            switch change {
+            case .Insert, .Delete:
+                return true
+            case .Update:
+                return false
+            }
+        }
         let sectionIndex = 0
 
         // Only perform a table view updates group if there are changes which require animations.
@@ -245,19 +252,6 @@ extension TokenListViewController {
         // Exit editing mode if no tokens remain
         if self.editing && viewModel.rowModels.isEmpty {
             self.setEditing(false, animated: true)
-        }
-    }
-}
-
-
-// Helper method to see if a change is a .Update type
-extension Change {
-    func isUpdate() -> Bool {
-        switch self {
-        case .Update:
-            return true
-        default:
-            return false
         }
     }
 }
