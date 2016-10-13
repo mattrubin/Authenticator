@@ -225,7 +225,7 @@ extension TokenListViewController {
             tableView.endUpdates()
         }
 
-        // After applying the changes which require animations, update any visible cells whose 
+        // After applying the changes which require animations, update any visible cells whose
         // contents have changed.
         for change in changes {
             switch change {
