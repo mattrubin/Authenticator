@@ -208,43 +208,39 @@ extension TokenListViewController {
 
         }
 
-        // no positions were changed so just update visible/allocated TokenRowCell
-        // instances and return early
-        if !changedPositions {
+        let sectionIndex = 0
+
+        // Only perform a table view updates group if there are changes which require animations.
+        if changedPositions {
+            tableView.beginUpdates()
             for change in changes {
                 switch change {
-                case let .Update(_, row):
-                    let indexPath = NSIndexPath(forRow: row, inSection: 0)
-                    if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
-                        updateCell(cell, forRowAtIndexPath: indexPath)
-                    }
-                case .Insert:
-                    break
-                case .Delete:
+                case .Insert(let rowIndex):
+                    let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                    tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                case .Delete(let rowIndex):
+                    let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                case .Update:
                     break
                 }
             }
-            return
+            tableView.endUpdates()
         }
 
-        tableView.beginUpdates()
-        let sectionIndex = 0
+        // After applying the changes which require animations, update any visible cells whose 
+        // contents have changed.
         for change in changes {
             switch change {
-            case .Insert(let rowIndex):
-                let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             case let .Update(_, rowIndex):
                 let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                 if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
                     updateCell(cell, forRowAtIndexPath: indexPath)
                 }
-            case .Delete(let rowIndex):
-                let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            case .Insert, .Delete:
+                break
             }
         }
-        tableView.endUpdates()
     }
 
     private func updatePeripheralViews() {
