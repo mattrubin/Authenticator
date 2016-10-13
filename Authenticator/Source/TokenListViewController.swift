@@ -230,8 +230,6 @@ extension TokenListViewController {
                 let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                 if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
                     updateCell(cell, forRowAtIndexPath: indexPath)
-                } else {
-                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 }
             case .Delete(let rowIndex):
                 let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
