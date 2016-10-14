@@ -203,19 +203,18 @@ extension TokenListViewController {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         let filtering = viewModel.isFiltering || self.viewModel.isFiltering
         self.viewModel = viewModel
-        updateTableViewWithChanges(changes, whileFiltering: filtering )
+
+        if filtering {
+            tableView.reloadData()
+        } else {
+            updateTableViewWithChanges(changes)
+        }
         updatePeripheralViews()
     }
 
-    private func updateTableViewWithChanges(changes: [Change],
-                                            whileFiltering isFiltering: Bool = false) {
+    private func updateTableViewWithChanges(changes: [Change]) {
         // TODO: Scroll to a newly added token (added at the bottom)
         if changes.isEmpty || preventTableViewAnimations {
-            return
-        }
-
-        if isFiltering {
-            tableView.reloadData()
             return
         }
 
