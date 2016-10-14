@@ -105,7 +105,7 @@ class TokenListViewController: UITableViewController {
 
         let selector = #selector(TokenListViewController.tick)
         self.displayLink = CADisplayLink(target: self, selector: selector)
-        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
+        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -193,24 +193,50 @@ extension TokenListViewController {
             return
         }
 
-        tableView.beginUpdates()
+        // Determine if there are any changes that require insert/delete/move animations.
+        // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
+        let changesNeedAnimations = changes.contains { change in
+            switch change {
+            case .Insert, .Delete:
+                return true
+            case .Update:
+                return false
+            }
+        }
+
         let sectionIndex = 0
+
+        // Only perform a table view updates group if there are changes which require animations.
+        if changesNeedAnimations {
+            tableView.beginUpdates()
+            for change in changes {
+                switch change {
+                case .Insert(let rowIndex):
+                    let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                    tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                case .Delete(let rowIndex):
+                    let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                case .Update:
+                    break
+                }
+            }
+            tableView.endUpdates()
+        }
+
+        // After applying the changes which require animations, update any visible cells whose
+        // contents have changed.
         for change in changes {
             switch change {
-            case .Insert(let rowIndex):
-                let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             case let .Update(_, rowIndex):
                 let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                 if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
                     updateCell(cell, forRowAtIndexPath: indexPath)
                 }
-            case .Delete(let rowIndex):
-                let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            case .Insert, .Delete:
+                break
             }
         }
-        tableView.endUpdates()
     }
 
     private func updatePeripheralViews() {
