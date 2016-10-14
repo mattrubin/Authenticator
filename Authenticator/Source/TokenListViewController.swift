@@ -241,7 +241,7 @@ extension TokenListViewController {
             }
         }
 
-        // If firstInserRow has a value > 0 then a row was inserted
+        // If firstInserRow has a value > -1 then a row was inserted
         if firstInsertRow > -1 {
             let indexPath = NSIndexPath(forRow: firstInsertRow, inSection: sectionIndex)
             // Scrolls to the newly inserted token at the smallest row index in the tableView
