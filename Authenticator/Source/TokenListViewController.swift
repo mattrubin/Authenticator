@@ -341,7 +341,7 @@ class SearchField: UIView {
         textField.leftView = ring
         textField.leftViewMode = .Always
         textField.borderStyle = .RoundedRect
-        textField.clearButtonMode = .WhileEditing
+        textField.clearButtonMode = .Always
         textField.autocorrectionType = .No
         textField.autocapitalizationType = .None
         textField.keyboardAppearance = .Dark
