@@ -248,7 +248,7 @@ extension TokenListViewController {
             // using the minimum amount of scrolling necessary (.None)
             tableView.scrollToRowAtIndexPath(indexPath,
                                              atScrollPosition: .None,
-                                             animated: !preventTableViewAnimations)
+                                             animated: true)
         }
     }
 
