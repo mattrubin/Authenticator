@@ -179,10 +179,10 @@ func ==(lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
         return l == r
     case let (.TokenChangeSucceeded(l), .TokenChangeSucceeded(r)):
         return l == r
-    case (.UpdateTokenFailed(_), .UpdateTokenFailed(_)):
-        return false // FIXME
-    case (.DeleteTokenFailed(_), .DeleteTokenFailed(_)):
-        return false // FIXME
+    case let (.UpdateTokenFailed(l), .UpdateTokenFailed(r)):
+        return (l as NSError) == (r as NSError)
+    case let (.DeleteTokenFailed(l), .DeleteTokenFailed(r)):
+        return (l as NSError) == (r as NSError)
     case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _), (.MoveToken, _), (.DeletePersistentToken, _), (.CopyPassword, _), (.UpdateViewModel, _), (.TokenChangeSucceeded, _), (.UpdateTokenFailed, _), (.DeleteTokenFailed, _):
         return false
     }
