@@ -28,7 +28,6 @@ import OneTimePassword
 @testable import Authenticator
 
 class TableDiffTests: XCTestCase {
-
     func testNoChanges() {
         let generator = Generator(factor: .Timer(period: 60),
                                   secret: "secret".dataUsingEncoding(NSUTF8StringEncoding)!,
@@ -38,6 +37,7 @@ class TableDiffTests: XCTestCase {
                           issuer: "Token Issuer",
                           generator: generator)
         let date = NSDate()
+
         let before = [
             TokenRowModel(
                 persistentToken: PersistentToken(token: token),
@@ -54,7 +54,6 @@ class TableDiffTests: XCTestCase {
         let changes = changesFrom(before, to: after)
         XCTAssertEqual(changes.count, 0)
     }
-
 }
 
 private extension PersistentToken {
