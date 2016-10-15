@@ -39,13 +39,13 @@ class TableDiffTests: XCTestCase {
         let date = NSDate()
         let before = [
             TokenRowModel(
-                persistentToken: try PersistentToken(token: token),
+                persistentToken: PersistentToken(token: token),
                 displayTime: DisplayTime(date: date)
             )
         ]
         let after = [
             TokenRowModel(
-                persistentToken: try PersistentToken(token: token),
+                persistentToken: PersistentToken(token: token),
                 displayTime: DisplayTime(date: date)
             )
         ]
@@ -61,7 +61,7 @@ extension PersistentToken {
         case IdentifierMissing
     }
 
-    init(token: Token) throws {
+    init(token: Token) {
         self.token = token
         identifier = NSData()
     }
