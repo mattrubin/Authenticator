@@ -186,7 +186,7 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
     case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _),
          (.MoveToken, _), (.DeletePersistentToken, _), (.CopyPassword, _), (.UpdateViewModel, _),
          (.TokenChangeSucceeded, _), (.UpdateTokenFailed, _), (.DeleteTokenFailed, _):
-        // Using this verbose case for non-matching `Action`s instead of `default` ensures a 
+        // Using this verbose case for non-matching `Action`s instead of `default` ensures a
         // compiler error if a new `Action` is added and not expicitly checked for equality.
         return false
     }
