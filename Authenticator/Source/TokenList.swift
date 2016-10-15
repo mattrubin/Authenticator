@@ -183,7 +183,11 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
         return (l as NSError) == (r as NSError)
     case let (.DeleteTokenFailed(l), .DeleteTokenFailed(r)):
         return (l as NSError) == (r as NSError)
-    case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _), (.MoveToken, _), (.DeletePersistentToken, _), (.CopyPassword, _), (.UpdateViewModel, _), (.TokenChangeSucceeded, _), (.UpdateTokenFailed, _), (.DeleteTokenFailed, _):
+    case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _),
+         (.MoveToken, _), (.DeletePersistentToken, _), (.CopyPassword, _), (.UpdateViewModel, _),
+         (.TokenChangeSucceeded, _), (.UpdateTokenFailed, _), (.DeleteTokenFailed, _):
+        // Using this verbose case for non-matching `Action`s instead of `default` ensures a 
+        // compiler error if a new `Action` is added and not expicitly checked for equality.
         return false
     }
 }
