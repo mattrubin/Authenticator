@@ -57,7 +57,7 @@ class TableDiffTests: XCTestCase {
 
 }
 
-extension PersistentToken {
+private extension PersistentToken {
     enum TokenError: ErrorType {
         case IdentifierMissing
     }
