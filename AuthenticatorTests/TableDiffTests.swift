@@ -1,5 +1,5 @@
 //
-//  TableDiff.swift
+//  TableDiffTests.swift
 //  Authenticator
 //
 //  Copyright (c) 2016 Authenticator authors
