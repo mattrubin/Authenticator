@@ -61,7 +61,7 @@ struct TokenRowModel: Identifiable {
 }
 
 extension TokenRowModel: Equatable {}
-func ==(lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
+func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
     return (lhs.name == rhs.name)
         && (lhs.issuer == rhs.issuer)
         && (lhs.password == rhs.password)

@@ -161,7 +161,7 @@ extension TokenList {
 }
 
 extension TokenList.Action: Equatable {}
-func ==(lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
+func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
     switch (lhs, rhs) {
     case (.BeginAddToken, .BeginAddToken):
         return true
