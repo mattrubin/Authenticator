@@ -48,12 +48,6 @@
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
 		C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenStore.swift */; };
 		CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC409751DB28BFE000A050D /* TableDiffTests.swift */; };
-		CCC409771DB28D20000A050D /* TableDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328C1C09495D0076F77E /* TableDiff.swift */; };
-		CCC409781DB28D6E000A050D /* TokenListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */; };
-		CCC409791DB28DB1000A050D /* TokenRowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */; };
-		CCC4097A1DB28DC0000A050D /* TokenList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C910ADC01BF0315A00C988F5 /* TokenList.swift */; };
-		CCC4097B1DB28DCC000A050D /* DisplayTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968D1141CB4C639004ED7BB /* DisplayTime.swift */; };
-		CCC4097C1DB28DE3000A050D /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448D1C52A74200ACFA87 /* Component.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -601,14 +595,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCC409781DB28D6E000A050D /* TokenListViewModel.swift in Sources */,
-				CCC4097A1DB28DC0000A050D /* TokenList.swift in Sources */,
 				C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */,
-				CCC4097B1DB28DCC000A050D /* DisplayTime.swift in Sources */,
 				CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */,
-				CCC4097C1DB28DE3000A050D /* Component.swift in Sources */,
-				CCC409791DB28DB1000A050D /* TokenRowModel.swift in Sources */,
-				CCC409771DB28D20000A050D /* TableDiff.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

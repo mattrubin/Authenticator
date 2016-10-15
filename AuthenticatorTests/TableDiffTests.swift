@@ -25,6 +25,7 @@
 
 import XCTest
 import OneTimePassword
+@testable import Authenticator
 
 class TableDiffTests: XCTestCase {
 
