@@ -57,10 +57,6 @@ class TableDiffTests: XCTestCase {
 }
 
 private extension PersistentToken {
-    enum TokenError: ErrorType {
-        case IdentifierMissing
-    }
-
     init(token: Token) {
         self.token = token
         identifier = NSData()
