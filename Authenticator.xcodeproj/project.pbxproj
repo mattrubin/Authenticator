@@ -48,6 +48,7 @@
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
 		C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenStore.swift */; };
 		CC46C4711DB3007D00EB4605 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC46C4701DB3007D00EB4605 /* SearchField.swift */; };
+		CC46C4731DB3040300EB4605 /* TokenListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC46C4721DB3040300EB4605 /* TokenListTests.swift */; };
 		CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC409751DB28BFE000A050D /* TableDiffTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -146,6 +147,7 @@
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		C9F7A8601C4D90B50082E5AE /* TokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
 		CC46C4701DB3007D00EB4605 /* SearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
+		CC46C4721DB3040300EB4605 /* TokenListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListTests.swift; sourceTree = "<group>"; };
 		CCC409751DB28BFE000A050D /* TableDiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDiffTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -365,6 +367,7 @@
 			children = (
 				C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */,
 				CCC409751DB28BFE000A050D /* TableDiffTests.swift */,
+				CC46C4721DB3040300EB4605 /* TokenListTests.swift */,
 			);
 			path = AuthenticatorTests;
 			sourceTree = "<group>";
@@ -601,6 +604,7 @@
 			files = (
 				C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */,
 				CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */,
+				CC46C4731DB3040300EB4605 /* TokenListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
