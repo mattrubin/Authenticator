@@ -7,6 +7,7 @@ xcode_scheme: Authenticator
 
 osx_image: xcode8
 xcode_sdk: iphonesimulator10.0
+env: DESTINATION="platform=iOS Simulator"
 
 matrix:
   include:
@@ -16,4 +17,4 @@ matrix:
 before_install:
   - git submodule update --init --recursive
 
-script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK build test | xcpretty -c
+script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK -destination "$DESTINATION" build test | xcpretty -c
