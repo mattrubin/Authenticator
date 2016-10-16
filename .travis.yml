@@ -7,7 +7,7 @@ xcode_scheme: Authenticator
 
 osx_image: xcode8
 xcode_sdk: iphonesimulator10.0
-env: DESTINATION="platform=iOS Simulator"
+env: DESTINATION="name=iPhone 6s"
 
 matrix:
   include:
