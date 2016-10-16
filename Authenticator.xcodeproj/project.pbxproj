@@ -47,6 +47,7 @@
 		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
 		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
 		C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenStore.swift */; };
+		CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC409751DB28BFE000A050D /* TableDiffTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +144,7 @@
 		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
 		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		C9F7A8601C4D90B50082E5AE /* TokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+		CCC409751DB28BFE000A050D /* TableDiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDiffTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -359,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */,
+				CCC409751DB28BFE000A050D /* TableDiffTests.swift */,
 			);
 			path = AuthenticatorTests;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */,
+				CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -186,3 +186,35 @@ extension TokenList {
         return .ShowSuccessMessage("Copied")
     }
 }
+
+extension TokenList.Action: Equatable {}
+func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
+    switch (lhs, rhs) {
+    case (.BeginAddToken, .BeginAddToken):
+        return true
+    case let (.EditPersistentToken(l), .EditPersistentToken(r)):
+        return l == r
+    case let (.UpdatePersistentToken(l), .UpdatePersistentToken(r)):
+        return l == r
+    case let (.MoveToken(l), .MoveToken(r)):
+        return l == r
+    case let (.DeletePersistentToken(l), .DeletePersistentToken(r)):
+        return l == r
+    case let (.CopyPassword(l), .CopyPassword(r)):
+        return l == r
+    case let (.UpdateViewModel(l), .UpdateViewModel(r)):
+        return l == r
+    case let (.TokenChangeSucceeded(l), .TokenChangeSucceeded(r)):
+        return l == r
+    case let (.UpdateTokenFailed(l), .UpdateTokenFailed(r)):
+        return (l as NSError) == (r as NSError)
+    case let (.DeleteTokenFailed(l), .DeleteTokenFailed(r)):
+        return (l as NSError) == (r as NSError)
+    case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _),
+         (.MoveToken, _), (.DeletePersistentToken, _), (.CopyPassword, _), (.UpdateViewModel, _),
+         (.TokenChangeSucceeded, _), (.UpdateTokenFailed, _), (.DeleteTokenFailed, _):
+        // Using this verbose case for non-matching `Action`s instead of `default` ensures a
+        // compiler error if a new `Action` is added and not expicitly checked for equality.
+        return false
+    }
+}

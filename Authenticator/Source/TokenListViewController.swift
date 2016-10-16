@@ -213,7 +213,6 @@ extension TokenListViewController {
     }
 
     private func updateTableViewWithChanges(changes: [Change]) {
-        // TODO: Scroll to a newly added token (added at the bottom)
         if changes.isEmpty || preventTableViewAnimations {
             return
         }
@@ -231,12 +230,16 @@ extension TokenListViewController {
 
         let sectionIndex = 0
 
+        var firstInsertRow = -1
         // Only perform a table view updates group if there are changes which require animations.
         if changesNeedAnimations {
             tableView.beginUpdates()
             for change in changes {
                 switch change {
                 case .Insert(let rowIndex):
+                    if firstInsertRow == -1 || rowIndex < firstInsertRow {
+                        firstInsertRow = rowIndex
+                    }
                     let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                     tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 case .Delete(let rowIndex):
@@ -261,6 +264,16 @@ extension TokenListViewController {
             case .Insert, .Delete:
                 break
             }
+        }
+
+        // If firstInsertRow has a value > -1 then a row was inserted
+        if firstInsertRow > -1 {
+            let indexPath = NSIndexPath(forRow: firstInsertRow, inSection: sectionIndex)
+            // Scrolls to the newly inserted token at the smallest row index in the tableView
+            // using the minimum amount of scrolling necessary (.None)
+            tableView.scrollToRowAtIndexPath(indexPath,
+                                             atScrollPosition: .None,
+                                             animated: true)
         }
     }
 
