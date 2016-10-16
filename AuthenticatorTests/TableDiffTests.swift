@@ -56,7 +56,7 @@ class TableDiffTests: XCTestCase {
     }
 }
 
-private extension PersistentToken {
+extension PersistentToken {
     init(token: Token) {
         self.token = token
         identifier = NSData()
