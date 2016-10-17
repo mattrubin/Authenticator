@@ -101,6 +101,25 @@ class SearchField: UIView {
 
 }
 
+// MARK: TokenListPresenter
+extension SearchField {
+    func updateWithViewModel(viewModel: TokenList.ViewModel) {
+        if let ringProgress = viewModel.ringProgress {
+            ring.progress = ringProgress
+        }
+        // Show the countdown ring only if a time-based token is active
+        textField.leftViewMode = viewModel.ringProgress != nil ? .Always : .Never
+        textField.borderStyle = viewModel.hasTokens ? .RoundedRect : .None
+
+        // Only display text field as editable if there are tokens to filter
+        textField.enabled = viewModel.hasTokens
+        textField.backgroundColor = viewModel.hasTokens ?
+            UIColor.otpLightColor.colorWithAlphaComponent(0.1) : UIColor.clearColor()
+
+    }
+}
+
+// MARK: UITextField rect overrides
 class SearchTextField: UITextField {
     override func leftViewRectForBounds(bounds: CGRect) -> CGRect {
         return super.leftViewRectForBounds(bounds).offsetBy(dx: 6, dy: 0)

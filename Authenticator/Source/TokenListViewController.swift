@@ -44,9 +44,7 @@ class TokenListViewController: UITableViewController {
     private var searchBar = SearchField(frame: CGRect(
         origin: .zero,
         size: CGSize(width: 0, height: 44 )))
-    private var ring: OTPProgressRing {
-        get { return searchBar.ring }
-    }
+
     private lazy var noTokensLabel: UILabel = {
         // swiftlint:disable force_unwrapping
         let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
@@ -278,20 +276,11 @@ extension TokenListViewController {
     }
 
     private func updatePeripheralViews() {
-        let hasTokens = viewModel.totalTokens > 0
-        // Show the countdown ring only if a time-based token is active
-        searchBar.textField.leftViewMode = viewModel.ringProgress != nil ? .Always : .Never
 
-        // Only display text field as editable if there are tokens to filter
-        searchBar.textField.enabled = hasTokens
-        searchBar.textField.backgroundColor = hasTokens ?
-            UIColor.otpLightColor.colorWithAlphaComponent(0.1) : UIColor.clearColor()
-        if let ringProgress = viewModel.ringProgress {
-            ring.progress = ringProgress
-        }
+        searchBar.updateWithViewModel(viewModel)
 
-        editButtonItem().enabled = hasTokens
-        noTokensLabel.hidden = hasTokens
+        editButtonItem().enabled = viewModel.hasTokens
+        noTokensLabel.hidden = viewModel.hasTokens
 
         // Exit editing mode if no tokens remain
         if self.editing && viewModel.rowModels.isEmpty {
