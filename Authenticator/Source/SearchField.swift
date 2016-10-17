@@ -74,7 +74,7 @@ class SearchField: UIView {
         textField.clearButtonMode = .Always
         textField.autocorrectionType = .No
         textField.autocapitalizationType = .None
-        textField.keyboardAppearance = .Dark
+        textField.returnKeyType = .Done
         textField.sizeToFit()
         addSubview(textField)
     }
