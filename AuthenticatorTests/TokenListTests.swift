@@ -45,6 +45,19 @@ class TokenListTests: XCTestCase {
         XCTAssertEqual(viewModel.totalTokens, 3)
         XCTAssertEqual(filteredIssuers, ["Google", "Service"])
     }
+
+    func testIsFilteringWhenAllTokensMatchFilter() {
+        var tokenList = mockList([
+            ("Service", "example@google.com"),
+            ("Service", "username")
+        ])
+        let effect = tokenList.update(TokenList.Action.Filter("Service"))
+        let viewModel = tokenList.viewModel
+
+        XCTAssertNil(effect)
+        XCTAssertTrue(viewModel.isFiltering)
+
+    }
 }
 
 func mockList(list: [(String, String)]) -> TokenList {
