@@ -49,7 +49,8 @@ struct TokenList: Component {
         return TokenListViewModel(
             rowModels: rowModels,
             ringProgress: ringProgress,
-            totalTokens: persistentTokens.count
+            totalTokens: persistentTokens.count,
+            isFiltering: isFiltering
         )
     }
 

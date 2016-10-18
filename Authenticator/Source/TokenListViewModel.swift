@@ -29,9 +29,7 @@ struct TokenListViewModel {
     let rowModels: [TokenRowModel]
     let ringProgress: Double?
     let totalTokens: Int
-    var isFiltering: Bool {
-        return totalTokens > rowModels.count
-    }
+    let isFiltering: Bool
     var hasTokens: Bool {
         return totalTokens > 0
     }
