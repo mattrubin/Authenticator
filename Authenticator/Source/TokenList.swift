@@ -32,9 +32,7 @@ struct TokenList: Component {
     private var persistentTokens: [PersistentToken]
     private var displayTime: DisplayTime
     private var filter: String?
-    private var isFiltering: Bool {
-        return !(filter ?? "").isEmpty
-    }
+
     init(persistentTokens: [PersistentToken], displayTime: DisplayTime) {
         self.persistentTokens = persistentTokens
         self.displayTime = displayTime
@@ -43,6 +41,7 @@ struct TokenList: Component {
     // MARK: View Model
 
     var viewModel: TokenListViewModel {
+        let isFiltering = !(filter ?? "").isEmpty
         let rowModels = filteredTokens.map({
             TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
         })
