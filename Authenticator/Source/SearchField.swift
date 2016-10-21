@@ -131,7 +131,7 @@ class SearchTextField: UITextField {
         var rect = super.placeholderRectForBounds(bounds)
         if let size = attributedPlaceholder?.size() {
             rect.size.width = size.width
-            rect.origin.x = ( bounds.size.width - rect.size.width ) * 0.5
+            rect.origin.x = (bounds.size.width - rect.size.width) * 0.5
         }
         return rect
     }

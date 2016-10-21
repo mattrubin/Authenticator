@@ -83,11 +83,11 @@ struct TokenList: Component {
             return self.persistentTokens
         }
         let options: NSStringCompareOptions = [.CaseInsensitiveSearch,
-            .DiacriticInsensitiveSearch]
-        return self.persistentTokens.filter() {
-            ( $0.token.issuer.rangeOfString(filter, options: options ) != nil ||
-                $0.token.name.rangeOfString(filter, options: options ) != nil )
-        }
+                                               .DiacriticInsensitiveSearch]
+        return self.persistentTokens.filter({
+            $0.token.issuer.rangeOfString(filter, options: options) != nil ||
+                $0.token.name.rangeOfString(filter, options: options) != nil
+        })
     }
 }
 

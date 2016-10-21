@@ -29,7 +29,6 @@ import OneTimePassword
 
 class TokenListTests: XCTestCase {
     func testFilterByIssuerAndName() {
-
         var tokenList = mockList([
             ("Google", "example@google.com"),
             ("Github", "username"),
@@ -56,7 +55,6 @@ class TokenListTests: XCTestCase {
 
         XCTAssertNil(effect)
         XCTAssertTrue(viewModel.isFiltering)
-
     }
 }
 

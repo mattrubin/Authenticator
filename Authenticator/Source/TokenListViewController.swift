@@ -41,9 +41,12 @@ class TokenListViewController: UITableViewController {
     }
 
     private var displayLink: CADisplayLink?
-    private var searchBar = SearchField(frame: CGRect(
-        origin: .zero,
-        size: CGSize(width: 0, height: 44 )))
+    private var searchBar = SearchField(
+        frame: CGRect(
+            origin: .zero,
+            size: CGSize(width: 0, height: 44)
+        )
+    )
 
     private lazy var noTokensLabel: UILabel = {
         // swiftlint:disable force_unwrapping
