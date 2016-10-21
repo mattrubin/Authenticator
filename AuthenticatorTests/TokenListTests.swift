@@ -35,7 +35,7 @@ class TokenListTests: XCTestCase {
             ("Github", "username"),
             ("Service", "goo")
         ])
-        let effect = tokenList.update(TokenList.Action.Filter("goo"))
+        let effect = tokenList.update(.Filter("goo"))
 
         let viewModel = tokenList.viewModel
         let filteredIssuers = viewModel.rowModels.map { $0.issuer }
@@ -51,7 +51,7 @@ class TokenListTests: XCTestCase {
             ("Service", "example@google.com"),
             ("Service", "username")
         ])
-        let effect = tokenList.update(TokenList.Action.Filter("Service"))
+        let effect = tokenList.update(.Filter("Service"))
         let viewModel = tokenList.viewModel
 
         XCTAssertNil(effect)
