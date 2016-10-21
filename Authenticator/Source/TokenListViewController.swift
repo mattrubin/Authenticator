@@ -41,7 +41,13 @@ class TokenListViewController: UITableViewController {
     }
 
     private var displayLink: CADisplayLink?
-    private let ring: OTPProgressRing = OTPProgressRing(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
+    private var searchBar = SearchField(
+        frame: CGRect(
+            origin: .zero,
+            size: CGSize(width: 0, height: 44)
+        )
+    )
+
     private lazy var noTokensLabel: UILabel = {
         // swiftlint:disable force_unwrapping
         let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
@@ -66,6 +72,8 @@ class TokenListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tableView.keyboardDismissMode = .Interactive
+
         self.title = "Authenticator"
         self.view.backgroundColor = UIColor.otpBackgroundColor
 
@@ -76,7 +84,9 @@ class TokenListViewController: UITableViewController {
         self.tableView.allowsSelectionDuringEditing = true
 
         // Configure navigation bar
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.ring)
+        self.navigationItem.titleView = searchBar
+
+        self.searchBar.delegate = self
 
         // Configure toolbar
         let addAction = #selector(TokenListViewController.addToken)
@@ -102,6 +112,11 @@ class TokenListViewController: UITableViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        let searchSelector = #selector(TokenListViewController.filterTokens)
+        searchBar.textField.addTarget(self,
+                                      action: searchSelector,
+                                      forControlEvents: .EditingChanged)
 
         let selector = #selector(TokenListViewController.tick)
         self.displayLink = CADisplayLink(target: self, selector: selector)
@@ -132,13 +147,18 @@ class TokenListViewController: UITableViewController {
     func addToken() {
         dispatchAction(.BeginAddToken)
     }
+
+    func filterTokens() {
+        guard let filter = searchBar.text else {
+            return dispatchAction(.ClearFilter)
+        }
+        dispatchAction(.Filter(filter))
+    }
+
 }
 
 // MARK: UITableViewDataSource
 extension TokenListViewController {
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.rowModels.count
@@ -182,8 +202,14 @@ extension TokenListViewController {
 extension TokenListViewController {
     func updateWithViewModel(viewModel: TokenList.ViewModel) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
+        let filtering = viewModel.isFiltering || self.viewModel.isFiltering
         self.viewModel = viewModel
-        updateTableViewWithChanges(changes)
+
+        if filtering {
+            tableView.reloadData()
+        } else {
+            updateTableViewWithChanges(changes)
+        }
         updatePeripheralViews()
     }
 
@@ -253,19 +279,24 @@ extension TokenListViewController {
     }
 
     private func updatePeripheralViews() {
-        // Show the countdown ring only if a time-based token is active
-        self.ring.hidden = (viewModel.ringProgress == nil)
-        if let ringProgress = viewModel.ringProgress {
-            ring.progress = ringProgress
-        }
 
-        let hasTokens = !viewModel.rowModels.isEmpty
-        editButtonItem().enabled = hasTokens
-        noTokensLabel.hidden = hasTokens
+        searchBar.updateWithViewModel(viewModel)
+
+        editButtonItem().enabled = viewModel.hasTokens
+        noTokensLabel.hidden = viewModel.hasTokens
 
         // Exit editing mode if no tokens remain
         if self.editing && viewModel.rowModels.isEmpty {
             self.setEditing(false, animated: true)
         }
     }
+}
+
+extension TokenListViewController: UITextFieldDelegate {
+    // Dismisses keyboard when return is pressed
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
+    }
+
 }

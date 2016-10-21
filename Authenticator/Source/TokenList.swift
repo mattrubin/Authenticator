@@ -31,6 +31,7 @@ import OneTimePassword
 struct TokenList: Component {
     private var persistentTokens: [PersistentToken]
     private var displayTime: DisplayTime
+    private var filter: String?
 
     init(persistentTokens: [PersistentToken], displayTime: DisplayTime) {
         self.persistentTokens = persistentTokens
@@ -40,12 +41,15 @@ struct TokenList: Component {
     // MARK: View Model
 
     var viewModel: TokenListViewModel {
-        let rowModels = persistentTokens.map({
-            TokenRowModel(persistentToken: $0, displayTime: displayTime)
+        let isFiltering = !(filter ?? "").isEmpty
+        let rowModels = filteredTokens.map({
+            TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
         })
         return TokenListViewModel(
             rowModels: rowModels,
-            ringProgress: ringProgress
+            ringProgress: ringProgress,
+            totalTokens: persistentTokens.count,
+            isFiltering: isFiltering
         )
     }
 
@@ -73,6 +77,18 @@ struct TokenList: Component {
         // Calculate the percentage progress in the current period.
         return fmod(displayTime.timeIntervalSince1970, ringPeriod) / ringPeriod
     }
+
+    private var filteredTokens: [PersistentToken] {
+        guard let filter = self.filter where !filter.isEmpty else {
+            return self.persistentTokens
+        }
+        let options: NSStringCompareOptions = [.CaseInsensitiveSearch,
+                                               .DiacriticInsensitiveSearch]
+        return self.persistentTokens.filter({
+            $0.token.issuer.rangeOfString(filter, options: options) != nil ||
+                $0.token.name.rangeOfString(filter, options: options) != nil
+        })
+    }
 }
 
 extension TokenList {
@@ -91,6 +107,9 @@ extension TokenList {
         case TokenChangeSucceeded([PersistentToken])
         case UpdateTokenFailed(ErrorType)
         case DeleteTokenFailed(ErrorType)
+
+        case Filter(String)
+        case ClearFilter
     }
 
     enum Effect {
@@ -145,6 +164,14 @@ extension TokenList {
             self.persistentTokens = persistentTokens
             return nil
 
+        case .Filter(let filter):
+            self.filter = filter
+            return nil
+
+        case .ClearFilter:
+            self.filter = nil
+            return nil
+
         case .UpdateTokenFailed:
             return .ShowErrorMessage("Failed to update token.")
         case .DeleteTokenFailed:
@@ -183,9 +210,14 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
         return (l as NSError) == (r as NSError)
     case let (.DeleteTokenFailed(l), .DeleteTokenFailed(r)):
         return (l as NSError) == (r as NSError)
+    case (.ClearFilter, .ClearFilter):
+        return true
+    case let (.Filter(l), .Filter(r)):
+        return l == r
     case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _),
          (.MoveToken, _), (.DeletePersistentToken, _), (.CopyPassword, _), (.UpdateViewModel, _),
-         (.TokenChangeSucceeded, _), (.UpdateTokenFailed, _), (.DeleteTokenFailed, _):
+         (.TokenChangeSucceeded, _), (.UpdateTokenFailed, _), (.DeleteTokenFailed, _),
+         (.Filter, _), (.ClearFilter, _):
         // Using this verbose case for non-matching `Action`s instead of `default` ensures a
         // compiler error if a new `Action` is added and not expicitly checked for equality.
         return false
