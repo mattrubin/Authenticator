@@ -255,17 +255,7 @@ extension TokenListViewController {
 
         // After applying the changes which require animations, update any visible cells whose
         // contents have changed.
-        for change in changes {
-            switch change {
-            case let .Update(_, rowIndex):
-                let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
-                    updateCell(cell, forRowAtIndexPath: indexPath)
-                }
-            case .Insert, .Delete:
-                break
-            }
-        }
+        applyRowUpdates(fromChanges: changes, inSection: sectionIndex)
 
         // If firstInsertRow has a value > -1 then a row was inserted
         if firstInsertRow > -1 {
@@ -275,6 +265,25 @@ extension TokenListViewController {
             tableView.scrollToRowAtIndexPath(indexPath,
                                              atScrollPosition: .None,
                                              animated: true)
+        }
+    }
+
+    /// From among the given `Change`s, applies the `Update`s to cells at the new row indexes in the
+    /// given `section`. This method should be used only *after* insertions, deletions, and moves
+    /// have been applied.
+    /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
+    /// - parameter section: The index of the table view section which contains the changes.
+    private func applyRowUpdates(fromChanges changes: [Change], inSection section: Int) {
+        for change in changes {
+            switch change {
+            case let .Update(_, row):
+                let indexPath = NSIndexPath(forRow: row, inSection: section)
+                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
+                    updateCell(cell, forRowAtIndexPath: indexPath)
+                }
+            case .Insert, .Delete:
+                break
+            }
         }
     }
 
