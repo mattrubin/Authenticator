@@ -28,7 +28,7 @@ import UIKit
 class TokenListViewController: UITableViewController {
     private let dispatchAction: (TokenList.Action) -> ()
     private var viewModel: TokenList.ViewModel
-    private var preventTableViewAnimations = false
+    private var ignoreTableViewUpdates = false
 
     init(viewModel: TokenList.ViewModel, dispatchAction: (TokenList.Action) -> ()) {
         self.viewModel = viewModel
@@ -184,9 +184,9 @@ extension TokenListViewController {
     }
 
     override func tableView(tableView: UITableView, moveRowAtIndexPath source: NSIndexPath, toIndexPath destination: NSIndexPath) {
-        preventTableViewAnimations = true
+        ignoreTableViewUpdates = true
         dispatchAction(.MoveToken(fromIndex: source.row, toIndex: destination.row))
-        preventTableViewAnimations = false
+        ignoreTableViewUpdates = false
     }
 
 }
@@ -214,7 +214,7 @@ extension TokenListViewController {
     }
 
     private func updateTableViewWithChanges(changes: [Change]) {
-        if changes.isEmpty || preventTableViewAnimations {
+        if changes.isEmpty || ignoreTableViewUpdates {
             return
         }
 
