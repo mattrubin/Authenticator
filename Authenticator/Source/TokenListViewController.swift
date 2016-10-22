@@ -231,16 +231,12 @@ extension TokenListViewController {
 
         let sectionIndex = 0
 
-        var firstInsertRow = -1
         // Only perform a table view updates group if there are changes which require animations.
         if changesNeedAnimations {
             tableView.beginUpdates()
             for change in changes {
                 switch change {
                 case .Insert(let rowIndex):
-                    if firstInsertRow == -1 || rowIndex < firstInsertRow {
-                        firstInsertRow = rowIndex
-                    }
                     let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
                     tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 case .Delete(let rowIndex):
@@ -257,15 +253,7 @@ extension TokenListViewController {
         // contents have changed.
         applyRowUpdates(fromChanges: changes, inSection: sectionIndex)
 
-        // If firstInsertRow has a value > -1 then a row was inserted
-        if firstInsertRow > -1 {
-            let indexPath = NSIndexPath(forRow: firstInsertRow, inSection: sectionIndex)
-            // Scrolls to the newly inserted token at the smallest row index in the tableView
-            // using the minimum amount of scrolling necessary (.None)
-            tableView.scrollToRowAtIndexPath(indexPath,
-                                             atScrollPosition: .None,
-                                             animated: true)
-        }
+        scrollToFirstInsertedRow(fromChanges: changes, inSection: sectionIndex)
     }
 
     /// From among the given `Change`s, applies the `Update`s to cells at the new row indexes in the
@@ -284,6 +272,36 @@ extension TokenListViewController {
             case .Insert, .Delete:
                 break
             }
+        }
+    }
+
+    /// From among the given `Change`s, finds the first `Insert` and scrolls to that row in the
+    /// given `section` in the table view. This method should be used only *after* the changes have
+    /// been applied.
+    /// - parameter changes: An `Array` of `Change`s, in which the first `Insert` will be found.
+    /// - parameter section: The index of the table view section which contains the changes.
+    private func scrollToFirstInsertedRow(fromChanges changes: [Change], inSection section: Int) {
+        var firstInsertRow = -1
+
+        for change in changes {
+            switch change {
+            case let .Insert(row):
+                if firstInsertRow == -1 || row < firstInsertRow {
+                    firstInsertRow = row
+                }
+            case .Delete, .Update:
+                break
+            }
+        }
+
+        // If firstInsertRow has a value > -1 then a row was inserted
+        if firstInsertRow > -1 {
+            let indexPath = NSIndexPath(forRow: firstInsertRow, inSection: section)
+            // Scrolls to the newly inserted token at the smallest row index in the tableView
+            // using the minimum amount of scrolling necessary (.None)
+            tableView.scrollToRowAtIndexPath(indexPath,
+                                             atScrollPosition: .None,
+                                             animated: true)
         }
     }
 
