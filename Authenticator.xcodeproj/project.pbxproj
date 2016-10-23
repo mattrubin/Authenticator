@@ -111,6 +111,7 @@
 		C959A63C190A69120042DEC0 /* Icon.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Icon.svg; sourceTree = "<group>"; };
 		C959A63E190A69E60042DEC0 /* GenerateIcons.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = GenerateIcons.sh; sourceTree = "<group>"; };
 		C968D1141CB4C639004ED7BB /* DisplayTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayTime.swift; sourceTree = "<group>"; };
+		C96E60561DBC5F1B00484823 /* .codecov.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codecov.yml; sourceTree = "<group>"; };
 		C9776E3318518801003D53CB /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		C97B68C617D9226D005D1FE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C97CDF041BEE927200D64406 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
@@ -237,6 +238,7 @@
 			children = (
 				C931A6021BFF707E00706A1C /* Cartfile */,
 				C94765081C646E5E00C7527E /* Cartfile.private */,
+				C96E60561DBC5F1B00484823 /* .codecov.yml */,
 				C931A5FC1BFF6F9D00706A1C /* .hound.yml */,
 				C931A5FE1BFF6FA600706A1C /* .swiftlint.yml */,
 				C931A5FF1BFF6FA600706A1C /* .travis.yml */,
