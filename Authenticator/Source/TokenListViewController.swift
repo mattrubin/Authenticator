@@ -230,7 +230,7 @@ extension TokenListViewController {
     }
 
     /// From among the given `Change`s, applies any changes which modify the order of cells in the
-    /// given `section`. These insertions, deletions, and moves will be performed in a single 
+    /// given `section`. These insertions, deletions, and moves will be performed in a single
     /// animated table view updates group. If there are no changes which require animations, this
     /// method will not perform an empty updates group.
     /// - parameter changes: An `Array` of `Change`s, from which animated changes will be applied.
