@@ -18,3 +18,6 @@ before_install:
   - git submodule update --init --recursive
 
 script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK -destination "$DESTINATION" build test | xcpretty -c
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
