@@ -1,0 +1,4 @@
+# Configuration for Codecov (https://codecov.io)
+
+ignore:
+  - AuthenticatorTests
