@@ -4,9 +4,11 @@ hash inkscape 2>/dev/null || { echo >&2 "Icon generation requires inkscape. Usin
 hash pngcrush 2>/dev/null || { echo >&2 "Icon generation requires pngcrush. Using existing icons instead."; exit 0; }
 
 # Generate App Icons
+inkscape -z -e "Icon-20.png" -w 20 "Icon.svg";
 inkscape -z -e "Icon-29.png" -w 29 "Icon.svg";
 inkscape -z -e "Icon-40.png" -w 40 "Icon.svg";
 inkscape -z -e "Icon-58.png" -w 58 "Icon.svg";
+inkscape -z -e "Icon-60.png" -w 60 "Icon.svg";
 inkscape -z -e "Icon-76.png" -w 76 "Icon.svg";
 inkscape -z -e "Icon-80.png" -w 80 "Icon.svg";
 inkscape -z -e "Icon-87.png" -w 87 "Icon.svg";
