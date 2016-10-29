@@ -44,6 +44,9 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = app.rootViewController
         self.window?.makeKeyAndVisible()
 
+        // connect to watch, if available
+        app.activateWCSession()
+
         return true
     }
 

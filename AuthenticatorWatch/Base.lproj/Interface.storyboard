@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch42" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="11508"/>
+    </dependencies>
+    <scenes>
+        <!--Authenticator-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller identifier="tokenList" title="Authenticator" id="AgC-eL-Hgc" customClass="WatchTokenListViewController" customModule="AuthenticatorWatch_Extension">
+                    <items>
+                        <table alignment="left" id="hTl-CQ-0l8">
+                            <items>
+                                <tableRow identifier="TokenCell" id="nsI-Xk-y4W" customClass="WatchTokenListRowController" customModule="AuthenticatorWatch_Extension">
+                                    <group key="rootItem" width="1" height="40" alignment="left" layout="vertical" spacing="0.0" id="UZy-lD-c62">
+                                        <items>
+                                            <label alignment="left" text="Github" minimumScaleFactor="0.80000000000000004" id="h6a-Eo-uxG">
+                                                <color key="textColor" red="0.66666666666666663" green="0.6588235294117647" blue="0.62745098039215685" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="font" type="system" weight="light" pointSize="14"/>
+                                            </label>
+                                            <label alignment="left" verticalAlignment="bottom" text="martin@algesten.se" minimumScaleFactor="0.80000000000000004" id="s3b-HD-0fv">
+                                                <color key="textColor" red="0.98039215686274506" green="0.97254901960784312" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="font" type="system" weight="ultraLight" pointSize="14"/>
+                                            </label>
+                                        </items>
+                                        <color key="backgroundColor" red="0.13725490196078433" green="0.13725490196078433" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
+                                        <edgeInsets key="margins" left="7" right="7" top="3" bottom="3"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="issuerLabel" destination="h6a-Eo-uxG" id="7ps-81-GD3"/>
+                                        <outlet property="nameLabel" destination="s3b-HD-0fv" id="sKf-ya-6Wu"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <edgeInsets key="margins" left="1" right="1" top="2" bottom="0.0"/>
+                    <connections>
+                        <outlet property="tokenListTable" destination="hTl-CQ-0l8" id="iha-7T-wV7"/>
+                    </connections>
+                </controller>
+            </objects>
+        </scene>
+        <!--Back-->
+        <scene sceneID="wQB-h1-bvs">
+            <objects>
+                <controller identifier="entry" title="Back" id="k1d-Dk-C3v" customClass="WatchEntryViewController" customModule="AuthenticatorWatch_Extension">
+                    <items>
+                        <group width="1" alignment="left" hidden="YES" layout="vertical" id="JKa-26-Tee" userLabel="nohotp">
+                            <items>
+                                <label width="1" alignment="left" text="No HOTP" textAlignment="center" id="wAw-5N-kny">
+                                    <color key="textColor" red="0.55294117649999996" green="0.55294117649999996" blue="0.55294117649999996" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
+                                <label alignment="left" text="Authenticator Watch App does not support counter based tokens (yet)." textAlignment="left" numberOfLines="6" id="l3r-d4-vAn"/>
+                            </items>
+                        </group>
+                        <group width="130" height="130" alignment="center" radius="0.0" spacing="0.0" id="vdJ-3i-a3v">
+                            <items>
+                                <group width="1" alignment="left" layout="vertical" radius="0.0" spacing="0.0" id="rUj-Tv-K6U" userLabel="password">
+                                    <items>
+                                        <label width="1" alignment="left" text="Github" textAlignment="center" id="ZnM-9o-McT">
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="font" type="system" pointSize="15"/>
+                                        </label>
+                                        <group width="1" alignment="left" layout="vertical" radius="0.0" spacing="0.0" id="Fdp-wh-apP">
+                                            <items>
+                                                <label width="1" height="38" alignment="left" text="888888" textAlignment="center" minimumScaleFactor="0.5" id="KmY-e8-FGP">
+                                                    <fontDescription key="font" type="system" weight="ultraLight" pointSize="38"/>
+                                                    <variation key="device=watch42mm" height="45">
+                                                        <fontDescription key="font" type="system" weight="ultraLight" pointSize="45"/>
+                                                    </variation>
+                                                </label>
+                                            </items>
+                                            <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                        </group>
+                                    </items>
+                                    <edgeInsets key="margins" left="6" right="6" top="30" bottom="0.0"/>
+                                    <variation key="device=watch42mm">
+                                        <edgeInsets key="margins" left="6" right="6" top="40" bottom="0.0"/>
+                                    </variation>
+                                </group>
+                            </items>
+                            <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                            <variation key="device=watch42mm" height="156" width="156"/>
+                        </group>
+                        <label width="1" alignment="left" text="martin@algesten.se" textAlignment="center" minimumScaleFactor="0.5" id="0PW-Qr-Cb4">
+                            <fontDescription key="font" type="system" weight="ultraLight" pointSize="12"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="issuerLabel" destination="ZnM-9o-McT" id="nYr-Es-FcI"/>
+                        <outlet property="nameLabel" destination="0PW-Qr-Cb4" id="NIs-Df-Jq7"/>
+                        <outlet property="nohotpGroup" destination="JKa-26-Tee" id="XGu-6L-zGw"/>
+                        <outlet property="passwordGroup" destination="rUj-Tv-K6U" id="sQM-cw-Shf"/>
+                        <outlet property="passwordLabel" destination="KmY-e8-FGP" id="fNG-Bw-FuD"/>
+                        <outlet property="progressGroup" destination="vdJ-3i-a3v" id="B2M-aA-4cm"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="345" y="108"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" red="0.80838116500000001" green="0.80838116500000001" blue="0.80838116500000001" alpha="1" colorSpace="calibratedRGB"/>
+</document>

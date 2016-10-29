@@ -8,6 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* OTPAppDelegate.swift */; };
+		5B39F4D41DBD100D00CD2DAB /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B39F4D21DBD100D00CD2DAB /* Interface.storyboard */; };
+		5B39F4D61DBD100D00CD2DAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B39F4D51DBD100D00CD2DAB /* Assets.xcassets */; };
+		5B39F4DD1DBD100D00CD2DAB /* AuthenticatorWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5B39F4DC1DBD100D00CD2DAB /* AuthenticatorWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5B39F4E21DBD100D00CD2DAB /* WatchTokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39F4E11DBD100D00CD2DAB /* WatchTokenListViewController.swift */; };
+		5B39F4E41DBD100D00CD2DAB /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39F4E31DBD100D00CD2DAB /* ExtensionDelegate.swift */; };
+		5B39F4E61DBD100D00CD2DAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B39F4E51DBD100D00CD2DAB /* Assets.xcassets */; };
+		5B39F4EA1DBD100D00CD2DAB /* AuthenticatorWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 5B39F4D01DBD100D00CD2DAB /* AuthenticatorWatch.app */; };
+		5B4344451DBE6CA600D31302 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenStore.swift */; };
+		5B4344491DBE925100D31302 /* WatchRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4344481DBE925100D31302 /* WatchRootViewController.swift */; };
+		5B43444C1DBE94FE00D31302 /* WatchEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43444B1DBE94FE00D31302 /* WatchEntry.swift */; };
+		5B43444E1DBE956600D31302 /* WatchEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43444D1DBE956600D31302 /* WatchEntryViewModel.swift */; };
+		5B4344501DBE95CA00D31302 /* WatchEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43444F1DBE95CA00D31302 /* WatchEntryViewController.swift */; };
+		5B5917D71DC1187100043DD5 /* WatchTokenRowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5917D61DC1187100043DD5 /* WatchTokenRowModel.swift */; };
+		5B7A0AD21DC3987C0077E9E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7A0AD11DC3987C0077E9E9 /* CoreGraphics.framework */; };
+		5B7A0AD31DC39AAF0077E9E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AD15119CD51BE007480E9 /* Colors.swift */; };
+		5BA42BAF1DBD117900A42213 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448D1C52A74200ACFA87 /* Component.swift */; };
+		5BA42BB21DBD11CF00A42213 /* WatchTokenList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA42BB11DBD11CF00A42213 /* WatchTokenList.swift */; };
+		5BA42BB41DBD135D00A42213 /* Base32.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5BA42BB61DBD135D00A42213 /* OneTimePassword.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5BA42BBA1DBD4DC500A42213 /* WatchTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA42BB91DBD4DC500A42213 /* WatchTokenStore.swift */; };
+		5BA42BBC1DBD5AF300A42213 /* WatchRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA42BBB1DBD5AF300A42213 /* WatchRoot.swift */; };
+		5BA42BBF1DBD5BF400A42213 /* WatchRootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA42BBE1DBD5BF400A42213 /* WatchRootViewModel.swift */; };
+		5BA42BC21DBD5D4700A42213 /* WatchTokenListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA42BC11DBD5D4700A42213 /* WatchTokenListViewModel.swift */; };
+		5BA42BC41DBD674200A42213 /* WatchAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA42BC31DBD674200A42213 /* WatchAppController.swift */; };
+		5BED7C461DC05EF7003C9176 /* WCSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BED7C451DC05EF7003C9176 /* WCSessionDelegate.swift */; };
+		5BED7C481DC0620D003C9176 /* WCMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BED7C471DC0620D003C9176 /* WCMessages.swift */; };
+		5BED7C491DC06244003C9176 /* WCMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BED7C471DC0620D003C9176 /* WCMessages.swift */; };
 		8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */; };
 		C910ADC11BF0315A00C988F5 /* TokenList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C910ADC01BF0315A00C988F5 /* TokenList.swift */; };
 		C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708AB19CFB0750033128B /* TokenListViewController.swift */; };
@@ -53,6 +80,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5B39F4DE1DBD100D00CD2DAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5B39F4DB1DBD100D00CD2DAB;
+			remoteInfo = "AuthenticatorWatch Extension";
+		};
+		5B39F4E81DBD100D00CD2DAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5B39F4CF1DBD100D00CD2DAB;
+			remoteInfo = AuthenticatorWatch;
+		};
 		C9906A3C1812522100BAEF53 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -63,6 +104,40 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		5B39F4F01DBD100D00CD2DAB /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				5B39F4DD1DBD100D00CD2DAB /* AuthenticatorWatch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B39F4F21DBD100D00CD2DAB /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				5B39F4EA1DBD100D00CD2DAB /* AuthenticatorWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5BA42BB71DBD135D00A42213 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5BA42BB41DBD135D00A42213 /* Base32.framework in Embed Frameworks */,
+				5BA42BB61DBD135D00A42213 /* OneTimePassword.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C944A5531A7ECA5000E08B1E /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -81,6 +156,29 @@
 /* Begin PBXFileReference section */
 		1D3623250D0F684500981E51 /* OTPAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPAppDelegate.swift; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Authenticator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authenticator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B39F4D01DBD100D00CD2DAB /* AuthenticatorWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuthenticatorWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B39F4D31DBD100D00CD2DAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		5B39F4D51DBD100D00CD2DAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5B39F4D71DBD100D00CD2DAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B39F4DC1DBD100D00CD2DAB /* AuthenticatorWatch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "AuthenticatorWatch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B39F4E11DBD100D00CD2DAB /* WatchTokenListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTokenListViewController.swift; sourceTree = "<group>"; };
+		5B39F4E31DBD100D00CD2DAB /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		5B39F4E51DBD100D00CD2DAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5B39F4E71DBD100D00CD2DAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B4344481DBE925100D31302 /* WatchRootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchRootViewController.swift; sourceTree = "<group>"; };
+		5B43444B1DBE94FE00D31302 /* WatchEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchEntry.swift; sourceTree = "<group>"; };
+		5B43444D1DBE956600D31302 /* WatchEntryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchEntryViewModel.swift; sourceTree = "<group>"; };
+		5B43444F1DBE95CA00D31302 /* WatchEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchEntryViewController.swift; sourceTree = "<group>"; };
+		5B5917D61DC1187100043DD5 /* WatchTokenRowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchTokenRowModel.swift; sourceTree = "<group>"; };
+		5B7A0AD11DC3987C0077E9E9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS3.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		5BA42BB11DBD11CF00A42213 /* WatchTokenList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchTokenList.swift; sourceTree = "<group>"; };
+		5BA42BB91DBD4DC500A42213 /* WatchTokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchTokenStore.swift; sourceTree = "<group>"; };
+		5BA42BBB1DBD5AF300A42213 /* WatchRoot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchRoot.swift; sourceTree = "<group>"; };
+		5BA42BBE1DBD5BF400A42213 /* WatchRootViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchRootViewModel.swift; sourceTree = "<group>"; };
+		5BA42BC11DBD5D4700A42213 /* WatchTokenListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchTokenListViewModel.swift; sourceTree = "<group>"; };
+		5BA42BC31DBD674200A42213 /* WatchAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchAppController.swift; sourceTree = "<group>"; };
+		5BED7C451DC05EF7003C9176 /* WCSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WCSessionDelegate.swift; sourceTree = "<group>"; };
+		5BED7C471DC0620D003C9176 /* WCMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WCMessages.swift; sourceTree = "<group>"; };
 		8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerOverlayView.swift; sourceTree = "<group>"; };
 		8B2B8AE1118BA49F00437315 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -160,6 +258,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5B39F4D91DBD100D00CD2DAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B7A0AD21DC3987C0077E9E9 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9906A2B1812522100BAEF53 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -191,6 +297,8 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* Authenticator.app */,
 				C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */,
+				5B39F4D01DBD100D00CD2DAB /* AuthenticatorWatch.app */,
+				5B39F4DC1DBD100D00CD2DAB /* AuthenticatorWatch Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -200,6 +308,8 @@
 			children = (
 				C97B68CB17D964D4005D1FE0 /* Authenticator */,
 				C9906A331812522100BAEF53 /* AuthenticatorTests */,
+				5B39F4D11DBD100D00CD2DAB /* AuthenticatorWatch */,
+				5B39F4E01DBD100D00CD2DAB /* AuthenticatorWatch Ext */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				C944A5661A7F772500E08B1E /* Configuration */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -226,11 +336,101 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5B7A0AD11DC3987C0077E9E9 /* CoreGraphics.framework */,
 				C944A5581A7ECB3100E08B1E /* Base32.framework */,
 				C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */,
 				C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5B39F4D11DBD100D00CD2DAB /* AuthenticatorWatch */ = {
+			isa = PBXGroup;
+			children = (
+				5B39F4D21DBD100D00CD2DAB /* Interface.storyboard */,
+				5B39F4D51DBD100D00CD2DAB /* Assets.xcassets */,
+				5B39F4D71DBD100D00CD2DAB /* Info.plist */,
+			);
+			path = AuthenticatorWatch;
+			sourceTree = "<group>";
+		};
+		5B39F4E01DBD100D00CD2DAB /* AuthenticatorWatch Ext */ = {
+			isa = PBXGroup;
+			children = (
+				5B4344471DBE8F9200D31302 /* Source */,
+				5B4344461DBE8F8900D31302 /* Resources */,
+			);
+			name = "AuthenticatorWatch Ext";
+			path = "AuthenticatorWatch Extension";
+			sourceTree = "<group>";
+		};
+		5B4344461DBE8F8900D31302 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5B39F4E51DBD100D00CD2DAB /* Assets.xcassets */,
+				5B39F4E71DBD100D00CD2DAB /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		5B4344471DBE8F9200D31302 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				5B39F4E31DBD100D00CD2DAB /* ExtensionDelegate.swift */,
+				5BA42BC31DBD674200A42213 /* WatchAppController.swift */,
+				5BA42BB81DBD4D0C00A42213 /* Data Store */,
+				5BA42BBD1DBD5B0200A42213 /* Root Component */,
+				5BA42BB01DBD11A500A42213 /* Token List */,
+				5B43444A1DBE94AA00D31302 /* Entry View */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		5B43444A1DBE94AA00D31302 /* Entry View */ = {
+			isa = PBXGroup;
+			children = (
+				5B43444B1DBE94FE00D31302 /* WatchEntry.swift */,
+				5B43444D1DBE956600D31302 /* WatchEntryViewModel.swift */,
+				5B43444F1DBE95CA00D31302 /* WatchEntryViewController.swift */,
+			);
+			name = "Entry View";
+			sourceTree = "<group>";
+		};
+		5B5917D51DC1185200043DD5 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5B5917D61DC1187100043DD5 /* WatchTokenRowModel.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		5BA42BB01DBD11A500A42213 /* Token List */ = {
+			isa = PBXGroup;
+			children = (
+				5BA42BB11DBD11CF00A42213 /* WatchTokenList.swift */,
+				5BA42BC11DBD5D4700A42213 /* WatchTokenListViewModel.swift */,
+				5B39F4E11DBD100D00CD2DAB /* WatchTokenListViewController.swift */,
+				5B5917D51DC1185200043DD5 /* Cells */,
+			);
+			name = "Token List";
+			sourceTree = "<group>";
+		};
+		5BA42BB81DBD4D0C00A42213 /* Data Store */ = {
+			isa = PBXGroup;
+			children = (
+				5BA42BB91DBD4DC500A42213 /* WatchTokenStore.swift */,
+			);
+			name = "Data Store";
+			sourceTree = "<group>";
+		};
+		5BA42BBD1DBD5B0200A42213 /* Root Component */ = {
+			isa = PBXGroup;
+			children = (
+				5BA42BBB1DBD5AF300A42213 /* WatchRoot.swift */,
+				5BA42BBE1DBD5BF400A42213 /* WatchRootViewModel.swift */,
+				5B4344481DBE925100D31302 /* WatchRootViewController.swift */,
+			);
+			name = "Root Component";
 			sourceTree = "<group>";
 		};
 		C931A5FB1BFF6F3A00706A1C /* Tools */ = {
@@ -423,6 +623,8 @@
 			isa = PBXGroup;
 			children = (
 				C9F7A8601C4D90B50082E5AE /* TokenStore.swift */,
+				5BED7C451DC05EF7003C9176 /* WCSessionDelegate.swift */,
+				5BED7C471DC0620D003C9176 /* WCMessages.swift */,
 			);
 			name = "Data Store";
 			sourceTree = "<group>";
@@ -440,15 +642,52 @@
 				C910ADBF1BF00ABF00C988F5 /* Lint */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				C944A5531A7ECA5000E08B1E /* Copy Frameworks */,
+				5B39F4F21DBD100D00CD2DAB /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5B39F4E91DBD100D00CD2DAB /* PBXTargetDependency */,
 			);
 			name = Authenticator;
 			productName = Authenticator;
 			productReference = 1D6058910D05DD3D006BFB54 /* Authenticator.app */;
 			productType = "com.apple.product-type.application";
+		};
+		5B39F4CF1DBD100D00CD2DAB /* AuthenticatorWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B39F4F11DBD100D00CD2DAB /* Build configuration list for PBXNativeTarget "AuthenticatorWatch" */;
+			buildPhases = (
+				5B39F4CE1DBD100D00CD2DAB /* Resources */,
+				5B39F4F01DBD100D00CD2DAB /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5B39F4DF1DBD100D00CD2DAB /* PBXTargetDependency */,
+			);
+			name = AuthenticatorWatch;
+			productName = AuthenticatorWatch;
+			productReference = 5B39F4D01DBD100D00CD2DAB /* AuthenticatorWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		5B39F4DB1DBD100D00CD2DAB /* AuthenticatorWatch Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B39F4EF1DBD100D00CD2DAB /* Build configuration list for PBXNativeTarget "AuthenticatorWatch Extension" */;
+			buildPhases = (
+				5B39F4D81DBD100D00CD2DAB /* Sources */,
+				5B39F4D91DBD100D00CD2DAB /* Frameworks */,
+				5B39F4DA1DBD100D00CD2DAB /* Resources */,
+				5BA42BB71DBD135D00A42213 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AuthenticatorWatch Extension";
+			productName = "AuthenticatorWatch Extension";
+			productReference = 5B39F4DC1DBD100D00CD2DAB /* AuthenticatorWatch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 		C9906A2D1812522100BAEF53 /* AuthenticatorTests */ = {
 			isa = PBXNativeTarget;
@@ -476,14 +715,26 @@
 			attributes = {
 				CLASSPREFIX = OTP;
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0800;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = 59KQ35ZTG6;
 						LastSwiftMigration = 0800;
 					};
+					5B39F4CF1DBD100D00CD2DAB = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 59KQ35ZTG6;
+						ProvisioningStyle = Automatic;
+					};
+					5B39F4DB1DBD100D00CD2DAB = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 59KQ35ZTG6;
+						ProvisioningStyle = Automatic;
+					};
 					C9906A2D1812522100BAEF53 = {
+						DevelopmentTeam = 59KQ35ZTG6;
 						LastSwiftMigration = 0800;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
@@ -495,6 +746,7 @@
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -502,6 +754,8 @@
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Authenticator */,
 				C9906A2D1812522100BAEF53 /* AuthenticatorTests */,
+				5B39F4CF1DBD100D00CD2DAB /* AuthenticatorWatch */,
+				5B39F4DB1DBD100D00CD2DAB /* AuthenticatorWatch Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -516,6 +770,23 @@
 				C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */,
 				C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */,
 				C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B39F4CE1DBD100D00CD2DAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B39F4D61DBD100D00CD2DAB /* Assets.xcassets in Resources */,
+				5B39F4D41DBD100D00CD2DAB /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B39F4DA1DBD100D00CD2DAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B39F4E61DBD100D00CD2DAB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,6 +857,7 @@
 				C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */,
 				C99069D1180CBAC900BAEF53 /* TokenScannerViewController.swift in Sources */,
 				C9EB448E1C52A74200ACFA87 /* Component.swift in Sources */,
+				5BED7C461DC05EF7003C9176 /* WCSessionDelegate.swift in Sources */,
 				C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */,
 				C968D1151CB4C639004ED7BB /* DisplayTime.swift in Sources */,
 				8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */,
@@ -595,8 +867,33 @@
 				C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */,
 				C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */,
 				C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */,
+				5BED7C481DC0620D003C9176 /* WCMessages.swift in Sources */,
 				C910ADC11BF0315A00C988F5 /* TokenList.swift in Sources */,
 				C9919CDD1BA64EED006237C1 /* TokenEntryForm.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B39F4D81DBD100D00CD2DAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BA42BC21DBD5D4700A42213 /* WatchTokenListViewModel.swift in Sources */,
+				5BA42BBA1DBD4DC500A42213 /* WatchTokenStore.swift in Sources */,
+				5BA42BBF1DBD5BF400A42213 /* WatchRootViewModel.swift in Sources */,
+				5B7A0AD31DC39AAF0077E9E9 /* Colors.swift in Sources */,
+				5BA42BBC1DBD5AF300A42213 /* WatchRoot.swift in Sources */,
+				5B5917D71DC1187100043DD5 /* WatchTokenRowModel.swift in Sources */,
+				5B43444E1DBE956600D31302 /* WatchEntryViewModel.swift in Sources */,
+				5BA42BC41DBD674200A42213 /* WatchAppController.swift in Sources */,
+				5B4344451DBE6CA600D31302 /* TokenStore.swift in Sources */,
+				5B39F4E41DBD100D00CD2DAB /* ExtensionDelegate.swift in Sources */,
+				5B4344491DBE925100D31302 /* WatchRootViewController.swift in Sources */,
+				5B4344501DBE95CA00D31302 /* WatchEntryViewController.swift in Sources */,
+				5BA42BAF1DBD117900A42213 /* Component.swift in Sources */,
+				5B39F4E21DBD100D00CD2DAB /* WatchTokenListViewController.swift in Sources */,
+				5BED7C491DC06244003C9176 /* WCMessages.swift in Sources */,
+				5BA42BB21DBD11CF00A42213 /* WatchTokenList.swift in Sources */,
+				5B43444C1DBE94FE00D31302 /* WatchEntry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,12 +910,33 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5B39F4DF1DBD100D00CD2DAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5B39F4DB1DBD100D00CD2DAB /* AuthenticatorWatch Extension */;
+			targetProxy = 5B39F4DE1DBD100D00CD2DAB /* PBXContainerItemProxy */;
+		};
+		5B39F4E91DBD100D00CD2DAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5B39F4CF1DBD100D00CD2DAB /* AuthenticatorWatch */;
+			targetProxy = 5B39F4E81DBD100D00CD2DAB /* PBXContainerItemProxy */;
+		};
 		C9906A3D1812522100BAEF53 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1D6058900D05DD3D006BFB54 /* Authenticator */;
 			targetProxy = C9906A3C1812522100BAEF53 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5B39F4D21DBD100D00CD2DAB /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5B39F4D31DBD100D00CD2DAB /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
@@ -627,6 +945,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_DISPLAY_NAME = "${PRODUCT_NAME} ∆";
+				DEVELOPMENT_TEAM = 59KQ35ZTG6;
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev;
 				PRODUCT_NAME = Authenticator;
@@ -640,10 +959,213 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_DISPLAY_NAME = "${PRODUCT_NAME}";
+				DEVELOPMENT_TEAM = 59KQ35ZTG6;
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
 				PRODUCT_NAME = Authenticator;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		5B39F4EB1DBD100D00CD2DAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 59KQ35ZTG6;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBSC_MODULE = AuthenticatorWatch_Extension;
+				INFOPLIST_FILE = AuthenticatorWatch/Info.plist;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Debug;
+		};
+		5B39F4EC1DBD100D00CD2DAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 59KQ35ZTG6;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBSC_MODULE = AuthenticatorWatch_Extension;
+				INFOPLIST_FILE = AuthenticatorWatch/Info.plist;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Release;
+		};
+		5B39F4ED1DBD100D00CD2DAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 59KQ35ZTG6;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "AuthenticatorWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Debug;
+		};
+		5B39F4EE1DBD100D00CD2DAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 59KQ35ZTG6;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "AuthenticatorWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 2.3;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Release;
 		};
@@ -694,6 +1216,7 @@
 			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
+				DEVELOPMENT_TEAM = 59KQ35ZTG6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
@@ -704,6 +1227,7 @@
 			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
+				DEVELOPMENT_TEAM = 59KQ35ZTG6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
@@ -717,6 +1241,24 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5B39F4EF1DBD100D00CD2DAB /* Build configuration list for PBXNativeTarget "AuthenticatorWatch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B39F4ED1DBD100D00CD2DAB /* Debug */,
+				5B39F4EE1DBD100D00CD2DAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5B39F4F11DBD100D00CD2DAB /* Build configuration list for PBXNativeTarget "AuthenticatorWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B39F4EB1DBD100D00CD2DAB /* Debug */,
+				5B39F4EC1DBD100D00CD2DAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

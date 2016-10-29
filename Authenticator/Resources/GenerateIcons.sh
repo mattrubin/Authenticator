@@ -4,24 +4,27 @@ hash inkscape 2>/dev/null || { echo >&2 "Icon generation requires inkscape. Usin
 hash pngcrush 2>/dev/null || { echo >&2 "Icon generation requires pngcrush. Using existing icons instead."; exit 0; }
 
 # Generate App Icons
-inkscape -z -e "Icon-20.png" -w 20 "Icon.svg";
-inkscape -z -e "Icon-29.png" -w 29 "Icon.svg";
-inkscape -z -e "Icon-40.png" -w 40 "Icon.svg";
-inkscape -z -e "Icon-58.png" -w 58 "Icon.svg";
-inkscape -z -e "Icon-60.png" -w 60 "Icon.svg";
-inkscape -z -e "Icon-76.png" -w 76 "Icon.svg";
-inkscape -z -e "Icon-80.png" -w 80 "Icon.svg";
-inkscape -z -e "Icon-87.png" -w 87 "Icon.svg";
-inkscape -z -e "Icon-120.png" -w 120 "Icon.svg";
-inkscape -z -e "Icon-152.png" -w 152 "Icon.svg";
-inkscape -z -e "Icon-167.png" -w 167 "Icon.svg";
-inkscape -z -e "Icon-180.png" -w 180 "Icon.svg";
+for sz in 20 29 40 58 60 76 80 87 120 152 167 180; do
+  inkscape -z -e "Icon-${sz}.png" -w $sz "Icon.svg";
+done
 
 for file in Icon-*.png; do
   pngcrush -rem alla -ow -res 144 "$file" "_$file";
 done
 
 mv Icon-*.png "Images.xcassets/AppIcon.appiconset/"
+
+# Generate Watch App Icons
+for sz in 48 55 58 87 80 172 196; do
+  inkscape -z -e "Icon-${sz}.png" -w $sz "Icon.svg";
+done
+
+for file in Icon-*.png; do
+pngcrush -rem alla -ow -res 144 "$file" "_$file";
+done
+
+mv Icon-*.png "../../AuthenticatorWatch/Assets.xcassets/AppIcon.appiconset/"
+
 
 # Generate iTunes Artwork
 inkscape -z -e "iTunesArtwork" -w 512 "Icon.svg";

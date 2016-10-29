@@ -54,6 +54,27 @@ class AppController {
         }
         let currentTime = DisplayTime(date: NSDate())
         component = Root(persistentTokens: store.persistentTokens, displayTime: currentTime)
+
+
+        // store changes sends an update to a potentially connected watch app
+        if #available(iOS 9.0, *) {
+            store.onChangeCallback = { [weak self] in
+                do {
+                    try self?.store.sendTokens()
+                } catch {
+                    // this isn't much of a problem, because we don't
+                    // really care whether the watch receives anything
+                    print("sendTokens failed \(error)")
+                }
+            }
+        }
+    }
+
+    // app delegate will activate in didFinishLaunchingWithOptions
+    func activateWCSession() {
+        if #available(iOS 9.0, *) {
+            store.activateWCSession()
+        }
     }
 
     // MARK: - Update
