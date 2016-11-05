@@ -135,3 +135,21 @@ private extension NSUserDefaults {
         setObject(identifiers, forKey: kOTPKeychainEntriesArray)
     }
 }
+
+// MARK: - Keychain Reset
+
+private extension Keychain {
+    /// Replaces all the tokens in the current keychain, with the given array
+    /// of tokens.
+    ///
+    /// - parameter tokens: The tokens to replace all current tokens with.
+    ///
+    /// - throws: A `Keychain.Error` if any was encountered.
+    /// - returns: The corresponding persistent tokens, in order.
+    private func resetTokens(tokens: [Token]) throws -> [PersistentToken] {
+        // XXX perhaps there's a more efficient way?
+        try allPersistentTokens().forEach() { try deletePersistentToken($0) }
+        // map with side effect. i feel so dirrrty. :)
+        return try tokens.map() { try addToken($0) }
+    }
+}
