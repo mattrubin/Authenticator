@@ -24,6 +24,7 @@
 //
 
 import Foundation
+import OneTimePassword
 import WatchConnectivity
 
 // MARK: - WatchConnectivity
@@ -69,7 +70,7 @@ extension TokenStore: WCSessionDelegate {
 
     func sendTokens() throws {
         // we transport the tokens as [NSURL, NSURL, NSURL, ...]
-        let urls = try persistentTokens.map() { try $0.token.toURL() }
+        let urls = try persistentTokens.map() { try $0.token.toURLWithSecret() }
         // converted to NSData
         let data = NSKeyedArchiver.archivedDataWithRootObject(urls)
         // and ship it
@@ -102,4 +103,23 @@ extension TokenStore: WCSessionDelegate {
         }
     }
 
+}
+
+private extension Token {
+    private func toURLWithSecret() throws -> NSURL {
+        let originalURL = try self.toURL()
+        guard let urlComponents = NSURLComponents(URL: originalURL, resolvingAgainstBaseURL: false)
+            else { throw SecretSerializationError() }
+        let secretQueryItem = NSURLQueryItem(name: "secret", value: generator.secret.base32String())
+        var queryItems = urlComponents.queryItems ?? []
+        queryItems.append(secretQueryItem)
+        urlComponents.queryItems = queryItems
+
+        guard let url = urlComponents.URL else {
+            throw SecretSerializationError()
+        }
+        return url
+    }
+
+    private struct SecretSerializationError: ErrorType {}
 }
