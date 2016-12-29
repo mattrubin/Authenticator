@@ -3,11 +3,24 @@
 excluded:
   - Carthage
 opt_in_rules:
+  - attributes
+  - closure_end_indentation
+  - closure_spacing
   - conditional_returns_on_newline
   - empty_count
+  - explicit_init
+  # - file_header
+  - first_where
   # - force_unwrapping
   - missing_docs
+  - nimble_operator
+  - number_separator
+  # - operator_usage_whitespace
+  - overridden_super_call
   - private_outlet
+  - prohibited_super_call
+  - redundant_nil_coalescing
+  # - switch_case_on_newline
   - vertical_whitespace
 disabled_rules:
   - closure_parameter_position
