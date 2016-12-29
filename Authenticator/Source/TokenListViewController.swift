@@ -205,7 +205,7 @@ extension TokenListViewController {
         let filtering = viewModel.isFiltering || self.viewModel.isFiltering
         self.viewModel = viewModel
 
-        if filtering {
+        if filtering && !changes.isEmpty {
             tableView.reloadData()
         } else {
             updateTableViewWithChanges(changes)
