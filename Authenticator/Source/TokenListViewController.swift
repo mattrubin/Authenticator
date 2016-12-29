@@ -28,7 +28,7 @@ import UIKit
 class TokenListViewController: UITableViewController {
     private let dispatchAction: (TokenList.Action) -> ()
     private var viewModel: TokenList.ViewModel
-    private var preventTableViewAnimations = false
+    private var ignoreTableViewUpdates = false
 
     init(viewModel: TokenList.ViewModel, dispatchAction: (TokenList.Action) -> ()) {
         self.viewModel = viewModel
@@ -184,9 +184,9 @@ extension TokenListViewController {
     }
 
     override func tableView(tableView: UITableView, moveRowAtIndexPath source: NSIndexPath, toIndexPath destination: NSIndexPath) {
-        preventTableViewAnimations = true
+        ignoreTableViewUpdates = true
         dispatchAction(.MoveToken(fromIndex: source.row, toIndex: destination.row))
-        preventTableViewAnimations = false
+        ignoreTableViewUpdates = false
     }
 
 }
@@ -214,10 +214,28 @@ extension TokenListViewController {
     }
 
     private func updateTableViewWithChanges(changes: [Change]) {
-        if changes.isEmpty || preventTableViewAnimations {
+        if changes.isEmpty || ignoreTableViewUpdates {
             return
         }
 
+        let sectionIndex = 0
+
+        // In a single animated group, apply any changes which alter the ordering of the table.
+        applyOrderChanges(fromChanges: changes, inSection: sectionIndex)
+        // After applying the changes which require animations, update in place any visible cells
+        // whose contents have changed.
+        applyRowUpdates(fromChanges: changes, inSection: sectionIndex)
+        // If any tokens were inserted, scroll to the first inserted row.
+        scrollToFirstInsertedRow(fromChanges: changes, inSection: sectionIndex)
+    }
+
+    /// From among the given `Change`s, applies any changes which modify the order of cells in the
+    /// given `section`. These insertions, deletions, and moves will be performed in a single
+    /// animated table view updates group. If there are no changes which require animations, this
+    /// method will not perform an empty updates group.
+    /// - parameter changes: An `Array` of `Change`s, from which animated changes will be applied.
+    /// - parameter section: The index of the table view section which contains the changes.
+    private func applyOrderChanges(fromChanges changes: [Change], inSection section: Int) {
         // Determine if there are any changes that require insert/delete/move animations.
         // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
         let changesNeedAnimations = changes.contains { change in
@@ -229,22 +247,16 @@ extension TokenListViewController {
             }
         }
 
-        let sectionIndex = 0
-
-        var firstInsertRow = -1
         // Only perform a table view updates group if there are changes which require animations.
         if changesNeedAnimations {
             tableView.beginUpdates()
             for change in changes {
                 switch change {
-                case .Insert(let rowIndex):
-                    if firstInsertRow == -1 || rowIndex < firstInsertRow {
-                        firstInsertRow = rowIndex
-                    }
-                    let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                case let .Insert(row):
+                    let indexPath = NSIndexPath(forRow: row, inSection: section)
                     tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                case .Delete(let rowIndex):
-                    let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+                case let .Delete(row):
+                    let indexPath = NSIndexPath(forRow: row, inSection: section)
                     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 case .Update:
                     break
@@ -252,13 +264,18 @@ extension TokenListViewController {
             }
             tableView.endUpdates()
         }
+    }
 
-        // After applying the changes which require animations, update any visible cells whose
-        // contents have changed.
+    /// From among the given `Change`s, applies the `Update`s to cells at the new row indexes in the
+    /// given `section`. This method should be used only *after* insertions, deletions, and moves
+    /// have been applied.
+    /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
+    /// - parameter section: The index of the table view section which contains the changes.
+    private func applyRowUpdates(fromChanges changes: [Change], inSection section: Int) {
         for change in changes {
             switch change {
-            case let .Update(_, rowIndex):
-                let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
+            case let .Update(_, row):
+                let indexPath = NSIndexPath(forRow: row, inSection: section)
                 if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
                     updateCell(cell, forRowAtIndexPath: indexPath)
                 }
@@ -266,10 +283,28 @@ extension TokenListViewController {
                 break
             }
         }
+    }
 
-        // If firstInsertRow has a value > -1 then a row was inserted
-        if firstInsertRow > -1 {
-            let indexPath = NSIndexPath(forRow: firstInsertRow, inSection: sectionIndex)
+    /// From among the given `Change`s, finds the first `Insert` and scrolls to that row in the
+    /// given `section` in the table view. This method should be used only *after* the changes have
+    /// been applied.
+    /// - parameter changes: An `Array` of `Change`s, in which the first `Insert` will be found.
+    /// - parameter section: The index of the table view section which contains the changes.
+    private func scrollToFirstInsertedRow(fromChanges changes: [Change], inSection section: Int) {
+        let firstInsertedRow = changes.reduce(nil, combine: { (firstInsertedRow, change) -> Int? in
+            switch change {
+            case let .Insert(row):
+                guard let prevFirstInsertedRow = firstInsertedRow else {
+                    return row
+                }
+                return min(row, prevFirstInsertedRow)
+            case .Delete, .Update:
+                return firstInsertedRow
+            }
+        })
+
+        if let firstInsertedRow = firstInsertedRow {
+            let indexPath = NSIndexPath(forRow: firstInsertedRow, inSection: section)
             // Scrolls to the newly inserted token at the smallest row index in the tableView
             // using the minimum amount of scrolling necessary (.None)
             tableView.scrollToRowAtIndexPath(indexPath,
