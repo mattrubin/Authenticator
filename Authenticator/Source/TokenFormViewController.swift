@@ -194,8 +194,10 @@ extension TokenFormViewController {
     private func barButtonItemForViewModel(viewModel: BarButtonViewModel<Form.Action>, target: AnyObject?, action: Selector) -> UIBarButtonItem {
         func systemItemForStyle(style: BarButtonStyle) -> UIBarButtonSystemItem {
             switch style {
-            case .Done: return .Done
-            case .Cancel: return .Cancel
+            case .Done:
+                return .Done
+            case .Cancel:
+                return .Cancel
             }
         }
 

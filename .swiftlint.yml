@@ -20,7 +20,7 @@ opt_in_rules:
   - private_outlet
   - prohibited_super_call
   - redundant_nil_coalescing
-  # - switch_case_on_newline
+  - switch_case_on_newline
   - vertical_whitespace
 disabled_rules:
   - closure_parameter_position
