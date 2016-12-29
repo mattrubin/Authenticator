@@ -75,7 +75,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         scanner.delegate = self
-        scanner.start() { captureSession in
+        scanner.start { captureSession in
             self.videoLayer.session = captureSession
         }
     }
