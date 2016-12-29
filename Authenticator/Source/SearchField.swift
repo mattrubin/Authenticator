@@ -41,7 +41,7 @@ class SearchField: UIView {
         setupTextField()
     }
 
-    var delegate: UITextFieldDelegate? {
+    weak var delegate: UITextFieldDelegate? {
         get { return textField.delegate }
         set { textField.delegate = newValue }
     }
