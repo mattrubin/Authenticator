@@ -1,5 +1,5 @@
 //
-//  ScannerOverlayView.Swift
+//  ScannerOverlayView.swift
 //  Authenticator
 //
 //  Copyright (c) 2013-2016 Authenticator authors
