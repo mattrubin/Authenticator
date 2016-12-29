@@ -291,20 +291,17 @@ extension TokenListViewController {
     /// - parameter changes: An `Array` of `Change`s, in which the first `Insert` will be found.
     /// - parameter section: The index of the table view section which contains the changes.
     private func scrollToFirstInsertedRow(fromChanges changes: [Change], inSection section: Int) {
-        var firstInsertedRow: Int? = nil
-
-        for change in changes {
+        let firstInsertedRow = changes.reduce(nil, combine: { (firstInsertedRow, change) -> Int? in
             switch change {
             case let .Insert(row):
-                if let prevFirstInsertedRow = firstInsertedRow {
-                    firstInsertedRow = min(row, prevFirstInsertedRow)
-                } else {
-                    firstInsertedRow = row
+                guard let prevFirstInsertedRow = firstInsertedRow else {
+                    return row
                 }
+                return min(row, prevFirstInsertedRow)
             case .Delete, .Update:
-                break
+                return firstInsertedRow
             }
-        }
+        })
 
         if let firstInsertedRow = firstInsertedRow {
             let indexPath = NSIndexPath(forRow: firstInsertedRow, inSection: section)
