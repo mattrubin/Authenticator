@@ -72,7 +72,7 @@ extension TokenEditForm {
                 [
                     issuerRowModel,
                     nameRowModel,
-                ]
+                ],
             ],
             doneKeyAction: .Submit
         )

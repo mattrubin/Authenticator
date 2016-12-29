@@ -32,7 +32,7 @@ class TokenListTests: XCTestCase {
         var tokenList = mockList([
             ("Google", "example@google.com"),
             ("Github", "username"),
-            ("Service", "goo")
+            ("Service", "goo"),
         ])
         let effect = tokenList.update(.Filter("goo"))
 
@@ -48,7 +48,7 @@ class TokenListTests: XCTestCase {
     func testIsFilteringWhenAllTokensMatchFilter() {
         var tokenList = mockList([
             ("Service", "example@google.com"),
-            ("Service", "username")
+            ("Service", "username"),
         ])
         let effect = tokenList.update(.Filter("Service"))
         let viewModel = tokenList.viewModel

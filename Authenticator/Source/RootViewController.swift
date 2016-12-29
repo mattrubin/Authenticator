@@ -35,7 +35,7 @@ class OpaqueNavigationController: UINavigationController {
         navigationBar.titleTextAttributes = [
             NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
             // swiftlint:disable:next force_unwrapping
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!,
         ]
 
         toolbar.translucent = false

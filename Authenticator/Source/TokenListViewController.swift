@@ -93,7 +93,7 @@ class TokenListViewController: UITableViewController {
         self.toolbarItems = [
             self.editButtonItem(),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: addAction)
+            UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: addAction),
         ]
         self.navigationController?.toolbarHidden = false
 
