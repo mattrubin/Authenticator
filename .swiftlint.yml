@@ -12,7 +12,6 @@ opt_in_rules:
 disabled_rules:
   - closure_parameter_position
   - cyclomatic_complexity
-  - implicit_getter
   - line_length
   - todo
   - trailing_comma

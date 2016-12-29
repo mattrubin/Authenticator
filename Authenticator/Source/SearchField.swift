@@ -47,7 +47,7 @@ class SearchField: UIView {
     }
 
     var text: String? {
-        get { return textField.text }
+        return textField.text
     }
 
     let ring = OTPProgressRing(
