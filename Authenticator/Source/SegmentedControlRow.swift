@@ -41,7 +41,7 @@ struct SegmentedControlRowViewModel<Action> {
 private let preferredHeight: CGFloat = 54
 
 class SegmentedControlRowCell<Action>: UITableViewCell {
-    var dispatchAction: ((Action) -> ())?
+    var dispatchAction: ((Action) -> Void)?
 
     private let segmentedControl = UISegmentedControl()
     private var actions: [Action] = []

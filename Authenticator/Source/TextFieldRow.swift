@@ -48,7 +48,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
 
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
-    var dispatchAction: ((Action) -> ())?
+    var dispatchAction: ((Action) -> Void)?
     private var changeAction: ((String) -> Action)?
 
     // MARK: - Init

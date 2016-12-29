@@ -26,7 +26,7 @@
 import UIKit
 
 class TokenFormViewController<Form: TableViewModelRepresentable where Form.HeaderModel == TokenFormHeaderModel<Form.Action>, Form.RowModel == TokenFormRowModel<Form.Action>>: UITableViewController {
-    private let dispatchAction: (Form.Action) -> ()
+    private let dispatchAction: (Form.Action) -> Void
     private var viewModel: TableViewModel<Form> {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
@@ -57,7 +57,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
         }
     }
 
-    init(viewModel: TableViewModel<Form>, dispatchAction: (Form.Action) -> ()) {
+    init(viewModel: TableViewModel<Form>, dispatchAction: (Form.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(style: .Grouped)
