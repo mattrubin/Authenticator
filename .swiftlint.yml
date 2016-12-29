@@ -15,7 +15,7 @@ opt_in_rules:
   - missing_docs
   - nimble_operator
   - number_separator
-  # - operator_usage_whitespace
+  - operator_usage_whitespace
   - overridden_super_call
   - private_outlet
   - prohibited_super_call

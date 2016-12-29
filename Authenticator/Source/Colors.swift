@@ -37,7 +37,7 @@ extension UIColor {
     }
 
     private struct OTP {
-        static let darkColor  = UIColor(red: 35, green: 35, blue: 50)
+        static let darkColor = UIColor(red: 35, green: 35, blue: 50)
         static let lightColor = UIColor(red: 250, green: 248, blue: 240)
     }
 

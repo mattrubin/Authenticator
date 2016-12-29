@@ -70,12 +70,12 @@ private func changes<T>(from oldItems: [T], to newItems: [T], hasSameIdentity: (
                 x = 0
                 changes = []
             } else
-            if k == -D || (k != D && V[k-1 + MAX] < V[k+1 + MAX]) {
-                x = V[k+1 + MAX]
-                changes = changesInDiagonal[k+1 + MAX] + [.Insert(index: x-k - 1)]
+            if k == -D || (k != D && V[(k - 1) + MAX] < V[(k + 1) + MAX]) {
+                x = V[(k + 1) + MAX]
+                changes = changesInDiagonal[(k + 1) + MAX] + [.Insert(index: (x - k) - 1)]
             } else {
-                x = V[k-1 + MAX] + 1
-                changes = changesInDiagonal[k-1 + MAX] + [.Delete(index: x - 1)]
+                x = V[(k - 1) + MAX] + 1
+                changes = changesInDiagonal[(k - 1) + MAX] + [.Delete(index: x - 1)]
             }
             var y = x - k
             while x < oldItems.count && y < newItems.count
@@ -83,7 +83,7 @@ private func changes<T>(from oldItems: [T], to newItems: [T], hasSameIdentity: (
                     if !isEqual(oldItems[x], newItems[y]) {
                         changes = changes + [.Update(oldIndex: x, newIndex: y)]
                     }
-                    (x, y) = (x+1, y+1)
+                    (x, y) = (x + 1, y + 1)
             }
             V[k + MAX] = x
             changesInDiagonal[k + MAX] = changes

@@ -82,7 +82,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
         let margin: CGFloat = 20
         let width = contentView.bounds.width - (2 * margin)
         textLabel?.frame = CGRect(x: margin, y: 15, width: width, height: 21)
-        textField.frame  = CGRect(x: margin, y: 44, width: width, height: 30)
+        textField.frame = CGRect(x: margin, y: 44, width: width, height: 30)
     }
 
     // MARK: - View Model

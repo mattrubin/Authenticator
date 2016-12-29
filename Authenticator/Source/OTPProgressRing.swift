@@ -60,7 +60,7 @@ class OTPProgressRing: UIView {
         CGContextAddArc(context,
             ringRect.midX,
             ringRect.midY,
-            ringRect.width/2,
+            ringRect.width / 2,
             CGFloat(-M_PI_2),
             CGFloat(2 * M_PI * self.progress - M_PI_2),
             1)
