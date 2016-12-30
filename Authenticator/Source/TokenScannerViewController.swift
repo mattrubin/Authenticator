@@ -32,11 +32,11 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
 
-    private let dispatchAction: (Effect) -> ()
+    private let dispatchAction: (Effect) -> Void
 
     // MARK: Initialization
 
-    init(dispatchAction: (Effect) -> ()) {
+    init(dispatchAction: (Effect) -> Void) {
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
     }
@@ -75,7 +75,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         scanner.delegate = self
-        scanner.start() { captureSession in
+        scanner.start { captureSession in
             self.videoLayer.session = captureSession
         }
     }

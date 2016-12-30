@@ -42,13 +42,13 @@ class TableDiffTests: XCTestCase {
             TokenRowModel(
                 persistentToken: PersistentToken(token: token),
                 displayTime: DisplayTime(date: date)
-            )
+            ),
         ]
         let after = [
             TokenRowModel(
                 persistentToken: PersistentToken(token: token),
                 displayTime: DisplayTime(date: date)
-            )
+            ),
         ]
 
         let changes = changesFrom(before, to: after)

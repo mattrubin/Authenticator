@@ -41,13 +41,13 @@ class SearchField: UIView {
         setupTextField()
     }
 
-    var delegate: UITextFieldDelegate? {
+    weak var delegate: UITextFieldDelegate? {
         get { return textField.delegate }
         set { textField.delegate = newValue }
     }
 
     var text: String? {
-        get { return textField.text }
+        return textField.text
     }
 
     let ring = OTPProgressRing(
@@ -60,7 +60,7 @@ class SearchField: UIView {
         ring.tintColor = UIColor.otpLightColor
         let placeHolderAttributes = [
             NSForegroundColorAttributeName: UIColor.otpLightColor,
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 16)!
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 16)!,
         ]
         textField.attributedPlaceholder = NSAttributedString(
             string: "Authenticator",

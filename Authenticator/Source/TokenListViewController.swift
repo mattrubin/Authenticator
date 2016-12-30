@@ -26,11 +26,11 @@
 import UIKit
 
 class TokenListViewController: UITableViewController {
-    private let dispatchAction: (TokenList.Action) -> ()
+    private let dispatchAction: (TokenList.Action) -> Void
     private var viewModel: TokenList.ViewModel
     private var ignoreTableViewUpdates = false
 
-    init(viewModel: TokenList.ViewModel, dispatchAction: (TokenList.Action) -> ()) {
+    init(viewModel: TokenList.ViewModel, dispatchAction: (TokenList.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(style: .Plain)
@@ -93,7 +93,7 @@ class TokenListViewController: UITableViewController {
         self.toolbarItems = [
             self.editButtonItem(),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: addAction)
+            UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: addAction),
         ]
         self.navigationController?.toolbarHidden = false
 

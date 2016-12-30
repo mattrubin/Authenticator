@@ -26,7 +26,7 @@
 import UIKit
 
 class TokenRowCell: UITableViewCell {
-    var dispatchAction: ((TokenRowModel.Action) -> ())?
+    var dispatchAction: ((TokenRowModel.Action) -> Void)?
     private var rowModel: TokenRowModel?
 
     private let titleLabel = UILabel()

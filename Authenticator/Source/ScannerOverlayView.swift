@@ -1,5 +1,5 @@
 //
-//  ScannerOverlayView.Swift
+//  ScannerOverlayView.swift
 //  Authenticator
 //
 //  Copyright (c) 2013-2016 Authenticator authors
@@ -49,8 +49,8 @@ class ScannerOverlayView: UIView {
         let smallestDimension = min(self.bounds.width, self.bounds.height)
         let windowSize = 0.9 * smallestDimension
         let window = CGRect(
-            x: rect.midX - windowSize/2,
-            y: rect.midY - windowSize/2,
+            x: rect.midX - (windowSize / 2),
+            y: rect.midY - (windowSize / 2),
             width: windowSize,
             height: windowSize
         )
