@@ -5,19 +5,24 @@ language: objective-c
 xcode_workspace: Authenticator.xcworkspace
 xcode_scheme: Authenticator
 
-osx_image: xcode8
-xcode_sdk: iphonesimulator10.0
-env: DESTINATION="name=iPhone 6s"
+osx_image: xcode8.2
 
-matrix:
-  include:
-    - osx_image: xcode7.3
-      xcode_sdk: iphonesimulator9.3
+env:
+  - RUNTIME="iOS 8.1"  DEVICE="iPhone 4s"
+  - RUNTIME="iOS 8.4"  DEVICE="iPhone 5s"
+  - RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
+  - RUNTIME="iOS 10.2" DEVICE="iPhone 7 Plus"
 
 before_install:
   - git submodule update --init --recursive
 
-script: set -o pipefail && xcodebuild -workspace $TRAVIS_XCODE_WORKSPACE -scheme $TRAVIS_XCODE_SCHEME -sdk $TRAVIS_XCODE_SDK -destination "$DESTINATION" build test | xcpretty -c
+before_script:
+- DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+- RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+- DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
+- xcrun simctl boot $DESTINATION_ID
+
+script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" build test | xcpretty -c
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
