@@ -19,12 +19,15 @@ platform :ios do
   before_all do
     # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
     
-    carthage
+    carthage(
+      use_submodules: true,
+      no_build: true
+    )
   end
 
   desc "Runs all the tests"
   lane :test do
-    scan
+    scan(scheme: "Authenticator")
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
