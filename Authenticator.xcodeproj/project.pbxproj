@@ -88,7 +88,7 @@
 		C92708AB19CFB0750033128B /* TokenListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewController.swift; sourceTree = "<group>"; };
 		C931A5FC1BFF6F9D00706A1C /* .hound.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hound.yml; sourceTree = "<group>"; };
 		C931A5FE1BFF6FA600706A1C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; usesTabs = 0; };
-		C931A5FF1BFF6FA600706A1C /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		C931A5FF1BFF6FA600706A1C /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; usesTabs = 0; };
 		C931A6021BFF707E00706A1C /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		C93AD15119CD51BE007480E9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		C93BD6221C167CD100FFFB8F /* Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
