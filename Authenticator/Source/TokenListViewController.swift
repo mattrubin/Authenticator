@@ -33,7 +33,7 @@ class TokenListViewController: UITableViewController {
     init(viewModel: TokenList.ViewModel, dispatchAction: (TokenList.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
-        super.init(style: .Plain)
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
