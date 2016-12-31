@@ -90,6 +90,10 @@
             argument = "--demo"
             isEnabled = "YES">
          </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-demo-scanner-image $(SOURCE_ROOT)/AuthenticatorScreenshots/QRCode.jpg"
+            isEnabled = "YES">
+         </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>

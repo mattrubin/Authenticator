@@ -146,3 +146,12 @@ extension DisplayTime {
     /// aesthetically-pleasing angle.
     static let demoTime = DisplayTime(date: NSDate(timeIntervalSince1970: 123_456_783.75))
 }
+
+extension UIImage {
+    static func demoScannerImage() -> UIImage? {
+        guard let imagePath = NSUserDefaults.standardUserDefaults().stringForKey("demo-scanner-image") else {
+            return nil
+        }
+        return UIImage(contentsOfFile: imagePath)
+    }
+}
