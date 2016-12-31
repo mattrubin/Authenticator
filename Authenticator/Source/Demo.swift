@@ -28,7 +28,8 @@ import Foundation
 
 extension Process {
     static var isDemo: Bool {
-        return arguments.contains("-DEMO") || arguments.contains("-FASTLANE_SNAPSHOT")
+        return arguments.contains("--demo")
+            || NSUserDefaults.standardUserDefaults().boolForKey("FASTLANE_SNAPSHOT")
     }
 }
 

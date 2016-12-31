@@ -87,7 +87,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-DEMO YES"
+            argument = "--demo"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
