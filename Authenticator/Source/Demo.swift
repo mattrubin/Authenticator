@@ -135,3 +135,8 @@ extension TokenEntryForm {
         return form
     }()
 }
+
+extension DisplayTime {
+    // A constant demo display time.
+    static let demoTime = DisplayTime(date: NSDate(timeIntervalSince1970: 123_456_789))
+}

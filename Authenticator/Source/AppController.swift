@@ -45,7 +45,7 @@ class AppController {
     init() {
         if Process.isDemo {
             store = DemoTokenStore()
-            let currentTime = DisplayTime(date: NSDate())
+            let currentTime = DisplayTime.demoTime
             component = Root(persistentTokens: store.persistentTokens, displayTime: currentTime)
             return
         }
