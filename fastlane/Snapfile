@@ -1,0 +1,18 @@
+# Configuration for Snapshot (https://fastlane.tools/snapshot)
+
+scheme "Authenticator Demo"
+
+devices([
+  "iPhone 7",
+  "iPhone 7 Plus",
+  "iPhone SE",
+])
+
+languages([
+  "en-US",
+])
+
+# clear_previous_screenshots true # remove the '#' to clear all previously generated screenshots before creating new ones
+
+# Arguments to pass to the app on launch. See https://github.com/fastlane/snapshot#launch-arguments
+# launch_arguments(["-favColor red"])

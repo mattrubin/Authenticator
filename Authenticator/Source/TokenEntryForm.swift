@@ -46,6 +46,13 @@ struct TokenEntryForm: Component {
     // MARK: Initialization
 
     init() {
+        if Process.isDemo {
+            // If this is a demo, pre-fill the form.
+            issuer = "Google"
+            name = "john.appleseed@gmail.com"
+            secret = "JBSWY3DPEHPK6PX9"
+            showsAdvancedOptions = true
+        }
     }
 }
 

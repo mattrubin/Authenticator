@@ -155,6 +155,12 @@ extension Root {
     private mutating func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
         switch effect {
         case .BeginTokenEntry:
+            if Process.isDemo {
+                // If this is a demo, show the scanner even in the simulator.
+                modal = .Scanner
+                return nil
+            }
+
             if QRScanner.deviceCanScan {
                 modal = .Scanner
             } else {
