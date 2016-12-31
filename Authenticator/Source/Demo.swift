@@ -35,64 +35,31 @@ extension Process {
 }
 
 struct DemoTokenStore: TokenStore {
-    let persistentTokens: [PersistentToken] = [
-        PersistentToken(
-            demoToken: Token(
-                name: "john.appleseed@gmail.com",
-                issuer: "Google",
-                generator: Generator(
-                    factor: .Timer(period: 10),
-                    secret: NSData(),
-                    algorithm: .SHA1,
-                    digits: 6
-                )!
-            )
+    let persistentTokens = demoTokens.map(PersistentToken.init(demoToken:))
+
+    private static let demoTokens = [
+        Token(
+            name: "john.appleseed@gmail.com",
+            issuer: "Google",
+            factor: .Timer(period: 10)
         ),
-        PersistentToken(
-            demoToken: Token(
-                name: "johnappleseed",
-                issuer: "GitHub",
-                generator: Generator(
-                    factor: .Timer(period: 20),
-                    secret: NSData(),
-                    algorithm: .SHA1,
-                    digits: 6
-                )!
-            )
+        Token(
+            name: "johnappleseed",
+            issuer: "GitHub",
+            factor: .Timer(period: 20)
         ),
-        PersistentToken(
-            demoToken: Token(
-                issuer: "Dropbox",
-                generator: Generator(
-                    factor: .Timer(period: 30),
-                    secret: NSData(),
-                    algorithm: .SHA1,
-                    digits: 6
-                )!
-            )
+        Token(
+            issuer: "Dropbox",
+            factor: .Timer(period: 30)
         ),
-        PersistentToken(
-            demoToken: Token(
-                name: "john@appleseed.com",
-                generator: Generator(
-                    factor: .Counter(0),
-                    secret: NSData(),
-                    algorithm: .SHA1,
-                    digits: 6
-                )!
-            )
+        Token(
+            name: "john@appleseed.com",
+            factor: .Counter(0)
         ),
-        PersistentToken(
-            demoToken: Token(
-                name: "johnny.apple",
-                issuer: "Facebook",
-                generator: Generator(
-                    factor: .Timer(period: 40),
-                    secret: NSData(),
-                    algorithm: .SHA1,
-                    digits: 6
-                )!
-            )
+        Token(
+            name: "johnny.apple",
+            issuer: "Facebook",
+            factor: .Timer(period: 40)
         ),
     ]
 
@@ -119,10 +86,17 @@ struct DemoTokenStore: TokenStore {
     }
 }
 
+private extension Token {
+    init(name: String = "", issuer: String = "", factor: Generator.Factor) {
+        let generator = Generator(factor: factor, secret: NSData(), algorithm: .SHA1, digits: 6)!
+        self.init(name: name, issuer: issuer, generator: generator)
+    }
+}
+
 private extension PersistentToken {
     init(demoToken: Token) {
-        self.token = demoToken
-        self.identifier = NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
+        token = demoToken
+        identifier = NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
     }
 }
 
