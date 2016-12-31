@@ -137,6 +137,7 @@ extension TokenEntryForm {
 }
 
 extension DisplayTime {
-    // A constant demo display time.
-    static let demoTime = DisplayTime(date: NSDate(timeIntervalSince1970: 123_456_789))
+    /// A constant demo display time, selected along with the time-based token periods to fix the progress ring at an
+    /// aesthetically-pleasing angle.
+    static let demoTime = DisplayTime(date: NSDate(timeIntervalSince1970: 123_456_783.75))
 }

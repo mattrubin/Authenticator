@@ -69,12 +69,6 @@ struct TokenList: Component {
             // If there are no time-based tokens, return nil to hide the progress ring.
             return nil
         }
-
-        if Process.isDemo {
-            // If this is a demo, hard-code the progress ring at an aesthetically-pleasing angle.
-            return 0.375
-        }
-
         guard ringPeriod > 0 else {
             // If the period is >= zero, return zero to display the ring but avoid the potential
             // divide-by-zero error below.
