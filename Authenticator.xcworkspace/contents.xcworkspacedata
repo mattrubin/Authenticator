@@ -13,4 +13,7 @@
    <FileRef
       location = "group:Carthage/Checkouts/SVProgressHUD/SVProgressHUD.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Carthage/Checkouts/SimulatorStatusMagic/SimulatorStatusMagic.xcodeproj">
+   </FileRef>
 </Workspace>

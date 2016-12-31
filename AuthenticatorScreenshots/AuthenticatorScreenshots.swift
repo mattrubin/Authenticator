@@ -24,10 +24,12 @@
 //
 
 import XCTest
+import SimulatorStatusMagiciOS
 
 class AuthenticatorScreenshots: XCTestCase {
     override func setUp() {
         super.setUp()
+        SDStatusBarManager.sharedInstance().enableOverrides()
         continueAfterFailure = false
 
         let app = XCUIApplication()
@@ -36,6 +38,7 @@ class AuthenticatorScreenshots: XCTestCase {
     }
 
     override func tearDown() {
+        SDStatusBarManager.sharedInstance().disableOverrides()
         super.tearDown()
     }
 

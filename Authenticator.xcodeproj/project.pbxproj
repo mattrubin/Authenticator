@@ -32,6 +32,7 @@
 		C9A262D01E170BD4004E6CEB /* AuthenticatorScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */; };
 		C9A262D81E170E3A004E6CEB /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262D71E170E3A004E6CEB /* SnapshotHelper.swift */; };
 		C9A262DA1E176A18004E6CEB /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262D91E176A18004E6CEB /* Demo.swift */; };
+		C9A262DD1E177437004E6CEB /* SimulatorStatusMagiciOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A262DC1E177437004E6CEB /* SimulatorStatusMagiciOS.framework */; };
 		C9AAB0791B9113BF000CE547 /* TokenFormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */; };
 		C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */; };
 		C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328C1C09495D0076F77E /* TableDiff.swift */; };
@@ -141,6 +142,7 @@
 		C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorScreenshots.swift; sourceTree = "<group>"; };
 		C9A262D71E170E3A004E6CEB /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		C9A262D91E176A18004E6CEB /* Demo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
+		C9A262DC1E177437004E6CEB /* SimulatorStatusMagiciOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SimulatorStatusMagiciOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenFormModels.swift; sourceTree = "<group>"; };
 		C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEditForm.swift; sourceTree = "<group>"; };
 		C9B7328C1C09495D0076F77E /* TableDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDiff.swift; sourceTree = "<group>"; };
@@ -178,6 +180,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9A262DB1E177431004E6CEB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9A262DD1E177437004E6CEB /* SimulatorStatusMagiciOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +255,7 @@
 				C944A5581A7ECB3100E08B1E /* Base32.framework */,
 				C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */,
 				C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */,
+				C9A262DC1E177437004E6CEB /* SimulatorStatusMagiciOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -499,6 +510,7 @@
 			buildConfigurationList = C9A262D61E170BD4004E6CEB /* Build configuration list for PBXNativeTarget "AuthenticatorScreenshots" */;
 			buildPhases = (
 				C9A262C91E170BD4004E6CEB /* Sources */,
+				C9A262DB1E177431004E6CEB /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -823,6 +835,7 @@
 				C9A262D51E170BD4004E6CEB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
