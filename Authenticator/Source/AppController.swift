@@ -43,8 +43,15 @@ class AppController {
     }()
 
     init() {
+        if Process.isDemo {
+            store = DemoTokenStore()
+            let currentTime = DisplayTime(date: NSDate())
+            component = Root(persistentTokens: store.persistentTokens, displayTime: currentTime)
+            return
+        }
+
         do {
-            store = try TokenStore(
+            store = try KeychainTokenStore(
                 keychain: Keychain.sharedInstance,
                 userDefaults: NSUserDefaults.standardUserDefaults()
             )

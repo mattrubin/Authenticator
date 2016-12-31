@@ -23,9 +23,104 @@
 //  SOFTWARE.
 //
 
+import OneTimePassword
+import Foundation
+
 extension Process {
     static var isDemo: Bool {
         print(arguments)
         return arguments.contains("-DEMO") || arguments.contains("-FASTLANE_SNAPSHOT")
+    }
+}
+
+struct DemoTokenStore: TokenStore {
+    let persistentTokens: [PersistentToken] = [
+        PersistentToken(
+            demoToken: Token(
+                name: "john.appleseed@gmail.com",
+                issuer: "Google",
+                generator: Generator(
+                    factor: .Timer(period: 10),
+                    secret: NSData(),
+                    algorithm: .SHA1,
+                    digits: 6
+                )!
+            )
+        ),
+        PersistentToken(
+            demoToken: Token(
+                name: "johnappleseed",
+                issuer: "GitHub",
+                generator: Generator(
+                    factor: .Timer(period: 20),
+                    secret: NSData(),
+                    algorithm: .SHA1,
+                    digits: 6
+                )!
+            )
+        ),
+        PersistentToken(
+            demoToken: Token(
+                issuer: "Dropbox",
+                generator: Generator(
+                    factor: .Timer(period: 30),
+                    secret: NSData(),
+                    algorithm: .SHA1,
+                    digits: 6
+                )!
+            )
+        ),
+        PersistentToken(
+            demoToken: Token(
+                name: "john@appleseed.com",
+                generator: Generator(
+                    factor: .Counter(0),
+                    secret: NSData(),
+                    algorithm: .SHA1,
+                    digits: 6
+                )!
+            )
+        ),
+        PersistentToken(
+            demoToken: Token(
+                name: "johnny.apple",
+                issuer: "Facebook",
+                generator: Generator(
+                    factor: .Timer(period: 40),
+                    secret: NSData(),
+                    algorithm: .SHA1,
+                    digits: 6
+                )!
+            )
+        ),
+    ]
+
+    private struct Error: ErrorType {}
+
+    func addToken(token: Token) throws {
+        throw Error()
+    }
+
+    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
+        throw Error()
+    }
+
+    func updatePersistentToken(persistentToken: PersistentToken) throws {
+        throw Error()
+    }
+
+    func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
+        return
+    }
+
+    func deletePersistentToken(persistentToken: PersistentToken) throws {
+        throw Error()
+    }
+}
+
+private extension PersistentToken {
+    init(demoToken: Token) {
+        self.token = demoToken
+        self.identifier = NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
     }
 }

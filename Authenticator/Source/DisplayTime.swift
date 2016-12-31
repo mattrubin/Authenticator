@@ -30,6 +30,11 @@ struct DisplayTime: Equatable {
     let timeIntervalSince1970: NSTimeInterval
 
     init(date: NSDate) {
+        if Process.isDemo {
+            // If this is a demo, hard-code a constant display time.
+            timeIntervalSince1970 = 123_456_789
+            return
+        }
         timeIntervalSince1970 = date.timeIntervalSince1970
     }
 }

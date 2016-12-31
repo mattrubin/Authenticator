@@ -26,7 +26,16 @@
 import Foundation
 import OneTimePassword
 
-class TokenStore {
+protocol TokenStore {
+    var persistentTokens: [PersistentToken] { get }
+    func addToken(token: Token) throws
+    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws
+    func updatePersistentToken(persistentToken: PersistentToken) throws
+    func moveTokenFromIndex(origin: Int, toIndex destination: Int)
+    func deletePersistentToken(persistentToken: PersistentToken) throws
+}
+
+class KeychainTokenStore: TokenStore {
     private let keychain: Keychain
     private let userDefaults: NSUserDefaults
     private(set) var persistentTokens: [PersistentToken]
@@ -64,7 +73,7 @@ class TokenStore {
     }
 }
 
-extension TokenStore {
+extension KeychainTokenStore {
     // MARK: Actions
 
     func addToken(token: Token) throws {
