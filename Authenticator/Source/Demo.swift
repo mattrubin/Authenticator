@@ -25,6 +25,7 @@
 
 import OneTimePassword
 import Foundation
+import UIKit
 
 extension Process {
     static var isDemo: Bool {
@@ -132,7 +133,10 @@ extension TokenEntryForm {
         _ = form.update(.Issuer("Google"))
         _ = form.update(.Name("john.appleseed@gmail.com"))
         _ = form.update(.Secret("JBSWY3DPEHPK6PX9"))
-        _ = form.update(.ShowAdvancedOptions)
+        if UIScreen.mainScreen().bounds.height > 550 {
+            // Expand the advanced options for iPhone 5 and later, but not for the earlier 3.5-inch screens.
+            _ = form.update(.ShowAdvancedOptions)
+        }
         return form
     }()
 }
