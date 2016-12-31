@@ -27,9 +27,13 @@ import XCTest
 import SimulatorStatusMagiciOS
 
 class AuthenticatorScreenshots: XCTestCase {
-    override func setUp() {
+    override class func setUp() {
         super.setUp()
         SDStatusBarManager.sharedInstance().enableOverrides()
+    }
+
+    override func setUp() {
+        super.setUp()
         continueAfterFailure = false
 
         let app = XCUIApplication()
@@ -37,7 +41,7 @@ class AuthenticatorScreenshots: XCTestCase {
         app.launch()
     }
 
-    override func tearDown() {
+    override class func tearDown() {
         SDStatusBarManager.sharedInstance().disableOverrides()
         super.tearDown()
     }
@@ -45,16 +49,21 @@ class AuthenticatorScreenshots: XCTestCase {
     func testScreenshots() {
         let app = XCUIApplication()
 
+        // Wait for the scroll bars to fade.
+        sleep(1)
         // Take a screenshot of the token list.
-        snapshot("0-Main")
+        snapshot("0-TokenList")
 
+        // Tap the "+" button
         app.toolbars.buttons["Add"].tap()
-
+        // Wait for the HUD to fade.
+        sleep(1)
         // Take a screenshot of the token scanner.
         snapshot("1-ScanToken")
 
-        app.navigationBars["Scan Token"].buttons["Compose"].tap()
-
+        app.navigationBars.buttons["Compose"].tap()
+        // Wait for the scroll bars to fade.
+        sleep(1)
         // Take a screenshot of the token entry form.
         snapshot("2-AddToken")
     }
