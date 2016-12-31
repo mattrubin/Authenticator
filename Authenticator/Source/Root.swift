@@ -265,6 +265,12 @@ extension Root {
             return nil
 
         case .BeginManualTokenEntry:
+            if Process.isDemo {
+                // If this is a demo, show the pre-filled demo form.
+                modal = .EntryForm(TokenEntryForm.demoForm)
+                return nil
+            }
+
             modal = .EntryForm(TokenEntryForm())
             return nil
 

@@ -28,7 +28,6 @@ import Foundation
 
 extension Process {
     static var isDemo: Bool {
-        print(arguments)
         return arguments.contains("-DEMO") || arguments.contains("-FASTLANE_SNAPSHOT")
     }
 }
@@ -123,4 +122,16 @@ private extension PersistentToken {
         self.token = demoToken
         self.identifier = NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
     }
+}
+
+extension TokenEntryForm {
+    static let demoForm: TokenEntryForm = {
+        // Construct a pre-filled demo form.
+        var form = TokenEntryForm()
+        _ = form.update(.Issuer("Google"))
+        _ = form.update(.Name("john.appleseed@gmail.com"))
+        _ = form.update(.Secret("JBSWY3DPEHPK6PX9"))
+        _ = form.update(.ShowAdvancedOptions)
+        return form
+    }()
 }
