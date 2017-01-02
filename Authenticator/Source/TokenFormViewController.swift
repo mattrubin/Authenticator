@@ -85,7 +85,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
         super.viewDidAppear(animated)
 
         if Process.isDemo {
-            // If this is a demo, return before showing the keyboard.
+            // If this is a demo, don't show the keyboard.
             return
         }
 

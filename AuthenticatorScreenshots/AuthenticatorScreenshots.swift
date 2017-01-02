@@ -57,7 +57,7 @@ class AuthenticatorScreenshots: XCTestCase {
         // Take a screenshot of the token list.
         snapshot("0-TokenList")
 
-        // Tap the "+" button
+        // Tap the "+" button.
         app.toolbars.buttons["Add"].tap()
         // Wait for the HUD to fade.
         sleep(1)

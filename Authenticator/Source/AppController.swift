@@ -44,9 +44,9 @@ class AppController {
 
     init() {
         if Process.isDemo {
+            // If this is a demo, use a token store of mock data, not backed by the keychain.
             store = DemoTokenStore()
-            let currentTime = DisplayTime.demoTime
-            component = Root(persistentTokens: store.persistentTokens, displayTime: currentTime)
+            component = Root(persistentTokens: store.persistentTokens, displayTime: DisplayTime.demoTime)
             return
         }
 
