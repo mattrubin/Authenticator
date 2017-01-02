@@ -38,6 +38,9 @@ class AuthenticatorScreenshots: XCTestCase {
 
         let app = XCUIApplication()
         setupSnapshot(app)
+        if let demoScannerImagePath = UserDefaults.standard.string(forKey: "demo-scanner-image") {
+            app.launchArguments += ["-demo-scanner-image", demoScannerImagePath]
+        }
         app.launch()
     }
 

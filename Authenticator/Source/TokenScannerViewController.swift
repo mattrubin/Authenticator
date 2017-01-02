@@ -69,7 +69,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         view.layer.addSublayer(videoLayer)
 
         if Process.isDemo {
-            let imageView = UIImageView(frame: view.bounds.offsetBy(dx: 0, dy: 15))
+            let imageView = UIImageView(frame: view.bounds)
             imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
             imageView.contentMode = .ScaleAspectFill
             imageView.image = UIImage.demoScannerImage()
