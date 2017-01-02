@@ -1,5 +1,6 @@
 # Configuration for Snapshot (https://fastlane.tools/snapshot)
 
+workspace "Authenticator.xcworkspace"
 scheme "Authenticator Demo"
 
 devices([
@@ -13,4 +14,5 @@ languages([
   "en-US",
 ])
 
-# clear_previous_screenshots true # remove the '#' to clear all previously generated screenshots before creating new ones
+clear_previous_screenshots true
+skip_open_summary true
