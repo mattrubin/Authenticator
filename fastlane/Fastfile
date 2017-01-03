@@ -62,7 +62,11 @@ platform :ios do
 
   desc "Deploy a new version to the App Store"
   lane :release do
+    # Generate updated screenshots.
+    snapshot
+
     # Ensure that the git repo is not dirty.
+    # This step will fail if the screenshots were not already up-to-date and committed.
     ensure_git_status_clean
 
     # Increment the build number (not the version number).
@@ -70,9 +74,6 @@ platform :ios do
     increment_build_number(
       build_number: new_build_number
     )
-
-    # Generate updated screenshots
-    snapshot
 
     # Build the app with the Release configuration.
     gym(
