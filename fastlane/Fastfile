@@ -37,9 +37,21 @@ platform :ios do
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
+    # Increment the build number (not the version number).
+    new_build_number = latest_testflight_build_number + 1
+    increment_build_number(
+      build_number: new_build_number
+    )
+
     # match(type: "appstore") # more information: https://codesigning.guide
-    increment_build_number
-    gym(scheme: "Authenticator") # Build your app - more options available
+
+    # Build the app with the Release configuration.
+    gym(
+      scheme: "Authenticator",
+      clean: true
+    )
+
+    # Upload the new binary to TestFlight.
     pilot
 
     # sh "your_script.sh"
