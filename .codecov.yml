@@ -1,4 +1,19 @@
 # Configuration for Codecov (https://codecov.io)
 
+codecov:
+  # Use `develop` as the default branch
+  branch: develop
+
 ignore:
   - AuthenticatorTests
+
+coverage:
+  status:
+    project:
+      default:
+        # Allow coverage to drop by 5% without marking a PR with a failing status.
+        threshold: 5
+    patch:
+      default:
+        # Allow patch to be 0% covered without marking a PR with a failing status.
+        target: 0

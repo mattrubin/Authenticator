@@ -1,4 +1,5 @@
 github "mattrubin/Base32" "1.1.2+carthage"
 github "SVProgressHUD/SVProgressHUD" "2.1.2"
+github "shinydevelopment/SimulatorStatusMagic" "1.9.2"
 github "jspahrsummers/xcconfigs" "0.10"
 github "mattrubin/OneTimePassword" "2.1.1"

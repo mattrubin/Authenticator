@@ -2,6 +2,7 @@
 
 excluded:
   - Carthage
+  - fastlane
 opt_in_rules:
   - attributes
   - closure_end_indentation

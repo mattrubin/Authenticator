@@ -43,8 +43,15 @@ class AppController {
     }()
 
     init() {
+        if Process.isDemo {
+            // If this is a demo, use a token store of mock data, not backed by the keychain.
+            store = DemoTokenStore()
+            component = Root(persistentTokens: store.persistentTokens, displayTime: DisplayTime.demoTime)
+            return
+        }
+
         do {
-            store = try TokenStore(
+            store = try KeychainTokenStore(
                 keychain: Keychain.sharedInstance,
                 userDefaults: NSUserDefaults.standardUserDefaults()
             )

@@ -1,0 +1,18 @@
+# Configuration for Snapshot (https://fastlane.tools/snapshot)
+
+workspace "Authenticator.xcworkspace"
+scheme "Authenticator Demo"
+
+devices([
+  "iPhone 4s",
+  "iPhone SE",
+  "iPhone 7",
+  "iPhone 7 Plus",
+])
+
+languages([
+  "en-US",
+])
+
+clear_previous_screenshots true
+skip_open_summary true

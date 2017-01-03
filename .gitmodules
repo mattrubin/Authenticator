@@ -10,3 +10,6 @@
 [submodule "Carthage/Checkouts/SVProgressHUD"]
 	path = Carthage/Checkouts/SVProgressHUD
 	url = https://github.com/SVProgressHUD/SVProgressHUD.git
+[submodule "Carthage/Checkouts/SimulatorStatusMagic"]
+	path = Carthage/Checkouts/SimulatorStatusMagic
+	url = https://github.com/shinydevelopment/SimulatorStatusMagic.git

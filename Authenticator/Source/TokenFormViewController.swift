@@ -83,6 +83,12 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+
+        if Process.isDemo {
+            // If this is a demo, don't show the keyboard.
+            return
+        }
+
         focusFirstField()
     }
 

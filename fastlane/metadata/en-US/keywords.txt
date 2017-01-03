@@ -1,0 +1,1 @@
+otp, one-time password, two-factor, authentication, Google Authenticator, secure, authenticator app

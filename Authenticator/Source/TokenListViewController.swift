@@ -139,6 +139,11 @@ class TokenListViewController: UITableViewController {
     // MARK: Target Actions
 
     func tick() {
+        if Process.isDemo {
+            // If this is a demo, don't update the display time.
+            return
+        }
+
         // Dispatch an action to trigger a view model update.
         let newDisplayTime = DisplayTime(date: NSDate())
         dispatchAction(.UpdateViewModel(newDisplayTime))
