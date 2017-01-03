@@ -82,7 +82,9 @@ platform :ios do
     )
 
     # Upload the app metadata and binary to iTunes Connect.
-    deliver
+    deliver(
+      force: true
+    )
 
     # Commit the updated build number.
     new_version_number = get_version_number
