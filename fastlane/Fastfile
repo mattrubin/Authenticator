@@ -37,6 +37,9 @@ platform :ios do
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
+    # Ensure that the git repo is not dirty.
+    ensure_git_status_clean
+
     # Increment the build number (not the version number).
     new_build_number = latest_testflight_build_number + 1
     increment_build_number(
@@ -54,8 +57,14 @@ platform :ios do
     # Upload the new binary to TestFlight.
     pilot
 
-    # sh "your_script.sh"
-    # You can also use other beta testing services here (run `fastlane actions`)
+    # Commit the updated build number.
+    commit_version_bump(
+      message: "Build #{new_build_number}",
+      xcodeproj: "Authenticator.xcodeproj"
+    )
+
+    # Add a git tag for this build.
+    add_git_tag
   end
 
   desc "Deploy a new version to the App Store"
