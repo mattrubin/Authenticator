@@ -39,7 +39,7 @@ class MemoryTokenStore : TokenStore {
 }
 
 extension PersistentToken {
-    enum TokenError : ErrorType {
+    enum TokenError: ErrorType {
         case IdentifierMissing
     }
 
