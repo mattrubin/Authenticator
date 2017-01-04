@@ -28,15 +28,13 @@ import OneTimePassword
 @testable import Authenticator
 
 class TokenListTests: XCTestCase {
-    func testFilterByIssuerAndName() {
-        var tokenList = mockList([
+    func testFilterByIssuerAndName() throws {
+        let (viewModel, effect) = try mockListViewModel([
             ("Google", "example@google.com"),
             ("Github", "username"),
             ("Service", "goo"),
-        ])
-        let effect = tokenList.update(.Filter("goo"))
+        ], action: .Filter("goo"))
 
-        let viewModel = tokenList.viewModel
         let filteredIssuers = viewModel.rowModels.map { $0.issuer }
 
         XCTAssertNil(effect)
@@ -45,31 +43,41 @@ class TokenListTests: XCTestCase {
         XCTAssertEqual(filteredIssuers, ["Google", "Service"])
     }
 
-    func testIsFilteringWhenAllTokensMatchFilter() {
-        var tokenList = mockList([
+    func testIsFilteringWhenAllTokensMatchFilter() throws {
+        var tokenList = try mockList([
             ("Service", "example@google.com"),
             ("Service", "username"),
         ])
         let effect = tokenList.update(.Filter("Service"))
         let viewModel = tokenList.viewModel
-
         XCTAssertNil(effect)
         XCTAssertTrue(viewModel.isFiltering)
     }
 }
 
-func mockList(list: [(String, String)]) -> TokenList {
-    let tokens = list.map { (issuer, name) -> PersistentToken in
-        mockToken(name, issuer: issuer)
+func mockList(list: [(String, String)]) throws -> TokenList {
+    let tokens = try list.map { (issuer, name) throws -> PersistentToken in
+        try mockToken(name, issuer: issuer)
     }
     return TokenList(persistentTokens: tokens, displayTime: DisplayTime(date: NSDate()))
 }
 
-func mockToken(name: String, issuer: String, secret: String = "mocksecret") -> PersistentToken {
+func mockListViewModel(list: [(String, String)] = [], action: TokenList.Action? = nil) throws ->
+    (TokenList.ViewModel, TokenList.Effect?) {
+    var tokenList = try mockList( list )
+    guard let action = action else {
+        return (tokenList.viewModel, nil)
+    }
+    let effect = tokenList.update(action)
+    return (tokenList.viewModel, effect)
+}
+
+
+func mockToken(name: String, issuer: String, secret: String = "mocksecret") throws -> PersistentToken {
     let generator = Generator(factor: .Timer(period: 60),
                               secret: secret.dataUsingEncoding(NSUTF8StringEncoding)!,
                               algorithm: .SHA256,
                               digits: 6)!
     let token = Token(name: name, issuer: issuer, generator: generator)
-    return PersistentToken(token: token)
+    return try PersistentToken(token: token)
 }
