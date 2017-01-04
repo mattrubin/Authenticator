@@ -97,6 +97,9 @@ platform :ios do
     add_git_tag(
       tag: new_version_number
     )
+
+    # After committing and tagging, bump the version number.
+    increment_version_number
   end
 
   # You can define as many lanes as you want
