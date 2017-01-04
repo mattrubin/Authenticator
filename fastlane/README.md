@@ -6,11 +6,16 @@ sudo gem install fastlane
 ```
 # Available Actions
 ## iOS
-### ios assets
+### ios icons
 ```
-fastlane ios assets
+fastlane ios icons
 ```
-Generate app icons and screenshots
+Generate app icons
+### ios screenshots
+```
+fastlane ios screenshots
+```
+Generate screenshots
 ### ios test
 ```
 fastlane ios test
