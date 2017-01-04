@@ -52,11 +52,8 @@ platform :ios do
     # Ensure that the git repo is not dirty.
     ensure_git_status_clean
 
-    # Generate a build number from the number of git commits.
-    build_number = number_of_commits
-    increment_build_number(
-      build_number: build_number
-    )
+    # Set a generated build number.
+    build_number = set_build_number
 
     # Build the app with the Release configuration.
     gym(
@@ -66,6 +63,9 @@ platform :ios do
 
     # Upload the new binary to TestFlight.
     pilot
+
+    # Clear the generated build number.
+    clear_build_number
 
     # Add a git tag for this build.
     add_git_tag(
@@ -82,11 +82,8 @@ platform :ios do
     # This step will fail if the screenshots were not already up-to-date and committed.
     ensure_git_status_clean
 
-    # Generate a build number from the number of git commits.
-    build_number = number_of_commits
-    increment_build_number(
-      build_number: build_number
-    )
+    # Set a generated build number.
+    set_build_number
 
     # Build the app with the Release configuration.
     gym(
@@ -99,9 +96,12 @@ platform :ios do
       force: true
     )
 
+    # Clear the generated build number.
+    clear_build_number
+
     # Add a git tag for this build.
     add_git_tag(
-      tag: new_version_number
+      tag: get_version_number
     )
 
     # After committing and tagging, bump the version number.
@@ -124,6 +124,19 @@ platform :ios do
     #   success: false
     # )
   end
+end
+
+def set_build_number
+  # Generate a build number from the number of git commits.
+  build_number = number_of_commits
+  increment_build_number(
+    build_number: build_number
+  )
+  return build_number
+end
+
+def clear_build_number
+  increment_build_number(build_number: 0)
 end
 
 
