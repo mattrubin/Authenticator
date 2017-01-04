@@ -608,8 +608,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "PATH=/usr/local/bin:${PATH}\ncd \"${SRCROOT}/Authenticator/Resources/\"\n./GenerateIcons.sh";
-			showEnvVarsInLog = 0;
+			shellScript = "PATH=/usr/local/bin:${PATH}\n${SOURCE_ROOT}/Authenticator/Resources/GenerateIcons.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
