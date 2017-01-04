@@ -42,7 +42,7 @@ class TokenListViewControllerTest: XCTestCase {
             XCTFail("Unable to initialize controller" )
         }
     }
-    
+
     override func tearDown() {
         lastActionDispatched = nil
         super.tearDown()
@@ -69,7 +69,7 @@ class TokenListViewControllerTest: XCTestCase {
         case .Insert(let indexPath):
             XCTAssertEqual(indexPath.section, 0)
             XCTAssertEqual(indexPath.row, 0)
-            break;
+            break
         default:
             XCTFail("Change was not an insert")
         }
@@ -93,7 +93,7 @@ class TokenListViewControllerTest: XCTestCase {
             ])
         controller = TokenListViewController(viewModel: viewModel, dispatchAction: { [weak self] (action) -> () in
             self?.lastActionDispatched = action
-        } )
+        })
 
         XCTAssertEqual(
             controller!.numberOfSectionsInTableView(controller!.tableView),
@@ -105,5 +105,5 @@ class TokenListViewControllerTest: XCTestCase {
         )
 
     }
-    
+
 }

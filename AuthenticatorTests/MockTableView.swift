@@ -73,5 +73,5 @@ class MockTableView: UITableView {
         super.moveRowAtIndexPath(indexPath, toIndexPath: newIndexPath)
         changes.append(.Move(fromIndexPath: indexPath, toIndexPath: newIndexPath))
     }
-    
+
 }

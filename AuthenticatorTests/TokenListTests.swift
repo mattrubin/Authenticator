@@ -72,7 +72,6 @@ func mockListViewModel(list: [(String, String)] = [], action: TokenList.Action? 
     return (tokenList.viewModel, effect)
 }
 
-
 func mockToken(name: String, issuer: String, secret: String = "mocksecret") throws -> PersistentToken {
     let generator = Generator(factor: .Timer(period: 60),
                               secret: secret.dataUsingEncoding(NSUTF8StringEncoding)!,

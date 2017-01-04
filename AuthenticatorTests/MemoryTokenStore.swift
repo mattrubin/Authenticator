@@ -47,12 +47,11 @@ extension PersistentToken {
         self.token = token
         let url = try token.toURL()
 
-
         guard let data = (url.absoluteString?.dataUsingEncoding(NSUTF8StringEncoding)) else {
             throw TokenError.IdentifierMissing
         }
-        
+
         identifier = data
-        
+
     }
 }
