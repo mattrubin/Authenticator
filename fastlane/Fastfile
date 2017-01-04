@@ -52,10 +52,10 @@ platform :ios do
     # Ensure that the git repo is not dirty.
     ensure_git_status_clean
 
-    # Increment the build number (not the version number).
-    new_build_number = latest_testflight_build_number + 1
+    # Generate a build number from the number of git commits.
+    build_number = number_of_commits
     increment_build_number(
-      build_number: new_build_number
+      build_number: build_number
     )
 
     # Build the app with the Release configuration.
@@ -67,14 +67,10 @@ platform :ios do
     # Upload the new binary to TestFlight.
     pilot
 
-    # Commit the updated build number.
-    commit_version_bump(
-      message: "Build #{new_build_number}",
-      xcodeproj: "Authenticator.xcodeproj"
-    )
-
     # Add a git tag for this build.
-    add_git_tag
+    add_git_tag(
+      tag: "build/#{build_number}"
+    )
   end
 
   desc "Deploy a new version to the App Store"
@@ -86,10 +82,10 @@ platform :ios do
     # This step will fail if the screenshots were not already up-to-date and committed.
     ensure_git_status_clean
 
-    # Increment the build number (not the version number).
-    new_build_number = latest_testflight_build_number + 1
+    # Generate a build number from the number of git commits.
+    build_number = number_of_commits
     increment_build_number(
-      build_number: new_build_number
+      build_number: build_number
     )
 
     # Build the app with the Release configuration.
@@ -101,13 +97,6 @@ platform :ios do
     # Upload the app metadata and binary to iTunes Connect.
     deliver(
       force: true
-    )
-
-    # Commit the updated build number.
-    new_version_number = get_version_number
-    commit_version_bump(
-      message: "Release #{new_version_number}",
-      xcodeproj: "Authenticator.xcodeproj"
     )
 
     # Add a git tag for this build.
