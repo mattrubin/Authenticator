@@ -9,15 +9,15 @@
 import XCTest
 @testable import Authenticator
 
-func buildController(withTokens tokens:[(String, String)],
-                                dispatcher:(TokenList.Action)->()) throws -> TokenListViewController? {
+func buildController(withTokens tokens: [(String, String)],
+                                dispatcher: (TokenList.Action)->()) throws -> TokenListViewController? {
 
     let (viewModel, _) = try mockListViewModel(tokens)
     return buildController(withViewModel: viewModel, dispatcher: dispatcher)
 
 }
 
-func buildController(withViewModel model:TokenList.ViewModel, dispatcher:(TokenList.Action)->()) -> TokenListViewController? {
+func buildController(withViewModel model: TokenList.ViewModel, dispatcher: (TokenList.Action)->()) -> TokenListViewController? {
     return TokenListViewController(viewModel: model, dispatchAction: dispatcher)
 }
 class TokenListViewControllerTest: XCTestCase {

@@ -10,7 +10,7 @@ import Foundation
 import OneTimePassword
 @testable import Authenticator
 
-class MemoryTokenStore : TokenStore {
+class MemoryTokenStore: TokenStore {
 
     var persistentTokens: [PersistentToken] = []
 
@@ -43,7 +43,7 @@ extension PersistentToken {
         case IdentifierMissing
     }
 
-    init( token: Token ) throws {
+    init(token: Token) throws {
         self.token = token
         let url = try token.toURL()
 
