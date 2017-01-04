@@ -25,6 +25,15 @@ platform :ios do
     )
   end
 
+  desc "Generate app icons and screenshots"
+  lane :assets do
+    # Generate updated app icons.
+    sh "cd .. && export SOURCE_ROOT=`pwd` && ./Authenticator/Resources/GenerateIcons.sh"
+
+    # Generate updated screenshots.
+    snapshot
+  end
+
   desc "Runs all the tests"
   lane :test do
     scan(scheme: "Authenticator")
