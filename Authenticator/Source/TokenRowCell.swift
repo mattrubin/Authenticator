@@ -56,12 +56,12 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Subviews
 
     private func configureSubviews() {
-        titleLabel.font = UIFont(name: "HelveticaNeue-Light", size: 15)
+        titleLabel.font = UIFont.systemFontOfSize(15, weight: UIFontWeightLight)
         titleLabel.textColor = .otpForegroundColor
         titleLabel.textAlignment = .Center
         contentView.addSubview(titleLabel)
 
-        passwordLabel.font = UIFont(name: "HelveticaNeue-UltraLight", size: 50)
+        passwordLabel.font = UIFont.systemFontOfSize(50, weight: UIFontWeightUltraLight)
         passwordLabel.textColor = .otpForegroundColor
         passwordLabel.textAlignment = .Center
         contentView.addSubview(passwordLabel)
@@ -110,7 +110,7 @@ class TokenRowCell: UITableViewCell {
         let titleString = NSMutableAttributedString()
         if !issuer.isEmpty {
             // swiftlint:disable:next force_unwrapping
-            titleString.appendAttributedString(NSAttributedString(string: issuer, attributes:[NSFontAttributeName: UIFont(name: "HelveticaNeue-Medium", size: 15)!]))
+            titleString.appendAttributedString(NSAttributedString(string: issuer, attributes:[NSFontAttributeName: UIFont.systemFontOfSize(15, weight: UIFontWeightMedium)]))
         }
         if !issuer.isEmpty && !name.isEmpty {
             titleString.appendAttributedString(NSAttributedString(string: " "))

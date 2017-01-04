@@ -58,7 +58,7 @@ class ButtonHeaderView<Action>: UIButton {
     private func configureSubviews() {
         titleLabel?.textAlignment = .Center
         titleLabel?.textColor = UIColor.otpForegroundColor
-        titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 16)
+        titleLabel?.font = UIFont.systemFontOfSize(16, weight: UIFontWeightLight)
 
         let action = #selector(ButtonHeaderView.buttonWasPressed)
         addTarget(self, action: action, forControlEvents: .TouchUpInside)
