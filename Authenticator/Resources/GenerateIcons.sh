@@ -1,5 +1,10 @@
 #!/bin/bash -ex
 
+if [ -z $SOURCE_ROOT ]; then
+  echo "Missing SOURCE_ROOT" 1>&2
+  exit 1
+fi
+
 RESOURCES="${SOURCE_ROOT}/Authenticator/Resources"
 ICONSET="${RESOURCES}/Images.xcassets/AppIcon.appiconset"
 
