@@ -2,6 +2,7 @@
 
 PREFIX="${SRCROOT}/Authenticator/Resources"
 ICON="${PREFIX}/Icon.svg"
+APP_STORE_ICON="${SRCROOT}/fastlane/metadata/app_icon.png"
 
 hash inkscape 2>/dev/null || { echo >&2 "Icon generation requires inkscape. Using existing icons instead."; exit 0; }
 hash pngcrush 2>/dev/null || { echo >&2 "Icon generation requires pngcrush. Using existing icons instead."; exit 0; }
@@ -27,8 +28,6 @@ done
 mv Icon-*.png "Images.xcassets/AppIcon.appiconset/"
 
 # Generate iTunes Artwork
-inkscape -z -e "${PREFIX}/iTunesArtwork" -w 512 $ICON;
-inkscape -z -e "${PREFIX}/iTunesArtwork@2x" -w 1024 $ICON;
+inkscape -z -e $APP_STORE_ICON -w 1024 $ICON;
 
-pngcrush -rem alla -ow -res 144 "iTunesArtwork@2x" "_iTunesArtwork@2x";
-pngcrush -rem alla -ow "iTunesArtwork" "_iTunesArtwork";
+pngcrush -rem alla -ow -res 144 $APP_STORE_ICON "${APP_STORE_ICON}_";

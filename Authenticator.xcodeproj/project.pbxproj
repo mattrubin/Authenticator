@@ -48,8 +48,6 @@
 		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
 		C9EB448E1C52A74200ACFA87 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448D1C52A74200ACFA87 /* Component.swift */; };
 		C9EB44901C52AE4500ACFA87 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448F1C52AE4500ACFA87 /* AppController.swift */; };
-		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
-		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
 		C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenStore.swift */; };
 		CC46C4711DB3007D00EB4605 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC46C4701DB3007D00EB4605 /* SearchField.swift */; };
 		CC46C4731DB3040300EB4605 /* TokenListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC46C4721DB3040300EB4605 /* TokenListTests.swift */; };
@@ -160,8 +158,6 @@
 		C9D844361D4C59D600D5E343 /* CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONDUCT.md; sourceTree = "<group>"; };
 		C9EB448D1C52A74200ACFA87 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		C9EB448F1C52AE4500ACFA87 /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
-		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
-		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		C9F7A8601C4D90B50082E5AE /* TokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
 		CC46C4701DB3007D00EB4605 /* SearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		CC46C4721DB3040300EB4605 /* TokenListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListTests.swift; sourceTree = "<group>"; };
@@ -450,8 +446,6 @@
 			children = (
 				C959A63C190A69120042DEC0 /* Icon.svg */,
 				C959A63E190A69E60042DEC0 /* GenerateIcons.sh */,
-				C9F75C931843D01500B6FA14 /* iTunesArtwork */,
-				C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */,
 			);
 			name = "App Icon";
 			sourceTree = "<group>";
@@ -573,9 +567,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */,
-				C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */,
 				C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */,
-				C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */,
 				C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
