@@ -49,11 +49,8 @@ platform :ios do
     # Ensure that the git repo is not dirty.
     ensure_git_status_clean
 
-    # Increment the build number (not the version number).
-    new_build_number = latest_testflight_build_number + 1
-    increment_build_number(
-      build_number: new_build_number
-    )
+    # Set a generated build number.
+    build_number = set_build_number
 
     # Build the app with the Release configuration.
     gym(
@@ -64,14 +61,13 @@ platform :ios do
     # Upload the new binary to TestFlight.
     pilot
 
-    # Commit the updated build number.
-    commit_version_bump(
-      message: "Build #{new_build_number}",
-      xcodeproj: "Authenticator.xcodeproj"
-    )
+    # Clear the generated build number.
+    clear_build_number
 
     # Add a git tag for this build.
-    add_git_tag
+    add_git_tag(
+      tag: "build/#{build_number}"
+    )
   end
 
   desc "Deploy a new version to the App Store"
@@ -84,11 +80,8 @@ platform :ios do
     # This step will fail if the screenshots were not already up-to-date and committed.
     ensure_git_status_clean
 
-    # Increment the build number (not the version number).
-    new_build_number = latest_testflight_build_number + 1
-    increment_build_number(
-      build_number: new_build_number
-    )
+    # Set a generated build number.
+    set_build_number
 
     # Build the app with the Release configuration.
     gym(
@@ -101,16 +94,12 @@ platform :ios do
       force: true
     )
 
-    # Commit the updated build number.
-    new_version_number = get_version_number
-    commit_version_bump(
-      message: "Release #{new_version_number}",
-      xcodeproj: "Authenticator.xcodeproj"
-    )
+    # Clear the generated build number.
+    clear_build_number
 
     # Add a git tag for this build.
     add_git_tag(
-      tag: new_version_number
+      tag: get_version_number
     )
 
     # After committing and tagging, bump the version number.
@@ -133,6 +122,19 @@ platform :ios do
     #   success: false
     # )
   end
+end
+
+def set_build_number
+  # Generate a build number from the number of git commits.
+  build_number = number_of_commits
+  increment_build_number(
+    build_number: build_number
+  )
+  return build_number
+end
+
+def clear_build_number
+  increment_build_number(build_number: 0)
 end
 
 
