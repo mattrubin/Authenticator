@@ -109,7 +109,6 @@ class TokenRowCell: UITableViewCell {
     private func setName(name: String, issuer: String) {
         let titleString = NSMutableAttributedString()
         if !issuer.isEmpty {
-            // swiftlint:disable:next force_unwrapping
             titleString.appendAttributedString(NSAttributedString(string: issuer, attributes:[NSFontAttributeName: UIFont.systemFontOfSize(15, weight: UIFontWeightMedium)]))
         }
         if !issuer.isEmpty && !name.isEmpty {

@@ -12,7 +12,7 @@ opt_in_rules:
   - explicit_init
   - file_header
   - first_where
-  # - force_unwrapping
+  - force_unwrapping
   - missing_docs
   - nimble_operator
   - number_separator

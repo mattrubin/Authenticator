@@ -49,7 +49,6 @@ class TokenListViewController: UITableViewController {
     )
 
     private lazy var noTokensLabel: UILabel = {
-        // swiftlint:disable force_unwrapping
         let noTokenString = NSMutableAttributedString(string: "No Tokens\n",
             attributes: [NSFontAttributeName: UIFont.systemFontOfSize(20, weight: UIFontWeightLight)])
         noTokenString.appendAttributedString(NSAttributedString(string: "Tap + to add a new token",
@@ -57,7 +56,6 @@ class TokenListViewController: UITableViewController {
         noTokenString.addAttributes(
             [NSFontAttributeName: UIFont.systemFontOfSize(25, weight: UIFontWeightLight)],
             range: (noTokenString.string as NSString).rangeOfString("+"))
-        // swiftlint:enable force_unwrapping
 
         let label = UILabel()
         label.numberOfLines = 2

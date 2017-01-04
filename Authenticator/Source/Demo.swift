@@ -88,6 +88,7 @@ struct DemoTokenStore: TokenStore {
 
 private extension Token {
     init(name: String = "", issuer: String = "", factor: Generator.Factor) {
+        // swiftlint:disable:next force_unwrapping
         let generator = Generator(factor: factor, secret: NSData(), algorithm: .SHA1, digits: 6)!
         self.init(name: name, issuer: issuer, generator: generator)
     }
@@ -96,6 +97,7 @@ private extension Token {
 private extension PersistentToken {
     init(demoToken: Token) {
         token = demoToken
+        // swiftlint:disable:next force_unwrapping
         identifier = NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
     }
 }
