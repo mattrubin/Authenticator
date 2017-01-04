@@ -25,10 +25,15 @@ platform :ios do
     )
   end
 
+  desc "Generate app icons"
+  private_lane :icons do
+    sh "cd .. && export SOURCE_ROOT=`pwd` && ./Authenticator/Resources/GenerateIcons.sh"
+  end
+
   desc "Generate app icons and screenshots"
   lane :assets do
     # Generate updated app icons.
-    sh "cd .. && export SOURCE_ROOT=`pwd` && ./Authenticator/Resources/GenerateIcons.sh"
+    icons
 
     # Generate updated screenshots.
     snapshot
@@ -41,6 +46,9 @@ platform :ios do
 
   desc "Submit a new beta build to TestFlight"
   lane :beta do
+    # Generate updated app icons.
+    icons
+
     # Ensure that the git repo is not dirty.
     ensure_git_status_clean
 
@@ -71,8 +79,8 @@ platform :ios do
 
   desc "Deploy a new version to the App Store"
   lane :release do
-    # Generate updated screenshots.
-    snapshot
+    # Generate updated icons and screenshots.
+    assets
 
     # Ensure that the git repo is not dirty.
     # This step will fail if the screenshots were not already up-to-date and committed.
