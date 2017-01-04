@@ -535,7 +535,9 @@
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = WD7ETSN9J9;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 					C9906A2D1812522100BAEF53 = {
 						LastSwiftMigration = 0800;
@@ -543,7 +545,6 @@
 					};
 					C9A262CC1E170BD4004E6CEB = {
 						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
@@ -702,6 +703,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_DISPLAY_NAME = "${PRODUCT_NAME} ∆";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 205;
+				DEVELOPMENT_TEAM = WD7ETSN9J9;
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev;
 				PRODUCT_NAME = Authenticator;
@@ -715,6 +719,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_DISPLAY_NAME = "${PRODUCT_NAME}";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 205;
+				DEVELOPMENT_TEAM = WD7ETSN9J9;
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
 				PRODUCT_NAME = Authenticator;
@@ -727,7 +734,6 @@
 			baseConfigurationReference = C944A56A1A7F772600E08B1E /* Debug.xcconfig */;
 			buildSettings = {
 				CLANG_MODULES_AUTOLINK = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
@@ -743,7 +749,6 @@
 			baseConfigurationReference = C944A56C1A7F772600E08B1E /* Release.xcconfig */;
 			buildSettings = {
 				CLANG_MODULES_AUTOLINK = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",

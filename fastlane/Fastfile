@@ -18,7 +18,7 @@ default_platform :ios
 platform :ios do
   before_all do
     # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
-    
+
     carthage(
       use_submodules: true,
       no_build: true
@@ -30,28 +30,76 @@ platform :ios do
     scan(scheme: "Authenticator")
   end
 
-  lane :screenshots do
-    snapshot
-  end
-
-  desc "Submit a new Beta Build to Apple TestFlight"
-  desc "This will also make sure the profile is up to date"
+  desc "Submit a new beta build to TestFlight"
   lane :beta do
-    # match(type: "appstore") # more information: https://codesigning.guide
-    gym(scheme: "Authenticator") # Build your app - more options available
+    # Ensure that the git repo is not dirty.
+    ensure_git_status_clean
+
+    # Increment the build number (not the version number).
+    new_build_number = latest_testflight_build_number + 1
+    increment_build_number(
+      build_number: new_build_number
+    )
+
+    # Build the app with the Release configuration.
+    gym(
+      scheme: "Authenticator",
+      clean: true
+    )
+
+    # Upload the new binary to TestFlight.
     pilot
 
-    # sh "your_script.sh"
-    # You can also use other beta testing services here (run `fastlane actions`)
+    # Commit the updated build number.
+    commit_version_bump(
+      message: "Build #{new_build_number}",
+      xcodeproj: "Authenticator.xcodeproj"
+    )
+
+    # Add a git tag for this build.
+    add_git_tag
   end
 
   desc "Deploy a new version to the App Store"
   lane :release do
-    # match(type: "appstore")
-    # snapshot
-    gym(scheme: "Authenticator") # Build your app - more options available
-    deliver(force: true)
-    # frameit
+    # Generate updated screenshots.
+    snapshot
+
+    # Ensure that the git repo is not dirty.
+    # This step will fail if the screenshots were not already up-to-date and committed.
+    ensure_git_status_clean
+
+    # Increment the build number (not the version number).
+    new_build_number = latest_testflight_build_number + 1
+    increment_build_number(
+      build_number: new_build_number
+    )
+
+    # Build the app with the Release configuration.
+    gym(
+      scheme: "Authenticator",
+      clean: true
+    )
+
+    # Upload the app metadata and binary to iTunes Connect.
+    deliver(
+      force: true
+    )
+
+    # Commit the updated build number.
+    new_version_number = get_version_number
+    commit_version_bump(
+      message: "Release #{new_version_number}",
+      xcodeproj: "Authenticator.xcodeproj"
+    )
+
+    # Add a git tag for this build.
+    add_git_tag(
+      tag: new_version_number
+    )
+
+    # After committing and tagging, bump the version number.
+    increment_version_number
   end
 
   # You can define as many lanes as you want

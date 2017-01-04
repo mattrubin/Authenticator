@@ -1,1 +1,1 @@
-http://mattrubin.me/authenticator/
+https://mattrubin.me/authenticator/
