@@ -8,12 +8,12 @@ xcode_scheme: Authenticator
 osx_image: xcode8.2
 
 env:
-  - RUNTIME="iOS 8.1"  DEVICE="iPhone 4s"
+  - RUNTIME="iOS 8.2"  DEVICE="iPhone 4s"
   - RUNTIME="iOS 8.4"  DEVICE="iPhone 5s"
   - RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
   - RUNTIME="iOS 10.2" DEVICE="iPhone 7 Plus"
 
-before_install:
+install:
   - git submodule update --init --recursive
 
 before_script:

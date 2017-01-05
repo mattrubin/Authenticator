@@ -66,10 +66,12 @@ func mockList(list: [(String, String)]) -> TokenList {
 }
 
 func mockToken(name: String, issuer: String, secret: String = "mocksecret") -> PersistentToken {
+    // swiftlint:disable force_unwrapping
     let generator = Generator(factor: .Timer(period: 60),
                               secret: secret.dataUsingEncoding(NSUTF8StringEncoding)!,
                               algorithm: .SHA256,
                               digits: 6)!
+    // swiftlint:enable force_unwrapping
     let token = Token(name: name, issuer: issuer, generator: generator)
     return PersistentToken(token: token)
 }

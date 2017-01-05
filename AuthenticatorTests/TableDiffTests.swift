@@ -29,10 +29,12 @@ import OneTimePassword
 
 class TableDiffTests: XCTestCase {
     func testNoChanges() {
+        // swiftlint:disable force_unwrapping
         let generator = Generator(factor: .Timer(period: 60),
                                   secret: "secret".dataUsingEncoding(NSUTF8StringEncoding)!,
                                   algorithm: .SHA256,
                                   digits: 6)!
+        // swiftlint:enable force_unwrapping
         let token = Token(name: "Token Name",
                           issuer: "Token Issuer",
                           generator: generator)
