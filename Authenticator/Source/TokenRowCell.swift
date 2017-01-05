@@ -61,7 +61,7 @@ class TokenRowCell: UITableViewCell {
         titleLabel.textAlignment = .Center
         contentView.addSubview(titleLabel)
 
-        passwordLabel.font = UIFont.systemFontOfSize(50, weight: UIFontWeightUltraLight)
+        passwordLabel.font = UIFont.systemFontOfSize(50, weight: UIFontWeightThin)
         passwordLabel.textColor = .otpForegroundColor
         passwordLabel.textAlignment = .Center
         contentView.addSubview(passwordLabel)
