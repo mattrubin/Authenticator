@@ -39,19 +39,20 @@ struct TokenRowModel: Identifiable {
 
     private let identifier: NSData
 
-    init(persistentToken: PersistentToken, displayTime: DisplayTime,
-         canReorder reorderable: Bool = true) {
+    init(persistentToken: PersistentToken, displayTime: DisplayTime, canReorder reorderable: Bool = true) {
+        let timeInterval = displayTime.timeIntervalSince1970
+        let rawPassword = (try? persistentToken.token.generator.passwordAtTime(timeInterval)) ?? ""
+
         name = persistentToken.token.name
         issuer = persistentToken.token.issuer
-        let timeInterval = displayTime.timeIntervalSince1970
-        password = (try? persistentToken.token.generator.passwordAtTime(timeInterval)) ?? ""
+        password = TokenRowModel.chunkPassword(rawPassword)
         if case .Counter = persistentToken.token.generator.factor {
             showsButton = true
         } else {
             showsButton = false
         }
         buttonAction = .UpdatePersistentToken(persistentToken)
-        selectAction = .CopyPassword(password)
+        selectAction = .CopyPassword(rawPassword)
         editAction = .EditPersistentToken(persistentToken)
         deleteAction = .DeletePersistentToken(persistentToken)
         identifier = persistentToken.identifier
@@ -60,6 +61,16 @@ struct TokenRowModel: Identifiable {
 
     func hasSameIdentity(other: TokenRowModel) -> Bool {
         return self.identifier.isEqualToData(other.identifier)
+    }
+
+    // Group the password into chunks of two digits, separated by spaces.
+    private static func chunkPassword(password: String) -> String {
+        var characters = password.characters
+        let chunkSize = 2
+        for i in chunkSize.stride(to: characters.count, by: chunkSize).reverse() {
+            characters.insert(" ", atIndex: characters.startIndex.advancedBy(i))
+        }
+        return String(characters)
     }
 }
 
