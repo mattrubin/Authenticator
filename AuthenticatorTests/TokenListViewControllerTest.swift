@@ -29,13 +29,8 @@ import XCTest
 func buildController(withTokens tokens: [(String, String)],
                                 dispatcher: (TokenList.Action) -> Void) -> TokenListViewController? {
     let (viewModel, _) = mockListViewModel(tokens)
-    return buildController(withViewModel: viewModel, dispatcher: dispatcher)
+    return TokenListViewController(viewModel: viewModel, dispatchAction: dispatcher)
 
-}
-
-func buildController(withViewModel model: TokenList.ViewModel,
-                                   dispatcher: (TokenList.Action) -> Void) -> TokenListViewController? {
-    return TokenListViewController(viewModel: model, dispatchAction: dispatcher)
 }
 
 class TokenListViewControllerTest: XCTestCase {
@@ -96,7 +91,7 @@ class TokenListViewControllerTest: XCTestCase {
     func testUpdatesExistingRow() {
         let token = mockToken("account@example.com", issuer: "Issuer")
         var startingTokenList = TokenList(persistentTokens: [token], displayTime: DisplayTime(date: NSDate()))
-        controller = buildController(withViewModel: startingTokenList.viewModel, dispatcher: self.onDispatch)
+        controller = TokenListViewController(viewModel: startingTokenList.viewModel, dispatchAction: self.onDispatch)
 
         _ = startingTokenList.update(.EditPersistentToken(token))
     }
