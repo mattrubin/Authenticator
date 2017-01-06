@@ -33,15 +33,7 @@ class TokenListViewControllerTest: XCTestCase {
         return mockList([]).viewModel
     }
 
-    override func setUp() {
-        super.setUp()
-
-    }
-
-    override func tearDown() {
-        super.tearDown()
-    }
-
+    // Test that inserting a new token will produce the expected changes to the table view.
     func testTokenListInsertsNewToken() {
         // Set up a view controller with a mock table view.
         let initialViewModel = emptyListViewModel()
@@ -64,7 +56,8 @@ class TokenListViewControllerTest: XCTestCase {
         XCTAssertEqual(tableView.changes, expectedChanges)
     }
 
-    func testUpdatesExistingRow() {
+    // Test that updating an existing token will produce the expected changes to the table view.
+    func testUpdatesExistingToken() {
         // Set up a view controller with a mock table view.
         let displayTime = DisplayTime(date: NSDate())
         let initialPersistentToken = mockPersistentToken(name: "account@example.com", issuer: "Issuer")
@@ -85,6 +78,7 @@ class TokenListViewControllerTest: XCTestCase {
         XCTAssertEqual(tableView.changes, expectedChanges)
     }
 
+    // Test that the view controller will display the expected number of rows and sections for a given view model.
     func testNumberOfRowsAndSection() {
         let viewModel = mockList([
             ("Service", "example@google.com"),
