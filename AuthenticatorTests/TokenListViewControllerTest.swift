@@ -88,13 +88,8 @@ class TokenListViewControllerTest: XCTestCase {
         XCTAssertEqual(tableView.numberOfSections, 1)
         XCTAssertEqual(tableView.numberOfRowsInSection(0), 1)
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
-            XCTFail("Expected cell at index path \(indexPath)")
-            return
-        }
-        let textInCellLabels = cell.contentView.subviews.flatMap({ ($0 as? UILabel)?.text })
         let expectedText = updatedPersistentToken.token.issuer + " " + updatedPersistentToken.token.name
-        XCTAssert(textInCellLabels.contains(expectedText), "Expected \(textInCellLabels) to contain \(expectedText)")
+        XCTAssert(cellAt: indexPath, in: tableView, containsText: expectedText)
     }
 
     // Test that the view controller will display the expected number of rows and sections for a given view model.
@@ -105,7 +100,30 @@ class TokenListViewControllerTest: XCTestCase {
         ]).viewModel
         let controller = TokenListViewController(viewModel: viewModel, dispatchAction: { _ in })
 
-        XCTAssertEqual(controller.numberOfSectionsInTableView(controller.tableView), 1)
-        XCTAssertEqual(controller.tableView(controller.tableView, numberOfRowsInSection: 0), viewModel.rowModels.count)
+        // Check that the table view contains the expected cells.
+        XCTAssertEqual(controller.tableView.numberOfSections, 1)
+        XCTAssertEqual(controller.tableView.numberOfRowsInSection(0), viewModel.rowModels.count)
+        let visibleCells = controller.tableView.visibleCells
+        XCTAssertEqual(visibleCells.count, 2)
+        for (rowModel, cell) in zip(viewModel.rowModels, visibleCells) {
+            let expectedText = rowModel.issuer + " " + rowModel.name
+            XCTAssert(cell, containsText: expectedText)
+        }
     }
+}
+
+func XCTAssert(cell: UITableViewCell, containsText expectedText: String,
+                file: StaticString = #file, line: UInt = #line) {
+    let textInCellLabels = cell.contentView.subviews.flatMap({ ($0 as? UILabel)?.text })
+    XCTAssert(textInCellLabels.contains(expectedText), "Expected \(textInCellLabels) to contain \"\(expectedText)\"",
+              file: file, line: line)
+}
+
+func XCTAssert(cellAt indexPath: NSIndexPath, in tableView: UITableView, containsText expectedText: String,
+               file: StaticString = #file, line: UInt = #line) {
+    guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
+        XCTFail("Expected cell at index path \(indexPath)", file: file, line: line)
+        return
+    }
+    XCTAssert(cell, containsText: expectedText, file: file, line: line)
 }
