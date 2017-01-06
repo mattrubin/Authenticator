@@ -213,7 +213,22 @@ extension TokenListViewController {
         if filtering && !changes.isEmpty {
             tableView.reloadData()
         } else {
-            updateTableViewWithChanges(changes)
+            let sectionIndex = 0
+            let updates: [UITableViewController.Change] = changes.map {
+                switch $0 {
+                case let .Insert(row):
+                    let indexPath = NSIndexPath(forRow: row, inSection: sectionIndex)
+                    return .Insert(index: indexPath)
+                case let .Update(oldRow, newRow):
+                    let oldIndexPath = NSIndexPath(forRow: oldRow, inSection: sectionIndex)
+                    let newIndexPath = NSIndexPath(forRow: newRow, inSection: sectionIndex)
+                    return .Update(oldIndex: oldIndexPath, newIndex: newIndexPath)
+                case let .Delete(row):
+                    let indexPath = NSIndexPath(forRow: row, inSection: sectionIndex)
+                    return .Delete(index: indexPath)
+                }
+            }
+            updateTableViewWithChanges(updates)
         }
         updatePeripheralViews()
     }
@@ -223,19 +238,17 @@ extension TokenListViewController {
             return
         }
 
-        let sectionIndex = 0
-
         // In a single animated group, apply any changes which alter the ordering of the table.
-        applyOrderChanges(fromChanges: changes, inSection: sectionIndex)
+        applyOrderChanges(fromChanges: changes)
         // After applying the changes which require animations, update in place any visible cells
         // whose contents have changed.
-        applyRowUpdates(fromChanges: changes, inSection: sectionIndex, updateRow: { indexPath in
+        applyRowUpdates(fromChanges: changes, updateRow: { indexPath in
                 if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
                     updateCell(cell, forRowAtIndexPath: indexPath)
                 }
         })
         // If any tokens were inserted, scroll to the first inserted row.
-        scrollToFirstInsertedRow(fromChanges: changes, inSection: sectionIndex)
+        scrollToFirstInsertedRow(fromChanges: changes)
     }
 
     private func updatePeripheralViews() {

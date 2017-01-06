@@ -26,13 +26,18 @@
 import UIKit
 
 extension UITableViewController {
+    enum Change {
+        case Insert(index: NSIndexPath)
+        case Update(oldIndex: NSIndexPath, newIndex: NSIndexPath)
+        case Delete(index: NSIndexPath)
+    }
+
     /// From among the given `Change`s, applies any changes which modify the order of cells in the
-    /// given `section`. These insertions, deletions, and moves will be performed in a single
+    /// table view. These insertions, deletions, and moves will be performed in a single
     /// animated table view updates group. If there are no changes which require animations, this
     /// method will not perform an empty updates group.
     /// - parameter changes: An `Array` of `Change`s, from which animated changes will be applied.
-    /// - parameter section: The index of the table view section which contains the changes.
-    func applyOrderChanges(fromChanges changes: [Change], inSection section: Int) {
+    func applyOrderChanges(fromChanges changes: [Change]) {
         // Determine if there are any changes that require insert/delete/move animations.
         // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
         let changesNeedAnimations = changes.contains { change in
@@ -49,11 +54,9 @@ extension UITableViewController {
             tableView.beginUpdates()
             for change in changes {
                 switch change {
-                case let .Insert(row):
-                    let indexPath = NSIndexPath(forRow: row, inSection: section)
+                case let .Insert(indexPath):
                     tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                case let .Delete(row):
-                    let indexPath = NSIndexPath(forRow: row, inSection: section)
+                case let .Delete(indexPath):
                     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 case .Update:
                     break
@@ -64,17 +67,14 @@ extension UITableViewController {
     }
 
     /// From among the given `Change`s, applies the `Update`s to cells at the new row indexes in the
-    /// given `section`. This method should be used only *after* insertions, deletions, and moves
+    /// table view. This method should be used only *after* insertions, deletions, and moves
     /// have been applied.
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
-    /// - parameter section: The index of the table view section which contains the changes.
     /// - parameter updateRow: A closure which takes an NSIndexPath and updates the corresponding row.
-    func applyRowUpdates(fromChanges changes: [Change], inSection section: Int,
-                                     @noescape updateRow: (NSIndexPath) -> Void) {
+    func applyRowUpdates(fromChanges changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
         for change in changes {
             switch change {
-            case let .Update(_, row):
-                let indexPath = NSIndexPath(forRow: row, inSection: section)
+            case let .Update(_, indexPath):
                 updateRow(indexPath)
             case .Insert, .Delete:
                 break
@@ -83,12 +83,10 @@ extension UITableViewController {
     }
 
     /// From among the given `Change`s, finds the first `Insert` and scrolls to that row in the
-    /// given `section` in the table view. This method should be used only *after* the changes have
-    /// been applied.
+    /// table view. This method should be used only *after* the changes have been applied.
     /// - parameter changes: An `Array` of `Change`s, in which the first `Insert` will be found.
-    /// - parameter section: The index of the table view section which contains the changes.
-    func scrollToFirstInsertedRow(fromChanges changes: [Change], inSection section: Int) {
-        let firstInsertedRow = changes.reduce(nil, combine: { (firstInsertedRow, change) -> Int? in
+    func scrollToFirstInsertedRow(fromChanges changes: [Change]) {
+        let firstInsertedRow = changes.reduce(nil, combine: { (firstInsertedRow, change) -> NSIndexPath? in
             switch change {
             case let .Insert(row):
                 guard let prevFirstInsertedRow = firstInsertedRow else {
@@ -100,13 +98,22 @@ extension UITableViewController {
             }
         })
 
-        if let firstInsertedRow = firstInsertedRow {
-            let indexPath = NSIndexPath(forRow: firstInsertedRow, inSection: section)
+        if let indexPath = firstInsertedRow {
             // Scrolls to the newly inserted token at the smallest row index in the tableView
             // using the minimum amount of scrolling necessary (.None)
             tableView.scrollToRowAtIndexPath(indexPath,
                                              atScrollPosition: .None,
                                              animated: true)
         }
+    }
+}
+
+private func min(lhs: NSIndexPath, _ rhs: NSIndexPath) -> NSIndexPath {
+    if lhs.section < rhs.section {
+        return lhs
+    } else if (lhs.section == rhs.section) && (lhs.row < rhs.row) {
+        return lhs
+    } else {
+        return rhs
     }
 }
