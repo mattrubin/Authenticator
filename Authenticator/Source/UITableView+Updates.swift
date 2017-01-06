@@ -47,6 +47,9 @@ extension UITableView {
         }
     }
 
+    /// Applies the given `Change`s to the table view, then scrolls to show the first inserted row.
+    /// - parameter changes: An `Array` of `Change`s to apply.
+    /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
     func applyChanges(changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
         if changes.isEmpty {
             return
@@ -99,7 +102,7 @@ extension UITableView {
     /// table view. This method should be used only *after* insertions, deletions, and moves
     /// have been applied.
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
-    /// - parameter updateRow: A closure which takes an NSIndexPath and updates the corresponding row.
+    /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
     private func applyRowUpdates(fromChanges changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
         for change in changes {
             switch change {
