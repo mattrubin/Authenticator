@@ -29,8 +29,6 @@ import XCTest
 class TokenListViewControllerTest: XCTestCase {
 
     var lastActionDispatched: TokenList.Action?
-    var controller: TokenListViewController?
-    var tableView: MockTableView?
 
     func emptyListViewModel() -> TokenList.ViewModel {
         return mockList([]).viewModel
@@ -39,9 +37,6 @@ class TokenListViewControllerTest: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        controller = TokenListViewController(viewModel: emptyListViewModel(), dispatchAction: self.onDispatch)
-        tableView = MockTableView()
-        controller?.tableView = tableView
     }
 
     override func tearDown() {
@@ -54,17 +49,23 @@ class TokenListViewControllerTest: XCTestCase {
     }
 
     func testTokenListInsertsNewToken() {
+        // Set up a view controller with a mock table view.
+        let controller = TokenListViewController(viewModel: emptyListViewModel(), dispatchAction: self.onDispatch)
+        let tableView = MockTableView()
+        controller.tableView = tableView
+
+        // Update the view controller.
         let updated = mockList([
             ("Service", "email@example.com"),
         ]).viewModel
 
-        controller?.updateWithViewModel(updated)
-        // swiftlint:disable force_unwrapping
-        XCTAssertTrue(tableView!.didBeginUpdates)
-        XCTAssertTrue(tableView!.didEndUpdates)
-        XCTAssertEqual(tableView!.changes.count, 1)
-        // swiftlint:enable force_unwrapping
-        guard let change = tableView?.changes.first else {
+        controller.updateWithViewModel(updated)
+        // Check the table view
+        XCTAssertTrue(tableView.didBeginUpdates)
+        XCTAssertTrue(tableView.didEndUpdates)
+        XCTAssertEqual(tableView.changes.count, 1)
+
+        guard let change = tableView.changes.first else {
             XCTFail("No change")
             return
         }
@@ -83,7 +84,7 @@ class TokenListViewControllerTest: XCTestCase {
     func testUpdatesExistingRow() {
         let token = mockToken("account@example.com", issuer: "Issuer")
         var startingTokenList = TokenList(persistentTokens: [token], displayTime: DisplayTime(date: NSDate()))
-        controller = TokenListViewController(viewModel: startingTokenList.viewModel, dispatchAction: self.onDispatch)
+        let controller = TokenListViewController(viewModel: startingTokenList.viewModel, dispatchAction: self.onDispatch)
 
         _ = startingTokenList.update(.EditPersistentToken(token))
     }
@@ -94,18 +95,16 @@ class TokenListViewControllerTest: XCTestCase {
             ("Service", "username"),
         ]).viewModel
 
-        controller = TokenListViewController(viewModel: viewModel, dispatchAction: { [weak self] action in
+        let controller = TokenListViewController(viewModel: viewModel, dispatchAction: { [weak self] action in
             self?.lastActionDispatched = action
         })
 
         XCTAssertEqual(
-            // swiftlint:disable:next force_unwrapping
-            controller!.numberOfSectionsInTableView(controller!.tableView),
+            controller.numberOfSectionsInTableView(controller.tableView),
             1
         )
         XCTAssertEqual(
-            // swiftlint:disable:next force_unwrapping
-            controller!.tableView(controller!.tableView, numberOfRowsInSection: 0),
+            controller.tableView(controller.tableView, numberOfRowsInSection: 0),
             viewModel.rowModels.count
         )
     }
