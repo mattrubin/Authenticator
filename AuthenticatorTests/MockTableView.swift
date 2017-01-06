@@ -24,8 +24,8 @@
 //
 
 import UIKit
-class MockTableView: UITableView {
 
+class MockTableView: UITableView {
     enum ChangeType {
         case BeginUpdates
         case EndUpdates
@@ -49,7 +49,6 @@ class MockTableView: UITableView {
 
     override func insertRowsAtIndexPaths(indexPaths: [NSIndexPath], withRowAnimation animation: UITableViewRowAnimation) {
         super.insertRowsAtIndexPaths(indexPaths, withRowAnimation: animation)
-
         for indexPath in indexPaths {
             changes.append(.Insert(indexPath: indexPath))
         }
@@ -73,7 +72,6 @@ class MockTableView: UITableView {
         super.moveRowAtIndexPath(indexPath, toIndexPath: newIndexPath)
         changes.append(.Move(fromIndexPath: indexPath, toIndexPath: newIndexPath))
     }
-
 }
 
 extension MockTableView.ChangeType: Equatable {}
