@@ -24,6 +24,7 @@
 //
 
 import XCTest
+import OneTimePassword
 @testable import Authenticator
 
 class TokenListViewControllerTest: XCTestCase {
@@ -70,13 +71,25 @@ class TokenListViewControllerTest: XCTestCase {
         XCTAssertEqual(tableView.changes, expectedChanges)
     }
 
-    // not entirely sure wear I was headed with test
     func testUpdatesExistingRow() {
-        let token = mockToken("account@example.com", issuer: "Issuer")
-        var startingTokenList = TokenList(persistentTokens: [token], displayTime: DisplayTime(date: NSDate()))
-        let controller = TokenListViewController(viewModel: startingTokenList.viewModel, dispatchAction: self.onDispatch)
+        // Set up a view controller with a mock table view.
+        let displayTime = DisplayTime(date: NSDate())
+        let initialPersistentToken = PersistentToken(token: mockToken("account@example.com", issuer: "Issuer"))
+        let initialTokenList = TokenList(persistentTokens: [initialPersistentToken], displayTime: displayTime)
+        let controller = TokenListViewController(viewModel: initialTokenList.viewModel, dispatchAction: self.onDispatch)
+        let tableView = MockTableView()
+        controller.tableView = tableView
 
-        _ = startingTokenList.update(.EditPersistentToken(token))
+        // Update the view controller.
+        let updatedPersistentToken = initialPersistentToken.updated(with: mockToken("somebody", issuer: "someone"))
+        let updatedTokenList = TokenList(persistentTokens: [updatedPersistentToken], displayTime: displayTime)
+        controller.updateWithViewModel(updatedTokenList.viewModel)
+
+        // Check the table view.
+        // Updates to existing rows should be applied directly to the cells, without changing the table view.
+        // TODO: Test for direct updates to the cell via `updateWithRowModel`.
+        let expectedChanges: [MockTableView.ChangeType] = []
+        XCTAssertEqual(tableView.changes, expectedChanges)
     }
 
     func testNumberOfRowsAndSection() {

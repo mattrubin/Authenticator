@@ -24,7 +24,7 @@
 //
 
 import Foundation
-import OneTimePassword
+@testable import OneTimePassword
 @testable import Authenticator
 
 class MemoryTokenStore: TokenStore {
@@ -60,5 +60,9 @@ extension PersistentToken {
         self.token = token
         // swiftlint:disable:next force_unwrapping
         identifier = NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
+    }
+
+    func updated(with updatedToken: Token) -> PersistentToken {
+        return PersistentToken(token: updatedToken, identifier: identifier)
     }
 }
