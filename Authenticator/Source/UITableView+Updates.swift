@@ -30,6 +30,21 @@ extension UITableView {
         case Insert(index: NSIndexPath)
         case Update(oldIndex: NSIndexPath, newIndex: NSIndexPath)
         case Delete(index: NSIndexPath)
+
+        init(fromChange change: Authenticator.Change, inSection section: Int) {
+            switch change {
+            case let .Insert(row):
+                let indexPath = NSIndexPath(forRow: row, inSection: section)
+                self = .Insert(index: indexPath)
+            case let .Update(oldRow, newRow):
+                let oldIndexPath = NSIndexPath(forRow: oldRow, inSection: section)
+                let newIndexPath = NSIndexPath(forRow: newRow, inSection: section)
+                self = .Update(oldIndex: oldIndexPath, newIndex: newIndexPath)
+            case let .Delete(row):
+                let indexPath = NSIndexPath(forRow: row, inSection: section)
+                self = .Delete(index: indexPath)
+            }
+        }
     }
 
     func applyChanges(changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {

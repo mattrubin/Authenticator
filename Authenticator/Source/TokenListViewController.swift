@@ -214,19 +214,8 @@ extension TokenListViewController {
             tableView.reloadData()
         } else if !ignoreTableViewUpdates {
             let sectionIndex = 0
-            let tableViewChanges: [UITableView.Change] = changes.map {
-                switch $0 {
-                case let .Insert(row):
-                    let indexPath = NSIndexPath(forRow: row, inSection: sectionIndex)
-                    return .Insert(index: indexPath)
-                case let .Update(oldRow, newRow):
-                    let oldIndexPath = NSIndexPath(forRow: oldRow, inSection: sectionIndex)
-                    let newIndexPath = NSIndexPath(forRow: newRow, inSection: sectionIndex)
-                    return .Update(oldIndex: oldIndexPath, newIndex: newIndexPath)
-                case let .Delete(row):
-                    let indexPath = NSIndexPath(forRow: row, inSection: sectionIndex)
-                    return .Delete(index: indexPath)
-                }
+            let tableViewChanges = changes.map {
+                UITableView.Change(fromChange: $0, inSection: sectionIndex)
             }
             tableView.applyChanges(tableViewChanges, updateRow: { indexPath in
                 if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
