@@ -214,8 +214,10 @@ extension TokenListViewController {
             tableView.reloadData()
         } else if !ignoreTableViewUpdates {
             let sectionIndex = 0
-            let tableViewChanges = changes.map({
-                UITableView.Change(fromChange: $0, inSection: sectionIndex)
+            let tableViewChanges = changes.map({ change in
+                change.map({ row in
+                    NSIndexPath(forRow: row, inSection: sectionIndex)
+                })
             })
             tableView.applyChanges(tableViewChanges, updateRow: { indexPath in
                 if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {

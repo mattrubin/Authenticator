@@ -26,31 +26,10 @@
 import UIKit
 
 extension UITableView {
-    enum Change {
-        case Insert(index: NSIndexPath)
-        case Update(oldIndex: NSIndexPath, newIndex: NSIndexPath)
-        case Delete(index: NSIndexPath)
-
-        init(fromChange change: Authenticator.Change, inSection section: Int) {
-            switch change {
-            case let .Insert(row):
-                let indexPath = NSIndexPath(forRow: row, inSection: section)
-                self = .Insert(index: indexPath)
-            case let .Update(oldRow, newRow):
-                let oldIndexPath = NSIndexPath(forRow: oldRow, inSection: section)
-                let newIndexPath = NSIndexPath(forRow: newRow, inSection: section)
-                self = .Update(oldIndex: oldIndexPath, newIndex: newIndexPath)
-            case let .Delete(row):
-                let indexPath = NSIndexPath(forRow: row, inSection: section)
-                self = .Delete(index: indexPath)
-            }
-        }
-    }
-
     /// Applies the given `Change`s to the table view, then scrolls to show the first inserted row.
     /// - parameter changes: An `Array` of `Change`s to apply.
     /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
-    func applyChanges(changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
+    func applyChanges(changes: [Change<NSIndexPath>], @noescape updateRow: (NSIndexPath) -> Void) {
         if changes.isEmpty {
             return
         }
@@ -69,7 +48,7 @@ extension UITableView {
     /// animated table view updates group. If there are no changes which require animations, this
     /// method will not perform an empty updates group.
     /// - parameter changes: An `Array` of `Change`s, from which animated changes will be applied.
-    private func applyOrderChanges(fromChanges changes: [Change]) {
+    private func applyOrderChanges(fromChanges changes: [Change<NSIndexPath>]) {
         // Determine if there are any changes that require insert/delete/move animations.
         // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
         let changesNeedAnimations = changes.contains { change in
@@ -103,7 +82,7 @@ extension UITableView {
     /// have been applied.
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
     /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
-    private func applyRowUpdates(fromChanges changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
+    private func applyRowUpdates(fromChanges changes: [Change<NSIndexPath>], @noescape updateRow: (NSIndexPath) -> Void) {
         for change in changes {
             switch change {
             case let .Update(_, indexPath):
@@ -117,7 +96,7 @@ extension UITableView {
     /// From among the given `Change`s, finds the first `Insert` and scrolls to that row in the
     /// table view. This method should be used only *after* the changes have been applied.
     /// - parameter changes: An `Array` of `Change`s, in which the first `Insert` will be found.
-    private func scrollToFirstInsertedRow(fromChanges changes: [Change]) {
+    private func scrollToFirstInsertedRow(fromChanges changes: [Change<NSIndexPath>]) {
         let firstInsertedRow = changes.reduce(nil, combine: { (firstInsertedRow, change) -> NSIndexPath? in
             switch change {
             case let .Insert(row):

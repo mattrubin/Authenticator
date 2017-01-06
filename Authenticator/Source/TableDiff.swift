@@ -29,13 +29,24 @@ protocol Identifiable {
     func hasSameIdentity(other: Self) -> Bool
 }
 
-enum Change {
-    case Insert(index: Int)
-    case Update(oldIndex: Int, newIndex: Int)
-    case Delete(index: Int)
+enum Change<Index> {
+    case Insert(index: Index)
+    case Update(oldIndex: Index, newIndex: Index)
+    case Delete(index: Index)
+
+    func map<Other>(transform: (Index) -> Other) -> Change<Other> {
+        switch self {
+        case let .Insert(index):
+            return .Insert(index: transform(index))
+        case let .Update(oldIndex, newIndex):
+            return .Update(oldIndex: transform(oldIndex), newIndex: transform(newIndex))
+        case let .Delete(index):
+            return .Delete(index: transform(index))
+        }
+    }
 }
 
-func changesFrom<T: Identifiable>(oldItems: [T], to newItems: [T]) -> [Change] {
+func changesFrom<T: Identifiable>(oldItems: [T], to newItems: [T]) -> [Change<Int>] {
     return changes(
         from: oldItems,
         to: newItems,
@@ -44,7 +55,7 @@ func changesFrom<T: Identifiable>(oldItems: [T], to newItems: [T]) -> [Change] {
     )
 }
 
-func changesFrom<T: Identifiable where T: Equatable>(oldItems: [T], to newItems: [T]) -> [Change] {
+func changesFrom<T: Identifiable where T: Equatable>(oldItems: [T], to newItems: [T]) -> [Change<Int>] {
     return changes(
         from: oldItems,
         to: newItems,
@@ -54,18 +65,18 @@ func changesFrom<T: Identifiable where T: Equatable>(oldItems: [T], to newItems:
 }
 
 // Diff algorithm from the Eugene Myers' paper "An O(ND) Difference Algorithm and Its Variations"
-private func changes<T>(from oldItems: [T], to newItems: [T], hasSameIdentity: (T, T) -> Bool, isEqual: (T, T) -> Bool) -> [Change] {
+private func changes<T>(from oldItems: [T], to newItems: [T], hasSameIdentity: (T, T) -> Bool, isEqual: (T, T) -> Bool) -> [Change<Int>] {
     let MAX = oldItems.count + newItems.count
     guard MAX > 0 else {
         return []
     }
     let numDiagonals = (2 * MAX) + 1
     var V: [Int] = Array(count: numDiagonals, repeatedValue: 0)
-    var changesInDiagonal: [[Change]] = Array(count: numDiagonals, repeatedValue: [])
+    var changesInDiagonal: [[Change<Int>]] = Array(count: numDiagonals, repeatedValue: [])
     for D in 0...MAX {
         for k in (-D).stride(through: D, by: 2) {
             var x: Int
-            var changes: [Change]
+            var changes: [Change<Int>]
             if D == 0 {
                 x = 0
                 changes = []
