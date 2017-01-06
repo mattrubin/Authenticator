@@ -75,3 +75,19 @@ class MockTableView: UITableView {
     }
 
 }
+
+extension MockTableView.ChangeType: Equatable {}
+func == (lhs: MockTableView.ChangeType, rhs: MockTableView.ChangeType) -> Bool {
+    switch (lhs, rhs) {
+    case let (.Insert(l), .Insert(r)):
+        return l == r
+    case let (.Remove(l), .Remove(r)):
+        return l == r
+    case let (.Reload(l), .Reload(r)):
+        return l == r
+    case let (.Move(l), .Move(r)):
+        return l == r
+    case (.Insert, _), (.Remove, _), (.Reload, _), (.Move, _):
+        return false
+    }
+}

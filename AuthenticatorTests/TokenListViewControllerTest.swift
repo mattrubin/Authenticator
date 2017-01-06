@@ -50,34 +50,24 @@ class TokenListViewControllerTest: XCTestCase {
 
     func testTokenListInsertsNewToken() {
         // Set up a view controller with a mock table view.
-        let controller = TokenListViewController(viewModel: emptyListViewModel(), dispatchAction: self.onDispatch)
+        let initialViewModel = emptyListViewModel()
+        let controller = TokenListViewController(viewModel: initialViewModel, dispatchAction: self.onDispatch)
         let tableView = MockTableView()
         controller.tableView = tableView
 
         // Update the view controller.
-        let updated = mockList([
+        let updatedViewModel = mockList([
             ("Service", "email@example.com"),
         ]).viewModel
+        controller.updateWithViewModel(updatedViewModel)
 
-        controller.updateWithViewModel(updated)
         // Check the table view
         XCTAssertTrue(tableView.didBeginUpdates)
         XCTAssertTrue(tableView.didEndUpdates)
-        XCTAssertEqual(tableView.changes.count, 1)
-
-        guard let change = tableView.changes.first else {
-            XCTFail("No change")
-            return
-        }
-        switch change {
-        case .Insert(let indexPath):
-            XCTAssertEqual(indexPath.section, 0)
-            XCTAssertEqual(indexPath.row, 0)
-            break
-        default:
-            XCTFail("Change was not an insert")
-        }
-
+        let expectedChanges: [MockTableView.ChangeType] = [
+            .Insert(indexPath: NSIndexPath(forRow: 0, inSection: 0)),
+        ]
+        XCTAssertEqual(tableView.changes, expectedChanges)
     }
 
     // not entirely sure wear I was headed with test
