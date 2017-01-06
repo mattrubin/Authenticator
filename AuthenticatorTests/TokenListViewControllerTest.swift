@@ -29,8 +29,6 @@ import OneTimePassword
 
 class TokenListViewControllerTest: XCTestCase {
 
-    var lastActionDispatched: TokenList.Action?
-
     func emptyListViewModel() -> TokenList.ViewModel {
         return mockList([]).viewModel
     }
@@ -41,18 +39,13 @@ class TokenListViewControllerTest: XCTestCase {
     }
 
     override func tearDown() {
-        lastActionDispatched = nil
         super.tearDown()
-    }
-
-    func onDispatch(action: TokenList.Action) {
-        lastActionDispatched = action
     }
 
     func testTokenListInsertsNewToken() {
         // Set up a view controller with a mock table view.
         let initialViewModel = emptyListViewModel()
-        let controller = TokenListViewController(viewModel: initialViewModel, dispatchAction: self.onDispatch)
+        let controller = TokenListViewController(viewModel: initialViewModel, dispatchAction: { _ in })
         let tableView = MockTableView()
         controller.tableView = tableView
 
@@ -76,7 +69,7 @@ class TokenListViewControllerTest: XCTestCase {
         let displayTime = DisplayTime(date: NSDate())
         let initialPersistentToken = mockPersistentToken(name: "account@example.com", issuer: "Issuer")
         let initialTokenList = TokenList(persistentTokens: [initialPersistentToken], displayTime: displayTime)
-        let controller = TokenListViewController(viewModel: initialTokenList.viewModel, dispatchAction: self.onDispatch)
+        let controller = TokenListViewController(viewModel: initialTokenList.viewModel, dispatchAction: { _ in })
         let tableView = MockTableView()
         controller.tableView = tableView
 
@@ -97,10 +90,7 @@ class TokenListViewControllerTest: XCTestCase {
             ("Service", "example@google.com"),
             ("Service", "username"),
         ]).viewModel
-
-        let controller = TokenListViewController(viewModel: viewModel, dispatchAction: { [weak self] action in
-            self?.lastActionDispatched = action
-        })
+        let controller = TokenListViewController(viewModel: viewModel, dispatchAction: { _ in })
 
         XCTAssertEqual(controller.numberOfSectionsInTableView(controller.tableView), 1)
         XCTAssertEqual(controller.tableView(controller.tableView, numberOfRowsInSection: 0), viewModel.rowModels.count)
