@@ -29,12 +29,14 @@ import OneTimePassword
 
 class TokenListTests: XCTestCase {
     func testFilterByIssuerAndName() {
-        let (viewModel, effect) = mockListViewModel([
+        var tokenList = mockList([
             ("Google", "example@google.com"),
             ("Github", "username"),
             ("Service", "goo"),
-        ], action: .Filter("goo"))
+        ])
+        let effect = tokenList.update(.Filter("goo"))
 
+        let viewModel = tokenList.viewModel
         let filteredIssuers = viewModel.rowModels.map { $0.issuer }
 
         XCTAssertNil(effect)
@@ -50,6 +52,7 @@ class TokenListTests: XCTestCase {
         ])
         let effect = tokenList.update(.Filter("Service"))
         let viewModel = tokenList.viewModel
+
         XCTAssertNil(effect)
         XCTAssertTrue(viewModel.isFiltering)
     }
@@ -60,16 +63,6 @@ func mockList(list: [(String, String)]) -> TokenList {
         mockToken(name, issuer: issuer)
     }
     return TokenList(persistentTokens: tokens, displayTime: DisplayTime(date: NSDate()))
-}
-
-func mockListViewModel(list: [(String, String)] = [], action: TokenList.Action? = nil) ->
-    (TokenList.ViewModel, TokenList.Effect?) {
-    var tokenList = mockList( list )
-    guard let action = action else {
-        return (tokenList.viewModel, nil)
-    }
-    let effect = tokenList.update(action)
-    return (tokenList.viewModel, effect)
 }
 
 func mockToken(name: String, issuer: String, secret: String = "mocksecret") -> PersistentToken {

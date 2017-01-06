@@ -28,7 +28,7 @@ import XCTest
 
 func buildController(withTokens tokens: [(String, String)],
                                 dispatcher: (TokenList.Action) -> Void) -> TokenListViewController? {
-    let (viewModel, _) = mockListViewModel(tokens)
+    let viewModel = mockList(tokens).viewModel
     return TokenListViewController(viewModel: viewModel, dispatchAction: dispatcher)
 
 }
@@ -40,8 +40,7 @@ class TokenListViewControllerTest: XCTestCase {
     var tableView: MockTableView?
 
     func defaultViewModel() -> TokenList.ViewModel {
-        let (viewModel, _) = mockListViewModel()
-        return viewModel
+        return mockList([]).viewModel
     }
 
     override func setUp() {
@@ -62,9 +61,9 @@ class TokenListViewControllerTest: XCTestCase {
     }
 
     func testTokenListInsertsNewToken() {
-        let (updated, _) = mockListViewModel([
+        let updated = mockList([
             ("Service", "email@example.com"),
-        ])
+        ]).viewModel
 
         controller?.updateWithViewModel(updated)
         // swiftlint:disable force_unwrapping
@@ -97,10 +96,11 @@ class TokenListViewControllerTest: XCTestCase {
     }
 
     func testNumberOfRowsAndSection() {
-        let (viewModel, _) = mockListViewModel([
+        let viewModel = mockList([
             ("Service", "example@google.com"),
             ("Service", "username"),
-        ])
+        ]).viewModel
+
         controller = TokenListViewController(viewModel: viewModel, dispatchAction: { [weak self] action in
             self?.lastActionDispatched = action
         })
