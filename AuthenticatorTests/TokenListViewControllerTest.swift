@@ -102,13 +102,7 @@ class TokenListViewControllerTest: XCTestCase {
             self?.lastActionDispatched = action
         })
 
-        XCTAssertEqual(
-            controller.numberOfSectionsInTableView(controller.tableView),
-            1
-        )
-        XCTAssertEqual(
-            controller.tableView(controller.tableView, numberOfRowsInSection: 0),
-            viewModel.rowModels.count
-        )
+        XCTAssertEqual(controller.numberOfSectionsInTableView(controller.tableView), 1)
+        XCTAssertEqual(controller.tableView(controller.tableView, numberOfRowsInSection: 0), viewModel.rowModels.count)
     }
 }
