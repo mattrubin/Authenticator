@@ -38,22 +38,23 @@ class TableDiffTests: XCTestCase {
         let token = Token(name: "Token Name",
                           issuer: "Token Issuer",
                           generator: generator)
+        let persistentToken = PersistentToken(token: token)
         let date = NSDate()
 
         let before = [
             TokenRowModel(
-                persistentToken: PersistentToken(token: token),
+                persistentToken: persistentToken,
                 displayTime: DisplayTime(date: date)
             ),
         ]
         let after = [
             TokenRowModel(
-                persistentToken: PersistentToken(token: token),
+                persistentToken: persistentToken,
                 displayTime: DisplayTime(date: date)
             ),
         ]
 
         let changes = changesFrom(before, to: after)
-        XCTAssertEqual(changes.count, 0)
+        XCTAssert(changes.isEmpty, "Expected no changes, got \(changes)")
     }
 }
