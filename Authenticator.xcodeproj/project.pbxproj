@@ -54,7 +54,7 @@
 		CC471EEB1DC027A6006858AC /* TokenListViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */; };
 		CC471EED1DC1377F006858AC /* MockTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC471EEC1DC1377F006858AC /* MockTableView.swift */; };
 		CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC409751DB28BFE000A050D /* TableDiffTests.swift */; };
-		CCCD668B1E1C74B4005FE96E /* MemoryTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCCD668A1E1C74B4005FE96E /* MemoryTokenStore.swift */; };
+		CCCD668B1E1C74B4005FE96E /* OneTimePasswordExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCCD668A1E1C74B4005FE96E /* OneTimePasswordExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,7 +167,7 @@
 		CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewControllerTest.swift; sourceTree = "<group>"; };
 		CC471EEC1DC1377F006858AC /* MockTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTableView.swift; sourceTree = "<group>"; };
 		CCC409751DB28BFE000A050D /* TableDiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDiffTests.swift; sourceTree = "<group>"; };
-		CCCD668A1E1C74B4005FE96E /* MemoryTokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryTokenStore.swift; sourceTree = "<group>"; };
+		CCCD668A1E1C74B4005FE96E /* OneTimePasswordExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneTimePasswordExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -402,7 +402,7 @@
 				CC46C4721DB3040300EB4605 /* TokenListTests.swift */,
 				CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */,
 				CC471EEC1DC1377F006858AC /* MockTableView.swift */,
-				CCCD668A1E1C74B4005FE96E /* MemoryTokenStore.swift */,
+				CCCD668A1E1C74B4005FE96E /* OneTimePasswordExtensions.swift */,
 			);
 			path = AuthenticatorTests;
 			sourceTree = "<group>";
@@ -651,7 +651,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCCD668B1E1C74B4005FE96E /* MemoryTokenStore.swift in Sources */,
+				CCCD668B1E1C74B4005FE96E /* OneTimePasswordExtensions.swift in Sources */,
 				CC471EEB1DC027A6006858AC /* TokenListViewControllerTest.swift in Sources */,
 				C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */,
 				CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */,

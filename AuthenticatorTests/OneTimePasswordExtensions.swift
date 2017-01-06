@@ -1,5 +1,5 @@
 //
-//  MemoryTokenStore.swift
+//  OneTimePasswordExtensions.swift
 //  Authenticator
 //
 //  Copyright (c) 2016 Authenticator authors
@@ -25,41 +25,11 @@
 
 import Foundation
 @testable import OneTimePassword
-@testable import Authenticator
-
-class MemoryTokenStore: TokenStore {
-
-    var persistentTokens: [PersistentToken] = []
-
-    func addToken(token: Token) throws {
-        let persistentToken = PersistentToken(token: token)
-        persistentTokens.append(persistentToken)
-    }
-
-    func saveToken(token: Token, toPersistentToken: PersistentToken) throws {
-        // NOOP already in memory
-    }
-
-    func updatePersistentToken(token: PersistentToken) throws {
-        // NOOP already in memory
-    }
-
-    func deletePersistentToken(token: PersistentToken) throws {
-        persistentTokens = persistentTokens.filter { $0 != token }
-    }
-
-    func moveTokenFromIndex(index: Int, toIndex newIndex: Int) {
-        let token = persistentTokens.removeAtIndex(index)
-        persistentTokens.insert(token, atIndex: newIndex)
-    }
-
-}
 
 extension PersistentToken {
-    init(token: Token) {
-        self.token = token
+    static func makeUniqueIdentifier() -> NSData {
         // swiftlint:disable:next force_unwrapping
-        identifier = NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
+        return NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
     }
 
     func updated(with updatedToken: Token) -> PersistentToken {

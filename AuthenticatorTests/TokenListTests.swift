@@ -24,7 +24,7 @@
 //
 
 import XCTest
-import OneTimePassword
+@testable import OneTimePassword
 @testable import Authenticator
 
 class TokenListTests: XCTestCase {
@@ -77,5 +77,5 @@ func mockToken(name name: String, issuer: String, secret: String = "mocksecret")
 
 func mockPersistentToken(name name: String, issuer: String, secret: String = "mocksecret") -> PersistentToken {
     let token = mockToken(name: name, issuer: issuer, secret: secret)
-    return PersistentToken(token: token)
+    return PersistentToken(token: token, identifier: PersistentToken.makeUniqueIdentifier())
 }

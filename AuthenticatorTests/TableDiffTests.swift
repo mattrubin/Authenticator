@@ -24,7 +24,7 @@
 //
 
 import XCTest
-import OneTimePassword
+@testable import OneTimePassword
 @testable import Authenticator
 
 class TableDiffTests: XCTestCase {
@@ -38,7 +38,7 @@ class TableDiffTests: XCTestCase {
         let token = Token(name: "Token Name",
                           issuer: "Token Issuer",
                           generator: generator)
-        let persistentToken = PersistentToken(token: token)
+        let persistentToken = PersistentToken(token: token, identifier: PersistentToken.makeUniqueIdentifier())
         let date = NSDate()
 
         let before = [
