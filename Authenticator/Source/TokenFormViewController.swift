@@ -34,26 +34,16 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
                 tableView.reloadData()
                 return
             }
-            tableView.beginUpdates()
-            for sectionIndex in oldValue.sections.indices {
+
+            let changes = viewModel.sections.indices.flatMap { sectionIndex -> [UITableView.Change] in
                 let oldSection = oldValue.sections[sectionIndex]
                 let newSection = viewModel.sections[sectionIndex]
                 let changes = changesFrom(oldSection.rows, to: newSection.rows)
-                for change in changes {
-                    switch change {
-                    case .Insert(let rowIndex):
-                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    case let .Update(_, rowIndex):
-                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                        updateRowAtIndexPath(indexPath)
-                    case .Delete(let rowIndex):
-                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    }
-                }
+                return changes.map({
+                    UITableView.Change(fromChange: $0, inSection: sectionIndex)
+                })
             }
-            tableView.endUpdates()
+            tableView.applyChanges(changes, updateRow: updateRowAtIndexPath)
         }
     }
 
