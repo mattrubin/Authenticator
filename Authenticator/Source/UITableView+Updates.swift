@@ -32,7 +32,7 @@ extension UITableView {
         case Delete(index: NSIndexPath)
     }
 
-    func updateWithChanges(changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
+    func applyChanges(changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
         if changes.isEmpty {
             return
         }
