@@ -32,6 +32,20 @@ extension UITableViewController {
         case Delete(index: NSIndexPath)
     }
 
+    func updateTableViewWithChanges(changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
+        if changes.isEmpty {
+            return
+        }
+
+        // In a single animated group, apply any changes which alter the ordering of the table.
+        applyOrderChanges(fromChanges: changes)
+        // After applying the changes which require animations, update in place any visible cells
+        // whose contents have changed.
+        applyRowUpdates(fromChanges: changes, updateRow: updateRow)
+        // If any tokens were inserted, scroll to the first inserted row.
+        scrollToFirstInsertedRow(fromChanges: changes)
+    }
+
     /// From among the given `Change`s, applies any changes which modify the order of cells in the
     /// table view. These insertions, deletions, and moves will be performed in a single
     /// animated table view updates group. If there are no changes which require animations, this

@@ -212,7 +212,7 @@ extension TokenListViewController {
 
         if filtering && !changes.isEmpty {
             tableView.reloadData()
-        } else {
+        } else if !ignoreTableViewUpdates {
             let sectionIndex = 0
             let updates: [UITableViewController.Change] = changes.map {
                 switch $0 {
@@ -228,27 +228,13 @@ extension TokenListViewController {
                     return .Delete(index: indexPath)
                 }
             }
-            updateTableViewWithChanges(updates)
-        }
-        updatePeripheralViews()
-    }
-
-    private func updateTableViewWithChanges(changes: [Change]) {
-        if changes.isEmpty || ignoreTableViewUpdates {
-            return
-        }
-
-        // In a single animated group, apply any changes which alter the ordering of the table.
-        applyOrderChanges(fromChanges: changes)
-        // After applying the changes which require animations, update in place any visible cells
-        // whose contents have changed.
-        applyRowUpdates(fromChanges: changes, updateRow: { indexPath in
+            updateTableViewWithChanges(updates, updateRow: { indexPath in
                 if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
                     updateCell(cell, forRowAtIndexPath: indexPath)
                 }
-        })
-        // If any tokens were inserted, scroll to the first inserted row.
-        scrollToFirstInsertedRow(fromChanges: changes)
+            })
+        }
+        updatePeripheralViews()
     }
 
     private func updatePeripheralViews() {
