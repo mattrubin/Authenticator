@@ -27,6 +27,8 @@ import UIKit
 class MockTableView: UITableView {
 
     enum ChangeType {
+        case BeginUpdates
+        case EndUpdates
         case Insert(indexPath: NSIndexPath)
         case Remove(indexPath: NSIndexPath)
         case Reload(indexPath: NSIndexPath)
@@ -35,16 +37,14 @@ class MockTableView: UITableView {
 
     var changes: [ChangeType] = []
 
-    var didBeginUpdates = false
-    var didEndUpdates = false
     override func beginUpdates() {
         super.beginUpdates()
-        didBeginUpdates = true
+        changes.append(.BeginUpdates)
     }
 
     override func endUpdates() {
         super.endUpdates()
-        didEndUpdates = true
+        changes.append(.EndUpdates)
     }
 
     override func insertRowsAtIndexPaths(indexPaths: [NSIndexPath], withRowAnimation animation: UITableViewRowAnimation) {
@@ -87,7 +87,10 @@ func == (lhs: MockTableView.ChangeType, rhs: MockTableView.ChangeType) -> Bool {
         return l == r
     case let (.Move(l), .Move(r)):
         return l == r
-    case (.Insert, _), (.Remove, _), (.Reload, _), (.Move, _):
+    case (.BeginUpdates, .BeginUpdates),
+         (.EndUpdates, .EndUpdates):
+        return true
+    case (.Insert, _), (.Remove, _), (.Reload, _), (.Move, _), (.BeginUpdates, _), (.EndUpdates, _):
         return false
     }
 }

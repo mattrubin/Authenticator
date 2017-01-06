@@ -61,11 +61,11 @@ class TokenListViewControllerTest: XCTestCase {
         ]).viewModel
         controller.updateWithViewModel(updatedViewModel)
 
-        // Check the table view
-        XCTAssertTrue(tableView.didBeginUpdates)
-        XCTAssertTrue(tableView.didEndUpdates)
+        // Check the table view.
         let expectedChanges: [MockTableView.ChangeType] = [
+            .BeginUpdates,
             .Insert(indexPath: NSIndexPath(forRow: 0, inSection: 0)),
+            .EndUpdates,
         ]
         XCTAssertEqual(tableView.changes, expectedChanges)
     }
