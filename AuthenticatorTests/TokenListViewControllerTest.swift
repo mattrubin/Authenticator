@@ -26,27 +26,20 @@
 import XCTest
 @testable import Authenticator
 
-func buildController(withTokens tokens: [(String, String)],
-                                dispatcher: (TokenList.Action) -> Void) -> TokenListViewController? {
-    let viewModel = mockList(tokens).viewModel
-    return TokenListViewController(viewModel: viewModel, dispatchAction: dispatcher)
-
-}
-
 class TokenListViewControllerTest: XCTestCase {
 
     var lastActionDispatched: TokenList.Action?
     var controller: TokenListViewController?
     var tableView: MockTableView?
 
-    func defaultViewModel() -> TokenList.ViewModel {
+    func emptyListViewModel() -> TokenList.ViewModel {
         return mockList([]).viewModel
     }
 
     override func setUp() {
         super.setUp()
 
-        controller = buildController(withTokens: [], dispatcher: self.onDispatch)
+        controller = TokenListViewController(viewModel: emptyListViewModel(), dispatchAction: self.onDispatch)
         tableView = MockTableView()
         controller?.tableView = tableView
     }
