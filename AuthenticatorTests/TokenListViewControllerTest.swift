@@ -28,6 +28,11 @@ import OneTimePassword
 @testable import Authenticator
 
 class TokenListViewControllerTest: XCTestCase {
+    lazy var testWindow: UIWindow = {
+        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window.makeKeyAndVisible()
+        return window
+    }()
 
     func emptyListViewModel() -> TokenList.ViewModel {
         return mockList([]).viewModel
@@ -66,16 +71,30 @@ class TokenListViewControllerTest: XCTestCase {
         let tableView = MockTableView()
         controller.tableView = tableView
 
+        // Add the view controller to a test window so it will create cells as if it were visible.
+        testWindow.rootViewController = controller
+
         // Update the view controller.
         let updatedPersistentToken = initialPersistentToken.updated(with: mockToken(name: "name", issuer: "issuer"))
         let updatedTokenList = TokenList(persistentTokens: [updatedPersistentToken], displayTime: displayTime)
         controller.updateWithViewModel(updatedTokenList.viewModel)
 
-        // Check the table view.
+        // Check the changes to the table view.
         // Updates to existing rows should be applied directly to the cells, without changing the table view.
-        // TODO: Test for direct updates to the cell via `updateWithRowModel`.
         let expectedChanges: [MockTableView.ChangeType] = []
         XCTAssertEqual(tableView.changes, expectedChanges)
+
+        // Check that the table view contains the expected cells.
+        XCTAssertEqual(tableView.numberOfSections, 1)
+        XCTAssertEqual(tableView.numberOfRowsInSection(0), 1)
+        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
+            XCTFail("Expected cell at index path \(indexPath)")
+            return
+        }
+        let textInCellLabels = cell.contentView.subviews.flatMap({ ($0 as? UILabel)?.text })
+        let expectedText = updatedPersistentToken.token.issuer + " " + updatedPersistentToken.token.name
+        XCTAssert(textInCellLabels.contains(expectedText), "Expected \(textInCellLabels) to contain \(expectedText)")
     }
 
     // Test that the view controller will display the expected number of rows and sections for a given view model.
