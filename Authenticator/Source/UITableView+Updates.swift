@@ -1,5 +1,5 @@
 //
-//  UITableViewController+Updates.swift
+//  UITableView+Updates.swift
 //  Authenticator
 //
 //  Copyright (c) 2017 Authenticator authors
@@ -25,14 +25,14 @@
 
 import UIKit
 
-extension UITableViewController {
+extension UITableView {
     enum Change {
         case Insert(index: NSIndexPath)
         case Update(oldIndex: NSIndexPath, newIndex: NSIndexPath)
         case Delete(index: NSIndexPath)
     }
 
-    func updateTableViewWithChanges(changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
+    func updateWithChanges(changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
         if changes.isEmpty {
             return
         }
@@ -51,7 +51,7 @@ extension UITableViewController {
     /// animated table view updates group. If there are no changes which require animations, this
     /// method will not perform an empty updates group.
     /// - parameter changes: An `Array` of `Change`s, from which animated changes will be applied.
-    func applyOrderChanges(fromChanges changes: [Change]) {
+    private func applyOrderChanges(fromChanges changes: [Change]) {
         // Determine if there are any changes that require insert/delete/move animations.
         // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
         let changesNeedAnimations = changes.contains { change in
@@ -65,18 +65,18 @@ extension UITableViewController {
 
         // Only perform a table view updates group if there are changes which require animations.
         if changesNeedAnimations {
-            tableView.beginUpdates()
+            beginUpdates()
             for change in changes {
                 switch change {
                 case let .Insert(indexPath):
-                    tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 case let .Delete(indexPath):
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 case .Update:
                     break
                 }
             }
-            tableView.endUpdates()
+            endUpdates()
         }
     }
 
@@ -85,7 +85,7 @@ extension UITableViewController {
     /// have been applied.
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
     /// - parameter updateRow: A closure which takes an NSIndexPath and updates the corresponding row.
-    func applyRowUpdates(fromChanges changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
+    private func applyRowUpdates(fromChanges changes: [Change], @noescape updateRow: (NSIndexPath) -> Void) {
         for change in changes {
             switch change {
             case let .Update(_, indexPath):
@@ -99,7 +99,7 @@ extension UITableViewController {
     /// From among the given `Change`s, finds the first `Insert` and scrolls to that row in the
     /// table view. This method should be used only *after* the changes have been applied.
     /// - parameter changes: An `Array` of `Change`s, in which the first `Insert` will be found.
-    func scrollToFirstInsertedRow(fromChanges changes: [Change]) {
+    private func scrollToFirstInsertedRow(fromChanges changes: [Change]) {
         let firstInsertedRow = changes.reduce(nil, combine: { (firstInsertedRow, change) -> NSIndexPath? in
             switch change {
             case let .Insert(row):
@@ -115,9 +115,7 @@ extension UITableViewController {
         if let indexPath = firstInsertedRow {
             // Scrolls to the newly inserted token at the smallest row index in the tableView
             // using the minimum amount of scrolling necessary (.None)
-            tableView.scrollToRowAtIndexPath(indexPath,
-                                             atScrollPosition: .None,
-                                             animated: true)
+            scrollToRowAtIndexPath(indexPath, atScrollPosition: .None, animated: true)
         }
     }
 }
