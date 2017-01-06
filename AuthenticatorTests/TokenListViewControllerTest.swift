@@ -27,8 +27,8 @@ import XCTest
 @testable import Authenticator
 
 func buildController(withTokens tokens: [(String, String)],
-                                dispatcher: (TokenList.Action) -> Void) throws -> TokenListViewController? {
-    let (viewModel, _) = try mockListViewModel(tokens)
+                                dispatcher: (TokenList.Action) -> Void) -> TokenListViewController? {
+    let (viewModel, _) = mockListViewModel(tokens)
     return buildController(withViewModel: viewModel, dispatcher: dispatcher)
 
 }
@@ -44,21 +44,17 @@ class TokenListViewControllerTest: XCTestCase {
     var controller: TokenListViewController?
     var tableView: MockTableView?
 
-    func defaultViewModel() throws -> TokenList.ViewModel {
-        let (viewModel, _) = try mockListViewModel()
+    func defaultViewModel() -> TokenList.ViewModel {
+        let (viewModel, _) = mockListViewModel()
         return viewModel
     }
 
     override func setUp() {
         super.setUp()
 
-        do {
-            controller = try buildController(withTokens: [], dispatcher: self.onDispatch)
-            tableView = MockTableView()
-            controller?.tableView = tableView
-        } catch {
-            XCTFail("Unable to initialize controller" )
-        }
+        controller = buildController(withTokens: [], dispatcher: self.onDispatch)
+        tableView = MockTableView()
+        controller?.tableView = tableView
     }
 
     override func tearDown() {
@@ -70,8 +66,8 @@ class TokenListViewControllerTest: XCTestCase {
         lastActionDispatched = action
     }
 
-    func testTokenListInsertsNewToken() throws {
-        let (updated, _) = try mockListViewModel([
+    func testTokenListInsertsNewToken() {
+        let (updated, _) = mockListViewModel([
             ("Service", "email@example.com"),
         ])
 
@@ -97,16 +93,16 @@ class TokenListViewControllerTest: XCTestCase {
     }
 
     // not entirely sure wear I was headed with test
-    func testUpdatesExistingRow() throws {
-        let token = try mockToken("account@example.com", issuer: "Issuer")
+    func testUpdatesExistingRow() {
+        let token = mockToken("account@example.com", issuer: "Issuer")
         var startingTokenList = TokenList(persistentTokens: [token], displayTime: DisplayTime(date: NSDate()))
         controller = buildController(withViewModel: startingTokenList.viewModel, dispatcher: self.onDispatch)
 
         _ = startingTokenList.update(.EditPersistentToken(token))
     }
 
-    func testNumberOfRowsAndSection() throws {
-        let (viewModel, _) = try mockListViewModel([
+    func testNumberOfRowsAndSection() {
+        let (viewModel, _) = mockListViewModel([
             ("Service", "example@google.com"),
             ("Service", "username"),
         ])

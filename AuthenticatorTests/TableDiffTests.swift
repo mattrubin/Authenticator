@@ -28,7 +28,7 @@ import OneTimePassword
 @testable import Authenticator
 
 class TableDiffTests: XCTestCase {
-    func testNoChanges() throws {
+    func testNoChanges() {
         // swiftlint:disable force_unwrapping
         let generator = Generator(factor: .Timer(period: 60),
                                   secret: "secret".dataUsingEncoding(NSUTF8StringEncoding)!,
@@ -42,13 +42,13 @@ class TableDiffTests: XCTestCase {
 
         let before = [
             TokenRowModel(
-                persistentToken: try PersistentToken(token: token),
+                persistentToken: PersistentToken(token: token),
                 displayTime: DisplayTime(date: date)
             ),
         ]
         let after = [
             TokenRowModel(
-                persistentToken: try PersistentToken(token: token),
+                persistentToken: PersistentToken(token: token),
                 displayTime: DisplayTime(date: date)
             ),
         ]

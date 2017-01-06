@@ -28,8 +28,8 @@ import OneTimePassword
 @testable import Authenticator
 
 class TokenListTests: XCTestCase {
-    func testFilterByIssuerAndName() throws {
-        let (viewModel, effect) = try mockListViewModel([
+    func testFilterByIssuerAndName() {
+        let (viewModel, effect) = mockListViewModel([
             ("Google", "example@google.com"),
             ("Github", "username"),
             ("Service", "goo"),
@@ -43,8 +43,8 @@ class TokenListTests: XCTestCase {
         XCTAssertEqual(filteredIssuers, ["Google", "Service"])
     }
 
-    func testIsFilteringWhenAllTokensMatchFilter() throws {
-        var tokenList = try mockList([
+    func testIsFilteringWhenAllTokensMatchFilter() {
+        var tokenList = mockList([
             ("Service", "example@google.com"),
             ("Service", "username"),
         ])
@@ -55,16 +55,16 @@ class TokenListTests: XCTestCase {
     }
 }
 
-func mockList(list: [(String, String)]) throws -> TokenList {
-    let tokens = try list.map { (issuer, name) throws -> PersistentToken in
-        try mockToken(name, issuer: issuer)
+func mockList(list: [(String, String)]) -> TokenList {
+    let tokens = list.map { (issuer, name) -> PersistentToken in
+        mockToken(name, issuer: issuer)
     }
     return TokenList(persistentTokens: tokens, displayTime: DisplayTime(date: NSDate()))
 }
 
-func mockListViewModel(list: [(String, String)] = [], action: TokenList.Action? = nil) throws ->
+func mockListViewModel(list: [(String, String)] = [], action: TokenList.Action? = nil) ->
     (TokenList.ViewModel, TokenList.Effect?) {
-    var tokenList = try mockList( list )
+    var tokenList = mockList( list )
     guard let action = action else {
         return (tokenList.viewModel, nil)
     }
@@ -72,7 +72,7 @@ func mockListViewModel(list: [(String, String)] = [], action: TokenList.Action? 
     return (tokenList.viewModel, effect)
 }
 
-func mockToken(name: String, issuer: String, secret: String = "mocksecret") throws -> PersistentToken {
+func mockToken(name: String, issuer: String, secret: String = "mocksecret") -> PersistentToken {
     // swiftlint:disable force_unwrapping
     let generator = Generator(factor: .Timer(period: 60),
                               secret: secret.dataUsingEncoding(NSUTF8StringEncoding)!,
@@ -80,5 +80,5 @@ func mockToken(name: String, issuer: String, secret: String = "mocksecret") thro
                               digits: 6)!
     // swiftlint:enable force_unwrapping
     let token = Token(name: name, issuer: issuer, generator: generator)
-    return try PersistentToken(token: token)
+    return PersistentToken(token: token)
 }

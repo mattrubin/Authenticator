@@ -32,7 +32,7 @@ class MemoryTokenStore: TokenStore {
     var persistentTokens: [PersistentToken] = []
 
     func addToken(token: Token) throws {
-        let persistentToken = try PersistentToken(token: token)
+        let persistentToken = PersistentToken(token: token)
         persistentTokens.append(persistentToken)
     }
 
@@ -56,19 +56,9 @@ class MemoryTokenStore: TokenStore {
 }
 
 extension PersistentToken {
-    enum TokenError: ErrorType {
-        case IdentifierMissing
-    }
-
-    init(token: Token) throws {
+    init(token: Token) {
         self.token = token
-        let url = try token.toURL()
-
-        guard let data = (url.absoluteString?.dataUsingEncoding(NSUTF8StringEncoding)) else {
-            throw TokenError.IdentifierMissing
-        }
-
-        identifier = data
-
+        // swiftlint:disable:next force_unwrapping
+        identifier = NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
     }
 }
