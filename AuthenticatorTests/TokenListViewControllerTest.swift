@@ -74,14 +74,14 @@ class TokenListViewControllerTest: XCTestCase {
     func testUpdatesExistingRow() {
         // Set up a view controller with a mock table view.
         let displayTime = DisplayTime(date: NSDate())
-        let initialPersistentToken = PersistentToken(token: mockToken("account@example.com", issuer: "Issuer"))
+        let initialPersistentToken = mockPersistentToken(name: "account@example.com", issuer: "Issuer")
         let initialTokenList = TokenList(persistentTokens: [initialPersistentToken], displayTime: displayTime)
         let controller = TokenListViewController(viewModel: initialTokenList.viewModel, dispatchAction: self.onDispatch)
         let tableView = MockTableView()
         controller.tableView = tableView
 
         // Update the view controller.
-        let updatedPersistentToken = initialPersistentToken.updated(with: mockToken("somebody", issuer: "someone"))
+        let updatedPersistentToken = initialPersistentToken.updated(with: mockToken(name: "name", issuer: "issuer"))
         let updatedTokenList = TokenList(persistentTokens: [updatedPersistentToken], displayTime: displayTime)
         controller.updateWithViewModel(updatedTokenList.viewModel)
 

@@ -60,12 +60,12 @@ class TokenListTests: XCTestCase {
 
 func mockList(list: [(String, String)]) -> TokenList {
     let tokens = list.map { (issuer, name) -> PersistentToken in
-        PersistentToken(token: mockToken(name, issuer: issuer))
+        mockPersistentToken(name: name, issuer: issuer)
     }
     return TokenList(persistentTokens: tokens, displayTime: DisplayTime(date: NSDate()))
 }
 
-func mockToken(name: String, issuer: String, secret: String = "mocksecret") -> Token {
+func mockToken(name name: String, issuer: String, secret: String = "mocksecret") -> Token {
     // swiftlint:disable force_unwrapping
     let generator = Generator(factor: .Timer(period: 60),
                               secret: secret.dataUsingEncoding(NSUTF8StringEncoding)!,
@@ -73,4 +73,9 @@ func mockToken(name: String, issuer: String, secret: String = "mocksecret") -> T
                               digits: 6)!
     // swiftlint:enable force_unwrapping
     return Token(name: name, issuer: issuer, generator: generator)
+}
+
+func mockPersistentToken(name name: String, issuer: String, secret: String = "mocksecret") -> PersistentToken {
+    let token = mockToken(name: name, issuer: issuer, secret: secret)
+    return PersistentToken(token: token)
 }
