@@ -36,17 +36,15 @@ extension UITableView {
 
         // In a single animated group, apply any changes which alter the ordering of the table.
         applyOrderChanges(fromChanges: changes)
-        // After applying the changes which require animations, update in place any visible cells
-        // whose contents have changed.
+        // After applying the changes which require animations, update in place any cells whose contents have changed.
         applyRowUpdates(fromChanges: changes, updateRow: updateRow)
         // If any tokens were inserted, scroll to the first inserted row.
         scrollToFirstInsertedRow(fromChanges: changes)
     }
 
-    /// From among the given `Change`s, applies any changes which modify the order of cells in the
-    /// table view. These insertions, deletions, and moves will be performed in a single
-    /// animated table view updates group. If there are no changes which require animations, this
-    /// method will not perform an empty updates group.
+    /// From among the given `Change`s, applies any changes which modify the order of cells in the table view. These
+    /// insertions, deletions, and moves will be performed in a single animated table view updates group. If there are
+    /// no changes which require animations, this method will not perform an empty updates group.
     /// - parameter changes: An `Array` of `Change`s, from which animated changes will be applied.
     private func applyOrderChanges(fromChanges changes: [Change<NSIndexPath>]) {
         // Determine if there are any changes that require insert/delete/move animations.
@@ -77,12 +75,12 @@ extension UITableView {
         }
     }
 
-    /// From among the given `Change`s, applies the `Update`s to cells at the new row indexes in the
-    /// table view. This method should be used only *after* insertions, deletions, and moves
-    /// have been applied.
+    /// From among the given `Change`s, applies the `Update`s to cells at the new row indexes in the table view. This
+    /// method should be used only *after* insertions, deletions, and moves have been applied.
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
     /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
-    private func applyRowUpdates(fromChanges changes: [Change<NSIndexPath>], @noescape updateRow: (NSIndexPath) -> Void) {
+    private func applyRowUpdates(fromChanges changes: [Change<NSIndexPath>],
+                                             @noescape updateRow: (NSIndexPath) -> Void) {
         for change in changes {
             switch change {
             case let .Update(_, indexPath):
@@ -93,8 +91,8 @@ extension UITableView {
         }
     }
 
-    /// From among the given `Change`s, finds the first `Insert` and scrolls to that row in the
-    /// table view. This method should be used only *after* the changes have been applied.
+    /// From among the given `Change`s, finds the first `Insert` and scrolls to that row in the table view. This method
+    /// should be used only *after* the changes have been applied.
     /// - parameter changes: An `Array` of `Change`s, in which the first `Insert` will be found.
     private func scrollToFirstInsertedRow(fromChanges changes: [Change<NSIndexPath>]) {
         let firstInsertedRow = changes.reduce(nil, combine: { (firstInsertedRow, change) -> NSIndexPath? in
@@ -110,8 +108,8 @@ extension UITableView {
         })
 
         if let indexPath = firstInsertedRow {
-            // Scrolls to the newly inserted token at the smallest row index in the tableView
-            // using the minimum amount of scrolling necessary (.None)
+            // Scrolls to the newly inserted token at the smallest row index in the tableView using the minimum amount
+            // of scrolling necessary (.None)
             scrollToRowAtIndexPath(indexPath, atScrollPosition: .None, animated: true)
         }
     }
