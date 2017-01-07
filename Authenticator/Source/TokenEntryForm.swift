@@ -198,7 +198,6 @@ extension TokenEntryForm {
             self.algorithm = algorithm
         case .ShowAdvancedOptions:
             showsAdvancedOptions = true
-            // TODO: Scroll to the newly-expanded section
         case .Cancel:
             return .Cancel
         case .Submit:

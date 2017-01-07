@@ -34,26 +34,18 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
                 tableView.reloadData()
                 return
             }
-            tableView.beginUpdates()
-            for sectionIndex in oldValue.sections.indices {
+
+            let changes = viewModel.sections.indices.flatMap { sectionIndex -> [Change<NSIndexPath>] in
                 let oldSection = oldValue.sections[sectionIndex]
                 let newSection = viewModel.sections[sectionIndex]
                 let changes = changesFrom(oldSection.rows, to: newSection.rows)
-                for change in changes {
-                    switch change {
-                    case .Insert(let rowIndex):
-                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    case let .Update(_, rowIndex):
-                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                        updateRowAtIndexPath(indexPath)
-                    case .Delete(let rowIndex):
-                        let indexPath = NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
-                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    }
-                }
+                return changes.map({ change in
+                    change.map({ row in
+                        NSIndexPath(forRow: row, inSection: sectionIndex)
+                    })
+                })
             }
-            tableView.endUpdates()
+            tableView.applyChanges(changes, updateRow: updateRowAtIndexPath)
         }
     }
 
@@ -159,7 +151,10 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
     // MARK: - UITableViewDelegate
 
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.backgroundColor = .clearColor()
+        // An apparent rendering error can occur when the form is scrolled programaticallty, causing a cell scrolled off
+        // of the screen to appear with a black background when scrolled back onto the screen. Setting the background
+        // color of the cell to the table view's background color, instead of to clearColor(), fixes the issue.
+        cell.backgroundColor = .otpBackgroundColor
         cell.selectionStyle = .None
 
         cell.textLabel?.textColor = .otpForegroundColor
