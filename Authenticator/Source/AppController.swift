@@ -55,24 +55,23 @@ class AppController {
     }()
 
     init() {
-        if Process.isDemo {
-            // If this is a demo, use a token store of mock data, not backed by the keychain.
-            store = DemoTokenStore()
-            component = Root(persistentTokens: store.persistentTokens, displayTime: DisplayTime.demoTime)
-            return
-        }
-
         do {
-            store = try KeychainTokenStore(
-                keychain: Keychain.sharedInstance,
-                userDefaults: NSUserDefaults.standardUserDefaults()
-            )
+            if Process.isDemo {
+                // If this is a demo, use a token store of mock data, not backed by the keychain.
+                store = DemoTokenStore()
+            } else {
+                store = try KeychainTokenStore(
+                    keychain: Keychain.sharedInstance,
+                    userDefaults: NSUserDefaults.standardUserDefaults()
+                )
+            }
         } catch {
             // If the TokenStore could not be created, the app is unusable.
             fatalError("Failed to load token store: \(error)")
         }
-        let currentTime = DisplayTime(date: NSDate())
-        component = Root(persistentTokens: store.persistentTokens, displayTime: currentTime)
+
+        let displayTime = makeCurrentDisplayTime()
+        component = Root(persistentTokens: store.persistentTokens, displayTime: displayTime)
 
         startTick()
     }
@@ -94,13 +93,8 @@ class AppController {
 
     @objc
     func tick() {
-        if Process.isDemo {
-            // If this is a demo, don't update the display time.
-            return
-        }
-
         // Dispatch an action to trigger a view model update.
-        let newDisplayTime = DisplayTime(date: NSDate())
+        let newDisplayTime = makeCurrentDisplayTime()
         print("🕑")
         handleEvent(.UpdateDisplayTime(newDisplayTime))
     }
@@ -177,4 +171,13 @@ class AppController {
     func addTokenFromURL(token: Token) {
         handleAction(.AddTokenFromURL(token))
     }
+}
+
+private func makeCurrentDisplayTime() -> DisplayTime {
+    if Process.isDemo {
+        // If this is a demo, use a constant time.
+        return DisplayTime.demoTime
+    }
+
+    return DisplayTime(date: NSDate())
 }
