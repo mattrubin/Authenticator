@@ -57,6 +57,7 @@ class TokenListViewControllerTest: XCTestCase {
             .BeginUpdates,
             .Insert(indexPath: NSIndexPath(forRow: 0, inSection: 0)),
             .EndUpdates,
+            .Scroll(indexPath: NSIndexPath(forRow: 0, inSection: 0)),
         ]
         XCTAssertEqual(tableView.changes, expectedChanges)
     }

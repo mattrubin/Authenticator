@@ -33,6 +33,7 @@ class MockTableView: UITableView {
         case Remove(indexPath: NSIndexPath)
         case Reload(indexPath: NSIndexPath)
         case Move(fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath)
+        case Scroll(indexPath: NSIndexPath)
     }
 
     var changes: [ChangeType] = []
@@ -72,6 +73,12 @@ class MockTableView: UITableView {
         super.moveRowAtIndexPath(indexPath, toIndexPath: newIndexPath)
         changes.append(.Move(fromIndexPath: indexPath, toIndexPath: newIndexPath))
     }
+
+    override func scrollToRowAtIndexPath(indexPath: NSIndexPath,
+                                         atScrollPosition scrollPosition: UITableViewScrollPosition, animated: Bool) {
+        super.scrollToRowAtIndexPath(indexPath, atScrollPosition: scrollPosition, animated: animated)
+        changes.append((.Scroll(indexPath: indexPath)))
+    }
 }
 
 extension MockTableView.ChangeType: Equatable {}
@@ -85,10 +92,12 @@ func == (lhs: MockTableView.ChangeType, rhs: MockTableView.ChangeType) -> Bool {
         return l == r
     case let (.Move(l), .Move(r)):
         return l == r
+    case let (.Scroll(l), .Scroll(r)):
+        return l == r
     case (.BeginUpdates, .BeginUpdates),
          (.EndUpdates, .EndUpdates):
         return true
-    case (.Insert, _), (.Remove, _), (.Reload, _), (.Move, _), (.BeginUpdates, _), (.EndUpdates, _):
+    case (.Insert, _), (.Remove, _), (.Reload, _), (.Move, _), (.Scroll, _), (.BeginUpdates, _), (.EndUpdates, _):
         return false
     }
 }
