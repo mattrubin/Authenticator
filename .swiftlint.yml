@@ -25,7 +25,6 @@ opt_in_rules:
   - vertical_whitespace
 disabled_rules:
   - closure_parameter_position
-  - cyclomatic_complexity
   - line_length
   - todo
   - unused_closure_parameter
