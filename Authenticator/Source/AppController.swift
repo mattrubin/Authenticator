@@ -70,8 +70,7 @@ class AppController {
             fatalError("Failed to load token store: \(error)")
         }
 
-        let displayTime = makeCurrentDisplayTime()
-        component = Root(persistentTokens: store.persistentTokens, displayTime: displayTime)
+        component = Root(persistentTokens: store.persistentTokens, displayTime: .currentDisplayTime())
 
         startTick()
     }
@@ -93,10 +92,9 @@ class AppController {
 
     @objc
     func tick() {
-        // Dispatch an action to trigger a view model update.
-        let newDisplayTime = makeCurrentDisplayTime()
+        // Dispatch an event to trigger a view model update.
         print("🕑")
-        handleEvent(.UpdateDisplayTime(newDisplayTime))
+        handleEvent(.UpdateDisplayTime(.currentDisplayTime()))
     }
 
     // MARK: - Update
@@ -173,11 +171,12 @@ class AppController {
     }
 }
 
-private func makeCurrentDisplayTime() -> DisplayTime {
-    if Process.isDemo {
-        // If this is a demo, use a constant time.
-        return DisplayTime.demoTime
+private extension DisplayTime {
+    static func currentDisplayTime() -> DisplayTime {
+        if Process.isDemo {
+            // If this is a demo, use a constant time.
+            return DisplayTime.demoTime
+        }
+        return DisplayTime(date: NSDate())
     }
-
-    return DisplayTime(date: NSDate())
 }
