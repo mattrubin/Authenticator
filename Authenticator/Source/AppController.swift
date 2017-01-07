@@ -61,6 +61,35 @@ class AppController {
         }
         let currentTime = DisplayTime(date: NSDate())
         component = Root(persistentTokens: store.persistentTokens, displayTime: currentTime)
+
+        startTick()
+    }
+
+    // MARK: - Tick
+
+    private var displayLink: CADisplayLink?
+
+    private func startTick() {
+        let selector = #selector(tick)
+        self.displayLink = CADisplayLink(target: self, selector: selector)
+        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+    }
+
+    private func stopTick() {
+        self.displayLink?.invalidate()
+        self.displayLink = nil
+    }
+
+    @objc
+    func tick() {
+        if Process.isDemo {
+            // If this is a demo, don't update the display time.
+            return
+        }
+
+        // Dispatch an action to trigger a view model update.
+        let newDisplayTime = DisplayTime(date: NSDate())
+        handleEvent(.UpdateDisplayTime(newDisplayTime))
     }
 
     // MARK: - Update

@@ -67,27 +67,6 @@ class RootViewController: OpaqueNavigationController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    //
-
-    private var displayLink: CADisplayLink?
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        let selector = #selector(RootViewController.tick)
-        self.displayLink = CADisplayLink(target: self, selector: selector)
-        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
-    }
-
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        self.displayLink?.invalidate()
-        self.displayLink = nil
-    }
-
-    //
-
     private func presentViewController(viewController: UIViewController) {
         if let navController = modalNavController {
             navController.setViewControllers([viewController], animated: true)
@@ -103,19 +82,6 @@ class RootViewController: OpaqueNavigationController {
             modalNavController = nil
             dismissViewControllerAnimated(true, completion: nil)
         }
-    }
-
-    // MARK: Target Actions
-
-    func tick() {
-        if Process.isDemo {
-            // If this is a demo, don't update the display time.
-            return
-        }
-
-        // Dispatch an action to trigger a view model update.
-        let newDisplayTime = DisplayTime(date: NSDate())
-        dispatchAction(.UpdateDisplayTime(newDisplayTime))
     }
 }
 
