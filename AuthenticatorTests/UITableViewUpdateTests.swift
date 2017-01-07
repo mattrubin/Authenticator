@@ -111,7 +111,7 @@ class UITableViewUpdateTests: XCTestCase {
         XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 0), in: tableView, hasTitle: "X")
 
         // Update the table view.
-        dataSource.titles = [["X'"]]
+        dataSource.titles = [["X!"]]
         let changes: [Change<NSIndexPath>] = [
             .Update(oldIndex: NSIndexPath(forRow: 0, inSection: 0), newIndex: NSIndexPath(forRow: 0, inSection: 0)),
         ]
@@ -128,7 +128,58 @@ class UITableViewUpdateTests: XCTestCase {
         // Test the updated state of the table view.
         XCTAssertEqual(tableView.numberOfSections, 1)
         XCTAssertEqual(tableView.numberOfRowsInSection(0), 1)
-        XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 0), in: tableView, hasTitle: "X'")
+        XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 0), in: tableView, hasTitle: "X!")
+    }
+
+    func testManyChanges() {
+        // Set up a table view and empty data source.
+        let tableView = MockTableView()
+        // Make the table view big to ensure it allocates all the cells.
+        tableView.frame = CGRect(origin: .zero, size: CGSize(width: 999, height: 999))
+        let dataSource = MockTableViewDataSource()
+        dataSource.titles = [["A", "B"], ["C"]]
+        tableView.dataSource = dataSource
+        tableView.reloadData()
+
+        // Test the inital state of the table view.
+        XCTAssertEqual(tableView.numberOfSections, 2)
+        XCTAssertEqual(tableView.numberOfRowsInSection(0), 2)
+        XCTAssertEqual(tableView.numberOfRowsInSection(1), 1)
+        XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 0), in: tableView, hasTitle: "A")
+        XCTAssert(cellAt: NSIndexPath(forRow: 1, inSection: 0), in: tableView, hasTitle: "B")
+        XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 1), in: tableView, hasTitle: "C")
+
+        // Update the table view.
+        dataSource.titles = [["B!", "D"], ["E", "C"]]
+        let changes: [Change<NSIndexPath>] = [
+            .Insert(index: NSIndexPath(forRow: 0, inSection: 1)),
+            .Insert(index: NSIndexPath(forRow: 1, inSection: 0)),
+            .Update(oldIndex: NSIndexPath(forRow: 1, inSection: 0), newIndex: NSIndexPath(forRow: 0, inSection: 0)),
+            .Delete(index: NSIndexPath(forRow: 0, inSection: 0)),
+        ]
+        tableView.applyChanges(changes, updateRow: { indexPath in
+            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        })
+
+        // Test the changes applied the table view.
+        let expectedChanges: [MockTableView.ChangeType] = [
+            .BeginUpdates,
+            .Insert(indexPath: NSIndexPath(forRow: 0, inSection: 1)),
+            .Insert(indexPath: NSIndexPath(forRow: 1, inSection: 0)),
+            .Remove(indexPath: NSIndexPath(forRow: 0, inSection: 0)),
+            .EndUpdates,
+            .Reload(indexPath: NSIndexPath(forRow: 0, inSection: 0)),
+        ]
+        XCTAssertEqual(tableView.changes, expectedChanges)
+
+        // Test the updated state of the table view.
+        XCTAssertEqual(tableView.numberOfSections, 2)
+        XCTAssertEqual(tableView.numberOfRowsInSection(0), 2)
+        XCTAssertEqual(tableView.numberOfRowsInSection(1), 2)
+        XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 0), in: tableView, hasTitle: "B!")
+        XCTAssert(cellAt: NSIndexPath(forRow: 1, inSection: 0), in: tableView, hasTitle: "D")
+        XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 1), in: tableView, hasTitle: "E")
+        XCTAssert(cellAt: NSIndexPath(forRow: 1, inSection: 1), in: tableView, hasTitle: "C")
     }
 }
 
