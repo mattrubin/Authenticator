@@ -32,13 +32,25 @@ class AppController {
     private let store: TokenStore
     private var component: Root {
         didSet {
+            if case .None = component.viewModel.modal {
+                if displayLink == nil {
+                    startTick()
+                }
+            } else {
+                if displayLink != nil {
+                    stopTick()
+                }
+            }
             view.updateWithViewModel(component.viewModel)
         }
     }
     private lazy var view: RootViewController = {
         return RootViewController(
             viewModel: self.component.viewModel,
-            dispatchAction: self.handleAction
+            dispatchAction: {
+                print("👆")
+                self.handleAction($0)
+            }
         )
     }()
 
@@ -89,6 +101,7 @@ class AppController {
 
         // Dispatch an action to trigger a view model update.
         let newDisplayTime = DisplayTime(date: NSDate())
+        print("🕑")
         handleEvent(.UpdateDisplayTime(newDisplayTime))
     }
 
@@ -109,6 +122,7 @@ class AppController {
     }
 
     private func handleEffect(effect: Root.Effect) {
+        print("< Root.Effect: \(effect)")
         switch effect {
         case let .AddToken(token, success, failure):
             do {

@@ -119,6 +119,7 @@ extension Root {
 
     @warn_unused_result
     mutating func update(action: Action) -> Effect? {
+        print("> Root.Action: \(action)")
         switch action {
         case .TokenListAction(let action):
             return handleTokenListAction(action)
@@ -138,6 +139,7 @@ extension Root {
 
     @warn_unused_result
     mutating func update(event: Event) -> Effect? {
+        print("> Root.Event: \(event)")
         switch event {
         case .TokenListEvent(let event):
             return handleTokenListEvent(event)
@@ -180,6 +182,7 @@ extension Root {
 
     @warn_unused_result
     private mutating func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
+        print("  < TokenList.Effect: \(effect)")
         switch effect {
         case .BeginTokenEntry:
             if Process.isDemo {
@@ -238,6 +241,7 @@ extension Root {
 
     @warn_unused_result
     private mutating func handleTokenEntryFormEffect(effect: TokenEntryForm.Effect) -> Effect? {
+        print("  < TokenEntryForm.Effect: \(effect)")
         switch effect {
         case .Cancel:
             modal = .None
@@ -269,6 +273,7 @@ extension Root {
 
     @warn_unused_result
     private mutating func handleTokenEditFormEffect(effect: TokenEditForm.Effect) -> Effect? {
+        print("  < TokenEditForm.Effect: \(effect)")
         switch effect {
         case .Cancel:
             modal = .None
@@ -286,6 +291,7 @@ extension Root {
 
     @warn_unused_result
     private mutating func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) -> Effect? {
+        print("  < TokenScanner.Effect: \(effect)")
         switch effect {
         case .Cancel:
             modal = .None

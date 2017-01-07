@@ -133,6 +133,7 @@ extension TokenList {
 
     @warn_unused_result
     mutating func update(action: Action) -> Effect? {
+        print("  > TokenList.Action: \(action)")
         switch action {
         case .BeginAddToken:
             return .BeginTokenEntry
@@ -169,6 +170,7 @@ extension TokenList {
 
     @warn_unused_result
     mutating func update(event: Event) -> Effect? {
+        print("  > TokenList.Event: \(event)")
         switch event {
         case .UpdateDisplayTime(let displayTime):
             self.displayTime = displayTime
