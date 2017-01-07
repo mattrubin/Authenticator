@@ -26,6 +26,7 @@
 		C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */; };
 		C99069D1180CBAC900BAEF53 /* TokenScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99069D0180CBAC900BAEF53 /* TokenScannerViewController.swift */; };
 		C99112681E202B860006A6C0 /* UITableView+Updates.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99112671E202B860006A6C0 /* UITableView+Updates.swift */; };
+		C991126A1E2073710006A6C0 /* UITableViewUpdateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99112691E2073710006A6C0 /* UITableViewUpdateTests.swift */; };
 		C9919CDD1BA64EED006237C1 /* TokenEntryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */; };
 		C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */; };
 		C9919CE21BA733FD006237C1 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CE11BA733FD006237C1 /* Section.swift */; };
@@ -137,6 +138,7 @@
 		C99069D0180CBAC900BAEF53 /* TokenScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenScannerViewController.swift; sourceTree = "<group>"; };
 		C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99112671E202B860006A6C0 /* UITableView+Updates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Updates.swift"; sourceTree = "<group>"; };
+		C99112691E2073710006A6C0 /* UITableViewUpdateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewUpdateTests.swift; sourceTree = "<group>"; };
 		C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEntryForm.swift; sourceTree = "<group>"; };
 		C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonHeaderView.swift; sourceTree = "<group>"; };
 		C9919CE11BA733FD006237C1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 				CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */,
 				CC471EEC1DC1377F006858AC /* MockTableView.swift */,
 				CCCD668A1E1C74B4005FE96E /* OneTimePasswordExtensions.swift */,
+				C99112691E2073710006A6C0 /* UITableViewUpdateTests.swift */,
 			);
 			path = AuthenticatorTests;
 			sourceTree = "<group>";
@@ -656,6 +659,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCCD668B1E1C74B4005FE96E /* OneTimePasswordExtensions.swift in Sources */,
+				C991126A1E2073710006A6C0 /* UITableViewUpdateTests.swift in Sources */,
 				CC471EEB1DC027A6006858AC /* TokenListViewControllerTest.swift in Sources */,
 				C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */,
 				CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */,
