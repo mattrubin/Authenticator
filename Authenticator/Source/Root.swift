@@ -73,13 +73,17 @@ extension Root {
 extension Root {
     enum Action {
         case TokenListAction(TokenList.Action)
-        case TokenListEvent(TokenList.Event)
         case TokenEntryFormAction(TokenEntryForm.Action)
         case TokenEditFormAction(TokenEditForm.Action)
 
         case TokenScannerEffect(TokenScannerViewController.Effect)
 
         case AddTokenFromURL(Token)
+    }
+
+    enum Event {
+        case TokenListEvent(TokenList.Event)
+
         case AddTokenFromURLSucceeded([PersistentToken])
 
         case TokenFormSucceeded([PersistentToken])
@@ -90,23 +94,23 @@ extension Root {
 
     enum Effect {
         case AddToken(Token,
-            success: ([PersistentToken]) -> Action,
-            failure: (ErrorType) -> Action)
+            success: ([PersistentToken]) -> Event,
+            failure: (ErrorType) -> Event)
 
         case SaveToken(Token, PersistentToken,
-            success: ([PersistentToken]) -> Action,
-            failure: (ErrorType) -> Action)
+            success: ([PersistentToken]) -> Event,
+            failure: (ErrorType) -> Event)
 
         case UpdatePersistentToken(PersistentToken,
-            success: ([PersistentToken]) -> Action,
-            failure: (ErrorType) -> Action)
+            success: ([PersistentToken]) -> Event,
+            failure: (ErrorType) -> Event)
 
         case MoveToken(fromIndex: Int, toIndex: Int,
-            success: ([PersistentToken]) -> Action)
+            success: ([PersistentToken]) -> Event)
 
         case DeletePersistentToken(PersistentToken,
-            success: ([PersistentToken]) -> Action,
-            failure: (ErrorType) -> Action)
+            success: ([PersistentToken]) -> Event,
+            failure: (ErrorType) -> Event)
 
         case ShowErrorMessage(String)
         case ShowSuccessMessage(String)
@@ -117,8 +121,6 @@ extension Root {
         switch action {
         case .TokenListAction(let action):
             return handleTokenListAction(action)
-        case .TokenListEvent(let event):
-            return handleTokenListEvent(event)
         case .TokenEntryFormAction(let action):
             return handleTokenEntryFormAction(action)
         case .TokenEditFormAction(let action):
@@ -128,8 +130,17 @@ extension Root {
 
         case .AddTokenFromURL(let token):
             return .AddToken(token,
-                             success: Action.AddTokenFromURLSucceeded,
-                             failure: Action.AddTokenFailed)
+                             success: Event.AddTokenFromURLSucceeded,
+                             failure: Event.AddTokenFailed)
+        }
+    }
+
+    @warn_unused_result
+    mutating func update(event: Event) -> Effect? {
+        switch event {
+        case .TokenListEvent(let event):
+            return handleTokenListEvent(event)
+
         case .AddTokenFromURLSucceeded(let persistentTokens):
             return handleTokenListEvent(.TokenChangeSucceeded(persistentTokens))
 
@@ -187,17 +198,17 @@ extension Root {
 
         case let .UpdateToken(persistentToken, success, failure):
             return .UpdatePersistentToken(persistentToken,
-                                          success: compose(success, Action.TokenListEvent),
-                                          failure: compose(failure, Action.TokenListEvent))
+                                          success: compose(success, Event.TokenListEvent),
+                                          failure: compose(failure, Event.TokenListEvent))
 
         case let .MoveToken(fromIndex, toIndex, success):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: compose(success, Action.TokenListEvent))
+                              success: compose(success, Event.TokenListEvent))
 
         case let .DeletePersistentToken(persistentToken, success, failure):
             return .DeletePersistentToken(persistentToken,
-                                          success: compose(success, Action.TokenListEvent),
-                                          failure: compose(failure, Action.TokenListEvent))
+                                          success: compose(success, Event.TokenListEvent),
+                                          failure: compose(failure, Event.TokenListEvent))
 
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
@@ -230,8 +241,8 @@ extension Root {
 
         case .SaveNewToken(let token):
             return .AddToken(token,
-                             success: Action.TokenFormSucceeded,
-                             failure: Action.AddTokenFailed)
+                             success: Event.TokenFormSucceeded,
+                             failure: Event.AddTokenFailed)
 
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
@@ -261,8 +272,8 @@ extension Root {
 
         case let .SaveChanges(token, persistentToken):
             return .SaveToken(token, persistentToken,
-                              success: Action.TokenFormSucceeded,
-                              failure: Action.SaveTokenFailed)
+                              success: Event.TokenFormSucceeded,
+                              failure: Event.SaveTokenFailed)
 
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
@@ -288,8 +299,8 @@ extension Root {
 
         case .SaveNewToken(let token):
             return .AddToken(token,
-                             success: Action.TokenFormSucceeded,
-                             failure: Action.AddTokenFailed)
+                             success: Event.TokenFormSucceeded,
+                             failure: Event.AddTokenFailed)
         }
     }
 }
