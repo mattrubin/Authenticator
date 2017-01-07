@@ -73,6 +73,7 @@ extension Root {
 extension Root {
     enum Action {
         case TokenListAction(TokenList.Action)
+        case TokenListEvent(TokenList.Event)
         case TokenEntryFormAction(TokenEntryForm.Action)
         case TokenEditFormAction(TokenEditForm.Action)
 
@@ -116,6 +117,8 @@ extension Root {
         switch action {
         case .TokenListAction(let action):
             return handleTokenListAction(action)
+        case .TokenListEvent(let event):
+            return handleTokenListEvent(event)
         case .TokenEntryFormAction(let action):
             return handleTokenEntryFormAction(action)
         case .TokenEditFormAction(let action):
@@ -128,12 +131,12 @@ extension Root {
                              success: Action.AddTokenFromURLSucceeded,
                              failure: Action.AddTokenFailed)
         case .AddTokenFromURLSucceeded(let persistentTokens):
-            return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
+            return handleTokenListEvent(.TokenChangeSucceeded(persistentTokens))
 
         case .TokenFormSucceeded(let persistentTokens):
             // Dismiss the modal form.
             modal = .None
-            return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
+            return handleTokenListEvent(.TokenChangeSucceeded(persistentTokens))
 
         case .AddTokenFailed:
             return .ShowErrorMessage("Failed to add token.")
@@ -145,6 +148,15 @@ extension Root {
     @warn_unused_result
     private mutating func handleTokenListAction(action: TokenList.Action) -> Effect? {
         let effect = tokenList.update(action)
+        if let effect = effect {
+            return handleTokenListEffect(effect)
+        }
+        return nil
+    }
+
+    @warn_unused_result
+    private mutating func handleTokenListEvent(event: TokenList.Event) -> Effect? {
+        let effect = tokenList.update(event)
         if let effect = effect {
             return handleTokenListEffect(effect)
         }
@@ -175,17 +187,17 @@ extension Root {
 
         case let .UpdateToken(persistentToken, success, failure):
             return .UpdatePersistentToken(persistentToken,
-                                          success: compose(success, Action.TokenListAction),
-                                          failure: compose(failure, Action.TokenListAction))
+                                          success: compose(success, Action.TokenListEvent),
+                                          failure: compose(failure, Action.TokenListEvent))
 
         case let .MoveToken(fromIndex, toIndex, success):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: compose(success, Action.TokenListAction))
+                              success: compose(success, Action.TokenListEvent))
 
         case let .DeletePersistentToken(persistentToken, success, failure):
             return .DeletePersistentToken(persistentToken,
-                                          success: compose(success, Action.TokenListAction),
-                                          failure: compose(failure, Action.TokenListAction))
+                                          success: compose(success, Action.TokenListEvent),
+                                          failure: compose(failure, Action.TokenListEvent))
 
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
