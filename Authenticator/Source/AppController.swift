@@ -72,8 +72,8 @@ class AppController {
         }
     }
 
-    private func handleEvent(action: Root.Event) {
-        let sideEffect = component.update(action)
+    private func handleEvent(event: Root.Event) {
+        let sideEffect = component.update(event)
         if let effect = sideEffect {
             handleEffect(effect)
         }
