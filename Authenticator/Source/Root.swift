@@ -79,6 +79,9 @@ extension Root {
         case TokenScannerEffect(TokenScannerViewController.Effect)
 
         case AddTokenFromURL(Token)
+
+        // FIXME
+        case UpdateDisplayTime(DisplayTime)
     }
 
     enum Event {
@@ -132,6 +135,9 @@ extension Root {
             return .AddToken(token,
                              success: Event.AddTokenFromURLSucceeded,
                              failure: Event.AddTokenFailed)
+
+        case .UpdateDisplayTime(let displayTime):
+            return handleTokenListEvent(.UpdateDisplayTime(displayTime))
         }
     }
 
