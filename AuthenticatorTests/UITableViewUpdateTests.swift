@@ -58,12 +58,7 @@ class UITableViewUpdateTests: XCTestCase {
         // Test the updated state of the table view.
         XCTAssertEqual(tableView.numberOfSections, 1)
         XCTAssertEqual(tableView.numberOfRowsInSection(0), 1)
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
-            XCTFail("Expected cell at index path \(indexPath)")
-            return
-        }
-        XCTAssertEqual(cell.textLabel?.text, "A")
+        XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 0), in: tableView, hasTitle: "A")
     }
 
     func testDelete() {
@@ -77,12 +72,7 @@ class UITableViewUpdateTests: XCTestCase {
         // Test the inital state of the table view.
         XCTAssertEqual(tableView.numberOfSections, 1)
         XCTAssertEqual(tableView.numberOfRowsInSection(0), 1)
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
-            XCTFail("Expected cell at index path \(indexPath)")
-            return
-        }
-        XCTAssertEqual(cell.textLabel?.text, "B")
+        XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 0), in: tableView, hasTitle: "B")
 
         // Update the table view.
         dataSource.titles = [[]]
@@ -106,6 +96,40 @@ class UITableViewUpdateTests: XCTestCase {
         XCTAssertEqual(tableView.numberOfSections, 1)
         XCTAssertEqual(tableView.numberOfRowsInSection(0), 0)
     }
+
+    func testUpdate() {
+        // Set up a table view and empty data source.
+        let tableView = MockTableView()
+        let dataSource = MockTableViewDataSource()
+        dataSource.titles = [["X"]]
+        tableView.dataSource = dataSource
+        tableView.reloadData()
+
+        // Test the inital state of the table view.
+        XCTAssertEqual(tableView.numberOfSections, 1)
+        XCTAssertEqual(tableView.numberOfRowsInSection(0), 1)
+        XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 0), in: tableView, hasTitle: "X")
+
+        // Update the table view.
+        dataSource.titles = [["X'"]]
+        let changes: [Change<NSIndexPath>] = [
+            .Update(oldIndex: NSIndexPath(forRow: 0, inSection: 0), newIndex: NSIndexPath(forRow: 0, inSection: 0)),
+        ]
+        tableView.applyChanges(changes, updateRow: { indexPath in
+            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        })
+
+        // Test the changes applied the table view.
+        let expectedChanges: [MockTableView.ChangeType] = [
+            .Reload(indexPath: NSIndexPath(forRow: 0, inSection: 0)),
+        ]
+        XCTAssertEqual(tableView.changes, expectedChanges)
+
+        // Test the updated state of the table view.
+        XCTAssertEqual(tableView.numberOfSections, 1)
+        XCTAssertEqual(tableView.numberOfRowsInSection(0), 1)
+        XCTAssert(cellAt: NSIndexPath(forRow: 0, inSection: 0), in: tableView, hasTitle: "X'")
+    }
 }
 
 class MockTableViewDataSource: NSObject, UITableViewDataSource {
@@ -124,4 +148,13 @@ class MockTableViewDataSource: NSObject, UITableViewDataSource {
         cell.textLabel?.text = titles[indexPath.section][indexPath.row]
         return cell
     }
+}
+
+func XCTAssert(cellAt indexPath: NSIndexPath, in tableView: UITableView, hasTitle expectedTitle: String,
+                      file: StaticString = #file, line: UInt = #line) {
+    guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
+        XCTFail("Expected cell at index path \(indexPath)", file: file, line: line)
+        return
+    }
+    XCTAssertEqual(cell.textLabel?.text, expectedTitle, file: file, line: line)
 }
