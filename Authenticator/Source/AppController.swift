@@ -47,10 +47,7 @@ class AppController {
     private lazy var view: RootViewController = {
         return RootViewController(
             viewModel: self.component.viewModel,
-            dispatchAction: {
-                print("👆")
-                self.handleAction($0)
-            }
+            dispatchAction: self.handleAction
         )
     }()
 
@@ -93,7 +90,6 @@ class AppController {
     @objc
     func tick() {
         // Dispatch an event to trigger a view model update.
-        print("🕑")
         handleEvent(.UpdateDisplayTime(.currentDisplayTime()))
     }
 
@@ -114,7 +110,6 @@ class AppController {
     }
 
     private func handleEffect(effect: Root.Effect) {
-        print("< Root.Effect: \(effect)")
         switch effect {
         case let .AddToken(token, success, failure):
             do {

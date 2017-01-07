@@ -183,7 +183,6 @@ extension TokenEntryForm {
 
     @warn_unused_result
     mutating func update(action: Action) -> Effect? {
-        print("  > TokenEntryForm.Action: \(action)")
         switch action {
         case let .Issuer(issuer):
             self.issuer = issuer
