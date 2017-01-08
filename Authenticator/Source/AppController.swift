@@ -32,6 +32,7 @@ class AppController {
     private let store: TokenStore
     private var component: Root {
         didSet {
+            // TODO: Fix the excessive updates of bar button items so that the tick can run while they are on screen.
             if case .None = component.viewModel.modal {
                 if displayLink == nil {
                     startTick()
