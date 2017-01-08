@@ -72,42 +72,49 @@ class AppController {
         }
     }
 
+    private func handleEvent(event: Root.Event) {
+        let sideEffect = component.update(event)
+        if let effect = sideEffect {
+            handleEffect(effect)
+        }
+    }
+
     private func handleEffect(effect: Root.Effect) {
         switch effect {
         case let .AddToken(token, success, failure):
             do {
                 try store.addToken(token)
-                handleAction(success(store.persistentTokens))
+                handleEvent(success(store.persistentTokens))
             } catch {
-                handleAction(failure(error))
+                handleEvent(failure(error))
             }
 
         case let .SaveToken(token, persistentToken, success, failure):
             do {
                 try store.saveToken(token, toPersistentToken: persistentToken)
-                handleAction(success(store.persistentTokens))
+                handleEvent(success(store.persistentTokens))
             } catch {
-                handleAction(failure(error))
+                handleEvent(failure(error))
             }
 
         case let .UpdatePersistentToken(persistentToken, success, failure):
             do {
                 try store.updatePersistentToken(persistentToken)
-                handleAction(success(store.persistentTokens))
+                handleEvent(success(store.persistentTokens))
             } catch {
-                handleAction(failure(error))
+                handleEvent(failure(error))
             }
 
         case let .MoveToken(fromIndex, toIndex, success):
             store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-            handleAction(success(store.persistentTokens))
+            handleEvent(success(store.persistentTokens))
 
         case let .DeletePersistentToken(persistentToken, success, failure):
             do {
                 try store.deletePersistentToken(persistentToken)
-                handleAction(success(store.persistentTokens))
+                handleEvent(success(store.persistentTokens))
             } catch {
-                handleAction(failure(error))
+                handleEvent(failure(error))
             }
 
         case let .ShowErrorMessage(message):

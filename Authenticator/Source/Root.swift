@@ -79,6 +79,11 @@ extension Root {
         case TokenScannerEffect(TokenScannerViewController.Effect)
 
         case AddTokenFromURL(Token)
+    }
+
+    enum Event {
+        case TokenListEvent(TokenList.Event)
+
         case AddTokenFromURLSucceeded([PersistentToken])
 
         case TokenFormSucceeded([PersistentToken])
@@ -89,23 +94,23 @@ extension Root {
 
     enum Effect {
         case AddToken(Token,
-            success: ([PersistentToken]) -> Action,
-            failure: (ErrorType) -> Action)
+            success: ([PersistentToken]) -> Event,
+            failure: (ErrorType) -> Event)
 
         case SaveToken(Token, PersistentToken,
-            success: ([PersistentToken]) -> Action,
-            failure: (ErrorType) -> Action)
+            success: ([PersistentToken]) -> Event,
+            failure: (ErrorType) -> Event)
 
         case UpdatePersistentToken(PersistentToken,
-            success: ([PersistentToken]) -> Action,
-            failure: (ErrorType) -> Action)
+            success: ([PersistentToken]) -> Event,
+            failure: (ErrorType) -> Event)
 
         case MoveToken(fromIndex: Int, toIndex: Int,
-            success: ([PersistentToken]) -> Action)
+            success: ([PersistentToken]) -> Event)
 
         case DeletePersistentToken(PersistentToken,
-            success: ([PersistentToken]) -> Action,
-            failure: (ErrorType) -> Action)
+            success: ([PersistentToken]) -> Event,
+            failure: (ErrorType) -> Event)
 
         case ShowErrorMessage(String)
         case ShowSuccessMessage(String)
@@ -125,15 +130,24 @@ extension Root {
 
         case .AddTokenFromURL(let token):
             return .AddToken(token,
-                             success: Action.AddTokenFromURLSucceeded,
-                             failure: Action.AddTokenFailed)
+                             success: Event.AddTokenFromURLSucceeded,
+                             failure: Event.AddTokenFailed)
+        }
+    }
+
+    @warn_unused_result
+    mutating func update(event: Event) -> Effect? {
+        switch event {
+        case .TokenListEvent(let event):
+            return handleTokenListEvent(event)
+
         case .AddTokenFromURLSucceeded(let persistentTokens):
-            return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
+            return handleTokenListEvent(.TokenChangeSucceeded(persistentTokens))
 
         case .TokenFormSucceeded(let persistentTokens):
             // Dismiss the modal form.
             modal = .None
-            return handleTokenListAction(.TokenChangeSucceeded(persistentTokens))
+            return handleTokenListEvent(.TokenChangeSucceeded(persistentTokens))
 
         case .AddTokenFailed:
             return .ShowErrorMessage("Failed to add token.")
@@ -145,6 +159,15 @@ extension Root {
     @warn_unused_result
     private mutating func handleTokenListAction(action: TokenList.Action) -> Effect? {
         let effect = tokenList.update(action)
+        if let effect = effect {
+            return handleTokenListEffect(effect)
+        }
+        return nil
+    }
+
+    @warn_unused_result
+    private mutating func handleTokenListEvent(event: TokenList.Event) -> Effect? {
+        let effect = tokenList.update(event)
         if let effect = effect {
             return handleTokenListEffect(effect)
         }
@@ -175,17 +198,17 @@ extension Root {
 
         case let .UpdateToken(persistentToken, success, failure):
             return .UpdatePersistentToken(persistentToken,
-                                          success: compose(success, Action.TokenListAction),
-                                          failure: compose(failure, Action.TokenListAction))
+                                          success: compose(success, Event.TokenListEvent),
+                                          failure: compose(failure, Event.TokenListEvent))
 
         case let .MoveToken(fromIndex, toIndex, success):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: compose(success, Action.TokenListAction))
+                              success: compose(success, Event.TokenListEvent))
 
         case let .DeletePersistentToken(persistentToken, success, failure):
             return .DeletePersistentToken(persistentToken,
-                                          success: compose(success, Action.TokenListAction),
-                                          failure: compose(failure, Action.TokenListAction))
+                                          success: compose(success, Event.TokenListEvent),
+                                          failure: compose(failure, Event.TokenListEvent))
 
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
@@ -218,8 +241,8 @@ extension Root {
 
         case .SaveNewToken(let token):
             return .AddToken(token,
-                             success: Action.TokenFormSucceeded,
-                             failure: Action.AddTokenFailed)
+                             success: Event.TokenFormSucceeded,
+                             failure: Event.AddTokenFailed)
 
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
@@ -249,8 +272,8 @@ extension Root {
 
         case let .SaveChanges(token, persistentToken):
             return .SaveToken(token, persistentToken,
-                              success: Action.TokenFormSucceeded,
-                              failure: Action.SaveTokenFailed)
+                              success: Event.TokenFormSucceeded,
+                              failure: Event.SaveTokenFailed)
 
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
@@ -276,8 +299,8 @@ extension Root {
 
         case .SaveNewToken(let token):
             return .AddToken(token,
-                             success: Action.TokenFormSucceeded,
-                             failure: Action.AddTokenFailed)
+                             success: Event.TokenFormSucceeded,
+                             failure: Event.AddTokenFailed)
         }
     }
 }

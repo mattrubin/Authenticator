@@ -103,12 +103,14 @@ extension TokenList {
         // TODO: remove this action and have the component auto-update the view model on time change
         case UpdateViewModel(DisplayTime)
 
+        case Filter(String)
+        case ClearFilter
+    }
+
+    enum Event {
         case TokenChangeSucceeded([PersistentToken])
         case UpdateTokenFailed(ErrorType)
         case DeleteTokenFailed(ErrorType)
-
-        case Filter(String)
-        case ClearFilter
     }
 
     enum Effect {
@@ -116,15 +118,15 @@ extension TokenList {
         case BeginTokenEdit(PersistentToken)
 
         case UpdateToken(PersistentToken,
-            success: ([PersistentToken]) -> Action,
-            failure: (ErrorType) -> Action)
+            success: ([PersistentToken]) -> Event,
+            failure: (ErrorType) -> Event)
 
         case MoveToken(fromIndex: Int, toIndex: Int,
-            success: ([PersistentToken]) -> Action)
+            success: ([PersistentToken]) -> Event)
 
         case DeletePersistentToken(PersistentToken,
-            success: ([PersistentToken]) -> Action,
-            failure: (ErrorType) -> Action)
+            success: ([PersistentToken]) -> Event,
+            failure: (ErrorType) -> Event)
 
         case ShowErrorMessage(String)
         case ShowSuccessMessage(String)
@@ -140,27 +142,24 @@ extension TokenList {
             return .BeginTokenEdit(persistentToken)
 
         case .UpdatePersistentToken(let persistentToken):
-            return .UpdateToken(persistentToken, success: Action.TokenChangeSucceeded,
-                                failure: Action.UpdateTokenFailed)
+            return .UpdateToken(persistentToken,
+                                success: Event.TokenChangeSucceeded,
+                                failure: Event.UpdateTokenFailed)
 
         case let .MoveToken(fromIndex, toIndex):
             return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: Action.TokenChangeSucceeded)
+                              success: Event.TokenChangeSucceeded)
 
         case .DeletePersistentToken(let persistentToken):
             return .DeletePersistentToken(persistentToken,
-                                          success: Action.TokenChangeSucceeded,
-                                          failure: Action.DeleteTokenFailed)
+                                          success: Event.TokenChangeSucceeded,
+                                          failure: Event.DeleteTokenFailed)
 
         case .CopyPassword(let password):
             return copyPassword(password)
 
         case .UpdateViewModel(let displayTime):
             self.displayTime = displayTime
-            return nil
-
-        case .TokenChangeSucceeded(let persistentTokens):
-            self.persistentTokens = persistentTokens
             return nil
 
         case .Filter(let filter):
@@ -170,9 +169,19 @@ extension TokenList {
         case .ClearFilter:
             self.filter = nil
             return nil
+        }
+    }
+
+    @warn_unused_result
+    mutating func update(event: Event) -> Effect? {
+        switch event {
+        case .TokenChangeSucceeded(let persistentTokens):
+            self.persistentTokens = persistentTokens
+            return nil
 
         case .UpdateTokenFailed:
             return .ShowErrorMessage("Failed to update token.")
+
         case .DeleteTokenFailed:
             return .ShowErrorMessage("Failed to delete token.")
         }
@@ -203,19 +212,12 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
         return l == r
     case let (.UpdateViewModel(l), .UpdateViewModel(r)):
         return l == r
-    case let (.TokenChangeSucceeded(l), .TokenChangeSucceeded(r)):
-        return l == r
-    case let (.UpdateTokenFailed(l), .UpdateTokenFailed(r)):
-        return (l as NSError) == (r as NSError)
-    case let (.DeleteTokenFailed(l), .DeleteTokenFailed(r)):
-        return (l as NSError) == (r as NSError)
     case (.ClearFilter, .ClearFilter):
         return true
     case let (.Filter(l), .Filter(r)):
         return l == r
     case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _),
          (.MoveToken, _), (.DeletePersistentToken, _), (.CopyPassword, _), (.UpdateViewModel, _),
-         (.TokenChangeSucceeded, _), (.UpdateTokenFailed, _), (.DeleteTokenFailed, _),
          (.Filter, _), (.ClearFilter, _):
         // Using this verbose case for non-matching `Action`s instead of `default` ensures a
         // compiler error if a new `Action` is added and not expicitly checked for equality.
