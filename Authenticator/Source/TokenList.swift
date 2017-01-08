@@ -100,14 +100,13 @@ extension TokenList {
         case DeletePersistentToken(PersistentToken)
 
         case CopyPassword(String)
-        // TODO: remove this action and have the component auto-update the view model on time change
-        case UpdateViewModel(DisplayTime)
 
         case Filter(String)
         case ClearFilter
     }
 
     enum Event {
+        case UpdateDisplayTime(DisplayTime)
         case TokenChangeSucceeded([PersistentToken])
         case UpdateTokenFailed(ErrorType)
         case DeleteTokenFailed(ErrorType)
@@ -158,10 +157,6 @@ extension TokenList {
         case .CopyPassword(let password):
             return copyPassword(password)
 
-        case .UpdateViewModel(let displayTime):
-            self.displayTime = displayTime
-            return nil
-
         case .Filter(let filter):
             self.filter = filter
             return nil
@@ -175,6 +170,10 @@ extension TokenList {
     @warn_unused_result
     mutating func update(event: Event) -> Effect? {
         switch event {
+        case .UpdateDisplayTime(let displayTime):
+            self.displayTime = displayTime
+            return nil
+
         case .TokenChangeSucceeded(let persistentTokens):
             self.persistentTokens = persistentTokens
             return nil
@@ -210,15 +209,12 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
         return l == r
     case let (.CopyPassword(l), .CopyPassword(r)):
         return l == r
-    case let (.UpdateViewModel(l), .UpdateViewModel(r)):
-        return l == r
     case (.ClearFilter, .ClearFilter):
         return true
     case let (.Filter(l), .Filter(r)):
         return l == r
-    case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _),
-         (.MoveToken, _), (.DeletePersistentToken, _), (.CopyPassword, _), (.UpdateViewModel, _),
-         (.Filter, _), (.ClearFilter, _):
+    case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _), (.MoveToken, _),
+         (.DeletePersistentToken, _), (.CopyPassword, _), (.Filter, _), (.ClearFilter, _):
         // Using this verbose case for non-matching `Action`s instead of `default` ensures a
         // compiler error if a new `Action` is added and not expicitly checked for equality.
         return false

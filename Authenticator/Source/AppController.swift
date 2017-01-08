@@ -32,6 +32,16 @@ class AppController {
     private let store: TokenStore
     private var component: Root {
         didSet {
+            // TODO: Fix the excessive updates of bar button items so that the tick can run while they are on screen.
+            if case .None = component.viewModel.modal {
+                if displayLink == nil {
+                    startTick()
+                }
+            } else {
+                if displayLink != nil {
+                    stopTick()
+                }
+            }
             view.updateWithViewModel(component.viewModel)
         }
     }
@@ -43,24 +53,45 @@ class AppController {
     }()
 
     init() {
-        if Process.isDemo {
-            // If this is a demo, use a token store of mock data, not backed by the keychain.
-            store = DemoTokenStore()
-            component = Root(persistentTokens: store.persistentTokens, displayTime: DisplayTime.demoTime)
-            return
-        }
-
         do {
-            store = try KeychainTokenStore(
-                keychain: Keychain.sharedInstance,
-                userDefaults: NSUserDefaults.standardUserDefaults()
-            )
+            if Process.isDemo {
+                // If this is a demo, use a token store of mock data, not backed by the keychain.
+                store = DemoTokenStore()
+            } else {
+                store = try KeychainTokenStore(
+                    keychain: Keychain.sharedInstance,
+                    userDefaults: NSUserDefaults.standardUserDefaults()
+                )
+            }
         } catch {
             // If the TokenStore could not be created, the app is unusable.
             fatalError("Failed to load token store: \(error)")
         }
-        let currentTime = DisplayTime(date: NSDate())
-        component = Root(persistentTokens: store.persistentTokens, displayTime: currentTime)
+
+        component = Root(persistentTokens: store.persistentTokens, displayTime: .currentDisplayTime())
+
+        startTick()
+    }
+
+    // MARK: - Tick
+
+    private var displayLink: CADisplayLink?
+
+    private func startTick() {
+        let selector = #selector(tick)
+        self.displayLink = CADisplayLink(target: self, selector: selector)
+        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+    }
+
+    private func stopTick() {
+        self.displayLink?.invalidate()
+        self.displayLink = nil
+    }
+
+    @objc
+    func tick() {
+        // Dispatch an event to trigger a view model update.
+        handleEvent(.UpdateDisplayTime(.currentDisplayTime()))
     }
 
     // MARK: - Update
@@ -133,5 +164,15 @@ class AppController {
 
     func addTokenFromURL(token: Token) {
         handleAction(.AddTokenFromURL(token))
+    }
+}
+
+private extension DisplayTime {
+    static func currentDisplayTime() -> DisplayTime {
+        if Process.isDemo {
+            // If this is a demo, use a constant time.
+            return DisplayTime.demoTime
+        }
+        return DisplayTime(date: NSDate())
     }
 }

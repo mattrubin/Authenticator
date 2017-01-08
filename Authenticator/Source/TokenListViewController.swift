@@ -40,7 +40,6 @@ class TokenListViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private var displayLink: CADisplayLink?
     private var searchBar = SearchField(
         frame: CGRect(
             origin: .zero,
@@ -117,10 +116,6 @@ class TokenListViewController: UITableViewController {
         searchBar.textField.addTarget(self,
                                       action: searchSelector,
                                       forControlEvents: .EditingChanged)
-
-        let selector = #selector(TokenListViewController.tick)
-        self.displayLink = CADisplayLink(target: self, selector: selector)
-        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -129,25 +124,7 @@ class TokenListViewController: UITableViewController {
         self.editing = false
     }
 
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        self.displayLink?.invalidate()
-        self.displayLink = nil
-    }
-
     // MARK: Target Actions
-
-    func tick() {
-        if Process.isDemo {
-            // If this is a demo, don't update the display time.
-            return
-        }
-
-        // Dispatch an action to trigger a view model update.
-        let newDisplayTime = DisplayTime(date: NSDate())
-        dispatchAction(.UpdateViewModel(newDisplayTime))
-    }
 
     func addToken() {
         dispatchAction(.BeginAddToken)

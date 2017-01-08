@@ -83,6 +83,7 @@ extension Root {
 
     enum Event {
         case TokenListEvent(TokenList.Event)
+        case UpdateDisplayTime(DisplayTime)
 
         case AddTokenFromURLSucceeded([PersistentToken])
 
@@ -140,6 +141,9 @@ extension Root {
         switch event {
         case .TokenListEvent(let event):
             return handleTokenListEvent(event)
+
+        case .UpdateDisplayTime(let displayTime):
+            return handleTokenListEvent(.UpdateDisplayTime(displayTime))
 
         case .AddTokenFromURLSucceeded(let persistentTokens):
             return handleTokenListEvent(.TokenChangeSucceeded(persistentTokens))
