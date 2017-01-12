@@ -41,12 +41,14 @@ struct TokenScanner: Component {
         case Cancel
         case BeginManualTokenEntry
         case SaveNewToken(Token)
+        case ShowErrorMessage(String)
     }
 
     enum Effect {
         case Cancel
         case BeginManualTokenEntry
         case SaveNewToken(Token)
+        case ShowErrorMessage(String)
     }
 
     mutating func update(action: Action) -> Effect? {
@@ -57,6 +59,8 @@ struct TokenScanner: Component {
             return .BeginManualTokenEntry
         case .SaveNewToken(let token):
             return .SaveNewToken(token)
+        case .ShowErrorMessage(let message):
+            return .ShowErrorMessage(message)
         }
     }
 }

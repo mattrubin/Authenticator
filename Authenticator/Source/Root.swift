@@ -318,6 +318,9 @@ extension Root {
             return .AddToken(token,
                              success: Event.TokenFormSucceeded,
                              failure: Event.AddTokenFailed)
+
+        case .ShowErrorMessage(let message):
+            return .ShowErrorMessage(message)
         }
     }
 }

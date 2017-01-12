@@ -26,7 +26,6 @@
 import UIKit
 import AVFoundation
 import OneTimePassword
-import SVProgressHUD
 
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
@@ -117,7 +116,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         guard let url = NSURL(string: text),
             let token = Token(url: url) else {
                 // Show an error message
-                SVProgressHUD.showErrorWithStatus("Invalid Token")
+                dispatchAction(.ShowErrorMessage("Invalid Token"))
                 return
         }
 
@@ -129,6 +128,6 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     func handleError(error: ErrorType) {
         print("Error: \(error)")
-        SVProgressHUD.showErrorWithStatus("Capture Failed")
+        dispatchAction(.ShowErrorMessage("Capture Failed"))
     }
 }
