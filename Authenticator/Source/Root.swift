@@ -31,7 +31,7 @@ struct Root: Component {
 
     private enum Modal {
         case None
-        case Scanner
+        case Scanner(TokenScanner)
         case EntryForm(TokenEntryForm)
         case EditForm(TokenEditForm)
 
@@ -39,8 +39,8 @@ struct Root: Component {
             switch self {
             case .None:
                 return .None
-            case .Scanner:
-                return .Scanner
+            case .Scanner(let scanner):
+                return .Scanner(scanner.viewModel)
             case .EntryForm(let form):
                 return .EntryForm(form.viewModel)
             case .EditForm(let form):
@@ -184,12 +184,12 @@ extension Root {
         case .BeginTokenEntry:
             if Process.isDemo {
                 // If this is a demo, show the scanner even in the simulator.
-                modal = .Scanner
+                modal = .Scanner(TokenScanner())
                 return nil
             }
 
             if QRScanner.deviceCanScan {
-                modal = .Scanner
+                modal = .Scanner(TokenScanner())
             } else {
                 modal = .EntryForm(TokenEntryForm())
             }

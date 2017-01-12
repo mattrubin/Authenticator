@@ -32,17 +32,23 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
 
+    private var viewModel: TokenScanner.ViewModel
     private let dispatchAction: (Effect) -> Void
 
     // MARK: Initialization
 
-    init(dispatchAction: (Effect) -> Void) {
+    init(viewModel: TokenScanner.ViewModel, dispatchAction: (Effect) -> Void) {
+        self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func updateWithViewModel(viewModel: TokenScanner.ViewModel) {
+        self.viewModel = viewModel
     }
 
     // MARK: View Lifecycle
