@@ -100,7 +100,7 @@ extension RootViewController {
             } else {
                 let scannerViewController = TokenScannerViewController(
                     viewModel: scannerViewModel,
-                    dispatchAction: compose(Root.Action.TokenScannerEffect, dispatchAction)
+                    dispatchAction: compose(Root.Action.TokenScannerAction, dispatchAction)
                 )
                 presentViewController(scannerViewController)
             }

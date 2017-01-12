@@ -23,6 +23,8 @@
 //  SOFTWARE.
 //
 
+import OneTimePassword
+
 struct TokenScanner: Component {
     // MARK: View
 
@@ -36,15 +38,25 @@ struct TokenScanner: Component {
     // MARK: Update
 
     enum Action {
+        case Cancel
+        case BeginManualTokenEntry
+        case SaveNewToken(Token)
     }
 
     enum Effect {
+        case Cancel
+        case BeginManualTokenEntry
+        case SaveNewToken(Token)
     }
 
     mutating func update(action: Action) -> Effect? {
         switch action {
-        default:
-            return nil
+        case .Cancel:
+            return .Cancel
+        case .BeginManualTokenEntry:
+            return .BeginManualTokenEntry
+        case .SaveNewToken(let token):
+            return .SaveNewToken(token)
         }
     }
 }

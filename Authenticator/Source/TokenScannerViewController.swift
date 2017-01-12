@@ -33,11 +33,11 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let videoLayer = AVCaptureVideoPreviewLayer()
 
     private var viewModel: TokenScanner.ViewModel
-    private let dispatchAction: (Effect) -> Void
+    private let dispatchAction: (TokenScanner.Action) -> Void
 
     // MARK: Initialization
 
-    init(viewModel: TokenScanner.ViewModel, dispatchAction: (Effect) -> Void) {
+    init(viewModel: TokenScanner.ViewModel, dispatchAction: (TokenScanner.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
@@ -101,12 +101,6 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     }
 
     // MARK: Target Actions
-
-    enum Effect {
-        case Cancel
-        case BeginManualTokenEntry
-        case SaveNewToken(Token)
-    }
 
     func cancel() {
         dispatchAction(.Cancel)
