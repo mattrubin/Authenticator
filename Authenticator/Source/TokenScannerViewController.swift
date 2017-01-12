@@ -112,18 +112,8 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: QRScannerDelegate
 
     func handleDecodedText(text: String) {
-        // Attempt to create a token from the decoded text
-        guard let url = NSURL(string: text),
-            let token = Token(url: url) else {
-                // Show an error message
-                dispatchAction(.ShowErrorMessage("Invalid Token"))
-                return
-        }
-
-        // Halt the video capture
-        scanner.stop()
-        // Inform the delegate that an auth URL was captured
-        dispatchAction(.SaveNewToken(token))
+        // TODO: Ensure the scanning stops after the first successful capture
+        dispatchAction(.ScannerDecodedText(text))
     }
 
     func handleError(error: ErrorType) {

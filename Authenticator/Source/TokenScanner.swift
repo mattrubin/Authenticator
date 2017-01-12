@@ -23,6 +23,7 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import OneTimePassword
 
 struct TokenScanner: Component {
@@ -40,7 +41,7 @@ struct TokenScanner: Component {
     enum Action {
         case Cancel
         case BeginManualTokenEntry
-        case SaveNewToken(Token)
+        case ScannerDecodedText(String)
         case ShowErrorMessage(String)
     }
 
@@ -57,7 +58,13 @@ struct TokenScanner: Component {
             return .Cancel
         case .BeginManualTokenEntry:
             return .BeginManualTokenEntry
-        case .SaveNewToken(let token):
+        case .ScannerDecodedText(let text):
+            // Attempt to create a token from the decoded text
+            guard let url = NSURL(string: text),
+                let token = Token(url: url) else {
+                    // Show an error message
+                    return .ShowErrorMessage("Invalid Token")
+            }
             return .SaveNewToken(token)
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
