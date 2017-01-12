@@ -117,7 +117,6 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     }
 
     func handleError(error: ErrorType) {
-        print("Error: \(error)")
-        dispatchAction(.ShowErrorMessage("Capture Failed"))
+        dispatchAction(.ScannerError(error))
     }
 }

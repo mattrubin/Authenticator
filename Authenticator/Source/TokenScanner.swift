@@ -42,7 +42,7 @@ struct TokenScanner: Component {
         case Cancel
         case BeginManualTokenEntry
         case ScannerDecodedText(String)
-        case ShowErrorMessage(String)
+        case ScannerError(ErrorType)
     }
 
     enum Effect {
@@ -66,8 +66,10 @@ struct TokenScanner: Component {
                     return .ShowErrorMessage("Invalid Token")
             }
             return .SaveNewToken(token)
-        case .ShowErrorMessage(let message):
-            return .ShowErrorMessage(message)
+
+        case .ScannerError(let error):
+            print("Error: \(error)")
+            return .ShowErrorMessage("Capture Failed")
         }
     }
 }
