@@ -27,13 +27,22 @@ import Foundation
 import OneTimePassword
 
 struct TokenScanner: Component {
+    private var tokenFound: Bool
+
+    // MARK: Initialization
+
+    init() {
+        tokenFound = false
+    }
+
     // MARK: View
 
     struct ViewModel {
+        var isScanning: Bool
     }
 
     var viewModel: ViewModel {
-        return ViewModel()
+        return ViewModel(isScanning: !tokenFound)
     }
 
     // MARK: Update
@@ -65,6 +74,7 @@ struct TokenScanner: Component {
                     // Show an error message
                     return .ShowErrorMessage("Invalid Token")
             }
+            tokenFound = true
             return .SaveNewToken(token)
 
         case .ScannerError(let error):

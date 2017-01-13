@@ -112,7 +112,9 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: QRScannerDelegate
 
     func handleDecodedText(text: String) {
-        // TODO: Ensure the scanning stops after the first successful capture
+        guard viewModel.isScanning else {
+            return
+        }
         dispatchAction(.ScannerDecodedText(text))
     }
 
