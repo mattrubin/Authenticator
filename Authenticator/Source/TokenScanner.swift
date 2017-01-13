@@ -65,8 +65,10 @@ struct TokenScanner: Component {
         switch action {
         case .Cancel:
             return .Cancel
+
         case .BeginManualTokenEntry:
             return .BeginManualTokenEntry
+
         case .ScannerDecodedText(let text):
             // Attempt to create a token from the decoded text
             guard let url = NSURL(string: text),
