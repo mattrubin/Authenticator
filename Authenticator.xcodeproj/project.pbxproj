@@ -48,6 +48,8 @@
 		C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */; };
 		C9D6C8461906CD54004F0E08 /* TextFieldRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */; };
 		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
+		C9E3FB9A1E281CBC00EFA8BB /* TokenScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3FB991E281CBC00EFA8BB /* TokenScanner.swift */; };
+		C9E3FB9C1E2860DD00EFA8BB /* TokenScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3FB9B1E2860DD00EFA8BB /* TokenScannerTests.swift */; };
 		C9EB448E1C52A74200ACFA87 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448D1C52A74200ACFA87 /* Component.swift */; };
 		C9EB44901C52AE4500ACFA87 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448F1C52AE4500ACFA87 /* AppController.swift */; };
 		C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenStore.swift */; };
@@ -163,6 +165,8 @@
 		C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPProgressRing.swift; sourceTree = "<group>"; };
 		C9D844341D4C576B00D5E343 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		C9D844361D4C59D600D5E343 /* CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONDUCT.md; sourceTree = "<group>"; };
+		C9E3FB991E281CBC00EFA8BB /* TokenScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenScanner.swift; sourceTree = "<group>"; };
+		C9E3FB9B1E2860DD00EFA8BB /* TokenScannerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenScannerTests.swift; sourceTree = "<group>"; };
 		C9EB448D1C52A74200ACFA87 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		C9EB448F1C52AE4500ACFA87 /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		C9F7A8601C4D90B50082E5AE /* TokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
@@ -347,6 +351,7 @@
 		C97CDF2D1BEF10B300D64406 /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
+				C9E3FB991E281CBC00EFA8BB /* TokenScanner.swift */,
 				C97CDF2B1BEEC90100D64406 /* QRScanner.swift */,
 				C99069D0180CBAC900BAEF53 /* TokenScannerViewController.swift */,
 				8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */,
@@ -406,6 +411,7 @@
 				CCC409751DB28BFE000A050D /* TableDiffTests.swift */,
 				CC46C4721DB3040300EB4605 /* TokenListTests.swift */,
 				CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */,
+				C9E3FB9B1E2860DD00EFA8BB /* TokenScannerTests.swift */,
 				CC471EEC1DC1377F006858AC /* MockTableView.swift */,
 				CCCD668A1E1C74B4005FE96E /* OneTimePasswordExtensions.swift */,
 				C99112691E2073710006A6C0 /* UITableViewUpdateTests.swift */,
@@ -645,6 +651,7 @@
 				C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */,
 				C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */,
 				C9A262DA1E176A18004E6CEB /* Demo.swift in Sources */,
+				C9E3FB9A1E281CBC00EFA8BB /* TokenScanner.swift in Sources */,
 				C93BD6291C168EBF00FFFB8F /* RootViewModel.swift in Sources */,
 				C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */,
 				C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */,
@@ -658,6 +665,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9E3FB9C1E2860DD00EFA8BB /* TokenScannerTests.swift in Sources */,
 				CCCD668B1E1C74B4005FE96E /* OneTimePasswordExtensions.swift in Sources */,
 				C991126A1E2073710006A6C0 /* UITableViewUpdateTests.swift in Sources */,
 				CC471EEB1DC027A6006858AC /* TokenListViewControllerTest.swift in Sources */,

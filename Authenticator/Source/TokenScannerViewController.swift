@@ -26,23 +26,28 @@
 import UIKit
 import AVFoundation
 import OneTimePassword
-import SVProgressHUD
 
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
 
-    private let dispatchAction: (Effect) -> Void
+    private var viewModel: TokenScanner.ViewModel
+    private let dispatchAction: (TokenScanner.Action) -> Void
 
     // MARK: Initialization
 
-    init(dispatchAction: (Effect) -> Void) {
+    init(viewModel: TokenScanner.ViewModel, dispatchAction: (TokenScanner.Action) -> Void) {
+        self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func updateWithViewModel(viewModel: TokenScanner.ViewModel) {
+        self.viewModel = viewModel
     }
 
     // MARK: View Lifecycle
@@ -96,12 +101,6 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     // MARK: Target Actions
 
-    enum Effect {
-        case Cancel
-        case BeginManualTokenEntry
-        case SaveNewToken(Token)
-    }
-
     func cancel() {
         dispatchAction(.Cancel)
     }
@@ -113,22 +112,13 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: QRScannerDelegate
 
     func handleDecodedText(text: String) {
-        // Attempt to create a token from the decoded text
-        guard let url = NSURL(string: text),
-            let token = Token(url: url) else {
-                // Show an error message
-                SVProgressHUD.showErrorWithStatus("Invalid Token")
-                return
+        guard viewModel.isScanning else {
+            return
         }
-
-        // Halt the video capture
-        scanner.stop()
-        // Inform the delegate that an auth URL was captured
-        dispatchAction(.SaveNewToken(token))
+        dispatchAction(.ScannerDecodedText(text))
     }
 
     func handleError(error: ErrorType) {
-        print("Error: \(error)")
-        SVProgressHUD.showErrorWithStatus("Capture Failed")
+        dispatchAction(.ScannerError(error))
     }
 }

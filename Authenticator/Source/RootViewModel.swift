@@ -29,7 +29,7 @@ struct RootViewModel {
 
     enum ModalViewModel {
         case None
-        case Scanner
+        case Scanner(TokenScanner.ViewModel)
         case EntryForm(TokenEntryForm.ViewModel)
         case EditForm(TokenEditForm.ViewModel)
     }

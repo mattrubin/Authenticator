@@ -31,7 +31,7 @@ struct Root: Component {
 
     private enum Modal {
         case None
-        case Scanner
+        case Scanner(TokenScanner)
         case EntryForm(TokenEntryForm)
         case EditForm(TokenEditForm)
 
@@ -39,8 +39,8 @@ struct Root: Component {
             switch self {
             case .None:
                 return .None
-            case .Scanner:
-                return .Scanner
+            case .Scanner(let scanner):
+                return .Scanner(scanner.viewModel)
             case .EntryForm(let form):
                 return .EntryForm(form.viewModel)
             case .EditForm(let form):
@@ -75,8 +75,7 @@ extension Root {
         case TokenListAction(TokenList.Action)
         case TokenEntryFormAction(TokenEntryForm.Action)
         case TokenEditFormAction(TokenEditForm.Action)
-
-        case TokenScannerEffect(TokenScannerViewController.Effect)
+        case TokenScannerAction(TokenScanner.Action)
 
         case AddTokenFromURL(Token)
     }
@@ -126,8 +125,8 @@ extension Root {
             return handleTokenEntryFormAction(action)
         case .TokenEditFormAction(let action):
             return handleTokenEditFormAction(action)
-        case .TokenScannerEffect(let effect):
-            return handleTokenScannerEffect(effect)
+        case .TokenScannerAction(let action):
+            return handleTokenScannerAction(action)
 
         case .AddTokenFromURL(let token):
             return .AddToken(token,
@@ -184,12 +183,12 @@ extension Root {
         case .BeginTokenEntry:
             if Process.isDemo {
                 // If this is a demo, show the scanner even in the simulator.
-                modal = .Scanner
+                modal = .Scanner(TokenScanner())
                 return nil
             }
 
             if QRScanner.deviceCanScan {
-                modal = .Scanner
+                modal = .Scanner(TokenScanner())
             } else {
                 modal = .EntryForm(TokenEntryForm())
             }
@@ -285,7 +284,21 @@ extension Root {
     }
 
     @warn_unused_result
-    private mutating func handleTokenScannerEffect(effect: TokenScannerViewController.Effect) -> Effect? {
+    private mutating func handleTokenScannerAction(action: TokenScanner.Action) -> Effect? {
+        if case .Scanner(let tokenScanner) = modal {
+            var newScanner = tokenScanner
+            let effect = newScanner.update(action)
+            modal = .Scanner(newScanner)
+            // Handle the resulting effect after committing the changes of the initial action
+            if let effect = effect {
+                return handleTokenScannerEffect(effect)
+            }
+        }
+        return nil
+    }
+
+    @warn_unused_result
+    private mutating func handleTokenScannerEffect(effect: TokenScanner.Effect) -> Effect? {
         switch effect {
         case .Cancel:
             modal = .None
@@ -305,6 +318,9 @@ extension Root {
             return .AddToken(token,
                              success: Event.TokenFormSucceeded,
                              failure: Event.AddTokenFailed)
+
+        case .ShowErrorMessage(let message):
+            return .ShowErrorMessage(message)
         }
     }
 }
