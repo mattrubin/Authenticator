@@ -128,19 +128,19 @@ extension Root {
             }
 
         case .TokenEntryFormAction(let action):
-            let effect = modal.handleTokenEntryFormAction(action)
+            let effect = modal.update(with: action)
             return effect.flatMap { effect in
                 handleTokenEntryFormEffect(effect)
             }
 
         case .TokenEditFormAction(let action):
-            let effect = modal.handleTokenEditFormAction(action)
+            let effect = modal.update(with: action)
             return effect.flatMap { effect in
                 handleTokenEditFormEffect(effect)
             }
 
         case .TokenScannerAction(let action):
-            let effect = modal.handleTokenScannerAction(action)
+            let effect = modal.update(with: action)
             return effect.flatMap { effect in
                 handleTokenScannerEffect(effect)
             }
@@ -286,36 +286,33 @@ extension Root {
 
 private extension Root.Modal {
     @warn_unused_result
-    private mutating func handleTokenEntryFormAction(action: TokenEntryForm.Action) -> TokenEntryForm.Effect? {
-        if case .EntryForm(let form) = self {
-            var newForm = form
-            let effect = newForm.update(action)
-            self = .EntryForm(newForm)
-            return effect
+    private mutating func update(with action: TokenEntryForm.Action) -> TokenEntryForm.Effect? {
+        guard case .EntryForm(var form) = self else {
+            return nil
         }
-        return nil
+        let effect = form.update(action)
+        self = .EntryForm(form)
+        return effect
     }
 
     @warn_unused_result
-    private mutating func handleTokenEditFormAction(action: TokenEditForm.Action) -> TokenEditForm.Effect? {
-        if case .EditForm(let form) = self {
-            var newForm = form
-            let effect = newForm.update(action)
-            self = .EditForm(newForm)
-            return effect
+    private mutating func update(with action: TokenEditForm.Action) -> TokenEditForm.Effect? {
+        guard case .EditForm(var form) = self else {
+            return nil
         }
-        return nil
+        let effect = form.update(action)
+        self = .EditForm(form)
+        return effect
     }
 
     @warn_unused_result
-    private mutating func handleTokenScannerAction(action: TokenScanner.Action) -> TokenScanner.Effect? {
-        if case .Scanner(let tokenScanner) = self {
-            var newScanner = tokenScanner
-            let effect = newScanner.update(action)
-            self = .Scanner(newScanner)
-            return effect
+    private mutating func update(with action: TokenScanner.Action) -> TokenScanner.Effect? {
+        guard case .Scanner(var scanner) = self else {
+            return nil
         }
-        return nil
+        let effect = scanner.update(action)
+        self = .Scanner(scanner)
+        return effect
     }
 }
 
