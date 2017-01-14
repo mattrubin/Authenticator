@@ -68,7 +68,13 @@ class AppController {
             fatalError("Failed to load token store: \(error)")
         }
 
-        component = Root(persistentTokens: store.persistentTokens, displayTime: .currentDisplayTime())
+        // If this is a demo, show the scanner even in the simulator.
+        let deviceCanScan = QRScanner.deviceCanScan || Process.isDemo
+        component = Root(
+            persistentTokens: store.persistentTokens,
+            displayTime: .currentDisplayTime(),
+            deviceCanScan: deviceCanScan
+        )
 
         startTick()
     }

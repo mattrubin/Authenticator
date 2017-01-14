@@ -28,6 +28,7 @@ import OneTimePassword
 struct Root: Component {
     private var tokenList: TokenList
     private var modal: Modal
+    private let deviceCanScan: Bool
 
     private enum Modal {
         case None
@@ -49,9 +50,10 @@ struct Root: Component {
         }
     }
 
-    init(persistentTokens: [PersistentToken], displayTime: DisplayTime) {
+    init(persistentTokens: [PersistentToken], displayTime: DisplayTime, deviceCanScan: Bool) {
         tokenList = TokenList(persistentTokens: persistentTokens, displayTime: displayTime)
         modal = .None
+        self.deviceCanScan = deviceCanScan
     }
 }
 
@@ -181,13 +183,7 @@ extension Root {
     private mutating func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
         switch effect {
         case .BeginTokenEntry:
-            if Process.isDemo {
-                // If this is a demo, show the scanner even in the simulator.
-                modal = .Scanner(TokenScanner())
-                return nil
-            }
-
-            if QRScanner.deviceCanScan {
+            if deviceCanScan {
                 modal = .Scanner(TokenScanner())
             } else {
                 modal = .EntryForm(TokenEntryForm())
