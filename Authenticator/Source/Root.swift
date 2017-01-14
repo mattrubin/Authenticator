@@ -219,15 +219,10 @@ extension Root {
 
     @warn_unused_result
     private mutating func handleTokenEntryFormAction(action: TokenEntryForm.Action) -> Effect? {
-        if case .EntryForm(let form) = modal {
-            var newForm = form
-            let effect = newForm.update(action)
-            modal = .EntryForm(newForm)
-            // Handle the resulting action after committing the changes of the initial action
+        let effect = modal.handleTokenEntryFormAction(action)
             if let effect = effect {
                 return handleTokenEntryFormEffect(effect)
             }
-        }
         return nil
     }
 
@@ -250,15 +245,10 @@ extension Root {
 
     @warn_unused_result
     private mutating func handleTokenEditFormAction(action: TokenEditForm.Action) -> Effect? {
-        if case .EditForm(let form) = modal {
-            var newForm = form
-            let effect = newForm.update(action)
-            modal = .EditForm(newForm)
-            // Handle the resulting effect after committing the changes of the initial action
+        let effect = modal.handleTokenEditFormAction(action)
             if let effect = effect {
                 return handleTokenEditFormEffect(effect)
             }
-        }
         return nil
     }
 
@@ -281,15 +271,10 @@ extension Root {
 
     @warn_unused_result
     private mutating func handleTokenScannerAction(action: TokenScanner.Action) -> Effect? {
-        if case .Scanner(let tokenScanner) = modal {
-            var newScanner = tokenScanner
-            let effect = newScanner.update(action)
-            modal = .Scanner(newScanner)
-            // Handle the resulting effect after committing the changes of the initial action
+        let effect = modal.handleTokenScannerAction(action)
             if let effect = effect {
                 return handleTokenScannerEffect(effect)
             }
-        }
         return nil
     }
 
@@ -318,6 +303,41 @@ extension Root {
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
         }
+    }
+}
+
+private extension Root.Modal {
+    @warn_unused_result
+    private mutating func handleTokenEntryFormAction(action: TokenEntryForm.Action) -> TokenEntryForm.Effect? {
+        if case .EntryForm(let form) = self {
+            var newForm = form
+            let effect = newForm.update(action)
+            self = .EntryForm(newForm)
+            return effect
+        }
+        return nil
+    }
+
+    @warn_unused_result
+    private mutating func handleTokenEditFormAction(action: TokenEditForm.Action) -> TokenEditForm.Effect? {
+        if case .EditForm(let form) = self {
+            var newForm = form
+            let effect = newForm.update(action)
+            self = .EditForm(newForm)
+            return effect
+        }
+        return nil
+    }
+
+    @warn_unused_result
+    private mutating func handleTokenScannerAction(action: TokenScanner.Action) -> TokenScanner.Effect? {
+        if case .Scanner(let tokenScanner) = self {
+            var newScanner = tokenScanner
+            let effect = newScanner.update(action)
+            self = .Scanner(newScanner)
+            return effect
+        }
+        return nil
     }
 }
 
