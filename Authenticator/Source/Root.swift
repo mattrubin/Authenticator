@@ -122,13 +122,28 @@ extension Root {
     mutating func update(action: Action) -> Effect? {
         switch action {
         case .TokenListAction(let action):
-            return handleTokenListAction(action)
+            let effect = tokenList.update(action)
+            return effect.flatMap { effect in
+                handleTokenListEffect(effect)
+            }
+
         case .TokenEntryFormAction(let action):
-            return handleTokenEntryFormAction(action)
+            let effect = modal.handleTokenEntryFormAction(action)
+            return effect.flatMap { effect in
+                handleTokenEntryFormEffect(effect)
+            }
+
         case .TokenEditFormAction(let action):
-            return handleTokenEditFormAction(action)
+            let effect = modal.handleTokenEditFormAction(action)
+            return effect.flatMap { effect in
+                handleTokenEditFormEffect(effect)
+            }
+
         case .TokenScannerAction(let action):
-            return handleTokenScannerAction(action)
+            let effect = modal.handleTokenScannerAction(action)
+            return effect.flatMap { effect in
+                handleTokenScannerEffect(effect)
+            }
 
         case .AddTokenFromURL(let token):
             return .AddToken(token,
@@ -162,21 +177,11 @@ extension Root {
     }
 
     @warn_unused_result
-    private mutating func handleTokenListAction(action: TokenList.Action) -> Effect? {
-        let effect = tokenList.update(action)
-        if let effect = effect {
-            return handleTokenListEffect(effect)
-        }
-        return nil
-    }
-
-    @warn_unused_result
     private mutating func handleTokenListEvent(event: TokenList.Event) -> Effect? {
         let effect = tokenList.update(event)
-        if let effect = effect {
-            return handleTokenListEffect(effect)
+        return effect.flatMap { effect in
+            handleTokenListEffect(effect)
         }
-        return nil
     }
 
     @warn_unused_result
@@ -218,15 +223,6 @@ extension Root {
     }
 
     @warn_unused_result
-    private mutating func handleTokenEntryFormAction(action: TokenEntryForm.Action) -> Effect? {
-        let effect = modal.handleTokenEntryFormAction(action)
-            if let effect = effect {
-                return handleTokenEntryFormEffect(effect)
-            }
-        return nil
-    }
-
-    @warn_unused_result
     private mutating func handleTokenEntryFormEffect(effect: TokenEntryForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
@@ -244,15 +240,6 @@ extension Root {
     }
 
     @warn_unused_result
-    private mutating func handleTokenEditFormAction(action: TokenEditForm.Action) -> Effect? {
-        let effect = modal.handleTokenEditFormAction(action)
-            if let effect = effect {
-                return handleTokenEditFormEffect(effect)
-            }
-        return nil
-    }
-
-    @warn_unused_result
     private mutating func handleTokenEditFormEffect(effect: TokenEditForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
@@ -267,15 +254,6 @@ extension Root {
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
         }
-    }
-
-    @warn_unused_result
-    private mutating func handleTokenScannerAction(action: TokenScanner.Action) -> Effect? {
-        let effect = modal.handleTokenScannerAction(action)
-            if let effect = effect {
-                return handleTokenScannerEffect(effect)
-            }
-        return nil
     }
 
     @warn_unused_result
