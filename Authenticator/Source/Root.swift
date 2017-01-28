@@ -121,36 +121,36 @@ extension Root {
     @warn_unused_result
     mutating func update(action: Action) throws -> Effect? {
         do {
-        switch action {
-        case .TokenListAction(let action):
-            let effect = tokenList.update(action)
-            return effect.flatMap { effect in
-                handleTokenListEffect(effect)
-            }
+            switch action {
+            case .TokenListAction(let action):
+                let effect = tokenList.update(action)
+                return effect.flatMap { effect in
+                    handleTokenListEffect(effect)
+                }
 
-        case .TokenEntryFormAction(let action):
-            let effect = try modal.withEntryForm({ form in form.update(action) })
-            return effect.flatMap { effect in
-                handleTokenEntryFormEffect(effect)
-            }
+            case .TokenEntryFormAction(let action):
+                let effect = try modal.withEntryForm({ form in form.update(action) })
+                return effect.flatMap { effect in
+                    handleTokenEntryFormEffect(effect)
+                }
 
-        case .TokenEditFormAction(let action):
-            let effect = try modal.withEditForm({ form in form.update(action) })
-            return effect.flatMap { effect in
-                handleTokenEditFormEffect(effect)
-            }
+            case .TokenEditFormAction(let action):
+                let effect = try modal.withEditForm({ form in form.update(action) })
+                return effect.flatMap { effect in
+                    handleTokenEditFormEffect(effect)
+                }
 
-        case .TokenScannerAction(let action):
-            let effect = try modal.withScanner({ scanner in scanner.update(action) })
-            return effect.flatMap { effect in
-                handleTokenScannerEffect(effect)
-            }
+            case .TokenScannerAction(let action):
+                let effect = try modal.withScanner({ scanner in scanner.update(action) })
+                return effect.flatMap { effect in
+                    handleTokenScannerEffect(effect)
+                }
 
-        case .AddTokenFromURL(let token):
-            return .AddToken(token,
-                             success: Event.AddTokenFromURLSucceeded,
-                             failure: Event.AddTokenFailed)
-        }
+            case .AddTokenFromURL(let token):
+                return .AddToken(token,
+                                 success: Event.AddTokenFromURLSucceeded,
+                                 failure: Event.AddTokenFailed)
+            }
         } catch {
             throw ComponentError(underlyingError: error, action: action, component: self)
         }

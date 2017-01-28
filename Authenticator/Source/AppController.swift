@@ -104,10 +104,10 @@ class AppController {
 
     private func handleAction(action: Root.Action) {
         do {
-        let sideEffect = try component.update(action)
-        if let effect = sideEffect {
-            handleEffect(effect)
-        }
+            let sideEffect = try component.update(action)
+            if let effect = sideEffect {
+                handleEffect(effect)
+            }
         } catch {
             print("ERROR: \(error)")
         }
