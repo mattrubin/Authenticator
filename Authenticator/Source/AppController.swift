@@ -103,9 +103,13 @@ class AppController {
     // MARK: - Update
 
     private func handleAction(action: Root.Action) {
-        let sideEffect = component.update(action)
+        do {
+        let sideEffect = try component.update(action)
         if let effect = sideEffect {
             handleEffect(effect)
+        }
+        } catch {
+            print("ERROR: \(error)")
         }
     }
 
