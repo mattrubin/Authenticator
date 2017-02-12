@@ -1,8 +1,8 @@
 # Authenticator
 ### Two-Factor Authentication Client for iOS.
 
-[![Build Status](https://api.travis-ci.org/mattrubin/Authenticator.svg?branch=master)](https://travis-ci.org/mattrubin/Authenticator)
-[![Codecov](https://codecov.io/gh/mattrubin/Authenticator/branch/master/graph/badge.svg)](https://codecov.io/gh/mattrubin/Authenticator)
+[![Build Status](https://api.travis-ci.org/mattrubin/Authenticator.svg?branch=develop)](https://travis-ci.org/mattrubin/Authenticator)
+[![Codecov](https://codecov.io/gh/mattrubin/Authenticator/branch/develop/graph/badge.svg)](https://codecov.io/gh/mattrubin/Authenticator)
 [![Latest Release](http://img.shields.io/github/release/mattrubin/authenticator.svg?style=flat)](https://github.com/mattrubin/authenticator/releases)
 [![MIT License](http://img.shields.io/badge/license-mit-blue.svg?style=flat)](https://github.com/mattrubin/authenticator/blob/master/LICENSE.txt)
 
