@@ -66,6 +66,29 @@ class TokenListViewController: UITableViewController {
         return label
     }()
 
+    private let warningLabel: UILabel = {
+        let linkTitle = "Learn More →"
+        let message = "For security reasons, tokens will be stored only on this \(UIDevice.currentDevice().model), and will not be included in iCloud or unencrypted backups.  \(linkTitle)"
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.3
+        paragraphStyle.paragraphSpacing = 5
+        let attributedMessage = NSMutableAttributedString(string: message, attributes: [
+            NSFontAttributeName: UIFont.systemFontOfSize(15, weight: UIFontWeightLight),
+            NSParagraphStyleAttributeName: paragraphStyle,
+            ])
+        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.italicSystemFontOfSize(15),
+                                       range: (attributedMessage.string as NSString).rangeOfString("not"))
+        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFontOfSize(15),
+                                       range: (attributedMessage.string as NSString).rangeOfString(linkTitle))
+
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.attributedText = attributedMessage
+        label.textAlignment = .Center
+        label.textColor = UIColor.otpForegroundColor
+        return label
+    }()
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
@@ -104,6 +127,13 @@ class TokenListViewController: UITableViewController {
             height: self.view.bounds.size.height * 0.6
         )
         self.view.addSubview(self.noTokensLabel)
+
+        let labelMargin: CGFloat = 20
+        let labelSize = warningLabel.sizeThatFits(view.bounds.insetBy(dx: labelMargin, dy: labelMargin).size)
+        let labelOrigin = CGPoint(x: labelMargin, y: view.bounds.maxY - labelMargin - labelSize.height)
+        warningLabel.frame = CGRect(origin: labelOrigin, size: labelSize)
+        warningLabel.autoresizingMask = [.FlexibleTopMargin, .FlexibleWidth]
+        view.addSubview(warningLabel)
 
         // Update with current viewModel
         self.updatePeripheralViews()
@@ -211,6 +241,7 @@ extension TokenListViewController {
 
         editButtonItem().enabled = viewModel.hasTokens
         noTokensLabel.hidden = viewModel.hasTokens
+        warningLabel.hidden = viewModel.hasTokens
 
         // Exit editing mode if no tokens remain
         if self.editing && viewModel.rowModels.isEmpty {
