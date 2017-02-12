@@ -31,5 +31,11 @@ protocol Component {
     // MARK: Update
     associatedtype Action
     associatedtype Effect
-    mutating func update(action: Action) -> Effect?
+    mutating func update(action: Action) throws -> Effect?
+}
+
+struct ComponentError<C: Component>: ErrorType {
+    let underlyingError: ErrorType
+    let action: C.Action
+    let component: C
 }

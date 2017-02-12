@@ -119,21 +119,40 @@ extension Root {
     }
 
     @warn_unused_result
-    mutating func update(action: Action) -> Effect? {
-        switch action {
-        case .TokenListAction(let action):
-            return handleTokenListAction(action)
-        case .TokenEntryFormAction(let action):
-            return handleTokenEntryFormAction(action)
-        case .TokenEditFormAction(let action):
-            return handleTokenEditFormAction(action)
-        case .TokenScannerAction(let action):
-            return handleTokenScannerAction(action)
+    mutating func update(action: Action) throws -> Effect? {
+        do {
+            switch action {
+            case .TokenListAction(let action):
+                let effect = tokenList.update(action)
+                return effect.flatMap { effect in
+                    handleTokenListEffect(effect)
+                }
 
-        case .AddTokenFromURL(let token):
-            return .AddToken(token,
-                             success: Event.AddTokenFromURLSucceeded,
-                             failure: Event.AddTokenFailed)
+            case .TokenEntryFormAction(let action):
+                let effect = try modal.withEntryForm({ form in form.update(action) })
+                return effect.flatMap { effect in
+                    handleTokenEntryFormEffect(effect)
+                }
+
+            case .TokenEditFormAction(let action):
+                let effect = try modal.withEditForm({ form in form.update(action) })
+                return effect.flatMap { effect in
+                    handleTokenEditFormEffect(effect)
+                }
+
+            case .TokenScannerAction(let action):
+                let effect = try modal.withScanner({ scanner in scanner.update(action) })
+                return effect.flatMap { effect in
+                    handleTokenScannerEffect(effect)
+                }
+
+            case .AddTokenFromURL(let token):
+                return .AddToken(token,
+                                 success: Event.AddTokenFromURLSucceeded,
+                                 failure: Event.AddTokenFailed)
+            }
+        } catch {
+            throw ComponentError(underlyingError: error, action: action, component: self)
         }
     }
 
@@ -162,21 +181,11 @@ extension Root {
     }
 
     @warn_unused_result
-    private mutating func handleTokenListAction(action: TokenList.Action) -> Effect? {
-        let effect = tokenList.update(action)
-        if let effect = effect {
-            return handleTokenListEffect(effect)
-        }
-        return nil
-    }
-
-    @warn_unused_result
     private mutating func handleTokenListEvent(event: TokenList.Event) -> Effect? {
         let effect = tokenList.update(event)
-        if let effect = effect {
-            return handleTokenListEffect(effect)
+        return effect.flatMap { effect in
+            handleTokenListEffect(effect)
         }
-        return nil
     }
 
     @warn_unused_result
@@ -218,20 +227,6 @@ extension Root {
     }
 
     @warn_unused_result
-    private mutating func handleTokenEntryFormAction(action: TokenEntryForm.Action) -> Effect? {
-        if case .EntryForm(let form) = modal {
-            var newForm = form
-            let effect = newForm.update(action)
-            modal = .EntryForm(newForm)
-            // Handle the resulting action after committing the changes of the initial action
-            if let effect = effect {
-                return handleTokenEntryFormEffect(effect)
-            }
-        }
-        return nil
-    }
-
-    @warn_unused_result
     private mutating func handleTokenEntryFormEffect(effect: TokenEntryForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
@@ -249,20 +244,6 @@ extension Root {
     }
 
     @warn_unused_result
-    private mutating func handleTokenEditFormAction(action: TokenEditForm.Action) -> Effect? {
-        if case .EditForm(let form) = modal {
-            var newForm = form
-            let effect = newForm.update(action)
-            modal = .EditForm(newForm)
-            // Handle the resulting effect after committing the changes of the initial action
-            if let effect = effect {
-                return handleTokenEditFormEffect(effect)
-            }
-        }
-        return nil
-    }
-
-    @warn_unused_result
     private mutating func handleTokenEditFormEffect(effect: TokenEditForm.Effect) -> Effect? {
         switch effect {
         case .Cancel:
@@ -277,20 +258,6 @@ extension Root {
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
         }
-    }
-
-    @warn_unused_result
-    private mutating func handleTokenScannerAction(action: TokenScanner.Action) -> Effect? {
-        if case .Scanner(let tokenScanner) = modal {
-            var newScanner = tokenScanner
-            let effect = newScanner.update(action)
-            modal = .Scanner(newScanner)
-            // Handle the resulting effect after committing the changes of the initial action
-            if let effect = effect {
-                return handleTokenScannerEffect(effect)
-            }
-        }
-        return nil
     }
 
     @warn_unused_result
@@ -318,6 +285,43 @@ extension Root {
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
         }
+    }
+}
+
+private extension Root.Modal {
+    struct Error: ErrorType {
+        let expectedType: Any.Type
+        let actualState: Root.Modal
+    }
+
+    @warn_unused_result
+    private mutating func withEntryForm<ResultType>(body: (inout TokenEntryForm) -> ResultType) throws -> ResultType {
+        guard case .EntryForm(var form) = self else {
+            throw Error(expectedType: TokenEntryForm.self, actualState: self)
+        }
+        let result = body(&form)
+        self = .EntryForm(form)
+        return result
+    }
+
+    @warn_unused_result
+    private mutating func withEditForm<ResultType>(body: (inout TokenEditForm) -> ResultType) throws -> ResultType {
+        guard case .EditForm(var form) = self else {
+            throw Error(expectedType: TokenEditForm.self, actualState: self)
+        }
+        let result = body(&form)
+        self = .EditForm(form)
+        return result
+    }
+
+    @warn_unused_result
+    private mutating func withScanner<ResultType>(body: (inout TokenScanner) -> ResultType) throws -> ResultType {
+        guard case .Scanner(var scanner) = self else {
+            throw Error(expectedType: TokenScanner.self, actualState: self)
+        }
+        let result = body(&scanner)
+        self = .Scanner(scanner)
+        return result
     }
 }
 
