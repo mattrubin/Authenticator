@@ -121,7 +121,7 @@ func XCTAssert(cell: UITableViewCell, containsText expectedText: String,
 }
 
 func XCTAssert(cellAt indexPath: NSIndexPath, in tableView: UITableView, containsText expectedText: String,
-                      file: StaticString = #file, line: UInt = #line) {
+               file: StaticString = #file, line: UInt = #line) {
     guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
         XCTFail("Expected cell at index path \(indexPath)", file: file, line: line)
         return

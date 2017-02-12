@@ -80,7 +80,7 @@ extension UITableView {
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
     /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
     private func applyRowUpdates(fromChanges changes: [Change<NSIndexPath>],
-                                             @noescape updateRow: (NSIndexPath) -> Void) {
+                                 @noescape updateRow: (NSIndexPath) -> Void) {
         for change in changes {
             switch change {
             case let .Update(_, indexPath):
