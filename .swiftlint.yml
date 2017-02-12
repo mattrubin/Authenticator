@@ -24,10 +24,8 @@ opt_in_rules:
   - switch_case_on_newline
   - vertical_whitespace
 disabled_rules:
-  - closure_parameter_position
   - line_length
   - todo
-  - unused_closure_parameter
 
 trailing_comma:
   mandatory_comma: true
