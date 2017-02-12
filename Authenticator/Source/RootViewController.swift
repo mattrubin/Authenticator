@@ -128,6 +128,18 @@ extension RootViewController {
                 )
                 presentViewController(editController)
             }
+
+        case .Info(let backupInfoViewModel):
+            if case .Info = currentViewModel.modal,
+                let backupInfoViewController = modalNavController?.topViewController as? BackupInfoViewController {
+                backupInfoViewController.updateWithViewModel(backupInfoViewModel)
+            } else {
+                let editController = BackupInfoViewController(
+                    viewModel: backupInfoViewModel,
+                    dispatchAction: compose(Root.Action.BackupInfoEffect, dispatchAction)
+                )
+                presentViewController(editController)
+            }
         }
         currentViewModel = viewModel
     }

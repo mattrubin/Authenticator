@@ -89,6 +89,11 @@ class TokenListViewController: UITableViewController {
         return label
     }()
 
+    private let warningButton: UIButton = {
+        let button = UIButton(type: .Custom)
+        return button
+    }()
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
@@ -135,6 +140,12 @@ class TokenListViewController: UITableViewController {
         warningLabel.autoresizingMask = [.FlexibleTopMargin, .FlexibleWidth]
         view.addSubview(warningLabel)
 
+        let warningButton = UIButton()
+        warningButton.frame = warningLabel.frame
+        warningButton.autoresizingMask = warningLabel.autoresizingMask
+        warningButton.addTarget(self, action: #selector(showBackupInfo), forControlEvents: .TouchUpInside)
+        view.addSubview(warningButton)
+
         // Update with current viewModel
         self.updatePeripheralViews()
     }
@@ -167,6 +178,9 @@ class TokenListViewController: UITableViewController {
         dispatchAction(.Filter(filter))
     }
 
+    func showBackupInfo() {
+        dispatchAction(.ShowBackupInfo)
+    }
 }
 
 // MARK: UITableViewDataSource

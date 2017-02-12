@@ -1,8 +1,8 @@
 //
-//  RootViewModel.swift
+//  BackupInfo.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,19 @@
 //  SOFTWARE.
 //
 
-struct RootViewModel {
-    let tokenList: TokenList.ViewModel
-    let modal: ModalViewModel
+struct BackupInfo {
 
-    enum ModalViewModel {
-        case None
-        case Scanner(TokenScanner.ViewModel)
-        case EntryForm(TokenEntryForm.ViewModel)
-        case EditForm(TokenEditForm.ViewModel)
-        case Info(BackupInfo.ViewModel)
+    // MARK: View
+
+    struct ViewModel {}
+
+    var viewModel: ViewModel {
+        return ViewModel()
+    }
+
+    // MARK: Update
+
+    enum Effect {
+        case Done
     }
 }

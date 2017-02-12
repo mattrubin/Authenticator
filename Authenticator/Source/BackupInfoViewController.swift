@@ -1,8 +1,8 @@
 //
-//  RootViewModel.swift
+//  BackupInfoViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,40 @@
 //  SOFTWARE.
 //
 
-struct RootViewModel {
-    let tokenList: TokenList.ViewModel
-    let modal: ModalViewModel
+import UIKit
 
-    enum ModalViewModel {
-        case None
-        case Scanner(TokenScanner.ViewModel)
-        case EntryForm(TokenEntryForm.ViewModel)
-        case EditForm(TokenEditForm.ViewModel)
-        case Info(BackupInfo.ViewModel)
+class BackupInfoViewController: UIViewController {
+    private var viewModel: BackupInfo.ViewModel
+    private let dispatchAction: (BackupInfo.Effect) -> Void
+
+    // MARK: Initialization
+
+    init(viewModel: BackupInfo.ViewModel, dispatchAction: (BackupInfo.Effect) -> Void) {
+        self.viewModel = viewModel
+        self.dispatchAction = dispatchAction
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func updateWithViewModel(viewModel: BackupInfo.ViewModel) {
+        self.viewModel = viewModel
+    }
+
+    // MARK: View Lifecycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = UIColor.otpBackgroundColor
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(done))
+    }
+
+    // MARK: Target Actions
+
+    func done() {
+        dispatchAction(.Done)
     }
 }

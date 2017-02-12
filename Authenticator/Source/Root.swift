@@ -35,6 +35,7 @@ struct Root: Component {
         case Scanner(TokenScanner)
         case EntryForm(TokenEntryForm)
         case EditForm(TokenEditForm)
+        case Info(BackupInfo)
 
         var viewModel: RootViewModel.ModalViewModel {
             switch self {
@@ -46,6 +47,8 @@ struct Root: Component {
                 return .EntryForm(form.viewModel)
             case .EditForm(let form):
                 return .EditForm(form.viewModel)
+            case Info(let backupInfo):
+                return .Info(backupInfo.viewModel)
             }
         }
     }
@@ -78,6 +81,8 @@ extension Root {
         case TokenEntryFormAction(TokenEntryForm.Action)
         case TokenEditFormAction(TokenEditForm.Action)
         case TokenScannerAction(TokenScanner.Action)
+
+        case BackupInfoEffect(BackupInfo.Effect)
 
         case AddTokenFromURL(Token)
     }
@@ -145,6 +150,8 @@ extension Root {
                 return effect.flatMap { effect in
                     handleTokenScannerEffect(effect)
                 }
+            case .BackupInfoEffect(let effect):
+                return handleBackupInfoEffect(effect)
 
             case .AddTokenFromURL(let token):
                 return .AddToken(token,
@@ -223,6 +230,10 @@ extension Root {
 
         case .ShowSuccessMessage(let message):
             return .ShowSuccessMessage(message)
+
+        case .ShowBackupInfo:
+            modal = .Info(BackupInfo())
+            return nil
         }
     }
 
@@ -284,6 +295,15 @@ extension Root {
 
         case .ShowErrorMessage(let message):
             return .ShowErrorMessage(message)
+        }
+    }
+
+    @warn_unused_result
+    private mutating func handleBackupInfoEffect(effect: BackupInfo.Effect) -> Effect? {
+        switch effect {
+        case .Done:
+            modal = .None
+            return nil
         }
     }
 }
