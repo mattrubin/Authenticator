@@ -130,18 +130,22 @@ extension RootViewController {
             }
 
         case .Info(let backupInfoViewModel):
-            if case .Info = currentViewModel.modal,
-                let backupInfoViewController = modalNavController?.topViewController as? BackupInfoViewController {
-                backupInfoViewController.updateWithViewModel(backupInfoViewModel)
-            } else {
-                let editController = BackupInfoViewController(
-                    viewModel: backupInfoViewModel,
-                    dispatchAction: compose(Root.Action.BackupInfoEffect, dispatchAction)
-                )
-                presentViewController(editController)
-            }
+            updateWithBackupInfoViewModel(backupInfoViewModel)
         }
         currentViewModel = viewModel
+    }
+
+    private func updateWithBackupInfoViewModel(backupInfoViewModel: BackupInfo.ViewModel) {
+        if case .Info = currentViewModel.modal,
+            let backupInfoViewController = modalNavController?.topViewController as? BackupInfoViewController {
+            backupInfoViewController.updateWithViewModel(backupInfoViewModel)
+        } else {
+            let backupInfoViewController = BackupInfoViewController(
+                viewModel: backupInfoViewModel,
+                dispatchAction: compose(Root.Action.BackupInfoEffect, dispatchAction)
+            )
+            presentViewController(backupInfoViewController)
+        }
     }
 }
 
