@@ -25,9 +25,11 @@
 
 import UIKit
 
-class BackupInfoViewController: UIViewController {
+class BackupInfoViewController: UIViewController, UIWebViewDelegate {
     private var viewModel: BackupInfo.ViewModel
     private let dispatchAction: (BackupInfo.Effect) -> Void
+
+    private let webView = UIWebView()
 
     // MARK: Initialization
 
@@ -47,16 +49,38 @@ class BackupInfoViewController: UIViewController {
 
     // MARK: View Lifecycle
 
+    override func loadView() {
+        view = webView
+        webView.delegate = self
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.otpBackgroundColor
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(done))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done,
+                                                            target: self,
+                                                            action: #selector(done))
+
+        if let path = NSBundle.mainBundle().pathForResource("BackupInfo", ofType: "html") {
+            webView.loadRequest(NSURLRequest(URL: NSURL(fileURLWithPath: path)))
+        }
     }
 
     // MARK: Target Actions
 
     func done() {
         dispatchAction(.Done)
+    }
+
+    // MARK: - UIWebViewDelegate
+
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        // If the resuest is not for a file in the bundle, request it from Safari instead.
+        if let url = request.URL where url.scheme != "file" {
+            UIApplication.sharedApplication().openURL(url)
+            return false
+        }
+        return true
     }
 }
