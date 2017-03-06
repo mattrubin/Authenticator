@@ -151,7 +151,7 @@
 		C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarButtonViewModel.swift; sourceTree = "<group>"; };
 		C9A1C1A51E501CB2009E65D6 /* BackupInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupInfoViewController.swift; sourceTree = "<group>"; };
 		C9A1C1A81E501D8B009E65D6 /* BackupInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupInfo.swift; sourceTree = "<group>"; };
-		C9A1C1AA1E502195009E65D6 /* BackupInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = BackupInfo.html; sourceTree = "<group>"; };
+		C9A1C1AA1E502195009E65D6 /* BackupInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = BackupInfo.html; path = ../Resources/BackupInfo.html; sourceTree = "<group>"; };
 		C9A1C1CD1E6CDBFB009E65D6 /* RootTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTests.swift; sourceTree = "<group>"; };
 		C9A262CD1E170BD4004E6CEB /* AuthenticatorScreenshots.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorScreenshots.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorScreenshots.swift; sourceTree = "<group>"; };
