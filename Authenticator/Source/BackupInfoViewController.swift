@@ -25,12 +25,13 @@
 
 import UIKit
 import SafariServices
+import WebKit
 
-class BackupInfoViewController: UIViewController, UIWebViewDelegate {
+class BackupInfoViewController: UIViewController, WKNavigationDelegate {
     private var viewModel: BackupInfo.ViewModel
     private let dispatchAction: (BackupInfo.Effect) -> Void
 
-    private let webView = UIWebView()
+    private let webView = WKWebView()
 
     // MARK: Initialization
 
@@ -52,7 +53,7 @@ class BackupInfoViewController: UIViewController, UIWebViewDelegate {
 
     override func loadView() {
         view = webView
-        webView.delegate = self
+        webView.navigationDelegate = self
     }
 
     override func viewDidLoad() {
@@ -77,11 +78,11 @@ class BackupInfoViewController: UIViewController, UIWebViewDelegate {
         dispatchAction(.Done)
     }
 
-    // MARK: - UIWebViewDelegate
+    // MARK: - WKNavigationDelegate
 
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
         // If the resuest is not for a file in the bundle, request it from Safari instead.
-        if let url = request.URL where url.scheme != "file" {
+        if let url = navigationAction.request.URL where url.scheme != "file" {
             if #available(iOS 9.0, *) {
                 let safariViewController = SFSafariViewController(URL: url)
                 presentViewController(safariViewController, animated: true, completion: nil)
@@ -89,8 +90,9 @@ class BackupInfoViewController: UIViewController, UIWebViewDelegate {
                 // Fallback on earlier versions
                 UIApplication.sharedApplication().openURL(url)
             }
-            return false
+            decisionHandler(.Cancel)
+        } else {
+            decisionHandler(.Allow)
         }
-        return true
     }
 }
