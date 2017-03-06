@@ -58,6 +58,9 @@ class BackupInfoViewController: UIViewController, UIWebViewDelegate {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.otpBackgroundColor
+        // Prevent a flash of white before WebKit fully loads the HTML content.
+        webView.opaque = false
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done,
                                                             target: self,
                                                             action: #selector(done))
