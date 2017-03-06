@@ -24,6 +24,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class BackupInfoViewController: UIViewController, UIWebViewDelegate {
     private var viewModel: BackupInfo.ViewModel
@@ -81,7 +82,13 @@ class BackupInfoViewController: UIViewController, UIWebViewDelegate {
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         // If the resuest is not for a file in the bundle, request it from Safari instead.
         if let url = request.URL where url.scheme != "file" {
-            UIApplication.sharedApplication().openURL(url)
+            if #available(iOS 9.0, *) {
+                let safariViewController = SFSafariViewController(URL: url)
+                presentViewController(safariViewController, animated: true, completion: nil)
+            } else {
+                // Fallback on earlier versions
+                UIApplication.sharedApplication().openURL(url)
+            }
             return false
         }
         return true
