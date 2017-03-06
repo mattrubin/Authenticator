@@ -59,6 +59,8 @@ class BackupInfoViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = "Backups"
+
         view.backgroundColor = UIColor.otpBackgroundColor
         // Prevent a flash of white before WebKit fully loads the HTML content.
         webView.opaque = false
