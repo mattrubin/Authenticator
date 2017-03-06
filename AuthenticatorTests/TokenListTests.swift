@@ -56,6 +56,21 @@ class TokenListTests: XCTestCase {
         XCTAssertNil(effect)
         XCTAssertTrue(viewModel.isFiltering)
     }
+
+    func testActionShowBackupInfo() {
+        var tokenList = mockList([])
+        let action: TokenList.Action = .ShowBackupInfo
+        let effect = tokenList.update(action)
+        // TODO: check that the token list hasn't changed
+
+        switch effect {
+        case .Some(.ShowBackupInfo):
+            break
+        default:
+            XCTFail("Expected .ShowBackupInfo, got \(effect)")
+            return
+        }
+    }
 }
 
 func mockList(list: [(String, String)]) -> TokenList {
