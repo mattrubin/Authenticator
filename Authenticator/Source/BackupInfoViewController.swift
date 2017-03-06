@@ -24,7 +24,6 @@
 //
 
 import UIKit
-import SafariServices
 import WebKit
 
 class BackupInfoViewController: UIViewController, WKNavigationDelegate {
@@ -85,13 +84,7 @@ class BackupInfoViewController: UIViewController, WKNavigationDelegate {
     func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
         // If the resuest is not for a file in the bundle, request it from Safari instead.
         if let url = navigationAction.request.URL where url.scheme != "file" {
-            if #available(iOS 9.0, *) {
-                let safariViewController = SFSafariViewController(URL: url)
-                presentViewController(safariViewController, animated: true, completion: nil)
-            } else {
-                // Fallback on earlier versions
-                UIApplication.sharedApplication().openURL(url)
-            }
+            dispatchAction(.OpenURL(url))
             decisionHandler(.Cancel)
         } else {
             decisionHandler(.Allow)

@@ -82,6 +82,31 @@ class RootTests: XCTestCase {
             XCTFail("Expected .None, got \(thirdViewModel.modal)")
         }
     }
+
+    func testOpenURL() {
+        var root = mockRoot()
+
+        guard let url = NSURL(string: "https://example.com") else {
+            XCTFail("Failed to initialize URL.")
+            return
+        }
+
+        let action: Root.Action = .BackupInfoEffect(.OpenURL(url))
+        let effect: Root.Effect?
+        do {
+            effect = try root.update(action)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+
+        switch effect {
+        case .Some(.OpenURL(let effectURL)):
+            XCTAssertEqual(effectURL, url)
+        default:
+            XCTFail("Expected .None, got \(effect)")
+        }
+    }
 }
 
 private func mockRoot() -> Root {

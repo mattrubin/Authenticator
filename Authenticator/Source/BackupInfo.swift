@@ -23,6 +23,8 @@
 //  SOFTWARE.
 //
 
+import Foundation
+
 struct BackupInfo {
 
     // MARK: View
@@ -37,5 +39,6 @@ struct BackupInfo {
 
     enum Effect {
         case Done
+        case OpenURL(NSURL)
     }
 }

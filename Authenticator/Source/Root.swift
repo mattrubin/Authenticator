@@ -23,6 +23,7 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import OneTimePassword
 
 struct Root: Component {
@@ -121,6 +122,7 @@ extension Root {
 
         case ShowErrorMessage(String)
         case ShowSuccessMessage(String)
+        case OpenURL(NSURL)
     }
 
     @warn_unused_result
@@ -304,6 +306,8 @@ extension Root {
         case .Done:
             modal = .None
             return nil
+        case let .OpenURL(url):
+            return .OpenURL(url)
         }
     }
 }
