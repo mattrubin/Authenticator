@@ -56,6 +56,69 @@ class TokenListTests: XCTestCase {
         XCTAssertNil(effect)
         XCTAssertTrue(viewModel.isFiltering)
     }
+
+    func testActionShowBackupInfo() {
+        var tokenList = mockList([])
+        let action: TokenList.Action = .ShowBackupInfo
+        let effect = tokenList.update(action)
+        // TODO: check that the token list hasn't changed
+
+        switch effect {
+        case .Some(.ShowBackupInfo):
+            break
+        default:
+            XCTFail("Expected .ShowBackupInfo, got \(effect)")
+            return
+        }
+    }
+
+    func testActionEquality() {
+        let persistentTokenA = mockPersistentToken(name: "Name", issuer: "Issuer")
+        let persistentTokenB = mockPersistentToken(name: "Something", issuer: "Else")
+
+        // BeginAddToken
+        XCTAssert(TokenList.Action.BeginAddToken == .BeginAddToken)
+        XCTAssert(TokenList.Action.BeginAddToken != .ClearFilter)
+
+        // EditPersistentToken(PersistentToken)
+        XCTAssert(TokenList.Action.EditPersistentToken(persistentTokenA) == .EditPersistentToken(persistentTokenA))
+        XCTAssert(TokenList.Action.EditPersistentToken(persistentTokenA) != .EditPersistentToken(persistentTokenB))
+        XCTAssert(TokenList.Action.EditPersistentToken(persistentTokenA) != .BeginAddToken)
+
+        // UpdatePersistentToken(PersistentToken)
+        XCTAssert(TokenList.Action.UpdatePersistentToken(persistentTokenA) == .UpdatePersistentToken(persistentTokenA))
+        XCTAssert(TokenList.Action.UpdatePersistentToken(persistentTokenA) != .UpdatePersistentToken(persistentTokenB))
+        XCTAssert(TokenList.Action.UpdatePersistentToken(persistentTokenA) != .BeginAddToken)
+
+        // MoveToken(fromIndex: Int, toIndex: Int)
+        XCTAssert(TokenList.Action.MoveToken(fromIndex: 0, toIndex: 1) == .MoveToken(fromIndex: 0, toIndex: 1))
+        XCTAssert(TokenList.Action.MoveToken(fromIndex: 0, toIndex: 1) != .MoveToken(fromIndex: 0, toIndex: 2))
+        XCTAssert(TokenList.Action.MoveToken(fromIndex: 2, toIndex: 1) != .MoveToken(fromIndex: 0, toIndex: 1))
+        XCTAssert(TokenList.Action.MoveToken(fromIndex: 0, toIndex: 1) != .BeginAddToken)
+
+        // DeletePersistentToken(PersistentToken)
+        XCTAssert(TokenList.Action.DeletePersistentToken(persistentTokenA) == .DeletePersistentToken(persistentTokenA))
+        XCTAssert(TokenList.Action.DeletePersistentToken(persistentTokenA) != .DeletePersistentToken(persistentTokenB))
+        XCTAssert(TokenList.Action.DeletePersistentToken(persistentTokenA) != .BeginAddToken)
+
+        // CopyPassword(String)
+        XCTAssert(TokenList.Action.CopyPassword("123") == .CopyPassword("123"))
+        XCTAssert(TokenList.Action.CopyPassword("123") != .CopyPassword("456"))
+        XCTAssert(TokenList.Action.CopyPassword("123") != .BeginAddToken)
+
+        // Filter(String)
+        XCTAssert(TokenList.Action.Filter("ABC") == .Filter("ABC"))
+        XCTAssert(TokenList.Action.Filter("ABC") != .Filter("XYZ"))
+        XCTAssert(TokenList.Action.Filter("ABC") != .BeginAddToken)
+
+        // ClearFilter
+        XCTAssert(TokenList.Action.ClearFilter == .ClearFilter)
+        XCTAssert(TokenList.Action.ClearFilter != .ShowBackupInfo)
+
+        // ShowBackupInfo
+        XCTAssert(TokenList.Action.ShowBackupInfo == .ShowBackupInfo)
+        XCTAssert(TokenList.Action.ShowBackupInfo != .BeginAddToken)
+    }
 }
 
 func mockList(list: [(String, String)]) -> TokenList {

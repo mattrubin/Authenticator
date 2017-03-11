@@ -25,6 +25,7 @@
 
 import Foundation
 import UIKit
+import SafariServices
 import OneTimePassword
 import SVProgressHUD
 
@@ -163,7 +164,24 @@ class AppController {
 
         case let .ShowSuccessMessage(message):
             SVProgressHUD.showSuccessWithStatus(message)
+
+        case let .OpenURL(url):
+            if #available(iOS 9.0, *) {
+                let safariViewController = SFSafariViewController(URL: url)
+                let presenter = topViewController(presentedFrom: rootViewController)
+                presenter.presentViewController(safariViewController, animated: true, completion: nil)
+            } else {
+                // Fallback on earlier versions
+                UIApplication.sharedApplication().openURL(url)
+            }
         }
+    }
+
+    private func topViewController(presentedFrom viewController: UIViewController) -> UIViewController {
+        guard let presentedViewController = viewController.presentedViewController else {
+            return viewController
+        }
+        return topViewController(presentedFrom: presentedViewController)
     }
 
     // MARK: - Public

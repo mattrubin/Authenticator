@@ -31,6 +31,10 @@
 		C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */; };
 		C9919CE21BA733FD006237C1 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CE11BA733FD006237C1 /* Section.swift */; };
 		C99B85251BC9AB7100A6C75D /* BarButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */; };
+		C9A1C1A61E501CB2009E65D6 /* BackupInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C1A51E501CB2009E65D6 /* BackupInfoViewController.swift */; };
+		C9A1C1A91E501D8B009E65D6 /* BackupInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C1A81E501D8B009E65D6 /* BackupInfo.swift */; };
+		C9A1C1AC1E5021A6009E65D6 /* BackupInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = C9A1C1AA1E502195009E65D6 /* BackupInfo.html */; };
+		C9A1C1CE1E6CDBFB009E65D6 /* RootTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C1CD1E6CDBFB009E65D6 /* RootTests.swift */; };
 		C9A262D01E170BD4004E6CEB /* AuthenticatorScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */; };
 		C9A262D81E170E3A004E6CEB /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262D71E170E3A004E6CEB /* SnapshotHelper.swift */; };
 		C9A262DA1E176A18004E6CEB /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262D91E176A18004E6CEB /* Demo.swift */; };
@@ -145,6 +149,10 @@
 		C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonHeaderView.swift; sourceTree = "<group>"; };
 		C9919CE11BA733FD006237C1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarButtonViewModel.swift; sourceTree = "<group>"; };
+		C9A1C1A51E501CB2009E65D6 /* BackupInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupInfoViewController.swift; sourceTree = "<group>"; };
+		C9A1C1A81E501D8B009E65D6 /* BackupInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupInfo.swift; sourceTree = "<group>"; };
+		C9A1C1AA1E502195009E65D6 /* BackupInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = BackupInfo.html; path = ../Resources/BackupInfo.html; sourceTree = "<group>"; };
+		C9A1C1CD1E6CDBFB009E65D6 /* RootTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTests.swift; sourceTree = "<group>"; };
 		C9A262CD1E170BD4004E6CEB /* AuthenticatorScreenshots.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorScreenshots.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorScreenshots.swift; sourceTree = "<group>"; };
 		C9A262D71E170E3A004E6CEB /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
@@ -215,6 +223,7 @@
 				C98C1C4917D2F03400A07D3F /* Token List */,
 				C9B0B9501BC9159300BD5844 /* Forms */,
 				C97CDF2D1BEF10B300D64406 /* Scanner */,
+				C9A1C1A71E501D5F009E65D6 /* BackupInfo */,
 				C98C1C4E17D2F14500A07D3F /* Utility */,
 			);
 			path = Source;
@@ -408,6 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */,
+				C9A1C1CD1E6CDBFB009E65D6 /* RootTests.swift */,
 				CCC409751DB28BFE000A050D /* TableDiffTests.swift */,
 				CC46C4721DB3040300EB4605 /* TokenListTests.swift */,
 				CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */,
@@ -417,6 +427,16 @@
 				C99112691E2073710006A6C0 /* UITableViewUpdateTests.swift */,
 			);
 			path = AuthenticatorTests;
+			sourceTree = "<group>";
+		};
+		C9A1C1A71E501D5F009E65D6 /* BackupInfo */ = {
+			isa = PBXGroup;
+			children = (
+				C9A1C1A81E501D8B009E65D6 /* BackupInfo.swift */,
+				C9A1C1A51E501CB2009E65D6 /* BackupInfoViewController.swift */,
+				C9A1C1AA1E502195009E65D6 /* BackupInfo.html */,
+			);
+			name = BackupInfo;
 			sourceTree = "<group>";
 		};
 		C9A262CE1E170BD4004E6CEB /* AuthenticatorScreenshots */ = {
@@ -586,6 +606,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A1C1AC1E5021A6009E65D6 /* BackupInfo.html in Resources */,
 				C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */,
 				C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */,
 				C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */,
@@ -642,9 +663,11 @@
 				C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */,
 				C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */,
 				C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */,
+				C9A1C1A91E501D8B009E65D6 /* BackupInfo.swift in Sources */,
 				C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */,
 				C99069D1180CBAC900BAEF53 /* TokenScannerViewController.swift in Sources */,
 				C9EB448E1C52A74200ACFA87 /* Component.swift in Sources */,
+				C9A1C1A61E501CB2009E65D6 /* BackupInfoViewController.swift in Sources */,
 				C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */,
 				C968D1151CB4C639004ED7BB /* DisplayTime.swift in Sources */,
 				8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */,
@@ -672,6 +695,7 @@
 				C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */,
 				CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */,
 				CC471EED1DC1377F006858AC /* MockTableView.swift in Sources */,
+				C9A1C1CE1E6CDBFB009E65D6 /* RootTests.swift in Sources */,
 				CC46C4731DB3040300EB4605 /* TokenListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

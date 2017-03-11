@@ -41,6 +41,10 @@ class OpaqueNavigationController: UINavigationController {
         toolbar.barTintColor = UIColor.otpBarBackgroundColor
         toolbar.tintColor = UIColor.otpBarForegroundColor
     }
+
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
 }
 
 class RootViewController: OpaqueNavigationController {
@@ -128,8 +132,24 @@ extension RootViewController {
                 )
                 presentViewController(editController)
             }
+
+        case .Info(let backupInfoViewModel):
+            updateWithBackupInfoViewModel(backupInfoViewModel)
         }
         currentViewModel = viewModel
+    }
+
+    private func updateWithBackupInfoViewModel(backupInfoViewModel: BackupInfo.ViewModel) {
+        if case .Info = currentViewModel.modal,
+            let backupInfoViewController = modalNavController?.topViewController as? BackupInfoViewController {
+            backupInfoViewController.updateWithViewModel(backupInfoViewModel)
+        } else {
+            let backupInfoViewController = BackupInfoViewController(
+                viewModel: backupInfoViewModel,
+                dispatchAction: compose(Root.Action.BackupInfoEffect, dispatchAction)
+            )
+            presentViewController(backupInfoViewController)
+        }
     }
 }
 
