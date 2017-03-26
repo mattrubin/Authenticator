@@ -46,6 +46,16 @@ class BackupInfoViewController: UIViewController, WKNavigationDelegate {
 
     func updateWithViewModel(viewModel: BackupInfo.ViewModel) {
         self.viewModel = viewModel
+        applyViewModel()
+    }
+
+    private func applyViewModel() {
+        if title != viewModel.title {
+            title = viewModel.title
+        }
+        if webView.URL != viewModel.url {
+            webView.loadRequest(NSURLRequest(URL: viewModel.url))
+        }
     }
 
     // MARK: View Lifecycle
@@ -58,7 +68,7 @@ class BackupInfoViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Backups"
+        applyViewModel()
 
         view.backgroundColor = UIColor.otpBackgroundColor
         // Prevent a flash of white before WebKit fully loads the HTML content.
@@ -67,10 +77,6 @@ class BackupInfoViewController: UIViewController, WKNavigationDelegate {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done,
                                                             target: self,
                                                             action: #selector(done))
-
-        if let path = NSBundle.mainBundle().pathForResource("BackupInfo", ofType: "html") {
-            webView.loadRequest(NSURLRequest(URL: NSURL(fileURLWithPath: path)))
-        }
     }
 
     // MARK: Target Actions

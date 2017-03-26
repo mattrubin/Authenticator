@@ -26,13 +26,24 @@
 import Foundation
 
 struct BackupInfo {
+    private let title = "Backups"
+    private let url: NSURL = {
+        guard let path = NSBundle.mainBundle().pathForResource("BackupInfo", ofType: "html") else {
+            // FIXME: Fail more gracefully
+            fatalError()
+        }
+        return NSURL(fileURLWithPath: path)
+    }()
 
     // MARK: View
 
-    struct ViewModel {}
+    struct ViewModel {
+        let title: String
+        let url: NSURL
+    }
 
     var viewModel: ViewModel {
-        return ViewModel()
+        return ViewModel(title: title, url: url)
     }
 
     // MARK: Update
