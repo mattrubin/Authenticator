@@ -42,6 +42,10 @@ struct Info {
         return Info(title: "Backups", htmlFileName: "BackupInfo")
     }
 
+    static func licenseInfo() -> Info {
+        return Info(title: "Acknowledgements", htmlFileName: "Acknowledgements")
+    }
+
     // MARK: View
 
     struct ViewModel {
