@@ -26,14 +26,21 @@
 import Foundation
 
 struct Info {
-    private let title = "Backups"
-    private let url: NSURL = {
-        guard let path = NSBundle.mainBundle().pathForResource("BackupInfo", ofType: "html") else {
+    private let title: String
+    private let url: NSURL
+
+    private init(title: String, htmlFileName: String) {
+        self.title = title
+        guard let path = NSBundle.mainBundle().pathForResource(htmlFileName, ofType: "html") else {
             // FIXME: Fail more gracefully
             fatalError()
         }
-        return NSURL(fileURLWithPath: path)
-    }()
+        url = NSURL(fileURLWithPath: path)
+    }
+
+    static func backupInfo() -> Info {
+        return Info(title: "Backups", htmlFileName: "BackupInfo")
+    }
 
     // MARK: View
 

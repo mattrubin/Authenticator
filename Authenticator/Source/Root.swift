@@ -234,7 +234,7 @@ extension Root {
             return .ShowSuccessMessage(message)
 
         case .ShowBackupInfo:
-            modal = .Info(Info())
+            modal = .Info(Info.backupInfo())
             return nil
         }
     }
