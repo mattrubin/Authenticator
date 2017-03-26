@@ -137,7 +137,6 @@ class RootTests: XCTestCase {
         }
     }
 
-
     func testOpenURL() {
         var root = mockRoot()
 
