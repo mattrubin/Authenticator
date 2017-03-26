@@ -72,6 +72,21 @@ class TokenListTests: XCTestCase {
         }
     }
 
+    func testActionShowLicenseInfo() {
+        var tokenList = mockList([])
+        let action: TokenList.Action = .ShowLicenseInfo
+        let effect = tokenList.update(action)
+        // TODO: check that the token list hasn't changed
+
+        switch effect {
+        case .Some(.ShowLicenseInfo):
+            break
+        default:
+            XCTFail("Expected .ShowLicenseInfo, got \(effect)")
+            return
+        }
+    }
+
     func testActionEquality() {
         let persistentTokenA = mockPersistentToken(name: "Name", issuer: "Issuer")
         let persistentTokenB = mockPersistentToken(name: "Something", issuer: "Else")
@@ -118,6 +133,10 @@ class TokenListTests: XCTestCase {
         // ShowBackupInfo
         XCTAssert(TokenList.Action.ShowBackupInfo == .ShowBackupInfo)
         XCTAssert(TokenList.Action.ShowBackupInfo != .BeginAddToken)
+
+        // ShowLicenseInfo
+        XCTAssert(TokenList.Action.ShowLicenseInfo == .ShowLicenseInfo)
+        XCTAssert(TokenList.Action.ShowLicenseInfo != .BeginAddToken)
     }
 }
 

@@ -54,9 +54,8 @@ class RootTests: XCTestCase {
         // Ensure the backup info modal is visible.
         let secondViewModel = root.viewModel
         switch secondViewModel.modal {
-        case .Info:
-            // This is the expected case
-            break
+        case .Info(let infoViewModel):
+            XCTAssert(infoViewModel.title == "Backups")
         default:
             XCTFail("Expected .Info, got \(secondViewModel.modal)")
         }
@@ -82,6 +81,62 @@ class RootTests: XCTestCase {
             XCTFail("Expected .None, got \(thirdViewModel.modal)")
         }
     }
+
+    func testShowLicenseInfo() {
+        var root = mockRoot()
+
+        // Ensure there is no modal visible.
+        let firstViewModel = root.viewModel
+        switch firstViewModel.modal {
+        case .None:
+            // This is the expected case
+            break
+        default:
+            XCTFail("Expected .None, got \(firstViewModel.modal)")
+        }
+
+        // Show the license info.
+        let showAction: Root.Action = .TokenListAction(.ShowLicenseInfo)
+        let showEffect: Root.Effect?
+        do {
+            showEffect = try root.update(showAction)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertNil(showEffect)
+
+        // Ensure the license info modal is visible.
+        let secondViewModel = root.viewModel
+        switch secondViewModel.modal {
+        case .Info(let infoViewModel):
+            XCTAssert(infoViewModel.title == "Acknowledgements")
+        default:
+            XCTFail("Expected .Info, got \(secondViewModel.modal)")
+        }
+
+        // Hide the license info.
+        let hideAction: Root.Action = .InfoEffect(.Done)
+        let hideEffect: Root.Effect?
+        do {
+            hideEffect = try root.update(hideAction)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertNil(hideEffect)
+
+        // Ensure the license info modal no longer visible.
+        let thirdViewModel = root.viewModel
+        switch thirdViewModel.modal {
+        case .None:
+            // This is the expected case
+            break
+        default:
+            XCTFail("Expected .None, got \(thirdViewModel.modal)")
+        }
+    }
+
 
     func testOpenURL() {
         var root = mockRoot()
