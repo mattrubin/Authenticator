@@ -101,8 +101,13 @@ class SearchField: UIView {
         textFieldFrame.size.width = bounds.size.width
         textField.frame = textFieldFrame
         textField.center = CGPoint(x: bounds.size.width * 0.5, y: bounds.size.height * 0.5)
-    }
 
+        if !textField.enabled {
+            infoButton.sizeToFit()
+            infoButton.center.y = textField.center.y
+            infoButton.center.x = textField.frame.maxX - (infoButton.frame.width / 2 + 6)
+        }
+    }
 }
 
 // MARK: TokenListPresenter
@@ -115,10 +120,25 @@ extension SearchField {
         textField.leftViewMode = viewModel.ringProgress != nil ? .Always : .Never
 
         // Only display text field as editable if there are tokens to filter
+        let textFieldWasEnabled = textField.enabled
         textField.enabled = viewModel.hasTokens
         textField.borderStyle = viewModel.hasTokens ? .RoundedRect : .None
         textField.backgroundColor = viewModel.hasTokens ?
             UIColor.otpLightColor.colorWithAlphaComponent(0.1) : UIColor.clearColor()
+
+        // Ensure the info button can be tapped even if the text field is disabled.
+        if textField.enabled && !textFieldWasEnabled {
+            infoButton.removeFromSuperview()
+
+            textField.rightView = infoButton
+            textField.rightViewMode = .Always
+        } else if !textField.enabled && textFieldWasEnabled {
+            textField.rightView = nil
+            textField.rightViewMode = .Never
+
+            infoButton.removeFromSuperview()
+            self.addSubview(infoButton)
+        }
     }
 }
 
