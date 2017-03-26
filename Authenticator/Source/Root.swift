@@ -236,6 +236,10 @@ extension Root {
         case .ShowBackupInfo:
             modal = .Info(Info.backupInfo())
             return nil
+
+        case .ShowLicenseInfo:
+            modal = .Info(Info.licenseInfo())
+            return nil
         }
     }
 

@@ -54,6 +54,8 @@ class SearchField: UIView {
         frame: CGRect(origin: .zero, size: CGSize(width: 22, height: 22))
     )
 
+    let infoButton = UIButton(type: .InfoLight)
+
     let textField: UITextField = SearchTextField()
 
     private func setupTextField() {
@@ -70,6 +72,8 @@ class SearchField: UIView {
         textField.backgroundColor = UIColor.otpLightColor.colorWithAlphaComponent(0.2)
         textField.leftView = ring
         textField.leftViewMode = .Always
+        textField.rightView = infoButton
+        textField.rightViewMode = .Always
         textField.borderStyle = .RoundedRect
         textField.clearButtonMode = .Always
         textField.autocorrectionType = .No
@@ -122,6 +126,10 @@ extension SearchField {
 class SearchTextField: UITextField {
     override func leftViewRectForBounds(bounds: CGRect) -> CGRect {
         return super.leftViewRectForBounds(bounds).offsetBy(dx: 6, dy: 0)
+    }
+
+    override func rightViewRectForBounds(bounds: CGRect) -> CGRect {
+        return super.rightViewRectForBounds(bounds).offsetBy(dx: -6, dy: 0)
     }
 
     override func placeholderRectForBounds(bounds: CGRect) -> CGRect {

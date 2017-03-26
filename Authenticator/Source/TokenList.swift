@@ -105,6 +105,7 @@ extension TokenList {
         case ClearFilter
 
         case ShowBackupInfo
+        case ShowLicenseInfo
     }
 
     enum Event {
@@ -132,6 +133,7 @@ extension TokenList {
         case ShowErrorMessage(String)
         case ShowSuccessMessage(String)
         case ShowBackupInfo
+        case ShowLicenseInfo
     }
 
     @warn_unused_result
@@ -170,6 +172,9 @@ extension TokenList {
 
         case .ShowBackupInfo:
             return .ShowBackupInfo
+
+        case .ShowLicenseInfo:
+            return .ShowLicenseInfo
         }
     }
 
@@ -221,8 +226,11 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
         return l == r
     case (.ShowBackupInfo, .ShowBackupInfo):
         return true
+    case (.ShowLicenseInfo, .ShowLicenseInfo):
+        return true
     case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _), (.MoveToken, _),
-         (.DeletePersistentToken, _), (.CopyPassword, _), (.Filter, _), (.ClearFilter, _), (.ShowBackupInfo, _):
+         (.DeletePersistentToken, _), (.CopyPassword, _), (.Filter, _), (.ClearFilter, _), (.ShowBackupInfo, _),
+         (.ShowLicenseInfo, _):
         // Using this verbose case for non-matching `Action`s instead of `default` ensures a
         // compiler error if a new `Action` is added and not expicitly checked for equality.
         return false

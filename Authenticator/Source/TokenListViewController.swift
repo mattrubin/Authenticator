@@ -146,6 +146,10 @@ class TokenListViewController: UITableViewController {
         warningButton.addTarget(self, action: #selector(showBackupInfo), forControlEvents: .TouchUpInside)
         view.addSubview(warningButton)
 
+        searchBar.infoButton.addTarget(self,
+                                       action: #selector(TokenListViewController.showLicenseInfo),
+                                       forControlEvents: .TouchUpInside)
+
         // Update with current viewModel
         self.updatePeripheralViews()
     }
@@ -180,6 +184,10 @@ class TokenListViewController: UITableViewController {
 
     func showBackupInfo() {
         dispatchAction(.ShowBackupInfo)
+    }
+
+    func showLicenseInfo() {
+        dispatchAction(.ShowLicenseInfo)
     }
 }
 
