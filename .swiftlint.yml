@@ -27,6 +27,9 @@ disabled_rules:
   - line_length
   - todo
 
+cyclomatic_complexity:
+  warning: 15
+
 trailing_comma:
   mandatory_comma: true
 
