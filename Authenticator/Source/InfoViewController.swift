@@ -1,5 +1,5 @@
 //
-//  BackupInfoViewController.swift
+//  InfoViewController.swift
 //  Authenticator
 //
 //  Copyright (c) 2017 Authenticator authors
@@ -26,15 +26,15 @@
 import UIKit
 import WebKit
 
-class BackupInfoViewController: UIViewController, WKNavigationDelegate {
-    private var viewModel: BackupInfo.ViewModel
-    private let dispatchAction: (BackupInfo.Effect) -> Void
+class InfoViewController: UIViewController, WKNavigationDelegate {
+    private var viewModel: Info.ViewModel
+    private let dispatchAction: (Info.Effect) -> Void
 
     private let webView = WKWebView()
 
     // MARK: Initialization
 
-    init(viewModel: BackupInfo.ViewModel, dispatchAction: (BackupInfo.Effect) -> Void) {
+    init(viewModel: Info.ViewModel, dispatchAction: (Info.Effect) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
@@ -44,7 +44,7 @@ class BackupInfoViewController: UIViewController, WKNavigationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateWithViewModel(viewModel: BackupInfo.ViewModel) {
+    func updateWithViewModel(viewModel: Info.ViewModel) {
         self.viewModel = viewModel
         applyViewModel()
     }

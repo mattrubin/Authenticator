@@ -62,7 +62,7 @@ class RootTests: XCTestCase {
         }
 
         // Hide the backup info.
-        let hideAction: Root.Action = .BackupInfoEffect(.Done)
+        let hideAction: Root.Action = .InfoEffect(.Done)
         let hideEffect: Root.Effect?
         do {
             hideEffect = try root.update(hideAction)
@@ -91,7 +91,7 @@ class RootTests: XCTestCase {
             return
         }
 
-        let action: Root.Action = .BackupInfoEffect(.OpenURL(url))
+        let action: Root.Action = .InfoEffect(.OpenURL(url))
         let effect: Root.Effect?
         do {
             effect = try root.update(action)

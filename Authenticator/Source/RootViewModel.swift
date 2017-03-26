@@ -32,6 +32,6 @@ struct RootViewModel {
         case Scanner(TokenScanner.ViewModel)
         case EntryForm(TokenEntryForm.ViewModel)
         case EditForm(TokenEditForm.ViewModel)
-        case Info(BackupInfo.ViewModel)
+        case Info(Authenticator.Info.ViewModel)
     }
 }

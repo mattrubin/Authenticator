@@ -1,5 +1,5 @@
 //
-//  BackupInfo.swift
+//  Info.swift
 //  Authenticator
 //
 //  Copyright (c) 2017 Authenticator authors
@@ -25,7 +25,7 @@
 
 import Foundation
 
-struct BackupInfo {
+struct Info {
     private let title = "Backups"
     private let url: NSURL = {
         guard let path = NSBundle.mainBundle().pathForResource("BackupInfo", ofType: "html") else {
