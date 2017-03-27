@@ -234,12 +234,20 @@ extension Root {
             return .ShowSuccessMessage(message)
 
         case .ShowBackupInfo:
-            modal = .Info(Info.backupInfo())
-            return nil
+            do {
+                modal = .Info(try Info.backupInfo())
+                return nil
+            } catch {
+                return .ShowErrorMessage("Failed to load backup info.")
+            }
 
         case .ShowLicenseInfo:
-            modal = .Info(Info.licenseInfo())
-            return nil
+            do {
+                modal = .Info(try Info.licenseInfo())
+                return nil
+            } catch {
+                return .ShowErrorMessage("Failed to load license info.")
+            }
         }
     }
 

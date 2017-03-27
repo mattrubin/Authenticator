@@ -29,21 +29,20 @@ struct Info {
     private let title: String
     private let url: NSURL
 
-    private init(title: String, htmlFileName: String) {
+    private init(title: String, htmlFileName: String) throws {
         self.title = title
         guard let path = NSBundle.mainBundle().pathForResource(htmlFileName, ofType: "html") else {
-            // FIXME: Fail more gracefully
-            fatalError()
+            throw Error.MissingFile(htmlFileName)
         }
         url = NSURL(fileURLWithPath: path)
     }
 
-    static func backupInfo() -> Info {
-        return Info(title: "Backups", htmlFileName: "BackupInfo")
+    static func backupInfo() throws -> Info {
+        return try Info(title: "Backups", htmlFileName: "BackupInfo")
     }
 
-    static func licenseInfo() -> Info {
-        return Info(title: "Acknowledgements", htmlFileName: "Acknowledgements")
+    static func licenseInfo() throws -> Info {
+        return try Info(title: "Acknowledgements", htmlFileName: "Acknowledgements")
     }
 
     // MARK: View
@@ -62,5 +61,11 @@ struct Info {
     enum Effect {
         case Done
         case OpenURL(NSURL)
+    }
+
+    // MARK: Errors
+
+    enum Error: ErrorType {
+        case MissingFile(String)
     }
 }
