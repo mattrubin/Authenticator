@@ -246,7 +246,7 @@ extension Root {
                 modal = .Info(try Info.licenseInfo())
                 return nil
             } catch {
-                return .ShowErrorMessage("Failed to load license info.")
+                return .ShowErrorMessage("Failed to load acknowledgements.")
             }
         }
     }
