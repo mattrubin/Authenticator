@@ -158,7 +158,7 @@ class RootTests: XCTestCase {
         case .some(.openURL(let effectURL)):
             XCTAssertEqual(effectURL, url)
         default:
-            XCTFail("Expected .none, got \(effect)")
+            XCTFail("Expected .none, got \(String(describing: effect))")
         }
     }
 }

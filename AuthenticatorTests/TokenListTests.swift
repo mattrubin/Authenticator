@@ -67,7 +67,7 @@ class TokenListTests: XCTestCase {
         case .some(.showBackupInfo):
             break
         default:
-            XCTFail("Expected .showBackupInfo, got \(effect)")
+            XCTFail("Expected .showBackupInfo, got \(String(describing: effect))")
             return
         }
     }
@@ -82,7 +82,7 @@ class TokenListTests: XCTestCase {
         case .some(.showLicenseInfo):
             break
         default:
-            XCTFail("Expected .showLicenseInfo, got \(effect)")
+            XCTFail("Expected .showLicenseInfo, got \(String(describing: effect))")
             return
         }
     }

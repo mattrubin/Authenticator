@@ -36,7 +36,7 @@ class TokenScannerTests: XCTestCase {
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
             case .cancel = requiredEffect else {
-                XCTFail("Expected effect .Cancel, got \(effect)")
+                XCTFail("Expected effect .Cancel, got \(String(describing: effect))")
                 return
         }
 
@@ -51,7 +51,7 @@ class TokenScannerTests: XCTestCase {
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
             case .beginManualTokenEntry = requiredEffect else {
-                XCTFail("Expected effect .BeginManualTokenEntry, got \(effect)")
+                XCTFail("Expected effect .BeginManualTokenEntry, got \(String(describing: effect))")
                 return
         }
 
@@ -66,7 +66,7 @@ class TokenScannerTests: XCTestCase {
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
             case .showErrorMessage(let message) = requiredEffect else {
-                XCTFail("Expected effect .ShowErrorMessage, got \(effect)")
+                XCTFail("Expected effect .ShowErrorMessage, got \(String(describing: effect))")
                 return
         }
         XCTAssertEqual(message, "Invalid Token")
@@ -83,7 +83,7 @@ class TokenScannerTests: XCTestCase {
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
             case .showErrorMessage(let message) = requiredEffect else {
-                XCTFail("Expected effect .ShowErrorMessage, got \(effect)")
+                XCTFail("Expected effect .ShowErrorMessage, got \(String(describing: effect))")
                 return
         }
         XCTAssertEqual(message, "Invalid Token")
@@ -100,7 +100,7 @@ class TokenScannerTests: XCTestCase {
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
             case .saveNewToken(let token) = requiredEffect else {
-                XCTFail("Expected effect .SaveNewToken, got \(effect)")
+                XCTFail("Expected effect .SaveNewToken, got \(String(describing: effect))")
                 return
         }
         // swiftlint:disable:next force_unwrapping
@@ -121,7 +121,7 @@ class TokenScannerTests: XCTestCase {
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
             case .showErrorMessage(let message) = requiredEffect else {
-                XCTFail("Expected effect .ShowErrorMessage, got \(effect)")
+                XCTFail("Expected effect .ShowErrorMessage, got \(String(describing: effect))")
                 return
         }
         XCTAssertEqual(message, "Capture Failed")
