@@ -134,7 +134,7 @@ class TokenRowCell: UITableViewCell {
         UIView.animate(withDuration: 0.3, animations: {
             self.passwordLabel.alpha = !editing ? 1 : 0.2
             self.nextPasswordButton.alpha = !editing ? 1 : 0
-        }) 
+        })
     }
 
     // MARK: - Actions

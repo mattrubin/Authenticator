@@ -42,7 +42,7 @@ class OpaqueNavigationController: UINavigationController {
         toolbar.tintColor = UIColor.otpBarForegroundColor
     }
 
-    override var preferredStatusBarStyle : UIStatusBarStyle {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 }

@@ -79,7 +79,7 @@ class SearchField: UIView {
         addSubview(textField)
     }
 
-    override var intrinsicContentSize : CGSize {
+    override var intrinsicContentSize: CGSize {
         return ring.frame.union(textField.frame).size
     }
 
