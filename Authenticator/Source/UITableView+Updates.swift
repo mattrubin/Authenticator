@@ -109,7 +109,7 @@ extension UITableView {
 
         if let indexPath = lastInsertedRow {
             // Scrolls to the newly inserted token at the smallest row index in the tableView using the minimum amount
-            // of scrolling necessary (.None)
+            // of scrolling necessary (.none)
             scrollToRow(at: indexPath, at: .none, animated: true)
         }
     }

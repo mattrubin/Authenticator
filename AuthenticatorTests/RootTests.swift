@@ -33,15 +33,15 @@ class RootTests: XCTestCase {
         // Ensure there is no modal visible.
         let firstViewModel = root.viewModel
         switch firstViewModel.modal {
-        case .None:
+        case .none:
             // This is the expected case
             break
         default:
-            XCTFail("Expected .None, got \(firstViewModel.modal)")
+            XCTFail("Expected .none, got \(firstViewModel.modal)")
         }
 
         // Show the backup info.
-        let showAction: Root.Action = .TokenListAction(.ShowBackupInfo)
+        let showAction: Root.Action = .tokenListAction(.showBackupInfo)
         let showEffect: Root.Effect?
         do {
             showEffect = try root.update(showAction)
@@ -54,14 +54,14 @@ class RootTests: XCTestCase {
         // Ensure the backup info modal is visible.
         let secondViewModel = root.viewModel
         switch secondViewModel.modal {
-        case .Info(let infoViewModel):
+        case .info(let infoViewModel):
             XCTAssert(infoViewModel.title == "Backups")
         default:
             XCTFail("Expected .Info, got \(secondViewModel.modal)")
         }
 
         // Hide the backup info.
-        let hideAction: Root.Action = .InfoEffect(.Done)
+        let hideAction: Root.Action = .infoEffect(.done)
         let hideEffect: Root.Effect?
         do {
             hideEffect = try root.update(hideAction)
@@ -74,11 +74,11 @@ class RootTests: XCTestCase {
         // Ensure the backup info modal no longer visible.
         let thirdViewModel = root.viewModel
         switch thirdViewModel.modal {
-        case .None:
+        case .none:
             // This is the expected case
             break
         default:
-            XCTFail("Expected .None, got \(thirdViewModel.modal)")
+            XCTFail("Expected .none, got \(thirdViewModel.modal)")
         }
     }
 
@@ -88,15 +88,15 @@ class RootTests: XCTestCase {
         // Ensure there is no modal visible.
         let firstViewModel = root.viewModel
         switch firstViewModel.modal {
-        case .None:
+        case .none:
             // This is the expected case
             break
         default:
-            XCTFail("Expected .None, got \(firstViewModel.modal)")
+            XCTFail("Expected .none, got \(firstViewModel.modal)")
         }
 
         // Show the license info.
-        let showAction: Root.Action = .TokenListAction(.ShowLicenseInfo)
+        let showAction: Root.Action = .tokenListAction(.showLicenseInfo)
         let showEffect: Root.Effect?
         do {
             showEffect = try root.update(showAction)
@@ -109,14 +109,14 @@ class RootTests: XCTestCase {
         // Ensure the license info modal is visible.
         let secondViewModel = root.viewModel
         switch secondViewModel.modal {
-        case .Info(let infoViewModel):
+        case .info(let infoViewModel):
             XCTAssert(infoViewModel.title == "Acknowledgements")
         default:
             XCTFail("Expected .Info, got \(secondViewModel.modal)")
         }
 
         // Hide the license info.
-        let hideAction: Root.Action = .InfoEffect(.Done)
+        let hideAction: Root.Action = .infoEffect(.done)
         let hideEffect: Root.Effect?
         do {
             hideEffect = try root.update(hideAction)
@@ -129,11 +129,11 @@ class RootTests: XCTestCase {
         // Ensure the license info modal no longer visible.
         let thirdViewModel = root.viewModel
         switch thirdViewModel.modal {
-        case .None:
+        case .none:
             // This is the expected case
             break
         default:
-            XCTFail("Expected .None, got \(thirdViewModel.modal)")
+            XCTFail("Expected .none, got \(thirdViewModel.modal)")
         }
     }
 
@@ -145,7 +145,7 @@ class RootTests: XCTestCase {
             return
         }
 
-        let action: Root.Action = .InfoEffect(.OpenURL(url))
+        let action: Root.Action = .infoEffect(.openURL(url))
         let effect: Root.Effect?
         do {
             effect = try root.update(action)
@@ -155,10 +155,10 @@ class RootTests: XCTestCase {
         }
 
         switch effect {
-        case .Some(.OpenURL(let effectURL)):
+        case .some(.openURL(let effectURL)):
             XCTAssertEqual(effectURL, url)
         default:
-            XCTFail("Expected .None, got \(effect)")
+            XCTFail("Expected .none, got \(effect)")
         }
     }
 }
@@ -166,7 +166,7 @@ class RootTests: XCTestCase {
 private func mockRoot() -> Root {
     return Root(
         persistentTokens: [],
-        displayTime: DisplayTime(date: NSDate()),
+        displayTime: DisplayTime(date: Date()),
         deviceCanScan: false
     )
 }

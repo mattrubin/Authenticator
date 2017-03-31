@@ -30,9 +30,9 @@ import XCTest
 class TableDiffTests: XCTestCase {
     func testNoChanges() {
         // swiftlint:disable force_unwrapping
-        let generator = Generator(factor: .Timer(period: 60),
-                                  secret: "secret".dataUsingEncoding(String.Encoding.utf8)!,
-                                  algorithm: .SHA256,
+        let generator = Generator(factor: .timer(period: 60),
+                                  secret: "secret".data(using: String.Encoding.utf8)!,
+                                  algorithm: .sha256,
                                   digits: 6)!
         // swiftlint:enable force_unwrapping
         let token = Token(name: "Token Name",

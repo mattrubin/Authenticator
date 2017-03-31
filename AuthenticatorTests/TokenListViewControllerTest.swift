@@ -103,7 +103,7 @@ class TokenListViewControllerTest: XCTestCase {
 
         // Check that the table view contains the expected cells.
         XCTAssertEqual(controller.tableView.numberOfSections, 1)
-        XCTAssertEqual(controller.tableView.numberOfRowsInSection(0), viewModel.rowModels.count)
+        XCTAssertEqual(controller.tableView.numberOfRows(inSection: 0), viewModel.rowModels.count)
         let visibleCells = controller.tableView.visibleCells
         XCTAssertEqual(visibleCells.count, 2)
         for (rowModel, cell) in zip(viewModel.rowModels, visibleCells) {

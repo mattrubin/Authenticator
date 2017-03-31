@@ -39,11 +39,11 @@ class UITableViewUpdateTests: XCTestCase {
 
         // Update the table view.
         dataSource.titles = [["A"]]
-        let changes: [Change<NSIndexPath>] = [
-            .Insert(index: NSIndexPath(forRow: 0, inSection: 0)),
+        let changes: [Change<IndexPath>] = [
+            .insert(index: IndexPath(row: 0, section: 0)),
         ]
         tableView.applyChanges(changes, updateRow: { indexPath in
-            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
             XCTFail("Unexpected update of row at \(indexPath)")
         })
 
@@ -77,11 +77,11 @@ class UITableViewUpdateTests: XCTestCase {
 
         // Update the table view.
         dataSource.titles = [[]]
-        let changes: [Change<NSIndexPath>] = [
-            .Delete(index: NSIndexPath(forRow: 0, inSection: 0)),
+        let changes: [Change<IndexPath>] = [
+            .delete(index: IndexPath(row: 0, section: 0)),
         ]
         tableView.applyChanges(changes, updateRow: { indexPath in
-            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
             XCTFail("Unexpected update of row at \(indexPath)")
         })
 
@@ -113,11 +113,11 @@ class UITableViewUpdateTests: XCTestCase {
 
         // Update the table view.
         dataSource.titles = [["X!"]]
-        let changes: [Change<NSIndexPath>] = [
-            .Update(oldIndex: NSIndexPath(forRow: 0, inSection: 0), newIndex: NSIndexPath(forRow: 0, inSection: 0)),
+        let changes: [Change<IndexPath>] = [
+            .update(oldIndex: IndexPath(row: 0, section: 0), newIndex: IndexPath(row: 0, section: 0)),
         ]
         tableView.applyChanges(changes, updateRow: { indexPath in
-            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         })
 
         // Test the changes applied the table view.
@@ -152,14 +152,14 @@ class UITableViewUpdateTests: XCTestCase {
 
         // Update the table view.
         dataSource.titles = [["B!", "D"], ["E", "C"]]
-        let changes: [Change<NSIndexPath>] = [
-            .Insert(index: NSIndexPath(forRow: 0, inSection: 1)),
-            .Insert(index: NSIndexPath(forRow: 1, inSection: 0)),
-            .Update(oldIndex: NSIndexPath(forRow: 1, inSection: 0), newIndex: NSIndexPath(forRow: 0, inSection: 0)),
-            .Delete(index: NSIndexPath(forRow: 0, inSection: 0)),
+        let changes: [Change<IndexPath>] = [
+            .insert(index: IndexPath(row: 0, section: 1)),
+            .insert(index: IndexPath(row: 1, section: 0)),
+            .update(oldIndex: IndexPath(row: 1, section: 0), newIndex: IndexPath(row: 0, section: 0)),
+            .delete(index: IndexPath(row: 0, section: 0)),
         ]
         tableView.applyChanges(changes, updateRow: { indexPath in
-            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         })
 
         // Test the changes applied the table view.
@@ -200,15 +200,15 @@ class UITableViewUpdateTests: XCTestCase {
 
         // Update the table view.
         dataSource.titles = [["A", "B"], ["C", "D", "E"]]
-        let changes: [Change<NSIndexPath>] = [
-            .Insert(index: NSIndexPath(forRow: 0, inSection: 0)),
-            .Insert(index: NSIndexPath(forRow: 1, inSection: 1)),
-            .Insert(index: NSIndexPath(forRow: 2, inSection: 1)),
-            .Insert(index: NSIndexPath(forRow: 1, inSection: 0)),
-            .Insert(index: NSIndexPath(forRow: 0, inSection: 1)),
+        let changes: [Change<IndexPath>] = [
+            .insert(index: IndexPath(row: 0, section: 0)),
+            .insert(index: IndexPath(row: 1, section: 1)),
+            .insert(index: IndexPath(row: 2, section: 1)),
+            .insert(index: IndexPath(row: 1, section: 0)),
+            .insert(index: IndexPath(row: 0, section: 1)),
         ]
         tableView.applyChanges(changes, updateRow: { indexPath in
-            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         })
 
         // Test the changes applied the table view.
@@ -248,7 +248,7 @@ class MockTableViewDataSource: NSObject, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithClass(UITableViewCell)
+        let cell = tableView.dequeueReusableCellWithClass(UITableViewCell.self)
         cell.textLabel?.text = titles[indexPath.section][indexPath.row]
         return cell
     }
