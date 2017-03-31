@@ -212,8 +212,8 @@ extension TokenEntryForm {
             return .showErrorMessage("A secret and some identifier are required.")
         }
 
-        guard let secretData = Data(base32String: secret)
-            where secretData.length > 0 else {
+        guard let secretData = Data(base32String: secret),
+            secretData.length > 0 else {
                 return .showErrorMessage("The secret key is invalid.")
         }
 

@@ -91,7 +91,7 @@ class InfoViewController: UIViewController, WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         // If the resuest is not for a file in the bundle, request it from Safari instead.
-        if let url = navigationAction.request.url where url.scheme != "file" {
+        if let url = navigationAction.request.url, url.scheme != "file" {
             dispatchAction(.openURL(url))
             decisionHandler(.cancel)
         } else {

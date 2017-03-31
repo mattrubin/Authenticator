@@ -79,7 +79,7 @@ struct TokenList: Component {
     }
 
     fileprivate var filteredTokens: [PersistentToken] {
-        guard let filter = self.filter where !filter.isEmpty else {
+        guard let filter = self.filter, !filter.isEmpty else {
             return self.persistentTokens
         }
         let options: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive]

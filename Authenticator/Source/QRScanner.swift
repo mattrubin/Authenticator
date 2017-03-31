@@ -78,8 +78,8 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         let captureOutput = AVCaptureMetadataOutput()
         // The output must be added to the session before it can be checked for metadata types
         captureSession.addOutput(captureOutput)
-        guard let availableTypes = captureOutput.availableMetadataObjectTypes
-            where (availableTypes as NSArray).contains(AVMetadataObjectTypeQRCode) else {
+        guard let availableTypes = captureOutput.availableMetadataObjectTypes,
+            (availableTypes as NSArray).contains(AVMetadataObjectTypeQRCode) else {
                 throw CaptureSessionError.outputError
         }
         captureOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
@@ -100,8 +100,8 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         }
 
         for metadata in metadataObjects {
-            if let metadata = metadata as? AVMetadataMachineReadableCodeObject
-                where metadata.type == AVMetadataObjectTypeQRCode,
+            if let metadata = metadata as? AVMetadataMachineReadableCodeObject,
+                metadata.type == AVMetadataObjectTypeQRCode,
                 let string = metadata.stringValue {
                     // Dispatch to the main queue because setMetadataObjectsDelegate doesn't
                     DispatchQueue.main.async {
