@@ -176,7 +176,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let headerModel = viewModel.modelForHeaderInSection(section) else {
-            return CGFloat(FLT_EPSILON)
+            return CGFloat.ulpOfOne
         }
         return heightForHeaderModel(headerModel)
     }
