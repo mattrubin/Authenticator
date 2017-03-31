@@ -29,7 +29,7 @@ extension UITableView {
     /// Applies the given `Change`s to the table view, then scrolls to show the last inserted row.
     /// - parameter changes: An `Array` of `Change`s to apply.
     /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
-    func applyChanges(_ changes: [Change<IndexPath>], @noescape updateRow: (IndexPath) -> Void) {
+    func applyChanges(_ changes: [Change<IndexPath>], updateRow: (IndexPath) -> Void) {
         if changes.isEmpty {
             return
         }
@@ -80,7 +80,7 @@ extension UITableView {
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
     /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
     fileprivate func applyRowUpdates(fromChanges changes: [Change<IndexPath>],
-                                 @noescape updateRow: (IndexPath) -> Void) {
+                                     updateRow: (IndexPath) -> Void) {
         for change in changes {
             switch change {
             case let .update(_, indexPath):

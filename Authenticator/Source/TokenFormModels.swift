@@ -92,7 +92,7 @@ extension TextFieldRowViewModel {
 }
 
 extension SegmentedControlRowViewModel {
-    init(tokenType value: TokenType, @noescape changeAction: (TokenType) -> Action) {
+    init(tokenType value: TokenType, changeAction: (TokenType) -> Action) {
         let options = [
             (title: "Time Based", value: TokenType.timer),
             (title: "Counter Based", value: TokenType.counter),
@@ -100,7 +100,7 @@ extension SegmentedControlRowViewModel {
         self.init(options: options, value: value, changeAction: changeAction)
     }
 
-    init(digitCount value: Int, @noescape changeAction: (Int) -> Action) {
+    init(digitCount value: Int, changeAction: (Int) -> Action) {
         let options = [
             (title: "6 Digits", value: 6),
             (title: "7 Digits", value: 7),
@@ -109,7 +109,7 @@ extension SegmentedControlRowViewModel {
         self.init(options: options, value: value, changeAction: changeAction)
     }
 
-    init(algorithm value: Generator.Algorithm, @noescape changeAction: (Generator.Algorithm) -> Action) {
+    init(algorithm value: Generator.Algorithm, changeAction: (Generator.Algorithm) -> Action) {
         let options = [
             (title: "SHA-1", value: Generator.Algorithm.SHA1),
             (title: "SHA-256", value: Generator.Algorithm.SHA256),
