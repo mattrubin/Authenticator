@@ -125,7 +125,6 @@ extension Root {
         case openURL(URL)
     }
 
-    @warn_unused_result
     mutating func update(_ action: Action) throws -> Effect? {
         do {
             switch action {
@@ -165,7 +164,6 @@ extension Root {
         }
     }
 
-    @warn_unused_result
     mutating func update(_ event: Event) -> Effect? {
         switch event {
         case .tokenListEvent(let event):
@@ -189,7 +187,6 @@ extension Root {
         }
     }
 
-    @warn_unused_result
     fileprivate mutating func handleTokenListEvent(_ event: TokenList.Event) -> Effect? {
         let effect = tokenList.update(event)
         return effect.flatMap { effect in
@@ -197,7 +194,6 @@ extension Root {
         }
     }
 
-    @warn_unused_result
     fileprivate mutating func handleTokenListEffect(_ effect: TokenList.Effect) -> Effect? {
         switch effect {
         case .beginTokenEntry:
@@ -251,7 +247,6 @@ extension Root {
         }
     }
 
-    @warn_unused_result
     fileprivate mutating func handleTokenEntryFormEffect(_ effect: TokenEntryForm.Effect) -> Effect? {
         switch effect {
         case .cancel:
@@ -268,7 +263,6 @@ extension Root {
         }
     }
 
-    @warn_unused_result
     fileprivate mutating func handleTokenEditFormEffect(_ effect: TokenEditForm.Effect) -> Effect? {
         switch effect {
         case .cancel:
@@ -285,7 +279,6 @@ extension Root {
         }
     }
 
-    @warn_unused_result
     fileprivate mutating func handleTokenScannerEffect(_ effect: TokenScanner.Effect) -> Effect? {
         switch effect {
         case .cancel:
@@ -312,7 +305,6 @@ extension Root {
         }
     }
 
-    @warn_unused_result
     fileprivate mutating func handleInfoEffect(_ effect: Info.Effect) -> Effect? {
         switch effect {
         case .done:
@@ -330,7 +322,6 @@ private extension Root.Modal {
         let actualState: Root.Modal
     }
 
-    @warn_unused_result
     mutating func withEntryForm<ResultType>(_ body: (inout TokenEntryForm) -> ResultType) throws -> ResultType {
         guard case .entryForm(var form) = self else {
             throw Error(expectedType: TokenEntryForm.self, actualState: self)
@@ -340,7 +331,6 @@ private extension Root.Modal {
         return result
     }
 
-    @warn_unused_result
     mutating func withEditForm<ResultType>(_ body: (inout TokenEditForm) -> ResultType) throws -> ResultType {
         guard case .editForm(var form) = self else {
             throw Error(expectedType: TokenEditForm.self, actualState: self)
@@ -350,7 +340,6 @@ private extension Root.Modal {
         return result
     }
 
-    @warn_unused_result
     mutating func withScanner<ResultType>(_ body: (inout TokenScanner) -> ResultType) throws -> ResultType {
         guard case .scanner(var scanner) = self else {
             throw Error(expectedType: TokenScanner.self, actualState: self)

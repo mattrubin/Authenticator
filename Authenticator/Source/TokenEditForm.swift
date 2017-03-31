@@ -110,7 +110,6 @@ extension TokenEditForm {
         case showErrorMessage(String)
     }
 
-    @warn_unused_result
     mutating func update(_ action: Action) -> Effect? {
         switch action {
         case let .issuer(issuer):
@@ -125,7 +124,6 @@ extension TokenEditForm {
         return nil
     }
 
-    @warn_unused_result
     fileprivate mutating func submit() -> Effect? {
         guard isValid else {
             return .showErrorMessage("An issuer or name is required.")

@@ -136,7 +136,6 @@ extension TokenList {
         case showLicenseInfo
     }
 
-    @warn_unused_result
     mutating func update(_ action: Action) -> Effect? {
         switch action {
         case .beginAddToken:
@@ -178,7 +177,6 @@ extension TokenList {
         }
     }
 
-    @warn_unused_result
     mutating func update(_ event: Event) -> Effect? {
         switch event {
         case .updateDisplayTime(let displayTime):

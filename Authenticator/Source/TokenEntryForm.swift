@@ -181,7 +181,6 @@ extension TokenEntryForm {
         case showErrorMessage(String)
     }
 
-    @warn_unused_result
     mutating func update(_ action: Action) -> Effect? {
         switch action {
         case let .issuer(issuer):
@@ -206,7 +205,6 @@ extension TokenEntryForm {
         return nil
     }
 
-    @warn_unused_result
     fileprivate mutating func submit() -> Effect? {
         guard isValid else {
             return .showErrorMessage("A secret and some identifier are required.")
