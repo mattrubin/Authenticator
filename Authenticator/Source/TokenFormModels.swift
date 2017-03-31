@@ -111,9 +111,9 @@ extension SegmentedControlRowViewModel {
 
     init(algorithm value: Generator.Algorithm, changeAction: (Generator.Algorithm) -> Action) {
         let options = [
-            (title: "SHA-1", value: Generator.Algorithm.SHA1),
-            (title: "SHA-256", value: Generator.Algorithm.SHA256),
-            (title: "SHA-512", value: Generator.Algorithm.SHA512),
+            (title: "SHA-1", value: Generator.Algorithm.sha1),
+            (title: "SHA-256", value: Generator.Algorithm.sha256),
+            (title: "SHA-512", value: Generator.Algorithm.sha512),
         ]
         self.init(options: options, value: value, changeAction: changeAction)
     }

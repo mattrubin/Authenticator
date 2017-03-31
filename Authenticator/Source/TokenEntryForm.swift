@@ -26,8 +26,8 @@
 import Foundation
 import OneTimePassword
 
-private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
-private let defaultCounterFactor = Generator.Factor.Counter(0)
+private let defaultTimerFactor = Generator.Factor.timer(period: 30)
+private let defaultCounterFactor = Generator.Factor.counter(0)
 
 struct TokenEntryForm: Component {
     fileprivate var issuer: String = ""
@@ -35,7 +35,7 @@ struct TokenEntryForm: Component {
     fileprivate var secret: String = ""
     fileprivate var tokenType: TokenType = .timer
     fileprivate var digitCount: Int = 6
-    fileprivate var algorithm: Generator.Algorithm = .SHA1
+    fileprivate var algorithm: Generator.Algorithm = .sha1
 
     fileprivate var showsAdvancedOptions: Bool = false
 
@@ -142,31 +142,31 @@ extension TokenEntryForm {
     }
 
     fileprivate var tokenTypeRowModel: RowModel {
-        return .SegmentedControlRow(
+        return .segmentedControlRow(
             identity: "token.tokenType",
             viewModel: SegmentedControlRowViewModel(
                 tokenType: tokenType,
-                changeAction: Action.TokenType
+                changeAction: Action.tokenType
             )
         )
     }
 
     fileprivate var digitCountRowModel: RowModel {
-        return .SegmentedControlRow(
+        return .segmentedControlRow(
             identity: "token.digitCount",
             viewModel: SegmentedControlRowViewModel(
                 digitCount: digitCount,
-                changeAction: Action.DigitCount
+                changeAction: Action.digitCount
             )
         )
     }
 
     fileprivate var algorithmRowModel: RowModel {
-        return .SegmentedControlRow(
+        return .segmentedControlRow(
             identity: "token.algorithm",
             viewModel: SegmentedControlRowViewModel(
                 algorithm: algorithm,
-                changeAction: Action.Algorithm
+                changeAction: Action.algorithm
             )
         )
     }
@@ -194,7 +194,7 @@ extension TokenEntryForm {
             self.tokenType = tokenType
         case let .digitCount(digitCount):
             self.digitCount = digitCount
-        case let .Algorithm(algorithm):
+        case let .algorithm(algorithm):
             self.algorithm = algorithm
         case .showAdvancedOptions:
             showsAdvancedOptions = true

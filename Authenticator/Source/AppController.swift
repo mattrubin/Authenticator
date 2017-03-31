@@ -123,7 +123,7 @@ class AppController {
 
     fileprivate func handleEffect(_ effect: Root.Effect) {
         switch effect {
-        case let .AddToken(token, success, failure):
+        case let .addToken(token, success, failure):
             do {
                 try store.addToken(token)
                 handleEvent(success(store.persistentTokens))
@@ -131,7 +131,7 @@ class AppController {
                 handleEvent(failure(error))
             }
 
-        case let .SaveToken(token, persistentToken, success, failure):
+        case let .saveToken(token, persistentToken, success, failure):
             do {
                 try store.saveToken(token, toPersistentToken: persistentToken)
                 handleEvent(success(store.persistentTokens))
@@ -139,7 +139,7 @@ class AppController {
                 handleEvent(failure(error))
             }
 
-        case let .UpdatePersistentToken(persistentToken, success, failure):
+        case let .updatePersistentToken(persistentToken, success, failure):
             do {
                 try store.updatePersistentToken(persistentToken)
                 handleEvent(success(store.persistentTokens))
@@ -147,11 +147,11 @@ class AppController {
                 handleEvent(failure(error))
             }
 
-        case let .MoveToken(fromIndex, toIndex, success):
+        case let .moveToken(fromIndex, toIndex, success):
             store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
             handleEvent(success(store.persistentTokens))
 
-        case let .DeletePersistentToken(persistentToken, success, failure):
+        case let .deletePersistentToken(persistentToken, success, failure):
             do {
                 try store.deletePersistentToken(persistentToken)
                 handleEvent(success(store.persistentTokens))
@@ -191,7 +191,7 @@ class AppController {
     }
 
     func addTokenFromURL(_ token: Token) {
-        handleAction(.AddTokenFromURL(token))
+        handleAction(.addTokenFromURL(token))
     }
 }
 

@@ -48,7 +48,7 @@ struct Root: Component {
                 return .entryForm(form.viewModel)
             case .editForm(let form):
                 return .editForm(form.viewModel)
-            case info(let info):
+            case .info(let info):
                 return .info(info.viewModel)
             }
         }
@@ -56,7 +56,7 @@ struct Root: Component {
 
     init(persistentTokens: [PersistentToken], displayTime: DisplayTime, deviceCanScan: Bool) {
         tokenList = TokenList(persistentTokens: persistentTokens, displayTime: displayTime)
-        modal = .None
+        modal = .none
         self.deviceCanScan = deviceCanScan
     }
 }
@@ -155,10 +155,10 @@ extension Root {
             case .infoEffect(let effect):
                 return handleInfoEffect(effect)
 
-            case .AddTokenFromURL(let token):
-                return .AddToken(token,
-                                 success: Event.AddTokenFromURLSucceeded,
-                                 failure: Event.AddTokenFailed)
+            case .addTokenFromURL(let token):
+                return .addToken(token,
+                                 success: Event.addTokenFromURLSucceeded,
+                                 failure: Event.addTokenFailed)
             }
         } catch {
             throw ComponentError(underlyingError: error, action: action, component: self)
@@ -174,13 +174,13 @@ extension Root {
         case .updateDisplayTime(let displayTime):
             return handleTokenListEvent(.updateDisplayTime(displayTime))
 
-        case .AddTokenFromURLSucceeded(let persistentTokens):
-            return handleTokenListEvent(.TokenChangeSucceeded(persistentTokens))
+        case .addTokenFromURLSucceeded(let persistentTokens):
+            return handleTokenListEvent(.tokenChangeSucceeded(persistentTokens))
 
-        case .TokenFormSucceeded(let persistentTokens):
+        case .tokenFormSucceeded(let persistentTokens):
             // Dismiss the modal form.
             modal = .none
-            return handleTokenListEvent(.TokenChangeSucceeded(persistentTokens))
+            return handleTokenListEvent(.tokenChangeSucceeded(persistentTokens))
 
         case .addTokenFailed:
             return .showErrorMessage("Failed to add token.")
@@ -208,24 +208,24 @@ extension Root {
             }
             return nil
 
-        case .BeginTokenEdit(let persistentToken):
+        case .beginTokenEdit(let persistentToken):
             let form = TokenEditForm(persistentToken: persistentToken)
-            modal = .EditForm(form)
+            modal = .editForm(form)
             return nil
 
-        case let .UpdateToken(persistentToken, success, failure):
-            return .UpdatePersistentToken(persistentToken,
-                                          success: compose(success, Event.TokenListEvent),
-                                          failure: compose(failure, Event.TokenListEvent))
+        case let .updateToken(persistentToken, success, failure):
+            return .updatePersistentToken(persistentToken,
+                                          success: compose(success, Event.tokenListEvent),
+                                          failure: compose(failure, Event.tokenListEvent))
 
-        case let .MoveToken(fromIndex, toIndex, success):
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: compose(success, Event.TokenListEvent))
+        case let .moveToken(fromIndex, toIndex, success):
+            return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
+                              success: compose(success, Event.tokenListEvent))
 
-        case let .DeletePersistentToken(persistentToken, success, failure):
-            return .DeletePersistentToken(persistentToken,
-                                          success: compose(success, Event.TokenListEvent),
-                                          failure: compose(failure, Event.TokenListEvent))
+        case let .deletePersistentToken(persistentToken, success, failure):
+            return .deletePersistentToken(persistentToken,
+                                          success: compose(success, Event.tokenListEvent),
+                                          failure: compose(failure, Event.tokenListEvent))
 
         case .showErrorMessage(let message):
             return .showErrorMessage(message)
@@ -258,10 +258,10 @@ extension Root {
             modal = .none
             return nil
 
-        case .SaveNewToken(let token):
-            return .AddToken(token,
-                             success: Event.TokenFormSucceeded,
-                             failure: Event.AddTokenFailed)
+        case .saveNewToken(let token):
+            return .addToken(token,
+                             success: Event.tokenFormSucceeded,
+                             failure: Event.addTokenFailed)
 
         case .showErrorMessage(let message):
             return .showErrorMessage(message)
@@ -275,10 +275,10 @@ extension Root {
             modal = .none
             return nil
 
-        case let .SaveChanges(token, persistentToken):
-            return .SaveToken(token, persistentToken,
-                              success: Event.TokenFormSucceeded,
-                              failure: Event.SaveTokenFailed)
+        case let .saveChanges(token, persistentToken):
+            return .saveToken(token, persistentToken,
+                              success: Event.tokenFormSucceeded,
+                              failure: Event.saveTokenFailed)
 
         case .showErrorMessage(let message):
             return .showErrorMessage(message)
@@ -302,10 +302,10 @@ extension Root {
             modal = .entryForm(TokenEntryForm())
             return nil
 
-        case .SaveNewToken(let token):
-            return .AddToken(token,
-                             success: Event.TokenFormSucceeded,
-                             failure: Event.AddTokenFailed)
+        case .saveNewToken(let token):
+            return .addToken(token,
+                             success: Event.tokenFormSucceeded,
+                             failure: Event.addTokenFailed)
 
         case .showErrorMessage(let message):
             return .showErrorMessage(message)

@@ -52,14 +52,14 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         if let token = Token(url: url) {
             let message = "Do you want to add a token for “\(token.name)”?"
 
-            let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
+            let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .alert)
 
             let acceptHandler: (UIAlertAction) -> Void = { [weak app] (_) in
                 app?.addTokenFromURL(token)
             }
 
-            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: acceptHandler))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: acceptHandler))
 
             // TODO: Fix the confirmation alert presentation when a modal is open.
             window?.rootViewController?

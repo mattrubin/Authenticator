@@ -136,6 +136,6 @@ extension TokenEditForm {
             issuer: issuer,
             generator: persistentToken.token.generator
         )
-        return .SaveChanges(token, persistentToken)
+        return .saveChanges(token, persistentToken)
     }
 }

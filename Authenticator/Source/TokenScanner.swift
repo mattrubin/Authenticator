@@ -77,7 +77,7 @@ struct TokenScanner: Component {
                     return .showErrorMessage("Invalid Token")
             }
             tokenFound = true
-            return .SaveNewToken(token)
+            return .saveNewToken(token)
 
         case .scannerError(let error):
             print("Error: \(error)")

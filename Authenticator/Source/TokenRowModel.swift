@@ -46,15 +46,15 @@ struct TokenRowModel: Identifiable {
         name = persistentToken.token.name
         issuer = persistentToken.token.issuer
         password = TokenRowModel.chunkPassword(rawPassword)
-        if case .Counter = persistentToken.token.generator.factor {
+        if case .counter = persistentToken.token.generator.factor {
             showsButton = true
         } else {
             showsButton = false
         }
-        buttonAction = .UpdatePersistentToken(persistentToken)
-        selectAction = .CopyPassword(rawPassword)
-        editAction = .EditPersistentToken(persistentToken)
-        deleteAction = .DeletePersistentToken(persistentToken)
+        buttonAction = .updatePersistentToken(persistentToken)
+        selectAction = .copyPassword(rawPassword)
+        editAction = .editPersistentToken(persistentToken)
+        deleteAction = .deletePersistentToken(persistentToken)
         identifier = persistentToken.identifier
         canReorder = reorderable
     }

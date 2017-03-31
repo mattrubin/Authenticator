@@ -57,7 +57,7 @@ struct TokenList: Component {
     fileprivate var timeBasedTokenPeriods: [TimeInterval] {
         var periods = Set<TimeInterval>()
         persistentTokens.forEach { (persistentToken) in
-            if case .Timer(let period) = persistentToken.token.generator.factor {
+            if case .timer(let period) = persistentToken.token.generator.factor {
                 periods.insert(period)
             }
         }
@@ -142,22 +142,22 @@ extension TokenList {
         case .beginAddToken:
             return .beginTokenEntry
 
-        case .EditPersistentToken(let persistentToken):
-            return .BeginTokenEdit(persistentToken)
+        case .editPersistentToken(let persistentToken):
+            return .beginTokenEdit(persistentToken)
 
-        case .UpdatePersistentToken(let persistentToken):
-            return .UpdateToken(persistentToken,
-                                success: Event.TokenChangeSucceeded,
-                                failure: Event.UpdateTokenFailed)
+        case .updatePersistentToken(let persistentToken):
+            return .updateToken(persistentToken,
+                                success: Event.tokenChangeSucceeded,
+                                failure: Event.updateTokenFailed)
 
         case let .moveToken(fromIndex, toIndex):
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: Event.TokenChangeSucceeded)
+            return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
+                              success: Event.tokenChangeSucceeded)
 
-        case .DeletePersistentToken(let persistentToken):
-            return .DeletePersistentToken(persistentToken,
-                                          success: Event.TokenChangeSucceeded,
-                                          failure: Event.DeleteTokenFailed)
+        case .deletePersistentToken(let persistentToken):
+            return .deletePersistentToken(persistentToken,
+                                          success: Event.tokenChangeSucceeded,
+                                          failure: Event.deleteTokenFailed)
 
         case .copyPassword(let password):
             return copyPassword(password)
@@ -185,7 +185,7 @@ extension TokenList {
             self.displayTime = displayTime
             return nil
 
-        case .TokenChangeSucceeded(let persistentTokens):
+        case .tokenChangeSucceeded(let persistentTokens):
             self.persistentTokens = persistentTokens
             return nil
 
@@ -210,13 +210,13 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
     switch (lhs, rhs) {
     case (.beginAddToken, .beginAddToken):
         return true
-    case let (.EditPersistentToken(l), .EditPersistentToken(r)):
+    case let (.editPersistentToken(l), .editPersistentToken(r)):
         return l == r
-    case let (.UpdatePersistentToken(l), .UpdatePersistentToken(r)):
+    case let (.updatePersistentToken(l), .updatePersistentToken(r)):
         return l == r
     case let (.moveToken(l), .moveToken(r)):
         return l == r
-    case let (.DeletePersistentToken(l), .DeletePersistentToken(r)):
+    case let (.deletePersistentToken(l), .deletePersistentToken(r)):
         return l == r
     case let (.copyPassword(l), .copyPassword(r)):
         return l == r
@@ -228,8 +228,8 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
         return true
     case (.showLicenseInfo, .showLicenseInfo):
         return true
-    case (.beginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _), (.moveToken, _),
-         (.DeletePersistentToken, _), (.copyPassword, _), (.filter, _), (.clearFilter, _), (.showBackupInfo, _),
+    case (.beginAddToken, _), (.editPersistentToken, _), (.updatePersistentToken, _), (.moveToken, _),
+         (.deletePersistentToken, _), (.copyPassword, _), (.filter, _), (.clearFilter, _), (.showBackupInfo, _),
          (.showLicenseInfo, _):
         // Using this verbose case for non-matching `Action`s instead of `default` ensures a
         // compiler error if a new `Action` is added and not expicitly checked for equality.
