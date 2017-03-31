@@ -55,7 +55,7 @@ func changesFrom<T: Identifiable>(_ oldItems: [T], to newItems: [T]) -> [Change<
     )
 }
 
-func changesFrom<T: Identifiable where T: Equatable>(_ oldItems: [T], to newItems: [T]) -> [Change<Int>] {
+func changesFrom<T: Identifiable>(_ oldItems: [T], to newItems: [T]) -> [Change<Int>] where T: Equatable {
     return changes(
         from: oldItems,
         to: newItems,

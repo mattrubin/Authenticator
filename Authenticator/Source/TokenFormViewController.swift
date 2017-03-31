@@ -25,7 +25,7 @@
 
 import UIKit
 
-class TokenFormViewController<Form: TableViewModelRepresentable where Form.HeaderModel == TokenFormHeaderModel<Form.Action>, Form.RowModel == TokenFormRowModel<Form.Action>>: UITableViewController {
+class TokenFormViewController<Form: TableViewModelRepresentable>: UITableViewController where Form.HeaderModel == TokenFormHeaderModel<Form.Action>, Form.RowModel == TokenFormRowModel<Form.Action> {
     fileprivate let dispatchAction: (Form.Action) -> Void
     fileprivate var viewModel: TableViewModel<Form> {
         didSet {
