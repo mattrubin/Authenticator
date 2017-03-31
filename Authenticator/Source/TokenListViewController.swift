@@ -94,6 +94,8 @@ class TokenListViewController: UITableViewController {
         return button
     }()
 
+    private let infoButton = UIButton(type: .InfoLight)
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
@@ -120,6 +122,8 @@ class TokenListViewController: UITableViewController {
         self.toolbarItems = [
             self.editButtonItem(),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(customView: infoButton),
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
             UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: addAction),
         ]
         self.navigationController?.toolbarHidden = false
@@ -145,6 +149,10 @@ class TokenListViewController: UITableViewController {
         warningButton.autoresizingMask = warningLabel.autoresizingMask
         warningButton.addTarget(self, action: #selector(showBackupInfo), forControlEvents: .TouchUpInside)
         view.addSubview(warningButton)
+
+        infoButton.addTarget(self,
+                             action: #selector(TokenListViewController.showLicenseInfo),
+                             forControlEvents: .TouchUpInside)
 
         // Update with current viewModel
         self.updatePeripheralViews()
@@ -180,6 +188,10 @@ class TokenListViewController: UITableViewController {
 
     func showBackupInfo() {
         dispatchAction(.ShowBackupInfo)
+    }
+
+    func showLicenseInfo() {
+        dispatchAction(.ShowLicenseInfo)
     }
 }
 

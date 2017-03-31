@@ -98,7 +98,6 @@ class SearchField: UIView {
         textField.frame = textFieldFrame
         textField.center = CGPoint(x: bounds.size.width * 0.5, y: bounds.size.height * 0.5)
     }
-
 }
 
 // MARK: TokenListPresenter

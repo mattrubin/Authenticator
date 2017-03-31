@@ -1,5 +1,5 @@
 //
-//  BackupInfo.swift
+//  Info.swift
 //  Authenticator
 //
 //  Copyright (c) 2017 Authenticator authors
@@ -25,14 +25,35 @@
 
 import Foundation
 
-struct BackupInfo {
+struct Info {
+    private let title: String
+    private let url: NSURL
+
+    private init(title: String, htmlFileName: String) throws {
+        self.title = title
+        guard let path = NSBundle.mainBundle().pathForResource(htmlFileName, ofType: "html") else {
+            throw Error.MissingFile(htmlFileName)
+        }
+        url = NSURL(fileURLWithPath: path)
+    }
+
+    static func backupInfo() throws -> Info {
+        return try Info(title: "Backups", htmlFileName: "BackupInfo")
+    }
+
+    static func licenseInfo() throws -> Info {
+        return try Info(title: "Acknowledgements", htmlFileName: "Acknowledgements")
+    }
 
     // MARK: View
 
-    struct ViewModel {}
+    struct ViewModel {
+        let title: String
+        let url: NSURL
+    }
 
     var viewModel: ViewModel {
-        return ViewModel()
+        return ViewModel(title: title, url: url)
     }
 
     // MARK: Update
@@ -40,5 +61,11 @@ struct BackupInfo {
     enum Effect {
         case Done
         case OpenURL(NSURL)
+    }
+
+    // MARK: Errors
+
+    enum Error: ErrorType {
+        case MissingFile(String)
     }
 }

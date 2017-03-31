@@ -1,5 +1,5 @@
 //
-//  BackupInfoViewController.swift
+//  InfoViewController.swift
 //  Authenticator
 //
 //  Copyright (c) 2017 Authenticator authors
@@ -26,15 +26,15 @@
 import UIKit
 import WebKit
 
-class BackupInfoViewController: UIViewController, WKNavigationDelegate {
-    private var viewModel: BackupInfo.ViewModel
-    private let dispatchAction: (BackupInfo.Effect) -> Void
+class InfoViewController: UIViewController, WKNavigationDelegate {
+    private var viewModel: Info.ViewModel
+    private let dispatchAction: (Info.Effect) -> Void
 
     private let webView = WKWebView()
 
     // MARK: Initialization
 
-    init(viewModel: BackupInfo.ViewModel, dispatchAction: (BackupInfo.Effect) -> Void) {
+    init(viewModel: Info.ViewModel, dispatchAction: (Info.Effect) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
@@ -44,8 +44,18 @@ class BackupInfoViewController: UIViewController, WKNavigationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateWithViewModel(viewModel: BackupInfo.ViewModel) {
+    func updateWithViewModel(viewModel: Info.ViewModel) {
         self.viewModel = viewModel
+        applyViewModel()
+    }
+
+    private func applyViewModel() {
+        if title != viewModel.title {
+            title = viewModel.title
+        }
+        if webView.URL != viewModel.url {
+            webView.loadRequest(NSURLRequest(URL: viewModel.url))
+        }
     }
 
     // MARK: View Lifecycle
@@ -58,19 +68,17 @@ class BackupInfoViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Backups"
+        applyViewModel()
 
         view.backgroundColor = UIColor.otpBackgroundColor
         // Prevent a flash of white before WebKit fully loads the HTML content.
         webView.opaque = false
+        // Force the scroll indicators to be white.
+        webView.scrollView.indicatorStyle = .White
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done,
                                                             target: self,
                                                             action: #selector(done))
-
-        if let path = NSBundle.mainBundle().pathForResource("BackupInfo", ofType: "html") {
-            webView.loadRequest(NSURLRequest(URL: NSURL(fileURLWithPath: path)))
-        }
     }
 
     // MARK: Target Actions
