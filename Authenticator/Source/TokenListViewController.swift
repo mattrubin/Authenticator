@@ -94,6 +94,8 @@ class TokenListViewController: UITableViewController {
         return button
     }()
 
+    private let infoButton = UIButton(type: .InfoLight)
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
@@ -119,6 +121,8 @@ class TokenListViewController: UITableViewController {
         let addAction = #selector(TokenListViewController.addToken)
         self.toolbarItems = [
             self.editButtonItem(),
+            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(customView: infoButton),
             UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
             UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: addAction),
         ]
@@ -146,9 +150,9 @@ class TokenListViewController: UITableViewController {
         warningButton.addTarget(self, action: #selector(showBackupInfo), forControlEvents: .TouchUpInside)
         view.addSubview(warningButton)
 
-        searchBar.infoButton.addTarget(self,
-                                       action: #selector(TokenListViewController.showLicenseInfo),
-                                       forControlEvents: .TouchUpInside)
+        infoButton.addTarget(self,
+                             action: #selector(TokenListViewController.showLicenseInfo),
+                             forControlEvents: .TouchUpInside)
 
         // Update with current viewModel
         self.updatePeripheralViews()
