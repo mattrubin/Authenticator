@@ -128,10 +128,12 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
 }
 
 extension TextFieldRowCell: FocusCell {
+    @discardableResult
     func focus() -> Bool {
         return textField.becomeFirstResponder()
     }
 
+    @discardableResult
     func unfocus() -> Bool {
         return textField.resignFirstResponder()
     }

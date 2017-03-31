@@ -24,6 +24,9 @@
 //
 
 protocol FocusCell {
+    @discardableResult
     func focus() -> Bool
+
+    @discardableResult
     func unfocus() -> Bool
 }

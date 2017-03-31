@@ -91,6 +91,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
 
     // MARK: Focus
 
+    @discardableResult
     fileprivate func focusFirstField() -> Bool {
         for cell in tableView.visibleCells {
             if let focusCell = cell as? FocusCell {
@@ -113,6 +114,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
         return nil
     }
 
+    @discardableResult
     fileprivate func unfocus() -> Bool {
         return view.endEditing(false)
     }
