@@ -36,7 +36,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     // MARK: Initialization
 
-    init(viewModel: TokenScanner.ViewModel, dispatchAction: (TokenScanner.Action) -> Void) {
+    init(viewModel: TokenScanner.ViewModel, dispatchAction: @escaping (TokenScanner.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)

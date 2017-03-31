@@ -34,7 +34,7 @@ class InfoViewController: UIViewController, WKNavigationDelegate {
 
     // MARK: Initialization
 
-    init(viewModel: Info.ViewModel, dispatchAction: (Info.Effect) -> Void) {
+    init(viewModel: Info.ViewModel, dispatchAction: @escaping (Info.Effect) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)

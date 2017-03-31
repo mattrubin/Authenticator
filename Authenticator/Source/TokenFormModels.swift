@@ -51,7 +51,7 @@ enum TokenType {
 }
 
 extension TextFieldRowViewModel {
-    init(issuer value: String, changeAction: (String) -> Action) {
+    init(issuer value: String, changeAction: @escaping (String) -> Action) {
         label = "Issuer"
         placeholder = "Some Website"
 
@@ -64,7 +64,7 @@ extension TextFieldRowViewModel {
         self.changeAction = changeAction
     }
 
-    init(name value: String, returnKeyType: UIReturnKeyType, changeAction: (String) -> Action) {
+    init(name value: String, returnKeyType: UIReturnKeyType, changeAction: @escaping (String) -> Action) {
         label = "Account Name"
         placeholder = "user@example.com"
 
@@ -77,7 +77,7 @@ extension TextFieldRowViewModel {
         self.changeAction = changeAction
     }
 
-    init(secret value: String, changeAction: (String) -> Action) {
+    init(secret value: String, changeAction: @escaping (String) -> Action) {
         label = "Secret Key"
         placeholder = "•••• •••• •••• ••••"
 

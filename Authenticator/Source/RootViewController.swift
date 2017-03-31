@@ -55,7 +55,7 @@ class RootViewController: OpaqueNavigationController {
 
     fileprivate let dispatchAction: (Root.Action) -> Void
 
-    init(viewModel: Root.ViewModel, dispatchAction: (Root.Action) -> Void) {
+    init(viewModel: Root.ViewModel, dispatchAction: @escaping (Root.Action) -> Void) {
         self.currentViewModel = viewModel
         self.dispatchAction = dispatchAction
         tokenListViewController = TokenListViewController(
@@ -153,6 +153,6 @@ extension RootViewController {
     }
 }
 
-private func compose<A, B, C>(_ transform: (A) -> B, _ handler: (B) -> C) -> (A) -> C {
+private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escaping (B) -> C) -> (A) -> C {
     return { handler(transform($0)) }
 }

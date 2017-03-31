@@ -30,7 +30,7 @@ class TokenListViewController: UITableViewController {
     fileprivate var viewModel: TokenList.ViewModel
     fileprivate var ignoreTableViewUpdates = false
 
-    init(viewModel: TokenList.ViewModel, dispatchAction: (TokenList.Action) -> Void) {
+    init(viewModel: TokenList.ViewModel, dispatchAction: @escaping (TokenList.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)

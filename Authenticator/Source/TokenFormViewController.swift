@@ -49,7 +49,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
         }
     }
 
-    init(viewModel: TableViewModel<Form>, dispatchAction: (Form.Action) -> Void) {
+    init(viewModel: TableViewModel<Form>, dispatchAction: @escaping (Form.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(style: .grouped)

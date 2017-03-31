@@ -361,6 +361,6 @@ private extension Root.Modal {
     }
 }
 
-private func compose<A, B, C>(_ transform: (A) -> B, _ handler: (B) -> C) -> (A) -> C {
+private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escaping (B) -> C) -> (A) -> C {
     return { handler(transform($0)) }
 }

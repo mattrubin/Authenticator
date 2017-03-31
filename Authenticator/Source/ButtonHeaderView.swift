@@ -66,7 +66,7 @@ class ButtonHeaderView<Action>: UIButton {
 
     // MARK: - View Model
 
-    convenience init(viewModel: ButtonHeaderViewModel<Action>, dispatchAction: (Action) -> Void) {
+    convenience init(viewModel: ButtonHeaderViewModel<Action>, dispatchAction: @escaping (Action) -> Void) {
         self.init()
         self.dispatchAction = dispatchAction
         updateWithViewModel(viewModel)
