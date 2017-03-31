@@ -49,12 +49,12 @@ class KeychainTokenStore: TokenStore {
         let persistentTokenSet = try keychain.allPersistentTokens()
         let sortedIdentifiers = userDefaults.persistentIdentifiers()
 
-        persistentTokens = persistentTokenSet.sort({ (A, B) in
-            let indexOfA = sortedIdentifiers.indexOf(A.identifier)
-            let indexOfB = sortedIdentifiers.indexOf(B.identifier)
+        persistentTokens = persistentTokenSet.sorted(by: { (A, B) in
+            let indexOfA = sortedIdentifiers.index(of: A.identifier)
+            let indexOfB = sortedIdentifiers.index(of: B.identifier)
 
             switch (indexOfA, indexOfB) {
-            case (.Some(let iA), .Some(let iB)) where iA < iB:
+            case (.some(let iA), .some(let iB)) where iA < iB:
                 return true
             default:
                 return false
@@ -77,14 +77,13 @@ extension KeychainTokenStore {
     // MARK: Actions
 
     func addToken(_ token: Token) throws {
-        let newPersistentToken = try keychain.addToken(token)
+        let newPersistentToken = try keychain.add(token)
         persistentTokens.append(newPersistentToken)
         saveTokenOrder()
     }
 
     func saveToken(_ token: Token, toPersistentToken persistentToken: PersistentToken) throws {
-        let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
-                                                                        withToken: token)
+        let updatedPersistentToken = try keychain.update(persistentToken, with: token)
         // Update the in-memory token, which is still the origin of the table view's data
         persistentTokens = persistentTokens.map {
             if $0.identifier == updatedPersistentToken.identifier {
@@ -101,15 +100,15 @@ extension KeychainTokenStore {
 
     func moveTokenFromIndex(_ origin: Int, toIndex destination: Int) {
         let persistentToken = persistentTokens[origin]
-        persistentTokens.removeAtIndex(origin)
-        persistentTokens.insert(persistentToken, atIndex: destination)
+        persistentTokens.remove(at: origin)
+        persistentTokens.insert(persistentToken, at: destination)
         saveTokenOrder()
     }
 
     func deletePersistentToken(_ persistentToken: PersistentToken) throws {
-        try keychain.deletePersistentToken(persistentToken)
-        if let index = persistentTokens.indexOf(persistentToken) {
-            persistentTokens.removeAtIndex(index)
+        try keychain.delete(persistentToken)
+        if let index = persistentTokens.index(of: persistentToken) {
+            persistentTokens.remove(at: index)
         }
         saveTokenOrder()
     }

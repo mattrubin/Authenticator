@@ -84,8 +84,8 @@ struct TokenList: Component {
         }
         let options: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
         return self.persistentTokens.filter({
-            $0.token.issuer.rangeOfString(filter, options: options) != nil ||
-                $0.token.name.rangeOfString(filter, options: options) != nil
+            $0.token.issuer.range(of: filter, options: options) != nil ||
+                $0.token.name.range(of: filter, options: options) != nil
         })
     }
 }

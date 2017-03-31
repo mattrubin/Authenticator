@@ -57,13 +57,12 @@ class OTPProgressRing: UIView {
         context.strokeEllipse(in: ringRect)
 
         context.setStrokeColor(self.tintColor.cgColor)
-        CGContextAddArc(context,
-            ringRect.midX,
-            ringRect.midY,
-            ringRect.width / 2,
-            CGFloat(-M_PI_2),
-            CGFloat(2 * M_PI * self.progress - M_PI_2),
-            1)
+        let startAngle: CGFloat = -.pi / 2
+        context.addArc(center: CGPoint(x: ringRect.midX, y: ringRect.midY),
+                       radius: ringRect.width / 2,
+                       startAngle: startAngle,
+                       endAngle: 2 * .pi * CGFloat(self.progress) + startAngle,
+                       clockwise: true)
         context.strokePath()
     }
 }

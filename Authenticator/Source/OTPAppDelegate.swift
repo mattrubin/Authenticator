@@ -62,8 +62,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: acceptHandler))
 
             // TODO: Fix the confirmation alert presentation when a modal is open.
-            window?.rootViewController?
-                .presentViewController(alert, animated: true, completion: nil)
+            window?.rootViewController?.present(alert, animated: true, completion: nil)
 
             return true
         }

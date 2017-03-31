@@ -61,7 +61,7 @@ class AppController {
             } else {
                 store = try KeychainTokenStore(
                     keychain: Keychain.sharedInstance,
-                    userDefaults: UserDefaults.standardUserDefaults()
+                    userDefaults: UserDefaults.standard
                 )
             }
         } catch {
