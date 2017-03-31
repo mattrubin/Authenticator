@@ -5,13 +5,13 @@ language: objective-c
 xcode_workspace: Authenticator.xcworkspace
 xcode_scheme: Authenticator
 
-osx_image: xcode8.2
+osx_image: xcode8.3
 
 env:
   - RUNTIME="iOS 8.2"  DEVICE="iPhone 4s"
   - RUNTIME="iOS 8.4"  DEVICE="iPhone 5s"
   - RUNTIME="iOS 9.3"  DEVICE="iPhone 6s"
-  - RUNTIME="iOS 10.2" DEVICE="iPhone 7 Plus"
+  - RUNTIME="iOS 10.3" DEVICE="iPhone 7 Plus"
 
 install:
   - git submodule update --init --recursive
