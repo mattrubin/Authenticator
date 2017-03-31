@@ -73,6 +73,8 @@ class InfoViewController: UIViewController, WKNavigationDelegate {
         view.backgroundColor = UIColor.otpBackgroundColor
         // Prevent a flash of white before WebKit fully loads the HTML content.
         webView.opaque = false
+        // Force the scroll indicators to be white.
+        webView.scrollView.indicatorStyle = .White
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done,
                                                             target: self,
