@@ -63,7 +63,7 @@ struct DemoTokenStore: TokenStore {
         ),
     ]
 
-    fileprivate struct Error: ErrorProtocol {}
+    fileprivate struct Error: Swift.Error {}
 
     func addToken(_ token: Token) throws {
         throw Error()

@@ -111,8 +111,8 @@ extension TokenList {
     enum Event {
         case updateDisplayTime(DisplayTime)
         case tokenChangeSucceeded([PersistentToken])
-        case updateTokenFailed(ErrorProtocol)
-        case deleteTokenFailed(ErrorProtocol)
+        case updateTokenFailed(Error)
+        case deleteTokenFailed(Error)
     }
 
     enum Effect {
@@ -121,14 +121,14 @@ extension TokenList {
 
         case updateToken(PersistentToken,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
         case moveToken(fromIndex: Int, toIndex: Int,
             success: ([PersistentToken]) -> Event)
 
         case deletePersistentToken(PersistentToken,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
         case showErrorMessage(String)
         case showSuccessMessage(String)

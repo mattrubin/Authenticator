@@ -118,7 +118,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         dispatchAction(.scannerDecodedText(text))
     }
 
-    func handleError(_ error: ErrorProtocol) {
+    func handleError(_ error: Error) {
         dispatchAction(.scannerError(error))
     }
 }

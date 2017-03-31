@@ -96,29 +96,29 @@ extension Root {
 
         case tokenFormSucceeded([PersistentToken])
 
-        case addTokenFailed(ErrorProtocol)
-        case saveTokenFailed(ErrorProtocol)
+        case addTokenFailed(Error)
+        case saveTokenFailed(Error)
     }
 
     enum Effect {
         case addToken(Token,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
         case saveToken(Token, PersistentToken,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
         case updatePersistentToken(PersistentToken,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
         case moveToken(fromIndex: Int, toIndex: Int,
             success: ([PersistentToken]) -> Event)
 
         case deletePersistentToken(PersistentToken,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
         case showErrorMessage(String)
         case showSuccessMessage(String)
@@ -325,7 +325,7 @@ extension Root {
 }
 
 private extension Root.Modal {
-    struct Error: ErrorProtocol {
+    struct Error: Swift.Error {
         let expectedType: Any.Type
         let actualState: Root.Modal
     }

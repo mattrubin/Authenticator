@@ -27,7 +27,7 @@ import AVFoundation
 
 protocol QRScannerDelegate: class {
     func handleDecodedText(_ text: String)
-    func handleError(_ error: ErrorProtocol)
+    func handleError(_ error: Error)
 }
 
 class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
@@ -61,7 +61,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
 
     // MARK: Capture
 
-    enum CaptureSessionError: ErrorProtocol {
+    enum CaptureSessionError: Error {
         case inputError
         case outputError
     }

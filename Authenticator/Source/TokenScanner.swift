@@ -51,7 +51,7 @@ struct TokenScanner: Component {
         case cancel
         case beginManualTokenEntry
         case scannerDecodedText(String)
-        case scannerError(ErrorProtocol)
+        case scannerError(Error)
     }
 
     enum Effect {

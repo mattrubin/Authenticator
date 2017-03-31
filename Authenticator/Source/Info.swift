@@ -65,7 +65,7 @@ struct Info {
 
     // MARK: Errors
 
-    enum Error: ErrorProtocol {
+    enum Error: Swift.Error {
         case missingFile(String)
     }
 }

@@ -34,8 +34,8 @@ protocol Component {
     mutating func update(_ action: Action) throws -> Effect?
 }
 
-struct ComponentError<C: Component>: ErrorProtocol {
-    let underlyingError: ErrorProtocol
+struct ComponentError<C: Component>: Error {
+    let underlyingError: Error
     let action: C.Action
     let component: C
 }

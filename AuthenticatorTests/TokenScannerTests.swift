@@ -111,7 +111,7 @@ class TokenScannerTests: XCTestCase {
         XCTAssertFalse(tokenScanner.viewModel.isScanning)
     }
 
-    struct ScannerError: ErrorProtocol {}
+    struct ScannerError: Error {}
 
     func testScannerError() {
         var tokenScanner = TokenScanner()
