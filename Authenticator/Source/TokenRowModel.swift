@@ -37,7 +37,7 @@ struct TokenRowModel: Identifiable {
     let editAction: Action
     let deleteAction: Action
 
-    private let identifier: NSData
+    fileprivate let identifier: Data
 
     init(persistentToken: PersistentToken, displayTime: DisplayTime, canReorder reorderable: Bool = true) {
         let timeInterval = displayTime.timeIntervalSince1970
@@ -59,16 +59,16 @@ struct TokenRowModel: Identifiable {
         canReorder = reorderable
     }
 
-    func hasSameIdentity(other: TokenRowModel) -> Bool {
-        return self.identifier.isEqualToData(other.identifier)
+    func hasSameIdentity(_ other: TokenRowModel) -> Bool {
+        return (self.identifier == other.identifier)
     }
 
     // Group the password into chunks of two digits, separated by spaces.
-    private static func chunkPassword(password: String) -> String {
+    fileprivate static func chunkPassword(_ password: String) -> String {
         var characters = password.characters
         let chunkSize = 2
-        for i in chunkSize.stride(to: characters.count, by: chunkSize).reverse() {
-            characters.insert(" ", atIndex: characters.startIndex.advancedBy(i))
+        for i in stride(from: chunkSize, to: characters.count, by: chunkSize).reversed() {
+            characters.insert(" ", at: characters.index(characters.startIndex, offsetBy: i))
         }
         return String(characters)
     }

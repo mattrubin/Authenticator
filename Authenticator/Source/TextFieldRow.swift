@@ -39,7 +39,7 @@ struct TextFieldRowViewModel<Action> {
 }
 
 protocol TextFieldRowCellDelegate: class {
-    func textFieldCellDidReturn<Action>(textFieldCell: TextFieldRowCell<Action>)
+    func textFieldCellDidReturn<Action>(_ textFieldCell: TextFieldRowCell<Action>)
 }
 
 private let preferredHeight: CGFloat = 74
@@ -49,7 +49,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
     var dispatchAction: ((Action) -> Void)?
-    private var changeAction: ((String) -> Action)?
+    fileprivate var changeAction: ((String) -> Action)?
 
     // MARK: - Init
 
@@ -65,14 +65,14 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
 
     // MARK: - Subviews
 
-    private func configureSubviews() {
-        textLabel?.font = UIFont.systemFontOfSize(17, weight: UIFontWeightLight)
+    fileprivate func configureSubviews() {
+        textLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)
 
         textField.delegate = self
         let action = #selector(TextFieldRowCell.textFieldValueChanged)
-        textField.addTarget(self, action: action, forControlEvents: .EditingChanged)
-        textField.borderStyle = .RoundedRect
-        textField.font = UIFont.systemFontOfSize(16, weight: UIFontWeightLight)
+        textField.addTarget(self, action: action, for: .editingChanged)
+        textField.borderStyle = .roundedRect
+        textField.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight)
         contentView.addSubview(textField)
     }
 
@@ -87,7 +87,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
 
     // MARK: - View Model
 
-    func updateWithViewModel(viewModel: TextFieldRowViewModel<Action>) {
+    func updateWithViewModel(_ viewModel: TextFieldRowViewModel<Action>) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
 
@@ -104,7 +104,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
         changeAction = viewModel.changeAction
     }
 
-    static func heightWithViewModel(viewModel: TextFieldRowViewModel<Action>) -> CGFloat {
+    static func heightWithViewModel(_ viewModel: TextFieldRowViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 
@@ -119,7 +119,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
 
     // MARK: - UITextFieldDelegate
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField === self.textField {
             delegate?.textFieldCellDidReturn(self)
         }

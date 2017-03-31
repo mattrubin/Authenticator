@@ -38,8 +38,8 @@ struct ButtonHeaderViewModel<Action> {
 private let preferredHeight: CGFloat = 54
 
 class ButtonHeaderView<Action>: UIButton {
-    private var buttonAction: Action?
-    private var dispatchAction: ((Action) -> Void)?
+    fileprivate var buttonAction: Action?
+    fileprivate var dispatchAction: ((Action) -> Void)?
 
     // MARK: - Init
 
@@ -55,13 +55,13 @@ class ButtonHeaderView<Action>: UIButton {
 
     // MARK: - Subviews
 
-    private func configureSubviews() {
-        titleLabel?.textAlignment = .Center
+    fileprivate func configureSubviews() {
+        titleLabel?.textAlignment = .center
         titleLabel?.textColor = UIColor.otpForegroundColor
-        titleLabel?.font = UIFont.systemFontOfSize(16, weight: UIFontWeightLight)
+        titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight)
 
         let action = #selector(ButtonHeaderView.buttonWasPressed)
-        addTarget(self, action: action, forControlEvents: .TouchUpInside)
+        addTarget(self, action: action, for: .touchUpInside)
     }
 
     // MARK: - View Model
@@ -72,12 +72,12 @@ class ButtonHeaderView<Action>: UIButton {
         updateWithViewModel(viewModel)
     }
 
-    func updateWithViewModel(viewModel: ButtonHeaderViewModel<Action>) {
-        setTitle(viewModel.title, forState: .Normal)
+    func updateWithViewModel(_ viewModel: ButtonHeaderViewModel<Action>) {
+        setTitle(viewModel.title, for: UIControlState())
         buttonAction = viewModel.action
     }
 
-    static func heightWithViewModel(viewModel: ButtonHeaderViewModel<Action>) -> CGFloat {
+    static func heightWithViewModel(_ viewModel: ButtonHeaderViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 

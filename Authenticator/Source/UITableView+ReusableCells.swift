@@ -26,12 +26,12 @@
 import UIKit
 
 extension UITableView {
-    func dequeueReusableCellWithClass<Cell: UITableViewCell>(cellClass: Cell.Type) -> Cell {
+    func dequeueReusableCellWithClass<Cell: UITableViewCell>(_ cellClass: Cell.Type) -> Cell {
         let reuseIdentifier = NSStringFromClass(cellClass)
-        if let cell = dequeueReusableCellWithIdentifier(reuseIdentifier) as? Cell {
+        if let cell = dequeueReusableCell(withIdentifier: reuseIdentifier) as? Cell {
             return cell
         } else {
-            return Cell(style: .Default, reuseIdentifier: reuseIdentifier)
+            return Cell(style: .default, reuseIdentifier: reuseIdentifier)
         }
     }
 }

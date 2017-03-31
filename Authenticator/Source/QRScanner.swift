@@ -26,52 +26,52 @@
 import AVFoundation
 
 protocol QRScannerDelegate: class {
-    func handleDecodedText(text: String)
-    func handleError(error: ErrorType)
+    func handleDecodedText(_ text: String)
+    func handleError(_ error: ErrorProtocol)
 }
 
 class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     weak var delegate: QRScannerDelegate?
-    private let serialQueue = dispatch_queue_create("QRScanner serial queue", DISPATCH_QUEUE_SERIAL)
-    private lazy var captureSession: AVCaptureSession? = {
+    fileprivate let serialQueue = DispatchQueue(label: "QRScanner serial queue", attributes: [])
+    fileprivate lazy var captureSession: AVCaptureSession? = {
         do {
             return try QRScanner.createCaptureSessionWithDelegate(self)
         } catch {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.delegate?.handleError(error)
             }
             return nil
         }
     }()
 
-    func start(completion: AVCaptureSession? -> Void) {
-        dispatch_async(serialQueue) {
+    func start(_ completion: (AVCaptureSession?) -> Void) {
+        serialQueue.async {
             self.captureSession?.startRunning()
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 completion(self.captureSession)
             }
         }
     }
 
     func stop() {
-        dispatch_async(serialQueue) {
+        serialQueue.async {
             self.captureSession?.stopRunning()
         }
     }
 
     // MARK: Capture
 
-    enum CaptureSessionError: ErrorType {
-        case InputError
-        case OutputError
+    enum CaptureSessionError: ErrorProtocol {
+        case inputError
+        case outputError
     }
 
-    private class func createCaptureSessionWithDelegate(delegate: AVCaptureMetadataOutputObjectsDelegate) throws -> AVCaptureSession {
+    fileprivate class func createCaptureSessionWithDelegate(_ delegate: AVCaptureMetadataOutputObjectsDelegate) throws -> AVCaptureSession {
         let captureSession = AVCaptureSession()
 
-        guard let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo),
+        guard let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo),
             let captureInput = try? AVCaptureDeviceInput(device: captureDevice) else {
-                throw CaptureSessionError.InputError
+                throw CaptureSessionError.inputError
         }
         captureSession.addInput(captureInput)
 
@@ -79,22 +79,22 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         // The output must be added to the session before it can be checked for metadata types
         captureSession.addOutput(captureOutput)
         guard let availableTypes = captureOutput.availableMetadataObjectTypes
-            where (availableTypes as NSArray).containsObject(AVMetadataObjectTypeQRCode) else {
-                throw CaptureSessionError.OutputError
+            where (availableTypes as NSArray).contains(AVMetadataObjectTypeQRCode) else {
+                throw CaptureSessionError.outputError
         }
         captureOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
-        captureOutput.setMetadataObjectsDelegate(delegate, queue: dispatch_get_main_queue())
+        captureOutput.setMetadataObjectsDelegate(delegate, queue: DispatchQueue.main)
 
         return captureSession
     }
 
     class var deviceCanScan: Bool {
-        return (AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) != nil)
+        return (AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo) != nil)
     }
 
     // MARK: AVCaptureMetadataOutputObjectsDelegate
 
-    func captureOutput(captureOutput: AVCaptureOutput?, didOutputMetadataObjects metadataObjects: [AnyObject]?, fromConnection connection: AVCaptureConnection?) {
+    func captureOutput(_ captureOutput: AVCaptureOutput?, didOutputMetadataObjects metadataObjects: [Any]?, from connection: AVCaptureConnection?) {
         guard let metadataObjects = metadataObjects else {
             return
         }
@@ -104,7 +104,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
                 where metadata.type == AVMetadataObjectTypeQRCode,
                 let string = metadata.stringValue {
                     // Dispatch to the main queue because setMetadataObjectsDelegate doesn't
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         self.delegate?.handleDecodedText(string)
                     }
             }

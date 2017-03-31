@@ -56,34 +56,34 @@ class SearchField: UIView {
 
     let textField: UITextField = SearchTextField()
 
-    private func setupTextField() {
+    fileprivate func setupTextField() {
         ring.tintColor = UIColor.otpLightColor
         let placeHolderAttributes = [
             NSForegroundColorAttributeName: UIColor.otpLightColor,
-            NSFontAttributeName: UIFont.systemFontOfSize(16, weight: UIFontWeightLight),
+            NSFontAttributeName: UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight),
         ]
         textField.attributedPlaceholder = NSAttributedString(
             string: "Authenticator",
             attributes: placeHolderAttributes
         )
         textField.textColor = UIColor.otpLightColor
-        textField.backgroundColor = UIColor.otpLightColor.colorWithAlphaComponent(0.2)
+        textField.backgroundColor = UIColor.otpLightColor.withAlphaComponent(0.2)
         textField.leftView = ring
-        textField.leftViewMode = .Always
-        textField.borderStyle = .RoundedRect
-        textField.clearButtonMode = .Always
-        textField.autocorrectionType = .No
-        textField.autocapitalizationType = .None
-        textField.returnKeyType = .Done
+        textField.leftViewMode = .always
+        textField.borderStyle = .roundedRect
+        textField.clearButtonMode = .always
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.returnKeyType = .done
         textField.sizeToFit()
         addSubview(textField)
     }
 
-    override func intrinsicContentSize() -> CGSize {
+    override var intrinsicContentSize : CGSize {
         return ring.frame.union(textField.frame).size
     }
 
-    override func sizeThatFits(size: CGSize) -> CGSize {
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
         let fieldSize = textField.frame.size
         let fits = CGSize(width: max(size.width, fieldSize.width), height: fieldSize.height)
         return fits
@@ -102,32 +102,32 @@ class SearchField: UIView {
 
 // MARK: TokenListPresenter
 extension SearchField {
-    func updateWithViewModel(viewModel: TokenList.ViewModel) {
+    func updateWithViewModel(_ viewModel: TokenList.ViewModel) {
         if let ringProgress = viewModel.ringProgress {
             ring.progress = ringProgress
         }
         // Show the countdown ring only if a time-based token is active
-        textField.leftViewMode = viewModel.ringProgress != nil ? .Always : .Never
+        textField.leftViewMode = viewModel.ringProgress != nil ? .always : .never
 
         // Only display text field as editable if there are tokens to filter
-        textField.enabled = viewModel.hasTokens
-        textField.borderStyle = viewModel.hasTokens ? .RoundedRect : .None
+        textField.isEnabled = viewModel.hasTokens
+        textField.borderStyle = viewModel.hasTokens ? .roundedRect : .none
         textField.backgroundColor = viewModel.hasTokens ?
-            UIColor.otpLightColor.colorWithAlphaComponent(0.1) : UIColor.clearColor()
+            UIColor.otpLightColor.withAlphaComponent(0.1) : UIColor.clear
     }
 }
 
 // MARK: UITextField rect overrides
 class SearchTextField: UITextField {
-    override func leftViewRectForBounds(bounds: CGRect) -> CGRect {
-        return super.leftViewRectForBounds(bounds).offsetBy(dx: 6, dy: 0)
+    override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+        return super.leftViewRect(forBounds: bounds).offsetBy(dx: 6, dy: 0)
     }
 
-    override func placeholderRectForBounds(bounds: CGRect) -> CGRect {
-        if self.isFirstResponder() {
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        if self.isFirstResponder {
             return .zero
         }
-        var rect = super.placeholderRectForBounds(bounds)
+        var rect = super.placeholderRect(forBounds: bounds)
         if let size = attributedPlaceholder?.size() {
             rect.size.width = size.width
             rect.origin.x = (bounds.size.width - rect.size.width) * 0.5

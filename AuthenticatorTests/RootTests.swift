@@ -140,7 +140,7 @@ class RootTests: XCTestCase {
     func testOpenURL() {
         var root = mockRoot()
 
-        guard let url = NSURL(string: "https://example.com") else {
+        guard let url = URL(string: "https://example.com") else {
             XCTFail("Failed to initialize URL.")
             return
         }

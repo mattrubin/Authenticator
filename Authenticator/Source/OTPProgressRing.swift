@@ -26,7 +26,7 @@
 import UIKit
 
 class OTPProgressRing: UIView {
-    private let lineWidth: CGFloat = 1.5
+    fileprivate let lineWidth: CGFloat = 1.5
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -34,7 +34,7 @@ class OTPProgressRing: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.opaque = false
+        self.isOpaque = false
     }
 
     var progress: Double = 0 {
@@ -43,7 +43,7 @@ class OTPProgressRing: UIView {
         }
     }
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
@@ -51,12 +51,12 @@ class OTPProgressRing: UIView {
         let halfLineWidth = lineWidth / 2
         let ringRect = self.bounds.insetBy(dx: halfLineWidth, dy: halfLineWidth)
 
-        CGContextSetLineWidth(context, lineWidth)
+        context.setLineWidth(lineWidth)
 
-        CGContextSetStrokeColorWithColor(context, self.tintColor.colorWithAlphaComponent(0.2).CGColor)
-        CGContextStrokeEllipseInRect(context, ringRect)
+        context.setStrokeColor(self.tintColor.withAlphaComponent(0.2).cgColor)
+        context.strokeEllipse(in: ringRect)
 
-        CGContextSetStrokeColorWithColor(context, self.tintColor.CGColor)
+        context.setStrokeColor(self.tintColor.cgColor)
         CGContextAddArc(context,
             ringRect.midX,
             ringRect.midY,
@@ -64,6 +64,6 @@ class OTPProgressRing: UIView {
             CGFloat(-M_PI_2),
             CGFloat(2 * M_PI * self.progress - M_PI_2),
             1)
-        CGContextStrokePath(context)
+        context.strokePath()
     }
 }

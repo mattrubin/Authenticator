@@ -35,7 +35,7 @@ struct Section<HeaderModel, RowModel> {
     }
 }
 
-extension Section: ArrayLiteralConvertible {
+extension Section: ExpressibleByArrayLiteral {
     init(arrayLiteral elements: RowModel...) {
         self.init(rows: elements)
     }

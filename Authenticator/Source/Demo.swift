@@ -27,17 +27,17 @@ import OneTimePassword
 import Foundation
 import UIKit
 
-extension Process {
+extension CommandLine {
     static var isDemo: Bool {
         return arguments.contains("--demo")
-            || NSUserDefaults.standardUserDefaults().boolForKey("FASTLANE_SNAPSHOT")
+            || UserDefaults.standard.bool(forKey: "FASTLANE_SNAPSHOT")
     }
 }
 
 struct DemoTokenStore: TokenStore {
     let persistentTokens = demoTokens.map(PersistentToken.init(demoToken:))
 
-    private static let demoTokens = [
+    fileprivate static let demoTokens = [
         Token(
             name: "john.appleseed@gmail.com",
             issuer: "Google",
@@ -63,25 +63,25 @@ struct DemoTokenStore: TokenStore {
         ),
     ]
 
-    private struct Error: ErrorType {}
+    fileprivate struct Error: ErrorProtocol {}
 
-    func addToken(token: Token) throws {
+    func addToken(_ token: Token) throws {
         throw Error()
     }
 
-    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
+    func saveToken(_ token: Token, toPersistentToken persistentToken: PersistentToken) throws {
         throw Error()
     }
 
-    func updatePersistentToken(persistentToken: PersistentToken) throws {
+    func updatePersistentToken(_ persistentToken: PersistentToken) throws {
         throw Error()
     }
 
-    func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
+    func moveTokenFromIndex(_ origin: Int, toIndex destination: Int) {
         return
     }
 
-    func deletePersistentToken(persistentToken: PersistentToken) throws {
+    func deletePersistentToken(_ persistentToken: PersistentToken) throws {
         throw Error()
     }
 }
@@ -106,12 +106,12 @@ extension TokenEntryForm {
     static let demoForm: TokenEntryForm = {
         // Construct a pre-filled demo form.
         var form = TokenEntryForm()
-        _ = form.update(.Issuer("Google"))
-        _ = form.update(.Name("john.appleseed@gmail.com"))
-        _ = form.update(.Secret("JBSWY3DPEHPK6PX9"))
-        if UIScreen.mainScreen().bounds.height > 550 {
+        _ = form.update(.issuer("Google"))
+        _ = form.update(.name("john.appleseed@gmail.com"))
+        _ = form.update(.secret("JBSWY3DPEHPK6PX9"))
+        if UIScreen.main.bounds.height > 550 {
             // Expand the advanced options for iPhone 5 and later, but not for the earlier 3.5-inch screens.
-            _ = form.update(.ShowAdvancedOptions)
+            _ = form.update(.showAdvancedOptions)
         }
         return form
     }()
@@ -120,12 +120,12 @@ extension TokenEntryForm {
 extension DisplayTime {
     /// A constant demo display time, selected along with the time-based token periods to fix the progress ring at an
     /// aesthetically-pleasing angle.
-    static let demoTime = DisplayTime(date: NSDate(timeIntervalSince1970: 123_456_783.75))
+    static let demoTime = DisplayTime(date: Date(timeIntervalSince1970: 123_456_783.75))
 }
 
 extension UIImage {
     static func demoScannerImage() -> UIImage? {
-        guard let imagePath = NSUserDefaults.standardUserDefaults().stringForKey("demo-scanner-image") else {
+        guard let imagePath = UserDefaults.standard.string(forKey: "demo-scanner-image") else {
             return nil
         }
         return UIImage(contentsOfFile: imagePath)

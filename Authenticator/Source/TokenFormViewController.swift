@@ -26,8 +26,8 @@
 import UIKit
 
 class TokenFormViewController<Form: TableViewModelRepresentable where Form.HeaderModel == TokenFormHeaderModel<Form.Action>, Form.RowModel == TokenFormRowModel<Form.Action>>: UITableViewController {
-    private let dispatchAction: (Form.Action) -> Void
-    private var viewModel: TableViewModel<Form> {
+    fileprivate let dispatchAction: (Form.Action) -> Void
+    fileprivate var viewModel: TableViewModel<Form> {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
                 // Automatic updates aren't implemented for changing number of sections
@@ -35,13 +35,13 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
                 return
             }
 
-            let changes = viewModel.sections.indices.flatMap { sectionIndex -> [Change<NSIndexPath>] in
+            let changes = viewModel.sections.indices.flatMap { sectionIndex -> [Change<IndexPath>] in
                 let oldSection = oldValue.sections[sectionIndex]
                 let newSection = viewModel.sections[sectionIndex]
                 let changes = changesFrom(oldSection.rows, to: newSection.rows)
                 return changes.map({ change in
                     change.map({ row in
-                        NSIndexPath(forRow: row, inSection: sectionIndex)
+                        IndexPath(row: row, section: sectionIndex)
                     })
                 })
             }
@@ -52,7 +52,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
     init(viewModel: TableViewModel<Form>, dispatchAction: (Form.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
-        super.init(style: .Grouped)
+        super.init(style: .grouped)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -66,17 +66,17 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
 
         view.backgroundColor = .otpBackgroundColor
         view.tintColor = .otpForegroundColor
-        tableView.separatorStyle = .None
+        tableView.separatorStyle = .none
 
         // Set up top bar
         title = viewModel.title
         updateBarButtonItems()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if Process.isDemo {
+        if CommandLine.isDemo {
             // If this is a demo, don't show the keyboard.
             return
         }
@@ -84,14 +84,14 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
         focusFirstField()
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         unfocus()
     }
 
     // MARK: Focus
 
-    private func focusFirstField() -> Bool {
+    fileprivate func focusFirstField() -> Bool {
         for cell in tableView.visibleCells {
             if let focusCell = cell as? FocusCell {
                 return focusCell.focus()
@@ -100,11 +100,11 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
         return false
     }
 
-    private func nextVisibleFocusCellAfterIndexPath(currentIndexPath: NSIndexPath) -> FocusCell? {
+    fileprivate func nextVisibleFocusCellAfterIndexPath(_ currentIndexPath: IndexPath) -> FocusCell? {
         if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
             for indexPath in visibleIndexPaths {
-                if currentIndexPath.compare(indexPath) == .OrderedAscending {
-                    if let focusCell = tableView.cellForRowAtIndexPath(indexPath) as? FocusCell {
+                if (currentIndexPath as NSIndexPath).compare(indexPath) == .orderedAscending {
+                    if let focusCell = tableView.cellForRow(at: indexPath) as? FocusCell {
                         return focusCell
                     }
                 }
@@ -113,7 +113,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
         return nil
     }
 
-    private func unfocus() -> Bool {
+    fileprivate func unfocus() -> Bool {
         return view.endEditing(false)
     }
 
@@ -133,15 +133,15 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
 
     // MARK: - UITableViewDataSource
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.numberOfSections
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfRowsInSection(section)
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath) else {
             return UITableViewCell()
         }
@@ -150,12 +150,12 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
 
     // MARK: - UITableViewDelegate
 
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         // An apparent rendering error can occur when the form is scrolled programaticallty, causing a cell scrolled off
         // of the screen to appear with a black background when scrolled back onto the screen. Setting the background
         // color of the cell to the table view's background color, instead of to clearColor(), fixes the issue.
         cell.backgroundColor = .otpBackgroundColor
-        cell.selectionStyle = .None
+        cell.selectionStyle = .none
 
         cell.textLabel?.textColor = .otpForegroundColor
         if let cell = cell as? TextFieldRowCell<Form.Action> {
@@ -165,21 +165,21 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
         }
     }
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath) else {
             return 0
         }
         return heightForRowModel(rowModel)
     }
 
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let headerModel = viewModel.modelForHeaderInSection(section) else {
             return CGFloat(FLT_EPSILON)
         }
         return heightForHeaderModel(headerModel)
     }
 
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerModel = viewModel.modelForHeaderInSection(section) else {
             return nil
         }
@@ -192,13 +192,13 @@ class TokenFormViewController<Form: TableViewModelRepresentable where Form.Heade
 extension TokenFormViewController {
     // MARK: Bar Button View Model
 
-    private func barButtonItemForViewModel(viewModel: BarButtonViewModel<Form.Action>, target: AnyObject?, action: Selector) -> UIBarButtonItem {
-        func systemItemForStyle(style: BarButtonStyle) -> UIBarButtonSystemItem {
+    fileprivate func barButtonItemForViewModel(_ viewModel: BarButtonViewModel<Form.Action>, target: AnyObject?, action: Selector) -> UIBarButtonItem {
+        func systemItemForStyle(_ style: BarButtonStyle) -> UIBarButtonSystemItem {
             switch style {
-            case .Done:
-                return .Done
-            case .Cancel:
-                return .Cancel
+            case .done:
+                return .done
+            case .cancel:
+                return .cancel
             }
         }
 
@@ -207,7 +207,7 @@ extension TokenFormViewController {
             target: target,
             action: action
         )
-        barButtonItem.enabled = viewModel.enabled
+        barButtonItem.isEnabled = viewModel.enabled
         return barButtonItem
     }
 
@@ -224,16 +224,16 @@ extension TokenFormViewController {
 
     // MARK: Row Model
 
-    func cellForRowModel(rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
+    func cellForRowModel(_ rowModel: Form.RowModel, inTableView tableView: UITableView) -> UITableViewCell {
         switch rowModel {
-        case let .TextFieldRow(row):
+        case let .textFieldRow(row):
             let cell = tableView.dequeueReusableCellWithClass(TextFieldRowCell<Form.Action>.self)
             cell.updateWithViewModel(row.viewModel)
             cell.dispatchAction = dispatchAction
             cell.delegate = self
             return cell
 
-        case let .SegmentedControlRow(row):
+        case let .segmentedControlRow(row):
             let cell = tableView.dequeueReusableCellWithClass(SegmentedControlRowCell<Form.Action>.self)
             cell.updateWithViewModel(row.viewModel)
             cell.dispatchAction = dispatchAction
@@ -241,8 +241,8 @@ extension TokenFormViewController {
         }
     }
 
-    func updateRowAtIndexPath(indexPath: NSIndexPath) {
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
+    func updateRowAtIndexPath(_ indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else {
             // If the given row is not visible, the table view will have no cell for it, and it
             // doesn't need to be updated.
             return
@@ -250,72 +250,72 @@ extension TokenFormViewController {
         guard let rowModel = viewModel.modelForRowAtIndexPath(indexPath) else {
             // If there is no row model for the given index path, just tell the table view to
             // reload it and hope for the best.
-            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
             return
         }
 
         switch rowModel {
-        case let .TextFieldRow(row):
+        case let .textFieldRow(row):
             if let cell = cell as? TextFieldRowCell<Form.Action> {
                 cell.updateWithViewModel(row.viewModel)
             } else {
-                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                tableView.reloadRows(at: [indexPath], with: .automatic)
             }
-        case let .SegmentedControlRow(row):
+        case let .segmentedControlRow(row):
             if let cell = cell as? SegmentedControlRowCell<Form.Action> {
                 cell.updateWithViewModel(row.viewModel)
             } else {
-                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                tableView.reloadRows(at: [indexPath], with: .automatic)
             }
         }
     }
 
-    func heightForRowModel(rowModel: Form.RowModel) -> CGFloat {
+    func heightForRowModel(_ rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
-        case let .TextFieldRow(row):
+        case let .textFieldRow(row):
             return TextFieldRowCell<Form.Action>.heightWithViewModel(row.viewModel)
-        case let .SegmentedControlRow(row):
+        case let .segmentedControlRow(row):
             return SegmentedControlRowCell<Form.Action>.heightWithViewModel(row.viewModel)
         }
     }
 
     // MARK: Header Model
 
-    func viewForHeaderModel(headerModel: Form.HeaderModel) -> UIView {
+    func viewForHeaderModel(_ headerModel: Form.HeaderModel) -> UIView {
         switch headerModel {
-        case let .ButtonHeader(header):
+        case let .buttonHeader(header):
             return ButtonHeaderView(viewModel: header.viewModel, dispatchAction: dispatchAction)
         }
     }
 
-    func heightForHeaderModel(headerModel: Form.HeaderModel) -> CGFloat {
+    func heightForHeaderModel(_ headerModel: Form.HeaderModel) -> CGFloat {
         switch headerModel {
-        case let .ButtonHeader(header):
+        case let .buttonHeader(header):
             return ButtonHeaderView.heightWithViewModel(header.viewModel)
         }
     }
 }
 
 extension TokenFormViewController {
-    func updateWithViewModel(viewModel: TableViewModel<Form>) {
+    func updateWithViewModel(_ viewModel: TableViewModel<Form>) {
         self.viewModel = viewModel
         updateBarButtonItems()
     }
 }
 
 extension TokenFormViewController: TextFieldRowCellDelegate {
-    func textFieldCellDidReturn<Action>(textFieldCell: TextFieldRowCell<Action>) {
+    func textFieldCellDidReturn<Action>(_ textFieldCell: TextFieldRowCell<Action>) {
         // Unfocus the field that returned
         textFieldCell.unfocus()
 
-        if textFieldCell.textField.returnKeyType == .Next {
+        if textFieldCell.textField.returnKeyType == .next {
             // Try to focus the next text field cell
-            if let currentIndexPath = tableView.indexPathForCell(textFieldCell) {
+            if let currentIndexPath = tableView.indexPath(for: textFieldCell) {
                 if let nextFocusCell = nextVisibleFocusCellAfterIndexPath(currentIndexPath) {
                     nextFocusCell.focus()
                 }
             }
-        } else if textFieldCell.textField.returnKeyType == .Done {
+        } else if textFieldCell.textField.returnKeyType == .done {
             // Try to submit the form
             dispatchAction(viewModel.doneKeyAction)
         }

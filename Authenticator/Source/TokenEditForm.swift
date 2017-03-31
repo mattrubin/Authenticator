@@ -26,12 +26,12 @@
 import OneTimePassword
 
 struct TokenEditForm: Component {
-    private let persistentToken: PersistentToken
+    fileprivate let persistentToken: PersistentToken
 
-    private var issuer: String
-    private var name: String
+    fileprivate var issuer: String
+    fileprivate var name: String
 
-    private var isValid: Bool {
+    fileprivate var isValid: Bool {
         return !(issuer.isEmpty && name.isEmpty)
     }
 
@@ -48,10 +48,10 @@ struct TokenEditForm: Component {
 
 extension TokenEditForm: TableViewModelRepresentable {
     enum Action {
-        case Issuer(String)
-        case Name(String)
-        case Cancel
-        case Submit
+        case issuer(String)
+        case name(String)
+        case cancel
+        case submit
     }
 
     typealias HeaderModel = TokenFormHeaderModel<Action>
@@ -66,36 +66,36 @@ extension TokenEditForm {
     var viewModel: ViewModel {
         return TableViewModel(
             title: "Edit Token",
-            leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
-            rightBarButton: BarButtonViewModel(style: .Done, action: .Submit, enabled: isValid),
+            leftBarButton: BarButtonViewModel(style: .cancel, action: .cancel),
+            rightBarButton: BarButtonViewModel(style: .done, action: .submit, enabled: isValid),
             sections: [
                 [
                     issuerRowModel,
                     nameRowModel,
                 ],
             ],
-            doneKeyAction: .Submit
+            doneKeyAction: .submit
         )
     }
 
-    private var issuerRowModel: RowModel {
-        return .TextFieldRow(
+    fileprivate var issuerRowModel: RowModel {
+        return .textFieldRow(
             identity: "token.issuer",
             viewModel: TextFieldRowViewModel(
                 issuer: issuer,
-                changeAction: Action.Issuer
+                changeAction: Action.issuer
             )
         )
     }
 
-    private var nameRowModel: RowModel {
-        return .TextFieldRow(
+    fileprivate var nameRowModel: RowModel {
+        return .textFieldRow(
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
                 name: name,
                 // TODO: Change the behavior of the return key based on validation of the form.
-                returnKeyType: .Done,
-                changeAction: Action.Name
+                returnKeyType: .done,
+                changeAction: Action.name
             )
         )
     }
@@ -105,30 +105,30 @@ extension TokenEditForm {
 
 extension TokenEditForm {
     enum Effect {
-        case Cancel
-        case SaveChanges(Token, PersistentToken)
-        case ShowErrorMessage(String)
+        case cancel
+        case saveChanges(Token, PersistentToken)
+        case showErrorMessage(String)
     }
 
     @warn_unused_result
-    mutating func update(action: Action) -> Effect? {
+    mutating func update(_ action: Action) -> Effect? {
         switch action {
-        case let .Issuer(issuer):
+        case let .issuer(issuer):
             self.issuer = issuer
-        case let .Name(name):
+        case let .name(name):
             self.name = name
-        case .Cancel:
-            return .Cancel
-        case .Submit:
+        case .cancel:
+            return .cancel
+        case .submit:
             return submit()
         }
         return nil
     }
 
     @warn_unused_result
-    private mutating func submit() -> Effect? {
+    fileprivate mutating func submit() -> Effect? {
         guard isValid else {
-            return .ShowErrorMessage("An issuer or name is required.")
+            return .showErrorMessage("An issuer or name is required.")
         }
 
         let token = Token(

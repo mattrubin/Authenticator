@@ -27,77 +27,77 @@ import UIKit
 
 class MockTableView: UITableView {
     enum ChangeType {
-        case BeginUpdates
-        case EndUpdates
-        case Insert(indexPath: NSIndexPath)
-        case Remove(indexPath: NSIndexPath)
-        case Reload(indexPath: NSIndexPath)
-        case Move(fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath)
-        case Scroll(indexPath: NSIndexPath)
+        case beginUpdates
+        case endUpdates
+        case insert(indexPath: IndexPath)
+        case remove(indexPath: IndexPath)
+        case reload(indexPath: IndexPath)
+        case move(fromIndexPath: IndexPath, toIndexPath: IndexPath)
+        case scroll(indexPath: IndexPath)
     }
 
     var changes: [ChangeType] = []
 
     override func beginUpdates() {
         super.beginUpdates()
-        changes.append(.BeginUpdates)
+        changes.append(.beginUpdates)
     }
 
     override func endUpdates() {
         super.endUpdates()
-        changes.append(.EndUpdates)
+        changes.append(.endUpdates)
     }
 
-    override func insertRowsAtIndexPaths(indexPaths: [NSIndexPath], withRowAnimation animation: UITableViewRowAnimation) {
-        super.insertRowsAtIndexPaths(indexPaths, withRowAnimation: animation)
+    override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+        super.insertRows(at: indexPaths, with: animation)
         for indexPath in indexPaths {
-            changes.append(.Insert(indexPath: indexPath))
+            changes.append(.insert(indexPath: indexPath))
         }
     }
 
-    override func deleteRowsAtIndexPaths(indexPaths: [NSIndexPath], withRowAnimation animation: UITableViewRowAnimation) {
-        super.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: animation)
+    override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+        super.deleteRows(at: indexPaths, with: animation)
         for indexPath in indexPaths {
-            changes.append(.Remove(indexPath: indexPath))
+            changes.append(.remove(indexPath: indexPath))
         }
     }
 
-    override func reloadRowsAtIndexPaths(indexPaths: [NSIndexPath], withRowAnimation animation: UITableViewRowAnimation) {
-        super.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: animation)
+    override func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+        super.reloadRows(at: indexPaths, with: animation)
         for indexPath in indexPaths {
-            changes.append(.Reload(indexPath: indexPath))
+            changes.append(.reload(indexPath: indexPath))
         }
     }
 
-    override func moveRowAtIndexPath(indexPath: NSIndexPath, toIndexPath newIndexPath: NSIndexPath) {
-        super.moveRowAtIndexPath(indexPath, toIndexPath: newIndexPath)
-        changes.append(.Move(fromIndexPath: indexPath, toIndexPath: newIndexPath))
+    override func moveRow(at indexPath: IndexPath, to newIndexPath: IndexPath) {
+        super.moveRow(at: indexPath, to: newIndexPath)
+        changes.append(.move(fromIndexPath: indexPath, toIndexPath: newIndexPath))
     }
 
-    override func scrollToRowAtIndexPath(indexPath: NSIndexPath,
-                                         atScrollPosition scrollPosition: UITableViewScrollPosition, animated: Bool) {
-        super.scrollToRowAtIndexPath(indexPath, atScrollPosition: scrollPosition, animated: animated)
-        changes.append((.Scroll(indexPath: indexPath)))
+    override func scrollToRow(at indexPath: IndexPath,
+                                         at scrollPosition: UITableViewScrollPosition, animated: Bool) {
+        super.scrollToRow(at: indexPath, at: scrollPosition, animated: animated)
+        changes.append((.scroll(indexPath: indexPath)))
     }
 }
 
 extension MockTableView.ChangeType: Equatable {}
 func == (lhs: MockTableView.ChangeType, rhs: MockTableView.ChangeType) -> Bool {
     switch (lhs, rhs) {
-    case let (.Insert(l), .Insert(r)):
+    case let (.insert(l), .insert(r)):
         return l == r
-    case let (.Remove(l), .Remove(r)):
+    case let (.remove(l), .remove(r)):
         return l == r
-    case let (.Reload(l), .Reload(r)):
+    case let (.reload(l), .reload(r)):
         return l == r
-    case let (.Move(l), .Move(r)):
+    case let (.move(l), .move(r)):
         return l == r
-    case let (.Scroll(l), .Scroll(r)):
+    case let (.scroll(l), .scroll(r)):
         return l == r
-    case (.BeginUpdates, .BeginUpdates),
-         (.EndUpdates, .EndUpdates):
+    case (.beginUpdates, .beginUpdates),
+         (.endUpdates, .endUpdates):
         return true
-    case (.Insert, _), (.Remove, _), (.Reload, _), (.Move, _), (.Scroll, _), (.BeginUpdates, _), (.EndUpdates, _):
+    case (.insert, _), (.remove, _), (.reload, _), (.move, _), (.scroll, _), (.beginUpdates, _), (.endUpdates, _):
         return false
     }
 }

@@ -33,7 +33,7 @@ struct SegmentedControlRowViewModel<Action> {
         segments = options.map({ option in
             (title: option.title, action: changeAction(option.value))
         })
-        selectedSegmentIndex = options.map({ $0.value }).indexOf(value)
+        selectedSegmentIndex = options.map({ $0.value }).index(of: value)
     }
 }
 
@@ -43,8 +43,8 @@ private let preferredHeight: CGFloat = 54
 class SegmentedControlRowCell<Action>: UITableViewCell {
     var dispatchAction: ((Action) -> Void)?
 
-    private let segmentedControl = UISegmentedControl()
-    private var actions: [Action] = []
+    fileprivate let segmentedControl = UISegmentedControl()
+    fileprivate var actions: [Action] = []
 
     // MARK: - Init
 
@@ -60,10 +60,10 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
 
     // MARK: - Subviews
 
-    private func configureSubviews() {
+    fileprivate func configureSubviews() {
         contentView.addSubview(segmentedControl)
         let action = #selector(SegmentedControlRowCell.segmentedControlValueChanged)
-        segmentedControl.addTarget(self, action: action, forControlEvents: .ValueChanged)
+        segmentedControl.addTarget(self, action: action, for: .valueChanged)
     }
 
     override func layoutSubviews() {
@@ -76,13 +76,13 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
 
     // MARK: - View Model
 
-    func updateWithViewModel(viewModel: SegmentedControlRowViewModel<Action>) {
+    func updateWithViewModel(_ viewModel: SegmentedControlRowViewModel<Action>) {
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
-        for i in viewModel.segments.startIndex ..< viewModel.segments.endIndex {
+        for i in viewModel.segments.indices {
             let segment = viewModel.segments[i]
-            segmentedControl.insertSegmentWithTitle(segment.title, atIndex: i, animated: false)
+            segmentedControl.insertSegment(withTitle: segment.title, at: i, animated: false)
         }
         // Store the action associated with each segment
         actions = viewModel.segments.map({ $0.action })
@@ -90,7 +90,7 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
         segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControlNoSegment
     }
 
-    static func heightWithViewModel(viewModel: SegmentedControlRowViewModel<Action>) -> CGFloat {
+    static func heightWithViewModel(_ viewModel: SegmentedControlRowViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 

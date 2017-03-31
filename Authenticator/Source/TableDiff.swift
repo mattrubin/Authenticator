@@ -26,27 +26,27 @@
 import Foundation
 
 protocol Identifiable {
-    func hasSameIdentity(other: Self) -> Bool
+    func hasSameIdentity(_ other: Self) -> Bool
 }
 
 enum Change<Index> {
-    case Insert(index: Index)
-    case Update(oldIndex: Index, newIndex: Index)
-    case Delete(index: Index)
+    case insert(index: Index)
+    case update(oldIndex: Index, newIndex: Index)
+    case delete(index: Index)
 
-    func map<Other>(transform: (Index) -> Other) -> Change<Other> {
+    func map<Other>(_ transform: (Index) -> Other) -> Change<Other> {
         switch self {
-        case let .Insert(index):
-            return .Insert(index: transform(index))
-        case let .Update(oldIndex, newIndex):
-            return .Update(oldIndex: transform(oldIndex), newIndex: transform(newIndex))
-        case let .Delete(index):
-            return .Delete(index: transform(index))
+        case let .insert(index):
+            return .insert(index: transform(index))
+        case let .update(oldIndex, newIndex):
+            return .update(oldIndex: transform(oldIndex), newIndex: transform(newIndex))
+        case let .delete(index):
+            return .delete(index: transform(index))
         }
     }
 }
 
-func changesFrom<T: Identifiable>(oldItems: [T], to newItems: [T]) -> [Change<Int>] {
+func changesFrom<T: Identifiable>(_ oldItems: [T], to newItems: [T]) -> [Change<Int>] {
     return changes(
         from: oldItems,
         to: newItems,
@@ -55,7 +55,7 @@ func changesFrom<T: Identifiable>(oldItems: [T], to newItems: [T]) -> [Change<In
     )
 }
 
-func changesFrom<T: Identifiable where T: Equatable>(oldItems: [T], to newItems: [T]) -> [Change<Int>] {
+func changesFrom<T: Identifiable where T: Equatable>(_ oldItems: [T], to newItems: [T]) -> [Change<Int>] {
     return changes(
         from: oldItems,
         to: newItems,
@@ -71,10 +71,10 @@ private func changes<T>(from oldItems: [T], to newItems: [T], hasSameIdentity: (
         return []
     }
     let numDiagonals = (2 * MAX) + 1
-    var V: [Int] = Array(count: numDiagonals, repeatedValue: 0)
-    var changesInDiagonal: [[Change<Int>]] = Array(count: numDiagonals, repeatedValue: [])
+    var V: [Int] = Array(repeating: 0, count: numDiagonals)
+    var changesInDiagonal: [[Change<Int>]] = Array(repeating: [], count: numDiagonals)
     for D in 0...MAX {
-        for k in (-D).stride(through: D, by: 2) {
+        for k in stride(from: (-D), through: D, by: 2) {
             var x: Int
             var changes: [Change<Int>]
             if D == 0 {
@@ -83,16 +83,16 @@ private func changes<T>(from oldItems: [T], to newItems: [T], hasSameIdentity: (
             } else
             if k == -D || (k != D && V[(k - 1) + MAX] < V[(k + 1) + MAX]) {
                 x = V[(k + 1) + MAX]
-                changes = changesInDiagonal[(k + 1) + MAX] + [.Insert(index: (x - k) - 1)]
+                changes = changesInDiagonal[(k + 1) + MAX] + [.insert(index: (x - k) - 1)]
             } else {
                 x = V[(k - 1) + MAX] + 1
-                changes = changesInDiagonal[(k - 1) + MAX] + [.Delete(index: x - 1)]
+                changes = changesInDiagonal[(k - 1) + MAX] + [.delete(index: x - 1)]
             }
             var y = x - k
             while x < oldItems.count && y < newItems.count
                 && hasSameIdentity(oldItems[x], newItems[y]) {
                     if !isEqual(oldItems[x], newItems[y]) {
-                        changes += [.Update(oldIndex: x, newIndex: y)]
+                        changes += [.update(oldIndex: x, newIndex: y)]
                     }
                     (x, y) = (x + 1, y + 1)
             }
@@ -105,6 +105,6 @@ private func changes<T>(from oldItems: [T], to newItems: [T], hasSameIdentity: (
     }
     // With MAX = oldItems.count + newItems.count, a solution must be found by the above algorithm
     // but here's a delete-and-insert-everything fallback, just in case.
-    return oldItems.indices.map({ .Delete(index: $0) })
-        + newItems.indices.map({ .Insert(index: $0) })
+    return oldItems.indices.map({ .delete(index: $0) })
+        + newItems.indices.map({ .insert(index: $0) })
 }

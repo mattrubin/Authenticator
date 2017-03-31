@@ -27,18 +27,18 @@ import UIKit
 import OneTimePassword
 
 enum TokenFormHeaderModel<Action> {
-    case ButtonHeader(identity: String, viewModel: ButtonHeaderViewModel<Action>)
+    case buttonHeader(identity: String, viewModel: ButtonHeaderViewModel<Action>)
 }
 
 enum TokenFormRowModel<Action>: Identifiable {
-    case TextFieldRow(identity: String, viewModel: TextFieldRowViewModel<Action>)
-    case SegmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
+    case textFieldRow(identity: String, viewModel: TextFieldRowViewModel<Action>)
+    case segmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
 
-    func hasSameIdentity(other: TokenFormRowModel) -> Bool {
+    func hasSameIdentity(_ other: TokenFormRowModel) -> Bool {
         switch (self, other) {
-        case let (.TextFieldRow(rowA), .TextFieldRow(rowB)):
+        case let (.textFieldRow(rowA), .textFieldRow(rowB)):
             return rowA.identity == rowB.identity
-        case let (.SegmentedControlRow(rowA), .SegmentedControlRow(rowB)):
+        case let (.segmentedControlRow(rowA), .segmentedControlRow(rowB)):
             return rowA.identity == rowB.identity
         default:
             return false
@@ -47,7 +47,7 @@ enum TokenFormRowModel<Action>: Identifiable {
 }
 
 enum TokenType {
-    case Counter, Timer
+    case counter, timer
 }
 
 extension TextFieldRowViewModel {
@@ -55,10 +55,10 @@ extension TextFieldRowViewModel {
         label = "Issuer"
         placeholder = "Some Website"
 
-        autocapitalizationType = .Words
-        autocorrectionType = .Default
-        keyboardType = .Default
-        returnKeyType = .Next
+        autocapitalizationType = .words
+        autocorrectionType = .default
+        keyboardType = .default
+        returnKeyType = .next
 
         self.value = value
         self.changeAction = changeAction
@@ -68,9 +68,9 @@ extension TextFieldRowViewModel {
         label = "Account Name"
         placeholder = "user@example.com"
 
-        autocapitalizationType = .None
-        autocorrectionType = .No
-        keyboardType = .EmailAddress
+        autocapitalizationType = .none
+        autocorrectionType = .no
+        keyboardType = .emailAddress
         self.returnKeyType = returnKeyType
 
         self.value = value
@@ -81,10 +81,10 @@ extension TextFieldRowViewModel {
         label = "Secret Key"
         placeholder = "•••• •••• •••• ••••"
 
-        autocapitalizationType = .None
-        autocorrectionType = .No
-        keyboardType = .Default
-        returnKeyType = .Done
+        autocapitalizationType = .none
+        autocorrectionType = .no
+        keyboardType = .default
+        returnKeyType = .done
 
         self.value = value
         self.changeAction = changeAction
@@ -94,8 +94,8 @@ extension TextFieldRowViewModel {
 extension SegmentedControlRowViewModel {
     init(tokenType value: TokenType, @noescape changeAction: (TokenType) -> Action) {
         let options = [
-            (title: "Time Based", value: TokenType.Timer),
-            (title: "Counter Based", value: TokenType.Counter),
+            (title: "Time Based", value: TokenType.timer),
+            (title: "Counter Based", value: TokenType.counter),
         ]
         self.init(options: options, value: value, changeAction: changeAction)
     }

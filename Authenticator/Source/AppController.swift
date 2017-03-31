@@ -30,11 +30,11 @@ import OneTimePassword
 import SVProgressHUD
 
 class AppController {
-    private let store: TokenStore
-    private var component: Root {
+    fileprivate let store: TokenStore
+    fileprivate var component: Root {
         didSet {
             // TODO: Fix the excessive updates of bar button items so that the tick can run while they are on screen.
-            if case .None = component.viewModel.modal {
+            if case .none = component.viewModel.modal {
                 if displayLink == nil {
                     startTick()
                 }
@@ -46,7 +46,7 @@ class AppController {
             view.updateWithViewModel(component.viewModel)
         }
     }
-    private lazy var view: RootViewController = {
+    fileprivate lazy var view: RootViewController = {
         return RootViewController(
             viewModel: self.component.viewModel,
             dispatchAction: self.handleAction
@@ -55,13 +55,13 @@ class AppController {
 
     init() {
         do {
-            if Process.isDemo {
+            if CommandLine.isDemo {
                 // If this is a demo, use a token store of mock data, not backed by the keychain.
                 store = DemoTokenStore()
             } else {
                 store = try KeychainTokenStore(
                     keychain: Keychain.sharedInstance,
-                    userDefaults: NSUserDefaults.standardUserDefaults()
+                    userDefaults: UserDefaults.standardUserDefaults()
                 )
             }
         } catch {
@@ -70,7 +70,7 @@ class AppController {
         }
 
         // If this is a demo, show the scanner even in the simulator.
-        let deviceCanScan = QRScanner.deviceCanScan || Process.isDemo
+        let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
         component = Root(
             persistentTokens: store.persistentTokens,
             displayTime: .currentDisplayTime(),
@@ -82,15 +82,15 @@ class AppController {
 
     // MARK: - Tick
 
-    private var displayLink: CADisplayLink?
+    fileprivate var displayLink: CADisplayLink?
 
-    private func startTick() {
+    fileprivate func startTick() {
         let selector = #selector(tick)
         self.displayLink = CADisplayLink(target: self, selector: selector)
-        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+        self.displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
     }
 
-    private func stopTick() {
+    fileprivate func stopTick() {
         self.displayLink?.invalidate()
         self.displayLink = nil
     }
@@ -98,12 +98,12 @@ class AppController {
     @objc
     func tick() {
         // Dispatch an event to trigger a view model update.
-        handleEvent(.UpdateDisplayTime(.currentDisplayTime()))
+        handleEvent(.updateDisplayTime(.currentDisplayTime()))
     }
 
     // MARK: - Update
 
-    private func handleAction(action: Root.Action) {
+    fileprivate func handleAction(_ action: Root.Action) {
         do {
             let sideEffect = try component.update(action)
             if let effect = sideEffect {
@@ -114,14 +114,14 @@ class AppController {
         }
     }
 
-    private func handleEvent(event: Root.Event) {
+    fileprivate func handleEvent(_ event: Root.Event) {
         let sideEffect = component.update(event)
         if let effect = sideEffect {
             handleEffect(effect)
         }
     }
 
-    private func handleEffect(effect: Root.Effect) {
+    fileprivate func handleEffect(_ effect: Root.Effect) {
         switch effect {
         case let .AddToken(token, success, failure):
             do {
@@ -159,25 +159,25 @@ class AppController {
                 handleEvent(failure(error))
             }
 
-        case let .ShowErrorMessage(message):
-            SVProgressHUD.showErrorWithStatus(message)
+        case let .showErrorMessage(message):
+            SVProgressHUD.showError(withStatus: message)
 
-        case let .ShowSuccessMessage(message):
-            SVProgressHUD.showSuccessWithStatus(message)
+        case let .showSuccessMessage(message):
+            SVProgressHUD.showSuccess(withStatus: message)
 
-        case let .OpenURL(url):
+        case let .openURL(url):
             if #available(iOS 9.0, *) {
-                let safariViewController = SFSafariViewController(URL: url)
+                let safariViewController = SFSafariViewController(url: url)
                 let presenter = topViewController(presentedFrom: rootViewController)
-                presenter.presentViewController(safariViewController, animated: true, completion: nil)
+                presenter.present(safariViewController, animated: true, completion: nil)
             } else {
                 // Fallback on earlier versions
-                UIApplication.sharedApplication().openURL(url)
+                UIApplication.shared.openURL(url)
             }
         }
     }
 
-    private func topViewController(presentedFrom viewController: UIViewController) -> UIViewController {
+    fileprivate func topViewController(presentedFrom viewController: UIViewController) -> UIViewController {
         guard let presentedViewController = viewController.presentedViewController else {
             return viewController
         }
@@ -190,17 +190,17 @@ class AppController {
         return view
     }
 
-    func addTokenFromURL(token: Token) {
+    func addTokenFromURL(_ token: Token) {
         handleAction(.AddTokenFromURL(token))
     }
 }
 
 private extension DisplayTime {
     static func currentDisplayTime() -> DisplayTime {
-        if Process.isDemo {
+        if CommandLine.isDemo {
             // If this is a demo, use a constant time.
             return DisplayTime.demoTime
         }
-        return DisplayTime(date: NSDate())
+        return DisplayTime(date: Date())
     }
 }

@@ -24,8 +24,8 @@
 //
 
 enum BarButtonStyle {
-    case Done
-    case Cancel
+    case done
+    case cancel
 }
 
 struct BarButtonViewModel<Action> {

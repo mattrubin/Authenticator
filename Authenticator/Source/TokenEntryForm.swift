@@ -30,16 +30,16 @@ private let defaultTimerFactor = Generator.Factor.Timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.Counter(0)
 
 struct TokenEntryForm: Component {
-    private var issuer: String = ""
-    private var name: String = ""
-    private var secret: String = ""
-    private var tokenType: TokenType = .Timer
-    private var digitCount: Int = 6
-    private var algorithm: Generator.Algorithm = .SHA1
+    fileprivate var issuer: String = ""
+    fileprivate var name: String = ""
+    fileprivate var secret: String = ""
+    fileprivate var tokenType: TokenType = .timer
+    fileprivate var digitCount: Int = 6
+    fileprivate var algorithm: Generator.Algorithm = .SHA1
 
-    private var showsAdvancedOptions: Bool = false
+    fileprivate var showsAdvancedOptions: Bool = false
 
-    private var isValid: Bool {
+    fileprivate var isValid: Bool {
         return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
     }
 
@@ -53,16 +53,16 @@ struct TokenEntryForm: Component {
 
 extension TokenEntryForm: TableViewModelRepresentable {
     enum Action {
-        case Issuer(String)
-        case Name(String)
-        case Secret(String)
-        case TokenType(Authenticator.TokenType)
-        case DigitCount(Int)
-        case Algorithm(Generator.Algorithm)
+        case issuer(String)
+        case name(String)
+        case secret(String)
+        case tokenType(Authenticator.TokenType)
+        case digitCount(Int)
+        case algorithm(Generator.Algorithm)
 
-        case ShowAdvancedOptions
-        case Cancel
-        case Submit
+        case showAdvancedOptions
+        case cancel
+        case submit
     }
 
     typealias HeaderModel = TokenFormHeaderModel<Action>
@@ -77,8 +77,8 @@ extension TokenEntryForm {
     var viewModel: ViewModel {
         return TableViewModel(
             title: "Add Token",
-            leftBarButton: BarButtonViewModel(style: .Cancel, action: .Cancel),
-            rightBarButton: BarButtonViewModel(style: .Done, action: .Submit, enabled: isValid),
+            leftBarButton: BarButtonViewModel(style: .cancel, action: .cancel),
+            rightBarButton: BarButtonViewModel(style: .done, action: .submit, enabled: isValid),
             sections: [
                 [
                     issuerRowModel,
@@ -95,53 +95,53 @@ extension TokenEntryForm {
                         ]
                 ),
             ],
-            doneKeyAction: .Submit
+            doneKeyAction: .submit
         )
     }
 
-    private var advancedSectionHeader: HeaderModel {
-        return .ButtonHeader(
+    fileprivate var advancedSectionHeader: HeaderModel {
+        return .buttonHeader(
             identity: "advanced-options",
             viewModel: ButtonHeaderViewModel(
                 title: "Advanced Options",
-                action: Action.ShowAdvancedOptions
+                action: Action.showAdvancedOptions
             )
         )
     }
 
-    private var issuerRowModel: RowModel {
-        return .TextFieldRow(
+    fileprivate var issuerRowModel: RowModel {
+        return .textFieldRow(
             identity: "token.issuer",
             viewModel: TextFieldRowViewModel(
                 issuer: issuer,
-                changeAction: Action.Issuer
+                changeAction: Action.issuer
             )
         )
     }
 
-    private var nameRowModel: RowModel {
-        return .TextFieldRow(
+    fileprivate var nameRowModel: RowModel {
+        return .textFieldRow(
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
                 name: name,
-                returnKeyType: .Next,
-                changeAction: Action.Name
+                returnKeyType: .next,
+                changeAction: Action.name
             )
         )
     }
 
-    private var secretRowModel: RowModel {
-        return .TextFieldRow(
+    fileprivate var secretRowModel: RowModel {
+        return .textFieldRow(
             identity: "token.secret",
             viewModel: TextFieldRowViewModel(
                 secret: secret,
                 // TODO: Change the behavior of the return key based on validation of the form.
-                changeAction: Action.Secret
+                changeAction: Action.secret
             )
         )
     }
 
-    private var tokenTypeRowModel: RowModel {
+    fileprivate var tokenTypeRowModel: RowModel {
         return .SegmentedControlRow(
             identity: "token.tokenType",
             viewModel: SegmentedControlRowViewModel(
@@ -151,7 +151,7 @@ extension TokenEntryForm {
         )
     }
 
-    private var digitCountRowModel: RowModel {
+    fileprivate var digitCountRowModel: RowModel {
         return .SegmentedControlRow(
             identity: "token.digitCount",
             viewModel: SegmentedControlRowViewModel(
@@ -161,7 +161,7 @@ extension TokenEntryForm {
         )
     }
 
-    private var algorithmRowModel: RowModel {
+    fileprivate var algorithmRowModel: RowModel {
         return .SegmentedControlRow(
             identity: "token.algorithm",
             viewModel: SegmentedControlRowViewModel(
@@ -176,52 +176,52 @@ extension TokenEntryForm {
 
 extension TokenEntryForm {
     enum Effect {
-        case Cancel
-        case SaveNewToken(Token)
-        case ShowErrorMessage(String)
+        case cancel
+        case saveNewToken(Token)
+        case showErrorMessage(String)
     }
 
     @warn_unused_result
-    mutating func update(action: Action) -> Effect? {
+    mutating func update(_ action: Action) -> Effect? {
         switch action {
-        case let .Issuer(issuer):
+        case let .issuer(issuer):
             self.issuer = issuer
-        case let .Name(name):
+        case let .name(name):
             self.name = name
-        case let .Secret(secret):
+        case let .secret(secret):
             self.secret = secret
-        case let .TokenType(tokenType):
+        case let .tokenType(tokenType):
             self.tokenType = tokenType
-        case let .DigitCount(digitCount):
+        case let .digitCount(digitCount):
             self.digitCount = digitCount
         case let .Algorithm(algorithm):
             self.algorithm = algorithm
-        case .ShowAdvancedOptions:
+        case .showAdvancedOptions:
             showsAdvancedOptions = true
-        case .Cancel:
-            return .Cancel
-        case .Submit:
+        case .cancel:
+            return .cancel
+        case .submit:
             return submit()
         }
         return nil
     }
 
     @warn_unused_result
-    private mutating func submit() -> Effect? {
+    fileprivate mutating func submit() -> Effect? {
         guard isValid else {
-            return .ShowErrorMessage("A secret and some identifier are required.")
+            return .showErrorMessage("A secret and some identifier are required.")
         }
 
-        guard let secretData = NSData(base32String: secret)
+        guard let secretData = Data(base32String: secret)
             where secretData.length > 0 else {
-                return .ShowErrorMessage("The secret key is invalid.")
+                return .showErrorMessage("The secret key is invalid.")
         }
 
         let factor: Generator.Factor
         switch tokenType {
-        case .Counter:
+        case .counter:
             factor = defaultCounterFactor
-        case .Timer:
+        case .timer:
             factor = defaultTimerFactor
         }
 
@@ -233,7 +233,7 @@ extension TokenEntryForm {
             ) else {
                 // This UI doesn't allow the user to create an invalid period or digit count,
                 // so a generic error message is acceptable here.
-                return .ShowErrorMessage("Invalid Token")
+                return .showErrorMessage("Invalid Token")
         }
 
         let token = Token(

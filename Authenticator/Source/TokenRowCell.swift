@@ -27,11 +27,11 @@ import UIKit
 
 class TokenRowCell: UITableViewCell {
     var dispatchAction: ((TokenRowModel.Action) -> Void)?
-    private var rowModel: TokenRowModel?
+    fileprivate var rowModel: TokenRowModel?
 
-    private let titleLabel = UILabel()
-    private let passwordLabel = UILabel()
-    private let nextPasswordButton = UIButton(type: .ContactAdd)
+    fileprivate let titleLabel = UILabel()
+    fileprivate let passwordLabel = UILabel()
+    fileprivate let nextPasswordButton = UIButton(type: .contactAdd)
 
     // MARK: - Setup
 
@@ -45,9 +45,9 @@ class TokenRowCell: UITableViewCell {
         configureCell()
     }
 
-    private func configureCell() {
+    fileprivate func configureCell() {
         backgroundColor = .otpBackgroundColor
-        selectionStyle = .None
+        selectionStyle = .none
 
         configureSubviews()
         updateAppearanceWithRowModel(rowModel)
@@ -55,20 +55,20 @@ class TokenRowCell: UITableViewCell {
 
     // MARK: - Subviews
 
-    private func configureSubviews() {
-        titleLabel.font = UIFont.systemFontOfSize(15, weight: UIFontWeightLight)
+    fileprivate func configureSubviews() {
+        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight)
         titleLabel.textColor = .otpForegroundColor
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         contentView.addSubview(titleLabel)
 
-        passwordLabel.font = UIFont.systemFontOfSize(50, weight: UIFontWeightThin)
+        passwordLabel.font = UIFont.systemFont(ofSize: 50, weight: UIFontWeightThin)
         passwordLabel.textColor = .otpForegroundColor
-        passwordLabel.textAlignment = .Center
+        passwordLabel.textAlignment = .center
         contentView.addSubview(passwordLabel)
 
         nextPasswordButton.tintColor = .otpForegroundColor
         let action = #selector(TokenRowCell.generateNextPassword)
-        nextPasswordButton.addTarget(self, action: action, forControlEvents: .TouchUpInside)
+        nextPasswordButton.addTarget(self, action: action, for: .touchUpInside)
         contentView.addSubview(nextPasswordButton)
     }
 
@@ -76,7 +76,7 @@ class TokenRowCell: UITableViewCell {
         super.layoutSubviews()
 
         // Keep the contents centered in the full cell even when the contentView shifts in edit mode
-        let fullFrame = convertRect(bounds, toView: contentView)
+        let fullFrame = convert(bounds, to: contentView)
 
         titleLabel.frame = fullFrame
         titleLabel.frame.size.height = 20
@@ -90,12 +90,12 @@ class TokenRowCell: UITableViewCell {
 
     // MARK: - Update
 
-    func updateWithRowModel(rowModel: TokenRowModel) {
+    func updateWithRowModel(_ rowModel: TokenRowModel) {
         updateAppearanceWithRowModel(rowModel)
         self.rowModel = rowModel
     }
 
-    private func updateAppearanceWithRowModel(rowModel: TokenRowModel?) {
+    fileprivate func updateAppearanceWithRowModel(_ rowModel: TokenRowModel?) {
         let name = rowModel?.name ?? ""
         let issuer = rowModel?.issuer ?? ""
         let password = rowModel?.password ?? ""
@@ -103,47 +103,47 @@ class TokenRowCell: UITableViewCell {
 
         setName(name, issuer: issuer)
         setPassword(password)
-        nextPasswordButton.hidden = !showsButton
+        nextPasswordButton.isHidden = !showsButton
     }
 
-    private func setName(name: String, issuer: String) {
+    fileprivate func setName(_ name: String, issuer: String) {
         let titleString = NSMutableAttributedString()
         if !issuer.isEmpty {
-            let issuerAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15, weight: UIFontWeightMedium)]
-            titleString.appendAttributedString(NSAttributedString(string: issuer, attributes: issuerAttributes))
+            let issuerAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)]
+            titleString.append(NSAttributedString(string: issuer, attributes: issuerAttributes))
         }
         if !issuer.isEmpty && !name.isEmpty {
-            titleString.appendAttributedString(NSAttributedString(string: " "))
+            titleString.append(NSAttributedString(string: " "))
         }
         if !name.isEmpty {
-            titleString.appendAttributedString(NSAttributedString(string: name))
+            titleString.append(NSAttributedString(string: name))
         }
         titleLabel.attributedText = titleString
     }
 
-    private func setPassword(password: String) {
+    fileprivate func setPassword(_ password: String) {
         passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSKernAttributeName: 2])
     }
 
     // MARK: - Editing
 
-    override func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
 
         self.showsReorderControl = editing && (rowModel?.canReorder ?? true)
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             self.passwordLabel.alpha = !editing ? 1 : 0.2
             self.nextPasswordButton.alpha = !editing ? 1 : 0
-        }
+        }) 
     }
 
     // MARK: - Actions
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         if selected, let rowModel = rowModel {
-            if self.editing {
+            if self.isEditing {
                 dispatchAction?(rowModel.editAction)
             } else {
                 dispatchAction?(rowModel.selectAction)
