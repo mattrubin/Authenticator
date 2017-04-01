@@ -49,9 +49,9 @@ class KeychainTokenStore: TokenStore {
         let persistentTokenSet = try keychain.allPersistentTokens()
         let sortedIdentifiers = userDefaults.persistentIdentifiers()
 
-        persistentTokens = persistentTokenSet.sorted(by: { (A, B) in
-            let indexOfA = sortedIdentifiers.index(of: A.identifier)
-            let indexOfB = sortedIdentifiers.index(of: B.identifier)
+        persistentTokens = persistentTokenSet.sorted(by: {
+            let indexOfA = sortedIdentifiers.index(of: $0.identifier)
+            let indexOfB = sortedIdentifiers.index(of: $1.identifier)
 
             switch (indexOfA, indexOfB) {
             case (.some(let iA), .some(let iB)) where iA < iB:
