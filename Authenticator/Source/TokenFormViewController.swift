@@ -104,7 +104,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable>: UITableViewCon
     fileprivate func nextVisibleFocusCellAfterIndexPath(_ currentIndexPath: IndexPath) -> FocusCell? {
         if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
             for indexPath in visibleIndexPaths {
-                if (currentIndexPath as NSIndexPath).compare(indexPath) == .orderedAscending {
+                if currentIndexPath.compare(indexPath) == .orderedAscending {
                     if let focusCell = tableView.cellForRow(at: indexPath) as? FocusCell {
                         return focusCell
                     }

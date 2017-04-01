@@ -82,7 +82,7 @@ struct TokenList: Component {
         guard let filter = self.filter, !filter.isEmpty else {
             return self.persistentTokens
         }
-        let options: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
+        let options: String.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
         return self.persistentTokens.filter({
             $0.token.issuer.range(of: filter, options: options) != nil ||
                 $0.token.name.range(of: filter, options: options) != nil

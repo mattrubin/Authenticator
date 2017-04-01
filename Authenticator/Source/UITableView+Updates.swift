@@ -28,7 +28,7 @@ import UIKit
 extension UITableView {
     /// Applies the given `Change`s to the table view, then scrolls to show the last inserted row.
     /// - parameter changes: An `Array` of `Change`s to apply.
-    /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
+    /// - parameter updateRow: A closure which takes an `IndexPath` and updates the corresponding row.
     func applyChanges(_ changes: [Change<IndexPath>], updateRow: (IndexPath) -> Void) {
         if changes.isEmpty {
             return
@@ -78,7 +78,7 @@ extension UITableView {
     /// From among the given `Change`s, applies the `Update`s to cells at the new row indexes in the table view. This
     /// method should be used only *after* insertions, deletions, and moves have been applied.
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
-    /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
+    /// - parameter updateRow: A closure which takes an `IndexPath` and updates the corresponding row.
     private func applyRowUpdates(fromChanges changes: [Change<IndexPath>],
                                  updateRow: (IndexPath) -> Void) {
         for change in changes {

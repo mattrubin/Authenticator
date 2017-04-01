@@ -98,7 +98,7 @@ private extension PersistentToken {
     init(demoToken: Token) {
         token = demoToken
         // swiftlint:disable:next force_unwrapping
-        identifier = NSUUID().uuidString.data(using: String.Encoding.utf8)!
+        identifier = UUID().uuidString.data(using: String.Encoding.utf8)!
     }
 }
 

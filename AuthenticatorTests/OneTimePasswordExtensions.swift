@@ -29,7 +29,7 @@ import Foundation
 extension PersistentToken {
     static func makeUniqueIdentifier() -> Data {
         // swiftlint:disable:next force_unwrapping
-        return NSUUID().uuidString.data(using: String.Encoding.utf8)!
+        return UUID().uuidString.data(using: String.Encoding.utf8)!
     }
 
     func updated(with updatedToken: Token) -> PersistentToken {
