@@ -57,7 +57,7 @@ extension TokenEntryForm: TableViewModelRepresentable {
         case issuer(String)
         case name(String)
         case secret(String)
-        case tokenType(Authenticator.TokenType)
+        case tokenType(TokenType)
         case digitCount(Int)
         case algorithm(Generator.Algorithm)
 

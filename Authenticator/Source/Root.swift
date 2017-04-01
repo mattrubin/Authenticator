@@ -36,7 +36,7 @@ struct Root: Component {
         case scanner(TokenScanner)
         case entryForm(TokenEntryForm)
         case editForm(TokenEditForm)
-        case info(Authenticator.Info)
+        case info(Info)
 
         var viewModel: RootViewModel.ModalViewModel {
             switch self {
