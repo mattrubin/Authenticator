@@ -130,10 +130,10 @@ class TokenRowCell: UITableViewCell {
         super.setEditing(editing, animated: animated)
 
         self.showsReorderControl = editing && (rowModel?.canReorder ?? true)
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: 0.3) {
             self.passwordLabel.alpha = !editing ? 1 : 0.2
             self.nextPasswordButton.alpha = !editing ? 1 : 0
-        })
+        }
     }
 
     // MARK: - Actions
