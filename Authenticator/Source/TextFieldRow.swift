@@ -49,7 +49,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
     var dispatchAction: ((Action) -> Void)?
-    fileprivate var changeAction: ((String) -> Action)?
+    private var changeAction: ((String) -> Action)?
 
     // MARK: - Init
 
@@ -65,7 +65,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
 
     // MARK: - Subviews
 
-    fileprivate func configureSubviews() {
+    private func configureSubviews() {
         textLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)
 
         textField.delegate = self

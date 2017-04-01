@@ -187,14 +187,14 @@ extension Root {
         }
     }
 
-    fileprivate mutating func handleTokenListEvent(_ event: TokenList.Event) -> Effect? {
+    private mutating func handleTokenListEvent(_ event: TokenList.Event) -> Effect? {
         let effect = tokenList.update(event)
         return effect.flatMap { effect in
             handleTokenListEffect(effect)
         }
     }
 
-    fileprivate mutating func handleTokenListEffect(_ effect: TokenList.Effect) -> Effect? {
+    private mutating func handleTokenListEffect(_ effect: TokenList.Effect) -> Effect? {
         switch effect {
         case .beginTokenEntry:
             if deviceCanScan {
@@ -247,7 +247,7 @@ extension Root {
         }
     }
 
-    fileprivate mutating func handleTokenEntryFormEffect(_ effect: TokenEntryForm.Effect) -> Effect? {
+    private mutating func handleTokenEntryFormEffect(_ effect: TokenEntryForm.Effect) -> Effect? {
         switch effect {
         case .cancel:
             modal = .none
@@ -263,7 +263,7 @@ extension Root {
         }
     }
 
-    fileprivate mutating func handleTokenEditFormEffect(_ effect: TokenEditForm.Effect) -> Effect? {
+    private mutating func handleTokenEditFormEffect(_ effect: TokenEditForm.Effect) -> Effect? {
         switch effect {
         case .cancel:
             modal = .none
@@ -279,7 +279,7 @@ extension Root {
         }
     }
 
-    fileprivate mutating func handleTokenScannerEffect(_ effect: TokenScanner.Effect) -> Effect? {
+    private mutating func handleTokenScannerEffect(_ effect: TokenScanner.Effect) -> Effect? {
         switch effect {
         case .cancel:
             modal = .none
@@ -305,7 +305,7 @@ extension Root {
         }
     }
 
-    fileprivate mutating func handleInfoEffect(_ effect: Info.Effect) -> Effect? {
+    private mutating func handleInfoEffect(_ effect: Info.Effect) -> Effect? {
         switch effect {
         case .done:
             modal = .none

@@ -37,7 +37,7 @@ extension CommandLine {
 struct DemoTokenStore: TokenStore {
     let persistentTokens = demoTokens.map(PersistentToken.init(demoToken:))
 
-    fileprivate static let demoTokens = [
+    private static let demoTokens = [
         Token(
             name: "john.appleseed@gmail.com",
             issuer: "Google",
@@ -63,7 +63,7 @@ struct DemoTokenStore: TokenStore {
         ),
     ]
 
-    fileprivate struct Error: Swift.Error {}
+    private struct Error: Swift.Error {}
 
     func addToken(_ token: Token) throws {
         throw Error()

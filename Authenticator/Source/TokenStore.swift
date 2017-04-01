@@ -37,7 +37,7 @@ protocol TokenStore {
 
 class KeychainTokenStore: TokenStore {
     fileprivate let keychain: Keychain
-    fileprivate let userDefaults: UserDefaults
+    private let userDefaults: UserDefaults
     fileprivate(set) var persistentTokens: [PersistentToken]
 
     // Throws an error if the initial state could not be loaded from the keychain.

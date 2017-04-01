@@ -139,7 +139,7 @@ extension RootViewController {
         currentViewModel = viewModel
     }
 
-    fileprivate func updateWithInfoViewModel(_ infoViewModel: Info.ViewModel) {
+    private func updateWithInfoViewModel(_ infoViewModel: Info.ViewModel) {
         if case .info = currentViewModel.modal,
             let infoViewController = modalNavController?.topViewController as? InfoViewController {
             infoViewController.updateWithViewModel(infoViewModel)

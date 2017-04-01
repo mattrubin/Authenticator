@@ -46,7 +46,7 @@ extension UITableView {
     /// insertions, deletions, and moves will be performed in a single animated table view updates group. If there are
     /// no changes which require animations, this method will not perform an empty updates group.
     /// - parameter changes: An `Array` of `Change`s, from which animated changes will be applied.
-    fileprivate func applyOrderChanges(fromChanges changes: [Change<IndexPath>]) {
+    private func applyOrderChanges(fromChanges changes: [Change<IndexPath>]) {
         // Determine if there are any changes that require insert/delete/move animations.
         // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
         let changesNeedAnimations = changes.contains { change in
@@ -79,7 +79,7 @@ extension UITableView {
     /// method should be used only *after* insertions, deletions, and moves have been applied.
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
     /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
-    fileprivate func applyRowUpdates(fromChanges changes: [Change<IndexPath>],
+    private func applyRowUpdates(fromChanges changes: [Change<IndexPath>],
                                      updateRow: (IndexPath) -> Void) {
         for change in changes {
             switch change {
@@ -94,7 +94,7 @@ extension UITableView {
     /// From among the given `Change`s, finds the last `Insert` and scrolls to that row in the table view. This method
     /// should be used only *after* the changes have been applied.
     /// - parameter changes: An `Array` of `Change`s, in which the last `Insert` will be found.
-    fileprivate func scrollToLastInsertedRow(fromChanges changes: [Change<IndexPath>]) {
+    private func scrollToLastInsertedRow(fromChanges changes: [Change<IndexPath>]) {
         let lastInsertedRow = changes.reduce(nil, { (lastInsertedRow, change) -> IndexPath? in
             switch change {
             case let .insert(row):

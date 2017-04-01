@@ -89,12 +89,12 @@ class TokenListViewController: UITableViewController {
         return label
     }()
 
-    fileprivate let warningButton: UIButton = {
+    private let warningButton: UIButton = {
         let button = UIButton(type: .custom)
         return button
     }()
 
-    fileprivate let infoButton = UIButton(type: .infoLight)
+    private let infoButton = UIButton(type: .infoLight)
 
     // MARK: View Lifecycle
 

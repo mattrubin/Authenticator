@@ -26,10 +26,10 @@
 import Foundation
 
 struct Info {
-    fileprivate let title: String
-    fileprivate let url: URL
+    private let title: String
+    private let url: URL
 
-    fileprivate init(title: String, htmlFileName: String) throws {
+    private init(title: String, htmlFileName: String) throws {
         self.title = title
         guard let path = Bundle.main.path(forResource: htmlFileName, ofType: "html") else {
             throw Error.missingFile(htmlFileName)

@@ -28,11 +28,11 @@ import AVFoundation
 import OneTimePassword
 
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
-    fileprivate let scanner = QRScanner()
-    fileprivate let videoLayer = AVCaptureVideoPreviewLayer()
+    private let scanner = QRScanner()
+    private let videoLayer = AVCaptureVideoPreviewLayer()
 
-    fileprivate var viewModel: TokenScanner.ViewModel
-    fileprivate let dispatchAction: (TokenScanner.Action) -> Void
+    private var viewModel: TokenScanner.ViewModel
+    private let dispatchAction: (TokenScanner.Action) -> Void
 
     // MARK: Initialization
 

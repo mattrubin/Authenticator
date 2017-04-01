@@ -26,7 +26,7 @@
 import UIKit
 
 extension UIColor {
-    fileprivate convenience init(red: Int, green: Int, blue: Int) {
+    private convenience init(red: Int, green: Int, blue: Int) {
         let divisor: CGFloat = 255
         self.init(
             red: CGFloat(red) / divisor,
@@ -36,7 +36,7 @@ extension UIColor {
         )
     }
 
-    fileprivate struct OTP {
+    private struct OTP {
         static let darkColor = UIColor(red: 35, green: 35, blue: 50)
         static let lightColor = UIColor(red: 250, green: 248, blue: 240)
     }

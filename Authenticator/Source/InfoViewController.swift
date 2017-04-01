@@ -27,10 +27,10 @@ import UIKit
 import WebKit
 
 class InfoViewController: UIViewController, WKNavigationDelegate {
-    fileprivate var viewModel: Info.ViewModel
-    fileprivate let dispatchAction: (Info.Effect) -> Void
+    private var viewModel: Info.ViewModel
+    private let dispatchAction: (Info.Effect) -> Void
 
-    fileprivate let webView = WKWebView()
+    private let webView = WKWebView()
 
     // MARK: Initialization
 
@@ -49,7 +49,7 @@ class InfoViewController: UIViewController, WKNavigationDelegate {
         applyViewModel()
     }
 
-    fileprivate func applyViewModel() {
+    private func applyViewModel() {
         if title != viewModel.title {
             title = viewModel.title
         }

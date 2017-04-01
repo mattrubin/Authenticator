@@ -100,7 +100,7 @@ extension TokenEntryForm {
         )
     }
 
-    fileprivate var advancedSectionHeader: HeaderModel {
+    private var advancedSectionHeader: HeaderModel {
         return .buttonHeader(
             identity: "advanced-options",
             viewModel: ButtonHeaderViewModel(
@@ -110,7 +110,7 @@ extension TokenEntryForm {
         )
     }
 
-    fileprivate var issuerRowModel: RowModel {
+    private var issuerRowModel: RowModel {
         return .textFieldRow(
             identity: "token.issuer",
             viewModel: TextFieldRowViewModel(
@@ -120,7 +120,7 @@ extension TokenEntryForm {
         )
     }
 
-    fileprivate var nameRowModel: RowModel {
+    private var nameRowModel: RowModel {
         return .textFieldRow(
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
@@ -131,7 +131,7 @@ extension TokenEntryForm {
         )
     }
 
-    fileprivate var secretRowModel: RowModel {
+    private var secretRowModel: RowModel {
         return .textFieldRow(
             identity: "token.secret",
             viewModel: TextFieldRowViewModel(
@@ -142,7 +142,7 @@ extension TokenEntryForm {
         )
     }
 
-    fileprivate var tokenTypeRowModel: RowModel {
+    private var tokenTypeRowModel: RowModel {
         return .segmentedControlRow(
             identity: "token.tokenType",
             viewModel: SegmentedControlRowViewModel(
@@ -152,7 +152,7 @@ extension TokenEntryForm {
         )
     }
 
-    fileprivate var digitCountRowModel: RowModel {
+    private var digitCountRowModel: RowModel {
         return .segmentedControlRow(
             identity: "token.digitCount",
             viewModel: SegmentedControlRowViewModel(
@@ -162,7 +162,7 @@ extension TokenEntryForm {
         )
     }
 
-    fileprivate var algorithmRowModel: RowModel {
+    private var algorithmRowModel: RowModel {
         return .segmentedControlRow(
             identity: "token.algorithm",
             viewModel: SegmentedControlRowViewModel(
@@ -206,7 +206,7 @@ extension TokenEntryForm {
         return nil
     }
 
-    fileprivate mutating func submit() -> Effect? {
+    private mutating func submit() -> Effect? {
         guard isValid else {
             return .showErrorMessage("A secret and some identifier are required.")
         }

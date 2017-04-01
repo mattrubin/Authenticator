@@ -54,7 +54,7 @@ struct TokenList: Component {
     }
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
-    fileprivate var timeBasedTokenPeriods: [TimeInterval] {
+    private var timeBasedTokenPeriods: [TimeInterval] {
         var periods = Set<TimeInterval>()
         persistentTokens.forEach { (persistentToken) in
             if case .timer(let period) = persistentToken.token.generator.factor {
@@ -64,7 +64,7 @@ struct TokenList: Component {
         return Array(periods).sorted()
     }
 
-    fileprivate var ringProgress: Double? {
+    private var ringProgress: Double? {
         guard let ringPeriod = timeBasedTokenPeriods.first else {
             // If there are no time-based tokens, return nil to hide the progress ring.
             return nil
@@ -78,7 +78,7 @@ struct TokenList: Component {
         return fmod(displayTime.timeIntervalSince1970, ringPeriod) / ringPeriod
     }
 
-    fileprivate var filteredTokens: [PersistentToken] {
+    private var filteredTokens: [PersistentToken] {
         guard let filter = self.filter, !filter.isEmpty else {
             return self.persistentTokens
         }
@@ -195,7 +195,7 @@ extension TokenList {
         }
     }
 
-    fileprivate mutating func copyPassword(_ password: String) -> Effect {
+    private mutating func copyPassword(_ password: String) -> Effect {
         let pasteboard = UIPasteboard.general
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         // Show an ephemeral success message.

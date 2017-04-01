@@ -27,7 +27,7 @@ import Foundation
 import OneTimePassword
 
 struct TokenScanner: Component {
-    fileprivate var tokenFound: Bool
+    private var tokenFound: Bool
 
     // MARK: Initialization
 

@@ -92,7 +92,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable>: UITableViewCon
     // MARK: Focus
 
     @discardableResult
-    fileprivate func focusFirstField() -> Bool {
+    private func focusFirstField() -> Bool {
         for cell in tableView.visibleCells {
             if let focusCell = cell as? FocusCell {
                 return focusCell.focus()
@@ -115,7 +115,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable>: UITableViewCon
     }
 
     @discardableResult
-    fileprivate func unfocus() -> Bool {
+    private func unfocus() -> Bool {
         return view.endEditing(false)
     }
 
@@ -194,7 +194,7 @@ class TokenFormViewController<Form: TableViewModelRepresentable>: UITableViewCon
 extension TokenFormViewController {
     // MARK: Bar Button View Model
 
-    fileprivate func barButtonItemForViewModel(_ viewModel: BarButtonViewModel<Form.Action>, target: AnyObject?, action: Selector) -> UIBarButtonItem {
+    private func barButtonItemForViewModel(_ viewModel: BarButtonViewModel<Form.Action>, target: AnyObject?, action: Selector) -> UIBarButtonItem {
         func systemItemForStyle(_ style: BarButtonStyle) -> UIBarButtonSystemItem {
             switch style {
             case .done:

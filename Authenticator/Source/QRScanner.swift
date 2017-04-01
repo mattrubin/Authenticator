@@ -32,8 +32,8 @@ protocol QRScannerDelegate: class {
 
 class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     weak var delegate: QRScannerDelegate?
-    fileprivate let serialQueue = DispatchQueue(label: "QRScanner serial queue", attributes: [])
-    fileprivate lazy var captureSession: AVCaptureSession? = {
+    private let serialQueue = DispatchQueue(label: "QRScanner serial queue", attributes: [])
+    private lazy var captureSession: AVCaptureSession? = {
         do {
             return try QRScanner.createCaptureSessionWithDelegate(self)
         } catch {
@@ -66,7 +66,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         case outputError
     }
 
-    fileprivate class func createCaptureSessionWithDelegate(_ delegate: AVCaptureMetadataOutputObjectsDelegate) throws -> AVCaptureSession {
+    private class func createCaptureSessionWithDelegate(_ delegate: AVCaptureMetadataOutputObjectsDelegate) throws -> AVCaptureSession {
         let captureSession = AVCaptureSession()
 
         guard let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo),

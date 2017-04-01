@@ -43,8 +43,8 @@ private let preferredHeight: CGFloat = 54
 class SegmentedControlRowCell<Action>: UITableViewCell {
     var dispatchAction: ((Action) -> Void)?
 
-    fileprivate let segmentedControl = UISegmentedControl()
-    fileprivate var actions: [Action] = []
+    private let segmentedControl = UISegmentedControl()
+    private var actions: [Action] = []
 
     // MARK: - Init
 
@@ -60,7 +60,7 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
 
     // MARK: - Subviews
 
-    fileprivate func configureSubviews() {
+    private func configureSubviews() {
         contentView.addSubview(segmentedControl)
         let action = #selector(SegmentedControlRowCell.segmentedControlValueChanged)
         segmentedControl.addTarget(self, action: action, for: .valueChanged)

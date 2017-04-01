@@ -27,11 +27,11 @@ import UIKit
 
 class TokenRowCell: UITableViewCell {
     var dispatchAction: ((TokenRowModel.Action) -> Void)?
-    fileprivate var rowModel: TokenRowModel?
+    private var rowModel: TokenRowModel?
 
-    fileprivate let titleLabel = UILabel()
-    fileprivate let passwordLabel = UILabel()
-    fileprivate let nextPasswordButton = UIButton(type: .contactAdd)
+    private let titleLabel = UILabel()
+    private let passwordLabel = UILabel()
+    private let nextPasswordButton = UIButton(type: .contactAdd)
 
     // MARK: - Setup
 
@@ -45,7 +45,7 @@ class TokenRowCell: UITableViewCell {
         configureCell()
     }
 
-    fileprivate func configureCell() {
+    private func configureCell() {
         backgroundColor = .otpBackgroundColor
         selectionStyle = .none
 
@@ -55,7 +55,7 @@ class TokenRowCell: UITableViewCell {
 
     // MARK: - Subviews
 
-    fileprivate func configureSubviews() {
+    private func configureSubviews() {
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight)
         titleLabel.textColor = .otpForegroundColor
         titleLabel.textAlignment = .center
@@ -95,7 +95,7 @@ class TokenRowCell: UITableViewCell {
         self.rowModel = rowModel
     }
 
-    fileprivate func updateAppearanceWithRowModel(_ rowModel: TokenRowModel?) {
+    private func updateAppearanceWithRowModel(_ rowModel: TokenRowModel?) {
         let name = rowModel?.name ?? ""
         let issuer = rowModel?.issuer ?? ""
         let password = rowModel?.password ?? ""
@@ -106,7 +106,7 @@ class TokenRowCell: UITableViewCell {
         nextPasswordButton.isHidden = !showsButton
     }
 
-    fileprivate func setName(_ name: String, issuer: String) {
+    private func setName(_ name: String, issuer: String) {
         let titleString = NSMutableAttributedString()
         if !issuer.isEmpty {
             let issuerAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)]
@@ -121,7 +121,7 @@ class TokenRowCell: UITableViewCell {
         titleLabel.attributedText = titleString
     }
 
-    fileprivate func setPassword(_ password: String) {
+    private func setPassword(_ password: String) {
         passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSKernAttributeName: 2])
     }
 

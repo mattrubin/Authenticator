@@ -64,7 +64,7 @@ struct TokenRowModel: Identifiable {
     }
 
     // Group the password into chunks of two digits, separated by spaces.
-    fileprivate static func chunkPassword(_ password: String) -> String {
+    private static func chunkPassword(_ password: String) -> String {
         var characters = password.characters
         let chunkSize = 2
         for i in stride(from: chunkSize, to: characters.count, by: chunkSize).reversed() {

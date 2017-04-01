@@ -26,7 +26,7 @@
 import UIKit
 
 class OTPProgressRing: UIView {
-    fileprivate let lineWidth: CGFloat = 1.5
+    private let lineWidth: CGFloat = 1.5
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

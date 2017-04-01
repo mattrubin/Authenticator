@@ -38,8 +38,8 @@ struct ButtonHeaderViewModel<Action> {
 private let preferredHeight: CGFloat = 54
 
 class ButtonHeaderView<Action>: UIButton {
-    fileprivate var buttonAction: Action?
-    fileprivate var dispatchAction: ((Action) -> Void)?
+    private var buttonAction: Action?
+    private var dispatchAction: ((Action) -> Void)?
 
     // MARK: - Init
 
@@ -55,7 +55,7 @@ class ButtonHeaderView<Action>: UIButton {
 
     // MARK: - Subviews
 
-    fileprivate func configureSubviews() {
+    private func configureSubviews() {
         titleLabel?.textAlignment = .center
         titleLabel?.textColor = UIColor.otpForegroundColor
         titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight)

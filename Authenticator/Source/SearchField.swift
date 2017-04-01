@@ -56,7 +56,7 @@ class SearchField: UIView {
 
     let textField: UITextField = SearchTextField()
 
-    fileprivate func setupTextField() {
+    private func setupTextField() {
         ring.tintColor = UIColor.otpLightColor
         let placeHolderAttributes = [
             NSForegroundColorAttributeName: UIColor.otpLightColor,

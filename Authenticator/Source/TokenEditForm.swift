@@ -78,7 +78,7 @@ extension TokenEditForm {
         )
     }
 
-    fileprivate var issuerRowModel: RowModel {
+    private var issuerRowModel: RowModel {
         return .textFieldRow(
             identity: "token.issuer",
             viewModel: TextFieldRowViewModel(
@@ -88,7 +88,7 @@ extension TokenEditForm {
         )
     }
 
-    fileprivate var nameRowModel: RowModel {
+    private var nameRowModel: RowModel {
         return .textFieldRow(
             identity: "token.name",
             viewModel: TextFieldRowViewModel(
@@ -124,7 +124,7 @@ extension TokenEditForm {
         return nil
     }
 
-    fileprivate mutating func submit() -> Effect? {
+    private mutating func submit() -> Effect? {
         guard isValid else {
             return .showErrorMessage("An issuer or name is required.")
         }

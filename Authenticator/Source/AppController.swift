@@ -30,8 +30,8 @@ import OneTimePassword
 import SVProgressHUD
 
 class AppController {
-    fileprivate let store: TokenStore
-    fileprivate var component: Root {
+    private let store: TokenStore
+    private var component: Root {
         didSet {
             // TODO: Fix the excessive updates of bar button items so that the tick can run while they are on screen.
             if case .none = component.viewModel.modal {
@@ -46,7 +46,7 @@ class AppController {
             view.updateWithViewModel(component.viewModel)
         }
     }
-    fileprivate lazy var view: RootViewController = {
+    private lazy var view: RootViewController = {
         return RootViewController(
             viewModel: self.component.viewModel,
             dispatchAction: self.handleAction
@@ -82,15 +82,15 @@ class AppController {
 
     // MARK: - Tick
 
-    fileprivate var displayLink: CADisplayLink?
+    private var displayLink: CADisplayLink?
 
-    fileprivate func startTick() {
+    private func startTick() {
         let selector = #selector(tick)
         self.displayLink = CADisplayLink(target: self, selector: selector)
         self.displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
     }
 
-    fileprivate func stopTick() {
+    private func stopTick() {
         self.displayLink?.invalidate()
         self.displayLink = nil
     }
@@ -103,7 +103,7 @@ class AppController {
 
     // MARK: - Update
 
-    fileprivate func handleAction(_ action: Root.Action) {
+    private func handleAction(_ action: Root.Action) {
         do {
             let sideEffect = try component.update(action)
             if let effect = sideEffect {
@@ -114,14 +114,14 @@ class AppController {
         }
     }
 
-    fileprivate func handleEvent(_ event: Root.Event) {
+    private func handleEvent(_ event: Root.Event) {
         let sideEffect = component.update(event)
         if let effect = sideEffect {
             handleEffect(effect)
         }
     }
 
-    fileprivate func handleEffect(_ effect: Root.Effect) {
+    private func handleEffect(_ effect: Root.Effect) {
         switch effect {
         case let .addToken(token, success, failure):
             do {
@@ -177,7 +177,7 @@ class AppController {
         }
     }
 
-    fileprivate func topViewController(presentedFrom viewController: UIViewController) -> UIViewController {
+    private func topViewController(presentedFrom viewController: UIViewController) -> UIViewController {
         guard let presentedViewController = viewController.presentedViewController else {
             return viewController
         }
