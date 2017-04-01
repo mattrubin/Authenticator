@@ -35,7 +35,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let barButtonAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]
-        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonAttributes, for: UIControlState())
+        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonAttributes, for: .normal)
 
         // Restore white-on-black style
         SVProgressHUD.setForegroundColor(.otpLightColor)

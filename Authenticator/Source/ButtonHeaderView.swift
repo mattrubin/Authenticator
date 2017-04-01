@@ -73,7 +73,7 @@ class ButtonHeaderView<Action>: UIButton {
     }
 
     func updateWithViewModel(_ viewModel: ButtonHeaderViewModel<Action>) {
-        setTitle(viewModel.title, for: UIControlState())
+        setTitle(viewModel.title, for: .normal)
         buttonAction = viewModel.action
     }
 
