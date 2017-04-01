@@ -76,7 +76,7 @@ class RootViewController: OpaqueNavigationController {
             navController.setViewControllers([viewController], animated: true)
         } else {
             let navController = OpaqueNavigationController(rootViewController: viewController)
-            present(navController, animated: true, completion: nil)
+            present(navController, animated: true)
             modalNavController = navController
         }
     }
@@ -84,7 +84,7 @@ class RootViewController: OpaqueNavigationController {
     fileprivate func dismissViewController() {
         if modalNavController != nil {
             modalNavController = nil
-            dismiss(animated: true, completion: nil)
+            dismiss(animated: true)
         }
     }
 }

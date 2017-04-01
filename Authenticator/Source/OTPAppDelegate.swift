@@ -58,11 +58,11 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
                 app?.addTokenFromURL(token)
             }
 
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: acceptHandler))
 
             // TODO: Fix the confirmation alert presentation when a modal is open.
-            window?.rootViewController?.present(alert, animated: true, completion: nil)
+            window?.rootViewController?.present(alert, animated: true)
 
             return true
         }

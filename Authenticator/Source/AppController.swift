@@ -169,7 +169,7 @@ class AppController {
             if #available(iOS 9.0, *) {
                 let safariViewController = SFSafariViewController(url: url)
                 let presenter = topViewController(presentedFrom: rootViewController)
-                presenter.present(safariViewController, animated: true, completion: nil)
+                presenter.present(safariViewController, animated: true)
             } else {
                 // Fallback on earlier versions
                 UIApplication.shared.openURL(url)
