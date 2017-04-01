@@ -87,7 +87,7 @@ class AppController {
     private func startTick() {
         let selector = #selector(tick)
         self.displayLink = CADisplayLink(target: self, selector: selector)
-        self.displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+        self.displayLink?.add(to: RunLoop.main, forMode: .commonModes)
     }
 
     private func stopTick() {
