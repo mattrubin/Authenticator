@@ -74,7 +74,7 @@ private func changes<T>(from oldItems: [T], to newItems: [T], hasSameIdentity: (
     var V: [Int] = Array(repeating: 0, count: numDiagonals)
     var changesInDiagonal: [[Change<Int>]] = Array(repeating: [], count: numDiagonals)
     for D in 0...MAX {
-        for k in stride(from: (-D), through: D, by: 2) {
+        for k in stride(from: -D, through: D, by: 2) {
             var x: Int
             var changes: [Change<Int>]
             if D == 0 {
