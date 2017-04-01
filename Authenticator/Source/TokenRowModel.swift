@@ -40,8 +40,7 @@ struct TokenRowModel: Identifiable {
     fileprivate let identifier: Data
 
     init(persistentToken: PersistentToken, displayTime: DisplayTime, canReorder reorderable: Bool = true) {
-        let displayDate = Date(timeIntervalSince1970: displayTime.timeIntervalSince1970)
-        let rawPassword = (try? persistentToken.token.generator.password(at: displayDate)) ?? ""
+        let rawPassword = (try? persistentToken.token.generator.password(at: displayTime.date)) ?? ""
 
         name = persistentToken.token.name
         issuer = persistentToken.token.issuer

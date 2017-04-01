@@ -32,6 +32,10 @@ struct DisplayTime: Equatable {
     init(date: Date) {
         timeIntervalSince1970 = date.timeIntervalSince1970
     }
+
+    var date: Date {
+        return Date(timeIntervalSince1970: timeIntervalSince1970)
+    }
 }
 
 func == (lhs: DisplayTime, rhs: DisplayTime) -> Bool {
