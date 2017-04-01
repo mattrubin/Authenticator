@@ -150,9 +150,7 @@ class TokenListViewController: UITableViewController {
         warningButton.addTarget(self, action: #selector(showBackupInfo), for: .touchUpInside)
         view.addSubview(warningButton)
 
-        infoButton.addTarget(self,
-                             action: #selector(TokenListViewController.showLicenseInfo),
-                             for: .touchUpInside)
+        infoButton.addTarget(self, action: #selector(TokenListViewController.showLicenseInfo), for: .touchUpInside)
 
         // Update with current viewModel
         self.updatePeripheralViews()
@@ -162,9 +160,7 @@ class TokenListViewController: UITableViewController {
         super.viewWillAppear(animated)
 
         let searchSelector = #selector(TokenListViewController.filterTokens)
-        searchBar.textField.addTarget(self,
-                                      action: searchSelector,
-                                      for: .editingChanged)
+        searchBar.textField.addTarget(self, action: searchSelector, for: .editingChanged)
     }
 
     override func viewWillDisappear(_ animated: Bool) {

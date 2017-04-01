@@ -69,8 +69,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
         textLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)
 
         textField.delegate = self
-        let action = #selector(TextFieldRowCell.textFieldValueChanged)
-        textField.addTarget(self, action: action, for: .editingChanged)
+        textField.addTarget(self, action: #selector(TextFieldRowCell.textFieldValueChanged), for: .editingChanged)
         textField.borderStyle = .roundedRect
         textField.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight)
         contentView.addSubview(textField)

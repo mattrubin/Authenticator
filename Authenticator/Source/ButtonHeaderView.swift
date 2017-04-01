@@ -60,8 +60,7 @@ class ButtonHeaderView<Action>: UIButton {
         titleLabel?.textColor = UIColor.otpForegroundColor
         titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight)
 
-        let action = #selector(ButtonHeaderView.buttonWasPressed)
-        addTarget(self, action: action, for: .touchUpInside)
+        addTarget(self, action: #selector(ButtonHeaderView.buttonWasPressed), for: .touchUpInside)
     }
 
     // MARK: - View Model
