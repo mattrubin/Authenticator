@@ -76,7 +76,7 @@ class MockTableView: UITableView {
 
     override func scrollToRow(at indexPath: IndexPath, at scrollPosition: UITableViewScrollPosition, animated: Bool) {
         super.scrollToRow(at: indexPath, at: scrollPosition, animated: animated)
-        changes.append((.scroll(indexPath: indexPath)))
+        changes.append(.scroll(indexPath: indexPath))
     }
 }
 
