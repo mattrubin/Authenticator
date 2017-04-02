@@ -66,6 +66,17 @@ class TokenListViewController: UITableViewController {
         return label
     }()
 
+    fileprivate lazy var noTokensButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(addToken), for: .touchUpInside)
+
+        self.noTokensLabel.frame = button.bounds
+        self.noTokensLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        button.addSubview(self.noTokensLabel)
+
+        return button
+    }()
+
     fileprivate let backupWarningLabel: UILabel = {
         let linkTitle = "Learn More →"
         let message = "For security reasons, tokens will be stored only on this \(UIDevice.current.model), and will not be included in iCloud or unencrypted backups.  \(linkTitle)"
@@ -134,8 +145,8 @@ class TokenListViewController: UITableViewController {
         ]
         self.navigationController?.isToolbarHidden = false
 
-        // Configure "no tokens" label
-        view.addSubview(noTokensLabel)
+        // Configure empty state
+        view.addSubview(noTokensButton)
         view.addSubview(backupWarning)
 
         infoButton.addTarget(self, action: #selector(TokenListViewController.showLicenseInfo), for: .touchUpInside)
@@ -165,7 +176,7 @@ class TokenListViewController: UITableViewController {
         let noTokensLabelSize = noTokensLabel.sizeThatFits(insetBounds.size)
         let noTokensLabelOrigin = CGPoint(x: (view.bounds.width - noTokensLabelSize.width) / 2,
                                           y: (view.bounds.height * 0.6 - noTokensLabelSize.height) / 2)
-        noTokensLabel.frame = CGRect(origin: noTokensLabelOrigin, size: noTokensLabelSize)
+        noTokensButton.frame = CGRect(origin: noTokensLabelOrigin, size: noTokensLabelSize)
 
         let labelSize = backupWarningLabel.sizeThatFits(insetBounds.size)
         let labelOrigin = CGPoint(x: labelMargin, y: view.bounds.maxY - labelMargin - labelSize.height)
@@ -265,7 +276,7 @@ extension TokenListViewController {
 
         tableView.isScrollEnabled = viewModel.hasTokens
         editButtonItem.isEnabled = viewModel.hasTokens
-        noTokensLabel.isHidden = viewModel.hasTokens
+        noTokensButton.isHidden = viewModel.hasTokens
         backupWarning.isHidden = viewModel.hasTokens
 
         // Exit editing mode if no tokens remain
