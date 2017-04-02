@@ -135,19 +135,7 @@ class TokenListViewController: UITableViewController {
         self.navigationController?.isToolbarHidden = false
 
         // Configure "no tokens" label
-        self.noTokensLabel.frame = CGRect(
-            x: 0,
-            y: 0,
-            width: self.view.bounds.size.width,
-            height: self.view.bounds.size.height * 0.6
-        )
-        self.view.addSubview(self.noTokensLabel)
-
-        let labelMargin: CGFloat = 20
-        let labelSize = backupWarningLabel.sizeThatFits(view.bounds.insetBy(dx: labelMargin, dy: labelMargin).size)
-        let labelOrigin = CGPoint(x: labelMargin, y: view.bounds.maxY - labelMargin - labelSize.height)
-        backupWarning.frame = CGRect(origin: labelOrigin, size: labelSize)
-        backupWarning.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
+        view.addSubview(noTokensLabel)
         view.addSubview(backupWarning)
 
         infoButton.addTarget(self, action: #selector(TokenListViewController.showLicenseInfo), for: .touchUpInside)
@@ -167,6 +155,21 @@ class TokenListViewController: UITableViewController {
         super.viewWillDisappear(animated)
 
         self.isEditing = false
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        let labelMargin: CGFloat = 20
+        let insetBounds = view.bounds.insetBy(dx: labelMargin, dy: labelMargin)
+        let noTokensLabelSize = noTokensLabel.sizeThatFits(insetBounds.size)
+        let noTokensLabelOrigin = CGPoint(x: (view.bounds.width - noTokensLabelSize.width) / 2,
+                                          y: (view.bounds.height * 0.6 - noTokensLabelSize.height) / 2)
+        noTokensLabel.frame = CGRect(origin: noTokensLabelOrigin, size: noTokensLabelSize)
+
+        let labelSize = backupWarningLabel.sizeThatFits(insetBounds.size)
+        let labelOrigin = CGPoint(x: labelMargin, y: view.bounds.maxY - labelMargin - labelSize.height)
+        backupWarning.frame = CGRect(origin: labelOrigin, size: labelSize)
     }
 
     // MARK: Target Actions
