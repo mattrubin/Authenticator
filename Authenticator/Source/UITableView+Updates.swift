@@ -79,8 +79,7 @@ extension UITableView {
     /// method should be used only *after* insertions, deletions, and moves have been applied.
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
     /// - parameter updateRow: A closure which takes an `IndexPath` and updates the corresponding row.
-    private func applyRowUpdates(fromChanges changes: [Change<IndexPath>],
-                                 updateRow: (IndexPath) -> Void) {
+    private func applyRowUpdates(fromChanges changes: [Change<IndexPath>], updateRow: (IndexPath) -> Void) {
         for change in changes {
             switch change {
             case let .update(_, indexPath):
