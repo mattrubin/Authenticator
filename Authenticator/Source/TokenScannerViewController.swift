@@ -36,7 +36,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     // MARK: Initialization
 
-    init(viewModel: TokenScanner.ViewModel, dispatchAction: (TokenScanner.Action) -> Void) {
+    init(viewModel: TokenScanner.ViewModel, dispatchAction: @escaping (TokenScanner.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
@@ -46,7 +46,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateWithViewModel(viewModel: TokenScanner.ViewModel) {
+    func updateWithViewModel(_ viewModel: TokenScanner.ViewModel) {
         self.viewModel = viewModel
     }
 
@@ -55,16 +55,16 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.blackColor()
+        view.backgroundColor = UIColor.black
 
         title = "Scan Token"
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .Cancel,
+            barButtonSystemItem: .cancel,
             target: self,
             action: #selector(TokenScannerViewController.cancel)
         )
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .Compose,
+            barButtonSystemItem: .compose,
             target: self,
             action: #selector(TokenScannerViewController.addTokenManually)
         )
@@ -73,11 +73,11 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         videoLayer.frame = view.layer.bounds
         view.layer.addSublayer(videoLayer)
 
-        if Process.isDemo {
+        if CommandLine.isDemo {
             // If this is a demo, display an image in place of the AVCaptureVideoPreviewLayer.
             let imageView = UIImageView(frame: view.bounds)
-            imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-            imageView.contentMode = .ScaleAspectFill
+            imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            imageView.contentMode = .scaleAspectFill
             imageView.image = UIImage.demoScannerImage()
             view.addSubview(imageView)
         }
@@ -86,7 +86,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         view.addSubview(overlayView)
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         scanner.delegate = self
         scanner.start { captureSession in
@@ -94,7 +94,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         }
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         scanner.stop()
     }
@@ -102,23 +102,23 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     // MARK: Target Actions
 
     func cancel() {
-        dispatchAction(.Cancel)
+        dispatchAction(.cancel)
     }
 
     func addTokenManually() {
-        dispatchAction(.BeginManualTokenEntry)
+        dispatchAction(.beginManualTokenEntry)
     }
 
     // MARK: QRScannerDelegate
 
-    func handleDecodedText(text: String) {
+    func handleDecodedText(_ text: String) {
         guard viewModel.isScanning else {
             return
         }
-        dispatchAction(.ScannerDecodedText(text))
+        dispatchAction(.scannerDecodedText(text))
     }
 
-    func handleError(error: ErrorType) {
-        dispatchAction(.ScannerError(error))
+    func handleError(_ error: Error) {
+        dispatchAction(.scannerError(error))
     }
 }

@@ -28,8 +28,8 @@ import UIKit
 extension UITableView {
     /// Applies the given `Change`s to the table view, then scrolls to show the last inserted row.
     /// - parameter changes: An `Array` of `Change`s to apply.
-    /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
-    func applyChanges(changes: [Change<NSIndexPath>], @noescape updateRow: (NSIndexPath) -> Void) {
+    /// - parameter updateRow: A closure which takes an `IndexPath` and updates the corresponding row.
+    func applyChanges(_ changes: [Change<IndexPath>], updateRow: (IndexPath) -> Void) {
         if changes.isEmpty {
             return
         }
@@ -46,14 +46,14 @@ extension UITableView {
     /// insertions, deletions, and moves will be performed in a single animated table view updates group. If there are
     /// no changes which require animations, this method will not perform an empty updates group.
     /// - parameter changes: An `Array` of `Change`s, from which animated changes will be applied.
-    private func applyOrderChanges(fromChanges changes: [Change<NSIndexPath>]) {
+    private func applyOrderChanges(fromChanges changes: [Change<IndexPath>]) {
         // Determine if there are any changes that require insert/delete/move animations.
         // If there are none, tableView.beginUpdates and tableView.endUpdates are not required.
         let changesNeedAnimations = changes.contains { change in
             switch change {
-            case .Insert, .Delete:
+            case .insert, .delete:
                 return true
-            case .Update:
+            case .update:
                 return false
             }
         }
@@ -63,11 +63,11 @@ extension UITableView {
             beginUpdates()
             for change in changes {
                 switch change {
-                case let .Insert(indexPath):
-                    insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                case let .Delete(indexPath):
-                    deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                case .Update:
+                case let .insert(indexPath):
+                    insertRows(at: [indexPath], with: .automatic)
+                case let .delete(indexPath):
+                    deleteRows(at: [indexPath], with: .automatic)
+                case .update:
                     break
                 }
             }
@@ -78,14 +78,13 @@ extension UITableView {
     /// From among the given `Change`s, applies the `Update`s to cells at the new row indexes in the table view. This
     /// method should be used only *after* insertions, deletions, and moves have been applied.
     /// - parameter changes: An `Array` of `Change`s, from which `Update`s will be applied.
-    /// - parameter updateRow: A closure which takes an `NSIndexPath` and updates the corresponding row.
-    private func applyRowUpdates(fromChanges changes: [Change<NSIndexPath>],
-                                 @noescape updateRow: (NSIndexPath) -> Void) {
+    /// - parameter updateRow: A closure which takes an `IndexPath` and updates the corresponding row.
+    private func applyRowUpdates(fromChanges changes: [Change<IndexPath>], updateRow: (IndexPath) -> Void) {
         for change in changes {
             switch change {
-            case let .Update(_, indexPath):
+            case let .update(_, indexPath):
                 updateRow(indexPath)
-            case .Insert, .Delete:
+            case .insert, .delete:
                 break
             }
         }
@@ -94,33 +93,23 @@ extension UITableView {
     /// From among the given `Change`s, finds the last `Insert` and scrolls to that row in the table view. This method
     /// should be used only *after* the changes have been applied.
     /// - parameter changes: An `Array` of `Change`s, in which the last `Insert` will be found.
-    private func scrollToLastInsertedRow(fromChanges changes: [Change<NSIndexPath>]) {
-        let lastInsertedRow = changes.reduce(nil, combine: { (lastInsertedRow, change) -> NSIndexPath? in
+    private func scrollToLastInsertedRow(fromChanges changes: [Change<IndexPath>]) {
+        let lastInsertedRow = changes.reduce(nil, { (lastInsertedRow, change) -> IndexPath? in
             switch change {
-            case let .Insert(row):
+            case let .insert(row):
                 guard let prevInsertedRow = lastInsertedRow else {
                     return row
                 }
                 return max(row, prevInsertedRow)
-            case .Delete, .Update:
+            case .delete, .update:
                 return lastInsertedRow
             }
         })
 
         if let indexPath = lastInsertedRow {
             // Scrolls to the newly inserted token at the smallest row index in the tableView using the minimum amount
-            // of scrolling necessary (.None)
-            scrollToRowAtIndexPath(indexPath, atScrollPosition: .None, animated: true)
+            // of scrolling necessary (.none)
+            scrollToRow(at: indexPath, at: .none, animated: true)
         }
-    }
-}
-
-private func max(lhs: NSIndexPath, _ rhs: NSIndexPath) -> NSIndexPath {
-    if lhs.section > rhs.section {
-        return lhs
-    } else if (lhs.section == rhs.section) && (lhs.row > rhs.row) {
-        return lhs
-    } else {
-        return rhs
     }
 }

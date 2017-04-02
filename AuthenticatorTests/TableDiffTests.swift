@@ -30,16 +30,16 @@ import XCTest
 class TableDiffTests: XCTestCase {
     func testNoChanges() {
         // swiftlint:disable force_unwrapping
-        let generator = Generator(factor: .Timer(period: 60),
-                                  secret: "secret".dataUsingEncoding(NSUTF8StringEncoding)!,
-                                  algorithm: .SHA256,
+        let generator = Generator(factor: .timer(period: 60),
+                                  secret: "secret".data(using: String.Encoding.utf8)!,
+                                  algorithm: .sha256,
                                   digits: 6)!
         // swiftlint:enable force_unwrapping
         let token = Token(name: "Token Name",
                           issuer: "Token Issuer",
                           generator: generator)
         let persistentToken = PersistentToken(token: token, identifier: PersistentToken.makeUniqueIdentifier())
-        let date = NSDate()
+        let date = Date()
 
         let before = [
             TokenRowModel(

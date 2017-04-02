@@ -27,36 +27,36 @@ import Foundation
 import OneTimePassword
 
 struct Root: Component {
-    private var tokenList: TokenList
-    private var modal: Modal
-    private let deviceCanScan: Bool
+    fileprivate var tokenList: TokenList
+    fileprivate var modal: Modal
+    fileprivate let deviceCanScan: Bool
 
-    private enum Modal {
-        case None
-        case Scanner(TokenScanner)
-        case EntryForm(TokenEntryForm)
-        case EditForm(TokenEditForm)
-        case Info(Authenticator.Info)
+    fileprivate enum Modal {
+        case none
+        case scanner(TokenScanner)
+        case entryForm(TokenEntryForm)
+        case editForm(TokenEditForm)
+        case info(Info)
 
         var viewModel: RootViewModel.ModalViewModel {
             switch self {
-            case .None:
-                return .None
-            case .Scanner(let scanner):
-                return .Scanner(scanner.viewModel)
-            case .EntryForm(let form):
-                return .EntryForm(form.viewModel)
-            case .EditForm(let form):
-                return .EditForm(form.viewModel)
-            case Info(let info):
-                return .Info(info.viewModel)
+            case .none:
+                return .none
+            case .scanner(let scanner):
+                return .scanner(scanner.viewModel)
+            case .entryForm(let form):
+                return .entryForm(form.viewModel)
+            case .editForm(let form):
+                return .editForm(form.viewModel)
+            case .info(let info):
+                return .info(info.viewModel)
             }
         }
     }
 
     init(persistentTokens: [PersistentToken], displayTime: DisplayTime, deviceCanScan: Bool) {
         tokenList = TokenList(persistentTokens: persistentTokens, displayTime: displayTime)
-        modal = .None
+        modal = .none
         self.deviceCanScan = deviceCanScan
     }
 }
@@ -78,289 +78,278 @@ extension Root {
 
 extension Root {
     enum Action {
-        case TokenListAction(TokenList.Action)
-        case TokenEntryFormAction(TokenEntryForm.Action)
-        case TokenEditFormAction(TokenEditForm.Action)
-        case TokenScannerAction(TokenScanner.Action)
+        case tokenListAction(TokenList.Action)
+        case tokenEntryFormAction(TokenEntryForm.Action)
+        case tokenEditFormAction(TokenEditForm.Action)
+        case tokenScannerAction(TokenScanner.Action)
 
-        case InfoEffect(Info.Effect)
+        case infoEffect(Info.Effect)
 
-        case AddTokenFromURL(Token)
+        case addTokenFromURL(Token)
     }
 
     enum Event {
-        case TokenListEvent(TokenList.Event)
-        case UpdateDisplayTime(DisplayTime)
+        case tokenListEvent(TokenList.Event)
+        case updateDisplayTime(DisplayTime)
 
-        case AddTokenFromURLSucceeded([PersistentToken])
+        case addTokenFromURLSucceeded([PersistentToken])
 
-        case TokenFormSucceeded([PersistentToken])
+        case tokenFormSucceeded([PersistentToken])
 
-        case AddTokenFailed(ErrorType)
-        case SaveTokenFailed(ErrorType)
+        case addTokenFailed(Error)
+        case saveTokenFailed(Error)
     }
 
     enum Effect {
-        case AddToken(Token,
+        case addToken(Token,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
-        case SaveToken(Token, PersistentToken,
+        case saveToken(Token, PersistentToken,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
-        case UpdatePersistentToken(PersistentToken,
+        case updatePersistentToken(PersistentToken,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
-        case MoveToken(fromIndex: Int, toIndex: Int,
+        case moveToken(fromIndex: Int, toIndex: Int,
             success: ([PersistentToken]) -> Event)
 
-        case DeletePersistentToken(PersistentToken,
+        case deletePersistentToken(PersistentToken,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
-        case ShowErrorMessage(String)
-        case ShowSuccessMessage(String)
-        case OpenURL(NSURL)
+        case showErrorMessage(String)
+        case showSuccessMessage(String)
+        case openURL(URL)
     }
 
-    @warn_unused_result
-    mutating func update(action: Action) throws -> Effect? {
+    mutating func update(_ action: Action) throws -> Effect? {
         do {
             switch action {
-            case .TokenListAction(let action):
+            case .tokenListAction(let action):
                 let effect = tokenList.update(action)
                 return effect.flatMap { effect in
                     handleTokenListEffect(effect)
                 }
 
-            case .TokenEntryFormAction(let action):
+            case .tokenEntryFormAction(let action):
                 let effect = try modal.withEntryForm({ form in form.update(action) })
                 return effect.flatMap { effect in
                     handleTokenEntryFormEffect(effect)
                 }
 
-            case .TokenEditFormAction(let action):
+            case .tokenEditFormAction(let action):
                 let effect = try modal.withEditForm({ form in form.update(action) })
                 return effect.flatMap { effect in
                     handleTokenEditFormEffect(effect)
                 }
 
-            case .TokenScannerAction(let action):
+            case .tokenScannerAction(let action):
                 let effect = try modal.withScanner({ scanner in scanner.update(action) })
                 return effect.flatMap { effect in
                     handleTokenScannerEffect(effect)
                 }
-            case .InfoEffect(let effect):
+            case .infoEffect(let effect):
                 return handleInfoEffect(effect)
 
-            case .AddTokenFromURL(let token):
-                return .AddToken(token,
-                                 success: Event.AddTokenFromURLSucceeded,
-                                 failure: Event.AddTokenFailed)
+            case .addTokenFromURL(let token):
+                return .addToken(token,
+                                 success: Event.addTokenFromURLSucceeded,
+                                 failure: Event.addTokenFailed)
             }
         } catch {
             throw ComponentError(underlyingError: error, action: action, component: self)
         }
     }
 
-    @warn_unused_result
-    mutating func update(event: Event) -> Effect? {
+    mutating func update(_ event: Event) -> Effect? {
         switch event {
-        case .TokenListEvent(let event):
+        case .tokenListEvent(let event):
             return handleTokenListEvent(event)
 
-        case .UpdateDisplayTime(let displayTime):
-            return handleTokenListEvent(.UpdateDisplayTime(displayTime))
+        case .updateDisplayTime(let displayTime):
+            return handleTokenListEvent(.updateDisplayTime(displayTime))
 
-        case .AddTokenFromURLSucceeded(let persistentTokens):
-            return handleTokenListEvent(.TokenChangeSucceeded(persistentTokens))
+        case .addTokenFromURLSucceeded(let persistentTokens):
+            return handleTokenListEvent(.tokenChangeSucceeded(persistentTokens))
 
-        case .TokenFormSucceeded(let persistentTokens):
+        case .tokenFormSucceeded(let persistentTokens):
             // Dismiss the modal form.
-            modal = .None
-            return handleTokenListEvent(.TokenChangeSucceeded(persistentTokens))
+            modal = .none
+            return handleTokenListEvent(.tokenChangeSucceeded(persistentTokens))
 
-        case .AddTokenFailed:
-            return .ShowErrorMessage("Failed to add token.")
-        case .SaveTokenFailed:
-            return .ShowErrorMessage("Failed to save token.")
+        case .addTokenFailed:
+            return .showErrorMessage("Failed to add token.")
+        case .saveTokenFailed:
+            return .showErrorMessage("Failed to save token.")
         }
     }
 
-    @warn_unused_result
-    private mutating func handleTokenListEvent(event: TokenList.Event) -> Effect? {
+    private mutating func handleTokenListEvent(_ event: TokenList.Event) -> Effect? {
         let effect = tokenList.update(event)
         return effect.flatMap { effect in
             handleTokenListEffect(effect)
         }
     }
 
-    @warn_unused_result
-    private mutating func handleTokenListEffect(effect: TokenList.Effect) -> Effect? {
+    private mutating func handleTokenListEffect(_ effect: TokenList.Effect) -> Effect? {
         switch effect {
-        case .BeginTokenEntry:
+        case .beginTokenEntry:
             if deviceCanScan {
-                modal = .Scanner(TokenScanner())
+                modal = .scanner(TokenScanner())
             } else {
-                modal = .EntryForm(TokenEntryForm())
+                modal = .entryForm(TokenEntryForm())
             }
             return nil
 
-        case .BeginTokenEdit(let persistentToken):
+        case .beginTokenEdit(let persistentToken):
             let form = TokenEditForm(persistentToken: persistentToken)
-            modal = .EditForm(form)
+            modal = .editForm(form)
             return nil
 
-        case let .UpdateToken(persistentToken, success, failure):
-            return .UpdatePersistentToken(persistentToken,
-                                          success: compose(success, Event.TokenListEvent),
-                                          failure: compose(failure, Event.TokenListEvent))
+        case let .updateToken(persistentToken, success, failure):
+            return .updatePersistentToken(persistentToken,
+                                          success: compose(success, Event.tokenListEvent),
+                                          failure: compose(failure, Event.tokenListEvent))
 
-        case let .MoveToken(fromIndex, toIndex, success):
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: compose(success, Event.TokenListEvent))
+        case let .moveToken(fromIndex, toIndex, success):
+            return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
+                              success: compose(success, Event.tokenListEvent))
 
-        case let .DeletePersistentToken(persistentToken, success, failure):
-            return .DeletePersistentToken(persistentToken,
-                                          success: compose(success, Event.TokenListEvent),
-                                          failure: compose(failure, Event.TokenListEvent))
+        case let .deletePersistentToken(persistentToken, success, failure):
+            return .deletePersistentToken(persistentToken,
+                                          success: compose(success, Event.tokenListEvent),
+                                          failure: compose(failure, Event.tokenListEvent))
 
-        case .ShowErrorMessage(let message):
-            return .ShowErrorMessage(message)
+        case .showErrorMessage(let message):
+            return .showErrorMessage(message)
 
-        case .ShowSuccessMessage(let message):
-            return .ShowSuccessMessage(message)
+        case .showSuccessMessage(let message):
+            return .showSuccessMessage(message)
 
-        case .ShowBackupInfo:
+        case .showBackupInfo:
             do {
-                modal = .Info(try Info.backupInfo())
+                modal = .info(try Info.backupInfo())
                 return nil
             } catch {
-                return .ShowErrorMessage("Failed to load backup info.")
+                return .showErrorMessage("Failed to load backup info.")
             }
 
-        case .ShowLicenseInfo:
+        case .showLicenseInfo:
             do {
-                modal = .Info(try Info.licenseInfo())
+                modal = .info(try Info.licenseInfo())
                 return nil
             } catch {
-                return .ShowErrorMessage("Failed to load acknowledgements.")
+                return .showErrorMessage("Failed to load acknowledgements.")
             }
         }
     }
 
-    @warn_unused_result
-    private mutating func handleTokenEntryFormEffect(effect: TokenEntryForm.Effect) -> Effect? {
+    private mutating func handleTokenEntryFormEffect(_ effect: TokenEntryForm.Effect) -> Effect? {
         switch effect {
-        case .Cancel:
-            modal = .None
+        case .cancel:
+            modal = .none
             return nil
 
-        case .SaveNewToken(let token):
-            return .AddToken(token,
-                             success: Event.TokenFormSucceeded,
-                             failure: Event.AddTokenFailed)
+        case .saveNewToken(let token):
+            return .addToken(token,
+                             success: Event.tokenFormSucceeded,
+                             failure: Event.addTokenFailed)
 
-        case .ShowErrorMessage(let message):
-            return .ShowErrorMessage(message)
+        case .showErrorMessage(let message):
+            return .showErrorMessage(message)
         }
     }
 
-    @warn_unused_result
-    private mutating func handleTokenEditFormEffect(effect: TokenEditForm.Effect) -> Effect? {
+    private mutating func handleTokenEditFormEffect(_ effect: TokenEditForm.Effect) -> Effect? {
         switch effect {
-        case .Cancel:
-            modal = .None
+        case .cancel:
+            modal = .none
             return nil
 
-        case let .SaveChanges(token, persistentToken):
-            return .SaveToken(token, persistentToken,
-                              success: Event.TokenFormSucceeded,
-                              failure: Event.SaveTokenFailed)
+        case let .saveChanges(token, persistentToken):
+            return .saveToken(token, persistentToken,
+                              success: Event.tokenFormSucceeded,
+                              failure: Event.saveTokenFailed)
 
-        case .ShowErrorMessage(let message):
-            return .ShowErrorMessage(message)
+        case .showErrorMessage(let message):
+            return .showErrorMessage(message)
         }
     }
 
-    @warn_unused_result
-    private mutating func handleTokenScannerEffect(effect: TokenScanner.Effect) -> Effect? {
+    private mutating func handleTokenScannerEffect(_ effect: TokenScanner.Effect) -> Effect? {
         switch effect {
-        case .Cancel:
-            modal = .None
+        case .cancel:
+            modal = .none
             return nil
 
-        case .BeginManualTokenEntry:
-            if Process.isDemo {
+        case .beginManualTokenEntry:
+            if CommandLine.isDemo {
                 // If this is a demo, show the pre-filled demo form.
-                modal = .EntryForm(TokenEntryForm.demoForm)
+                modal = .entryForm(TokenEntryForm.demoForm)
                 return nil
             }
 
-            modal = .EntryForm(TokenEntryForm())
+            modal = .entryForm(TokenEntryForm())
             return nil
 
-        case .SaveNewToken(let token):
-            return .AddToken(token,
-                             success: Event.TokenFormSucceeded,
-                             failure: Event.AddTokenFailed)
+        case .saveNewToken(let token):
+            return .addToken(token,
+                             success: Event.tokenFormSucceeded,
+                             failure: Event.addTokenFailed)
 
-        case .ShowErrorMessage(let message):
-            return .ShowErrorMessage(message)
+        case .showErrorMessage(let message):
+            return .showErrorMessage(message)
         }
     }
 
-    @warn_unused_result
-    private mutating func handleInfoEffect(effect: Info.Effect) -> Effect? {
+    private mutating func handleInfoEffect(_ effect: Info.Effect) -> Effect? {
         switch effect {
-        case .Done:
-            modal = .None
+        case .done:
+            modal = .none
             return nil
-        case let .OpenURL(url):
-            return .OpenURL(url)
+        case let .openURL(url):
+            return .openURL(url)
         }
     }
 }
 
 private extension Root.Modal {
-    struct Error: ErrorType {
+    struct Error: Swift.Error {
         let expectedType: Any.Type
         let actualState: Root.Modal
     }
 
-    @warn_unused_result
-    private mutating func withEntryForm<ResultType>(body: (inout TokenEntryForm) -> ResultType) throws -> ResultType {
-        guard case .EntryForm(var form) = self else {
+    mutating func withEntryForm<ResultType>(_ body: (inout TokenEntryForm) -> ResultType) throws -> ResultType {
+        guard case .entryForm(var form) = self else {
             throw Error(expectedType: TokenEntryForm.self, actualState: self)
         }
         let result = body(&form)
-        self = .EntryForm(form)
+        self = .entryForm(form)
         return result
     }
 
-    @warn_unused_result
-    private mutating func withEditForm<ResultType>(body: (inout TokenEditForm) -> ResultType) throws -> ResultType {
-        guard case .EditForm(var form) = self else {
+    mutating func withEditForm<ResultType>(_ body: (inout TokenEditForm) -> ResultType) throws -> ResultType {
+        guard case .editForm(var form) = self else {
             throw Error(expectedType: TokenEditForm.self, actualState: self)
         }
         let result = body(&form)
-        self = .EditForm(form)
+        self = .editForm(form)
         return result
     }
 
-    @warn_unused_result
-    private mutating func withScanner<ResultType>(body: (inout TokenScanner) -> ResultType) throws -> ResultType {
-        guard case .Scanner(var scanner) = self else {
+    mutating func withScanner<ResultType>(_ body: (inout TokenScanner) -> ResultType) throws -> ResultType {
+        guard case .scanner(var scanner) = self else {
             throw Error(expectedType: TokenScanner.self, actualState: self)
         }
         let result = body(&scanner)
-        self = .Scanner(scanner)
+        self = .scanner(scanner)
         return result
     }
 }
 
-private func compose<A, B, C>(transform: A -> B, _ handler: B -> C) -> A -> C {
+private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escaping (B) -> C) -> (A) -> C {
     return { handler(transform($0)) }
 }

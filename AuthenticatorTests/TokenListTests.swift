@@ -34,7 +34,7 @@ class TokenListTests: XCTestCase {
             ("Github", "username"),
             ("Service", "goo"),
         ])
-        let effect = tokenList.update(.Filter("goo"))
+        let effect = tokenList.update(.filter("goo"))
 
         let viewModel = tokenList.viewModel
         let filteredIssuers = viewModel.rowModels.map { $0.issuer }
@@ -50,7 +50,7 @@ class TokenListTests: XCTestCase {
             ("Service", "example@google.com"),
             ("Service", "username"),
         ])
-        let effect = tokenList.update(.Filter("Service"))
+        let effect = tokenList.update(.filter("Service"))
         let viewModel = tokenList.viewModel
 
         XCTAssertNil(effect)
@@ -59,30 +59,30 @@ class TokenListTests: XCTestCase {
 
     func testActionShowBackupInfo() {
         var tokenList = mockList([])
-        let action: TokenList.Action = .ShowBackupInfo
+        let action: TokenList.Action = .showBackupInfo
         let effect = tokenList.update(action)
         // TODO: check that the token list hasn't changed
 
         switch effect {
-        case .Some(.ShowBackupInfo):
+        case .some(.showBackupInfo):
             break
         default:
-            XCTFail("Expected .ShowBackupInfo, got \(effect)")
+            XCTFail("Expected .showBackupInfo, got \(String(describing: effect))")
             return
         }
     }
 
     func testActionShowLicenseInfo() {
         var tokenList = mockList([])
-        let action: TokenList.Action = .ShowLicenseInfo
+        let action: TokenList.Action = .showLicenseInfo
         let effect = tokenList.update(action)
         // TODO: check that the token list hasn't changed
 
         switch effect {
-        case .Some(.ShowLicenseInfo):
+        case .some(.showLicenseInfo):
             break
         default:
-            XCTFail("Expected .ShowLicenseInfo, got \(effect)")
+            XCTFail("Expected .showLicenseInfo, got \(String(describing: effect))")
             return
         }
     }
@@ -92,72 +92,72 @@ class TokenListTests: XCTestCase {
         let persistentTokenB = mockPersistentToken(name: "Something", issuer: "Else")
 
         // BeginAddToken
-        XCTAssert(TokenList.Action.BeginAddToken == .BeginAddToken)
-        XCTAssert(TokenList.Action.BeginAddToken != .ClearFilter)
+        XCTAssert(TokenList.Action.beginAddToken == .beginAddToken)
+        XCTAssert(TokenList.Action.beginAddToken != .clearFilter)
 
         // EditPersistentToken(PersistentToken)
-        XCTAssert(TokenList.Action.EditPersistentToken(persistentTokenA) == .EditPersistentToken(persistentTokenA))
-        XCTAssert(TokenList.Action.EditPersistentToken(persistentTokenA) != .EditPersistentToken(persistentTokenB))
-        XCTAssert(TokenList.Action.EditPersistentToken(persistentTokenA) != .BeginAddToken)
+        XCTAssert(TokenList.Action.editPersistentToken(persistentTokenA) == .editPersistentToken(persistentTokenA))
+        XCTAssert(TokenList.Action.editPersistentToken(persistentTokenA) != .editPersistentToken(persistentTokenB))
+        XCTAssert(TokenList.Action.editPersistentToken(persistentTokenA) != .beginAddToken)
 
         // UpdatePersistentToken(PersistentToken)
-        XCTAssert(TokenList.Action.UpdatePersistentToken(persistentTokenA) == .UpdatePersistentToken(persistentTokenA))
-        XCTAssert(TokenList.Action.UpdatePersistentToken(persistentTokenA) != .UpdatePersistentToken(persistentTokenB))
-        XCTAssert(TokenList.Action.UpdatePersistentToken(persistentTokenA) != .BeginAddToken)
+        XCTAssert(TokenList.Action.updatePersistentToken(persistentTokenA) == .updatePersistentToken(persistentTokenA))
+        XCTAssert(TokenList.Action.updatePersistentToken(persistentTokenA) != .updatePersistentToken(persistentTokenB))
+        XCTAssert(TokenList.Action.updatePersistentToken(persistentTokenA) != .beginAddToken)
 
         // MoveToken(fromIndex: Int, toIndex: Int)
-        XCTAssert(TokenList.Action.MoveToken(fromIndex: 0, toIndex: 1) == .MoveToken(fromIndex: 0, toIndex: 1))
-        XCTAssert(TokenList.Action.MoveToken(fromIndex: 0, toIndex: 1) != .MoveToken(fromIndex: 0, toIndex: 2))
-        XCTAssert(TokenList.Action.MoveToken(fromIndex: 2, toIndex: 1) != .MoveToken(fromIndex: 0, toIndex: 1))
-        XCTAssert(TokenList.Action.MoveToken(fromIndex: 0, toIndex: 1) != .BeginAddToken)
+        XCTAssert(TokenList.Action.moveToken(fromIndex: 0, toIndex: 1) == .moveToken(fromIndex: 0, toIndex: 1))
+        XCTAssert(TokenList.Action.moveToken(fromIndex: 0, toIndex: 1) != .moveToken(fromIndex: 0, toIndex: 2))
+        XCTAssert(TokenList.Action.moveToken(fromIndex: 2, toIndex: 1) != .moveToken(fromIndex: 0, toIndex: 1))
+        XCTAssert(TokenList.Action.moveToken(fromIndex: 0, toIndex: 1) != .beginAddToken)
 
         // DeletePersistentToken(PersistentToken)
-        XCTAssert(TokenList.Action.DeletePersistentToken(persistentTokenA) == .DeletePersistentToken(persistentTokenA))
-        XCTAssert(TokenList.Action.DeletePersistentToken(persistentTokenA) != .DeletePersistentToken(persistentTokenB))
-        XCTAssert(TokenList.Action.DeletePersistentToken(persistentTokenA) != .BeginAddToken)
+        XCTAssert(TokenList.Action.deletePersistentToken(persistentTokenA) == .deletePersistentToken(persistentTokenA))
+        XCTAssert(TokenList.Action.deletePersistentToken(persistentTokenA) != .deletePersistentToken(persistentTokenB))
+        XCTAssert(TokenList.Action.deletePersistentToken(persistentTokenA) != .beginAddToken)
 
         // CopyPassword(String)
-        XCTAssert(TokenList.Action.CopyPassword("123") == .CopyPassword("123"))
-        XCTAssert(TokenList.Action.CopyPassword("123") != .CopyPassword("456"))
-        XCTAssert(TokenList.Action.CopyPassword("123") != .BeginAddToken)
+        XCTAssert(TokenList.Action.copyPassword("123") == .copyPassword("123"))
+        XCTAssert(TokenList.Action.copyPassword("123") != .copyPassword("456"))
+        XCTAssert(TokenList.Action.copyPassword("123") != .beginAddToken)
 
         // Filter(String)
-        XCTAssert(TokenList.Action.Filter("ABC") == .Filter("ABC"))
-        XCTAssert(TokenList.Action.Filter("ABC") != .Filter("XYZ"))
-        XCTAssert(TokenList.Action.Filter("ABC") != .BeginAddToken)
+        XCTAssert(TokenList.Action.filter("ABC") == .filter("ABC"))
+        XCTAssert(TokenList.Action.filter("ABC") != .filter("XYZ"))
+        XCTAssert(TokenList.Action.filter("ABC") != .beginAddToken)
 
         // ClearFilter
-        XCTAssert(TokenList.Action.ClearFilter == .ClearFilter)
-        XCTAssert(TokenList.Action.ClearFilter != .ShowBackupInfo)
+        XCTAssert(TokenList.Action.clearFilter == .clearFilter)
+        XCTAssert(TokenList.Action.clearFilter != .showBackupInfo)
 
         // ShowBackupInfo
-        XCTAssert(TokenList.Action.ShowBackupInfo == .ShowBackupInfo)
-        XCTAssert(TokenList.Action.ShowBackupInfo != .BeginAddToken)
+        XCTAssert(TokenList.Action.showBackupInfo == .showBackupInfo)
+        XCTAssert(TokenList.Action.showBackupInfo != .beginAddToken)
 
         // ShowLicenseInfo
-        XCTAssert(TokenList.Action.ShowLicenseInfo == .ShowLicenseInfo)
-        XCTAssert(TokenList.Action.ShowLicenseInfo != .BeginAddToken)
+        XCTAssert(TokenList.Action.showLicenseInfo == .showLicenseInfo)
+        XCTAssert(TokenList.Action.showLicenseInfo != .beginAddToken)
     }
 }
 
-func mockList(list: [(String, String)]) -> TokenList {
+func mockList(_ list: [(String, String)]) -> TokenList {
     let tokens = list.map { (issuer, name) -> PersistentToken in
         mockPersistentToken(name: name, issuer: issuer)
     }
-    return TokenList(persistentTokens: tokens, displayTime: DisplayTime(date: NSDate()))
+    return TokenList(persistentTokens: tokens, displayTime: DisplayTime(date: Date()))
 }
 
-func mockToken(name name: String, issuer: String, secret: String = "mocksecret") -> Token {
+func mockToken(name: String, issuer: String, secret: String = "mocksecret") -> Token {
     // swiftlint:disable force_unwrapping
-    let generator = Generator(factor: .Timer(period: 60),
-                              secret: secret.dataUsingEncoding(NSUTF8StringEncoding)!,
-                              algorithm: .SHA256,
+    let generator = Generator(factor: .timer(period: 60),
+                              secret: secret.data(using: String.Encoding.utf8)!,
+                              algorithm: .sha256,
                               digits: 6)!
     // swiftlint:enable force_unwrapping
     return Token(name: name, issuer: issuer, generator: generator)
 }
 
-func mockPersistentToken(name name: String, issuer: String, secret: String = "mocksecret") -> PersistentToken {
+func mockPersistentToken(name: String, issuer: String, secret: String = "mocksecret") -> PersistentToken {
     let token = mockToken(name: name, issuer: issuer, secret: secret)
     return PersistentToken(token: token, identifier: PersistentToken.makeUniqueIdentifier())
 }

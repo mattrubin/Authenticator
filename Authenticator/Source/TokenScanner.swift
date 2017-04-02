@@ -48,40 +48,40 @@ struct TokenScanner: Component {
     // MARK: Update
 
     enum Action {
-        case Cancel
-        case BeginManualTokenEntry
-        case ScannerDecodedText(String)
-        case ScannerError(ErrorType)
+        case cancel
+        case beginManualTokenEntry
+        case scannerDecodedText(String)
+        case scannerError(Error)
     }
 
     enum Effect {
-        case Cancel
-        case BeginManualTokenEntry
-        case SaveNewToken(Token)
-        case ShowErrorMessage(String)
+        case cancel
+        case beginManualTokenEntry
+        case saveNewToken(Token)
+        case showErrorMessage(String)
     }
 
-    mutating func update(action: Action) -> Effect? {
+    mutating func update(_ action: Action) -> Effect? {
         switch action {
-        case .Cancel:
-            return .Cancel
+        case .cancel:
+            return .cancel
 
-        case .BeginManualTokenEntry:
-            return .BeginManualTokenEntry
+        case .beginManualTokenEntry:
+            return .beginManualTokenEntry
 
-        case .ScannerDecodedText(let text):
+        case .scannerDecodedText(let text):
             // Attempt to create a token from the decoded text
-            guard let url = NSURL(string: text),
+            guard let url = URL(string: text),
                 let token = Token(url: url) else {
                     // Show an error message
-                    return .ShowErrorMessage("Invalid Token")
+                    return .showErrorMessage("Invalid Token")
             }
             tokenFound = true
-            return .SaveNewToken(token)
+            return .saveNewToken(token)
 
-        case .ScannerError(let error):
+        case .scannerError(let error):
             print("Error: \(error)")
-            return .ShowErrorMessage("Capture Failed")
+            return .showErrorMessage("Capture Failed")
         }
     }
 }

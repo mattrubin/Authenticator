@@ -28,10 +28,10 @@ struct RootViewModel {
     let modal: ModalViewModel
 
     enum ModalViewModel {
-        case None
-        case Scanner(TokenScanner.ViewModel)
-        case EntryForm(TokenEntryForm.ViewModel)
-        case EditForm(TokenEditForm.ViewModel)
-        case Info(Authenticator.Info.ViewModel)
+        case none
+        case scanner(TokenScanner.ViewModel)
+        case entryForm(TokenEntryForm.ViewModel)
+        case editForm(TokenEditForm.ViewModel)
+        case info(Info.ViewModel)
     }
 }

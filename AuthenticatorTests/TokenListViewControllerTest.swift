@@ -29,7 +29,7 @@ import OneTimePassword
 
 class TokenListViewControllerTest: XCTestCase {
     lazy var testWindow: UIWindow = {
-        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let window = UIWindow(frame: UIScreen.main.bounds)
         window.makeKeyAndVisible()
         return window
     }()
@@ -54,10 +54,10 @@ class TokenListViewControllerTest: XCTestCase {
 
         // Check the table view.
         let expectedChanges: [MockTableView.ChangeType] = [
-            .BeginUpdates,
-            .Insert(indexPath: NSIndexPath(forRow: 0, inSection: 0)),
-            .EndUpdates,
-            .Scroll(indexPath: NSIndexPath(forRow: 0, inSection: 0)),
+            .beginUpdates,
+            .insert(indexPath: IndexPath(row: 0, section: 0)),
+            .endUpdates,
+            .scroll(indexPath: IndexPath(row: 0, section: 0)),
         ]
         XCTAssertEqual(tableView.changes, expectedChanges)
     }
@@ -65,7 +65,7 @@ class TokenListViewControllerTest: XCTestCase {
     // Test that updating an existing token will produce the expected changes to the table view.
     func testUpdatesExistingToken() {
         // Set up a view controller with a mock table view.
-        let displayTime = DisplayTime(date: NSDate())
+        let displayTime = DisplayTime(date: Date())
         let initialPersistentToken = mockPersistentToken(name: "account@example.com", issuer: "Issuer")
         let initialTokenList = TokenList(persistentTokens: [initialPersistentToken], displayTime: displayTime)
         let controller = TokenListViewController(viewModel: initialTokenList.viewModel, dispatchAction: { _ in })
@@ -87,8 +87,8 @@ class TokenListViewControllerTest: XCTestCase {
 
         // Check that the table view contains the expected cells.
         XCTAssertEqual(tableView.numberOfSections, 1)
-        XCTAssertEqual(tableView.numberOfRowsInSection(0), 1)
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+        XCTAssertEqual(tableView.numberOfRows(inSection: 0), 1)
+        let indexPath = IndexPath(row: 0, section: 0)
         let expectedText = updatedPersistentToken.token.issuer + " " + updatedPersistentToken.token.name
         XCTAssert(cellAt: indexPath, in: tableView, containsText: expectedText)
     }
@@ -103,7 +103,7 @@ class TokenListViewControllerTest: XCTestCase {
 
         // Check that the table view contains the expected cells.
         XCTAssertEqual(controller.tableView.numberOfSections, 1)
-        XCTAssertEqual(controller.tableView.numberOfRowsInSection(0), viewModel.rowModels.count)
+        XCTAssertEqual(controller.tableView.numberOfRows(inSection: 0), viewModel.rowModels.count)
         let visibleCells = controller.tableView.visibleCells
         XCTAssertEqual(visibleCells.count, 2)
         for (rowModel, cell) in zip(viewModel.rowModels, visibleCells) {
@@ -113,16 +113,16 @@ class TokenListViewControllerTest: XCTestCase {
     }
 }
 
-func XCTAssert(cell: UITableViewCell, containsText expectedText: String,
+func XCTAssert(_ cell: UITableViewCell, containsText expectedText: String,
                file: StaticString = #file, line: UInt = #line) {
     let textInCellLabels = cell.contentView.subviews.flatMap({ ($0 as? UILabel)?.text })
     XCTAssert(textInCellLabels.contains(expectedText), "Expected \(textInCellLabels) to contain \"\(expectedText)\"",
               file: file, line: line)
 }
 
-func XCTAssert(cellAt indexPath: NSIndexPath, in tableView: UITableView, containsText expectedText: String,
+func XCTAssert(cellAt indexPath: IndexPath, in tableView: UITableView, containsText expectedText: String,
                file: StaticString = #file, line: UInt = #line) {
-    guard let cell = tableView.cellForRowAtIndexPath(indexPath) else {
+    guard let cell = tableView.cellForRow(at: indexPath) else {
         XCTFail("Expected cell at index path \(indexPath)", file: file, line: line)
         return
     }

@@ -26,11 +26,11 @@
 import UIKit
 
 class TokenListViewController: UITableViewController {
-    private let dispatchAction: (TokenList.Action) -> Void
-    private var viewModel: TokenList.ViewModel
-    private var ignoreTableViewUpdates = false
+    fileprivate let dispatchAction: (TokenList.Action) -> Void
+    fileprivate var viewModel: TokenList.ViewModel
+    fileprivate var ignoreTableViewUpdates = false
 
-    init(viewModel: TokenList.ViewModel, dispatchAction: (TokenList.Action) -> Void) {
+    init(viewModel: TokenList.ViewModel, dispatchAction: @escaping (TokenList.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
@@ -40,75 +40,75 @@ class TokenListViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private var searchBar = SearchField(
+    fileprivate var searchBar = SearchField(
         frame: CGRect(
             origin: .zero,
             size: CGSize(width: 0, height: 44)
         )
     )
 
-    private lazy var noTokensLabel: UILabel = {
+    fileprivate lazy var noTokensLabel: UILabel = {
         let title = "No Tokens"
         let message = "Tap + to add a new token"
-        let titleAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(20, weight: UIFontWeightLight)]
-        let messageAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(17, weight: UIFontWeightLight)]
-        let plusAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(25, weight: UIFontWeightLight)]
+        let titleAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight)]
+        let messageAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]
+        let plusAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 25, weight: UIFontWeightLight)]
 
         let noTokenString = NSMutableAttributedString(string: title + "\n", attributes: titleAttributes)
-        noTokenString.appendAttributedString(NSAttributedString(string: message, attributes: messageAttributes))
-        noTokenString.addAttributes(plusAttributes, range: (noTokenString.string as NSString).rangeOfString("+"))
+        noTokenString.append(NSAttributedString(string: message, attributes: messageAttributes))
+        noTokenString.addAttributes(plusAttributes, range: (noTokenString.string as NSString).range(of: "+"))
 
         let label = UILabel()
         label.numberOfLines = 2
         label.attributedText = noTokenString
-        label.textAlignment = .Center
+        label.textAlignment = .center
         label.textColor = UIColor.otpForegroundColor
         return label
     }()
 
-    private let warningLabel: UILabel = {
+    fileprivate let warningLabel: UILabel = {
         let linkTitle = "Learn More →"
-        let message = "For security reasons, tokens will be stored only on this \(UIDevice.currentDevice().model), and will not be included in iCloud or unencrypted backups.  \(linkTitle)"
+        let message = "For security reasons, tokens will be stored only on this \(UIDevice.current.model), and will not be included in iCloud or unencrypted backups.  \(linkTitle)"
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.3
         paragraphStyle.paragraphSpacing = 5
         let attributedMessage = NSMutableAttributedString(string: message, attributes: [
-            NSFontAttributeName: UIFont.systemFontOfSize(15, weight: UIFontWeightLight),
+            NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight),
             NSParagraphStyleAttributeName: paragraphStyle,
             ])
-        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.italicSystemFontOfSize(15),
-                                       range: (attributedMessage.string as NSString).rangeOfString("not"))
-        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFontOfSize(15),
-                                       range: (attributedMessage.string as NSString).rangeOfString(linkTitle))
+        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.italicSystemFont(ofSize: 15),
+                                       range: (attributedMessage.string as NSString).range(of: "not"))
+        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFont(ofSize: 15),
+                                       range: (attributedMessage.string as NSString).range(of: linkTitle))
 
         let label = UILabel()
         label.numberOfLines = 0
         label.attributedText = attributedMessage
-        label.textAlignment = .Center
+        label.textAlignment = .center
         label.textColor = UIColor.otpForegroundColor
         return label
     }()
 
     private let warningButton: UIButton = {
-        let button = UIButton(type: .Custom)
+        let button = UIButton(type: .custom)
         return button
     }()
 
-    private let infoButton = UIButton(type: .InfoLight)
+    private let infoButton = UIButton(type: .infoLight)
 
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableView.keyboardDismissMode = .Interactive
+        self.tableView.keyboardDismissMode = .interactive
 
         self.title = "Authenticator"
         self.view.backgroundColor = UIColor.otpBackgroundColor
 
         // Configure table view
-        self.tableView.separatorStyle = .None
-        self.tableView.indicatorStyle = .White
+        self.tableView.separatorStyle = .none
+        self.tableView.indicatorStyle = .white
         self.tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         self.tableView.allowsSelectionDuringEditing = true
 
@@ -120,13 +120,13 @@ class TokenListViewController: UITableViewController {
         // Configure toolbar
         let addAction = #selector(TokenListViewController.addToken)
         self.toolbarItems = [
-            self.editButtonItem(),
-            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
+            self.editButtonItem,
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             UIBarButtonItem(customView: infoButton),
-            UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: addAction),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: addAction),
         ]
-        self.navigationController?.toolbarHidden = false
+        self.navigationController?.isToolbarHidden = false
 
         // Configure "no tokens" label
         self.noTokensLabel.frame = CGRect(
@@ -141,89 +141,85 @@ class TokenListViewController: UITableViewController {
         let labelSize = warningLabel.sizeThatFits(view.bounds.insetBy(dx: labelMargin, dy: labelMargin).size)
         let labelOrigin = CGPoint(x: labelMargin, y: view.bounds.maxY - labelMargin - labelSize.height)
         warningLabel.frame = CGRect(origin: labelOrigin, size: labelSize)
-        warningLabel.autoresizingMask = [.FlexibleTopMargin, .FlexibleWidth]
+        warningLabel.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
         view.addSubview(warningLabel)
 
         let warningButton = UIButton()
         warningButton.frame = warningLabel.frame
         warningButton.autoresizingMask = warningLabel.autoresizingMask
-        warningButton.addTarget(self, action: #selector(showBackupInfo), forControlEvents: .TouchUpInside)
+        warningButton.addTarget(self, action: #selector(showBackupInfo), for: .touchUpInside)
         view.addSubview(warningButton)
 
-        infoButton.addTarget(self,
-                             action: #selector(TokenListViewController.showLicenseInfo),
-                             forControlEvents: .TouchUpInside)
+        infoButton.addTarget(self, action: #selector(TokenListViewController.showLicenseInfo), for: .touchUpInside)
 
         // Update with current viewModel
         self.updatePeripheralViews()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         let searchSelector = #selector(TokenListViewController.filterTokens)
-        searchBar.textField.addTarget(self,
-                                      action: searchSelector,
-                                      forControlEvents: .EditingChanged)
+        searchBar.textField.addTarget(self, action: searchSelector, for: .editingChanged)
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        self.editing = false
+        self.isEditing = false
     }
 
     // MARK: Target Actions
 
     func addToken() {
-        dispatchAction(.BeginAddToken)
+        dispatchAction(.beginAddToken)
     }
 
     func filterTokens() {
         guard let filter = searchBar.text else {
-            return dispatchAction(.ClearFilter)
+            return dispatchAction(.clearFilter)
         }
-        dispatchAction(.Filter(filter))
+        dispatchAction(.filter(filter))
     }
 
     func showBackupInfo() {
-        dispatchAction(.ShowBackupInfo)
+        dispatchAction(.showBackupInfo)
     }
 
     func showLicenseInfo() {
-        dispatchAction(.ShowLicenseInfo)
+        dispatchAction(.showLicenseInfo)
     }
 }
 
 // MARK: UITableViewDataSource
 extension TokenListViewController {
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.rowModels.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithClass(TokenRowCell.self)
         updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
     }
 
-    private func updateCell(cell: TokenRowCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    fileprivate func updateCell(_ cell: TokenRowCell, forRowAtIndexPath indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
         cell.updateWithRowModel(rowModel)
         cell.dispatchAction = dispatchAction
     }
 
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
-        if editingStyle == .Delete {
+        if editingStyle == .delete {
             dispatchAction(rowModel.deleteAction)
         }
     }
 
-    override func tableView(tableView: UITableView, moveRowAtIndexPath source: NSIndexPath, toIndexPath destination: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, moveRowAt source: IndexPath, to destination: IndexPath) {
         ignoreTableViewUpdates = true
-        dispatchAction(.MoveToken(fromIndex: source.row, toIndex: destination.row))
+        dispatchAction(.moveToken(fromIndex: source.row, toIndex: destination.row))
         ignoreTableViewUpdates = false
     }
 
@@ -231,14 +227,14 @@ extension TokenListViewController {
 
 // MARK: UITableViewDelegate
 extension TokenListViewController {
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }
 }
 
 // MARK: TokenListPresenter
 extension TokenListViewController {
-    func updateWithViewModel(viewModel: TokenList.ViewModel) {
+    func updateWithViewModel(_ viewModel: TokenList.ViewModel) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         let filtering = viewModel.isFiltering || self.viewModel.isFiltering
         self.viewModel = viewModel
@@ -249,11 +245,11 @@ extension TokenListViewController {
             let sectionIndex = 0
             let tableViewChanges = changes.map({ change in
                 change.map({ row in
-                    NSIndexPath(forRow: row, inSection: sectionIndex)
+                    IndexPath(row: row, section: sectionIndex)
                 })
             })
             tableView.applyChanges(tableViewChanges, updateRow: { indexPath in
-                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TokenRowCell {
+                if let cell = tableView.cellForRow(at: indexPath) as? TokenRowCell {
                     updateCell(cell, forRowAtIndexPath: indexPath)
                 }
             })
@@ -261,16 +257,16 @@ extension TokenListViewController {
         updatePeripheralViews()
     }
 
-    private func updatePeripheralViews() {
+    fileprivate func updatePeripheralViews() {
 
         searchBar.updateWithViewModel(viewModel)
 
-        editButtonItem().enabled = viewModel.hasTokens
-        noTokensLabel.hidden = viewModel.hasTokens
-        warningLabel.hidden = viewModel.hasTokens
+        editButtonItem.isEnabled = viewModel.hasTokens
+        noTokensLabel.isHidden = viewModel.hasTokens
+        warningLabel.isHidden = viewModel.hasTokens
 
         // Exit editing mode if no tokens remain
-        if self.editing && viewModel.rowModels.isEmpty {
+        if self.isEditing && viewModel.rowModels.isEmpty {
             self.setEditing(false, animated: true)
         }
     }
@@ -278,7 +274,7 @@ extension TokenListViewController {
 
 extension TokenListViewController: UITextFieldDelegate {
     // Dismisses keyboard when return is pressed
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
     }

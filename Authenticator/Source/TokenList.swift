@@ -29,9 +29,9 @@ import MobileCoreServices
 import OneTimePassword
 
 struct TokenList: Component {
-    private var persistentTokens: [PersistentToken]
-    private var displayTime: DisplayTime
-    private var filter: String?
+    fileprivate var persistentTokens: [PersistentToken]
+    fileprivate var displayTime: DisplayTime
+    fileprivate var filter: String?
 
     init(persistentTokens: [PersistentToken], displayTime: DisplayTime) {
         self.persistentTokens = persistentTokens
@@ -54,14 +54,14 @@ struct TokenList: Component {
     }
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
-    private var timeBasedTokenPeriods: [NSTimeInterval] {
-        var periods = Set<NSTimeInterval>()
+    private var timeBasedTokenPeriods: [TimeInterval] {
+        var periods = Set<TimeInterval>()
         persistentTokens.forEach { (persistentToken) in
-            if case .Timer(let period) = persistentToken.token.generator.factor {
+            if case .timer(let period) = persistentToken.token.generator.factor {
                 periods.insert(period)
             }
         }
-        return Array(periods).sort()
+        return Array(periods).sorted()
     }
 
     private var ringProgress: Double? {
@@ -79,158 +79,156 @@ struct TokenList: Component {
     }
 
     private var filteredTokens: [PersistentToken] {
-        guard let filter = self.filter where !filter.isEmpty else {
+        guard let filter = self.filter, !filter.isEmpty else {
             return self.persistentTokens
         }
-        let options: NSStringCompareOptions = [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch]
+        let options: String.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
         return self.persistentTokens.filter({
-            $0.token.issuer.rangeOfString(filter, options: options) != nil ||
-                $0.token.name.rangeOfString(filter, options: options) != nil
+            $0.token.issuer.range(of: filter, options: options) != nil ||
+                $0.token.name.range(of: filter, options: options) != nil
         })
     }
 }
 
 extension TokenList {
     enum Action {
-        case BeginAddToken
-        case EditPersistentToken(PersistentToken)
+        case beginAddToken
+        case editPersistentToken(PersistentToken)
 
-        case UpdatePersistentToken(PersistentToken)
-        case MoveToken(fromIndex: Int, toIndex: Int)
-        case DeletePersistentToken(PersistentToken)
+        case updatePersistentToken(PersistentToken)
+        case moveToken(fromIndex: Int, toIndex: Int)
+        case deletePersistentToken(PersistentToken)
 
-        case CopyPassword(String)
+        case copyPassword(String)
 
-        case Filter(String)
-        case ClearFilter
+        case filter(String)
+        case clearFilter
 
-        case ShowBackupInfo
-        case ShowLicenseInfo
+        case showBackupInfo
+        case showLicenseInfo
     }
 
     enum Event {
-        case UpdateDisplayTime(DisplayTime)
-        case TokenChangeSucceeded([PersistentToken])
-        case UpdateTokenFailed(ErrorType)
-        case DeleteTokenFailed(ErrorType)
+        case updateDisplayTime(DisplayTime)
+        case tokenChangeSucceeded([PersistentToken])
+        case updateTokenFailed(Error)
+        case deleteTokenFailed(Error)
     }
 
     enum Effect {
-        case BeginTokenEntry
-        case BeginTokenEdit(PersistentToken)
+        case beginTokenEntry
+        case beginTokenEdit(PersistentToken)
 
-        case UpdateToken(PersistentToken,
+        case updateToken(PersistentToken,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
-        case MoveToken(fromIndex: Int, toIndex: Int,
+        case moveToken(fromIndex: Int, toIndex: Int,
             success: ([PersistentToken]) -> Event)
 
-        case DeletePersistentToken(PersistentToken,
+        case deletePersistentToken(PersistentToken,
             success: ([PersistentToken]) -> Event,
-            failure: (ErrorType) -> Event)
+            failure: (Error) -> Event)
 
-        case ShowErrorMessage(String)
-        case ShowSuccessMessage(String)
-        case ShowBackupInfo
-        case ShowLicenseInfo
+        case showErrorMessage(String)
+        case showSuccessMessage(String)
+        case showBackupInfo
+        case showLicenseInfo
     }
 
-    @warn_unused_result
-    mutating func update(action: Action) -> Effect? {
+    mutating func update(_ action: Action) -> Effect? {
         switch action {
-        case .BeginAddToken:
-            return .BeginTokenEntry
+        case .beginAddToken:
+            return .beginTokenEntry
 
-        case .EditPersistentToken(let persistentToken):
-            return .BeginTokenEdit(persistentToken)
+        case .editPersistentToken(let persistentToken):
+            return .beginTokenEdit(persistentToken)
 
-        case .UpdatePersistentToken(let persistentToken):
-            return .UpdateToken(persistentToken,
-                                success: Event.TokenChangeSucceeded,
-                                failure: Event.UpdateTokenFailed)
+        case .updatePersistentToken(let persistentToken):
+            return .updateToken(persistentToken,
+                                success: Event.tokenChangeSucceeded,
+                                failure: Event.updateTokenFailed)
 
-        case let .MoveToken(fromIndex, toIndex):
-            return .MoveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: Event.TokenChangeSucceeded)
+        case let .moveToken(fromIndex, toIndex):
+            return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
+                              success: Event.tokenChangeSucceeded)
 
-        case .DeletePersistentToken(let persistentToken):
-            return .DeletePersistentToken(persistentToken,
-                                          success: Event.TokenChangeSucceeded,
-                                          failure: Event.DeleteTokenFailed)
+        case .deletePersistentToken(let persistentToken):
+            return .deletePersistentToken(persistentToken,
+                                          success: Event.tokenChangeSucceeded,
+                                          failure: Event.deleteTokenFailed)
 
-        case .CopyPassword(let password):
+        case .copyPassword(let password):
             return copyPassword(password)
 
-        case .Filter(let filter):
+        case .filter(let filter):
             self.filter = filter
             return nil
 
-        case .ClearFilter:
+        case .clearFilter:
             self.filter = nil
             return nil
 
-        case .ShowBackupInfo:
-            return .ShowBackupInfo
+        case .showBackupInfo:
+            return .showBackupInfo
 
-        case .ShowLicenseInfo:
-            return .ShowLicenseInfo
+        case .showLicenseInfo:
+            return .showLicenseInfo
         }
     }
 
-    @warn_unused_result
-    mutating func update(event: Event) -> Effect? {
+    mutating func update(_ event: Event) -> Effect? {
         switch event {
-        case .UpdateDisplayTime(let displayTime):
+        case .updateDisplayTime(let displayTime):
             self.displayTime = displayTime
             return nil
 
-        case .TokenChangeSucceeded(let persistentTokens):
+        case .tokenChangeSucceeded(let persistentTokens):
             self.persistentTokens = persistentTokens
             return nil
 
-        case .UpdateTokenFailed:
-            return .ShowErrorMessage("Failed to update token.")
+        case .updateTokenFailed:
+            return .showErrorMessage("Failed to update token.")
 
-        case .DeleteTokenFailed:
-            return .ShowErrorMessage("Failed to delete token.")
+        case .deleteTokenFailed:
+            return .showErrorMessage("Failed to delete token.")
         }
     }
 
-    private mutating func copyPassword(password: String) -> Effect {
-        let pasteboard = UIPasteboard.generalPasteboard()
+    private mutating func copyPassword(_ password: String) -> Effect {
+        let pasteboard = UIPasteboard.general
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         // Show an ephemeral success message.
-        return .ShowSuccessMessage("Copied")
+        return .showSuccessMessage("Copied")
     }
 }
 
 extension TokenList.Action: Equatable {}
 func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
     switch (lhs, rhs) {
-    case (.BeginAddToken, .BeginAddToken):
+    case (.beginAddToken, .beginAddToken):
         return true
-    case let (.EditPersistentToken(l), .EditPersistentToken(r)):
+    case let (.editPersistentToken(l), .editPersistentToken(r)):
         return l == r
-    case let (.UpdatePersistentToken(l), .UpdatePersistentToken(r)):
+    case let (.updatePersistentToken(l), .updatePersistentToken(r)):
         return l == r
-    case let (.MoveToken(l), .MoveToken(r)):
+    case let (.moveToken(l), .moveToken(r)):
         return l == r
-    case let (.DeletePersistentToken(l), .DeletePersistentToken(r)):
+    case let (.deletePersistentToken(l), .deletePersistentToken(r)):
         return l == r
-    case let (.CopyPassword(l), .CopyPassword(r)):
+    case let (.copyPassword(l), .copyPassword(r)):
         return l == r
-    case (.ClearFilter, .ClearFilter):
+    case (.clearFilter, .clearFilter):
         return true
-    case let (.Filter(l), .Filter(r)):
+    case let (.filter(l), .filter(r)):
         return l == r
-    case (.ShowBackupInfo, .ShowBackupInfo):
+    case (.showBackupInfo, .showBackupInfo):
         return true
-    case (.ShowLicenseInfo, .ShowLicenseInfo):
+    case (.showLicenseInfo, .showLicenseInfo):
         return true
-    case (.BeginAddToken, _), (.EditPersistentToken, _), (.UpdatePersistentToken, _), (.MoveToken, _),
-         (.DeletePersistentToken, _), (.CopyPassword, _), (.Filter, _), (.ClearFilter, _), (.ShowBackupInfo, _),
-         (.ShowLicenseInfo, _):
+    case (.beginAddToken, _), (.editPersistentToken, _), (.updatePersistentToken, _), (.moveToken, _),
+         (.deletePersistentToken, _), (.copyPassword, _), (.filter, _), (.clearFilter, _), (.showBackupInfo, _),
+         (.showLicenseInfo, _):
         // Using this verbose case for non-matching `Action`s instead of `default` ensures a
         // compiler error if a new `Action` is added and not expicitly checked for equality.
         return false

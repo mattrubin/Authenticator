@@ -34,7 +34,7 @@ class OTPProgressRing: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.opaque = false
+        self.isOpaque = false
     }
 
     var progress: Double = 0 {
@@ -43,7 +43,7 @@ class OTPProgressRing: UIView {
         }
     }
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
@@ -51,19 +51,18 @@ class OTPProgressRing: UIView {
         let halfLineWidth = lineWidth / 2
         let ringRect = self.bounds.insetBy(dx: halfLineWidth, dy: halfLineWidth)
 
-        CGContextSetLineWidth(context, lineWidth)
+        context.setLineWidth(lineWidth)
 
-        CGContextSetStrokeColorWithColor(context, self.tintColor.colorWithAlphaComponent(0.2).CGColor)
-        CGContextStrokeEllipseInRect(context, ringRect)
+        context.setStrokeColor(self.tintColor.withAlphaComponent(0.2).cgColor)
+        context.strokeEllipse(in: ringRect)
 
-        CGContextSetStrokeColorWithColor(context, self.tintColor.CGColor)
-        CGContextAddArc(context,
-            ringRect.midX,
-            ringRect.midY,
-            ringRect.width / 2,
-            CGFloat(-M_PI_2),
-            CGFloat(2 * M_PI * self.progress - M_PI_2),
-            1)
-        CGContextStrokePath(context)
+        context.setStrokeColor(self.tintColor.cgColor)
+        let startAngle: CGFloat = -.pi / 2
+        context.addArc(center: CGPoint(x: ringRect.midX, y: ringRect.midY),
+                       radius: ringRect.width / 2,
+                       startAngle: startAngle,
+                       endAngle: 2 * .pi * CGFloat(self.progress) + startAngle,
+                       clockwise: true)
+        context.strokePath()
     }
 }

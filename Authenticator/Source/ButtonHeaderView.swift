@@ -56,28 +56,27 @@ class ButtonHeaderView<Action>: UIButton {
     // MARK: - Subviews
 
     private func configureSubviews() {
-        titleLabel?.textAlignment = .Center
+        titleLabel?.textAlignment = .center
         titleLabel?.textColor = UIColor.otpForegroundColor
-        titleLabel?.font = UIFont.systemFontOfSize(16, weight: UIFontWeightLight)
+        titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight)
 
-        let action = #selector(ButtonHeaderView.buttonWasPressed)
-        addTarget(self, action: action, forControlEvents: .TouchUpInside)
+        addTarget(self, action: #selector(ButtonHeaderView.buttonWasPressed), for: .touchUpInside)
     }
 
     // MARK: - View Model
 
-    convenience init(viewModel: ButtonHeaderViewModel<Action>, dispatchAction: (Action) -> Void) {
+    convenience init(viewModel: ButtonHeaderViewModel<Action>, dispatchAction: @escaping (Action) -> Void) {
         self.init()
         self.dispatchAction = dispatchAction
         updateWithViewModel(viewModel)
     }
 
-    func updateWithViewModel(viewModel: ButtonHeaderViewModel<Action>) {
-        setTitle(viewModel.title, forState: .Normal)
+    func updateWithViewModel(_ viewModel: ButtonHeaderViewModel<Action>) {
+        setTitle(viewModel.title, for: .normal)
         buttonAction = viewModel.action
     }
 
-    static func heightWithViewModel(viewModel: ButtonHeaderViewModel<Action>) -> CGFloat {
+    static func heightWithViewModel(_ viewModel: ButtonHeaderViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 

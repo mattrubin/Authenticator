@@ -34,7 +34,7 @@ class AppController {
     private var component: Root {
         didSet {
             // TODO: Fix the excessive updates of bar button items so that the tick can run while they are on screen.
-            if case .None = component.viewModel.modal {
+            if case .none = component.viewModel.modal {
                 if displayLink == nil {
                     startTick()
                 }
@@ -55,13 +55,13 @@ class AppController {
 
     init() {
         do {
-            if Process.isDemo {
+            if CommandLine.isDemo {
                 // If this is a demo, use a token store of mock data, not backed by the keychain.
                 store = DemoTokenStore()
             } else {
                 store = try KeychainTokenStore(
                     keychain: Keychain.sharedInstance,
-                    userDefaults: NSUserDefaults.standardUserDefaults()
+                    userDefaults: UserDefaults.standard
                 )
             }
         } catch {
@@ -70,7 +70,7 @@ class AppController {
         }
 
         // If this is a demo, show the scanner even in the simulator.
-        let deviceCanScan = QRScanner.deviceCanScan || Process.isDemo
+        let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
         component = Root(
             persistentTokens: store.persistentTokens,
             displayTime: .currentDisplayTime(),
@@ -87,7 +87,7 @@ class AppController {
     private func startTick() {
         let selector = #selector(tick)
         self.displayLink = CADisplayLink(target: self, selector: selector)
-        self.displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+        self.displayLink?.add(to: RunLoop.main, forMode: .commonModes)
     }
 
     private func stopTick() {
@@ -98,12 +98,12 @@ class AppController {
     @objc
     func tick() {
         // Dispatch an event to trigger a view model update.
-        handleEvent(.UpdateDisplayTime(.currentDisplayTime()))
+        handleEvent(.updateDisplayTime(.currentDisplayTime()))
     }
 
     // MARK: - Update
 
-    private func handleAction(action: Root.Action) {
+    private func handleAction(_ action: Root.Action) {
         do {
             let sideEffect = try component.update(action)
             if let effect = sideEffect {
@@ -114,16 +114,16 @@ class AppController {
         }
     }
 
-    private func handleEvent(event: Root.Event) {
+    private func handleEvent(_ event: Root.Event) {
         let sideEffect = component.update(event)
         if let effect = sideEffect {
             handleEffect(effect)
         }
     }
 
-    private func handleEffect(effect: Root.Effect) {
+    private func handleEffect(_ effect: Root.Effect) {
         switch effect {
-        case let .AddToken(token, success, failure):
+        case let .addToken(token, success, failure):
             do {
                 try store.addToken(token)
                 handleEvent(success(store.persistentTokens))
@@ -131,7 +131,7 @@ class AppController {
                 handleEvent(failure(error))
             }
 
-        case let .SaveToken(token, persistentToken, success, failure):
+        case let .saveToken(token, persistentToken, success, failure):
             do {
                 try store.saveToken(token, toPersistentToken: persistentToken)
                 handleEvent(success(store.persistentTokens))
@@ -139,7 +139,7 @@ class AppController {
                 handleEvent(failure(error))
             }
 
-        case let .UpdatePersistentToken(persistentToken, success, failure):
+        case let .updatePersistentToken(persistentToken, success, failure):
             do {
                 try store.updatePersistentToken(persistentToken)
                 handleEvent(success(store.persistentTokens))
@@ -147,11 +147,11 @@ class AppController {
                 handleEvent(failure(error))
             }
 
-        case let .MoveToken(fromIndex, toIndex, success):
+        case let .moveToken(fromIndex, toIndex, success):
             store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
             handleEvent(success(store.persistentTokens))
 
-        case let .DeletePersistentToken(persistentToken, success, failure):
+        case let .deletePersistentToken(persistentToken, success, failure):
             do {
                 try store.deletePersistentToken(persistentToken)
                 handleEvent(success(store.persistentTokens))
@@ -159,20 +159,20 @@ class AppController {
                 handleEvent(failure(error))
             }
 
-        case let .ShowErrorMessage(message):
-            SVProgressHUD.showErrorWithStatus(message)
+        case let .showErrorMessage(message):
+            SVProgressHUD.showError(withStatus: message)
 
-        case let .ShowSuccessMessage(message):
-            SVProgressHUD.showSuccessWithStatus(message)
+        case let .showSuccessMessage(message):
+            SVProgressHUD.showSuccess(withStatus: message)
 
-        case let .OpenURL(url):
+        case let .openURL(url):
             if #available(iOS 9.0, *) {
-                let safariViewController = SFSafariViewController(URL: url)
+                let safariViewController = SFSafariViewController(url: url)
                 let presenter = topViewController(presentedFrom: rootViewController)
-                presenter.presentViewController(safariViewController, animated: true, completion: nil)
+                presenter.present(safariViewController, animated: true)
             } else {
                 // Fallback on earlier versions
-                UIApplication.sharedApplication().openURL(url)
+                UIApplication.shared.openURL(url)
             }
         }
     }
@@ -190,17 +190,17 @@ class AppController {
         return view
     }
 
-    func addTokenFromURL(token: Token) {
-        handleAction(.AddTokenFromURL(token))
+    func addTokenFromURL(_ token: Token) {
+        handleAction(.addTokenFromURL(token))
     }
 }
 
 private extension DisplayTime {
     static func currentDisplayTime() -> DisplayTime {
-        if Process.isDemo {
+        if CommandLine.isDemo {
             // If this is a demo, use a constant time.
             return DisplayTime.demoTime
         }
-        return DisplayTime(date: NSDate())
+        return DisplayTime(date: Date())
     }
 }

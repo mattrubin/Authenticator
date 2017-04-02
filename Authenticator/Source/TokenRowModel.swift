@@ -37,38 +37,37 @@ struct TokenRowModel: Identifiable {
     let editAction: Action
     let deleteAction: Action
 
-    private let identifier: NSData
+    fileprivate let identifier: Data
 
     init(persistentToken: PersistentToken, displayTime: DisplayTime, canReorder reorderable: Bool = true) {
-        let timeInterval = displayTime.timeIntervalSince1970
-        let rawPassword = (try? persistentToken.token.generator.passwordAtTime(timeInterval)) ?? ""
+        let rawPassword = (try? persistentToken.token.generator.password(at: displayTime.date)) ?? ""
 
         name = persistentToken.token.name
         issuer = persistentToken.token.issuer
         password = TokenRowModel.chunkPassword(rawPassword)
-        if case .Counter = persistentToken.token.generator.factor {
+        if case .counter = persistentToken.token.generator.factor {
             showsButton = true
         } else {
             showsButton = false
         }
-        buttonAction = .UpdatePersistentToken(persistentToken)
-        selectAction = .CopyPassword(rawPassword)
-        editAction = .EditPersistentToken(persistentToken)
-        deleteAction = .DeletePersistentToken(persistentToken)
+        buttonAction = .updatePersistentToken(persistentToken)
+        selectAction = .copyPassword(rawPassword)
+        editAction = .editPersistentToken(persistentToken)
+        deleteAction = .deletePersistentToken(persistentToken)
         identifier = persistentToken.identifier
         canReorder = reorderable
     }
 
-    func hasSameIdentity(other: TokenRowModel) -> Bool {
-        return self.identifier.isEqualToData(other.identifier)
+    func hasSameIdentity(_ other: TokenRowModel) -> Bool {
+        return (self.identifier == other.identifier)
     }
 
     // Group the password into chunks of two digits, separated by spaces.
-    private static func chunkPassword(password: String) -> String {
+    private static func chunkPassword(_ password: String) -> String {
         var characters = password.characters
         let chunkSize = 2
-        for i in chunkSize.stride(to: characters.count, by: chunkSize).reverse() {
-            characters.insert(" ", atIndex: characters.startIndex.advancedBy(i))
+        for i in stride(from: chunkSize, to: characters.count, by: chunkSize).reversed() {
+            characters.insert(" ", at: characters.index(characters.startIndex, offsetBy: i))
         }
         return String(characters)
     }

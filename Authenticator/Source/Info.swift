@@ -27,14 +27,14 @@ import Foundation
 
 struct Info {
     private let title: String
-    private let url: NSURL
+    private let url: URL
 
     private init(title: String, htmlFileName: String) throws {
         self.title = title
-        guard let path = NSBundle.mainBundle().pathForResource(htmlFileName, ofType: "html") else {
-            throw Error.MissingFile(htmlFileName)
+        guard let path = Bundle.main.path(forResource: htmlFileName, ofType: "html") else {
+            throw Error.missingFile(htmlFileName)
         }
-        url = NSURL(fileURLWithPath: path)
+        url = URL(fileURLWithPath: path)
     }
 
     static func backupInfo() throws -> Info {
@@ -49,7 +49,7 @@ struct Info {
 
     struct ViewModel {
         let title: String
-        let url: NSURL
+        let url: URL
     }
 
     var viewModel: ViewModel {
@@ -59,13 +59,13 @@ struct Info {
     // MARK: Update
 
     enum Effect {
-        case Done
-        case OpenURL(NSURL)
+        case done
+        case openURL(URL)
     }
 
     // MARK: Errors
 
-    enum Error: ErrorType {
-        case MissingFile(String)
+    enum Error: Swift.Error {
+        case missingFile(String)
     }
 }

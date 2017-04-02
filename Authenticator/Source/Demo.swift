@@ -27,10 +27,10 @@ import OneTimePassword
 import Foundation
 import UIKit
 
-extension Process {
+extension CommandLine {
     static var isDemo: Bool {
         return arguments.contains("--demo")
-            || NSUserDefaults.standardUserDefaults().boolForKey("FASTLANE_SNAPSHOT")
+            || UserDefaults.standard.bool(forKey: "FASTLANE_SNAPSHOT")
     }
 }
 
@@ -41,47 +41,47 @@ struct DemoTokenStore: TokenStore {
         Token(
             name: "john.appleseed@gmail.com",
             issuer: "Google",
-            factor: .Timer(period: 10)
+            factor: .timer(period: 10)
         ),
         Token(
             name: "johnappleseed",
             issuer: "GitHub",
-            factor: .Timer(period: 20)
+            factor: .timer(period: 20)
         ),
         Token(
             issuer: "Dropbox",
-            factor: .Timer(period: 30)
+            factor: .timer(period: 30)
         ),
         Token(
             name: "john@appleseed.com",
-            factor: .Counter(0)
+            factor: .counter(0)
         ),
         Token(
             name: "johnny.apple",
             issuer: "Facebook",
-            factor: .Timer(period: 40)
+            factor: .timer(period: 40)
         ),
     ]
 
-    private struct Error: ErrorType {}
+    private struct Error: Swift.Error {}
 
-    func addToken(token: Token) throws {
+    func addToken(_ token: Token) throws {
         throw Error()
     }
 
-    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
+    func saveToken(_ token: Token, toPersistentToken persistentToken: PersistentToken) throws {
         throw Error()
     }
 
-    func updatePersistentToken(persistentToken: PersistentToken) throws {
+    func updatePersistentToken(_ persistentToken: PersistentToken) throws {
         throw Error()
     }
 
-    func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
+    func moveTokenFromIndex(_ origin: Int, toIndex destination: Int) {
         return
     }
 
-    func deletePersistentToken(persistentToken: PersistentToken) throws {
+    func deletePersistentToken(_ persistentToken: PersistentToken) throws {
         throw Error()
     }
 }
@@ -89,7 +89,7 @@ struct DemoTokenStore: TokenStore {
 private extension Token {
     init(name: String = "", issuer: String = "", factor: Generator.Factor) {
         // swiftlint:disable:next force_unwrapping
-        let generator = Generator(factor: factor, secret: NSData(), algorithm: .SHA1, digits: 6)!
+        let generator = Generator(factor: factor, secret: Data(), algorithm: .sha1, digits: 6)!
         self.init(name: name, issuer: issuer, generator: generator)
     }
 }
@@ -98,7 +98,7 @@ private extension PersistentToken {
     init(demoToken: Token) {
         token = demoToken
         // swiftlint:disable:next force_unwrapping
-        identifier = NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
+        identifier = UUID().uuidString.data(using: String.Encoding.utf8)!
     }
 }
 
@@ -106,12 +106,12 @@ extension TokenEntryForm {
     static let demoForm: TokenEntryForm = {
         // Construct a pre-filled demo form.
         var form = TokenEntryForm()
-        _ = form.update(.Issuer("Google"))
-        _ = form.update(.Name("john.appleseed@gmail.com"))
-        _ = form.update(.Secret("JBSWY3DPEHPK6PX9"))
-        if UIScreen.mainScreen().bounds.height > 550 {
+        _ = form.update(.issuer("Google"))
+        _ = form.update(.name("john.appleseed@gmail.com"))
+        _ = form.update(.secret("JBSWY3DPEHPK6PX9"))
+        if UIScreen.main.bounds.height > 550 {
             // Expand the advanced options for iPhone 5 and later, but not for the earlier 3.5-inch screens.
-            _ = form.update(.ShowAdvancedOptions)
+            _ = form.update(.showAdvancedOptions)
         }
         return form
     }()
@@ -120,12 +120,12 @@ extension TokenEntryForm {
 extension DisplayTime {
     /// A constant demo display time, selected along with the time-based token periods to fix the progress ring at an
     /// aesthetically-pleasing angle.
-    static let demoTime = DisplayTime(date: NSDate(timeIntervalSince1970: 123_456_783.75))
+    static let demoTime = DisplayTime(date: Date(timeIntervalSince1970: 123_456_783.75))
 }
 
 extension UIImage {
     static func demoScannerImage() -> UIImage? {
-        guard let imagePath = NSUserDefaults.standardUserDefaults().stringForKey("demo-scanner-image") else {
+        guard let imagePath = UserDefaults.standard.string(forKey: "demo-scanner-image") else {
             return nil
         }
         return UIImage(contentsOfFile: imagePath)

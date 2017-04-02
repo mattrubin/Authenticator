@@ -28,20 +28,20 @@ import OneTimePassword
 
 protocol TokenStore {
     var persistentTokens: [PersistentToken] { get }
-    func addToken(token: Token) throws
-    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws
-    func updatePersistentToken(persistentToken: PersistentToken) throws
-    func moveTokenFromIndex(origin: Int, toIndex destination: Int)
-    func deletePersistentToken(persistentToken: PersistentToken) throws
+    func addToken(_ token: Token) throws
+    func saveToken(_ token: Token, toPersistentToken persistentToken: PersistentToken) throws
+    func updatePersistentToken(_ persistentToken: PersistentToken) throws
+    func moveTokenFromIndex(_ origin: Int, toIndex destination: Int)
+    func deletePersistentToken(_ persistentToken: PersistentToken) throws
 }
 
 class KeychainTokenStore: TokenStore {
-    private let keychain: Keychain
-    private let userDefaults: NSUserDefaults
-    private(set) var persistentTokens: [PersistentToken]
+    fileprivate let keychain: Keychain
+    private let userDefaults: UserDefaults
+    fileprivate(set) var persistentTokens: [PersistentToken]
 
     // Throws an error if the initial state could not be loaded from the keychain.
-    init(keychain: Keychain, userDefaults: NSUserDefaults) throws {
+    init(keychain: Keychain, userDefaults: UserDefaults) throws {
         self.keychain = keychain
         self.userDefaults = userDefaults
 
@@ -49,12 +49,12 @@ class KeychainTokenStore: TokenStore {
         let persistentTokenSet = try keychain.allPersistentTokens()
         let sortedIdentifiers = userDefaults.persistentIdentifiers()
 
-        persistentTokens = persistentTokenSet.sort({ (A, B) in
-            let indexOfA = sortedIdentifiers.indexOf(A.identifier)
-            let indexOfB = sortedIdentifiers.indexOf(B.identifier)
+        persistentTokens = persistentTokenSet.sorted(by: {
+            let indexOfA = sortedIdentifiers.index(of: $0.identifier)
+            let indexOfB = sortedIdentifiers.index(of: $1.identifier)
 
             switch (indexOfA, indexOfB) {
-            case (.Some(let iA), .Some(let iB)) where iA < iB:
+            case (.some(let iA), .some(let iB)) where iA < iB:
                 return true
             default:
                 return false
@@ -67,7 +67,7 @@ class KeychainTokenStore: TokenStore {
         }
     }
 
-    private func saveTokenOrder() {
+    fileprivate func saveTokenOrder() {
         let persistentIdentifiers = persistentTokens.map { $0.identifier }
         userDefaults.savePersistentIdentifiers(persistentIdentifiers)
     }
@@ -76,15 +76,14 @@ class KeychainTokenStore: TokenStore {
 extension KeychainTokenStore {
     // MARK: Actions
 
-    func addToken(token: Token) throws {
-        let newPersistentToken = try keychain.addToken(token)
+    func addToken(_ token: Token) throws {
+        let newPersistentToken = try keychain.add(token)
         persistentTokens.append(newPersistentToken)
         saveTokenOrder()
     }
 
-    func saveToken(token: Token, toPersistentToken persistentToken: PersistentToken) throws {
-        let updatedPersistentToken = try keychain.updatePersistentToken(persistentToken,
-                                                                        withToken: token)
+    func saveToken(_ token: Token, toPersistentToken persistentToken: PersistentToken) throws {
+        let updatedPersistentToken = try keychain.update(persistentToken, with: token)
         // Update the in-memory token, which is still the origin of the table view's data
         persistentTokens = persistentTokens.map {
             if $0.identifier == updatedPersistentToken.identifier {
@@ -94,22 +93,22 @@ extension KeychainTokenStore {
         }
     }
 
-    func updatePersistentToken(persistentToken: PersistentToken) throws {
+    func updatePersistentToken(_ persistentToken: PersistentToken) throws {
         let newToken = persistentToken.token.updatedToken()
         try saveToken(newToken, toPersistentToken: persistentToken)
     }
 
-    func moveTokenFromIndex(origin: Int, toIndex destination: Int) {
+    func moveTokenFromIndex(_ origin: Int, toIndex destination: Int) {
         let persistentToken = persistentTokens[origin]
-        persistentTokens.removeAtIndex(origin)
-        persistentTokens.insert(persistentToken, atIndex: destination)
+        persistentTokens.remove(at: origin)
+        persistentTokens.insert(persistentToken, at: destination)
         saveTokenOrder()
     }
 
-    func deletePersistentToken(persistentToken: PersistentToken) throws {
-        try keychain.deletePersistentToken(persistentToken)
-        if let index = persistentTokens.indexOf(persistentToken) {
-            persistentTokens.removeAtIndex(index)
+    func deletePersistentToken(_ persistentToken: PersistentToken) throws {
+        try keychain.delete(persistentToken)
+        if let index = persistentTokens.index(of: persistentToken) {
+            persistentTokens.remove(at: index)
         }
         saveTokenOrder()
     }
@@ -119,12 +118,12 @@ extension KeychainTokenStore {
 
 private let kOTPKeychainEntriesArray = "OTPKeychainEntries"
 
-private extension NSUserDefaults {
-    func persistentIdentifiers() -> [NSData] {
-        return arrayForKey(kOTPKeychainEntriesArray) as? [NSData] ?? []
+private extension UserDefaults {
+    func persistentIdentifiers() -> [Data] {
+        return array(forKey: kOTPKeychainEntriesArray) as? [Data] ?? []
     }
 
-    func savePersistentIdentifiers(identifiers: [NSData]) {
-        setObject(identifiers, forKey: kOTPKeychainEntriesArray)
+    func savePersistentIdentifiers(_ identifiers: [Data]) {
+        set(identifiers, forKey: kOTPKeychainEntriesArray)
     }
 }

@@ -32,11 +32,11 @@ class TokenScannerTests: XCTestCase {
         var tokenScanner = TokenScanner()
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
-        let action = TokenScanner.Action.Cancel
+        let action = TokenScanner.Action.cancel
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
-            case .Cancel = requiredEffect else {
-                XCTFail("Expected effect .Cancel, got \(effect)")
+            case .cancel = requiredEffect else {
+                XCTFail("Expected effect .Cancel, got \(String(describing: effect))")
                 return
         }
 
@@ -47,11 +47,11 @@ class TokenScannerTests: XCTestCase {
         var tokenScanner = TokenScanner()
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
-        let action = TokenScanner.Action.BeginManualTokenEntry
+        let action = TokenScanner.Action.beginManualTokenEntry
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
-            case .BeginManualTokenEntry = requiredEffect else {
-                XCTFail("Expected effect .BeginManualTokenEntry, got \(effect)")
+            case .beginManualTokenEntry = requiredEffect else {
+                XCTFail("Expected effect .BeginManualTokenEntry, got \(String(describing: effect))")
                 return
         }
 
@@ -62,11 +62,11 @@ class TokenScannerTests: XCTestCase {
         var tokenScanner = TokenScanner()
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
-        let action = TokenScanner.Action.ScannerDecodedText("something...")
+        let action = TokenScanner.Action.scannerDecodedText("something...")
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
-            case .ShowErrorMessage(let message) = requiredEffect else {
-                XCTFail("Expected effect .ShowErrorMessage, got \(effect)")
+            case .showErrorMessage(let message) = requiredEffect else {
+                XCTFail("Expected effect .ShowErrorMessage, got \(String(describing: effect))")
                 return
         }
         XCTAssertEqual(message, "Invalid Token")
@@ -79,11 +79,11 @@ class TokenScannerTests: XCTestCase {
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
         let urlString = "http://example.com"
-        let action = TokenScanner.Action.ScannerDecodedText(urlString)
+        let action = TokenScanner.Action.scannerDecodedText(urlString)
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
-            case .ShowErrorMessage(let message) = requiredEffect else {
-                XCTFail("Expected effect .ShowErrorMessage, got \(effect)")
+            case .showErrorMessage(let message) = requiredEffect else {
+                XCTFail("Expected effect .ShowErrorMessage, got \(String(describing: effect))")
                 return
         }
         XCTAssertEqual(message, "Invalid Token")
@@ -96,32 +96,32 @@ class TokenScannerTests: XCTestCase {
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
         let urlString = "otpauth://totp/Authenticator?secret=ABCDEFGHIJKLMNOP"
-        let action = TokenScanner.Action.ScannerDecodedText(urlString)
+        let action = TokenScanner.Action.scannerDecodedText(urlString)
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
-            case .SaveNewToken(let token) = requiredEffect else {
-                XCTFail("Expected effect .SaveNewToken, got \(effect)")
+            case .saveNewToken(let token) = requiredEffect else {
+                XCTFail("Expected effect .SaveNewToken, got \(String(describing: effect))")
                 return
         }
         // swiftlint:disable:next force_unwrapping
-        let expectedToken = Token(url: NSURL(string: urlString)!)
+        let expectedToken = Token(url: URL(string: urlString)!)
         XCTAssertEqual(token, expectedToken)
 
         // The scanner should stop after the first successful token capture.
         XCTAssertFalse(tokenScanner.viewModel.isScanning)
     }
 
-    struct ScannerError: ErrorType {}
+    struct ScannerError: Error {}
 
     func testScannerError() {
         var tokenScanner = TokenScanner()
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
-        let action = TokenScanner.Action.ScannerError(ScannerError())
+        let action = TokenScanner.Action.scannerError(ScannerError())
         let effect = tokenScanner.update(action)
         guard let requiredEffect = effect,
-            case .ShowErrorMessage(let message) = requiredEffect else {
-                XCTFail("Expected effect .ShowErrorMessage, got \(effect)")
+            case .showErrorMessage(let message) = requiredEffect else {
+                XCTFail("Expected effect .ShowErrorMessage, got \(String(describing: effect))")
                 return
         }
         XCTAssertEqual(message, "Capture Failed")

@@ -29,38 +29,38 @@ class OpaqueNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationBar.translucent = false
+        navigationBar.isTranslucent = false
         navigationBar.barTintColor = UIColor.otpBarBackgroundColor
         navigationBar.tintColor = UIColor.otpBarForegroundColor
         navigationBar.titleTextAttributes = [
             NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
-            NSFontAttributeName: UIFont.systemFontOfSize(20, weight: UIFontWeightLight),
+            NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight),
         ]
 
-        toolbar.translucent = false
+        toolbar.isTranslucent = false
         toolbar.barTintColor = UIColor.otpBarBackgroundColor
         toolbar.tintColor = UIColor.otpBarForegroundColor
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
 
 class RootViewController: OpaqueNavigationController {
-    private var currentViewModel: Root.ViewModel
+    fileprivate var currentViewModel: Root.ViewModel
 
-    private var tokenListViewController: TokenListViewController
-    private var modalNavController: UINavigationController?
+    fileprivate var tokenListViewController: TokenListViewController
+    fileprivate var modalNavController: UINavigationController?
 
-    private let dispatchAction: (Root.Action) -> Void
+    fileprivate let dispatchAction: (Root.Action) -> Void
 
-    init(viewModel: Root.ViewModel, dispatchAction: (Root.Action) -> Void) {
+    init(viewModel: Root.ViewModel, dispatchAction: @escaping (Root.Action) -> Void) {
         self.currentViewModel = viewModel
         self.dispatchAction = dispatchAction
         tokenListViewController = TokenListViewController(
             viewModel: viewModel.tokenList,
-            dispatchAction: compose(Root.Action.TokenListAction, dispatchAction)
+            dispatchAction: compose(Root.Action.tokenListAction, dispatchAction)
         )
 
         super.init(nibName: nil, bundle: nil)
@@ -71,88 +71,88 @@ class RootViewController: OpaqueNavigationController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func presentViewController(viewController: UIViewController) {
+    fileprivate func presentViewController(_ viewController: UIViewController) {
         if let navController = modalNavController {
             navController.setViewControllers([viewController], animated: true)
         } else {
             let navController = OpaqueNavigationController(rootViewController: viewController)
-            presentViewController(navController, animated: true, completion: nil)
+            present(navController, animated: true)
             modalNavController = navController
         }
     }
 
-    private func dismissViewController() {
+    fileprivate func dismissViewController() {
         if modalNavController != nil {
             modalNavController = nil
-            dismissViewControllerAnimated(true, completion: nil)
+            dismiss(animated: true)
         }
     }
 }
 
 extension RootViewController {
-    func updateWithViewModel(viewModel: Root.ViewModel) {
+    func updateWithViewModel(_ viewModel: Root.ViewModel) {
         tokenListViewController.updateWithViewModel(viewModel.tokenList)
 
         switch viewModel.modal {
-        case .None:
+        case .none:
             dismissViewController()
 
-        case .Scanner(let scannerViewModel):
-            if case .Scanner = currentViewModel.modal,
+        case .scanner(let scannerViewModel):
+            if case .scanner = currentViewModel.modal,
                 let scannerViewController = modalNavController?.topViewController as? TokenScannerViewController {
                 scannerViewController.updateWithViewModel(scannerViewModel)
             } else {
                 let scannerViewController = TokenScannerViewController(
                     viewModel: scannerViewModel,
-                    dispatchAction: compose(Root.Action.TokenScannerAction, dispatchAction)
+                    dispatchAction: compose(Root.Action.tokenScannerAction, dispatchAction)
                 )
                 presentViewController(scannerViewController)
             }
 
-        case .EntryForm(let formViewModel):
-            if case .EntryForm = currentViewModel.modal,
+        case .entryForm(let formViewModel):
+            if case .entryForm = currentViewModel.modal,
                 let entryController = modalNavController?.topViewController as? TokenFormViewController<TokenEntryForm> {
                     entryController.updateWithViewModel(formViewModel)
             } else {
                 let formController = TokenFormViewController(
                     viewModel: formViewModel,
-                    dispatchAction: compose(Root.Action.TokenEntryFormAction, dispatchAction)
+                    dispatchAction: compose(Root.Action.tokenEntryFormAction, dispatchAction)
                 )
                 presentViewController(formController)
             }
 
-        case .EditForm(let formViewModel):
-            if case .EditForm = currentViewModel.modal,
+        case .editForm(let formViewModel):
+            if case .editForm = currentViewModel.modal,
                 let editController = modalNavController?.topViewController as? TokenFormViewController<TokenEditForm> {
                     editController.updateWithViewModel(formViewModel)
             } else {
                 let editController = TokenFormViewController(
                     viewModel: formViewModel,
-                    dispatchAction: compose(Root.Action.TokenEditFormAction, dispatchAction)
+                    dispatchAction: compose(Root.Action.tokenEditFormAction, dispatchAction)
                 )
                 presentViewController(editController)
             }
 
-        case .Info(let infoViewModel):
+        case .info(let infoViewModel):
             updateWithInfoViewModel(infoViewModel)
         }
         currentViewModel = viewModel
     }
 
-    private func updateWithInfoViewModel(infoViewModel: Info.ViewModel) {
-        if case .Info = currentViewModel.modal,
+    private func updateWithInfoViewModel(_ infoViewModel: Info.ViewModel) {
+        if case .info = currentViewModel.modal,
             let infoViewController = modalNavController?.topViewController as? InfoViewController {
             infoViewController.updateWithViewModel(infoViewModel)
         } else {
             let infoViewController = InfoViewController(
                 viewModel: infoViewModel,
-                dispatchAction: compose(Root.Action.InfoEffect, dispatchAction)
+                dispatchAction: compose(Root.Action.infoEffect, dispatchAction)
             )
             presentViewController(infoViewController)
         }
     }
 }
 
-private func compose<A, B, C>(transform: A -> B, _ handler: B -> C) -> A -> C {
+private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escaping (B) -> C) -> (A) -> C {
     return { handler(transform($0)) }
 }

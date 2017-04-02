@@ -29,13 +29,13 @@ import SVProgressHUD
 
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow? = UIWindow(frame: UIScreen.mainScreen().bounds)
+    var window: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
 
     let app = AppController()
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
-        let barButtonAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(17, weight: UIFontWeightLight)]
-        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonAttributes, forState: UIControlState.Normal)
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        let barButtonAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]
+        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonAttributes, for: .normal)
 
         // Restore white-on-black style
         SVProgressHUD.setForegroundColor(.otpLightColor)
@@ -48,22 +48,21 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         if let token = Token(url: url) {
             let message = "Do you want to add a token for “\(token.name)”?"
 
-            let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .Alert)
+            let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .alert)
 
             let acceptHandler: (UIAlertAction) -> Void = { [weak app] (_) in
                 app?.addTokenFromURL(token)
             }
 
-            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: acceptHandler))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: acceptHandler))
 
             // TODO: Fix the confirmation alert presentation when a modal is open.
-            window?.rootViewController?
-                .presentViewController(alert, animated: true, completion: nil)
+            window?.rootViewController?.present(alert, animated: true)
 
             return true
         }

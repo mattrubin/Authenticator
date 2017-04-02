@@ -27,18 +27,18 @@ import UIKit
 import OneTimePassword
 
 enum TokenFormHeaderModel<Action> {
-    case ButtonHeader(identity: String, viewModel: ButtonHeaderViewModel<Action>)
+    case buttonHeader(identity: String, viewModel: ButtonHeaderViewModel<Action>)
 }
 
 enum TokenFormRowModel<Action>: Identifiable {
-    case TextFieldRow(identity: String, viewModel: TextFieldRowViewModel<Action>)
-    case SegmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
+    case textFieldRow(identity: String, viewModel: TextFieldRowViewModel<Action>)
+    case segmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
 
-    func hasSameIdentity(other: TokenFormRowModel) -> Bool {
+    func hasSameIdentity(_ other: TokenFormRowModel) -> Bool {
         switch (self, other) {
-        case let (.TextFieldRow(rowA), .TextFieldRow(rowB)):
+        case let (.textFieldRow(rowA), .textFieldRow(rowB)):
             return rowA.identity == rowB.identity
-        case let (.SegmentedControlRow(rowA), .SegmentedControlRow(rowB)):
+        case let (.segmentedControlRow(rowA), .segmentedControlRow(rowB)):
             return rowA.identity == rowB.identity
         default:
             return false
@@ -47,44 +47,44 @@ enum TokenFormRowModel<Action>: Identifiable {
 }
 
 enum TokenType {
-    case Counter, Timer
+    case counter, timer
 }
 
 extension TextFieldRowViewModel {
-    init(issuer value: String, changeAction: (String) -> Action) {
+    init(issuer value: String, changeAction: @escaping (String) -> Action) {
         label = "Issuer"
         placeholder = "Some Website"
 
-        autocapitalizationType = .Words
-        autocorrectionType = .Default
-        keyboardType = .Default
-        returnKeyType = .Next
+        autocapitalizationType = .words
+        autocorrectionType = .default
+        keyboardType = .default
+        returnKeyType = .next
 
         self.value = value
         self.changeAction = changeAction
     }
 
-    init(name value: String, returnKeyType: UIReturnKeyType, changeAction: (String) -> Action) {
+    init(name value: String, returnKeyType: UIReturnKeyType, changeAction: @escaping (String) -> Action) {
         label = "Account Name"
         placeholder = "user@example.com"
 
-        autocapitalizationType = .None
-        autocorrectionType = .No
-        keyboardType = .EmailAddress
+        autocapitalizationType = .none
+        autocorrectionType = .no
+        keyboardType = .emailAddress
         self.returnKeyType = returnKeyType
 
         self.value = value
         self.changeAction = changeAction
     }
 
-    init(secret value: String, changeAction: (String) -> Action) {
+    init(secret value: String, changeAction: @escaping (String) -> Action) {
         label = "Secret Key"
         placeholder = "•••• •••• •••• ••••"
 
-        autocapitalizationType = .None
-        autocorrectionType = .No
-        keyboardType = .Default
-        returnKeyType = .Done
+        autocapitalizationType = .none
+        autocorrectionType = .no
+        keyboardType = .default
+        returnKeyType = .done
 
         self.value = value
         self.changeAction = changeAction
@@ -92,15 +92,15 @@ extension TextFieldRowViewModel {
 }
 
 extension SegmentedControlRowViewModel {
-    init(tokenType value: TokenType, @noescape changeAction: (TokenType) -> Action) {
+    init(tokenType value: TokenType, changeAction: (TokenType) -> Action) {
         let options = [
-            (title: "Time Based", value: TokenType.Timer),
-            (title: "Counter Based", value: TokenType.Counter),
+            (title: "Time Based", value: TokenType.timer),
+            (title: "Counter Based", value: TokenType.counter),
         ]
         self.init(options: options, value: value, changeAction: changeAction)
     }
 
-    init(digitCount value: Int, @noescape changeAction: (Int) -> Action) {
+    init(digitCount value: Int, changeAction: (Int) -> Action) {
         let options = [
             (title: "6 Digits", value: 6),
             (title: "7 Digits", value: 7),
@@ -109,11 +109,11 @@ extension SegmentedControlRowViewModel {
         self.init(options: options, value: value, changeAction: changeAction)
     }
 
-    init(algorithm value: Generator.Algorithm, @noescape changeAction: (Generator.Algorithm) -> Action) {
+    init(algorithm value: Generator.Algorithm, changeAction: (Generator.Algorithm) -> Action) {
         let options = [
-            (title: "SHA-1", value: Generator.Algorithm.SHA1),
-            (title: "SHA-256", value: Generator.Algorithm.SHA256),
-            (title: "SHA-512", value: Generator.Algorithm.SHA512),
+            (title: "SHA-1", value: Generator.Algorithm.sha1),
+            (title: "SHA-256", value: Generator.Algorithm.sha256),
+            (title: "SHA-512", value: Generator.Algorithm.sha512),
         ]
         self.init(options: options, value: value, changeAction: changeAction)
     }

@@ -33,12 +33,12 @@ class ScannerOverlayView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.opaque = false
-        self.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.isOpaque = false
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.layer.needsDisplayOnBoundsChange = true
     }
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
@@ -55,8 +55,8 @@ class ScannerOverlayView: UIView {
             height: windowSize
         )
 
-        CGContextFillRect(context, rect)
-        CGContextClearRect(context, window)
-        CGContextStrokeRect(context, window)
+        context.fill(rect)
+        context.clear(window)
+        context.stroke(window)
     }
 }
