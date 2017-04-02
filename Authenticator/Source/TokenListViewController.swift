@@ -258,9 +258,9 @@ extension TokenListViewController {
     }
 
     fileprivate func updatePeripheralViews() {
-
         searchBar.updateWithViewModel(viewModel)
 
+        tableView.isScrollEnabled = viewModel.hasTokens
         editButtonItem.isEnabled = viewModel.hasTokens
         noTokensLabel.isHidden = viewModel.hasTokens
         warningLabel.isHidden = viewModel.hasTokens
