@@ -66,7 +66,7 @@ class TokenListViewController: UITableViewController {
         return label
     }()
 
-    fileprivate let warningLabel: UILabel = {
+    fileprivate let backupWarningLabel: UILabel = {
         let linkTitle = "Learn More →"
         let message = "For security reasons, tokens will be stored only on this \(UIDevice.current.model), and will not be included in iCloud or unencrypted backups.  \(linkTitle)"
         let paragraphStyle = NSMutableParagraphStyle()
@@ -89,8 +89,14 @@ class TokenListViewController: UITableViewController {
         return label
     }()
 
-    private let warningButton: UIButton = {
+    fileprivate lazy var backupWarning: UIButton = {
         let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(showBackupInfo), for: .touchUpInside)
+
+        self.backupWarningLabel.frame = button.bounds
+        self.backupWarningLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        button.addSubview(self.backupWarningLabel)
+
         return button
     }()
 
@@ -138,17 +144,11 @@ class TokenListViewController: UITableViewController {
         self.view.addSubview(self.noTokensLabel)
 
         let labelMargin: CGFloat = 20
-        let labelSize = warningLabel.sizeThatFits(view.bounds.insetBy(dx: labelMargin, dy: labelMargin).size)
+        let labelSize = backupWarningLabel.sizeThatFits(view.bounds.insetBy(dx: labelMargin, dy: labelMargin).size)
         let labelOrigin = CGPoint(x: labelMargin, y: view.bounds.maxY - labelMargin - labelSize.height)
-        warningLabel.frame = CGRect(origin: labelOrigin, size: labelSize)
-        warningLabel.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
-        view.addSubview(warningLabel)
-
-        let warningButton = UIButton()
-        warningButton.frame = warningLabel.frame
-        warningButton.autoresizingMask = warningLabel.autoresizingMask
-        warningButton.addTarget(self, action: #selector(showBackupInfo), for: .touchUpInside)
-        view.addSubview(warningButton)
+        backupWarning.frame = CGRect(origin: labelOrigin, size: labelSize)
+        backupWarning.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
+        view.addSubview(backupWarning)
 
         infoButton.addTarget(self, action: #selector(TokenListViewController.showLicenseInfo), for: .touchUpInside)
 
@@ -263,7 +263,7 @@ extension TokenListViewController {
         tableView.isScrollEnabled = viewModel.hasTokens
         editButtonItem.isEnabled = viewModel.hasTokens
         noTokensLabel.isHidden = viewModel.hasTokens
-        warningLabel.isHidden = viewModel.hasTokens
+        backupWarning.isHidden = viewModel.hasTokens
 
         // Exit editing mode if no tokens remain
         if self.isEditing && viewModel.rowModels.isEmpty {
