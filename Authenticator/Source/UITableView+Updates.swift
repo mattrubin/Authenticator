@@ -113,13 +113,3 @@ extension UITableView {
         }
     }
 }
-
-private func max(_ lhs: IndexPath, _ rhs: IndexPath) -> IndexPath {
-    if lhs.section > rhs.section {
-        return lhs
-    } else if (lhs.section == rhs.section) && (lhs.row > rhs.row) {
-        return lhs
-    } else {
-        return rhs
-    }
-}
