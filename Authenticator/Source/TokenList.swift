@@ -29,32 +29,27 @@ import MobileCoreServices
 import OneTimePassword
 
 struct TokenList: Component {
-    fileprivate var displayTime: DisplayTime
     fileprivate var filter: String?
-
-    init(displayTime: DisplayTime) {
-        self.displayTime = displayTime
-    }
 
     // MARK: View Model
 
     typealias ViewModel = TokenListViewModel
 
-    func viewModel(persistentTokens: [PersistentToken]) -> TokenListViewModel {
+    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> TokenListViewModel {
         let isFiltering = !(filter ?? "").isEmpty
-        let rowModels = filteredTokens(persistentTokens: persistentTokens).map({
+        let rowModels = filteredTokens(persistentTokens).map({
             TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
         })
         return TokenListViewModel(
             rowModels: rowModels,
-            ringProgress: ringProgress(persistentTokens: persistentTokens),
+            ringProgress: ringProgress(for: persistentTokens, at: displayTime),
             totalTokens: persistentTokens.count,
             isFiltering: isFiltering
         )
     }
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
-    private func timeBasedTokenPeriods(persistentTokens: [PersistentToken]) -> [TimeInterval] {
+    private func timeBasedTokenPeriods(for persistentTokens: [PersistentToken]) -> [TimeInterval] {
         var periods = Set<TimeInterval>()
         persistentTokens.forEach { (persistentToken) in
             if case .timer(let period) = persistentToken.token.generator.factor {
@@ -64,8 +59,8 @@ struct TokenList: Component {
         return Array(periods).sorted()
     }
 
-    private func ringProgress(persistentTokens: [PersistentToken]) -> Double? {
-        guard let ringPeriod = timeBasedTokenPeriods(persistentTokens: persistentTokens).first else {
+    private func ringProgress(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> Double? {
+        guard let ringPeriod = timeBasedTokenPeriods(for: persistentTokens).first else {
             // If there are no time-based tokens, return nil to hide the progress ring.
             return nil
         }
@@ -78,7 +73,7 @@ struct TokenList: Component {
         return fmod(displayTime.timeIntervalSince1970, ringPeriod) / ringPeriod
     }
 
-    private func filteredTokens(persistentTokens: [PersistentToken]) -> [PersistentToken] {
+    private func filteredTokens(_ persistentTokens: [PersistentToken]) -> [PersistentToken] {
         guard let filter = self.filter, !filter.isEmpty else {
             return persistentTokens
         }
@@ -109,7 +104,6 @@ extension TokenList {
     }
 
     enum Event {
-        case updateDisplayTime(DisplayTime)
         case tokenChangeSucceeded
         case updateTokenFailed(Error)
         case deleteTokenFailed(Error)
@@ -179,10 +173,6 @@ extension TokenList {
 
     mutating func update(_ event: Event) -> Effect? {
         switch event {
-        case .updateDisplayTime(let displayTime):
-            self.displayTime = displayTime
-            return nil
-
         case .tokenChangeSucceeded:
             return nil
 

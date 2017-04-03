@@ -33,8 +33,9 @@ class AppController {
     private let store: TokenStore
     private var component: Root {
         didSet {
+            let viewModel = currentViewModel()
             // TODO: Fix the excessive updates of bar button items so that the tick can run while they are on screen.
-            if case .none = component.viewModel(persistentTokens: store.persistentTokens).modal {
+            if case .none = viewModel.modal {
                 if displayLink == nil {
                     startTick()
                 }
@@ -43,12 +44,12 @@ class AppController {
                     stopTick()
                 }
             }
-            view.updateWithViewModel(component.viewModel(persistentTokens: store.persistentTokens))
+            view.updateWithViewModel(viewModel)
         }
     }
     private lazy var view: RootViewController = {
         return RootViewController(
-            viewModel: self.component.viewModel(persistentTokens: self.store.persistentTokens),
+            viewModel: self.currentViewModel(),
             dispatchAction: self.handleAction
         )
     }()
@@ -72,11 +73,14 @@ class AppController {
         // If this is a demo, show the scanner even in the simulator.
         let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
         component = Root(
-            displayTime: .currentDisplayTime(),
             deviceCanScan: deviceCanScan
         )
 
         startTick()
+    }
+
+    private func currentViewModel() -> Root.ViewModel {
+        return component.viewModel(for: store.persistentTokens, at: .currentDisplayTime())
     }
 
     // MARK: - Tick
@@ -96,8 +100,8 @@ class AppController {
 
     @objc
     func tick() {
-        // Dispatch an event to trigger a view model update.
-        handleEvent(.updateDisplayTime(.currentDisplayTime()))
+        // Update the view with a new view model for the current display time.
+        view.updateWithViewModel(currentViewModel())
     }
 
     // MARK: - Update

@@ -54,8 +54,8 @@ struct Root: Component {
         }
     }
 
-    init(displayTime: DisplayTime, deviceCanScan: Bool) {
-        tokenList = TokenList(displayTime: displayTime)
+    init(deviceCanScan: Bool) {
+        tokenList = TokenList()
         modal = .none
         self.deviceCanScan = deviceCanScan
     }
@@ -66,9 +66,9 @@ struct Root: Component {
 extension Root {
     typealias ViewModel = RootViewModel
 
-    func viewModel(persistentTokens: [PersistentToken]) -> ViewModel {
+    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> ViewModel {
         return ViewModel(
-            tokenList: tokenList.viewModel(persistentTokens: persistentTokens),
+            tokenList: tokenList.viewModel(for: persistentTokens, at: displayTime),
             modal: modal.viewModel
         )
     }
@@ -90,7 +90,6 @@ extension Root {
 
     enum Event {
         case tokenListEvent(TokenList.Event)
-        case updateDisplayTime(DisplayTime)
 
         case addTokenFromURLSucceeded
         case tokenFormSucceeded
@@ -167,9 +166,6 @@ extension Root {
         switch event {
         case .tokenListEvent(let event):
             return handleTokenListEvent(event)
-
-        case .updateDisplayTime(let displayTime):
-            return handleTokenListEvent(.updateDisplayTime(displayTime))
 
         case .addTokenFromURLSucceeded:
             return nil
