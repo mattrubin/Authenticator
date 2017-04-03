@@ -337,7 +337,3 @@ private extension Root.Modal {
         return result
     }
 }
-
-private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escaping (B) -> C) -> (A) -> C {
-    return { handler(transform($0)) }
-}
