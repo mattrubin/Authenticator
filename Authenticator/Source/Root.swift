@@ -110,7 +110,8 @@ extension Root {
         case updatePersistentToken(PersistentToken,
             failure: (Error) -> Event)
 
-        case moveToken(fromIndex: Int, toIndex: Int)
+        case moveToken(fromIndex: Int, toIndex: Int,
+            failure: (Error) -> Event)
 
         case deletePersistentToken(PersistentToken,
             failure: (Error) -> Event)
@@ -205,8 +206,9 @@ extension Root {
             return .updatePersistentToken(persistentToken,
                                           failure: compose(failure, Event.tokenListEvent))
 
-        case let .moveToken(fromIndex, toIndex):
-            return .moveToken(fromIndex: fromIndex, toIndex: toIndex)
+        case let .moveToken(fromIndex, toIndex, failure):
+            return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
+                              failure: compose(failure, Event.tokenListEvent))
 
         case let .deletePersistentToken(persistentToken, failure):
             return .deletePersistentToken(persistentToken,

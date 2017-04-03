@@ -105,6 +105,7 @@ extension TokenList {
 
     enum Event {
         case updateTokenFailed(Error)
+        case moveTokenFailed(Error)
         case deleteTokenFailed(Error)
     }
 
@@ -115,7 +116,8 @@ extension TokenList {
         case updateToken(PersistentToken,
             failure: (Error) -> Event)
 
-        case moveToken(fromIndex: Int, toIndex: Int)
+        case moveToken(fromIndex: Int, toIndex: Int,
+            failure: (Error) -> Event)
 
         case deletePersistentToken(PersistentToken,
             failure: (Error) -> Event)
@@ -139,7 +141,8 @@ extension TokenList {
                                 failure: Event.updateTokenFailed)
 
         case let .moveToken(fromIndex, toIndex):
-            return .moveToken(fromIndex: fromIndex, toIndex: toIndex)
+            return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
+                              failure: Event.moveTokenFailed)
 
         case .deletePersistentToken(let persistentToken):
             return .deletePersistentToken(persistentToken,
@@ -168,6 +171,9 @@ extension TokenList {
         switch event {
         case .updateTokenFailed:
             return .showErrorMessage("Failed to update token.")
+
+        case .moveTokenFailed:
+            return .showErrorMessage("Failed to move token.")
 
         case .deleteTokenFailed:
             return .showErrorMessage("Failed to delete token.")

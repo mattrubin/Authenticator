@@ -150,9 +150,13 @@ class AppController {
                 handleEvent(failure(error))
             }
 
-        case let .moveToken(fromIndex, toIndex):
-            store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-            view.updateWithViewModel(currentViewModel())
+        case let .moveToken(fromIndex, toIndex, failure):
+            do {
+                try store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
+                view.updateWithViewModel(currentViewModel())
+            } catch {
+                handleEvent(failure(error))
+            }
 
         case let .deletePersistentToken(persistentToken, failure):
             do {
