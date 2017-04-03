@@ -27,11 +27,13 @@ import XCTest
 @testable import Authenticator
 
 class RootTests: XCTestCase {
+    let displayTime = DisplayTime(date: Date())
+
     func testShowBackupInfo() {
-        var root = mockRoot()
+        var root = Root(deviceCanScan: false)
 
         // Ensure there is no modal visible.
-        let firstViewModel = root.viewModel
+        let firstViewModel = root.viewModel(for: [], at: displayTime)
         switch firstViewModel.modal {
         case .none:
             // This is the expected case
@@ -52,7 +54,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(showEffect)
 
         // Ensure the backup info modal is visible.
-        let secondViewModel = root.viewModel
+        let secondViewModel = root.viewModel(for: [], at: displayTime)
         switch secondViewModel.modal {
         case .info(let infoViewModel):
             XCTAssert(infoViewModel.title == "Backups")
@@ -72,7 +74,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(hideEffect)
 
         // Ensure the backup info modal no longer visible.
-        let thirdViewModel = root.viewModel
+        let thirdViewModel = root.viewModel(for: [], at: displayTime)
         switch thirdViewModel.modal {
         case .none:
             // This is the expected case
@@ -83,10 +85,10 @@ class RootTests: XCTestCase {
     }
 
     func testShowLicenseInfo() {
-        var root = mockRoot()
+        var root = Root(deviceCanScan: false)
 
         // Ensure there is no modal visible.
-        let firstViewModel = root.viewModel
+        let firstViewModel = root.viewModel(for: [], at: displayTime)
         switch firstViewModel.modal {
         case .none:
             // This is the expected case
@@ -107,7 +109,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(showEffect)
 
         // Ensure the license info modal is visible.
-        let secondViewModel = root.viewModel
+        let secondViewModel = root.viewModel(for: [], at: displayTime)
         switch secondViewModel.modal {
         case .info(let infoViewModel):
             XCTAssert(infoViewModel.title == "Acknowledgements")
@@ -127,7 +129,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(hideEffect)
 
         // Ensure the license info modal no longer visible.
-        let thirdViewModel = root.viewModel
+        let thirdViewModel = root.viewModel(for: [], at: displayTime)
         switch thirdViewModel.modal {
         case .none:
             // This is the expected case
@@ -138,7 +140,7 @@ class RootTests: XCTestCase {
     }
 
     func testOpenURL() {
-        var root = mockRoot()
+        var root = Root(deviceCanScan: false)
 
         guard let url = URL(string: "https://example.com") else {
             XCTFail("Failed to initialize URL.")
@@ -161,12 +163,4 @@ class RootTests: XCTestCase {
             XCTFail("Expected .none, got \(String(describing: effect))")
         }
     }
-}
-
-private func mockRoot() -> Root {
-    return Root(
-        persistentTokens: [],
-        displayTime: DisplayTime(date: Date()),
-        deviceCanScan: false
-    )
 }
