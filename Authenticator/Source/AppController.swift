@@ -162,8 +162,20 @@ class AppController {
         case let .showErrorMessage(message):
             SVProgressHUD.showError(withStatus: message)
 
+            // Provide haptic feedback
+            if #available(iOS 10.0, *) {
+                let feedbackGenerator = UINotificationFeedbackGenerator()
+                feedbackGenerator.notificationOccurred(.error)
+            }
+
         case let .showSuccessMessage(message):
             SVProgressHUD.showSuccess(withStatus: message)
+
+            // Provide haptic feedback
+            if #available(iOS 10.0, *) {
+                let feedbackGenerator = UINotificationFeedbackGenerator()
+                feedbackGenerator.notificationOccurred(.success)
+            }
 
         case let .openURL(url):
             if #available(iOS 9.0, *) {
