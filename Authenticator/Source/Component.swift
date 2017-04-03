@@ -26,7 +26,6 @@
 protocol Component {
     // MARK: View
     associatedtype ViewModel
-    var viewModel: ViewModel { get }
 
     // MARK: Update
     associatedtype Action

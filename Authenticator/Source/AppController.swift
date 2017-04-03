@@ -34,7 +34,7 @@ class AppController {
     private var component: Root {
         didSet {
             // TODO: Fix the excessive updates of bar button items so that the tick can run while they are on screen.
-            if case .none = component.viewModel.modal {
+            if case .none = component.viewModel(persistentTokens: store.persistentTokens).modal {
                 if displayLink == nil {
                     startTick()
                 }
@@ -43,12 +43,12 @@ class AppController {
                     stopTick()
                 }
             }
-            view.updateWithViewModel(component.viewModel)
+            view.updateWithViewModel(component.viewModel(persistentTokens: store.persistentTokens))
         }
     }
     private lazy var view: RootViewController = {
         return RootViewController(
-            viewModel: self.component.viewModel,
+            viewModel: self.component.viewModel(persistentTokens: self.store.persistentTokens),
             dispatchAction: self.handleAction
         )
     }()
@@ -72,7 +72,6 @@ class AppController {
         // If this is a demo, show the scanner even in the simulator.
         let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
         component = Root(
-            persistentTokens: store.persistentTokens,
             displayTime: .currentDisplayTime(),
             deviceCanScan: deviceCanScan
         )
@@ -126,7 +125,7 @@ class AppController {
         case let .addToken(token, success, failure):
             do {
                 try store.addToken(token)
-                handleEvent(success(store.persistentTokens))
+                handleEvent(success)
             } catch {
                 handleEvent(failure(error))
             }
@@ -134,7 +133,7 @@ class AppController {
         case let .saveToken(token, persistentToken, success, failure):
             do {
                 try store.saveToken(token, toPersistentToken: persistentToken)
-                handleEvent(success(store.persistentTokens))
+                handleEvent(success)
             } catch {
                 handleEvent(failure(error))
             }
@@ -142,19 +141,19 @@ class AppController {
         case let .updatePersistentToken(persistentToken, success, failure):
             do {
                 try store.updatePersistentToken(persistentToken)
-                handleEvent(success(store.persistentTokens))
+                handleEvent(success)
             } catch {
                 handleEvent(failure(error))
             }
 
         case let .moveToken(fromIndex, toIndex, success):
             store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-            handleEvent(success(store.persistentTokens))
+            handleEvent(success)
 
         case let .deletePersistentToken(persistentToken, success, failure):
             do {
                 try store.deletePersistentToken(persistentToken)
-                handleEvent(success(store.persistentTokens))
+                handleEvent(success)
             } catch {
                 handleEvent(failure(error))
             }
