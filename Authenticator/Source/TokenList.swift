@@ -103,24 +103,13 @@ extension TokenList {
         case showLicenseInfo
     }
 
-    enum Event {
-        case updateTokenFailed(Error)
-        case moveTokenFailed(Error)
-        case deleteTokenFailed(Error)
-    }
-
     enum Effect {
         case beginTokenEntry
         case beginTokenEdit(PersistentToken)
 
-        case updateToken(PersistentToken,
-            failure: (Error) -> Event)
-
-        case moveToken(fromIndex: Int, toIndex: Int,
-            failure: (Error) -> Event)
-
-        case deletePersistentToken(PersistentToken,
-            failure: (Error) -> Event)
+        case updateToken(PersistentToken)
+        case moveToken(fromIndex: Int, toIndex: Int)
+        case deletePersistentToken(PersistentToken)
 
         case showErrorMessage(String)
         case showSuccessMessage(String)
@@ -137,16 +126,13 @@ extension TokenList {
             return .beginTokenEdit(persistentToken)
 
         case .updatePersistentToken(let persistentToken):
-            return .updateToken(persistentToken,
-                                failure: Event.updateTokenFailed)
+            return .updateToken(persistentToken)
 
         case let .moveToken(fromIndex, toIndex):
-            return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              failure: Event.moveTokenFailed)
+            return .moveToken(fromIndex: fromIndex, toIndex: toIndex)
 
         case .deletePersistentToken(let persistentToken):
-            return .deletePersistentToken(persistentToken,
-                                          failure: Event.deleteTokenFailed)
+            return .deletePersistentToken(persistentToken)
 
         case .copyPassword(let password):
             return copyPassword(password)
@@ -164,19 +150,6 @@ extension TokenList {
 
         case .showLicenseInfo:
             return .showLicenseInfo
-        }
-    }
-
-    mutating func update(_ event: Event) -> Effect? {
-        switch event {
-        case .updateTokenFailed:
-            return .showErrorMessage("Failed to update token.")
-
-        case .moveTokenFailed:
-            return .showErrorMessage("Failed to move token.")
-
-        case .deleteTokenFailed:
-            return .showErrorMessage("Failed to delete token.")
         }
     }
 

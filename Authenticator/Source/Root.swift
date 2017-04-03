@@ -89,13 +89,14 @@ extension Root {
     }
 
     enum Event {
-        case tokenListEvent(TokenList.Event)
-
         case addTokenFromURLSucceeded
         case tokenFormSucceeded
 
         case addTokenFailed(Error)
         case saveTokenFailed(Error)
+        case updateTokenFailed(Error)
+        case moveTokenFailed(Error)
+        case deleteTokenFailed(Error)
     }
 
     enum Effect {
@@ -162,9 +163,6 @@ extension Root {
 
     mutating func update(_ event: Event) -> Effect? {
         switch event {
-        case .tokenListEvent(let event):
-            return handleTokenListEvent(event)
-
         case .addTokenFromURLSucceeded:
             return nil
 
@@ -177,13 +175,12 @@ extension Root {
             return .showErrorMessage("Failed to add token.")
         case .saveTokenFailed:
             return .showErrorMessage("Failed to save token.")
-        }
-    }
-
-    private mutating func handleTokenListEvent(_ event: TokenList.Event) -> Effect? {
-        let effect = tokenList.update(event)
-        return effect.flatMap { effect in
-            handleTokenListEffect(effect)
+        case .updateTokenFailed:
+            return .showErrorMessage("Failed to update token.")
+        case .moveTokenFailed:
+            return .showErrorMessage("Failed to move token.")
+        case .deleteTokenFailed:
+            return .showErrorMessage("Failed to delete token.")
         }
     }
 
@@ -202,17 +199,17 @@ extension Root {
             modal = .editForm(form)
             return nil
 
-        case let .updateToken(persistentToken, failure):
+        case let .updateToken(persistentToken):
             return .updatePersistentToken(persistentToken,
-                                          failure: compose(failure, Event.tokenListEvent))
+                                          failure: Event.updateTokenFailed)
 
-        case let .moveToken(fromIndex, toIndex, failure):
+        case let .moveToken(fromIndex, toIndex):
             return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              failure: compose(failure, Event.tokenListEvent))
+                              failure: Event.moveTokenFailed)
 
-        case let .deletePersistentToken(persistentToken, failure):
+        case let .deletePersistentToken(persistentToken):
             return .deletePersistentToken(persistentToken,
-                                          failure: compose(failure, Event.tokenListEvent))
+                                          failure: Event.deleteTokenFailed)
 
         case .showErrorMessage(let message):
             return .showErrorMessage(message)
