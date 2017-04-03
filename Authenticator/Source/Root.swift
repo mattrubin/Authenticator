@@ -108,14 +108,11 @@ extension Root {
             failure: (Error) -> Event)
 
         case updatePersistentToken(PersistentToken,
-            success: Event,
             failure: (Error) -> Event)
 
-        case moveToken(fromIndex: Int, toIndex: Int,
-            success: Event)
+        case moveToken(fromIndex: Int, toIndex: Int)
 
         case deletePersistentToken(PersistentToken,
-            success: Event,
             failure: (Error) -> Event)
 
         case showErrorMessage(String)
@@ -204,18 +201,15 @@ extension Root {
             modal = .editForm(form)
             return nil
 
-        case let .updateToken(persistentToken, success, failure):
+        case let .updateToken(persistentToken, failure):
             return .updatePersistentToken(persistentToken,
-                                          success: .tokenListEvent(success),
                                           failure: compose(failure, Event.tokenListEvent))
 
-        case let .moveToken(fromIndex, toIndex, success):
-            return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: .tokenListEvent(success))
+        case let .moveToken(fromIndex, toIndex):
+            return .moveToken(fromIndex: fromIndex, toIndex: toIndex)
 
-        case let .deletePersistentToken(persistentToken, success, failure):
+        case let .deletePersistentToken(persistentToken, failure):
             return .deletePersistentToken(persistentToken,
-                                          success: .tokenListEvent(success),
                                           failure: compose(failure, Event.tokenListEvent))
 
         case .showErrorMessage(let message):

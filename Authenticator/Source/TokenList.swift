@@ -104,7 +104,6 @@ extension TokenList {
     }
 
     enum Event {
-        case tokenChangeSucceeded
         case updateTokenFailed(Error)
         case deleteTokenFailed(Error)
     }
@@ -114,14 +113,11 @@ extension TokenList {
         case beginTokenEdit(PersistentToken)
 
         case updateToken(PersistentToken,
-            success: Event,
             failure: (Error) -> Event)
 
-        case moveToken(fromIndex: Int, toIndex: Int,
-            success: Event)
+        case moveToken(fromIndex: Int, toIndex: Int)
 
         case deletePersistentToken(PersistentToken,
-            success: Event,
             failure: (Error) -> Event)
 
         case showErrorMessage(String)
@@ -140,16 +136,13 @@ extension TokenList {
 
         case .updatePersistentToken(let persistentToken):
             return .updateToken(persistentToken,
-                                success: Event.tokenChangeSucceeded,
                                 failure: Event.updateTokenFailed)
 
         case let .moveToken(fromIndex, toIndex):
-            return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: Event.tokenChangeSucceeded)
+            return .moveToken(fromIndex: fromIndex, toIndex: toIndex)
 
         case .deletePersistentToken(let persistentToken):
             return .deletePersistentToken(persistentToken,
-                                          success: Event.tokenChangeSucceeded,
                                           failure: Event.deleteTokenFailed)
 
         case .copyPassword(let password):
@@ -173,9 +166,6 @@ extension TokenList {
 
     mutating func update(_ event: Event) -> Effect? {
         switch event {
-        case .tokenChangeSucceeded:
-            return nil
-
         case .updateTokenFailed:
             return .showErrorMessage("Failed to update token.")
 

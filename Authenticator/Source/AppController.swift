@@ -142,22 +142,22 @@ class AppController {
                 handleEvent(failure(error))
             }
 
-        case let .updatePersistentToken(persistentToken, success, failure):
+        case let .updatePersistentToken(persistentToken, failure):
             do {
                 try store.updatePersistentToken(persistentToken)
-                handleEvent(success)
+                view.updateWithViewModel(currentViewModel())
             } catch {
                 handleEvent(failure(error))
             }
 
-        case let .moveToken(fromIndex, toIndex, success):
+        case let .moveToken(fromIndex, toIndex):
             store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-            handleEvent(success)
+            view.updateWithViewModel(currentViewModel())
 
-        case let .deletePersistentToken(persistentToken, success, failure):
+        case let .deletePersistentToken(persistentToken, failure):
             do {
                 try store.deletePersistentToken(persistentToken)
-                handleEvent(success)
+                view.updateWithViewModel(currentViewModel())
             } catch {
                 handleEvent(failure(error))
             }
