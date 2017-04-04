@@ -72,9 +72,7 @@ class AppController {
 
         // If this is a demo, show the scanner even in the simulator.
         let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
-        component = Root(
-            deviceCanScan: deviceCanScan
-        )
+        component = Root(deviceCanScan: deviceCanScan)
 
         startTick()
     }
