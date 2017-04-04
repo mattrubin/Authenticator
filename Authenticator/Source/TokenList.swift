@@ -29,32 +29,27 @@ import MobileCoreServices
 import OneTimePassword
 
 struct TokenList: Component {
-    fileprivate var persistentTokens: [PersistentToken]
-    fileprivate var displayTime: DisplayTime
     fileprivate var filter: String?
-
-    init(persistentTokens: [PersistentToken], displayTime: DisplayTime) {
-        self.persistentTokens = persistentTokens
-        self.displayTime = displayTime
-    }
 
     // MARK: View Model
 
-    var viewModel: TokenListViewModel {
+    typealias ViewModel = TokenListViewModel
+
+    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> TokenListViewModel {
         let isFiltering = !(filter ?? "").isEmpty
-        let rowModels = filteredTokens.map({
+        let rowModels = filteredTokens(persistentTokens).map({
             TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
         })
         return TokenListViewModel(
             rowModels: rowModels,
-            ringProgress: ringProgress,
+            ringProgress: ringProgress(for: persistentTokens, at: displayTime),
             totalTokens: persistentTokens.count,
             isFiltering: isFiltering
         )
     }
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
-    private var timeBasedTokenPeriods: [TimeInterval] {
+    private func timeBasedTokenPeriods(for persistentTokens: [PersistentToken]) -> [TimeInterval] {
         var periods = Set<TimeInterval>()
         persistentTokens.forEach { (persistentToken) in
             if case .timer(let period) = persistentToken.token.generator.factor {
@@ -64,8 +59,8 @@ struct TokenList: Component {
         return Array(periods).sorted()
     }
 
-    private var ringProgress: Double? {
-        guard let ringPeriod = timeBasedTokenPeriods.first else {
+    private func ringProgress(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> Double? {
+        guard let ringPeriod = timeBasedTokenPeriods(for: persistentTokens).first else {
             // If there are no time-based tokens, return nil to hide the progress ring.
             return nil
         }
@@ -78,12 +73,12 @@ struct TokenList: Component {
         return fmod(displayTime.timeIntervalSince1970, ringPeriod) / ringPeriod
     }
 
-    private var filteredTokens: [PersistentToken] {
+    private func filteredTokens(_ persistentTokens: [PersistentToken]) -> [PersistentToken] {
         guard let filter = self.filter, !filter.isEmpty else {
-            return self.persistentTokens
+            return persistentTokens
         }
         let options: String.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
-        return self.persistentTokens.filter({
+        return persistentTokens.filter({
             $0.token.issuer.range(of: filter, options: options) != nil ||
                 $0.token.name.range(of: filter, options: options) != nil
         })
@@ -108,27 +103,13 @@ extension TokenList {
         case showLicenseInfo
     }
 
-    enum Event {
-        case updateDisplayTime(DisplayTime)
-        case tokenChangeSucceeded([PersistentToken])
-        case updateTokenFailed(Error)
-        case deleteTokenFailed(Error)
-    }
-
     enum Effect {
         case beginTokenEntry
         case beginTokenEdit(PersistentToken)
 
-        case updateToken(PersistentToken,
-            success: ([PersistentToken]) -> Event,
-            failure: (Error) -> Event)
-
-        case moveToken(fromIndex: Int, toIndex: Int,
-            success: ([PersistentToken]) -> Event)
-
-        case deletePersistentToken(PersistentToken,
-            success: ([PersistentToken]) -> Event,
-            failure: (Error) -> Event)
+        case updateToken(PersistentToken)
+        case moveToken(fromIndex: Int, toIndex: Int)
+        case deletePersistentToken(PersistentToken)
 
         case showErrorMessage(String)
         case showSuccessMessage(String)
@@ -145,18 +126,13 @@ extension TokenList {
             return .beginTokenEdit(persistentToken)
 
         case .updatePersistentToken(let persistentToken):
-            return .updateToken(persistentToken,
-                                success: Event.tokenChangeSucceeded,
-                                failure: Event.updateTokenFailed)
+            return .updateToken(persistentToken)
 
         case let .moveToken(fromIndex, toIndex):
-            return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: Event.tokenChangeSucceeded)
+            return .moveToken(fromIndex: fromIndex, toIndex: toIndex)
 
         case .deletePersistentToken(let persistentToken):
-            return .deletePersistentToken(persistentToken,
-                                          success: Event.tokenChangeSucceeded,
-                                          failure: Event.deleteTokenFailed)
+            return .deletePersistentToken(persistentToken)
 
         case .copyPassword(let password):
             return copyPassword(password)
@@ -174,24 +150,6 @@ extension TokenList {
 
         case .showLicenseInfo:
             return .showLicenseInfo
-        }
-    }
-
-    mutating func update(_ event: Event) -> Effect? {
-        switch event {
-        case .updateDisplayTime(let displayTime):
-            self.displayTime = displayTime
-            return nil
-
-        case .tokenChangeSucceeded(let persistentTokens):
-            self.persistentTokens = persistentTokens
-            return nil
-
-        case .updateTokenFailed:
-            return .showErrorMessage("Failed to update token.")
-
-        case .deleteTokenFailed:
-            return .showErrorMessage("Failed to delete token.")
         }
     }
 

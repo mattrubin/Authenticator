@@ -31,7 +31,7 @@ protocol TokenStore {
     func addToken(_ token: Token) throws
     func saveToken(_ token: Token, toPersistentToken persistentToken: PersistentToken) throws
     func updatePersistentToken(_ persistentToken: PersistentToken) throws
-    func moveTokenFromIndex(_ origin: Int, toIndex destination: Int)
+    func moveTokenFromIndex(_ origin: Int, toIndex destination: Int) throws
     func deletePersistentToken(_ persistentToken: PersistentToken) throws
 }
 

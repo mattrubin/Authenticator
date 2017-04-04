@@ -77,8 +77,8 @@ struct DemoTokenStore: TokenStore {
         throw Error()
     }
 
-    func moveTokenFromIndex(_ origin: Int, toIndex destination: Int) {
-        return
+    func moveTokenFromIndex(_ origin: Int, toIndex destination: Int) throws {
+        throw Error()
     }
 
     func deletePersistentToken(_ persistentToken: PersistentToken) throws {

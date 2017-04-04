@@ -54,8 +54,8 @@ struct Root: Component {
         }
     }
 
-    init(persistentTokens: [PersistentToken], displayTime: DisplayTime, deviceCanScan: Bool) {
-        tokenList = TokenList(persistentTokens: persistentTokens, displayTime: displayTime)
+    init(deviceCanScan: Bool) {
+        tokenList = TokenList()
         modal = .none
         self.deviceCanScan = deviceCanScan
     }
@@ -66,9 +66,9 @@ struct Root: Component {
 extension Root {
     typealias ViewModel = RootViewModel
 
-    var viewModel: ViewModel {
+    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> ViewModel {
         return ViewModel(
-            tokenList: tokenList.viewModel,
+            tokenList: tokenList.viewModel(for: persistentTokens, at: displayTime),
             modal: modal.viewModel
         )
     }
@@ -89,35 +89,32 @@ extension Root {
     }
 
     enum Event {
-        case tokenListEvent(TokenList.Event)
-        case updateDisplayTime(DisplayTime)
-
-        case addTokenFromURLSucceeded([PersistentToken])
-
-        case tokenFormSucceeded([PersistentToken])
+        case addTokenFromURLSucceeded
+        case tokenFormSucceeded
 
         case addTokenFailed(Error)
         case saveTokenFailed(Error)
+        case updateTokenFailed(Error)
+        case moveTokenFailed(Error)
+        case deleteTokenFailed(Error)
     }
 
     enum Effect {
         case addToken(Token,
-            success: ([PersistentToken]) -> Event,
+            success: Event,
             failure: (Error) -> Event)
 
         case saveToken(Token, PersistentToken,
-            success: ([PersistentToken]) -> Event,
+            success: Event,
             failure: (Error) -> Event)
 
         case updatePersistentToken(PersistentToken,
-            success: ([PersistentToken]) -> Event,
             failure: (Error) -> Event)
 
         case moveToken(fromIndex: Int, toIndex: Int,
-            success: ([PersistentToken]) -> Event)
+            failure: (Error) -> Event)
 
         case deletePersistentToken(PersistentToken,
-            success: ([PersistentToken]) -> Event,
             failure: (Error) -> Event)
 
         case showErrorMessage(String)
@@ -166,31 +163,24 @@ extension Root {
 
     mutating func update(_ event: Event) -> Effect? {
         switch event {
-        case .tokenListEvent(let event):
-            return handleTokenListEvent(event)
+        case .addTokenFromURLSucceeded:
+            return nil
 
-        case .updateDisplayTime(let displayTime):
-            return handleTokenListEvent(.updateDisplayTime(displayTime))
-
-        case .addTokenFromURLSucceeded(let persistentTokens):
-            return handleTokenListEvent(.tokenChangeSucceeded(persistentTokens))
-
-        case .tokenFormSucceeded(let persistentTokens):
+        case .tokenFormSucceeded:
             // Dismiss the modal form.
             modal = .none
-            return handleTokenListEvent(.tokenChangeSucceeded(persistentTokens))
+            return nil
 
         case .addTokenFailed:
             return .showErrorMessage("Failed to add token.")
         case .saveTokenFailed:
             return .showErrorMessage("Failed to save token.")
-        }
-    }
-
-    private mutating func handleTokenListEvent(_ event: TokenList.Event) -> Effect? {
-        let effect = tokenList.update(event)
-        return effect.flatMap { effect in
-            handleTokenListEffect(effect)
+        case .updateTokenFailed:
+            return .showErrorMessage("Failed to update token.")
+        case .moveTokenFailed:
+            return .showErrorMessage("Failed to move token.")
+        case .deleteTokenFailed:
+            return .showErrorMessage("Failed to delete token.")
         }
     }
 
@@ -209,19 +199,17 @@ extension Root {
             modal = .editForm(form)
             return nil
 
-        case let .updateToken(persistentToken, success, failure):
+        case let .updateToken(persistentToken):
             return .updatePersistentToken(persistentToken,
-                                          success: compose(success, Event.tokenListEvent),
-                                          failure: compose(failure, Event.tokenListEvent))
+                                          failure: Event.updateTokenFailed)
 
-        case let .moveToken(fromIndex, toIndex, success):
+        case let .moveToken(fromIndex, toIndex):
             return .moveToken(fromIndex: fromIndex, toIndex: toIndex,
-                              success: compose(success, Event.tokenListEvent))
+                              failure: Event.moveTokenFailed)
 
-        case let .deletePersistentToken(persistentToken, success, failure):
+        case let .deletePersistentToken(persistentToken):
             return .deletePersistentToken(persistentToken,
-                                          success: compose(success, Event.tokenListEvent),
-                                          failure: compose(failure, Event.tokenListEvent))
+                                          failure: Event.deleteTokenFailed)
 
         case .showErrorMessage(let message):
             return .showErrorMessage(message)
@@ -348,8 +336,4 @@ private extension Root.Modal {
         self = .scanner(scanner)
         return result
     }
-}
-
-private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escaping (B) -> C) -> (A) -> C {
-    return { handler(transform($0)) }
 }

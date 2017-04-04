@@ -28,15 +28,18 @@ import XCTest
 @testable import Authenticator
 
 class TokenListTests: XCTestCase {
+    let displayTime = DisplayTime(date: Date())
+
     func testFilterByIssuerAndName() {
-        var tokenList = mockList([
+        var tokenList = TokenList()
+        let persistentTokens = mockPersistentTokens([
             ("Google", "example@google.com"),
             ("Github", "username"),
             ("Service", "goo"),
         ])
         let effect = tokenList.update(.filter("goo"))
 
-        let viewModel = tokenList.viewModel
+        let viewModel = tokenList.viewModel(for: persistentTokens, at: displayTime)
         let filteredIssuers = viewModel.rowModels.map { $0.issuer }
 
         XCTAssertNil(effect)
@@ -46,19 +49,21 @@ class TokenListTests: XCTestCase {
     }
 
     func testIsFilteringWhenAllTokensMatchFilter() {
-        var tokenList = mockList([
+        var tokenList = TokenList()
+
+        let persistentTokens = mockPersistentTokens([
             ("Service", "example@google.com"),
             ("Service", "username"),
         ])
         let effect = tokenList.update(.filter("Service"))
-        let viewModel = tokenList.viewModel
+        let viewModel = tokenList.viewModel(for: persistentTokens, at: displayTime)
 
         XCTAssertNil(effect)
         XCTAssertTrue(viewModel.isFiltering)
     }
 
     func testActionShowBackupInfo() {
-        var tokenList = mockList([])
+        var tokenList = TokenList()
         let action: TokenList.Action = .showBackupInfo
         let effect = tokenList.update(action)
         // TODO: check that the token list hasn't changed
@@ -73,7 +78,7 @@ class TokenListTests: XCTestCase {
     }
 
     func testActionShowLicenseInfo() {
-        var tokenList = mockList([])
+        var tokenList = TokenList()
         let action: TokenList.Action = .showLicenseInfo
         let effect = tokenList.update(action)
         // TODO: check that the token list hasn't changed
@@ -140,11 +145,10 @@ class TokenListTests: XCTestCase {
     }
 }
 
-func mockList(_ list: [(String, String)]) -> TokenList {
-    let tokens = list.map { (issuer, name) -> PersistentToken in
+func mockPersistentTokens(_ list: [(String, String)]) -> [PersistentToken] {
+    return list.map { (issuer, name) -> PersistentToken in
         mockPersistentToken(name: name, issuer: issuer)
     }
-    return TokenList(persistentTokens: tokens, displayTime: DisplayTime(date: Date()))
 }
 
 func mockToken(name: String, issuer: String, secret: String = "mocksecret") -> Token {
