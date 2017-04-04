@@ -163,4 +163,125 @@ class RootTests: XCTestCase {
             XCTFail("Expected .none, got \(String(describing: effect))")
         }
     }
+
+    func testEventAddTokenFailed() {
+        var root = Root(deviceCanScan: false)
+        let event: Root.Event = .addTokenFailed(NSError())
+        let effect = root.update(event)
+        // TODO: check that the component state hasn't changed
+
+        switch effect {
+        case .some(.showErrorMessage("Failed to add token.")):
+            break
+        default:
+            XCTFail("Expected .showErrorMessage(\"Failed to add token.\"), got \(String(describing: effect))")
+            return
+        }
+    }
+
+    // MARK: Events
+
+    func testEventTokenFormSucceeded() {
+        var root = Root(deviceCanScan: false)
+
+        // Ensure the initial view model has no modal.
+        let firstViewModel = root.viewModel(for: [], at: displayTime)
+        switch firstViewModel.modal {
+        case .none:
+            break
+        default:
+            XCTFail("The initial view model should have no modal.")
+        }
+
+        // Show the token entry form.
+        do {
+            let effect = try root.update(Root.Action.tokenListAction(.beginAddToken))
+            XCTAssertNil(effect)
+        } catch {
+            XCTFail("Caught unexpected error: \(error)")
+        }
+
+        // Ensure the view model now has a modal entry form.
+        let secondViewModel = root.viewModel(for: [], at: displayTime)
+        switch secondViewModel.modal {
+        case .entryForm:
+            break
+        default:
+            XCTFail("The view model should have a modal entry form.")
+        }
+
+        // Signal token entry success.
+        let effect = root.update(.tokenFormSucceeded)
+        XCTAssertNil(effect)
+
+        // Ensure the token entry form hides on success.
+        let thirdViewModel = root.viewModel(for: [], at: displayTime)
+        switch thirdViewModel.modal {
+        case .none:
+            break
+        default:
+            XCTFail("The final view model should have no modal.")
+        }
+    }
+
+    func testEventSaveTokenFailed() {
+        var root = Root(deviceCanScan: false)
+        let event: Root.Event = .saveTokenFailed(NSError())
+        let effect = root.update(event)
+        // TODO: check that the component state hasn't changed
+
+        switch effect {
+        case .some(.showErrorMessage("Failed to save token.")):
+            break
+        default:
+            XCTFail("Expected .showErrorMessage(\"Failed to save token.\"), got \(String(describing: effect))")
+            return
+        }
+    }
+
+    func testEventUpdateTokenFailed() {
+        var root = Root(deviceCanScan: false)
+        let event: Root.Event = .updateTokenFailed(NSError())
+        let effect = root.update(event)
+        // TODO: check that the component state hasn't changed
+
+        switch effect {
+        case .some(.showErrorMessage("Failed to update token.")):
+            break
+        default:
+            XCTFail("Expected .showErrorMessage(\"Failed to update token.\"), got \(String(describing: effect))")
+            return
+        }
+    }
+
+    func testEventMoveTokenFailed() {
+        var root = Root(deviceCanScan: false)
+        let event: Root.Event = .moveTokenFailed(NSError())
+        let effect = root.update(event)
+        // TODO: check that the component state hasn't changed
+
+        switch effect {
+        case .some(.showErrorMessage("Failed to move token.")):
+            break
+        default:
+            XCTFail("Expected .showErrorMessage(\"Failed to move token.\"), got \(String(describing: effect))")
+            return
+        }
+    }
+
+    func testEventDeleteTokenFailed() {
+        var root = Root(deviceCanScan: false)
+        let event: Root.Event = .deleteTokenFailed(NSError())
+        let effect = root.update(event)
+        // TODO: check that the component state hasn't changed
+
+        switch effect {
+        case .some(.showErrorMessage("Failed to delete token.")):
+            break
+        default:
+            XCTFail("Expected .showErrorMessage(\"Failed to delete token.\"), got \(String(describing: effect))")
+            return
+        }
+    }
+
 }
