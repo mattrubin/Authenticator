@@ -181,6 +181,14 @@ class RootTests: XCTestCase {
 
     // MARK: Events
 
+    func testEventAddTokenFromURLSucceeded() {
+        var root = Root(deviceCanScan: false)
+        let event: Root.Event = .addTokenFromURLSucceeded
+        let effect = root.update(event)
+        // TODO: check that the component state hasn't changed
+        XCTAssertNil(effect)
+    }
+
     func testEventTokenFormSucceeded() {
         var root = Root(deviceCanScan: false)
 
@@ -199,7 +207,7 @@ class RootTests: XCTestCase {
         }
 
         // Ensure the view model now has a modal entry form.
-        guard case .entryForm = root.viewModel(for: [], at: displayTime).modal else  {
+        guard case .entryForm = root.viewModel(for: [], at: displayTime).modal else {
             XCTFail("The view model should have a modal entry form.")
             return
         }
