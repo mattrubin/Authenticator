@@ -185,12 +185,9 @@ class RootTests: XCTestCase {
         var root = Root(deviceCanScan: false)
 
         // Ensure the initial view model has no modal.
-        let firstViewModel = root.viewModel(for: [], at: displayTime)
-        switch firstViewModel.modal {
-        case .none:
-            break
-        default:
+        guard case .none = root.viewModel(for: [], at: displayTime).modal else {
             XCTFail("The initial view model should have no modal.")
+            return
         }
 
         // Show the token entry form.
@@ -202,12 +199,9 @@ class RootTests: XCTestCase {
         }
 
         // Ensure the view model now has a modal entry form.
-        let secondViewModel = root.viewModel(for: [], at: displayTime)
-        switch secondViewModel.modal {
-        case .entryForm:
-            break
-        default:
+        guard case .entryForm = root.viewModel(for: [], at: displayTime).modal else  {
             XCTFail("The view model should have a modal entry form.")
+            return
         }
 
         // Signal token entry success.
@@ -215,12 +209,9 @@ class RootTests: XCTestCase {
         XCTAssertNil(effect)
 
         // Ensure the token entry form hides on success.
-        let thirdViewModel = root.viewModel(for: [], at: displayTime)
-        switch thirdViewModel.modal {
-        case .none:
-            break
-        default:
+        guard case .none = root.viewModel(for: [], at: displayTime).modal else {
             XCTFail("The final view model should have no modal.")
+            return
         }
     }
 
@@ -230,10 +221,7 @@ class RootTests: XCTestCase {
         let effect = root.update(event)
         // TODO: check that the component state hasn't changed
 
-        switch effect {
-        case .some(.showErrorMessage("Failed to save token.")):
-            break
-        default:
+        guard case .some(.showErrorMessage("Failed to save token.")) = effect else {
             XCTFail("Expected .showErrorMessage(\"Failed to save token.\"), got \(String(describing: effect))")
             return
         }
@@ -245,10 +233,7 @@ class RootTests: XCTestCase {
         let effect = root.update(event)
         // TODO: check that the component state hasn't changed
 
-        switch effect {
-        case .some(.showErrorMessage("Failed to update token.")):
-            break
-        default:
+        guard case .some(.showErrorMessage("Failed to update token.")) = effect else {
             XCTFail("Expected .showErrorMessage(\"Failed to update token.\"), got \(String(describing: effect))")
             return
         }
@@ -260,10 +245,7 @@ class RootTests: XCTestCase {
         let effect = root.update(event)
         // TODO: check that the component state hasn't changed
 
-        switch effect {
-        case .some(.showErrorMessage("Failed to move token.")):
-            break
-        default:
+        guard case .some(.showErrorMessage("Failed to move token.")) = effect else {
             XCTFail("Expected .showErrorMessage(\"Failed to move token.\"), got \(String(describing: effect))")
             return
         }
@@ -275,10 +257,7 @@ class RootTests: XCTestCase {
         let effect = root.update(event)
         // TODO: check that the component state hasn't changed
 
-        switch effect {
-        case .some(.showErrorMessage("Failed to delete token.")):
-            break
-        default:
+        guard case .some(.showErrorMessage("Failed to delete token.")) = effect else {
             XCTFail("Expected .showErrorMessage(\"Failed to delete token.\"), got \(String(describing: effect))")
             return
         }
