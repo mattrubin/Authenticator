@@ -62,17 +62,17 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     // MARK: Capture
 
     enum CaptureSessionError: Error {
-        case inputError
-        case outputError
+        case noCaptureDevice
+        case noQRCodeMetadataType
     }
 
     private class func createCaptureSessionWithDelegate(_ delegate: AVCaptureMetadataOutputObjectsDelegate) throws -> AVCaptureSession {
         let captureSession = AVCaptureSession()
 
-        guard let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo),
-            let captureInput = try? AVCaptureDeviceInput(device: captureDevice) else {
-                throw CaptureSessionError.inputError
+        guard let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo) else {
+            throw CaptureSessionError.noCaptureDevice
         }
+        let captureInput = try AVCaptureDeviceInput(device: captureDevice)
         captureSession.addInput(captureInput)
 
         let captureOutput = AVCaptureMetadataOutput()
@@ -80,7 +80,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         captureSession.addOutput(captureOutput)
         guard let availableTypes = captureOutput.availableMetadataObjectTypes,
             (availableTypes as NSArray).contains(AVMetadataObjectTypeQRCode) else {
-                throw CaptureSessionError.outputError
+                throw CaptureSessionError.noQRCodeMetadataType
         }
         captureOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
         captureOutput.setMetadataObjectsDelegate(delegate, queue: DispatchQueue.main)
