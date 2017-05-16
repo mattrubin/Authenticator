@@ -58,6 +58,18 @@ class TokenScannerTests: XCTestCase {
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
     }
 
+    func testShowApplicationSettings() {
+        var tokenScanner = TokenScanner()
+
+        let action = TokenScanner.Action.showApplicationSettings
+        let effect = tokenScanner.update(action)
+        guard let requiredEffect = effect,
+            case .showApplicationSettings = requiredEffect else {
+                XCTFail("Expected effect .showApplicationSettings, got \(String(describing: effect))")
+                return
+        }
+    }
+
     func testScannerDecodedBadText() {
         var tokenScanner = TokenScanner()
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
