@@ -30,6 +30,7 @@ import OneTimePassword
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
+    private let messageView = UIView()
 
     private var viewModel: TokenScanner.ViewModel
     private let dispatchAction: (TokenScanner.Action) -> Void
@@ -73,6 +74,12 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         videoLayer.frame = view.layer.bounds
         view.layer.addSublayer(videoLayer)
 
+        messageView.backgroundColor = UIColor.otpBackgroundColor
+        messageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        messageView.frame = view.bounds
+        messageView.isHidden = true
+        view.addSubview(messageView)
+
         if CommandLine.isDemo {
             // If this is a demo, display an image in place of the AVCaptureVideoPreviewLayer.
             let imageView = UIImageView(frame: view.bounds)
@@ -88,10 +95,35 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        switch QRScanner.authorizationStatus {
+        case .notDetermined:
+            QRScanner.requestAccess { [weak self] accessGranted in
+                if accessGranted {
+                    self?.startScanning()
+                } else {
+                    self?.showMissingAccessMessage()
+                }
+            }
+        case .authorized:
+            startScanning()
+        case .denied:
+            showMissingAccessMessage()
+        case .restricted:
+            // There's nothing we can do if camera access is restricted.
+            break
+        }
+    }
+
+    private func startScanning() {
         scanner.delegate = self
         scanner.start { captureSession in
             self.videoLayer.session = captureSession
         }
+    }
+
+    private func showMissingAccessMessage() {
+        messageView.isHidden = false
     }
 
     override func viewWillDisappear(_ animated: Bool) {

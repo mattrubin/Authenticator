@@ -92,6 +92,14 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         return (AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo) != nil)
     }
 
+    class var authorizationStatus: AVAuthorizationStatus {
+        return AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+    }
+
+    class func requestAccess(_ completionHandler: @escaping (Bool) -> Void) {
+        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: completionHandler)
+    }
+
     // MARK: AVCaptureMetadataOutputObjectsDelegate
 
     func captureOutput(_ captureOutput: AVCaptureOutput?, didOutputMetadataObjects metadataObjects: [Any]?, from connection: AVCaptureConnection?) {
