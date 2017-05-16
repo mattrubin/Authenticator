@@ -174,9 +174,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     }
 
     func editPermissions() {
-        if let applicationSettingsURL = URL(string: UIApplicationOpenSettingsURLString) {
-            UIApplication.shared.openURL(applicationSettingsURL)
-        }
+        dispatchAction(.showApplicationSettings)
     }
 
     // MARK: QRScannerDelegate

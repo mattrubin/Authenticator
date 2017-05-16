@@ -119,6 +119,7 @@ extension Root {
 
         case showErrorMessage(String)
         case showSuccessMessage(String)
+        case showApplicationSettings
         case openURL(URL)
     }
 
@@ -282,6 +283,9 @@ extension Root {
 
             modal = .entryForm(TokenEntryForm())
             return nil
+
+        case .showApplicationSettings:
+            return .showApplicationSettings
 
         case .saveNewToken(let token):
             return .addToken(token,

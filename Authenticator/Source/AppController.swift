@@ -182,6 +182,13 @@ class AppController {
                 feedbackGenerator.notificationOccurred(.success)
             }
 
+        case .showApplicationSettings:
+            guard let applicationSettingsURL = URL(string: UIApplicationOpenSettingsURLString) else {
+                handleEffect(.showErrorMessage("Failed to open application settings."))
+                return
+            }
+            UIApplication.shared.openURL(applicationSettingsURL)
+
         case let .openURL(url):
             if #available(iOS 9.0, *) {
                 let safariViewController = SFSafariViewController(url: url)
