@@ -30,12 +30,11 @@ import OneTimePassword
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
-    private let messageView = UIButton()
 
     private var viewModel: TokenScanner.ViewModel
     private let dispatchAction: (TokenScanner.Action) -> Void
 
-    fileprivate let permissionLabel: UILabel = {
+    private let permissionLabel: UILabel = {
         let linkTitle = "Go to Settings →"
         let message = "To add a new token via QR code, Authenticator needs permission to access the camera.\n\(linkTitle)"
         let paragraphStyle = NSMutableParagraphStyle()
@@ -54,6 +53,18 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         label.textAlignment = .center
         label.textColor = UIColor.otpForegroundColor
         return label
+    }()
+
+    private lazy var permissionButton: UIButton = {
+        let button = UIButton(frame: UIScreen.main.bounds)
+        button.backgroundColor = .otpBackgroundColor
+        button.addTarget(self, action: #selector(TokenScannerViewController.editPermissions), for: .touchUpInside)
+
+        self.permissionLabel.frame = button.bounds.insetBy(dx: 35, dy: 35)
+        self.permissionLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        button.addSubview(self.permissionLabel)
+
+        return button
     }()
 
     // MARK: Initialization
@@ -95,16 +106,10 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         videoLayer.frame = view.layer.bounds
         view.layer.addSublayer(videoLayer)
 
-        messageView.backgroundColor = UIColor.otpBackgroundColor
-        messageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        messageView.frame = view.bounds
-        messageView.isHidden = true
-        messageView.addTarget(self, action: #selector(TokenScannerViewController.editPermissions), for: .touchUpInside)
-        view.addSubview(messageView)
-
-        permissionLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        permissionLabel.frame = messageView.bounds.insetBy(dx: 35, dy: 35)
-        messageView.addSubview(permissionLabel)
+        permissionButton.frame = view.bounds
+        permissionButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        permissionButton.isHidden = true
+        view.addSubview(permissionButton)
 
         if CommandLine.isDemo {
             // If this is a demo, display an image in place of the AVCaptureVideoPreviewLayer.
@@ -150,7 +155,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     }
 
     private func showMissingAccessMessage() {
-        messageView.isHidden = false
+        permissionButton.isHidden = false
     }
 
     override func viewWillDisappear(_ animated: Bool) {
