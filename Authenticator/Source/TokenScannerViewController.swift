@@ -30,10 +30,31 @@ import OneTimePassword
 class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
-    private let messageView = UIView()
+    private let messageView = UIButton()
 
     private var viewModel: TokenScanner.ViewModel
     private let dispatchAction: (TokenScanner.Action) -> Void
+
+    fileprivate let permissionLabel: UILabel = {
+        let linkTitle = "Go to Settings →"
+        let message = "To add a new token via QR code, Authenticator needs permission to access the camera.\n\(linkTitle)"
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.3
+        paragraphStyle.paragraphSpacing = 5
+        let attributedMessage = NSMutableAttributedString(string: message, attributes: [
+            NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight),
+            NSParagraphStyleAttributeName: paragraphStyle,
+            ])
+        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFont(ofSize: 15),
+                                       range: (attributedMessage.string as NSString).range(of: linkTitle))
+
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.attributedText = attributedMessage
+        label.textAlignment = .center
+        label.textColor = UIColor.otpForegroundColor
+        return label
+    }()
 
     // MARK: Initialization
 
@@ -78,7 +99,12 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         messageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         messageView.frame = view.bounds
         messageView.isHidden = true
+        messageView.addTarget(self, action: #selector(TokenScannerViewController.editPermissions), for: .touchUpInside)
         view.addSubview(messageView)
+
+        permissionLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        permissionLabel.frame = messageView.bounds.insetBy(dx: 35, dy: 35)
+        messageView.addSubview(permissionLabel)
 
         if CommandLine.isDemo {
             // If this is a demo, display an image in place of the AVCaptureVideoPreviewLayer.
@@ -90,6 +116,7 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         }
 
         let overlayView = ScannerOverlayView(frame: view.bounds)
+        overlayView.isUserInteractionEnabled = false
         view.addSubview(overlayView)
     }
 
@@ -139,6 +166,12 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     func addTokenManually() {
         dispatchAction(.beginManualTokenEntry)
+    }
+
+    func editPermissions() {
+        if let applicationSettingsURL = URL(string: UIApplicationOpenSettingsURLString) {
+            UIApplication.shared.openURL(applicationSettingsURL)
+        }
     }
 
     // MARK: QRScannerDelegate
