@@ -34,6 +34,39 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private var viewModel: TokenScanner.ViewModel
     private let dispatchAction: (TokenScanner.Action) -> Void
 
+    private let permissionLabel: UILabel = {
+        let linkTitle = "Go to Settings →"
+        let message = "To add a new token via QR code, Authenticator needs permission to access the camera.\n\(linkTitle)"
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.3
+        paragraphStyle.paragraphSpacing = 5
+        let attributedMessage = NSMutableAttributedString(string: message, attributes: [
+            NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight),
+            NSParagraphStyleAttributeName: paragraphStyle,
+            ])
+        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFont(ofSize: 15),
+                                       range: (attributedMessage.string as NSString).range(of: linkTitle))
+
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.attributedText = attributedMessage
+        label.textAlignment = .center
+        label.textColor = UIColor.otpForegroundColor
+        return label
+    }()
+
+    private lazy var permissionButton: UIButton = {
+        let button = UIButton(frame: UIScreen.main.bounds)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(TokenScannerViewController.editPermissions), for: .touchUpInside)
+
+        self.permissionLabel.frame = button.bounds.insetBy(dx: 35, dy: 35)
+        self.permissionLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        button.addSubview(self.permissionLabel)
+
+        return button
+    }()
+
     // MARK: Initialization
 
     init(viewModel: TokenScanner.ViewModel, dispatchAction: @escaping (TokenScanner.Action) -> Void) {
@@ -73,6 +106,11 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         videoLayer.frame = view.layer.bounds
         view.layer.addSublayer(videoLayer)
 
+        permissionButton.frame = view.bounds
+        permissionButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        permissionButton.isHidden = true
+        view.addSubview(permissionButton)
+
         if CommandLine.isDemo {
             // If this is a demo, display an image in place of the AVCaptureVideoPreviewLayer.
             let imageView = UIImageView(frame: view.bounds)
@@ -83,15 +121,44 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
         }
 
         let overlayView = ScannerOverlayView(frame: view.bounds)
+        overlayView.isUserInteractionEnabled = false
         view.addSubview(overlayView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        switch QRScanner.authorizationStatus {
+        case .notDetermined:
+            QRScanner.requestAccess { [weak self] accessGranted in
+                if accessGranted {
+                    self?.startScanning()
+                } else {
+                    self?.showMissingAccessMessage()
+                }
+            }
+        case .authorized:
+            startScanning()
+        case .denied:
+            showMissingAccessMessage()
+        case .restricted:
+            // There's nothing we can do if camera access is restricted.
+            // This should only ever be reached if camera restrictions are changed while the app is running, because if
+            // the app is launched with restrictions already enabled, the deviceCanScan check will retrun false.
+            dispatchAction(.beginManualTokenEntry)
+            break
+        }
+    }
+
+    private func startScanning() {
         scanner.delegate = self
         scanner.start { captureSession in
             self.videoLayer.session = captureSession
         }
+    }
+
+    private func showMissingAccessMessage() {
+        permissionButton.isHidden = false
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -107,6 +174,10 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     func addTokenManually() {
         dispatchAction(.beginManualTokenEntry)
+    }
+
+    func editPermissions() {
+        dispatchAction(.showApplicationSettings)
     }
 
     // MARK: QRScannerDelegate

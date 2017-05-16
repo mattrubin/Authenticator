@@ -50,6 +50,7 @@ struct TokenScanner: Component {
     enum Action {
         case cancel
         case beginManualTokenEntry
+        case showApplicationSettings
         case scannerDecodedText(String)
         case scannerError(Error)
     }
@@ -57,6 +58,7 @@ struct TokenScanner: Component {
     enum Effect {
         case cancel
         case beginManualTokenEntry
+        case showApplicationSettings
         case saveNewToken(Token)
         case showErrorMessage(String)
     }
@@ -68,6 +70,9 @@ struct TokenScanner: Component {
 
         case .beginManualTokenEntry:
             return .beginManualTokenEntry
+
+        case .showApplicationSettings:
+            return .showApplicationSettings
 
         case .scannerDecodedText(let text):
             // Attempt to create a token from the decoded text
