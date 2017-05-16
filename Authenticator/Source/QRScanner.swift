@@ -97,6 +97,9 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     }
 
     class func requestAccess(_ completionHandler: @escaping (Bool) -> Void) {
+        guard !CommandLine.isDemo else {
+            return
+        }
         AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: completionHandler)
     }
 
