@@ -152,10 +152,10 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     private func startScanning() {
         scanner.delegate = self
-        scanner.start(success: { captureSession in
-            self.videoLayer.session = captureSession
-        }, failure: { error in
-            self.dispatchAction(.scannerError(error))
+        scanner.start(success: { [weak self] captureSession in
+            self?.videoLayer.session = captureSession
+        }, failure: { [weak self] error in
+            self?.dispatchAction(.scannerError(error))
         })
     }
 
