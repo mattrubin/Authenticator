@@ -133,10 +133,26 @@ extension RootViewController {
                 presentViewController(editController)
             }
 
+        case .infoList(let infoListViewModel):
+            updateWithInfoListViewModel(infoListViewModel)
+
         case .info(let infoViewModel):
             updateWithInfoViewModel(infoViewModel)
         }
         currentViewModel = viewModel
+    }
+
+    private func updateWithInfoListViewModel(_ infoListViewModel: InfoList.ViewModel) {
+        if case .infoList = currentViewModel.modal,
+            let infoListViewController = modalNavController?.topViewController as? InfoListViewController {
+            infoListViewController.updateWithViewModel(infoListViewModel)
+        } else {
+            let infoListViewController = InfoListViewController(
+                viewModel: infoListViewModel,
+                dispatchAction: compose(Root.Action.infoListEffect, dispatchAction)
+            )
+            presentViewController(infoListViewController)
+        }
     }
 
     private func updateWithInfoViewModel(_ infoViewModel: Info.ViewModel) {

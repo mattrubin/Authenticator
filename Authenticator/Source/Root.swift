@@ -36,6 +36,7 @@ struct Root: Component {
         case scanner(TokenScanner)
         case entryForm(TokenEntryForm)
         case editForm(TokenEditForm)
+        case infoList(InfoList)
         case info(Info)
 
         var viewModel: RootViewModel.ModalViewModel {
@@ -48,6 +49,8 @@ struct Root: Component {
                 return .entryForm(form.viewModel)
             case .editForm(let form):
                 return .editForm(form.viewModel)
+            case .infoList(let infoList):
+                return .infoList(infoList.viewModel)
             case .info(let info):
                 return .info(info.viewModel)
             }
@@ -83,6 +86,7 @@ extension Root {
         case tokenEditFormAction(TokenEditForm.Action)
         case tokenScannerAction(TokenScanner.Action)
 
+        case infoListEffect(InfoList.Effect)
         case infoEffect(Info.Effect)
 
         case addTokenFromURL(Token)
@@ -149,6 +153,10 @@ extension Root {
                 return effect.flatMap { effect in
                     handleTokenScannerEffect(effect)
                 }
+
+            case .infoListEffect(let effect):
+                return handleInfoListEffect(effect)
+
             case .infoEffect(let effect):
                 return handleInfoEffect(effect)
 
@@ -226,13 +234,9 @@ extension Root {
                 return .showErrorMessage("Failed to load backup info.")
             }
 
-        case .showLicenseInfo:
-            do {
-                modal = .info(try Info.licenseInfo())
-                return nil
-            } catch {
-                return .showErrorMessage("Failed to load acknowledgements.")
-            }
+        case .showInfoList:
+            modal = .infoList(InfoList())
+            return nil
         }
     }
 
@@ -294,6 +298,31 @@ extension Root {
 
         case .showErrorMessage(let message):
             return .showErrorMessage(message)
+        }
+    }
+
+    private mutating func handleInfoListEffect(_ effect: InfoList.Effect) -> Effect? {
+        switch effect {
+        case .showBackupInfo:
+            do {
+                modal = .info(try Info.backupInfo())
+                return nil
+            } catch {
+                return .showErrorMessage("Failed to load backup info.")
+            }
+
+        case .showLicenseInfo:
+            do {
+                modal = .info(try Info.licenseInfo())
+                return nil
+            } catch {
+                return .showErrorMessage("Failed to load acknowledgements.")
+            }
+
+        case .done:
+            modal = .none
+            return nil
+
         }
     }
 

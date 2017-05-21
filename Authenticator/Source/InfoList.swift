@@ -1,8 +1,8 @@
 //
-//  RootViewModel.swift
+//  InfoList.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,16 +23,36 @@
 //  SOFTWARE.
 //
 
-struct RootViewModel {
-    let tokenList: TokenList.ViewModel
-    let modal: ModalViewModel
+import Foundation
 
-    enum ModalViewModel {
-        case none
-        case scanner(TokenScanner.ViewModel)
-        case entryForm(TokenEntryForm.ViewModel)
-        case editForm(TokenEditForm.ViewModel)
-        case infoList(InfoList.ViewModel)
-        case info(Info.ViewModel)
+struct InfoList {
+    // MARK: View
+
+    struct ViewModel {
+        let rowModels: [RowModel]
+    }
+
+    struct RowModel {
+        let title: String
+        let description: NSAttributedString
+        let action: Effect
+    }
+
+    var viewModel: ViewModel {
+        let backupDescription = NSAttributedString(string: "For security reasons, tokens will be stored only on this device, and will not be included in iCloud or unencrypted backups.")
+        let licenseDescription = NSAttributedString(string: "Authenticator makes use of several third party libraries.")
+
+        return ViewModel(rowModels: [
+            RowModel(title: "Backups", description: backupDescription, action: .showBackupInfo),
+            RowModel(title: "Acknowledgements", description: licenseDescription, action: .showLicenseInfo),
+        ])
+    }
+
+    // MARK: Update
+
+    enum Effect {
+        case showBackupInfo
+        case showLicenseInfo
+        case done
     }
 }
