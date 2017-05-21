@@ -27,28 +27,28 @@ import AVFoundation
 
 protocol QRScannerDelegate: class {
     func handleDecodedText(_ text: String)
-    func handleError(_ error: Error)
 }
 
 class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     weak var delegate: QRScannerDelegate?
     private let serialQueue = DispatchQueue(label: "QRScanner serial queue")
-    private lazy var captureSession: AVCaptureSession? = {
-        do {
-            return try QRScanner.createCaptureSessionWithDelegate(self)
-        } catch {
-            DispatchQueue.main.async {
-                self.delegate?.handleError(error)
-            }
-            return nil
-        }
-    }()
+    private var captureSession: AVCaptureSession?
 
-    func start(_ completion: @escaping (AVCaptureSession?) -> Void) {
+    func start(success: @escaping (AVCaptureSession) -> Void, failure: @escaping (Error) -> Void) {
         serialQueue.async {
-            self.captureSession?.startRunning()
-            DispatchQueue.main.async {
-                completion(self.captureSession)
+            do {
+                let captureSession = try self.captureSession ?? QRScanner.createCaptureSessionWithDelegate(self)
+                captureSession.startRunning()
+
+                self.captureSession = captureSession
+                DispatchQueue.main.async {
+                    success(captureSession)
+                }
+            } catch {
+                self.captureSession = nil
+                DispatchQueue.main.async {
+                    failure(error)
+                }
             }
         }
     }
