@@ -29,6 +29,7 @@ struct InfoList {
     // MARK: View
 
     struct ViewModel {
+        let title: String
         let rowModels: [RowModel]
     }
 
@@ -43,9 +44,15 @@ struct InfoList {
         let backupDescription = "For security reasons, tokens will be stored only on this device, and will not be included in iCloud or unencrypted backups."
         let licenseDescription = "Authenticator makes use of several third party libraries."
 
-        return ViewModel(rowModels: [
-            RowModel(title: "Backups", description: backupDescription, callToAction: "Learn More →", action: .showBackupInfo),
-            RowModel(title: "Open Source", description: licenseDescription, callToAction: "View Acknowledgements →", action: .showLicenseInfo),
+        return ViewModel(title: "Info", rowModels: [
+            RowModel(title: "Backups",
+                     description: backupDescription,
+                     callToAction: "Learn More →".replacingOccurrences(of: " ", with: "\u{00A0}"),
+                     action: .showBackupInfo),
+            RowModel(title: "Open Source",
+                     description: licenseDescription,
+                     callToAction: "View Acknowledgements →".replacingOccurrences(of: " ", with: "\u{00A0}"),
+                     action: .showLicenseInfo),
         ])
     }
 

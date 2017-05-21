@@ -43,6 +43,11 @@ class InfoListViewController: UITableViewController {
 
     func updateWithViewModel(_ viewModel: InfoList.ViewModel) {
         self.viewModel = viewModel
+        applyViewModel()
+    }
+
+    private func applyViewModel() {
+        title = viewModel.title
     }
 
     // MARK: View Lifecycle
@@ -59,6 +64,8 @@ class InfoListViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
                                                             target: self,
                                                             action: #selector(done))
+
+        applyViewModel()
     }
 
     // MARK: Target Actions
