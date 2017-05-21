@@ -27,7 +27,6 @@ import AVFoundation
 
 protocol QRScannerDelegate: class {
     func handleDecodedText(_ text: String)
-    func handleError(_ error: Error)
 }
 
 class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
@@ -35,7 +34,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     private let serialQueue = DispatchQueue(label: "QRScanner serial queue")
     private var captureSession: AVCaptureSession?
 
-    func start(_ completion: @escaping (AVCaptureSession) -> Void) {
+    func start(success: @escaping (AVCaptureSession) -> Void, failure: @escaping (Error) -> Void) {
         serialQueue.async {
             do {
                 let captureSession = try self.captureSession ?? QRScanner.createCaptureSessionWithDelegate(self)
@@ -43,12 +42,12 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
 
                 self.captureSession = captureSession
                 DispatchQueue.main.async {
-                    completion(captureSession)
+                    success(captureSession)
                 }
             } catch {
                 self.captureSession = nil
                 DispatchQueue.main.async {
-                    self.delegate?.handleError(error)
+                    failure(error)
                 }
             }
         }

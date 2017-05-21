@@ -152,9 +152,11 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     private func startScanning() {
         scanner.delegate = self
-        scanner.start { captureSession in
+        scanner.start(success: { captureSession in
             self.videoLayer.session = captureSession
-        }
+        }, failure: { error in
+            self.dispatchAction(.scannerError(error))
+        })
     }
 
     private func showMissingAccessMessage() {
@@ -187,9 +189,5 @@ class TokenScannerViewController: UIViewController, QRScannerDelegate {
             return
         }
         dispatchAction(.scannerDecodedText(text))
-    }
-
-    func handleError(_ error: Error) {
-        dispatchAction(.scannerError(error))
     }
 }
