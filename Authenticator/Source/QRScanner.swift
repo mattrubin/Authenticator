@@ -40,6 +40,8 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
             do {
                 let captureSession = try self.captureSession ?? QRScanner.createCaptureSessionWithDelegate(self)
                 captureSession.startRunning()
+
+                self.captureSession = captureSession
                 DispatchQueue.main.async {
                     completion(captureSession)
                 }
