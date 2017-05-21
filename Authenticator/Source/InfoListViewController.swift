@@ -53,6 +53,8 @@ class InfoListViewController: UITableViewController {
         tableView.backgroundColor = UIColor.otpBackgroundColor
         tableView.separatorStyle = .none
         tableView.indicatorStyle = .white
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 44.0
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
                                                             target: self,
@@ -91,10 +93,14 @@ class InfoListViewController: UITableViewController {
 }
 
 class InfoListCell: UITableViewCell {
+    let titleLabel = UILabel()
+    let descriptionLabel = UILabel()
+    var customConstraints: [NSLayoutConstraint]?
+
     // MARK: Initialization
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         configureCell()
     }
 
@@ -106,12 +112,63 @@ class InfoListCell: UITableViewCell {
     private func configureCell() {
         backgroundColor = .otpBackgroundColor
         selectionStyle = .none
-        textLabel?.textColor = .otpForegroundColor
+
+        titleLabel.textColor = .otpForegroundColor
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabel)
+
+        descriptionLabel.textColor = .otpForegroundColor
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(descriptionLabel)
+
+        setNeedsUpdateConstraints()
+    }
+
+    override func updateConstraints() {
+        if customConstraints == nil {
+            let newConstraints = [
+                NSLayoutConstraint(item: titleLabel, attribute: .top,
+                                   relatedBy: .equal,
+                                   toItem: contentView, attribute: .topMargin,
+                                   multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: titleLabel, attribute: .leading,
+                                   relatedBy: .equal,
+                                   toItem: contentView, attribute: .leadingMargin,
+                                   multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: titleLabel, attribute: .trailing,
+                                   relatedBy: .equal,
+                                   toItem: contentView, attribute: .trailingMargin,
+                                   multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: titleLabel, attribute: .bottom,
+                                   relatedBy: .equal,
+                                   toItem: descriptionLabel, attribute: .top,
+                                   multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: descriptionLabel, attribute: .leading,
+                                   relatedBy: .equal,
+                                   toItem: contentView, attribute: .leadingMargin,
+                                   multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: descriptionLabel, attribute: .trailing,
+                                   relatedBy: .equal,
+                                   toItem: contentView, attribute: .trailingMargin,
+                                   multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: descriptionLabel, attribute: .bottom,
+                                   relatedBy: .equal,
+                                   toItem: contentView, attribute: .bottomMargin,
+                                   multiplier: 1, constant: 0),
+            ]
+            contentView.addConstraints(newConstraints)
+            customConstraints = newConstraints
+        }
+
+        // "Important: Call [super updateConstraints] as the final step in your implementation."
+        super.updateConstraints()
     }
 
     // MARK: Update
 
     func updateWithRowModel(_ rowModel: InfoList.RowModel) {
-        textLabel?.text = rowModel.title
+        titleLabel.text = rowModel.title
+        descriptionLabel.attributedText = rowModel.description
     }
 }
