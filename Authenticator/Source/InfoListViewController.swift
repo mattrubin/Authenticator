@@ -114,11 +114,13 @@ class InfoListCell: UITableViewCell {
         selectionStyle = .none
 
         titleLabel.textColor = .otpForegroundColor
+        titleLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
 
         descriptionLabel.textColor = .otpForegroundColor
         descriptionLabel.numberOfLines = 0
+        descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight)
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(descriptionLabel)
 
@@ -147,7 +149,15 @@ class InfoListCell: UITableViewCell {
     // MARK: Update
 
     func updateWithRowModel(_ rowModel: InfoList.RowModel) {
-        titleLabel.text = rowModel.title
-        descriptionLabel.attributedText = rowModel.description
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.3
+
+        let attributedTitle = NSAttributedString(string: rowModel.title,
+                                                 attributes: [NSParagraphStyleAttributeName: paragraphStyle])
+        titleLabel.attributedText = attributedTitle
+
+        let attributedDescription = NSAttributedString(string: rowModel.description,
+                                                       attributes:[NSParagraphStyleAttributeName: paragraphStyle])
+        descriptionLabel.attributedText = attributedDescription
     }
 }

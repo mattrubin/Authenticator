@@ -34,13 +34,13 @@ struct InfoList {
 
     struct RowModel {
         let title: String
-        let description: NSAttributedString
+        let description: String
         let action: Effect
     }
 
     var viewModel: ViewModel {
-        let backupDescription = NSAttributedString(string: "For security reasons, tokens will be stored only on this device, and will not be included in iCloud or unencrypted backups.")
-        let licenseDescription = NSAttributedString(string: "Authenticator makes use of several third party libraries.")
+        let backupDescription = "For security reasons, tokens will be stored only on this device, and will not be included in iCloud or unencrypted backups."
+        let licenseDescription = "Authenticator makes use of several third party libraries."
 
         return ViewModel(rowModels: [
             RowModel(title: "Backups", description: backupDescription, action: .showBackupInfo),
