@@ -35,6 +35,7 @@ struct InfoList {
     struct RowModel {
         let title: String
         let description: String
+        let callToAction: String
         let action: Effect
     }
 
@@ -43,8 +44,8 @@ struct InfoList {
         let licenseDescription = "Authenticator makes use of several third party libraries."
 
         return ViewModel(rowModels: [
-            RowModel(title: "Backups", description: backupDescription, action: .showBackupInfo),
-            RowModel(title: "Acknowledgements", description: licenseDescription, action: .showLicenseInfo),
+            RowModel(title: "Backups", description: backupDescription, callToAction: "Learn More →", action: .showBackupInfo),
+            RowModel(title: "Open Source", description: licenseDescription, callToAction: "View Acknowledgements →", action: .showLicenseInfo),
         ])
     }
 
