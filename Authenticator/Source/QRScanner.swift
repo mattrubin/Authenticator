@@ -33,22 +33,21 @@ protocol QRScannerDelegate: class {
 class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     weak var delegate: QRScannerDelegate?
     private let serialQueue = DispatchQueue(label: "QRScanner serial queue")
-    private lazy var captureSession: AVCaptureSession? = {
-        do {
-            return try QRScanner.createCaptureSessionWithDelegate(self)
-        } catch {
-            DispatchQueue.main.async {
-                self.delegate?.handleError(error)
-            }
-            return nil
-        }
-    }()
+    private var captureSession: AVCaptureSession?
 
     func start(_ completion: @escaping (AVCaptureSession?) -> Void) {
         serialQueue.async {
-            self.captureSession?.startRunning()
-            DispatchQueue.main.async {
-                completion(self.captureSession)
+            do {
+                self.captureSession = try QRScanner.createCaptureSessionWithDelegate(self)
+                self.captureSession?.startRunning()
+                DispatchQueue.main.async {
+                    completion(self.captureSession)
+                }
+            } catch {
+                self.captureSession = nil
+                DispatchQueue.main.async {
+                    self.delegate?.handleError(error)
+                }
             }
         }
     }
