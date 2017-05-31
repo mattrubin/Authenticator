@@ -72,16 +72,19 @@ class RootViewController: OpaqueNavigationController {
     }
 
     fileprivate func presentViewController(_ viewController: UIViewController) {
-        if let navController = modalNavController {
-            guard navController.viewControllers != [viewController] else {
-                return
-            }
-            navController.setViewControllers([viewController], animated: true)
-        } else {
+        // If there is currently no modal, create one.
+        guard let navController = modalNavController else {
             let navController = OpaqueNavigationController(rootViewController: viewController)
             present(navController, animated: true)
             modalNavController = navController
+            return
         }
+        // If the current modal already contains the correct view controller, do nothing.
+        guard navController.viewControllers != [viewController] else {
+            return
+        }
+        // Present the desired view controller.
+        navController.setViewControllers([viewController], animated: true)
     }
 
     fileprivate func dismissViewController() {
