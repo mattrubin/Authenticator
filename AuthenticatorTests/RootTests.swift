@@ -53,7 +53,7 @@ class RootTests: XCTestCase {
         // Ensure the backup info modal is visible.
         let secondViewModel = root.viewModel(for: [], at: displayTime)
         switch secondViewModel.modal {
-        case .info(let infoViewModel):
+        case .info(_, .some(let infoViewModel)):
             XCTAssert(infoViewModel.title == "Backups")
         default:
             XCTFail("Expected Backups .info, got \(secondViewModel.modal)")
@@ -88,8 +88,26 @@ class RootTests: XCTestCase {
             return
         }
 
+        // Show the info list.
+        let showInfoAction: Root.Action = .tokenListAction(.showInfo)
+        let showInfoEffect: Root.Effect?
+        do {
+            showInfoEffect = try root.update(showInfoAction)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertNil(showInfoEffect)
+
+        // Ensure the info list modal is visible.
+        let nextViewModel = root.viewModel(for: [], at: displayTime)
+        guard case .info(_, .none) = nextViewModel.modal else {
+            XCTFail("Expected .info list, got \(nextViewModel.modal)")
+            return
+        }
+
         // Show the license info.
-        let showAction: Root.Action = .tokenListAction(.showLicenseInfo)
+        let showAction: Root.Action = .infoListEffect(.showLicenseInfo)
         let showEffect: Root.Effect?
         do {
             showEffect = try root.update(showAction)
@@ -102,7 +120,7 @@ class RootTests: XCTestCase {
         // Ensure the license info modal is visible.
         let secondViewModel = root.viewModel(for: [], at: displayTime)
         switch secondViewModel.modal {
-        case .info(let infoViewModel):
+        case .info(_, .some(let infoViewModel)):
             XCTAssert(infoViewModel.title == "Acknowledgements")
         default:
             XCTFail("Expected Acknowledgements .info, got \(secondViewModel.modal)")

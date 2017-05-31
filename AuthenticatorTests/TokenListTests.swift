@@ -77,14 +77,14 @@ class TokenListTests: XCTestCase {
         }
     }
 
-    func testActionShowLicenseInfo() {
+    func testActionShowInfo() {
         var tokenList = TokenList()
-        let action: TokenList.Action = .showLicenseInfo
+        let action: TokenList.Action = .showInfo
         let effect = tokenList.update(action)
         // TODO: check that the token list hasn't changed
 
         switch effect {
-        case .some(.showLicenseInfo):
+        case .some(.showInfo):
             break
         default:
             XCTFail("Expected .showLicenseInfo, got \(String(describing: effect))")
@@ -140,8 +140,8 @@ class TokenListTests: XCTestCase {
         XCTAssert(TokenList.Action.showBackupInfo != .beginAddToken)
 
         // ShowLicenseInfo
-        XCTAssert(TokenList.Action.showLicenseInfo == .showLicenseInfo)
-        XCTAssert(TokenList.Action.showLicenseInfo != .beginAddToken)
+        XCTAssert(TokenList.Action.showInfo == .showInfo)
+        XCTAssert(TokenList.Action.showInfo != .beginAddToken)
     }
 }
 
