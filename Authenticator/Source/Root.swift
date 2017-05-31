@@ -236,7 +236,7 @@ extension Root {
                 return .showErrorMessage("Failed to load backup info.")
             }
 
-        case .showInfoList:
+        case .showInfo:
             modal = .info(InfoList(), nil)
             return nil
         }
