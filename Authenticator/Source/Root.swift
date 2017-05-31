@@ -85,6 +85,7 @@ extension Root {
 
         case infoListEffect(InfoList.Effect)
         case infoEffect(Info.Effect)
+        case dismissInfo
 
         case addTokenFromURL(Token)
     }
@@ -156,6 +157,10 @@ extension Root {
 
             case .infoEffect(let effect):
                 return handleInfoEffect(effect)
+
+            case .dismissInfo:
+                try modal.dismissInfo()
+                return nil
 
             case .addTokenFromURL(let token):
                 return .addToken(token,
@@ -372,5 +377,12 @@ private extension Root.Modal {
             throw Error(expectedType: InfoList.self, actualState: self)
         }
         self = .info(infoList, info)
+    }
+
+    mutating func dismissInfo() throws {
+        guard case .info(let infoList, .some) = self else {
+            throw Error(expectedType: Info.self, actualState: self)
+        }
+        self = .info(infoList, nil)
     }
 }

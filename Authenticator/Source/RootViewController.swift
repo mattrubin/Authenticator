@@ -79,6 +79,7 @@ class RootViewController: OpaqueNavigationController {
         // If there is currently no modal, create one.
         guard let navController = modalNavController else {
             let navController = OpaqueNavigationController()
+            navController.delegate = self
             navController.setViewControllers(viewControllersToPresent, animated: false)
             present(navController, animated: true)
             modalNavController = navController
@@ -190,4 +191,15 @@ extension RootViewController {
 
 private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escaping (B) -> C) -> (A) -> C {
     return { handler(transform($0)) }
+}
+
+extension RootViewController: UINavigationControllerDelegate {
+    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        if case .info(_, .some) = currentViewModel.modal,
+            viewController is InfoListViewController {
+            // If the view model modal state has an Info.ViewModel and the just-shown view controller is an info list,
+            // then the user has popped the info view controller.
+            dispatchAction(.dismissInfo)
+        }
+    }
 }
