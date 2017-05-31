@@ -72,19 +72,24 @@ class RootViewController: OpaqueNavigationController {
     }
 
     fileprivate func presentViewController(_ viewController: UIViewController) {
+        presentViewControllers([viewController])
+    }
+
+    fileprivate func presentViewControllers(_ viewControllersToPresent: [UIViewController]) {
         // If there is currently no modal, create one.
         guard let navController = modalNavController else {
-            let navController = OpaqueNavigationController(rootViewController: viewController)
+            let navController = OpaqueNavigationController()
+            navController.setViewControllers(viewControllersToPresent, animated: false)
             present(navController, animated: true)
             modalNavController = navController
             return
         }
         // If the current modal already contains the correct view controller, do nothing.
-        guard navController.viewControllers != [viewController] else {
+        guard navController.viewControllers != viewControllersToPresent else {
             return
         }
         // Present the desired view controller.
-        navController.setViewControllers([viewController], animated: true)
+        navController.setViewControllers(viewControllersToPresent, animated: true)
     }
 
     fileprivate func dismissViewController() {
@@ -110,7 +115,11 @@ extension InfoViewController: ModelBasedViewController {}
 
 extension RootViewController {
     private func reify<ViewController: ModelBasedViewController>(viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
-        if let viewController = modalNavController?.topViewController as? ViewController {
+        return reify(modalNavController?.topViewController, viewModel: viewModel, dispatchAction: dispatchAction)
+    }
+
+    private func reify<ViewController: ModelBasedViewController>(_ existingViewController: UIViewController?, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
+        if let viewController = existingViewController as? ViewController {
             viewController.updateWithViewModel(viewModel)
             return viewController
         } else {
@@ -166,11 +175,16 @@ extension RootViewController {
             return
         }
 
+        let infoListViewController: InfoListViewController = reify(
+            modalNavController?.viewControllers.first,
+            viewModel: infoListViewModel,
+            dispatchAction: compose(Root.Action.infoListEffect, dispatchAction)
+        )
         let infoViewController: InfoViewController = reify(
             viewModel: infoViewModel,
             dispatchAction: compose(Root.Action.infoEffect, dispatchAction)
         )
-        presentViewController(infoViewController)
+        presentViewControllers([infoListViewController, infoViewController])
     }
 }
 
