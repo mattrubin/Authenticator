@@ -109,7 +109,7 @@ extension InfoListViewController: ModelBasedViewController {}
 extension InfoViewController: ModelBasedViewController {}
 
 extension RootViewController {
-    private func reify<ViewController: ModelBasedViewController>(_: ViewController.Type, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
+    private func reify<ViewController: ModelBasedViewController>(viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
         if let viewController = modalNavController?.topViewController as? ViewController {
             viewController.updateWithViewModel(viewModel)
             return viewController
@@ -130,21 +130,24 @@ extension RootViewController {
             dismissViewController()
 
         case .scanner(let scannerViewModel):
-            let scannerViewController = reify(TokenScannerViewController.self,
-                                              viewModel: scannerViewModel,
-                                              dispatchAction: compose(Root.Action.tokenScannerAction, dispatchAction))
+            let scannerViewController: TokenScannerViewController = reify(
+                viewModel: scannerViewModel,
+                dispatchAction: compose(Root.Action.tokenScannerAction, dispatchAction)
+            )
             presentViewController(scannerViewController)
 
         case .entryForm(let formViewModel):
-            let formController = reify(TokenFormViewController.self,
-                                       viewModel: formViewModel,
-                                       dispatchAction: compose(Root.Action.tokenEntryFormAction, dispatchAction))
+            let formController: TokenFormViewController = reify(
+                viewModel: formViewModel,
+                dispatchAction: compose(Root.Action.tokenEntryFormAction, dispatchAction)
+            )
             presentViewController(formController)
 
         case .editForm(let formViewModel):
-            let editController = reify(TokenFormViewController.self,
-                                       viewModel: formViewModel,
-                                       dispatchAction: compose(Root.Action.tokenEditFormAction, dispatchAction))
+            let editController: TokenFormViewController = reify(
+                viewModel: formViewModel,
+                dispatchAction: compose(Root.Action.tokenEditFormAction, dispatchAction)
+            )
             presentViewController(editController)
 
         case .info(let infoListViewModel, let infoViewModel):
@@ -155,16 +158,18 @@ extension RootViewController {
 
     private func updateWithInfoViewModels(_ infoListViewModel: InfoList.ViewModel, _ infoViewModel: Info.ViewModel?) {
         guard let infoViewModel = infoViewModel else {
-            let infoListViewController = reify(InfoListViewController.self,
-                                               viewModel: infoListViewModel,
-                                               dispatchAction: compose(Root.Action.infoListEffect, dispatchAction))
+            let infoListViewController: InfoListViewController = reify(
+                viewModel: infoListViewModel,
+                dispatchAction: compose(Root.Action.infoListEffect, dispatchAction)
+            )
             presentViewController(infoListViewController)
             return
         }
 
-        let infoViewController = reify(InfoViewController.self,
-                                       viewModel: infoViewModel,
-                                       dispatchAction: compose(Root.Action.infoEffect, dispatchAction))
+        let infoViewController: InfoViewController = reify(
+            viewModel: infoViewModel,
+            dispatchAction: compose(Root.Action.infoEffect, dispatchAction)
+        )
         presentViewController(infoViewController)
     }
 }
