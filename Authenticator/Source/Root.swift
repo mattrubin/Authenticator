@@ -153,7 +153,7 @@ extension Root {
                 }
 
             case .infoListEffect(let effect):
-                return handleInfoListEffect(effect)
+                return try handleInfoListEffect(effect)
 
             case .infoEffect(let effect):
                 return handleInfoEffect(effect)
@@ -303,23 +303,27 @@ extension Root {
         }
     }
 
-    private mutating func handleInfoListEffect(_ effect: InfoList.Effect) -> Effect? {
+    private mutating func handleInfoListEffect(_ effect: InfoList.Effect) throws -> Effect? {
         switch effect {
         case .showBackupInfo:
+            let backupInfo: Info
             do {
-                try modal.setInfo(Info.backupInfo())
-                return nil
+                backupInfo = try Info.backupInfo()
             } catch {
                 return .showErrorMessage("Failed to load backup info.")
             }
+            try modal.setInfo(backupInfo)
+            return nil
 
         case .showLicenseInfo:
+            let licenseInfo: Info
             do {
-                try modal.setInfo(Info.licenseInfo())
-                return nil
+                licenseInfo = try Info.licenseInfo()
             } catch {
                 return .showErrorMessage("Failed to load acknowledgements.")
             }
+            try modal.setInfo(licenseInfo)
+            return nil
 
         case .done:
             modal = .none
