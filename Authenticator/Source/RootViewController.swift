@@ -133,29 +133,27 @@ extension RootViewController {
                 presentViewController(editController)
             }
 
-        case .infoList(let infoListViewModel):
-            updateWithInfoListViewModel(infoListViewModel)
-
-        case .info(let infoViewModel):
-            updateWithInfoViewModel(infoViewModel)
+        case .info(let infoListViewModel, let infoViewModel):
+            updateWithInfoViewModels(infoListViewModel, infoViewModel)
         }
         currentViewModel = viewModel
     }
 
-    private func updateWithInfoListViewModel(_ infoListViewModel: InfoList.ViewModel) {
-        if case .infoList = currentViewModel.modal,
-            let infoListViewController = modalNavController?.topViewController as? InfoListViewController {
-            infoListViewController.updateWithViewModel(infoListViewModel)
-        } else {
-            let infoListViewController = InfoListViewController(
-                viewModel: infoListViewModel,
-                dispatchAction: compose(Root.Action.infoListEffect, dispatchAction)
-            )
-            presentViewController(infoListViewController)
+    private func updateWithInfoViewModels(_ infoListViewModel: InfoList.ViewModel, _ infoViewModel: Info.ViewModel?) {
+        guard let infoViewModel = infoViewModel else {
+            if case .info = currentViewModel.modal,
+                let infoListViewController = modalNavController?.topViewController as? InfoListViewController {
+                infoListViewController.updateWithViewModel(infoListViewModel)
+            } else {
+                let infoListViewController = InfoListViewController(
+                    viewModel: infoListViewModel,
+                    dispatchAction: compose(Root.Action.infoListEffect, dispatchAction)
+                )
+                presentViewController(infoListViewController)
+            }
+            return
         }
-    }
 
-    private func updateWithInfoViewModel(_ infoViewModel: Info.ViewModel) {
         if case .info = currentViewModel.modal,
             let infoViewController = modalNavController?.topViewController as? InfoViewController {
             infoViewController.updateWithViewModel(infoViewModel)

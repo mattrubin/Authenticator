@@ -36,8 +36,7 @@ struct Root: Component {
         case scanner(TokenScanner)
         case entryForm(TokenEntryForm)
         case editForm(TokenEditForm)
-        case infoList(InfoList)
-        case info(Info)
+        case info(InfoList, Info?)
 
         var viewModel: RootViewModel.ModalViewModel {
             switch self {
@@ -49,10 +48,8 @@ struct Root: Component {
                 return .entryForm(form.viewModel)
             case .editForm(let form):
                 return .editForm(form.viewModel)
-            case .infoList(let infoList):
-                return .infoList(infoList.viewModel)
-            case .info(let info):
-                return .info(info.viewModel)
+            case .info(let infoList, let info):
+                return .info(infoList.viewModel, info?.viewModel)
             }
         }
     }
@@ -228,14 +225,14 @@ extension Root {
 
         case .showBackupInfo:
             do {
-                modal = .info(try Info.backupInfo())
+                modal = .info(InfoList(), try Info.backupInfo())
                 return nil
             } catch {
                 return .showErrorMessage("Failed to load backup info.")
             }
 
         case .showInfoList:
-            modal = .infoList(InfoList())
+            modal = .info(InfoList(), nil)
             return nil
         }
     }
@@ -305,7 +302,7 @@ extension Root {
         switch effect {
         case .showBackupInfo:
             do {
-                modal = .info(try Info.backupInfo())
+                try modal.setInfo(Info.backupInfo())
                 return nil
             } catch {
                 return .showErrorMessage("Failed to load backup info.")
@@ -313,7 +310,7 @@ extension Root {
 
         case .showLicenseInfo:
             do {
-                modal = .info(try Info.licenseInfo())
+                try modal.setInfo(Info.licenseInfo())
                 return nil
             } catch {
                 return .showErrorMessage("Failed to load acknowledgements.")
@@ -368,5 +365,12 @@ private extension Root.Modal {
         let result = body(&scanner)
         self = .scanner(scanner)
         return result
+    }
+
+    mutating func setInfo(_ info: Info) throws {
+        guard case .info(let infoList, .none) = self else {
+            throw Error(expectedType: InfoList.self, actualState: self)
+        }
+        self = .info(infoList, info)
     }
 }
