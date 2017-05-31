@@ -26,7 +26,7 @@
 import UIKit
 import WebKit
 
-class InfoViewController: UIViewController, WKNavigationDelegate {
+final class InfoViewController: UIViewController, WKNavigationDelegate {
     private var viewModel: Info.ViewModel
     private let dispatchAction: (Info.Effect) -> Void
 

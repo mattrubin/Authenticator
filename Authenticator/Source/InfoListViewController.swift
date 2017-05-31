@@ -25,7 +25,7 @@
 
 import UIKit
 
-class InfoListViewController: UITableViewController {
+final class InfoListViewController: UITableViewController {
     private var viewModel: InfoList.ViewModel
     private let dispatchAction: (InfoList.Effect) -> Void
 

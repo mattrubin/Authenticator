@@ -27,7 +27,7 @@ import UIKit
 import AVFoundation
 import OneTimePassword
 
-class TokenScannerViewController: UIViewController, QRScannerDelegate {
+final class TokenScannerViewController: UIViewController, QRScannerDelegate {
     private let scanner = QRScanner()
     private let videoLayer = AVCaptureVideoPreviewLayer()
 
