@@ -127,25 +127,22 @@ extension RootViewController {
             dismissViewController()
 
         case .scanner(let scannerViewModel):
-                let scannerViewController = reify(TokenScannerViewController.self,
-                    viewModel: scannerViewModel,
-                    dispatchAction: compose(Root.Action.tokenScannerAction, dispatchAction)
-                )
-                presentViewController(scannerViewController)
+            let scannerViewController = reify(TokenScannerViewController.self,
+                                              viewModel: scannerViewModel,
+                                              dispatchAction: compose(Root.Action.tokenScannerAction, dispatchAction))
+            presentViewController(scannerViewController)
 
         case .entryForm(let formViewModel):
-                let formController = reify(TokenFormViewController.self,
-                    viewModel: formViewModel,
-                    dispatchAction: compose(Root.Action.tokenEntryFormAction, dispatchAction)
-                )
-                presentViewController(formController)
+            let formController = reify(TokenFormViewController.self,
+                                       viewModel: formViewModel,
+                                       dispatchAction: compose(Root.Action.tokenEntryFormAction, dispatchAction))
+            presentViewController(formController)
 
         case .editForm(let formViewModel):
-                let editController = reify(TokenFormViewController.self,
-                    viewModel: formViewModel,
-                    dispatchAction: compose(Root.Action.tokenEditFormAction, dispatchAction)
-                )
-                presentViewController(editController)
+            let editController = reify(TokenFormViewController.self,
+                                       viewModel: formViewModel,
+                                       dispatchAction: compose(Root.Action.tokenEditFormAction, dispatchAction))
+            presentViewController(editController)
 
         case .info(let infoListViewModel, let infoViewModel):
             updateWithInfoViewModels(infoListViewModel, infoViewModel)
@@ -155,19 +152,17 @@ extension RootViewController {
 
     private func updateWithInfoViewModels(_ infoListViewModel: InfoList.ViewModel, _ infoViewModel: Info.ViewModel?) {
         guard let infoViewModel = infoViewModel else {
-                let infoListViewController = reify(InfoListViewController.self,
-                    viewModel: infoListViewModel,
-                    dispatchAction: compose(Root.Action.infoListEffect, dispatchAction)
-                )
-                presentViewController(infoListViewController)
+            let infoListViewController = reify(InfoListViewController.self,
+                                               viewModel: infoListViewModel,
+                                               dispatchAction: compose(Root.Action.infoListEffect, dispatchAction))
+            presentViewController(infoListViewController)
             return
         }
 
-            let infoViewController = reify(InfoViewController.self,
-                viewModel: infoViewModel,
-                dispatchAction: compose(Root.Action.infoEffect, dispatchAction)
-            )
-            presentViewController(infoViewController)
+        let infoViewController = reify(InfoViewController.self,
+                                       viewModel: infoViewModel,
+                                       dispatchAction: compose(Root.Action.infoEffect, dispatchAction))
+        presentViewController(infoViewController)
     }
 }
 
