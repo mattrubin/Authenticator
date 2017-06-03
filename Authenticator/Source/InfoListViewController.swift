@@ -103,6 +103,11 @@ class InfoListCell: UITableViewCell {
     private static let titleFont = UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium)
     private static let descriptionFont = UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight)
     private static let callToActionFont = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
+    private static let paragraphStyle: NSParagraphStyle = {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.3
+        return paragraphStyle
+    }()
 
     let titleLabel = UILabel()
     let descriptionLabel = UILabel()
@@ -122,7 +127,6 @@ class InfoListCell: UITableViewCell {
 
     private func configureCell() {
         backgroundColor = .otpBackgroundColor
-        selectionStyle = .none
 
         titleLabel.textColor = .otpForegroundColor
         titleLabel.font = InfoListCell.titleFont
@@ -134,6 +138,9 @@ class InfoListCell: UITableViewCell {
         descriptionLabel.font = InfoListCell.descriptionFont
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(descriptionLabel)
+
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = UIColor(white: 0, alpha: 0.25)
 
         setNeedsUpdateConstraints()
     }
@@ -160,15 +167,11 @@ class InfoListCell: UITableViewCell {
     // MARK: Update
 
     func updateWithRowModel(_ rowModel: InfoList.RowModel) {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.3
+        titleLabel.text = rowModel.title
 
-        let attributedTitle = NSAttributedString(string: rowModel.title,
-                                                 attributes: [NSParagraphStyleAttributeName: paragraphStyle])
-        titleLabel.attributedText = attributedTitle
-
+        let attributes = [NSParagraphStyleAttributeName: InfoListCell.paragraphStyle]
         let attributedDetails = NSMutableAttributedString(string: rowModel.description + "  " + rowModel.callToAction,
-                                                          attributes:[NSParagraphStyleAttributeName: paragraphStyle])
+                                                          attributes: attributes)
         attributedDetails.addAttribute(NSFontAttributeName, value: InfoListCell.callToActionFont,
                                        range: (attributedDetails.string as NSString).range(of: rowModel.callToAction))
         descriptionLabel.attributedText = attributedDetails
