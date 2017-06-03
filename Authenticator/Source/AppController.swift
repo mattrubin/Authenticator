@@ -166,11 +166,11 @@ class AppController {
 
         case let .showErrorMessage(message):
             SVProgressHUD.showError(withStatus: message)
-            generateFeedback(for: .error)
+            generateHapticFeedback(for: .error)
 
         case let .showSuccessMessage(message):
             SVProgressHUD.showSuccess(withStatus: message)
-            generateFeedback(for: .success)
+            generateHapticFeedback(for: .success)
 
         case .showApplicationSettings:
             guard let applicationSettingsURL = URL(string: UIApplicationOpenSettingsURLString) else {
@@ -198,8 +198,7 @@ class AppController {
         return topViewController(presentedFrom: presentedViewController)
     }
 
-    // Provide haptic feedback to accompany success and error messages
-    private func generateFeedback(for notificationFeedbackType: UINotificationFeedbackType) {
+    private func generateHapticFeedback(for notificationFeedbackType: UINotificationFeedbackType) {
         if #available(iOS 10.0, *) {
             let feedbackGenerator = UINotificationFeedbackGenerator()
             feedbackGenerator.notificationOccurred(notificationFeedbackType)
