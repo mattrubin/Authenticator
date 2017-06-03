@@ -36,7 +36,7 @@ struct Root: Component {
         case scanner(TokenScanner)
         case entryForm(TokenEntryForm)
         case editForm(TokenEditForm)
-        case info(Info)
+        case info(InfoList, Info?)
 
         var viewModel: RootViewModel.ModalViewModel {
             switch self {
@@ -48,8 +48,8 @@ struct Root: Component {
                 return .entryForm(form.viewModel)
             case .editForm(let form):
                 return .editForm(form.viewModel)
-            case .info(let info):
-                return .info(info.viewModel)
+            case .info(let infoList, let info):
+                return .info(infoList.viewModel, info?.viewModel)
             }
         }
     }
@@ -83,7 +83,9 @@ extension Root {
         case tokenEditFormAction(TokenEditForm.Action)
         case tokenScannerAction(TokenScanner.Action)
 
+        case infoListEffect(InfoList.Effect)
         case infoEffect(Info.Effect)
+        case dismissInfo
 
         case addTokenFromURL(Token)
     }
@@ -149,8 +151,16 @@ extension Root {
                 return effect.flatMap { effect in
                     handleTokenScannerEffect(effect)
                 }
+
+            case .infoListEffect(let effect):
+                return try handleInfoListEffect(effect)
+
             case .infoEffect(let effect):
                 return handleInfoEffect(effect)
+
+            case .dismissInfo:
+                try modal.dismissInfo()
+                return nil
 
             case .addTokenFromURL(let token):
                 return .addToken(token,
@@ -220,19 +230,15 @@ extension Root {
 
         case .showBackupInfo:
             do {
-                modal = .info(try Info.backupInfo())
+                modal = .info(InfoList(), try Info.backupInfo())
                 return nil
             } catch {
                 return .showErrorMessage("Failed to load backup info.")
             }
 
-        case .showLicenseInfo:
-            do {
-                modal = .info(try Info.licenseInfo())
-                return nil
-            } catch {
-                return .showErrorMessage("Failed to load acknowledgements.")
-            }
+        case .showInfo:
+            modal = .info(InfoList(), nil)
+            return nil
         }
     }
 
@@ -297,6 +303,35 @@ extension Root {
         }
     }
 
+    private mutating func handleInfoListEffect(_ effect: InfoList.Effect) throws -> Effect? {
+        switch effect {
+        case .showBackupInfo:
+            let backupInfo: Info
+            do {
+                backupInfo = try Info.backupInfo()
+            } catch {
+                return .showErrorMessage("Failed to load backup info.")
+            }
+            try modal.setInfo(backupInfo)
+            return nil
+
+        case .showLicenseInfo:
+            let licenseInfo: Info
+            do {
+                licenseInfo = try Info.licenseInfo()
+            } catch {
+                return .showErrorMessage("Failed to load acknowledgements.")
+            }
+            try modal.setInfo(licenseInfo)
+            return nil
+
+        case .done:
+            modal = .none
+            return nil
+
+        }
+    }
+
     private mutating func handleInfoEffect(_ effect: Info.Effect) -> Effect? {
         switch effect {
         case .done:
@@ -339,5 +374,19 @@ private extension Root.Modal {
         let result = body(&scanner)
         self = .scanner(scanner)
         return result
+    }
+
+    mutating func setInfo(_ info: Info) throws {
+        guard case .info(let infoList, .none) = self else {
+            throw Error(expectedType: InfoList.self, actualState: self)
+        }
+        self = .info(infoList, info)
+    }
+
+    mutating func dismissInfo() throws {
+        guard case .info(let infoList, .some) = self else {
+            throw Error(expectedType: Info.self, actualState: self)
+        }
+        self = .info(infoList, nil)
     }
 }

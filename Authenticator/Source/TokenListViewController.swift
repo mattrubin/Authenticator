@@ -201,7 +201,7 @@ class TokenListViewController: UITableViewController {
     }
 
     func showLicenseInfo() {
-        dispatchAction(.showLicenseInfo)
+        dispatchAction(.showInfo)
     }
 }
 
