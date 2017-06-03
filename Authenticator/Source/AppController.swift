@@ -53,6 +53,7 @@ class AppController {
             dispatchAction: self.handleAction
         )
     }()
+    private var lastHapticFeedback = Date(timeIntervalSince1970: 0)
 
     init() {
         do {
@@ -166,21 +167,11 @@ class AppController {
 
         case let .showErrorMessage(message):
             SVProgressHUD.showError(withStatus: message)
-
-            // Provide haptic feedback
-            if #available(iOS 10.0, *) {
-                let feedbackGenerator = UINotificationFeedbackGenerator()
-                feedbackGenerator.notificationOccurred(.error)
-            }
+            generateFeedback(for: .error)
 
         case let .showSuccessMessage(message):
             SVProgressHUD.showSuccess(withStatus: message)
-
-            // Provide haptic feedback
-            if #available(iOS 10.0, *) {
-                let feedbackGenerator = UINotificationFeedbackGenerator()
-                feedbackGenerator.notificationOccurred(.success)
-            }
+            generateFeedback(for: .success)
 
         case .showApplicationSettings:
             guard let applicationSettingsURL = URL(string: UIApplicationOpenSettingsURLString) else {
@@ -206,6 +197,18 @@ class AppController {
             return viewController
         }
         return topViewController(presentedFrom: presentedViewController)
+    }
+
+    // Provide haptic feedback to accompany success and error messages
+    private func generateFeedback(for notificationFeedbackType: UINotificationFeedbackType) {
+        if #available(iOS 10.0, *) {
+            let now = Date()
+            if now.timeIntervalSince(lastHapticFeedback) > 1 {
+                lastHapticFeedback = now
+                let feedbackGenerator = UINotificationFeedbackGenerator()
+                feedbackGenerator.notificationOccurred(notificationFeedbackType)
+            }
+        }
     }
 
     // MARK: - Public
