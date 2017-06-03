@@ -53,7 +53,6 @@ class AppController {
             dispatchAction: self.handleAction
         )
     }()
-    private var lastHapticFeedback = Date(timeIntervalSince1970: 0)
 
     init() {
         do {
@@ -202,12 +201,8 @@ class AppController {
     // Provide haptic feedback to accompany success and error messages
     private func generateFeedback(for notificationFeedbackType: UINotificationFeedbackType) {
         if #available(iOS 10.0, *) {
-            let now = Date()
-            if now.timeIntervalSince(lastHapticFeedback) > 1 {
-                lastHapticFeedback = now
-                let feedbackGenerator = UINotificationFeedbackGenerator()
-                feedbackGenerator.notificationOccurred(notificationFeedbackType)
-            }
+            let feedbackGenerator = UINotificationFeedbackGenerator()
+            feedbackGenerator.notificationOccurred(notificationFeedbackType)
         }
     }
 
