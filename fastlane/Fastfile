@@ -81,23 +81,21 @@ platform :ios do
     ensure_git_status_clean
 
     # Set a generated build number.
-    set_build_number
-
-    # Build the app with the Release configuration.
-    gym(
-      scheme: "Authenticator",
-      clean: true
-    )
+    build_number = set_build_number
 
     # Upload the app metadata and binary to iTunes Connect.
     deliver(
-      force: true
+      build_number: build_number,
+      skip_binary_upload: true,
+      overwrite_screenshots: true,
+      submit_for_review: true,
+      automatic_release: false
     )
 
     # Clear the generated build number.
     clear_build_number
 
-    # Add a git tag for this build.
+    # Add a git tag for this release.
     add_git_tag(
       tag: get_version_number
     )
