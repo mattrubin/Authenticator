@@ -53,10 +53,7 @@ platform :ios do
     build_number = set_build_number
 
     # Build the app with the Release configuration.
-    gym(
-      scheme: "Authenticator",
-      clean: true
-    )
+    gym
 
     # Upload the new binary to TestFlight.
     pilot
