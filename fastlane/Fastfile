@@ -36,32 +36,10 @@ platform :ios do
     snapshot
   end
 
-  desc "Runs all the tests"
-  lane :test do
-    scan(scheme: "Authenticator")
-  end
-
-  desc "Submit a new beta build to TestFlight"
-  lane :beta do
-    # Generate updated app icons.
-    icons
-
-    # Ensure that the git repo is not dirty.
-    ensure_git_status_clean
-
-    # Set a generated build number.
-    build_number = set_build_number
-
-    # Build the app with the Release configuration.
-    gym(
-      scheme: "Authenticator",
-      clean: true
-    )
-
-    # Upload the new binary to TestFlight.
-    pilot
-
-    # Clear the generated build number.
+  desc "Build the app for release"
+  lane :build do
+    set_build_number
+    gym
     clear_build_number
 
     # Add a git tag for this build.
@@ -70,34 +48,38 @@ platform :ios do
     )
   end
 
-  desc "Deploy a new version to the App Store"
-  lane :release do
-    # Generate updated icons and screenshots.
-    icons
-    screenshots
+  desc "Runs all the tests"
+  lane :test do
+    scan(scheme: "Authenticator")
+  end
 
-    # Ensure that the git repo is not dirty.
-    # This step will fail if the screenshots were not already up-to-date and committed.
+  desc "Submit a new beta build to TestFlight"
+  lane :beta do
+    # Ensure that the generated icons are up-to-date and committed.
+    icons
     ensure_git_status_clean
 
-    # Set a generated build number.
-    set_build_number
+    # Build and upload the new binary to TestFlight.
+    build
+    pilot
+  end
 
-    # Build the app with the Release configuration.
-    gym(
-      scheme: "Authenticator",
-      clean: true
-    )
+  desc "Deploy a new version to the App Store"
+  lane :release do
+    # Ensure that the generated icons and screenshots are up-to-date and committed.
+    icons
+    screenshots
+    ensure_git_status_clean
 
-    # Upload the app metadata and binary to iTunes Connect.
+    # Build and upload the app metadata and binary to iTunes Connect.
+    build
     deliver(
-      force: true
+      overwrite_screenshots: true,
+      submit_for_review: true,
+      automatic_release: false
     )
 
-    # Clear the generated build number.
-    clear_build_number
-
-    # Add a git tag for this build.
+    # Add a git tag for this release.
     add_git_tag(
       tag: get_version_number
     )
@@ -124,13 +106,15 @@ platform :ios do
   end
 end
 
-def set_build_number
+def build_number
   # Generate a build number from the number of git commits.
-  build_number = number_of_commits
+  return number_of_commits.to_s
+end
+
+def set_build_number
   increment_build_number(
     build_number: build_number
   )
-  return build_number
 end
 
 def clear_build_number

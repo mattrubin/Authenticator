@@ -40,6 +40,11 @@ Generate app icons
 fastlane ios screenshots
 ```
 Generate screenshots
+### ios build
+```
+fastlane ios build
+```
+Build the app for release
 ### ios test
 ```
 fastlane ios test
