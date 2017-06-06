@@ -50,7 +50,7 @@ platform :ios do
     ensure_git_status_clean
 
     # Set a generated build number.
-    build_number = set_build_number
+    set_build_number
 
     # Build the app with the Release configuration.
     gym
@@ -78,7 +78,7 @@ platform :ios do
     ensure_git_status_clean
 
     # Set a generated build number.
-    build_number = set_build_number
+    set_build_number
 
     # Upload the app metadata and binary to iTunes Connect.
     deliver(
@@ -119,13 +119,15 @@ platform :ios do
   end
 end
 
-def set_build_number
+def build_number
   # Generate a build number from the number of git commits.
-  build_number = number_of_commits
+  return number_of_commits.to_s
+end
+
+def set_build_number
   increment_build_number(
     build_number: build_number
   )
-  return build_number
 end
 
 def clear_build_number
