@@ -64,6 +64,9 @@ final class TokenScannerViewController: UIViewController, QRScannerDelegate {
         self.permissionLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         button.addSubview(self.permissionLabel)
 
+        button.accessibilityLabel = "To add a new token via QR code, Authenticator needs permission to access the camera."
+        button.accessibilityHint = "Double-tap to go to Settings."
+
         return button
     }()
 

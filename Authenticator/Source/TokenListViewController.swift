@@ -74,6 +74,9 @@ class TokenListViewController: UITableViewController {
         self.noTokensLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         button.addSubview(self.noTokensLabel)
 
+        button.accessibilityLabel = "No Tokens"
+        button.accessibilityHint = "Double-tap to add a new token."
+
         return button
     }()
 
@@ -107,6 +110,9 @@ class TokenListViewController: UITableViewController {
         self.backupWarningLabel.frame = button.bounds
         self.backupWarningLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         button.addSubview(self.backupWarningLabel)
+
+        button.accessibilityLabel = "For security reasons, tokens will be stored only on this \(UIDevice.current.model), and will not be included in iCloud or unencrypted backups."
+        button.accessibilityHint = "Double-tap to learn more."
 
         return button
     }()
