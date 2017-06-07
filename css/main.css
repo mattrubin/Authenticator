@@ -16,8 +16,8 @@ a:visited {
 }
 
 html {
-    font-size: 1em;
-    line-height: 1.4;
+    font-size: 17px;
+    line-height: 1.5;
 }
 
 ::-moz-selection {
@@ -70,10 +70,6 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: inherit;
 }
 
-h1 {
-    font-weight: 300;
-}
-
 .wrapper {
     width: 90%;
     margin: 0 5%;
@@ -91,6 +87,10 @@ footer {
 
 header {
     border-bottom: 1px solid #FAFAF0;
+}
+
+footer {
+    font-size: 0.8em;
 }
 
 footer,
@@ -111,7 +111,7 @@ nav ul {
 
 nav a {
     display: inline-block;
-    padding: 15px;
+    padding: 10px 15px;
 
     text-align: center;
     text-decoration: none;
@@ -136,13 +136,25 @@ header svg {
 }
 
 header h1 {
-    font-size: 2.4em;
+    font-size: 2.5em;
+    font-weight: 300;
     margin: 0;
 }
 
 header h2 {
-    font-size: 1.2em;
+    font-size: 1.25em;
+    font-weight: 200;
     margin-top: 0;
+}
+
+@media only screen and (max-width: 480px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    header h2 {
+        font-size: 1.15em;
+    }
 }
 
 img.screenshot {
