@@ -68,6 +68,8 @@ class TokenRowCell: UITableViewCell {
 
         nextPasswordButton.tintColor = .otpForegroundColor
         nextPasswordButton.addTarget(self, action: #selector(TokenRowCell.generateNextPassword), for: .touchUpInside)
+        nextPasswordButton.accessibilityLabel = "Increment token"
+        nextPasswordButton.accessibilityHint = "Double-tap to generate a new password."
         contentView.addSubview(nextPasswordButton)
     }
 
