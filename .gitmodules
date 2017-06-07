@@ -1,0 +1,15 @@
+[submodule "Carthage/Checkouts/OneTimePassword"]
+	path = Carthage/Checkouts/OneTimePassword
+	url = https://github.com/mattrubin/OneTimePassword.git
+[submodule "Carthage/Checkouts/xcconfigs"]
+	path = Carthage/Checkouts/xcconfigs
+	url = https://github.com/jspahrsummers/xcconfigs.git
+[submodule "Carthage/Checkouts/Base32"]
+	path = Carthage/Checkouts/Base32
+	url = https://github.com/mattrubin/Base32.git
+[submodule "Carthage/Checkouts/SVProgressHUD"]
+	path = Carthage/Checkouts/SVProgressHUD
+	url = https://github.com/SVProgressHUD/SVProgressHUD.git
+[submodule "Carthage/Checkouts/SimulatorStatusMagic"]
+	path = Carthage/Checkouts/SimulatorStatusMagic
+	url = https://github.com/shinydevelopment/SimulatorStatusMagic.git

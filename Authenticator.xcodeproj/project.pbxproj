@@ -7,27 +7,64 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* OTPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* OTPAppDelegate.m */; };
-		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		43B5E4365C6C4081AEF41717 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B03839CF35E4014987A36CA /* libPods.a */; };
-		8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0028B411EB75920092DE18 /* OTPScannerOverlayView.m */; };
-		8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */; };
-		C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */; };
-		C9777A021908064500B4A7F5 /* OTPTokenEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9777A011908064500B4A7F5 /* OTPTokenEditViewController.m */; };
-		C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C97B68C617D9226D005D1FE0 /* Settings.bundle */; };
+		1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* OTPAppDelegate.swift */; };
+		8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */; };
+		C910ADC11BF0315A00C988F5 /* TokenList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C910ADC01BF0315A00C988F5 /* TokenList.swift */; };
+		C9204A851E886A3500998D3E /* Acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = C9204A841E886A3500998D3E /* Acknowledgements.html */; };
+		C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92708AB19CFB0750033128B /* TokenListViewController.swift */; };
+		C93AD15219CD51BE007480E9 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AD15119CD51BE007480E9 /* Colors.swift */; };
+		C93BD6231C167CD100FFFB8F /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6221C167CD100FFFB8F /* Root.swift */; };
+		C93BD6251C16841D00FFFB8F /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6241C16841D00FFFB8F /* RootViewController.swift */; };
+		C93BD6291C168EBF00FFFB8F /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */; };
+		C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C944A5581A7ECB3100E08B1E /* Base32.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C968D1151CB4C639004ED7BB /* DisplayTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968D1141CB4C639004ED7BB /* DisplayTime.swift */; };
+		C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97CDF2B1BEEC90100D64406 /* QRScanner.swift */; };
 		C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */; };
-		C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */; };
-		C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */; };
-		C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */; };
+		C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */; };
+		C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */; };
+		C99069D1180CBAC900BAEF53 /* TokenScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99069D0180CBAC900BAEF53 /* TokenScannerViewController.swift */; };
+		C99112681E202B860006A6C0 /* UITableView+Updates.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99112671E202B860006A6C0 /* UITableView+Updates.swift */; };
+		C991126A1E2073710006A6C0 /* UITableViewUpdateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99112691E2073710006A6C0 /* UITableViewUpdateTests.swift */; };
+		C9919CDD1BA64EED006237C1 /* TokenEntryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */; };
+		C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */; };
+		C9919CE21BA733FD006237C1 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9919CE11BA733FD006237C1 /* Section.swift */; };
+		C99B85251BC9AB7100A6C75D /* BarButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */; };
+		C9A1C1A61E501CB2009E65D6 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C1A51E501CB2009E65D6 /* InfoViewController.swift */; };
+		C9A1C1A91E501D8B009E65D6 /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C1A81E501D8B009E65D6 /* Info.swift */; };
+		C9A1C1AC1E5021A6009E65D6 /* BackupInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = C9A1C1AA1E502195009E65D6 /* BackupInfo.html */; };
+		C9A1C1CE1E6CDBFB009E65D6 /* RootTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C1CD1E6CDBFB009E65D6 /* RootTests.swift */; };
+		C9A262D01E170BD4004E6CEB /* AuthenticatorScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */; };
+		C9A262D81E170E3A004E6CEB /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262D71E170E3A004E6CEB /* SnapshotHelper.swift */; };
+		C9A262DA1E176A18004E6CEB /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262D91E176A18004E6CEB /* Demo.swift */; };
+		C9A262DD1E177437004E6CEB /* SimulatorStatusMagiciOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A262DC1E177437004E6CEB /* SimulatorStatusMagiciOS.framework */; };
+		C9AAB0791B9113BF000CE547 /* TokenFormModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */; };
+		C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */; };
+		C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328C1C09495D0076F77E /* TableDiff.swift */; };
+		C9B7328F1C0A8AE60076F77E /* TokenListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */; };
+		C9BA64EA1C0C4FBC00610C7C /* UITableView+ReusableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BA64E91C0C4FBC00610C7C /* UITableView+ReusableCells.swift */; };
 		C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */; };
 		C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9C6CCA11842E331000100C2 /* Images.xcassets */; };
-		C9D6C83F1906BD68004F0E08 /* OTPSegmentedControlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* OTPSegmentedControlCell.m */; };
-		C9D6C8461906CD54004F0E08 /* OTPTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.m */; };
-		C9D6C84C19075044004F0E08 /* OTPProgressRing.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.m */; };
-		C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C931843D01500B6FA14 /* iTunesArtwork */; };
-		C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */; };
-		C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */; };
-		C9F75CA21843F9BE00B6FA14 /* OTPTokenListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F75CA11843F9BE00B6FA14 /* OTPTokenListViewController.m */; };
+		C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */; };
+		C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09521BA9133B008C54FE /* FocusCell.swift */; };
+		C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09541BA91D1C008C54FE /* TableViewModel.swift */; };
+		C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */; };
+		C9D6C8461906CD54004F0E08 /* TextFieldRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */; };
+		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
+		C9DE02E71ED2234D00D7E01C /* InfoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE02E61ED2234D00D7E01C /* InfoList.swift */; };
+		C9DE02E91ED227D600D7E01C /* InfoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE02E81ED227D600D7E01C /* InfoListViewController.swift */; };
+		C9E3FB9A1E281CBC00EFA8BB /* TokenScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3FB991E281CBC00EFA8BB /* TokenScanner.swift */; };
+		C9E3FB9C1E2860DD00EFA8BB /* TokenScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3FB9B1E2860DD00EFA8BB /* TokenScannerTests.swift */; };
+		C9EB448E1C52A74200ACFA87 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448D1C52A74200ACFA87 /* Component.swift */; };
+		C9EB44901C52AE4500ACFA87 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448F1C52AE4500ACFA87 /* AppController.swift */; };
+		C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenStore.swift */; };
+		CC46C4711DB3007D00EB4605 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC46C4701DB3007D00EB4605 /* SearchField.swift */; };
+		CC46C4731DB3040300EB4605 /* TokenListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC46C4721DB3040300EB4605 /* TokenListTests.swift */; };
+		CC471EEB1DC027A6006858AC /* TokenListViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */; };
+		CC471EED1DC1377F006858AC /* MockTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC471EEC1DC1377F006858AC /* MockTableView.swift */; };
+		CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC409751DB28BFE000A050D /* TableDiffTests.swift */; };
+		CCCD668B1E1C74B4005FE96E /* OneTimePasswordExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCCD668A1E1C74B4005FE96E /* OneTimePasswordExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,54 +75,119 @@
 			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
 			remoteInfo = Authenticator;
 		};
+		C9A262D21E170BD4004E6CEB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
+			remoteInfo = Authenticator;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C944A5531A7ECA5000E08B1E /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C944A5591A7ECB3100E08B1E /* Base32.framework in Copy Frameworks */,
+				C944A5571A7ECB0800E08B1E /* OneTimePassword.framework in Copy Frameworks */,
+				C97CDF261BEEA66A00D64406 /* SVProgressHUD.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		1D3623240D0F684500981E51 /* OTPAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* OTPAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAppDelegate.m; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* OTPAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPAppDelegate.swift; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Authenticator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authenticator.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		28A0AAE50D9B0CCF005BE974 /* Authenticator.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authenticator.pch; sourceTree = "<group>"; };
-		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
-		8B0028B311EB75920092DE18 /* OTPScannerOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPScannerOverlayView.h; sourceTree = "<group>"; };
-		8B0028B411EB75920092DE18 /* OTPScannerOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPScannerOverlayView.m; sourceTree = "<group>"; };
+		8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerOverlayView.swift; sourceTree = "<group>"; };
 		8B2B8AE1118BA49F00437315 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		8BF23A7013D4EF7000F3FD82 /* UIColor+OTP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+OTP.h"; sourceTree = "<group>"; };
-		8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+OTP.m"; sourceTree = "<group>"; };
-		8BF5147F118799AE005C936F /* Authenticator-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Authenticator-Info.plist"; sourceTree = "<group>"; };
-		9B03839CF35E4014987A36CA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BF5147F118799AE005C936F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C910ADC01BF0315A00C988F5 /* TokenList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenList.swift; sourceTree = "<group>"; };
+		C9204A841E886A3500998D3E /* Acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgements.html; sourceTree = "<group>"; };
+		C92708AB19CFB0750033128B /* TokenListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewController.swift; sourceTree = "<group>"; };
+		C931A5FC1BFF6F9D00706A1C /* .hound.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hound.yml; sourceTree = "<group>"; };
+		C931A5FE1BFF6FA600706A1C /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; usesTabs = 0; };
+		C931A5FF1BFF6FA600706A1C /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; usesTabs = 0; };
+		C931A6021BFF707E00706A1C /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		C93AD15119CD51BE007480E9 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		C93BD6221C167CD100FFFB8F /* Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
+		C93BD6241C16841D00FFFB8F /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
+		C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OneTimePassword.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C944A5581A7ECB3100E08B1E /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Base32.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C944A56A1A7F772600E08B1E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Configurations/Debug.xcconfig; sourceTree = "<group>"; };
+		C944A56B1A7F772600E08B1E /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Profile.xcconfig; path = Configurations/Profile.xcconfig; sourceTree = "<group>"; };
+		C944A56C1A7F772600E08B1E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Configurations/Release.xcconfig; sourceTree = "<group>"; };
+		C944A56D1A7F772600E08B1E /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Test.xcconfig; path = Configurations/Test.xcconfig; sourceTree = "<group>"; };
+		C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
+		C944A5751A7F772600E08B1E /* iOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Framework.xcconfig"; sourceTree = "<group>"; };
+		C944A5761A7F772600E08B1E /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		C944A5781A7F772600E08B1E /* Mac-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Application.xcconfig"; sourceTree = "<group>"; };
+		C944A57A1A7F772600E08B1E /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
+		C944A57B1A7F772600E08B1E /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
+		C944A57C1A7F772600E08B1E /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		C94765081C646E5E00C7527E /* Cartfile.private */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
 		C959A63C190A69120042DEC0 /* Icon.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Icon.svg; sourceTree = "<group>"; };
 		C959A63E190A69E60042DEC0 /* GenerateIcons.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = GenerateIcons.sh; sourceTree = "<group>"; };
-		C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
-		C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
+		C968D1141CB4C639004ED7BB /* DisplayTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayTime.swift; sourceTree = "<group>"; };
+		C96E60561DBC5F1B00484823 /* .codecov.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .codecov.yml; sourceTree = "<group>"; };
 		C9776E3318518801003D53CB /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		C9777A001908064500B4A7F5 /* OTPTokenEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenEditViewController.h; sourceTree = "<group>"; };
-		C9777A011908064500B4A7F5 /* OTPTokenEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenEditViewController.m; sourceTree = "<group>"; };
-		C97B68C617D9226D005D1FE0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		C97CDF041BEE927200D64406 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
+		C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SVProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C97CDF2B1BEEC90100D64406 /* QRScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScanner.swift; sourceTree = "<group>"; };
 		C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthenticatorTests.m; sourceTree = "<group>"; };
-		C99069CF180CBAC900BAEF53 /* OTPScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPScannerViewController.h; sourceTree = "<group>"; };
-		C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPScannerViewController.m; sourceTree = "<group>"; };
-		C99069D2180E07A100BAEF53 /* OTPTokenEntryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenEntryViewController.h; sourceTree = "<group>"; };
-		C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenEntryViewController.m; sourceTree = "<group>"; };
-		C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTPTokenSourceDelegate.h; sourceTree = "<group>"; };
+		C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRowModel.swift; sourceTree = "<group>"; };
+		C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRowCell.swift; sourceTree = "<group>"; };
+		C98C7F331C5E888100DB1478 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		C99069D0180CBAC900BAEF53 /* TokenScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenScannerViewController.swift; sourceTree = "<group>"; };
 		C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
-		C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenCell.h; sourceTree = "<group>"; };
-		C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenCell.m; sourceTree = "<group>"; };
+		C99112671E202B860006A6C0 /* UITableView+Updates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Updates.swift"; sourceTree = "<group>"; };
+		C99112691E2073710006A6C0 /* UITableViewUpdateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewUpdateTests.swift; sourceTree = "<group>"; };
+		C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEntryForm.swift; sourceTree = "<group>"; };
+		C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonHeaderView.swift; sourceTree = "<group>"; };
+		C9919CE11BA733FD006237C1 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarButtonViewModel.swift; sourceTree = "<group>"; };
+		C9A1C1A51E501CB2009E65D6 /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		C9A1C1A81E501D8B009E65D6 /* Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
+		C9A1C1AA1E502195009E65D6 /* BackupInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = BackupInfo.html; sourceTree = "<group>"; };
+		C9A1C1CD1E6CDBFB009E65D6 /* RootTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTests.swift; sourceTree = "<group>"; };
+		C9A262CD1E170BD4004E6CEB /* AuthenticatorScreenshots.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorScreenshots.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorScreenshots.swift; sourceTree = "<group>"; };
+		C9A262D71E170E3A004E6CEB /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
+		C9A262D91E176A18004E6CEB /* Demo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
+		C9A262DC1E177437004E6CEB /* SimulatorStatusMagiciOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SimulatorStatusMagiciOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenFormModels.swift; sourceTree = "<group>"; };
+		C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenEditForm.swift; sourceTree = "<group>"; };
+		C9B7328C1C09495D0076F77E /* TableDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDiff.swift; sourceTree = "<group>"; };
+		C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewModel.swift; sourceTree = "<group>"; };
+		C9BA64E91C0C4FBC00610C7C /* UITableView+ReusableCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+ReusableCells.swift"; sourceTree = "<group>"; };
 		C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		C9C6CCA11842E331000100C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		C9D6C83D1906BD68004F0E08 /* OTPSegmentedControlCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPSegmentedControlCell.h; sourceTree = "<group>"; };
-		C9D6C83E1906BD68004F0E08 /* OTPSegmentedControlCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPSegmentedControlCell.m; sourceTree = "<group>"; };
-		C9D6C8441906CD54004F0E08 /* OTPTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTextFieldCell.h; sourceTree = "<group>"; };
-		C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTextFieldCell.m; sourceTree = "<group>"; };
-		C9D6C84A19075044004F0E08 /* OTPProgressRing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPProgressRing.h; sourceTree = "<group>"; };
-		C9D6C84B19075044004F0E08 /* OTPProgressRing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPProgressRing.m; sourceTree = "<group>"; };
-		C9F75C931843D01500B6FA14 /* iTunesArtwork */ = {isa = PBXFileReference; explicitFileType = image.png; path = iTunesArtwork; sourceTree = "<group>"; };
-		C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */ = {isa = PBXFileReference; explicitFileType = image.png; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
-		C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenManager.h; sourceTree = "<group>"; };
-		C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenManager.m; sourceTree = "<group>"; };
-		C9F75CA01843F9BE00B6FA14 /* OTPTokenListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTokenListViewController.h; sourceTree = "<group>"; };
-		C9F75CA11843F9BE00B6FA14 /* OTPTokenListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTokenListViewController.m; sourceTree = "<group>"; };
+		C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenFormViewController.swift; sourceTree = "<group>"; };
+		C9CC09521BA9133B008C54FE /* FocusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusCell.swift; sourceTree = "<group>"; };
+		C9CC09541BA91D1C008C54FE /* TableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
+		C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlRow.swift; sourceTree = "<group>"; };
+		C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldRow.swift; sourceTree = "<group>"; };
+		C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPProgressRing.swift; sourceTree = "<group>"; };
+		C9D844341D4C576B00D5E343 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
+		C9D844361D4C59D600D5E343 /* CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONDUCT.md; sourceTree = "<group>"; };
+		C9DE02E61ED2234D00D7E01C /* InfoList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoList.swift; sourceTree = "<group>"; };
+		C9DE02E81ED227D600D7E01C /* InfoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoListViewController.swift; sourceTree = "<group>"; };
+		C9E3FB991E281CBC00EFA8BB /* TokenScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenScanner.swift; sourceTree = "<group>"; };
+		C9E3FB9B1E2860DD00EFA8BB /* TokenScannerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenScannerTests.swift; sourceTree = "<group>"; };
+		C9EB448D1C52A74200ACFA87 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
+		C9EB448F1C52AE4500ACFA87 /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
+		C9F7A8601C4D90B50082E5AE /* TokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+		CC46C4701DB3007D00EB4605 /* SearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
+		CC46C4721DB3040300EB4605 /* TokenListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListTests.swift; sourceTree = "<group>"; };
+		CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewControllerTest.swift; sourceTree = "<group>"; };
+		CC471EEC1DC1377F006858AC /* MockTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTableView.swift; sourceTree = "<group>"; };
+		CCC409751DB28BFE000A050D /* TableDiffTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableDiffTests.swift; sourceTree = "<group>"; };
+		CCCD668A1E1C74B4005FE96E /* OneTimePasswordExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneTimePasswordExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,7 +195,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43B5E4365C6C4081AEF41717 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,19 +205,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C9A262DB1E177431004E6CEB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9A262DD1E177437004E6CEB /* SimulatorStatusMagiciOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
+		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				1D3623240D0F684500981E51 /* OTPAppDelegate.h */,
-				1D3623250D0F684500981E51 /* OTPAppDelegate.m */,
-				C98C1C4917D2F03400A07D3F /* Display */,
-				C98C1C4617D2EE6500A07D3F /* Entry */,
-				C98C1C4E17D2F14500A07D3F /* Categories */,
+				1D3623250D0F684500981E51 /* OTPAppDelegate.swift */,
+				C9EB448F1C52AE4500ACFA87 /* AppController.swift */,
+				C9EB448D1C52A74200ACFA87 /* Component.swift */,
+				C9F7A8621C4F2E200082E5AE /* Data Store */,
+				C981BBF21C5094A500A30CBA /* Root Component */,
+				C98C1C4917D2F03400A07D3F /* Token List */,
+				C9B0B9501BC9159300BD5844 /* Forms */,
+				C97CDF2D1BEF10B300D64406 /* Scanner */,
+				C9A1C1A71E501D5F009E65D6 /* Info */,
+				C98C1C4E17D2F14500A07D3F /* Utility */,
 			);
-			path = Classes;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -124,6 +238,7 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* Authenticator.app */,
 				C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */,
+				C9A262CD1E170BD4004E6CEB /* AuthenticatorScreenshots.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,31 +248,27 @@
 			children = (
 				C97B68CB17D964D4005D1FE0 /* Authenticator */,
 				C9906A331812522100BAEF53 /* AuthenticatorTests */,
-				C98C1C4F17D2F16800A07D3F /* Config */,
+				C9A262CE1E170BD4004E6CEB /* AuthenticatorScreenshots */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				C944A5661A7F772500E08B1E /* Configuration */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				C931A5FB1BFF6F3A00706A1C /* Tools */,
 				C9776E32185187E8003D53CB /* Docs */,
 			);
+			indentWidth = 4;
 			name = CustomTemplate;
 			sourceTree = "<group>";
-		};
-		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-				28A0AAE50D9B0CCF005BE974 /* Authenticator.pch */,
-				29B97316FDCFA39411CA2CEA /* main.m */,
-				8BF5147F118799AE005C936F /* Authenticator-Info.plist */,
-			);
-			name = "Other Sources";
-			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C9204A841E886A3500998D3E /* Acknowledgements.html */,
+				C9A1C1AA1E502195009E65D6 /* BackupInfo.html */,
+				8BF5147F118799AE005C936F /* Info.plist */,
 				C9F75C921843CFFD00B6FA14 /* App Icon */,
 				C9C6CCA11842E331000100C2 /* Images.xcassets */,
 				C9BEAE5F19C67FD800533385 /* LaunchScreen.xib */,
-				C97B68C617D9226D005D1FE0 /* Settings.bundle */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -165,16 +276,79 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9B03839CF35E4014987A36CA /* libPods.a */,
+				C944A5581A7ECB3100E08B1E /* Base32.framework */,
+				C944A5561A7ECB0800E08B1E /* OneTimePassword.framework */,
+				C97CDF241BEEA49300D64406 /* SVProgressHUD.framework */,
+				C9A262DC1E177437004E6CEB /* SimulatorStatusMagiciOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C931A5FB1BFF6F3A00706A1C /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				C931A6021BFF707E00706A1C /* Cartfile */,
+				C94765081C646E5E00C7527E /* Cartfile.private */,
+				C96E60561DBC5F1B00484823 /* .codecov.yml */,
+				C931A5FC1BFF6F9D00706A1C /* .hound.yml */,
+				C931A5FE1BFF6FA600706A1C /* .swiftlint.yml */,
+				C931A5FF1BFF6FA600706A1C /* .travis.yml */,
+			);
+			name = Tools;
+			sourceTree = "<group>";
+		};
+		C944A5661A7F772500E08B1E /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				C944A5671A7F772500E08B1E /* Base */,
+				C944A5721A7F772600E08B1E /* iOS */,
+				C944A5771A7F772600E08B1E /* Mac OS X */,
+			);
+			name = Configuration;
+			path = Carthage/Checkouts/xcconfigs;
+			sourceTree = "<group>";
+		};
+		C944A5671A7F772500E08B1E /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C944A56A1A7F772600E08B1E /* Debug.xcconfig */,
+				C944A56B1A7F772600E08B1E /* Profile.xcconfig */,
+				C944A56C1A7F772600E08B1E /* Release.xcconfig */,
+				C944A56D1A7F772600E08B1E /* Test.xcconfig */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		C944A5721A7F772600E08B1E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */,
+				C944A5751A7F772600E08B1E /* iOS-Framework.xcconfig */,
+				C944A5761A7F772600E08B1E /* iOS-StaticLibrary.xcconfig */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		C944A5771A7F772600E08B1E /* Mac OS X */ = {
+			isa = PBXGroup;
+			children = (
+				C944A5781A7F772600E08B1E /* Mac-Application.xcconfig */,
+				C944A57A1A7F772600E08B1E /* Mac-DynamicLibrary.xcconfig */,
+				C944A57B1A7F772600E08B1E /* Mac-Framework.xcconfig */,
+				C944A57C1A7F772600E08B1E /* Mac-StaticLibrary.xcconfig */,
+			);
+			path = "Mac OS X";
 			sourceTree = "<group>";
 		};
 		C9776E32185187E8003D53CB /* Docs */ = {
 			isa = PBXGroup;
 			children = (
-				8B2B8AE1118BA49F00437315 /* README.md */,
+				C97CDF041BEE927200D64406 /* AUTHORS */,
+				C98C7F331C5E888100DB1478 /* CHANGELOG.md */,
+				C9D844361D4C59D600D5E343 /* CONDUCT.md */,
+				C9D844341D4C576B00D5E343 /* CONTRIBUTING.md */,
 				C9776E3318518801003D53CB /* LICENSE.txt */,
+				8B2B8AE1118BA49F00437315 /* README.md */,
 			);
 			name = Docs;
 			sourceTree = "<group>";
@@ -182,90 +356,136 @@
 		C97B68CB17D964D4005D1FE0 /* Authenticator */ = {
 			isa = PBXGroup;
 			children = (
-				080E96DDFE201D6D7F000001 /* Classes */,
+				080E96DDFE201D6D7F000001 /* Source */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
-				29B97315FDCFA39411CA2CEA /* Other Sources */,
 			);
 			path = Authenticator;
+			sourceTree = "<group>";
+		};
+		C97CDF2D1BEF10B300D64406 /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				C9E3FB991E281CBC00EFA8BB /* TokenScanner.swift */,
+				C97CDF2B1BEEC90100D64406 /* QRScanner.swift */,
+				C99069D0180CBAC900BAEF53 /* TokenScannerViewController.swift */,
+				8B0028B411EB75920092DE18 /* ScannerOverlayView.swift */,
+			);
+			name = Scanner;
+			sourceTree = "<group>";
+		};
+		C981BBF21C5094A500A30CBA /* Root Component */ = {
+			isa = PBXGroup;
+			children = (
+				C93BD6221C167CD100FFFB8F /* Root.swift */,
+				C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */,
+				C93BD6241C16841D00FFFB8F /* RootViewController.swift */,
+			);
+			name = "Root Component";
 			sourceTree = "<group>";
 		};
 		C98C1C4517D2EDF500A07D3F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				C9ABDACD17DD3CF500A86AB5 /* OTPTokenCell.h */,
-				C9ABDACE17DD3CF500A86AB5 /* OTPTokenCell.m */,
+				C98B1EC91AB2CEC300C59E53 /* TokenRowModel.swift */,
+				C98B1ECB1AB3CF0700C59E53 /* TokenRowCell.swift */,
+				C968D1141CB4C639004ED7BB /* DisplayTime.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
 		};
-		C98C1C4617D2EE6500A07D3F /* Entry */ = {
+		C98C1C4917D2F03400A07D3F /* Token List */ = {
 			isa = PBXGroup;
 			children = (
-				C99069D5180E09D700BAEF53 /* OTPTokenSourceDelegate.h */,
-				C99069D2180E07A100BAEF53 /* OTPTokenEntryViewController.h */,
-				C99069D3180E07A100BAEF53 /* OTPTokenEntryViewController.m */,
-				C9777A001908064500B4A7F5 /* OTPTokenEditViewController.h */,
-				C9777A011908064500B4A7F5 /* OTPTokenEditViewController.m */,
-				C9D6C8401906BD6F004F0E08 /* Cells */,
-				C99069CF180CBAC900BAEF53 /* OTPScannerViewController.h */,
-				C99069D0180CBAC900BAEF53 /* OTPScannerViewController.m */,
-				8B0028B311EB75920092DE18 /* OTPScannerOverlayView.h */,
-				8B0028B411EB75920092DE18 /* OTPScannerOverlayView.m */,
-			);
-			name = Entry;
-			sourceTree = "<group>";
-		};
-		C98C1C4917D2F03400A07D3F /* Display */ = {
-			isa = PBXGroup;
-			children = (
-				C9F75CA01843F9BE00B6FA14 /* OTPTokenListViewController.h */,
-				C9F75CA11843F9BE00B6FA14 /* OTPTokenListViewController.m */,
-				C9F75C9A1843D31A00B6FA14 /* OTPTokenManager.h */,
-				C9F75C9B1843D31A00B6FA14 /* OTPTokenManager.m */,
+				C910ADC01BF0315A00C988F5 /* TokenList.swift */,
+				C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */,
+				C92708AB19CFB0750033128B /* TokenListViewController.swift */,
 				C98C1C4517D2EDF500A07D3F /* Cells */,
-				C9D6C84A19075044004F0E08 /* OTPProgressRing.h */,
-				C9D6C84B19075044004F0E08 /* OTPProgressRing.m */,
+				C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */,
+				CC46C4701DB3007D00EB4605 /* SearchField.swift */,
 			);
-			name = Display;
+			name = "Token List";
 			sourceTree = "<group>";
 		};
-		C98C1C4E17D2F14500A07D3F /* Categories */ = {
+		C98C1C4E17D2F14500A07D3F /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				8BF23A7013D4EF7000F3FD82 /* UIColor+OTP.h */,
-				8BF23A7113D4EF7000F3FD82 /* UIColor+OTP.m */,
-				C9745D0917DA5861008B6E23 /* UIAlertView+Blocks.h */,
-				C9745D0A17DA5861008B6E23 /* UIAlertView+Blocks.m */,
+				C93AD15119CD51BE007480E9 /* Colors.swift */,
+				C9A262D91E176A18004E6CEB /* Demo.swift */,
+				C9B7328C1C09495D0076F77E /* TableDiff.swift */,
+				C9BA64E91C0C4FBC00610C7C /* UITableView+ReusableCells.swift */,
+				C99112671E202B860006A6C0 /* UITableView+Updates.swift */,
 			);
-			name = Categories;
-			sourceTree = "<group>";
-		};
-		C98C1C4F17D2F16800A07D3F /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */,
-				C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */,
-			);
-			name = Config;
+			name = Utility;
 			sourceTree = "<group>";
 		};
 		C9906A331812522100BAEF53 /* AuthenticatorTests */ = {
 			isa = PBXGroup;
 			children = (
 				C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */,
+				C9A1C1CD1E6CDBFB009E65D6 /* RootTests.swift */,
+				CCC409751DB28BFE000A050D /* TableDiffTests.swift */,
+				CC46C4721DB3040300EB4605 /* TokenListTests.swift */,
+				CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */,
+				C9E3FB9B1E2860DD00EFA8BB /* TokenScannerTests.swift */,
+				CC471EEC1DC1377F006858AC /* MockTableView.swift */,
+				CCCD668A1E1C74B4005FE96E /* OneTimePasswordExtensions.swift */,
+				C99112691E2073710006A6C0 /* UITableViewUpdateTests.swift */,
 			);
 			path = AuthenticatorTests;
 			sourceTree = "<group>";
 		};
-		C9D6C8401906BD6F004F0E08 /* Cells */ = {
+		C9A1C1A71E501D5F009E65D6 /* Info */ = {
 			isa = PBXGroup;
 			children = (
-				C9D6C83D1906BD68004F0E08 /* OTPSegmentedControlCell.h */,
-				C9D6C83E1906BD68004F0E08 /* OTPSegmentedControlCell.m */,
-				C9D6C8441906CD54004F0E08 /* OTPTextFieldCell.h */,
-				C9D6C8451906CD54004F0E08 /* OTPTextFieldCell.m */,
+				C9DE02E61ED2234D00D7E01C /* InfoList.swift */,
+				C9DE02E81ED227D600D7E01C /* InfoListViewController.swift */,
+				C9A1C1A81E501D8B009E65D6 /* Info.swift */,
+				C9A1C1A51E501CB2009E65D6 /* InfoViewController.swift */,
 			);
-			name = Cells;
+			name = Info;
+			sourceTree = "<group>";
+		};
+		C9A262CE1E170BD4004E6CEB /* AuthenticatorScreenshots */ = {
+			isa = PBXGroup;
+			children = (
+				C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */,
+				C9A262D71E170E3A004E6CEB /* SnapshotHelper.swift */,
+			);
+			path = AuthenticatorScreenshots;
+			sourceTree = "<group>";
+		};
+		C9B0B94F1BC9158200BD5844 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				C9CC09541BA91D1C008C54FE /* TableViewModel.swift */,
+				C9AAB0781B9113BF000CE547 /* TokenFormModels.swift */,
+				C99B85241BC9AB7100A6C75D /* BarButtonViewModel.swift */,
+				C9919CE11BA733FD006237C1 /* Section.swift */,
+			);
+			name = "View Models";
+			sourceTree = "<group>";
+		};
+		C9B0B9501BC9159300BD5844 /* Forms */ = {
+			isa = PBXGroup;
+			children = (
+				C9AAB07E1B917EC3000CE547 /* TokenEditForm.swift */,
+				C9919CDC1BA64EED006237C1 /* TokenEntryForm.swift */,
+				C9B0B94F1BC9158200BD5844 /* View Models */,
+				C9D6C8401906BD6F004F0E08 /* Views */,
+			);
+			name = Forms;
+			sourceTree = "<group>";
+		};
+		C9D6C8401906BD6F004F0E08 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */,
+				C9CC09521BA9133B008C54FE /* FocusCell.swift */,
+				C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */,
+				C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */,
+				C9919CDF1BA721A1006237C1 /* ButtonHeaderView.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		C9F75C921843CFFD00B6FA14 /* App Icon */ = {
@@ -273,10 +493,16 @@
 			children = (
 				C959A63C190A69120042DEC0 /* Icon.svg */,
 				C959A63E190A69E60042DEC0 /* GenerateIcons.sh */,
-				C9F75C931843D01500B6FA14 /* iTunesArtwork */,
-				C9F75C941843D01500B6FA14 /* iTunesArtwork@2x */,
 			);
 			name = "App Icon";
+			sourceTree = "<group>";
+		};
+		C9F7A8621C4F2E200082E5AE /* Data Store */ = {
+			isa = PBXGroup;
+			children = (
+				C9F7A8601C4D90B50082E5AE /* TokenStore.swift */,
+			);
+			name = "Data Store";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -286,12 +512,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Authenticator" */;
 			buildPhases = (
-				7D745802100A4933AC7F63D5 /* Check Pods Manifest.lock */,
-				C959A63F190A6CB10042DEC0 /* Generate Icons */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
+				C910ADBF1BF00ABF00C988F5 /* Lint */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				9865F5A341C744F78B880E59 /* Copy Pods Resources */,
+				C944A5531A7ECA5000E08B1E /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -320,6 +545,23 @@
 			productReference = C9906A2E1812522100BAEF53 /* AuthenticatorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		C9A262CC1E170BD4004E6CEB /* AuthenticatorScreenshots */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9A262D61E170BD4004E6CEB /* Build configuration list for PBXNativeTarget "AuthenticatorScreenshots" */;
+			buildPhases = (
+				C9A262C91E170BD4004E6CEB /* Sources */,
+				C9A262DB1E177431004E6CEB /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C9A262D31E170BD4004E6CEB /* PBXTargetDependency */,
+			);
+			name = AuthenticatorScreenshots;
+			productName = AuthenticatorScreenshots;
+			productReference = C9A262CD1E170BD4004E6CEB /* AuthenticatorScreenshots.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -327,10 +569,22 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = OTP;
-				LastUpgradeCheck = 0420;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = WD7ETSN9J9;
+						LastSwiftMigration = 0830;
+						ProvisioningStyle = Automatic;
+					};
 					C9906A2D1812522100BAEF53 = {
+						LastSwiftMigration = 0830;
+						TestTargetID = 1D6058900D05DD3D006BFB54;
+					};
+					C9A262CC1E170BD4004E6CEB = {
+						CreatedOnToolsVersion = 8.2.1;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
@@ -348,6 +602,7 @@
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Authenticator */,
 				C9906A2D1812522100BAEF53 /* AuthenticatorTests */,
+				C9A262CC1E170BD4004E6CEB /* AuthenticatorScreenshots */,
 			);
 		};
 /* End PBXProject section */
@@ -357,11 +612,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A1C1AC1E5021A6009E65D6 /* BackupInfo.html in Resources */,
+				C9204A851E886A3500998D3E /* Acknowledgements.html in Resources */,
 				C9BEAE6019C67FD800533385 /* LaunchScreen.xib in Resources */,
-				C9F75C961843D01500B6FA14 /* iTunesArtwork@2x in Resources */,
 				C9C6CCA21842E331000100C2 /* Images.xcassets in Resources */,
-				C9F75C951843D01500B6FA14 /* iTunesArtwork in Resources */,
-				C97B68C717D9226D005D1FE0 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,50 +629,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7D745802100A4933AC7F63D5 /* Check Pods Manifest.lock */ = {
+		C910ADBF1BF00ABF00C988F5 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = Lint;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		9865F5A341C744F78B880E59 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C959A63F190A6CB10042DEC0 /* Generate Icons */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Generate Icons";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "PATH=/usr/local/bin:${PATH}\ncd \"${SRCROOT}/Authenticator/Resources/\"\n./GenerateIcons.sh";
-			showEnvVarsInLog = 0;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -427,20 +650,45 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* OTPAppDelegate.m in Sources */,
-				C9D6C8461906CD54004F0E08 /* OTPTextFieldCell.m in Sources */,
-				C9F75C9C1843D31A00B6FA14 /* OTPTokenManager.m in Sources */,
-				C9F75CA21843F9BE00B6FA14 /* OTPTokenListViewController.m in Sources */,
-				C9D6C84C19075044004F0E08 /* OTPProgressRing.m in Sources */,
-				C99069D1180CBAC900BAEF53 /* OTPScannerViewController.m in Sources */,
-				C9D6C83F1906BD68004F0E08 /* OTPSegmentedControlCell.m in Sources */,
-				8B0028B511EB75920092DE18 /* OTPScannerOverlayView.m in Sources */,
-				8BF23A7213D4EF7000F3FD82 /* UIColor+OTP.m in Sources */,
-				C9745D0B17DA5861008B6E23 /* UIAlertView+Blocks.m in Sources */,
-				C99069D4180E07A100BAEF53 /* OTPTokenEntryViewController.m in Sources */,
-				C9ABDACF17DD3CF500A86AB5 /* OTPTokenCell.m in Sources */,
-				C9777A021908064500B4A7F5 /* OTPTokenEditViewController.m in Sources */,
+				C93AD15219CD51BE007480E9 /* Colors.swift in Sources */,
+				C9DE02E71ED2234D00D7E01C /* InfoList.swift in Sources */,
+				C93BD6251C16841D00FFFB8F /* RootViewController.swift in Sources */,
+				C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */,
+				C9EB44901C52AE4500ACFA87 /* AppController.swift in Sources */,
+				C99112681E202B860006A6C0 /* UITableView+Updates.swift in Sources */,
+				C98B1ECA1AB2CEC300C59E53 /* TokenRowModel.swift in Sources */,
+				C9BA64EA1C0C4FBC00610C7C /* UITableView+ReusableCells.swift in Sources */,
+				CC46C4711DB3007D00EB4605 /* SearchField.swift in Sources */,
+				C9B7328F1C0A8AE60076F77E /* TokenListViewModel.swift in Sources */,
+				C99B85251BC9AB7100A6C75D /* BarButtonViewModel.swift in Sources */,
+				C9AAB0791B9113BF000CE547 /* TokenFormModels.swift in Sources */,
+				1D3623260D0F684500981E51 /* OTPAppDelegate.swift in Sources */,
+				C9919CE21BA733FD006237C1 /* Section.swift in Sources */,
+				C9D6C8461906CD54004F0E08 /* TextFieldRow.swift in Sources */,
+				C9B7328D1C09495D0076F77E /* TableDiff.swift in Sources */,
+				C93BD6231C167CD100FFFB8F /* Root.swift in Sources */,
+				C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */,
+				C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */,
+				C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */,
+				C9A1C1A91E501D8B009E65D6 /* Info.swift in Sources */,
+				C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */,
+				C99069D1180CBAC900BAEF53 /* TokenScannerViewController.swift in Sources */,
+				C9EB448E1C52A74200ACFA87 /* Component.swift in Sources */,
+				C9A1C1A61E501CB2009E65D6 /* InfoViewController.swift in Sources */,
+				C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */,
+				C968D1151CB4C639004ED7BB /* DisplayTime.swift in Sources */,
+				8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */,
+				C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */,
+				C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */,
+				C9A262DA1E176A18004E6CEB /* Demo.swift in Sources */,
+				C9DE02E91ED227D600D7E01C /* InfoListViewController.swift in Sources */,
+				C9E3FB9A1E281CBC00EFA8BB /* TokenScanner.swift in Sources */,
+				C93BD6291C168EBF00FFFB8F /* RootViewModel.swift in Sources */,
+				C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */,
+				C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */,
+				C98B1ECC1AB3CF0700C59E53 /* TokenRowCell.swift in Sources */,
+				C910ADC11BF0315A00C988F5 /* TokenList.swift in Sources */,
+				C9919CDD1BA64EED006237C1 /* TokenEntryForm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,7 +696,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9E3FB9C1E2860DD00EFA8BB /* TokenScannerTests.swift in Sources */,
+				CCCD668B1E1C74B4005FE96E /* OneTimePasswordExtensions.swift in Sources */,
+				C991126A1E2073710006A6C0 /* UITableViewUpdateTests.swift in Sources */,
+				CC471EEB1DC027A6006858AC /* TokenListViewControllerTest.swift in Sources */,
 				C983AB74197F98FC00975003 /* OTPAuthenticatorTests.m in Sources */,
+				CCC409761DB28BFE000A050D /* TableDiffTests.swift in Sources */,
+				CC471EED1DC1377F006858AC /* MockTableView.swift in Sources */,
+				C9A1C1CE1E6CDBFB009E65D6 /* RootTests.swift in Sources */,
+				CC46C4731DB3040300EB4605 /* TokenListTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9A262C91E170BD4004E6CEB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9A262D01E170BD4004E6CEB /* AuthenticatorScreenshots.swift in Sources */,
+				C9A262D81E170E3A004E6CEB /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,95 +725,113 @@
 			target = 1D6058900D05DD3D006BFB54 /* Authenticator */;
 			targetProxy = C9906A3C1812522100BAEF53 /* PBXContainerItemProxy */;
 		};
+		C9A262D31E170BD4004E6CEB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D6058900D05DD3D006BFB54 /* Authenticator */;
+			targetProxy = C9A262D21E170BD4004E6CEB /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
+			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
-				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
+				BUNDLE_DISPLAY_NAME = "${PRODUCT_NAME} ∆";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = WD7ETSN9J9;
+				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev;
 				PRODUCT_NAME = Authenticator;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
+			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				GCC_PREFIX_HEADER = Authenticator/Authenticator.pch;
-				INFOPLIST_FILE = "Authenticator/Authenticator-Info.plist";
+				BUNDLE_DISPLAY_NAME = "${PRODUCT_NAME}";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = WD7ETSN9J9;
+				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
 				PRODUCT_NAME = Authenticator;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */;
+			baseConfigurationReference = C944A56A1A7F772600E08B1E /* Debug.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_MODULES_AUTOLINK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
+				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				GCC_DYNAMIC_NO_PIC = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9A4FA1317CF9D3100CD5EDC /* Common.xcconfig */;
+			baseConfigurationReference = C944A56C1A7F772600E08B1E /* Release.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_MODULES_AUTOLINK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = c99;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		C9906A3E1812522100BAEF53 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
+			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
-				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
 		C9906A3F1812522100BAEF53 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ECCAC12D40844D7BA4D6B9B /* Pods.xcconfig */;
+			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
-				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		C9A262D41E170BD4004E6CEB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.screenshots;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Authenticator;
+			};
+			name = Debug;
+		};
+		C9A262D51E170BD4004E6CEB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.screenshots;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Authenticator;
 			};
 			name = Release;
 		};
@@ -578,6 +861,15 @@
 			buildConfigurations = (
 				C9906A3E1812522100BAEF53 /* Debug */,
 				C9906A3F1812522100BAEF53 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9A262D61E170BD4004E6CEB /* Build configuration list for PBXNativeTarget "AuthenticatorScreenshots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9A262D41E170BD4004E6CEB /* Debug */,
+				C9A262D51E170BD4004E6CEB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
