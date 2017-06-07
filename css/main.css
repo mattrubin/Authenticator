@@ -62,12 +62,16 @@ textarea {
    ========================================================================== */
 
 body {
-    font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
-    font-weight: lighter;
+    font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-weight: 100;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: inherit;
+}
+
+h1 {
+    font-weight: 300;
 }
 
 .wrapper {
