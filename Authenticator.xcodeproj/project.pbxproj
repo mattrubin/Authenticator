@@ -744,7 +744,7 @@
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev;
 				PRODUCT_NAME = Authenticator;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -759,7 +759,7 @@
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
 				PRODUCT_NAME = Authenticator;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
