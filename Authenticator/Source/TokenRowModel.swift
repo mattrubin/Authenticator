@@ -63,7 +63,7 @@ struct TokenRowModel: Identifiable {
     }
 
     // Group the password into chunks of two digits, separated by spaces.
-    // group by 3 if divisible by 3, 2 if divisible by 2. Otherwise do not group.
+    // group by 3 if divisible by 3, 2 if divisible by two. Otherwise do not group.
     private static func chunkPassword(_ password: String) -> String {
         var characters = password.characters
         guard let chunkSize = [3,2].first(where: { characters.count % $0 == 0  } ) else {
