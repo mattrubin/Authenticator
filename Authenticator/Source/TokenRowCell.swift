@@ -140,18 +140,6 @@ class TokenRowCell: UITableViewCell {
 
     // MARK: - Actions
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        if selected, let rowModel = rowModel {
-            if self.isEditing {
-                dispatchAction?(rowModel.editAction)
-            } else {
-                dispatchAction?(rowModel.selectAction)
-            }
-        }
-    }
-
     func generateNextPassword() {
         if let action = rowModel?.buttonAction {
             dispatchAction?(action)
