@@ -250,6 +250,7 @@ extension TokenListViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row];
         if isEditing {
