@@ -200,9 +200,10 @@ extension RootViewController {
         if viewModel.enabled {
             if authController == nil {
                 authController = UIViewController()
-                authController?.view.backgroundColor = UIColor.purple
+                authController?.view.backgroundColor = UIColor.otpBackgroundColor
                 let button = UIButton(type: .roundedRect)
-                button.setTitle("Hello Wrold", for: .normal)
+                button.setTitleColor(UIColor.otpForegroundColor, for: .normal)
+                button.setTitle("Unlock", for: .normal)
                 button.addTarget(self, action: #selector(authChallenge), for: .touchUpInside)
                 button.sizeToFit()
                 authController?.view.addSubview(button)
@@ -213,15 +214,16 @@ extension RootViewController {
             guard let controller = authController else {
                 return
             }
-            if let navController = modalNavController {
-                navController.topViewController?.present(controller, animated: false)
+            if let presented = presentedViewController {
+                presented.present(controller, animated: false)
+                return
             } else {
                 present(controller, animated: false)
             }
-
         }
         if !viewModel.enabled {
             authController?.presentingViewController?.dismiss(animated: true)
+            authController = nil
         }
     }
 
