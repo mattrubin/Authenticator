@@ -48,6 +48,14 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        app.checkForLocalAuth()
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        app.enablePrivacy()
+    }
+
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         if let token = Token(url: url) {
             let message = "Do you want to add a token for “\(token.name)”?"

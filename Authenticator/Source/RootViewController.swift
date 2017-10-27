@@ -24,6 +24,7 @@
 //
 
 import UIKit
+import LocalAuthentication
 
 class OpaqueNavigationController: UINavigationController {
     override func viewDidLoad() {
@@ -52,6 +53,7 @@ class RootViewController: OpaqueNavigationController {
 
     fileprivate var tokenListViewController: TokenListViewController
     fileprivate var modalNavController: UINavigationController?
+    fileprivate var authController: UIViewController?
 
     fileprivate let dispatchAction: (Root.Action) -> Void
 
@@ -162,7 +164,10 @@ extension RootViewController {
 
         case .info(let infoListViewModel, let infoViewModel):
             updateWithInfoViewModels(infoListViewModel, infoViewModel)
+
         }
+        updateWithAuthViewModel(viewModel.privacy)
+
         currentViewModel = viewModel
     }
 
@@ -186,6 +191,47 @@ extension RootViewController {
             dispatchAction: compose(Root.Action.infoEffect, dispatchAction)
         )
         presentViewControllers([infoListViewController, infoViewController])
+    }
+
+    private func updateWithAuthViewModel(_ viewModel: AuthViewModel) {
+        if viewModel.enabled == currentViewModel.privacy.enabled {
+            return
+        }
+        if viewModel.enabled {
+            if authController == nil {
+                authController = UIViewController()
+                authController?.view.backgroundColor = UIColor.purple
+                let button = UIButton(type: .roundedRect)
+                button.setTitle("Hello Wrold", for: .normal)
+                button.addTarget(self, action: #selector(authChallenge), for: .touchUpInside)
+                button.sizeToFit()
+                authController?.view.addSubview(button)
+                button.center = authController!.view.center
+                authController?.modalPresentationStyle = .overFullScreen
+            }
+
+            guard let controller = authController else {
+                return
+            }
+            if let navController = modalNavController {
+                navController.topViewController?.present(controller, animated: false)
+            } else {
+                present(controller, animated: false)
+            }
+
+        }
+        if !viewModel.enabled {
+            authController?.presentingViewController?.dismiss(animated: true)
+        }
+    }
+
+    @objc private func authChallenge() {
+        let context = LAContext()
+        context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "LOLZ") { (reply, error) in
+            DispatchQueue.main.async {
+                self.dispatchAction(.authAction(.authResult(reply: reply, error: error)))
+            }
+        }
     }
 }
 

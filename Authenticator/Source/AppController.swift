@@ -28,6 +28,7 @@ import UIKit
 import SafariServices
 import OneTimePassword
 import SVProgressHUD
+import LocalAuthentication
 
 class AppController {
     private let store: TokenStore
@@ -214,6 +215,14 @@ class AppController {
     func addTokenFromURL(_ token: Token) {
         handleAction(.addTokenFromURL(token))
     }
+
+    func checkForLocalAuth() {
+        handleAction(Auth.checkForLocalAuth())
+    }
+
+    func enablePrivacy() {
+        handleAction(.authAction(.enablePrivacy))
+    }
 }
 
 private extension DisplayTime {
@@ -223,5 +232,13 @@ private extension DisplayTime {
             return DisplayTime.demoTime
         }
         return DisplayTime(date: Date())
+    }
+}
+
+private extension Auth {
+    static func checkForLocalAuth() -> Root.Action {
+        let context = LAContext()
+        let canUseLocalAuth = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
+        return .authAction(.enableLocalAuth(isEnabled: canUseLocalAuth))
     }
 }
