@@ -157,12 +157,7 @@ class AppController {
             }
 
         case let .deletePersistentToken(persistentToken, failure):
-            do {
-                try store.deletePersistentToken(persistentToken)
-                view.updateWithViewModel(currentViewModel())
-            } catch {
-                handleEvent(failure(error))
-            }
+            deletePersistentTokenWithConfirmation(persistentToken, failure: failure)
 
         case let .showErrorMessage(message):
             SVProgressHUD.showError(withStatus: message)
@@ -213,6 +208,37 @@ class AppController {
 
     func addTokenFromURL(_ token: Token) {
         handleAction(.addTokenFromURL(token))
+    }
+
+    private func deletePersistentTokenWithConfirmation(_ token: PersistentToken, failure: @escaping (Error) -> Root.Event ) {
+        let presenter = topViewController(presentedFrom: rootViewController)
+        let alert = UIAlertController(title: nil, message: "Remove token \(token.description) from this device?", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+            do {
+                try self.store.deletePersistentToken(token)
+                self.view.updateWithViewModel(self.currentViewModel())
+            } catch {
+                self.handleEvent(failure(error))
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        presenter.present(alert, animated: true)
+    }
+
+}
+
+extension PersistentToken {
+    var description: String {
+        if !token.name.isEmpty && !token.issuer.isEmpty {
+            return "“\(token.name)” issued by \(token.issuer)"
+        }
+        if !token.name.isEmpty {
+            return token.name
+        }
+        if !token.issuer.isEmpty {
+            return "issued by \(token.issuer)"
+        }
+        return "untitled"
     }
 }
 
