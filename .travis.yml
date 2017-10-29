@@ -21,10 +21,10 @@ install:
   - git submodule update --init --recursive
 
 before_script:
-- DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-- RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
-- DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
-- xcrun simctl boot $DESTINATION_ID
+  - DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+  - RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+  - DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
+  - xcrun simctl boot $DESTINATION_ID
 
 script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" build-for-testing test-without-building | xcpretty -c
 
