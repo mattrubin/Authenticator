@@ -26,7 +26,7 @@ before_script:
 - DESTINATION_ID=$(xcrun simctl create Travis $DEVICE_ID $RUNTIME_ID)
 - xcrun simctl boot $DESTINATION_ID
 
-script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" build test | xcpretty -c
+script: set -o pipefail && xcodebuild -workspace "$TRAVIS_XCODE_WORKSPACE" -scheme "$TRAVIS_XCODE_SCHEME" -destination "id=$DESTINATION_ID" build-for-testing test-without-building | xcpretty -c
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
