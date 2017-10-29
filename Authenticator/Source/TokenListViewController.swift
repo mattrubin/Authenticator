@@ -252,11 +252,11 @@ extension TokenListViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let rowModel = viewModel.rowModels[indexPath.row];
+        let rowModel = viewModel.rowModels[indexPath.row]
         if isEditing {
-            dispatchAction(rowModel.editAction);
+            dispatchAction(rowModel.editAction)
         } else {
-            dispatchAction(rowModel.selectAction);
+            dispatchAction(rowModel.selectAction)
         }
     }
 }
