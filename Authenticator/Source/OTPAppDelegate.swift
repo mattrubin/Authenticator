@@ -34,8 +34,17 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     let app = AppController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let barButtonAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]
-        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonAttributes, for: .normal)
+        let barButtonItemFont = UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)
+        let fontAttributes = [NSFontAttributeName: barButtonItemFont]
+        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .highlighted)
+        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .selected)
+
+        let disabledAttributes = [
+            NSFontAttributeName: barButtonItemFont,
+            NSForegroundColorAttributeName: UIColor.otpBarForegroundColor.withAlphaComponent(0.3),
+        ]
+        UIBarButtonItem.appearance().setTitleTextAttributes(disabledAttributes, for: .disabled)
 
         // Restore white-on-black style
         SVProgressHUD.setForegroundColor(.otpLightColor)
