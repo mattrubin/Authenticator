@@ -159,6 +159,7 @@ class TokenListViewController: UITableViewController {
 
         // Update with current viewModel
         self.updatePeripheralViews()
+        self.scheduleRefresh()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -274,7 +275,13 @@ extension TokenListViewController {
                 }
             })
         }
+        scheduleRefresh()
         updatePeripheralViews()
+    }
+
+    fileprivate func scheduleRefresh() {
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(dispatchRefresh), object: nil)
+        perform(#selector(dispatchRefresh), with: nil, afterDelay: viewModel.nextTokenRefreshIn)
     }
 
     fileprivate func updatePeripheralViews() {
@@ -289,6 +296,10 @@ extension TokenListViewController {
         if self.isEditing && viewModel.rowModels.isEmpty {
             self.setEditing(false, animated: true)
         }
+    }
+
+    @objc fileprivate func dispatchRefresh() {
+        dispatchAction(.refreshTokens)
     }
 }
 
