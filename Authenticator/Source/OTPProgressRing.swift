@@ -54,7 +54,7 @@ class OTPProgressRing: UIView {
         }
     }
 
-    public dynamic var progress: CGFloat = 0 {
+    public var progress: CGFloat = 0 {
         didSet {
             self.progressLayer?.progress = progress
         }
