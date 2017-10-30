@@ -63,26 +63,10 @@ class AppController {
         // If this is a demo, show the scanner even in the simulator.
         let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
         component = Root(deviceCanScan: deviceCanScan)
-
-        startTick()
     }
 
     private func currentViewModel() -> Root.ViewModel {
         return component.viewModel(for: store.persistentTokens, at: .currentDisplayTime())
-    }
-
-    // MARK: - Tick
-
-    private func startTick() {
-    }
-
-    private func stopTick() {
-    }
-
-    @objc
-    func tick() {
-        // Update the view with a new view model for the current display time.
-        view.updateWithViewModel(currentViewModel())
     }
 
     // MARK: - Update
