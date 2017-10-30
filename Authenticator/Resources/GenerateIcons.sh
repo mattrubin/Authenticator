@@ -27,6 +27,7 @@ inkscape -z -e "${ICONSET}/Icon-120.png" -w 120 $ICON_SVG;
 inkscape -z -e "${ICONSET}/Icon-152.png" -w 152 $ICON_SVG;
 inkscape -z -e "${ICONSET}/Icon-167.png" -w 167 $ICON_SVG;
 inkscape -z -e "${ICONSET}/Icon-180.png" -w 180 $ICON_SVG;
+inkscape -z -e "${ICONSET}/Icon-1024.png" -w 1024 $ICON_SVG;
 
 for ICON in $ICONSET/Icon-*.png; do
   pngcrush -rem alla -ow -res 144 $ICON;
