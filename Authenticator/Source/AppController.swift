@@ -34,16 +34,6 @@ class AppController {
     private var component: Root {
         didSet {
             let viewModel = currentViewModel()
-            // TODO: Fix the excessive updates of bar button items so that the tick can run while they are on screen.
-            if case .none = viewModel.modal {
-                if displayLink == nil {
-                    startTick()
-                }
-            } else {
-                if displayLink != nil {
-                    stopTick()
-                }
-            }
             view.updateWithViewModel(viewModel)
         }
     }
@@ -83,17 +73,10 @@ class AppController {
 
     // MARK: - Tick
 
-    private var displayLink: CADisplayLink?
-
     private func startTick() {
-        let selector = #selector(tick)
-        self.displayLink = CADisplayLink(target: self, selector: selector)
-        self.displayLink?.add(to: RunLoop.main, forMode: .commonModes)
     }
 
     private func stopTick() {
-        self.displayLink?.invalidate()
-        self.displayLink = nil
     }
 
     @objc
