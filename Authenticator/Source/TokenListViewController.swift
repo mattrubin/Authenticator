@@ -167,6 +167,7 @@ class TokenListViewController: UITableViewController {
 
         let searchSelector = #selector(TokenListViewController.filterTokens)
         searchBar.textField.addTarget(self, action: searchSelector, for: .editingChanged)
+        searchBar.updateWithViewModel(viewModel)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
