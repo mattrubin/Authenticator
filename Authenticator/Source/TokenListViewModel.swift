@@ -33,4 +33,5 @@ struct TokenListViewModel {
     var hasTokens: Bool {
         return totalTokens > 0
     }
+    let nextTokenRefreshIn: TimeInterval
 }

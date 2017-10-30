@@ -40,11 +40,13 @@ struct TokenList: Component {
         let rowModels = filteredTokens(persistentTokens).map({
             TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
         })
+        let nextRefresh = nextPeriodRefreshIn(for: persistentTokens)
         return TokenListViewModel(
             rowModels: rowModels,
             ringProgress: ringProgress(for: persistentTokens, at: displayTime),
             totalTokens: persistentTokens.count,
-            isFiltering: isFiltering
+            isFiltering: isFiltering,
+            nextTokenRefreshIn: nextRefresh
         )
     }
 
@@ -57,6 +59,20 @@ struct TokenList: Component {
             }
         }
         return Array(periods).sorted()
+    }
+
+    private func nextPeriodRefreshIn(for persistentTokens: [PersistentToken]) -> TimeInterval {
+        return persistentTokens.reduce(.infinity) { min($0, nextPeriodRefreshIn(for: $1)) }
+    }
+
+    private func nextPeriodRefreshIn(for persistentToken: PersistentToken) -> TimeInterval {
+        switch persistentToken.token.generator.factor {
+        case .counter:
+            return .infinity
+        case .timer(let period):
+            let epoch = Date().timeIntervalSince1970
+            return period - epoch.truncatingRemainder(dividingBy: period)
+        }
     }
 
     private func ringProgress(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> Double? {
