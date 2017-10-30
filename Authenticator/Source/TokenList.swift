@@ -81,7 +81,7 @@ struct TokenList: Component {
             return nil
         }
         guard ringPeriod > 0 else {
-            // If the period is >= zero, return zero to display the ring but avoid the potential
+            // If the period is not > zero, return zero to display the ring but avoid the potential
             // divide-by-zero error below.
             return 0
         }
