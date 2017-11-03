@@ -178,6 +178,10 @@ class AppController {
         return view
     }
 
+    func refreshTokens() {
+        handleAction(.tokenListAction(.refreshTokens))
+    }
+
     func addTokenFromURL(_ token: Token) {
         handleAction(.addTokenFromURL(token))
     }
