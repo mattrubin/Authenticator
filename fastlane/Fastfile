@@ -34,6 +34,8 @@ platform :ios do
   lane :screenshots do
     # Generate updated screenshots.
     snapshot
+    # Compress the screenshots with pngcrush
+    sh "for IMG in screenshots/**/*.png; do pngcrush -rem alla -ow \"$IMG\"; done"
   end
 
   desc "Build the app for release"
