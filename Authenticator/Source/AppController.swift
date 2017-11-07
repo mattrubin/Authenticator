@@ -79,8 +79,9 @@ class AppController {
 
     private func currentViewModel() -> Root.ViewModel {
         let viewModel = component.viewModel(for: store.persistentTokens, at: .currentDisplayTime())
-        let timeToLive = viewModel.tokenList.nextTokenRefreshIn
-        refreshTimer = Timer(timeInterval: timeToLive,
+        let fireDate = viewModel.tokenList.nextTokenRefreshTime
+        refreshTimer = Timer(fireAt: fireDate,
+                             interval: 0,
                              target: self,
                              selector: #selector(refreshTokens),
                              userInfo: nil,

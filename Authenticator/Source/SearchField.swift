@@ -104,7 +104,7 @@ class SearchField: UIView {
 extension SearchField {
     func updateWithViewModel(_ viewModel: TokenList.ViewModel) {
         if let ringProgress = viewModel.ringProgress {
-            ring.animateProgress(from: ringProgress, duration: viewModel.nextTokenRefreshIn)
+            ring.animateProgress(from: ringProgress, until: viewModel.nextTokenRefreshTime)
         }
         // Show the countdown ring only if a time-based token is active
         textField.leftViewMode = viewModel.ringProgress != nil ? .always : .never

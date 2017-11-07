@@ -69,10 +69,10 @@ class OTPProgressRing: UIView {
         self.progressLayer?.ringPartialColor = self.tintColor.withAlphaComponent(0.2).cgColor
     }
 
-    func animateProgress(from startingPercent: Double, duration: TimeInterval) {
+    func animateProgress(from startingPercent: Double, until finishTime: Date) {
         let path = #keyPath(ProgressLayer.progress)
         let animation = CABasicAnimation(keyPath: path)
-        animation.duration = duration
+        animation.duration = finishTime.timeIntervalSinceNow
         animation.fromValue = startingPercent
         animation.toValue = 1
         self.progressLayer?.add(animation, forKey: path)
