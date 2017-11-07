@@ -59,7 +59,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Ensure the UI is updated with the latest view model whenever the app returns from the background.
-        app.refreshTokens()
+        app.updateView()
     }
 
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {

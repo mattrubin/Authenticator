@@ -33,13 +33,20 @@ class AppController {
     private let store: TokenStore
     private var component: Root {
         didSet {
-            let viewModel = currentViewModel()
-            view.updateWithViewModel(viewModel)
+            updateView()
         }
     }
     private lazy var view: RootViewController = {
+        let (currentViewModel, nextRefreshTime) = self.component.viewModel(for: self.store.persistentTokens,
+                                                                           at: .currentDisplayTime())
+        self.refreshTimer = Timer(fireAt: nextRefreshTime,
+                                  interval: 0,
+                                  target: self,
+                                  selector: #selector(updateView),
+                                  userInfo: nil,
+                                  repeats: false)
         return RootViewController(
-            viewModel: self.currentViewModel(),
+            viewModel: currentViewModel,
             dispatchAction: self.handleAction
         )
     }()
@@ -77,15 +84,16 @@ class AppController {
         component = Root(deviceCanScan: deviceCanScan)
     }
 
-    private func currentViewModel() -> Root.ViewModel {
-        let (viewModel, nextRefreshTime) = component.viewModel(for: store.persistentTokens, at: .currentDisplayTime())
+    @objc
+    func updateView() {
+        let (currentViewModel, nextRefreshTime) = component.viewModel(for: store.persistentTokens, at: .currentDisplayTime())
         refreshTimer = Timer(fireAt: nextRefreshTime,
                              interval: 0,
                              target: self,
-                             selector: #selector(refreshTokens),
+                             selector: #selector(updateView),
                              userInfo: nil,
                              repeats: false)
-        return viewModel
+        view.updateWithViewModel(currentViewModel)
     }
 
     // MARK: - Update
@@ -129,7 +137,7 @@ class AppController {
         case let .updatePersistentToken(persistentToken, failure):
             do {
                 try store.updatePersistentToken(persistentToken)
-                view.updateWithViewModel(currentViewModel())
+                updateView()
             } catch {
                 handleEvent(failure(error))
             }
@@ -137,7 +145,7 @@ class AppController {
         case let .moveToken(fromIndex, toIndex, failure):
             do {
                 try store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-                view.updateWithViewModel(currentViewModel())
+                updateView()
             } catch {
                 handleEvent(failure(error))
             }
@@ -145,7 +153,7 @@ class AppController {
         case let .deletePersistentToken(persistentToken, failure):
             do {
                 try store.deletePersistentToken(persistentToken)
-                view.updateWithViewModel(currentViewModel())
+                updateView()
             } catch {
                 handleEvent(failure(error))
             }
@@ -195,11 +203,6 @@ class AppController {
 
     var rootViewController: UIViewController {
         return view
-    }
-
-    @objc
-    func refreshTokens() {
-        view.updateWithViewModel(currentViewModel())
     }
 
     func addTokenFromURL(_ token: Token) {
