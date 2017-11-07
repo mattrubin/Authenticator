@@ -27,11 +27,10 @@ import UIKit
 
 struct ProgressRingViewModel {
     let startTime: Date
-    let duration: TimeInterval
+    let endTime: Date
 
-    init(startTime: Date, endTime: Date) {
-        self.startTime = startTime
-        self.duration = endTime.timeIntervalSince(startTime)
+    var duration: TimeInterval {
+        return endTime.timeIntervalSince(startTime)
     }
 }
 
@@ -82,7 +81,8 @@ class OTPProgressRing: UIView {
     func updateWithViewModel(_ viewModel: ProgressRingViewModel) {
         let path = #keyPath(ProgressLayer.progress)
         let animation = CABasicAnimation(keyPath: path)
-        animation.beginTime = layer.convertTime(CACurrentMediaTime(), from: nil) + viewModel.startTime.timeIntervalSinceNow
+        let now = layer.convertTime(CACurrentMediaTime(), from: nil)
+        animation.beginTime = now + viewModel.startTime.timeIntervalSinceNow
         animation.duration = viewModel.duration
         animation.fromValue = 0
         animation.toValue = 1
