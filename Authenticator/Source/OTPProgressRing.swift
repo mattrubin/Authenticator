@@ -59,12 +59,6 @@ class OTPProgressRing: UIView {
         return ProgressLayer.self
     }
 
-    public var progress: CGFloat = 0 {
-        didSet {
-            self.progressLayer?.progress = progress
-        }
-    }
-
     override public var tintColor: UIColor! {
         didSet { updateTintColor() }
     }
@@ -84,7 +78,6 @@ class OTPProgressRing: UIView {
         animation.toValue = 1
         self.progressLayer?.add(animation, forKey: path)
     }
-
 }
 
 private class ProgressLayer: CALayer {
