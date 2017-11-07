@@ -29,8 +29,6 @@ import SafariServices
 import OneTimePassword
 import SVProgressHUD
 
-let appShouldRefresh = Notification.Name("appShouldRefresh")
-
 class AppController {
     private let store: TokenStore
     private var component: Root {
@@ -45,6 +43,18 @@ class AppController {
             dispatchAction: self.handleAction
         )
     }()
+    private var refreshTimer: Timer? {
+        willSet {
+            // Invalidate the old timer
+            refreshTimer?.invalidate()
+        }
+        didSet {
+            // Add the new timer to the main run loop
+            if let refreshTimer = refreshTimer {
+                RunLoop.main.add(refreshTimer, forMode: .commonModes)
+            }
+        }
+    }
 
     init() {
         do {
@@ -65,15 +75,17 @@ class AppController {
         // If this is a demo, show the scanner even in the simulator.
         let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
         component = Root(deviceCanScan: deviceCanScan)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(refreshTokens),
-                                               name: appShouldRefresh,
-                                               object: nil)
     }
 
     private func currentViewModel() -> Root.ViewModel {
-        return component.viewModel(for: store.persistentTokens, at: .currentDisplayTime())
+        let viewModel = component.viewModel(for: store.persistentTokens, at: .currentDisplayTime())
+        let timeToLive = viewModel.tokenList.nextTokenRefreshIn
+        refreshTimer = Timer(timeInterval: timeToLive,
+                             target: self,
+                             selector: #selector(refreshTokens),
+                             userInfo: nil,
+                             repeats: false)
+        return viewModel
     }
 
     // MARK: - Update
