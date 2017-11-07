@@ -41,9 +41,12 @@ struct TokenList: Component {
             TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
         })
 
-        let now = Date()
-        let lastRefreshTime = persistentTokens.reduce(.distantPast) { max($0, $1.lastRefreshTime(before: now)) }
-        let nextRefreshTime = persistentTokens.reduce(.distantFuture) { min($0, $1.nextRefreshTime(after: now)) }
+        let lastRefreshTime = persistentTokens.reduce(.distantPast) {
+            max($0, $1.lastRefreshTime(before: displayTime))
+        }
+        let nextRefreshTime = persistentTokens.reduce(.distantFuture) {
+            min($0, $1.nextRefreshTime(after: displayTime))
+        }
 
         let viewModel = TokenListViewModel(
             rowModels: rowModels,
@@ -177,22 +180,22 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
 }
 
 private extension PersistentToken {
-    func lastRefreshTime(before currentTime: Date) -> Date {
+    func lastRefreshTime(before displayTime: DisplayTime) -> Date {
         switch token.generator.factor {
         case .counter:
             return .distantPast
         case .timer(let period):
-            let epoch = currentTime.timeIntervalSince1970
+            let epoch = displayTime.timeIntervalSince1970
             return Date(timeIntervalSince1970: epoch - epoch.truncatingRemainder(dividingBy: period))
         }
     }
 
-    func nextRefreshTime(after currentTime: Date) -> Date {
+    func nextRefreshTime(after displayTime: DisplayTime) -> Date {
         switch token.generator.factor {
         case .counter:
             return .distantFuture
         case .timer(let period):
-            let epoch = currentTime.timeIntervalSince1970
+            let epoch = displayTime.timeIntervalSince1970
             return Date(timeIntervalSince1970: epoch + (period - epoch.truncatingRemainder(dividingBy: period)))
         }
     }
