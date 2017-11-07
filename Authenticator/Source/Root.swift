@@ -239,9 +239,6 @@ extension Root {
         case .showInfo:
             modal = .info(InfoList(), nil)
             return nil
-
-        case .refreshTokens:
-            return nil
         }
     }
 

@@ -29,6 +29,8 @@ import SafariServices
 import OneTimePassword
 import SVProgressHUD
 
+let appShouldRefresh = Notification.Name("appShouldRefresh")
+
 class AppController {
     private let store: TokenStore
     private var component: Root {
@@ -63,6 +65,11 @@ class AppController {
         // If this is a demo, show the scanner even in the simulator.
         let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
         component = Root(deviceCanScan: deviceCanScan)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(refreshTokens),
+                                               name: appShouldRefresh,
+                                               object: nil)
     }
 
     private func currentViewModel() -> Root.ViewModel {
@@ -178,8 +185,9 @@ class AppController {
         return view
     }
 
+    @objc
     func refreshTokens() {
-        handleAction(.tokenListAction(.refreshTokens))
+        view.updateWithViewModel(currentViewModel())
     }
 
     func addTokenFromURL(_ token: Token) {

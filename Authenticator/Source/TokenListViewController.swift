@@ -308,8 +308,9 @@ extension TokenListViewController {
         }
     }
 
-    @objc fileprivate func dispatchRefresh() {
-        dispatchAction(.refreshTokens)
+    @objc
+    fileprivate func dispatchRefresh() {
+        NotificationCenter.default.post(name: appShouldRefresh, object: self)
     }
 }
 

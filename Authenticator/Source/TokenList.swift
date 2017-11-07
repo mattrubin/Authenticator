@@ -117,7 +117,6 @@ extension TokenList {
 
         case showBackupInfo
         case showInfo
-        case refreshTokens
     }
 
     enum Effect {
@@ -132,8 +131,6 @@ extension TokenList {
         case showSuccessMessage(String)
         case showBackupInfo
         case showInfo
-
-        case refreshTokens
     }
 
     mutating func update(_ action: Action) -> Effect? {
@@ -169,8 +166,6 @@ extension TokenList {
 
         case .showInfo:
             return .showInfo
-        case .refreshTokens:
-            return .refreshTokens
         }
     }
 
@@ -207,7 +202,7 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
         return true
     case (.beginAddToken, _), (.editPersistentToken, _), (.updatePersistentToken, _), (.moveToken, _),
          (.deletePersistentToken, _), (.copyPassword, _), (.filter, _), (.clearFilter, _), (.showBackupInfo, _),
-         (.showInfo, _), (.refreshTokens, _):
+         (.showInfo, _):
         // Using this verbose case for non-matching `Action`s instead of `default` ensures a
         // compiler error if a new `Action` is added and not expicitly checked for equality.
         return false
