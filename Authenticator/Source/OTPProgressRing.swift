@@ -26,8 +26,13 @@
 import UIKit
 
 struct ProgressRingViewModel {
-    let ringProgress: Double
-    let nextTokenRefreshTime: Date
+    let startTime: Date
+    let duration: TimeInterval
+
+    init(startTime: Date, endTime: Date) {
+        self.startTime = startTime
+        self.duration = endTime.timeIntervalSince(startTime)
+    }
 }
 
 class OTPProgressRing: UIView {
@@ -74,11 +79,12 @@ class OTPProgressRing: UIView {
         self.progressLayer?.ringPartialColor = self.tintColor.withAlphaComponent(0.2).cgColor
     }
 
-    func animateProgress(from startingPercent: Double, until finishTime: Date) {
+    func updateWithViewModel(_ viewModel: ProgressRingViewModel) {
         let path = #keyPath(ProgressLayer.progress)
         let animation = CABasicAnimation(keyPath: path)
-        animation.duration = finishTime.timeIntervalSinceNow
-        animation.fromValue = startingPercent
+        animation.beginTime = layer.convertTime(CACurrentMediaTime(), from: nil) + viewModel.startTime.timeIntervalSinceNow
+        animation.duration = viewModel.duration
+        animation.fromValue = 0
         animation.toValue = 1
         self.progressLayer?.add(animation, forKey: path)
     }

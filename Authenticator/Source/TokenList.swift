@@ -42,43 +42,18 @@ struct TokenList: Component {
         })
 
         let now = Date()
-        let nextRefreshTime = persistentTokens.reduce(.distantFuture) { min($0, $1.nextPeriodRefreshTime(after: now)) }
+        let lastRefreshTime = persistentTokens.reduce(.distantPast) { max($0, $1.lastRefreshTime(before: now)) }
+        let nextRefreshTime = persistentTokens.reduce(.distantFuture) { min($0, $1.nextRefreshTime(after: now)) }
 
         let viewModel = TokenListViewModel(
             rowModels: rowModels,
-            progressRingViewModel: ringProgress(for: persistentTokens, at: displayTime).map({
-                ProgressRingViewModel(ringProgress: $0, nextTokenRefreshTime: nextRefreshTime)
-            }),
+            progressRingViewModel: persistentTokens.isEmpty ? nil :
+                ProgressRingViewModel(startTime: lastRefreshTime, endTime: nextRefreshTime),
             totalTokens: persistentTokens.count,
             isFiltering: isFiltering
         )
 
         return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
-    }
-
-    /// Returns a sorted, uniqued array of the periods of timer-based tokens
-    private func timeBasedTokenPeriods(for persistentTokens: [PersistentToken]) -> [TimeInterval] {
-        var periods = Set<TimeInterval>()
-        persistentTokens.forEach { (persistentToken) in
-            if case .timer(let period) = persistentToken.token.generator.factor {
-                periods.insert(period)
-            }
-        }
-        return Array(periods).sorted()
-    }
-
-    private func ringProgress(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> Double? {
-        guard let ringPeriod = timeBasedTokenPeriods(for: persistentTokens).first else {
-            // If there are no time-based tokens, return nil to hide the progress ring.
-            return nil
-        }
-        guard ringPeriod > 0 else {
-            // If the period is not > zero, return zero to display the ring but avoid the potential
-            // divide-by-zero error below.
-            return 0
-        }
-        // Calculate the percentage progress in the current period.
-        return fmod(displayTime.timeIntervalSince1970, ringPeriod) / ringPeriod
     }
 
     private func filteredTokens(_ persistentTokens: [PersistentToken]) -> [PersistentToken] {
@@ -202,7 +177,17 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
 }
 
 private extension PersistentToken {
-    func nextPeriodRefreshTime(after currentTime: Date) -> Date {
+    func lastRefreshTime(before currentTime: Date) -> Date {
+        switch token.generator.factor {
+        case .counter:
+            return .distantPast
+        case .timer(let period):
+            let epoch = currentTime.timeIntervalSince1970
+            return Date(timeIntervalSince1970: epoch - epoch.truncatingRemainder(dividingBy: period))
+        }
+    }
+
+    func nextRefreshTime(after currentTime: Date) -> Date {
         switch token.generator.factor {
         case .counter:
             return .distantFuture
