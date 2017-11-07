@@ -41,11 +41,11 @@ struct TokenList: Component {
             TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
         })
 
-        let lastRefreshTime = persistentTokens.reduce(.distantPast) {
-            max($0, $1.lastRefreshTime(before: displayTime))
+        let lastRefreshTime = persistentTokens.reduce(.distantPast) { (lastRefreshTime, persistentToken) in
+            max(lastRefreshTime, persistentToken.lastRefreshTime(before: displayTime))
         }
-        let nextRefreshTime = persistentTokens.reduce(.distantFuture) {
-            min($0, $1.nextRefreshTime(after: displayTime))
+        let nextRefreshTime = persistentTokens.reduce(.distantFuture) { (nextRefreshTime, persistentToken) in
+            min(nextRefreshTime, persistentToken.nextRefreshTime(after: displayTime))
         }
 
         let viewModel = TokenListViewModel(
