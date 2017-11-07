@@ -75,7 +75,8 @@ class AppController {
 
     @objc
     func updateView() {
-        let (currentViewModel, nextRefreshTime) = component.viewModel(for: store.persistentTokens, at: .currentDisplayTime())
+        let (currentViewModel, nextRefreshTime) = component.viewModel(for: store.persistentTokens,
+                                                                      at: .currentDisplayTime())
         setTimer(forNextRefreshTime: nextRefreshTime)
         view.updateWithViewModel(currentViewModel)
     }
