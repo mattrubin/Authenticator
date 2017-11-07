@@ -58,6 +58,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+        // Ensure the UI is updated with the latest view model whenever the app returns from the background.
         app.refreshTokens()
     }
 
