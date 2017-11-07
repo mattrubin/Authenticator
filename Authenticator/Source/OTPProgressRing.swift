@@ -25,6 +25,11 @@
 
 import UIKit
 
+struct ProgressRingViewModel {
+    let ringProgress: Double
+    let nextTokenRefreshTime: Date
+}
+
 class OTPProgressRing: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

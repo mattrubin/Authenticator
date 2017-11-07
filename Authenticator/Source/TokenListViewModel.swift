@@ -27,11 +27,10 @@ import Foundation
 
 struct TokenListViewModel {
     let rowModels: [TokenRowModel]
-    let ringProgress: Double?
+    let progressRingViewModel: ProgressRingViewModel?
     let totalTokens: Int
     let isFiltering: Bool
     var hasTokens: Bool {
         return totalTokens > 0
     }
-    let nextTokenRefreshTime: Date
 }

@@ -46,10 +46,11 @@ struct TokenList: Component {
 
         let viewModel = TokenListViewModel(
             rowModels: rowModels,
-            ringProgress: ringProgress(for: persistentTokens, at: displayTime),
+            progressRingViewModel: ringProgress(for: persistentTokens, at: displayTime).map({
+                ProgressRingViewModel(ringProgress: $0, nextTokenRefreshTime: nextRefreshTime)
+            }),
             totalTokens: persistentTokens.count,
-            isFiltering: isFiltering,
-            nextTokenRefreshTime: nextRefreshTime
+            isFiltering: isFiltering
         )
 
         return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
