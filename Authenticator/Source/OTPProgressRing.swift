@@ -49,10 +49,7 @@ class OTPProgressRing: UIView {
     }
 
     private var progressLayer: ProgressLayer? {
-        if let _progressLayer = layer as? ProgressLayer {
-            return _progressLayer
-        }
-        return nil
+        return layer as? ProgressLayer
     }
 
     override public class var layerClass: AnyClass {
