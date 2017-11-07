@@ -45,7 +45,7 @@ class OTPProgressRing: UIView {
         self.layer.shouldRasterize = true
         self.layer.rasterizationScale = UIScreen.main.scale
         self.layer.contentsScale = UIScreen.main.scale
-        self.updateTintColor()
+        progressLayer?.updateTintColor(tintColor)
     }
 
     private var progressLayer: ProgressLayer? {
@@ -61,12 +61,7 @@ class OTPProgressRing: UIView {
 
     override func tintColorDidChange() {
         super.tintColorDidChange()
-        updateTintColor()
-    }
-
-    private func updateTintColor() {
-        self.progressLayer?.ringColor = self.tintColor.cgColor
-        self.progressLayer?.ringPartialColor = self.tintColor.withAlphaComponent(0.2).cgColor
+        progressLayer?.updateTintColor(tintColor)
     }
 
     func updateWithViewModel(_ viewModel: ProgressRingViewModel) {
@@ -88,6 +83,11 @@ private class ProgressLayer: CALayer {
 
     private var lineWidth: CGFloat = 1.5 {
         didSet { setNeedsDisplay() }
+    }
+
+    fileprivate func updateTintColor(_ tintColor: UIColor) {
+        ringColor = tintColor.cgColor
+        ringPartialColor = tintColor.withAlphaComponent(0.2).cgColor
     }
 
     override class func needsDisplay(forKey key: String) -> Bool {
