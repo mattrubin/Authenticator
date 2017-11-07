@@ -39,12 +39,7 @@ class AppController {
     private lazy var view: RootViewController = {
         let (currentViewModel, nextRefreshTime) = self.component.viewModel(for: self.store.persistentTokens,
                                                                            at: .currentDisplayTime())
-        self.refreshTimer = Timer(fireAt: nextRefreshTime,
-                                  interval: 0,
-                                  target: self,
-                                  selector: #selector(updateView),
-                                  userInfo: nil,
-                                  repeats: false)
+        self.setTimer(forNextRefreshTime: nextRefreshTime)
         return RootViewController(
             viewModel: currentViewModel,
             dispatchAction: self.handleAction
@@ -54,12 +49,6 @@ class AppController {
         willSet {
             // Invalidate the old timer
             refreshTimer?.invalidate()
-        }
-        didSet {
-            // Add the new timer to the main run loop
-            if let refreshTimer = refreshTimer {
-                RunLoop.main.add(refreshTimer, forMode: .commonModes)
-            }
         }
     }
 
@@ -87,13 +76,20 @@ class AppController {
     @objc
     func updateView() {
         let (currentViewModel, nextRefreshTime) = component.viewModel(for: store.persistentTokens, at: .currentDisplayTime())
-        refreshTimer = Timer(fireAt: nextRefreshTime,
-                             interval: 0,
-                             target: self,
-                             selector: #selector(updateView),
-                             userInfo: nil,
-                             repeats: false)
+        setTimer(forNextRefreshTime: nextRefreshTime)
         view.updateWithViewModel(currentViewModel)
+    }
+
+    private func setTimer(forNextRefreshTime nextRefreshTime: Date) {
+        let timer = Timer(fireAt: nextRefreshTime,
+                          interval: 0,
+                          target: self,
+                          selector: #selector(updateView),
+                          userInfo: nil,
+                          repeats: false)
+        // Add the new timer to the main run loop
+        RunLoop.main.add(timer, forMode: .commonModes)
+        refreshTimer = timer
     }
 
     // MARK: - Update
