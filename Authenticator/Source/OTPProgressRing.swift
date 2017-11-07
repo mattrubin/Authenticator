@@ -49,18 +49,14 @@ class OTPProgressRing: UIView {
     }
 
     private var progressLayer: ProgressLayer? {
-        get {
-            if let _progressLayer = layer as? ProgressLayer {
-                return _progressLayer
-            }
-            return nil
+        if let _progressLayer = layer as? ProgressLayer {
+            return _progressLayer
         }
+        return nil
     }
 
     override public class var layerClass: AnyClass {
-        get {
-            return ProgressLayer.self
-        }
+        return ProgressLayer.self
     }
 
     public var progress: CGFloat = 0 {
@@ -91,7 +87,7 @@ class OTPProgressRing: UIView {
 
 }
 
-fileprivate class ProgressLayer: CALayer {
+private class ProgressLayer: CALayer {
     @NSManaged var progress: CGFloat
     @NSManaged var ringColor: CGColor
     @NSManaged var ringPartialColor: CGColor
