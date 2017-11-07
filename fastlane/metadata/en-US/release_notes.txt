@@ -1,13 +1,3 @@
-○ Search & Filter
-Tap the new search field at the top of the token list to filter your tokens by issuer and account name.
-
-○ Easier to Read
-An updated font, improved typography, and better spacing make your passwords easier to read.
-
-○ Security & Backup Info
-For security reasons, tokens are stored only on one device, and are not included in iCloud or unencrypted backups. More information about security and backups has been added in the app.
-
-Also…
-• Haptic Feedback
-• Improved Error Messages
-• Many small improvements to polish and performance…
+• Added support for iPhone X
+• Fixed a bug where tokens were sometimes copied when trying to scroll the token list
+• Fixed button text color and font weight on iOS 11

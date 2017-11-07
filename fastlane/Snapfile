@@ -4,10 +4,10 @@ workspace "Authenticator.xcworkspace"
 scheme "Authenticator Demo"
 
 devices([
-  "iPhone 4s",
   "iPhone SE",
-  "iPhone 7",
-  "iPhone 7 Plus",
+  "iPhone 8",
+  "iPhone 8 Plus",
+  "iPhone X",
 ])
 
 languages([
