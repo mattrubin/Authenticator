@@ -45,7 +45,7 @@ class OTPProgressRing: UIView {
         self.layer.shouldRasterize = true
         self.layer.rasterizationScale = UIScreen.main.scale
         self.layer.contentsScale = UIScreen.main.scale
-        progressLayer?.updateTintColor(tintColor)
+        progressLayer.updateTintColor(tintColor)
     }
 
     // MARK: Layer
@@ -54,15 +54,15 @@ class OTPProgressRing: UIView {
         return ProgressLayer.self
     }
 
-    private var progressLayer: ProgressLayer? {
-        return layer as? ProgressLayer
+    private var progressLayer: ProgressLayer {
+        return layer as! ProgressLayer // swiftlint:disable:this force_cast
     }
 
     // MARK: Update
 
     override func tintColorDidChange() {
         super.tintColorDidChange()
-        progressLayer?.updateTintColor(tintColor)
+        progressLayer.updateTintColor(tintColor)
     }
 
     func updateWithViewModel(_ viewModel: ProgressRingViewModel) {
@@ -73,7 +73,7 @@ class OTPProgressRing: UIView {
         animation.duration = viewModel.duration
         animation.fromValue = 0
         animation.toValue = 1
-        self.progressLayer?.add(animation, forKey: path)
+        progressLayer.add(animation, forKey: path)
     }
 }
 
