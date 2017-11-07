@@ -35,19 +35,24 @@ struct TokenList: Component {
 
     typealias ViewModel = TokenListViewModel
 
-    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> TokenListViewModel {
+    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> (viewModel: TokenListViewModel, nextRefreshTime: Date) {
         let isFiltering = !(filter ?? "").isEmpty
         let rowModels = filteredTokens(persistentTokens).map({
             TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
         })
-        let nextRefresh = nextPeriodRefreshTime(for: persistentTokens)
-        return TokenListViewModel(
+
+        let now = Date()
+        let nextRefreshTime = persistentTokens.reduce(.distantFuture) { min($0, $1.nextPeriodRefreshTime(after: now)) }
+
+        let viewModel = TokenListViewModel(
             rowModels: rowModels,
             ringProgress: ringProgress(for: persistentTokens, at: displayTime),
             totalTokens: persistentTokens.count,
             isFiltering: isFiltering,
-            nextTokenRefreshTime: nextRefresh
+            nextTokenRefreshTime: nextRefreshTime
         )
+
+        return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }
 
     /// Returns a sorted, uniqued array of the periods of timer-based tokens
@@ -59,11 +64,6 @@ struct TokenList: Component {
             }
         }
         return Array(periods).sorted()
-    }
-
-    private func nextPeriodRefreshTime(for persistentTokens: [PersistentToken]) -> Date {
-        let now = Date()
-        return persistentTokens.reduce(.distantFuture) { min($0, $1.nextPeriodRefreshTime(after: now)) }
     }
 
     private func ringProgress(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> Double? {
