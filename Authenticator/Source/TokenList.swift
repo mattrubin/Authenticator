@@ -62,17 +62,8 @@ struct TokenList: Component {
     }
 
     private func nextPeriodRefreshTime(for persistentTokens: [PersistentToken]) -> Date {
-        return persistentTokens.reduce(.distantFuture) { min($0, nextPeriodRefreshTime(for: $1)) }
-    }
-
-    private func nextPeriodRefreshTime(for persistentToken: PersistentToken) -> Date {
-        switch persistentToken.token.generator.factor {
-        case .counter:
-            return .distantFuture
-        case .timer(let period):
-            let epoch = Date().timeIntervalSince1970
-            return Date(timeIntervalSince1970: epoch + (period - epoch.truncatingRemainder(dividingBy: period)))
-        }
+        let now = Date()
+        return persistentTokens.reduce(.distantFuture) { min($0, $1.nextPeriodRefreshTime(after: now)) }
     }
 
     private func ringProgress(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> Double? {
@@ -206,5 +197,17 @@ func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
         // Using this verbose case for non-matching `Action`s instead of `default` ensures a
         // compiler error if a new `Action` is added and not expicitly checked for equality.
         return false
+    }
+}
+
+private extension PersistentToken {
+    func nextPeriodRefreshTime(after currentTime: Date) -> Date {
+        switch token.generator.factor {
+        case .counter:
+            return .distantFuture
+        case .timer(let period):
+            let epoch = currentTime.timeIntervalSince1970
+            return Date(timeIntervalSince1970: epoch + (period - epoch.truncatingRemainder(dividingBy: period)))
+        }
     }
 }
