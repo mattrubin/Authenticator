@@ -59,8 +59,9 @@ class OTPProgressRing: UIView {
         return ProgressLayer.self
     }
 
-    override public var tintColor: UIColor! {
-        didSet { updateTintColor() }
+    override func tintColorDidChange() {
+        super.tintColorDidChange()
+        updateTintColor()
     }
 
     private func updateTintColor() {
