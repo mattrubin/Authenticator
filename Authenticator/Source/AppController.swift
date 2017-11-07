@@ -39,7 +39,7 @@ class AppController {
     private lazy var view: RootViewController = {
         let (currentViewModel, nextRefreshTime) = self.component.viewModel(for: self.store.persistentTokens,
                                                                            at: .currentDisplayTime())
-        self.setTimer(forNextRefreshTime: nextRefreshTime)
+        self.setTimer(withNextRefreshTime: nextRefreshTime)
         return RootViewController(
             viewModel: currentViewModel,
             dispatchAction: self.handleAction
@@ -77,11 +77,11 @@ class AppController {
     func updateView() {
         let (currentViewModel, nextRefreshTime) = component.viewModel(for: store.persistentTokens,
                                                                       at: .currentDisplayTime())
-        setTimer(forNextRefreshTime: nextRefreshTime)
+        setTimer(withNextRefreshTime: nextRefreshTime)
         view.updateWithViewModel(currentViewModel)
     }
 
-    private func setTimer(forNextRefreshTime nextRefreshTime: Date) {
+    private func setTimer(withNextRefreshTime nextRefreshTime: Date) {
         let timer = Timer(fireAt: nextRefreshTime,
                           interval: 0,
                           target: self,
