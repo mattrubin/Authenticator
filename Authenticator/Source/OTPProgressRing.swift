@@ -25,9 +25,16 @@
 
 import UIKit
 
-class OTPProgressRing: UIView {
-    private let lineWidth: CGFloat = 1.5
+struct ProgressRingViewModel {
+    let startTime: Date
+    let endTime: Date
 
+    var duration: TimeInterval {
+        return endTime.timeIntervalSince(startTime)
+    }
+}
+
+class OTPProgressRing: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -35,28 +42,72 @@ class OTPProgressRing: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.isOpaque = false
+        self.layer.shouldRasterize = true
+        self.layer.rasterizationScale = UIScreen.main.scale
+        self.layer.contentsScale = UIScreen.main.scale
+        progressLayer.updateTintColor(tintColor)
     }
 
-    var progress: Double = 0 {
-        didSet {
-            self.setNeedsDisplay()
-        }
+    // MARK: Layer
+
+    override public class var layerClass: AnyClass {
+        return ProgressLayer.self
     }
 
-    override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext() else {
-            return
-        }
+    private var progressLayer: ProgressLayer {
+        return layer as! ProgressLayer // swiftlint:disable:this force_cast
+    }
 
+    // MARK: Update
+
+    override func tintColorDidChange() {
+        super.tintColorDidChange()
+        progressLayer.updateTintColor(tintColor)
+    }
+
+    func updateWithViewModel(_ viewModel: ProgressRingViewModel) {
+        let path = #keyPath(ProgressLayer.progress)
+        let animation = CABasicAnimation(keyPath: path)
+        let now = layer.convertTime(CACurrentMediaTime(), from: nil)
+        animation.beginTime = now + viewModel.startTime.timeIntervalSinceNow
+        animation.duration = viewModel.duration
+        animation.fromValue = 0
+        animation.toValue = 1
+        progressLayer.add(animation, forKey: path)
+    }
+}
+
+private class ProgressLayer: CALayer {
+    @NSManaged var progress: CGFloat
+    @NSManaged var ringColor: CGColor
+    @NSManaged var ringPartialColor: CGColor
+
+    private var lineWidth: CGFloat = 1.5 {
+        didSet { setNeedsDisplay() }
+    }
+
+    fileprivate func updateTintColor(_ tintColor: UIColor) {
+        ringColor = tintColor.cgColor
+        ringPartialColor = tintColor.withAlphaComponent(0.2).cgColor
+    }
+
+    override class func needsDisplay(forKey key: String) -> Bool {
+        if key == #keyPath(progress) {
+            return true
+        }
+        return super.needsDisplay(forKey: key)
+    }
+
+    override func draw(in context: CGContext) {
         let halfLineWidth = lineWidth / 2
         let ringRect = self.bounds.insetBy(dx: halfLineWidth, dy: halfLineWidth)
 
         context.setLineWidth(lineWidth)
 
-        context.setStrokeColor(self.tintColor.withAlphaComponent(0.2).cgColor)
+        context.setStrokeColor(ringPartialColor)
         context.strokeEllipse(in: ringRect)
 
-        context.setStrokeColor(self.tintColor.cgColor)
+        context.setStrokeColor(ringColor)
         let startAngle: CGFloat = -.pi / 2
         context.addArc(center: CGPoint(x: ringRect.midX, y: ringRect.midY),
                        radius: ringRect.width / 2,

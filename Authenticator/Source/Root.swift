@@ -66,11 +66,13 @@ struct Root: Component {
 extension Root {
     typealias ViewModel = RootViewModel
 
-    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> ViewModel {
-        return ViewModel(
-            tokenList: tokenList.viewModel(for: persistentTokens, at: displayTime),
+    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> (viewModel: ViewModel, nextRefreshTime: Date) {
+        let (tokenListViewModel, nextRefreshTime) = tokenList.viewModel(for: persistentTokens, at: displayTime)
+        let viewModel = ViewModel(
+            tokenList: tokenListViewModel,
             modal: modal.viewModel
         )
+        return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }
 }
 

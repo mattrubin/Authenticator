@@ -57,6 +57,11 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        // Ensure the UI is updated with the latest view model whenever the app returns from the background.
+        app.updateView()
+    }
+
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         if let token = Token(url: url) {
             let message = "Do you want to add a token for “\(token.name)”?"

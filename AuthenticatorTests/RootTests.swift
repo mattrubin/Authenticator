@@ -33,7 +33,7 @@ class RootTests: XCTestCase {
         var root = Root(deviceCanScan: false)
 
         // Ensure there is no modal visible.
-        let firstViewModel = root.viewModel(for: [], at: displayTime)
+        let (firstViewModel, _) = root.viewModel(for: [], at: displayTime)
         guard case .none = firstViewModel.modal else {
             XCTFail("Expected .none, got \(firstViewModel.modal)")
             return
@@ -51,7 +51,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(showEffect)
 
         // Ensure the backup info modal is visible.
-        let secondViewModel = root.viewModel(for: [], at: displayTime)
+        let (secondViewModel, _) = root.viewModel(for: [], at: displayTime)
         switch secondViewModel.modal {
         case .info(_, .some(let infoViewModel)):
             XCTAssert(infoViewModel.title == "Backups")
@@ -71,7 +71,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(hideEffect)
 
         // Ensure the backup info modal no longer visible.
-        let thirdViewModel = root.viewModel(for: [], at: displayTime)
+        let (thirdViewModel, _) = root.viewModel(for: [], at: displayTime)
         guard case .none = thirdViewModel.modal else {
             XCTFail("Expected .none, got \(thirdViewModel.modal)")
             return
@@ -82,7 +82,7 @@ class RootTests: XCTestCase {
         var root = Root(deviceCanScan: false)
 
         // Ensure there is no modal visible.
-        let firstViewModel = root.viewModel(for: [], at: displayTime)
+        let (firstViewModel, _) = root.viewModel(for: [], at: displayTime)
         guard case .none = firstViewModel.modal else {
             XCTFail("Expected .none, got \(firstViewModel.modal)")
             return
@@ -100,7 +100,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(showInfoEffect)
 
         // Ensure the info list modal is visible.
-        let nextViewModel = root.viewModel(for: [], at: displayTime)
+        let (nextViewModel, _) = root.viewModel(for: [], at: displayTime)
         guard case .info(_, .none) = nextViewModel.modal else {
             XCTFail("Expected .info list, got \(nextViewModel.modal)")
             return
@@ -118,7 +118,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(showEffect)
 
         // Ensure the license info modal is visible.
-        let secondViewModel = root.viewModel(for: [], at: displayTime)
+        let (secondViewModel, _) = root.viewModel(for: [], at: displayTime)
         switch secondViewModel.modal {
         case .info(_, .some(let infoViewModel)):
             XCTAssert(infoViewModel.title == "Acknowledgements")
@@ -138,7 +138,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(hideEffect)
 
         // Ensure the license info modal no longer visible.
-        let thirdViewModel = root.viewModel(for: [], at: displayTime)
+        let (thirdViewModel, _) = root.viewModel(for: [], at: displayTime)
         guard case .none = thirdViewModel.modal else {
             XCTFail("Expected .none, got \(thirdViewModel.modal)")
             return
@@ -194,7 +194,7 @@ class RootTests: XCTestCase {
         var root = Root(deviceCanScan: false)
 
         // Ensure the initial view model has no modal.
-        guard case .none = root.viewModel(for: [], at: displayTime).modal else {
+        guard case .none = root.viewModel(for: [], at: displayTime).viewModel.modal else {
             XCTFail("The initial view model should have no modal.")
             return
         }
@@ -208,7 +208,7 @@ class RootTests: XCTestCase {
         }
 
         // Ensure the view model now has a modal entry form.
-        guard case .entryForm = root.viewModel(for: [], at: displayTime).modal else {
+        guard case .entryForm = root.viewModel(for: [], at: displayTime).viewModel.modal else {
             XCTFail("The view model should have a modal entry form.")
             return
         }
@@ -218,7 +218,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(effect)
 
         // Ensure the token entry form hides on success.
-        guard case .none = root.viewModel(for: [], at: displayTime).modal else {
+        guard case .none = root.viewModel(for: [], at: displayTime).viewModel.modal else {
             XCTFail("The final view model should have no modal.")
             return
         }
