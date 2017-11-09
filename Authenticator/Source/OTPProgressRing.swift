@@ -78,9 +78,23 @@ class OTPProgressRing: UIView {
 }
 
 private class ProgressLayer: CALayer {
+    let backgroundRingLayer = RingLayer()
     @NSManaged var progress: CGFloat
     @NSManaged var ringColor: CGColor
-    @NSManaged var ringPartialColor: CGColor
+
+    override init() {
+        super.init()
+        addSublayer(backgroundRingLayer)
+    }
+
+    override init(layer: Any) {
+        super.init(layer: layer)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        addSublayer(backgroundRingLayer)
+    }
 
     private var lineWidth: CGFloat = 1.5 {
         didSet { setNeedsDisplay() }
@@ -88,7 +102,7 @@ private class ProgressLayer: CALayer {
 
     fileprivate func updateTintColor(_ tintColor: UIColor) {
         ringColor = tintColor.cgColor
-        ringPartialColor = tintColor.withAlphaComponent(0.2).cgColor
+        backgroundRingLayer.strokeColor = tintColor.withAlphaComponent(0.2).cgColor
     }
 
     override class func needsDisplay(forKey key: String) -> Bool {
@@ -104,9 +118,6 @@ private class ProgressLayer: CALayer {
 
         context.setLineWidth(lineWidth)
 
-        context.setStrokeColor(ringPartialColor)
-        context.strokeEllipse(in: ringRect)
-
         context.setStrokeColor(ringColor)
         let startAngle: CGFloat = -.pi / 2
         context.addArc(center: CGPoint(x: ringRect.midX, y: ringRect.midY),
@@ -115,5 +126,29 @@ private class ProgressLayer: CALayer {
                        endAngle: 2 * .pi * CGFloat(self.progress) + startAngle,
                        clockwise: true)
         context.strokePath()
+    }
+
+    override func layoutSublayers() {
+        super.layoutSublayers()
+        backgroundRingLayer.frame = bounds
+    }
+}
+
+private class RingLayer: CAShapeLayer {
+    override init() {
+        super.init()
+        lineWidth = 1.5
+        fillColor = nil
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    override func layoutSublayers() {
+        super.layoutSublayers()
+        let halfLineWidth = lineWidth / 2
+        let ringRect = bounds.insetBy(dx: halfLineWidth, dy: halfLineWidth)
+        self.path = CGPath(ellipseIn: ringRect, transform: nil)
     }
 }
