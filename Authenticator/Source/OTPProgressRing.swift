@@ -66,25 +66,25 @@ class OTPProgressRing: UIView {
     }
 
     func updateWithViewModel(_ viewModel: ProgressRingViewModel) {
-        let path = #keyPath(ProgressLayer.progress)
+        let path = #keyPath(RingLayer.strokeStart)
         let animation = CABasicAnimation(keyPath: path)
         let now = layer.convertTime(CACurrentMediaTime(), from: nil)
         animation.beginTime = now + viewModel.startTime.timeIntervalSinceNow
         animation.duration = viewModel.duration
         animation.fromValue = 0
         animation.toValue = 1
-        progressLayer.add(animation, forKey: path)
+        progressLayer.foregroundRingLayer.add(animation, forKey: path)
     }
 }
 
 private class ProgressLayer: CALayer {
     let backgroundRingLayer = RingLayer()
-    @NSManaged var progress: CGFloat
-    @NSManaged var ringColor: CGColor
+    let foregroundRingLayer = RingLayer()
 
     override init() {
         super.init()
         addSublayer(backgroundRingLayer)
+        addSublayer(foregroundRingLayer)
     }
 
     override init(layer: Any) {
@@ -94,43 +94,18 @@ private class ProgressLayer: CALayer {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         addSublayer(backgroundRingLayer)
-    }
-
-    private var lineWidth: CGFloat = 1.5 {
-        didSet { setNeedsDisplay() }
+        addSublayer(foregroundRingLayer)
     }
 
     fileprivate func updateTintColor(_ tintColor: UIColor) {
-        ringColor = tintColor.cgColor
+        foregroundRingLayer.strokeColor = tintColor.cgColor
         backgroundRingLayer.strokeColor = tintColor.withAlphaComponent(0.2).cgColor
-    }
-
-    override class func needsDisplay(forKey key: String) -> Bool {
-        if key == #keyPath(progress) {
-            return true
-        }
-        return super.needsDisplay(forKey: key)
-    }
-
-    override func draw(in context: CGContext) {
-        let halfLineWidth = lineWidth / 2
-        let ringRect = self.bounds.insetBy(dx: halfLineWidth, dy: halfLineWidth)
-
-        context.setLineWidth(lineWidth)
-
-        context.setStrokeColor(ringColor)
-        let startAngle: CGFloat = -.pi / 2
-        context.addArc(center: CGPoint(x: ringRect.midX, y: ringRect.midY),
-                       radius: ringRect.width / 2,
-                       startAngle: startAngle,
-                       endAngle: 2 * .pi * CGFloat(self.progress) + startAngle,
-                       clockwise: true)
-        context.strokePath()
     }
 
     override func layoutSublayers() {
         super.layoutSublayers()
         backgroundRingLayer.frame = bounds
+        foregroundRingLayer.frame = bounds
     }
 }
 
@@ -149,6 +124,13 @@ private class RingLayer: CAShapeLayer {
         super.layoutSublayers()
         let halfLineWidth = lineWidth / 2
         let ringRect = bounds.insetBy(dx: halfLineWidth, dy: halfLineWidth)
-        self.path = CGPath(ellipseIn: ringRect, transform: nil)
+
+        let translationToOrigin = CGAffineTransform(translationX: -ringRect.midX, y: -ringRect.midY)
+        let rotation = CGAffineTransform(rotationAngle: -.pi / 2)
+        let translationFromOrigin = CGAffineTransform(translationX: ringRect.midX, y: ringRect.midY)
+        var transform = translationToOrigin.concatenating(rotation).concatenating(translationFromOrigin)
+        withUnsafePointer(to: &transform) { transform in
+            path = CGPath(ellipseIn: ringRect, transform: transform)
+        }
     }
 }
