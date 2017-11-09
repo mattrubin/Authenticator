@@ -1,4 +1,4 @@
-github "SVProgressHUD/SVProgressHUD" "2.1.2"
+github "SVProgressHUD/SVProgressHUD" "2.2.2"
 github "jspahrsummers/xcconfigs" "0.11"
 github "mattrubin/Base32" "1.1.2+carthage"
 github "mattrubin/OneTimePassword" "3.0"
