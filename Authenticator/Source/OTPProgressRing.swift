@@ -38,12 +38,19 @@ class OTPProgressRing: UIView {
     private let backgroundRingLayer = RingLayer()
     private let foregroundRingLayer = RingLayer()
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+    // MARK: Initialize
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureSublayers()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        configureSublayers()
+    }
+
+    private func configureSublayers() {
         layer.addSublayer(backgroundRingLayer)
         layer.addSublayer(foregroundRingLayer)
         updateRingColor(tintColor)
