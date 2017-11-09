@@ -28,7 +28,7 @@ import UIKit
 // A custom view that contains a SearchTextField displaying its placeholder centered in the
 // text field.
 //
-// Displays a OTPProgressRing as the `leftView` control.
+// Displays a ProgressRingView as the `leftView` control.
 class SearchField: UIView {
 
     override init(frame: CGRect) {
@@ -50,7 +50,7 @@ class SearchField: UIView {
         return textField.text
     }
 
-    let ring = OTPProgressRing(
+    let ring = ProgressRingView(
         frame: CGRect(origin: .zero, size: CGSize(width: 22, height: 22))
     )
 

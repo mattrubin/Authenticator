@@ -1,5 +1,5 @@
 //
-//  OTPProgressRing.swift
+//  ProgressRingView.swift
 //  Authenticator
 //
 //  Copyright (c) 2014-2016 Authenticator authors
@@ -34,7 +34,7 @@ struct ProgressRingViewModel {
     }
 }
 
-class OTPProgressRing: UIView {
+class ProgressRingView: UIView {
     private let backgroundRingLayer = RingLayer()
     private let foregroundRingLayer = RingLayer()
 
