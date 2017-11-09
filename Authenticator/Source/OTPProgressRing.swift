@@ -35,34 +35,36 @@ struct ProgressRingViewModel {
 }
 
 class OTPProgressRing: UIView {
+    private let backgroundRingLayer = RingLayer()
+    private let foregroundRingLayer = RingLayer()
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.isOpaque = false
-        self.layer.shouldRasterize = true
-        self.layer.rasterizationScale = UIScreen.main.scale
-        self.layer.contentsScale = UIScreen.main.scale
-        progressLayer.updateTintColor(tintColor)
+        layer.addSublayer(backgroundRingLayer)
+        layer.addSublayer(foregroundRingLayer)
+        updateRingColor(tintColor)
     }
 
-    // MARK: Layer
+    // MARK: Layout
 
-    override public class var layerClass: AnyClass {
-        return ProgressLayer.self
-    }
-
-    private var progressLayer: ProgressLayer {
-        return layer as! ProgressLayer // swiftlint:disable:this force_cast
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
+        // Lay out the ring layers to fill the view's layer.
+        if layer == self.layer {
+            backgroundRingLayer.frame = layer.bounds
+            foregroundRingLayer.frame = layer.bounds
+        }
     }
 
     // MARK: Update
 
     override func tintColorDidChange() {
         super.tintColorDidChange()
-        progressLayer.updateTintColor(tintColor)
+        updateRingColor(tintColor)
     }
 
     func updateWithViewModel(_ viewModel: ProgressRingViewModel) {
@@ -73,39 +75,12 @@ class OTPProgressRing: UIView {
         animation.duration = viewModel.duration
         animation.fromValue = 0
         animation.toValue = 1
-        progressLayer.foregroundRingLayer.add(animation, forKey: path)
-    }
-}
-
-private class ProgressLayer: CALayer {
-    let backgroundRingLayer = RingLayer()
-    let foregroundRingLayer = RingLayer()
-
-    override init() {
-        super.init()
-        addSublayer(backgroundRingLayer)
-        addSublayer(foregroundRingLayer)
+        foregroundRingLayer.add(animation, forKey: path)
     }
 
-    override init(layer: Any) {
-        super.init(layer: layer)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        addSublayer(backgroundRingLayer)
-        addSublayer(foregroundRingLayer)
-    }
-
-    fileprivate func updateTintColor(_ tintColor: UIColor) {
+    private func updateRingColor(_ tintColor: UIColor) {
         foregroundRingLayer.strokeColor = tintColor.cgColor
         backgroundRingLayer.strokeColor = tintColor.withAlphaComponent(0.2).cgColor
-    }
-
-    override func layoutSublayers() {
-        super.layoutSublayers()
-        backgroundRingLayer.frame = bounds
-        foregroundRingLayer.frame = bounds
     }
 }
 
@@ -125,6 +100,7 @@ private class RingLayer: CAShapeLayer {
         let halfLineWidth = lineWidth / 2
         let ringRect = bounds.insetBy(dx: halfLineWidth, dy: halfLineWidth)
 
+        // Transform the ring path to draw clockwise, starting at the top.
         let translationToOrigin = CGAffineTransform(translationX: -ringRect.midX, y: -ringRect.midY)
         let rotation = CGAffineTransform(rotationAngle: -.pi / 2)
         let translationFromOrigin = CGAffineTransform(translationX: ringRect.midX, y: ringRect.midY)
