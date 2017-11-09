@@ -104,6 +104,8 @@ private class RingLayer: CAShapeLayer {
 
     override func layoutSublayers() {
         super.layoutSublayers()
+
+        // Inset the ring to draw within the layer's bounds.
         let halfLineWidth = lineWidth / 2
         let ringRect = bounds.insetBy(dx: halfLineWidth, dy: halfLineWidth)
 
