@@ -53,7 +53,7 @@ class OTPProgressRing: UIView {
     private func configureSublayers() {
         layer.addSublayer(backgroundRingLayer)
         layer.addSublayer(foregroundRingLayer)
-        updateRingColor(tintColor)
+        updateWithRingColor(tintColor)
     }
 
     // MARK: Layout
@@ -71,7 +71,12 @@ class OTPProgressRing: UIView {
 
     override func tintColorDidChange() {
         super.tintColorDidChange()
-        updateRingColor(tintColor)
+        updateWithRingColor(tintColor)
+    }
+
+    private func updateWithRingColor(_ ringColor: UIColor) {
+        foregroundRingLayer.strokeColor = ringColor.cgColor
+        backgroundRingLayer.strokeColor = ringColor.withAlphaComponent(0.2).cgColor
     }
 
     func updateWithViewModel(_ viewModel: ProgressRingViewModel) {
@@ -83,11 +88,6 @@ class OTPProgressRing: UIView {
         animation.fromValue = 0
         animation.toValue = 1
         foregroundRingLayer.add(animation, forKey: path)
-    }
-
-    private func updateRingColor(_ tintColor: UIColor) {
-        foregroundRingLayer.strokeColor = tintColor.cgColor
-        backgroundRingLayer.strokeColor = tintColor.withAlphaComponent(0.2).cgColor
     }
 }
 
