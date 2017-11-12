@@ -6,4 +6,26 @@
 //  Copyright © 2017 Matt Rubin. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class OpaqueNavigationController: UINavigationController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        navigationBar.isTranslucent = false
+        navigationBar.barTintColor = UIColor.otpBarBackgroundColor
+        navigationBar.tintColor = UIColor.otpBarForegroundColor
+        navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
+            NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight),
+        ]
+
+        toolbar.isTranslucent = false
+        toolbar.barTintColor = UIColor.otpBarBackgroundColor
+        toolbar.tintColor = UIColor.otpBarForegroundColor
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+}

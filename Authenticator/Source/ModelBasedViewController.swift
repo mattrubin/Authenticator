@@ -7,3 +7,11 @@
 //
 
 import Foundation
+
+protocol ModelBasedViewController {
+    associatedtype ViewModel
+    associatedtype Action
+
+    init(viewModel: ViewModel, dispatchAction: @escaping (Action) -> Void)
+    func updateWithViewModel(_ viewModel: ViewModel)
+}
