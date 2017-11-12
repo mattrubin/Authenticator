@@ -59,6 +59,15 @@
 		C9EB448E1C52A74200ACFA87 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448D1C52A74200ACFA87 /* Component.swift */; };
 		C9EB44901C52AE4500ACFA87 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448F1C52AE4500ACFA87 /* AppController.swift */; };
 		C9F7A8611C4D90B50082E5AE /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7A8601C4D90B50082E5AE /* TokenStore.swift */; };
+		CC00FE311FB66BD600A327C0 /* PasswordPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00FE301FB66BD600A327C0 /* PasswordPickerViewController.swift */; };
+		CC00FE321FB66C1C00A327C0 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC46C4701DB3007D00EB4605 /* SearchField.swift */; };
+		CC00FE371FB670D100A327C0 /* OpaqueNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00FE361FB670D100A327C0 /* OpaqueNavigationController.swift */; };
+		CC00FE391FB6712400A327C0 /* ModelBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00FE381FB6712400A327C0 /* ModelBasedViewController.swift */; };
+		CC00FE3A1FB6719200A327C0 /* OpaqueNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00FE361FB670D100A327C0 /* OpaqueNavigationController.swift */; };
+		CC00FE3D1FB7884100A327C0 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00FE3C1FB7884100A327C0 /* Root.swift */; };
+		CC00FE3E1FB790E500A327C0 /* ModelBasedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00FE381FB6712400A327C0 /* ModelBasedViewController.swift */; };
+		CC00FE401FB806BF00A327C0 /* ExtensionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00FE3F1FB806BF00A327C0 /* ExtensionController.swift */; };
+		CC00FE441FB8275300A327C0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC00FE431FB8275300A327C0 /* Images.xcassets */; };
 		CC46C4711DB3007D00EB4605 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC46C4701DB3007D00EB4605 /* SearchField.swift */; };
 		CC46C4731DB3040300EB4605 /* TokenListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC46C4721DB3040300EB4605 /* TokenListTests.swift */; };
 		CC471EEB1DC027A6006858AC /* TokenListViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */; };
@@ -215,6 +224,12 @@
 		C9EB448D1C52A74200ACFA87 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		C9EB448F1C52AE4500ACFA87 /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		C9F7A8601C4D90B50082E5AE /* TokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+		CC00FE301FB66BD600A327C0 /* PasswordPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordPickerViewController.swift; sourceTree = "<group>"; };
+		CC00FE361FB670D100A327C0 /* OpaqueNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpaqueNavigationController.swift; sourceTree = "<group>"; };
+		CC00FE381FB6712400A327C0 /* ModelBasedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBasedViewController.swift; sourceTree = "<group>"; };
+		CC00FE3C1FB7884100A327C0 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
+		CC00FE3F1FB806BF00A327C0 /* ExtensionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionController.swift; sourceTree = "<group>"; };
+		CC00FE431FB8275300A327C0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CC46C4701DB3007D00EB4605 /* SearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		CC46C4721DB3040300EB4605 /* TokenListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListTests.swift; sourceTree = "<group>"; };
 		CC471EEA1DC027A6006858AC /* TokenListViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewControllerTest.swift; sourceTree = "<group>"; };
@@ -431,6 +446,8 @@
 				C93BD6221C167CD100FFFB8F /* Root.swift */,
 				C93BD6281C168EBF00FFFB8F /* RootViewModel.swift */,
 				C93BD6241C16841D00FFFB8F /* RootViewController.swift */,
+				CC00FE361FB670D100A327C0 /* OpaqueNavigationController.swift */,
+				CC00FE381FB6712400A327C0 /* ModelBasedViewController.swift */,
 			);
 			name = "Root Component";
 			sourceTree = "<group>";
@@ -557,13 +574,41 @@
 			name = "Data Store";
 			sourceTree = "<group>";
 		};
+		CC00FE3B1FB7881300A327C0 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				CC00FE3C1FB7884100A327C0 /* Root.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		CC00FE411FB817CB00A327C0 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				CCFF7C1B1FB4FCA100FFBD89 /* ActionViewController.swift */,
+				CC00FE301FB66BD600A327C0 /* PasswordPickerViewController.swift */,
+				CC00FE3F1FB806BF00A327C0 /* ExtensionController.swift */,
+				CCFF7C2A1FB4FF2E00FFBD89 /* Picker.js */,
+				CC00FE3B1FB7881300A327C0 /* Components */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		CC00FE421FB8186800A327C0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CC00FE431FB8275300A327C0 /* Images.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		CCFF7C1A1FB4FCA100FFBD89 /* AuthenticatorTokenProvider */ = {
 			isa = PBXGroup;
 			children = (
 				CCFF7C291FB4FCD200FFBD89 /* AuthenticatorTokenProvider.entitlements */,
-				CCFF7C1B1FB4FCA100FFBD89 /* ActionViewController.swift */,
 				CCFF7C201FB4FCA100FFBD89 /* Info.plist */,
-				CCFF7C2A1FB4FF2E00FFBD89 /* Picker.js */,
+				CC00FE421FB8186800A327C0 /* Resources */,
+				CC00FE411FB817CB00A327C0 /* Source */,
 			);
 			path = AuthenticatorTokenProvider;
 			sourceTree = "<group>";
@@ -674,6 +719,9 @@
 						CreatedOnToolsVersion = 8.2.1;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
+					CCFF7C181FB4FCA100FFBD89 = {
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Authenticator" */;
@@ -719,6 +767,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCFF7C2B1FB4FF2E00FFBD89 /* Picker.js in Resources */,
+				CC00FE441FB8275300A327C0 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,7 +795,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC00FE391FB6712400A327C0 /* ModelBasedViewController.swift in Sources */,
 				C93AD15219CD51BE007480E9 /* Colors.swift in Sources */,
+				CC00FE371FB670D100A327C0 /* OpaqueNavigationController.swift in Sources */,
 				C9DE02E71ED2234D00D7E01C /* InfoList.swift in Sources */,
 				C93BD6251C16841D00FFFB8F /* RootViewController.swift in Sources */,
 				C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */,
@@ -819,13 +870,19 @@
 			files = (
 				CCFF7C5D1FB5105500FFBD89 /* ProgressRingView.swift in Sources */,
 				CCFF7C611FB5126400FFBD89 /* Colors.swift in Sources */,
+				CC00FE311FB66BD600A327C0 /* PasswordPickerViewController.swift in Sources */,
 				CCFF7C5F1FB5108100FFBD89 /* Component.swift in Sources */,
+				CC00FE321FB66C1C00A327C0 /* SearchField.swift in Sources */,
+				CC00FE401FB806BF00A327C0 /* ExtensionController.swift in Sources */,
+				CC00FE3A1FB6719200A327C0 /* OpaqueNavigationController.swift in Sources */,
 				CCFF7C5E1FB5105E00FFBD89 /* DisplayTime.swift in Sources */,
 				CCFF7C621FB5137900FFBD89 /* UITableView+ReusableCells.swift in Sources */,
 				CCFF7C5A1FB5102C00FFBD89 /* TokenListViewModel.swift in Sources */,
+				CC00FE3D1FB7884100A327C0 /* Root.swift in Sources */,
 				CCFF7C601FB5125700FFBD89 /* TokenRowCell.swift in Sources */,
 				CCFF7C581FB50EE100FFBD89 /* ActionViewController.swift in Sources */,
 				CCFF7C591FB5102500FFBD89 /* TokenList.swift in Sources */,
+				CC00FE3E1FB790E500A327C0 /* ModelBasedViewController.swift in Sources */,
 				CCFF7C5B1FB5103800FFBD89 /* TokenRowModel.swift in Sources */,
 				CCFF7C561FB50E3500FFBD89 /* TokenStore.swift in Sources */,
 				CCFF7C5C1FB5104200FFBD89 /* TableDiff.swift in Sources */,
@@ -971,6 +1028,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = ExtensionIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1001,7 +1059,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 99KV9Z6BKV;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1036,6 +1094,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = ExtensionIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1066,7 +1125,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 99KV9Z6BKV;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
