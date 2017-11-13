@@ -702,6 +702,7 @@
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = WD7ETSN9J9;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -719,6 +720,7 @@
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 					CCFF7C181FB4FCA100FFBD89 = {
+						DevelopmentTeam = WD7ETSN9J9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -925,7 +927,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WD7ETSN9J9;
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev;
 				PRODUCT_NAME = Authenticator;
@@ -946,9 +948,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WD7ETSN9J9;
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
 				PRODUCT_NAME = Authenticator;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1063,7 +1065,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WD7ETSN9J9;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1083,7 +1085,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.AuthenticatorTokenProvider.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev.AuthenticatorTokenProvider;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1129,7 +1131,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WD7ETSN9J9;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1143,7 +1145,7 @@
 				INFOPLIST_FILE = AuthenticatorTokenProvider/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.AuthenticatorTokenProvider.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.AuthenticatorTokenProvider;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
