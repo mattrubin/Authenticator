@@ -111,7 +111,9 @@ private class RingLayer: CAShapeLayer {
 
         // Transform the ring path to draw clockwise, starting at the top.
         let translationToOrigin = CGAffineTransform(translationX: -ringRect.midX, y: -ringRect.midY)
-        let rotation = CGAffineTransform(rotationAngle: -.pi / 2)
+        // Note: The rotation angle is more precisely expressed as `-.pi / 2`, but that causes a bug on 32-bit devices.
+        // See https://github.com/mattrubin/Authenticator/issues/235 for more details.
+        let rotation = CGAffineTransform(rotationAngle: -1.5708)
         let translationFromOrigin = CGAffineTransform(translationX: ringRect.midX, y: ringRect.midY)
         var transform = translationToOrigin.concatenating(rotation).concatenating(translationFromOrigin)
         withUnsafePointer(to: &transform) { transform in
