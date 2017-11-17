@@ -38,7 +38,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         let fontAttributes = [NSFontAttributeName: barButtonItemFont]
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .highlighted)
-        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .selected)
 
         let disabledAttributes = [
             NSFontAttributeName: barButtonItemFont,
