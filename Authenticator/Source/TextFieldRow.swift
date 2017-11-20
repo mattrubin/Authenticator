@@ -73,6 +73,8 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
         textField.borderStyle = .roundedRect
         textField.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight)
         contentView.addSubview(textField)
+
+        accessibilityElements = [textField]
     }
 
     override func layoutSubviews() {
@@ -101,6 +103,8 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
             textField.text = viewModel.value
         }
         changeAction = viewModel.changeAction
+
+        textField.accessibilityLabel = viewModel.label
     }
 
     static func heightWithViewModel(_ viewModel: TextFieldRowViewModel<Action>) -> CGFloat {
