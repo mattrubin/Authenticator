@@ -51,7 +51,7 @@ func changesFrom<T: Identifiable>(_ oldItems: [T], to newItems: [T]) -> [Change<
         from: oldItems,
         to: newItems,
         hasSameIdentity: { $0.hasSameIdentity($1) },
-        isEqual: { _ in false }
+        isEqual: { _,_  in false }
     )
 }
 

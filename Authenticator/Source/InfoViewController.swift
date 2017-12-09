@@ -83,7 +83,7 @@ final class InfoViewController: UIViewController, WKNavigationDelegate {
 
     // MARK: Target Actions
 
-    func done() {
+    @objc func done() {
         dispatchAction(.done)
     }
 

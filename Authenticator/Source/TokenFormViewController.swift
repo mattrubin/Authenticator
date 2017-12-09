@@ -121,13 +121,13 @@ final class TokenFormViewController<Form: TableViewModelRepresentable>: UITableV
 
     // MARK: - Target Actions
 
-    func leftBarButtonAction() {
+    @objc func leftBarButtonAction() {
         if let action = viewModel.leftBarButton?.action {
             dispatchAction(action)
         }
     }
 
-    func rightBarButtonAction() {
+    @objc func rightBarButtonAction() {
         if let action = viewModel.rightBarButton?.action {
             dispatchAction(action)
         }

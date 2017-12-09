@@ -56,12 +56,12 @@ class TokenRowCell: UITableViewCell {
     // MARK: - Subviews
 
     private func configureSubviews() {
-        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight)
+        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.light)
         titleLabel.textColor = .otpForegroundColor
         titleLabel.textAlignment = .center
         contentView.addSubview(titleLabel)
 
-        passwordLabel.font = UIFont.systemFont(ofSize: 50, weight: UIFontWeightThin)
+        passwordLabel.font = UIFont.systemFont(ofSize: 50, weight: UIFont.Weight.thin)
         passwordLabel.textColor = .otpForegroundColor
         passwordLabel.textAlignment = .center
         contentView.addSubview(passwordLabel)
@@ -110,7 +110,7 @@ class TokenRowCell: UITableViewCell {
     private func setName(_ name: String, issuer: String) {
         let titleString = NSMutableAttributedString()
         if !issuer.isEmpty {
-            let issuerAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)]
+            let issuerAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)]
             titleString.append(NSAttributedString(string: issuer, attributes: issuerAttributes))
         }
         if !issuer.isEmpty && !name.isEmpty {
@@ -123,7 +123,7 @@ class TokenRowCell: UITableViewCell {
     }
 
     private func setPassword(_ password: String) {
-        passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSKernAttributeName: 2])
+        passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSAttributedStringKey.kern: 2])
     }
 
     // MARK: - Editing
@@ -140,7 +140,7 @@ class TokenRowCell: UITableViewCell {
 
     // MARK: - Actions
 
-    func generateNextPassword() {
+    @objc func generateNextPassword() {
         if let action = rowModel?.buttonAction {
             dispatchAction?(action)
         }
