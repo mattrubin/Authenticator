@@ -84,6 +84,9 @@ class ProgressRingView: UIView {
         let animation = CABasicAnimation(keyPath: path)
         let now = layer.convertTime(CACurrentMediaTime(), from: nil)
         animation.beginTime = now + viewModel.startTime.timeIntervalSinceNow
+        if CommandLine.isDemo {
+            animation.beginTime -= DisplayTime.demoTime.date.timeIntervalSinceNow
+        }
         animation.duration = viewModel.duration
         animation.fromValue = 0
         animation.toValue = 1
