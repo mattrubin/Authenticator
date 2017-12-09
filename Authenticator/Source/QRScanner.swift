@@ -104,7 +104,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
 
     // MARK: AVCaptureMetadataOutputObjectsDelegate
 
-    func metadataOutput(_ captureOutput: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         for metadata in metadataObjects {
             if let metadata = metadata as? AVMetadataMachineReadableCodeObject,
                 metadata.type == .qr,
