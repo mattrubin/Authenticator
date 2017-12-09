@@ -39,7 +39,7 @@ class TokenListTests: XCTestCase {
         ])
         let effect = tokenList.update(.filter("goo"))
 
-        let viewModel = tokenList.viewModel(for: persistentTokens, at: displayTime)
+        let (viewModel, _) = tokenList.viewModel(for: persistentTokens, at: displayTime)
         let filteredIssuers = viewModel.rowModels.map { $0.issuer }
 
         XCTAssertNil(effect)
@@ -56,7 +56,7 @@ class TokenListTests: XCTestCase {
             ("Service", "username"),
         ])
         let effect = tokenList.update(.filter("Service"))
-        let viewModel = tokenList.viewModel(for: persistentTokens, at: displayTime)
+        let (viewModel, _) = tokenList.viewModel(for: persistentTokens, at: displayTime)
 
         XCTAssertNil(effect)
         XCTAssertTrue(viewModel.isFiltering)

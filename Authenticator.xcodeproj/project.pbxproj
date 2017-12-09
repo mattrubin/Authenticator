@@ -51,7 +51,7 @@
 		C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09541BA91D1C008C54FE /* TableViewModel.swift */; };
 		C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */; };
 		C9D6C8461906CD54004F0E08 /* TextFieldRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */; };
-		C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */; };
+		C9D6C84C19075044004F0E08 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* ProgressRingView.swift */; };
 		C9DE02E71ED2234D00D7E01C /* InfoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE02E61ED2234D00D7E01C /* InfoList.swift */; };
 		C9DE02E91ED227D600D7E01C /* InfoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE02E81ED227D600D7E01C /* InfoListViewController.swift */; };
 		C9E3FB9A1E281CBC00EFA8BB /* TokenScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3FB991E281CBC00EFA8BB /* TokenScanner.swift */; };
@@ -172,7 +172,7 @@
 		C9CC09541BA91D1C008C54FE /* TableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlRow.swift; sourceTree = "<group>"; };
 		C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldRow.swift; sourceTree = "<group>"; };
-		C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPProgressRing.swift; sourceTree = "<group>"; };
+		C9D6C84B19075044004F0E08 /* ProgressRingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressRingView.swift; sourceTree = "<group>"; };
 		C9D844341D4C576B00D5E343 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		C9D844361D4C59D600D5E343 /* CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONDUCT.md; sourceTree = "<group>"; };
 		C9DE02E61ED2234D00D7E01C /* InfoList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoList.swift; sourceTree = "<group>"; };
@@ -400,7 +400,7 @@
 				C9B7328E1C0A8AE60076F77E /* TokenListViewModel.swift */,
 				C92708AB19CFB0750033128B /* TokenListViewController.swift */,
 				C98C1C4517D2EDF500A07D3F /* Cells */,
-				C9D6C84B19075044004F0E08 /* OTPProgressRing.swift */,
+				C9D6C84B19075044004F0E08 /* ProgressRingView.swift */,
 				CC46C4701DB3007D00EB4605 /* SearchField.swift */,
 			);
 			name = "Token List";
@@ -669,7 +669,7 @@
 				C93BD6231C167CD100FFFB8F /* Root.swift in Sources */,
 				C97CDF2C1BEEC90100D64406 /* QRScanner.swift in Sources */,
 				C9AAB07F1B917EC3000CE547 /* TokenEditForm.swift in Sources */,
-				C9D6C84C19075044004F0E08 /* OTPProgressRing.swift in Sources */,
+				C9D6C84C19075044004F0E08 /* ProgressRingView.swift in Sources */,
 				C9A1C1A91E501D8B009E65D6 /* Info.swift in Sources */,
 				C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */,
 				C99069D1180CBAC900BAEF53 /* TokenScannerViewController.swift in Sources */,
@@ -745,6 +745,7 @@
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev;
 				PRODUCT_NAME = Authenticator;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

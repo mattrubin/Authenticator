@@ -14,9 +14,9 @@ Authenticator is a simple, free, and open source [two-factor authentication](htt
 - Compatible: Full support for [time-based](https://tools.ietf.org/html/rfc6238) and [counter-based](https://tools.ietf.org/html/rfc4226) one-time passwords as standardized in RFC 4226 and 6238
 - Off the Grid: The app never connects to the internet, and your secret keys never leave your device.
 
-<img src="fastlane/screenshots/en-US/iPhone7-0-TokenList-d41d8cd98f00b204e9800998ecf8427e.png" width="250" alt="Screenshot of the Authenticator token list" /> &nbsp;
-<img src="fastlane/screenshots/en-US/iPhone7-1-ScanToken-d41d8cd98f00b204e9800998ecf8427e.png" width="250" alt="Screenshot of the Authenticator QR Code scanner" /> &nbsp;
-<img src="fastlane/screenshots/en-US/iPhone7-2-AddToken-d41d8cd98f00b204e9800998ecf8427e.png" width="250" alt="Screenshot of the Authenticator token entry form" />
+<img src="fastlane/screenshots/en-US/iPhone 8-0-TokenList.png" width="250" alt="Screenshot of the Authenticator token list" /> &nbsp;
+<img src="fastlane/screenshots/en-US/iPhone 8-1-ScanToken.png" width="250" alt="Screenshot of the Authenticator QR Code scanner" /> &nbsp;
+<img src="fastlane/screenshots/en-US/iPhone 8-2-AddToken.png" width="250" alt="Screenshot of the Authenticator token entry form" />
 
 
 ## Getting Started

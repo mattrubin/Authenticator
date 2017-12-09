@@ -28,7 +28,7 @@ import UIKit
 // A custom view that contains a SearchTextField displaying its placeholder centered in the
 // text field.
 //
-// Displays a OTPProgressRing as the `leftView` control.
+// Displays a ProgressRingView as the `leftView` control.
 class SearchField: UIView {
 
     override init(frame: CGRect) {
@@ -50,7 +50,7 @@ class SearchField: UIView {
         return textField.text
     }
 
-    let ring = OTPProgressRing(
+    let ring = ProgressRingView(
         frame: CGRect(origin: .zero, size: CGSize(width: 22, height: 22))
     )
 
@@ -103,11 +103,11 @@ class SearchField: UIView {
 // MARK: TokenListPresenter
 extension SearchField {
     func updateWithViewModel(_ viewModel: TokenList.ViewModel) {
-        if let ringProgress = viewModel.ringProgress {
-            ring.progress = ringProgress
+        if let progressRingViewModel = viewModel.progressRingViewModel {
+            ring.updateWithViewModel(progressRingViewModel)
         }
         // Show the countdown ring only if a time-based token is active
-        textField.leftViewMode = viewModel.ringProgress != nil ? .always : .never
+        textField.leftViewMode = viewModel.progressRingViewModel != nil ? .always : .never
 
         // Only display text field as editable if there are tokens to filter
         textField.isEnabled = viewModel.hasTokens

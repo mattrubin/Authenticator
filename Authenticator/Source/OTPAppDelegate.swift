@@ -38,7 +38,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         let fontAttributes = [NSFontAttributeName: barButtonItemFont]
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .highlighted)
-        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .selected)
 
         let disabledAttributes = [
             NSFontAttributeName: barButtonItemFont,
@@ -55,6 +54,11 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
 
         return true
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        // Ensure the UI is updated with the latest view model whenever the app returns from the background.
+        app.updateView()
     }
 
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {

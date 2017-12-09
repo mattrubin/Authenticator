@@ -1,3 +1,2 @@
-• Added support for iPhone X
-• Fixed a bug where tokens were sometimes copied when trying to scroll the token list
-• Fixed button text color and font weight on iOS 11
+• Improved the accessibility of manual token entry when using VoiceOver
+• Improved app efficiency, reducing energy usage and processor load by over 95%
