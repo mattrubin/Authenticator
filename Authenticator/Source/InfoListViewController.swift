@@ -169,9 +169,8 @@ class InfoListCell: UITableViewCell {
     func updateWithRowModel(_ rowModel: InfoList.RowModel) {
         titleLabel.text = rowModel.title
 
-        let attributes: [NSAttributedStringKey: Any] = [.paragraphStyle: InfoListCell.paragraphStyle]
         let attributedDetails = NSMutableAttributedString(string: rowModel.description + "  " + rowModel.callToAction,
-                                                          attributes: attributes)
+                                                          attributes: [.paragraphStyle: InfoListCell.paragraphStyle])
         attributedDetails.addAttribute(.font, value: InfoListCell.callToActionFont,
                                        range: (attributedDetails.string as NSString).range(of: rowModel.callToAction))
         descriptionLabel.attributedText = attributedDetails
