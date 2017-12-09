@@ -107,7 +107,7 @@ final class TokenScannerViewController: UIViewController, QRScannerDelegate {
         manualEntryBarButtonItem.accessibilityLabel = "Manual token entry"
         navigationItem.rightBarButtonItem = manualEntryBarButtonItem
 
-        videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoLayer.videoGravity = .resizeAspectFill
         videoLayer.frame = view.layer.bounds
         view.layer.addSublayer(videoLayer)
 
