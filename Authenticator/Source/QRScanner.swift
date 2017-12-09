@@ -78,8 +78,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         let captureOutput = AVCaptureMetadataOutput()
         // The output must be added to the session before it can be checked for metadata types
         captureSession.addOutput(captureOutput)
-        guard let availableTypes = captureOutput.availableMetadataObjectTypes,
-            (availableTypes as NSArray).contains(AVMetadataObject.ObjectType.qr) else {
+        guard captureOutput.availableMetadataObjectTypes.contains(AVMetadataObject.ObjectType.qr) else {
                 throw CaptureSessionError.noQRCodeMetadataType
         }
         captureOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
@@ -106,10 +105,6 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     // MARK: AVCaptureMetadataOutputObjectsDelegate
 
     func metadataOutput(_ captureOutput: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        guard let metadataObjects = metadataObjects else {
-            return
-        }
-
         for metadata in metadataObjects {
             if let metadata = metadata as? AVMetadataMachineReadableCodeObject,
                 metadata.type == AVMetadataObject.ObjectType.qr,
