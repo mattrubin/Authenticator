@@ -34,14 +34,14 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     let app = AppController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let barButtonItemFont = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.light)
-        let fontAttributes = [NSAttributedStringKey.font: barButtonItemFont]
+        let barButtonItemFont = UIFont.systemFont(ofSize: 17, weight: .light)
+        let fontAttributes: [NSAttributedStringKey: Any] = [.font: barButtonItemFont]
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .highlighted)
 
-        let disabledAttributes = [
-            NSAttributedStringKey.font: barButtonItemFont,
-            NSAttributedStringKey.foregroundColor: UIColor.otpBarForegroundColor.withAlphaComponent(0.3),
+        let disabledAttributes: [NSAttributedStringKey: Any] = [
+            .font: barButtonItemFont,
+            .foregroundColor: UIColor.otpBarForegroundColor.withAlphaComponent(0.3),
         ]
         UIBarButtonItem.appearance().setTitleTextAttributes(disabledAttributes, for: .disabled)
 

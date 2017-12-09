@@ -100,9 +100,9 @@ final class InfoListViewController: UITableViewController {
 }
 
 class InfoListCell: UITableViewCell {
-    private static let titleFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.medium)
-    private static let descriptionFont = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.light)
-    private static let callToActionFont = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.semibold)
+    private static let titleFont = UIFont.systemFont(ofSize: 18, weight: .medium)
+    private static let descriptionFont = UIFont.systemFont(ofSize: 15, weight: .light)
+    private static let callToActionFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
     private static let paragraphStyle: NSParagraphStyle = {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.3
@@ -169,10 +169,10 @@ class InfoListCell: UITableViewCell {
     func updateWithRowModel(_ rowModel: InfoList.RowModel) {
         titleLabel.text = rowModel.title
 
-        let attributes = [NSAttributedStringKey.paragraphStyle: InfoListCell.paragraphStyle]
+        let attributes: [NSAttributedStringKey: Any] = [.paragraphStyle: InfoListCell.paragraphStyle]
         let attributedDetails = NSMutableAttributedString(string: rowModel.description + "  " + rowModel.callToAction,
                                                           attributes: attributes)
-        attributedDetails.addAttribute(NSAttributedStringKey.font, value: InfoListCell.callToActionFont,
+        attributedDetails.addAttribute(.font, value: InfoListCell.callToActionFont,
                                        range: (attributedDetails.string as NSString).range(of: rowModel.callToAction))
         descriptionLabel.attributedText = attributedDetails
     }

@@ -66,12 +66,12 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
     // MARK: - Subviews
 
     private func configureSubviews() {
-        textLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.light)
+        textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .light)
 
         textField.delegate = self
         textField.addTarget(self, action: #selector(TextFieldRowCell.textFieldValueChanged), for: .editingChanged)
         textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light)
+        textField.font = UIFont.systemFont(ofSize: 16, weight: .light)
         contentView.addSubview(textField)
 
         accessibilityElements = [textField]

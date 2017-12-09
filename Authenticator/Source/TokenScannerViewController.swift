@@ -41,10 +41,10 @@ final class TokenScannerViewController: UIViewController, QRScannerDelegate {
         paragraphStyle.lineHeightMultiple = 1.3
         paragraphStyle.paragraphSpacing = 5
         let attributedMessage = NSMutableAttributedString(string: message, attributes: [
-            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.light),
-            NSAttributedStringKey.paragraphStyle: paragraphStyle,
+            .font: UIFont.systemFont(ofSize: 15, weight: .light),
+            .paragraphStyle: paragraphStyle,
             ])
-        attributedMessage.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: 15),
+        attributedMessage.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 15),
                                        range: (attributedMessage.string as NSString).range(of: linkTitle))
 
         let label = UILabel()

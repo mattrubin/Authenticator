@@ -58,9 +58,9 @@ class SearchField: UIView {
 
     private func setupTextField() {
         ring.tintColor = UIColor.otpLightColor
-        let placeHolderAttributes = [
-            NSAttributedStringKey.foregroundColor: UIColor.otpLightColor,
-            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.light),
+        let placeHolderAttributes: [NSAttributedStringKey: Any] = [
+            .foregroundColor: UIColor.otpLightColor,
+            .font: UIFont.systemFont(ofSize: 16, weight: .light),
         ]
         textField.attributedPlaceholder = NSAttributedString(
             string: "Authenticator",

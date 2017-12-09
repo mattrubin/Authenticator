@@ -33,8 +33,8 @@ class OpaqueNavigationController: UINavigationController {
         navigationBar.barTintColor = UIColor.otpBarBackgroundColor
         navigationBar.tintColor = UIColor.otpBarForegroundColor
         navigationBar.titleTextAttributes = [
-            NSAttributedStringKey.foregroundColor: UIColor.otpBarForegroundColor,
-            NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.light),
+            .foregroundColor: UIColor.otpBarForegroundColor,
+            .font: UIFont.systemFont(ofSize: 20, weight: .light),
         ]
 
         toolbar.isTranslucent = false
