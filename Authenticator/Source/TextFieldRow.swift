@@ -113,7 +113,8 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
 
     // MARK: - Target Action
 
-    @objc func textFieldValueChanged() {
+    @objc
+    func textFieldValueChanged() {
         let newText = textField.text ?? ""
         if let action = changeAction?(newText) {
             dispatchAction?(action)

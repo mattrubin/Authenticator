@@ -140,7 +140,8 @@ class TokenRowCell: UITableViewCell {
 
     // MARK: - Actions
 
-    @objc func generateNextPassword() {
+    @objc
+    func generateNextPassword() {
         if let action = rowModel?.buttonAction {
             dispatchAction?(action)
         }

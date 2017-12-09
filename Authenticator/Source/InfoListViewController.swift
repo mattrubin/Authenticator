@@ -70,7 +70,8 @@ final class InfoListViewController: UITableViewController {
 
     // MARK: Target Actions
 
-    @objc func done() {
+    @objc
+    func done() {
         dispatchAction(.done)
     }
 

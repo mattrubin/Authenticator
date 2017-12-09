@@ -82,7 +82,8 @@ class ButtonHeaderView<Action>: UIButton {
 
     // MARK: - Target Action
 
-    @objc func buttonWasPressed() {
+    @objc
+    func buttonWasPressed() {
         if let action = buttonAction {
             dispatchAction?(action)
         }

@@ -192,22 +192,26 @@ class TokenListViewController: UITableViewController {
 
     // MARK: Target Actions
 
-    @objc func addToken() {
+    @objc
+    func addToken() {
         dispatchAction(.beginAddToken)
     }
 
-    @objc func filterTokens() {
+    @objc
+    func filterTokens() {
         guard let filter = searchBar.text else {
             return dispatchAction(.clearFilter)
         }
         dispatchAction(.filter(filter))
     }
 
-    @objc func showBackupInfo() {
+    @objc
+    func showBackupInfo() {
         dispatchAction(.showBackupInfo)
     }
 
-    @objc func showLicenseInfo() {
+    @objc
+    func showLicenseInfo() {
         dispatchAction(.showInfo)
     }
 }

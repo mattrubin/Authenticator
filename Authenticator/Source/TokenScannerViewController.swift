@@ -175,15 +175,18 @@ final class TokenScannerViewController: UIViewController, QRScannerDelegate {
 
     // MARK: Target Actions
 
-    @objc func cancel() {
+    @objc
+    func cancel() {
         dispatchAction(.cancel)
     }
 
-    @objc func addTokenManually() {
+    @objc
+    func addTokenManually() {
         dispatchAction(.beginManualTokenEntry)
     }
 
-    @objc func editPermissions() {
+    @objc
+    func editPermissions() {
         dispatchAction(.showApplicationSettings)
     }
 
