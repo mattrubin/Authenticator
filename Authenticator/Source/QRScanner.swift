@@ -69,7 +69,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     private class func createCaptureSessionWithDelegate(_ delegate: AVCaptureMetadataOutputObjectsDelegate) throws -> AVCaptureSession {
         let captureSession = AVCaptureSession()
 
-        guard let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
+        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
             throw CaptureSessionError.noCaptureDevice
         }
         let captureInput = try AVCaptureDeviceInput(device: captureDevice)
@@ -78,28 +78,28 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         let captureOutput = AVCaptureMetadataOutput()
         // The output must be added to the session before it can be checked for metadata types
         captureSession.addOutput(captureOutput)
-        guard captureOutput.availableMetadataObjectTypes.contains(AVMetadataObject.ObjectType.qr) else {
-                throw CaptureSessionError.noQRCodeMetadataType
+        guard captureOutput.availableMetadataObjectTypes.contains(.qr) else {
+            throw CaptureSessionError.noQRCodeMetadataType
         }
-        captureOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
-        captureOutput.setMetadataObjectsDelegate(delegate, queue: DispatchQueue.main)
+        captureOutput.metadataObjectTypes = [.qr]
+        captureOutput.setMetadataObjectsDelegate(delegate, queue: .main)
 
         return captureSession
     }
 
     class var deviceCanScan: Bool {
-        return (AVCaptureDevice.default(for: AVMediaType.video) != nil)
+        return (AVCaptureDevice.default(for: .video) != nil)
     }
 
     class var authorizationStatus: AVAuthorizationStatus {
-        return AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        return AVCaptureDevice.authorizationStatus(for: .video)
     }
 
     class func requestAccess(_ completionHandler: @escaping (Bool) -> Void) {
         guard !CommandLine.isDemo else {
             return
         }
-        AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: completionHandler)
+        AVCaptureDevice.requestAccess(for: .video, completionHandler: completionHandler)
     }
 
     // MARK: AVCaptureMetadataOutputObjectsDelegate
@@ -107,7 +107,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ captureOutput: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         for metadata in metadataObjects {
             if let metadata = metadata as? AVMetadataMachineReadableCodeObject,
-                metadata.type == AVMetadataObject.ObjectType.qr,
+                metadata.type == .qr,
                 let string = metadata.stringValue {
                     // Dispatch to the main queue because setMetadataObjectsDelegate doesn't
                     DispatchQueue.main.async {
