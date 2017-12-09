@@ -64,7 +64,7 @@ class AuthenticatorScreenshots: XCTestCase {
         // Take a screenshot of the token scanner.
         snapshot("1-ScanToken")
 
-        app.navigationBars.buttons["Compose"].tap()
+        app.navigationBars.buttons["Manual token entry"].tap()
         // Wait for the scroll bars to fade.
         sleep(1)
         // Take a screenshot of the token entry form.
