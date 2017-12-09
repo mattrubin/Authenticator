@@ -110,7 +110,7 @@ class TokenRowCell: UITableViewCell {
     private func setName(_ name: String, issuer: String) {
         let titleString = NSMutableAttributedString()
         if !issuer.isEmpty {
-            let issuerAttributes: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 15, weight: .medium)]
+            let issuerAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: .medium)]
             titleString.append(NSAttributedString(string: issuer, attributes: issuerAttributes))
         }
         if !issuer.isEmpty && !name.isEmpty {

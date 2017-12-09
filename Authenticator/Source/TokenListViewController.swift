@@ -50,9 +50,9 @@ class TokenListViewController: UITableViewController {
     fileprivate lazy var noTokensLabel: UILabel = {
         let title = "No Tokens"
         let message = "Tap + to add a new token"
-        let titleAttributes: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 20, weight: .light)]
-        let messageAttributes: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 17, weight: .light)]
-        let plusAttributes: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 25, weight: .light)]
+        let titleAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20, weight: .light)]
+        let messageAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17, weight: .light)]
+        let plusAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 25, weight: .light)]
 
         let noTokenString = NSMutableAttributedString(string: title + "\n", attributes: titleAttributes)
         noTokenString.append(NSAttributedString(string: message, attributes: messageAttributes))

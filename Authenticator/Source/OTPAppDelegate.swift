@@ -35,7 +35,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let barButtonItemFont = UIFont.systemFont(ofSize: 17, weight: .light)
-        let fontAttributes: [NSAttributedStringKey: Any] = [.font: barButtonItemFont]
+        let fontAttributes = [NSAttributedStringKey.font: barButtonItemFont]
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .highlighted)
 
