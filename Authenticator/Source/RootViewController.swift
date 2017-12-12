@@ -25,28 +25,6 @@
 
 import UIKit
 
-class OpaqueNavigationController: UINavigationController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        navigationBar.isTranslucent = false
-        navigationBar.barTintColor = UIColor.otpBarBackgroundColor
-        navigationBar.tintColor = UIColor.otpBarForegroundColor
-        navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
-            NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight),
-        ]
-
-        toolbar.isTranslucent = false
-        toolbar.barTintColor = UIColor.otpBarBackgroundColor
-        toolbar.tintColor = UIColor.otpBarForegroundColor
-    }
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-}
-
 class RootViewController: OpaqueNavigationController {
     fileprivate var currentViewModel: Root.ViewModel
 
@@ -99,14 +77,6 @@ class RootViewController: OpaqueNavigationController {
             dismiss(animated: true)
         }
     }
-}
-
-protocol ModelBasedViewController {
-    associatedtype ViewModel
-    associatedtype Action
-
-    init(viewModel: ViewModel, dispatchAction: @escaping (Action) -> Void)
-    func updateWithViewModel(_ viewModel: ViewModel)
 }
 
 extension TokenScannerViewController: ModelBasedViewController {}
