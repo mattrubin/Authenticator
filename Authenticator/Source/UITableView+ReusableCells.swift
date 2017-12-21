@@ -26,7 +26,7 @@
 import UIKit
 
 extension UITableView {
-    func dequeueReusableCellWithClass<Cell: UITableViewCell>(_ cellClass: Cell.Type) -> Cell {
+    func dequeueReusableCell<Cell: UITableViewCell>(withClass cellClass: Cell.Type) -> Cell {
         let reuseIdentifier = NSStringFromClass(cellClass)
         if let cell = dequeueReusableCell(withIdentifier: reuseIdentifier) as? Cell {
             return cell

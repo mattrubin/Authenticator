@@ -82,7 +82,7 @@ final class TokenScannerViewController: UIViewController, QRScannerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateWithViewModel(_ viewModel: TokenScanner.ViewModel) {
+    func update(with viewModel: TokenScanner.ViewModel) {
         self.viewModel = viewModel
     }
 

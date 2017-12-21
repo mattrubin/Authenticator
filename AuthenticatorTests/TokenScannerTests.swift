@@ -33,7 +33,7 @@ class TokenScannerTests: XCTestCase {
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
         let action = TokenScanner.Action.cancel
-        let effect = tokenScanner.update(action)
+        let effect = tokenScanner.update(with: action)
         guard let requiredEffect = effect,
             case .cancel = requiredEffect else {
                 XCTFail("Expected effect .Cancel, got \(String(describing: effect))")
@@ -48,7 +48,7 @@ class TokenScannerTests: XCTestCase {
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
         let action = TokenScanner.Action.beginManualTokenEntry
-        let effect = tokenScanner.update(action)
+        let effect = tokenScanner.update(with: action)
         guard let requiredEffect = effect,
             case .beginManualTokenEntry = requiredEffect else {
                 XCTFail("Expected effect .BeginManualTokenEntry, got \(String(describing: effect))")
@@ -62,7 +62,7 @@ class TokenScannerTests: XCTestCase {
         var tokenScanner = TokenScanner()
 
         let action = TokenScanner.Action.showApplicationSettings
-        let effect = tokenScanner.update(action)
+        let effect = tokenScanner.update(with: action)
         guard let requiredEffect = effect,
             case .showApplicationSettings = requiredEffect else {
                 XCTFail("Expected effect .showApplicationSettings, got \(String(describing: effect))")
@@ -75,7 +75,7 @@ class TokenScannerTests: XCTestCase {
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
         let action = TokenScanner.Action.scannerDecodedText("something...")
-        let effect = tokenScanner.update(action)
+        let effect = tokenScanner.update(with: action)
         guard let requiredEffect = effect,
             case .showErrorMessage(let message) = requiredEffect else {
                 XCTFail("Expected effect .ShowErrorMessage, got \(String(describing: effect))")
@@ -92,7 +92,7 @@ class TokenScannerTests: XCTestCase {
 
         let urlString = "http://example.com"
         let action = TokenScanner.Action.scannerDecodedText(urlString)
-        let effect = tokenScanner.update(action)
+        let effect = tokenScanner.update(with: action)
         guard let requiredEffect = effect,
             case .showErrorMessage(let message) = requiredEffect else {
                 XCTFail("Expected effect .ShowErrorMessage, got \(String(describing: effect))")
@@ -109,7 +109,7 @@ class TokenScannerTests: XCTestCase {
 
         let urlString = "otpauth://totp/Authenticator?secret=ABCDEFGHIJKLMNOP"
         let action = TokenScanner.Action.scannerDecodedText(urlString)
-        let effect = tokenScanner.update(action)
+        let effect = tokenScanner.update(with: action)
         guard let requiredEffect = effect,
             case .saveNewToken(let token) = requiredEffect else {
                 XCTFail("Expected effect .SaveNewToken, got \(String(describing: effect))")
@@ -130,7 +130,7 @@ class TokenScannerTests: XCTestCase {
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
         let action = TokenScanner.Action.scannerError(ScannerError())
-        let effect = tokenScanner.update(action)
+        let effect = tokenScanner.update(with: action)
         guard let requiredEffect = effect,
             case .showErrorMessage(let message) = requiredEffect else {
                 XCTFail("Expected effect .ShowErrorMessage, got \(String(describing: effect))")

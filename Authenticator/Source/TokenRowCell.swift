@@ -50,7 +50,7 @@ class TokenRowCell: UITableViewCell {
         selectionStyle = .none
 
         configureSubviews()
-        updateAppearanceWithRowModel(rowModel)
+        updateAppearance(with: rowModel)
     }
 
     // MARK: - Subviews
@@ -91,12 +91,12 @@ class TokenRowCell: UITableViewCell {
 
     // MARK: - Update
 
-    func updateWithRowModel(_ rowModel: TokenRowModel) {
-        updateAppearanceWithRowModel(rowModel)
+    func update(with rowModel: TokenRowModel) {
+        updateAppearance(with: rowModel)
         self.rowModel = rowModel
     }
 
-    private func updateAppearanceWithRowModel(_ rowModel: TokenRowModel?) {
+    private func updateAppearance(with rowModel: TokenRowModel?) {
         let name = rowModel?.name ?? ""
         let issuer = rowModel?.issuer ?? ""
         let password = rowModel?.password ?? ""

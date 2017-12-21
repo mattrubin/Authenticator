@@ -106,7 +106,7 @@ protocol ModelBasedViewController {
     associatedtype Action
 
     init(viewModel: ViewModel, dispatchAction: @escaping (Action) -> Void)
-    func updateWithViewModel(_ viewModel: ViewModel)
+    func update(with viewModel: ViewModel)
 }
 
 extension TokenScannerViewController: ModelBasedViewController {}
@@ -121,7 +121,7 @@ extension RootViewController {
 
     private func reify<ViewController: ModelBasedViewController>(_ existingViewController: UIViewController?, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
         if let viewController = existingViewController as? ViewController {
-            viewController.updateWithViewModel(viewModel)
+            viewController.update(with: viewModel)
             return viewController
         } else {
             let viewController = ViewController(
@@ -132,8 +132,8 @@ extension RootViewController {
         }
     }
 
-    func updateWithViewModel(_ viewModel: Root.ViewModel) {
-        tokenListViewController.updateWithViewModel(viewModel.tokenList)
+    func update(with viewModel: Root.ViewModel) {
+        tokenListViewController.update(with: viewModel.tokenList)
 
         switch viewModel.modal {
         case .none:

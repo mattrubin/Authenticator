@@ -58,7 +58,7 @@ struct TokenRowModel: Identifiable {
         canReorder = reorderable
     }
 
-    func hasSameIdentity(_ other: TokenRowModel) -> Bool {
+    func hasSameIdentity(as other: TokenRowModel) -> Bool {
         return (self.identifier == other.identifier)
     }
 

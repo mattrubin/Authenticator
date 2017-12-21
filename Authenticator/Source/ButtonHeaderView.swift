@@ -68,15 +68,15 @@ class ButtonHeaderView<Action>: UIButton {
     convenience init(viewModel: ButtonHeaderViewModel<Action>, dispatchAction: @escaping (Action) -> Void) {
         self.init()
         self.dispatchAction = dispatchAction
-        updateWithViewModel(viewModel)
+        update(with: viewModel)
     }
 
-    func updateWithViewModel(_ viewModel: ButtonHeaderViewModel<Action>) {
+    func update(with viewModel: ButtonHeaderViewModel<Action>) {
         setTitle(viewModel.title, for: .normal)
         buttonAction = viewModel.action
     }
 
-    static func heightWithViewModel(_ viewModel: ButtonHeaderViewModel<Action>) -> CGFloat {
+    static func heightForHeader(with viewModel: ButtonHeaderViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 

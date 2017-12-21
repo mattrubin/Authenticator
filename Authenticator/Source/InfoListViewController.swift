@@ -41,7 +41,7 @@ final class InfoListViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateWithViewModel(_ viewModel: InfoList.ViewModel) {
+    func update(with viewModel: InfoList.ViewModel) {
         self.viewModel = viewModel
         applyViewModel()
     }
@@ -82,14 +82,14 @@ final class InfoListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithClass(InfoListCell.self)
+        let cell = tableView.dequeueReusableCell(withClass: InfoListCell.self)
         updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
     }
 
     fileprivate func updateCell(_ cell: InfoListCell, forRowAtIndexPath indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
-        cell.updateWithRowModel(rowModel)
+        cell.update(with: rowModel)
     }
 
     // MARK: UITableViewDelegate
@@ -167,7 +167,7 @@ class InfoListCell: UITableViewCell {
 
     // MARK: Update
 
-    func updateWithRowModel(_ rowModel: InfoList.RowModel) {
+    func update(with rowModel: InfoList.RowModel) {
         titleLabel.text = rowModel.title
 
         let attributedDetails = NSMutableAttributedString(string: rowModel.description + "  " + rowModel.callToAction,

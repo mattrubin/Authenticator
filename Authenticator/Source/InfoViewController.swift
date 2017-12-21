@@ -44,7 +44,7 @@ final class InfoViewController: UIViewController, WKNavigationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateWithViewModel(_ viewModel: Info.ViewModel) {
+    func update(with viewModel: Info.ViewModel) {
         self.viewModel = viewModel
         applyViewModel()
     }
