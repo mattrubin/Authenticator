@@ -26,7 +26,7 @@
 import Foundation
 
 protocol Identifiable {
-    func hasSameIdentity(_ other: Self) -> Bool
+    func hasSameIdentity(as other: Self) -> Bool
 }
 
 enum Change<Index> {
@@ -50,7 +50,7 @@ func changesFrom<T: Identifiable>(_ oldItems: [T], to newItems: [T]) -> [Change<
     return changes(
         from: oldItems,
         to: newItems,
-        hasSameIdentity: { $0.hasSameIdentity($1) },
+        hasSameIdentity: { $0.hasSameIdentity(as: $1) },
         isEqual: { (_, _) in false }
     )
 }
@@ -59,7 +59,7 @@ func changesFrom<T: Identifiable>(_ oldItems: [T], to newItems: [T]) -> [Change<
     return changes(
         from: oldItems,
         to: newItems,
-        hasSameIdentity: { $0.hasSameIdentity($1) },
+        hasSameIdentity: { $0.hasSameIdentity(as: $1) },
         isEqual: ==
     )
 }

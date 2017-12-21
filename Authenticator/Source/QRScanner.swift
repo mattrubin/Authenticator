@@ -37,7 +37,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     func start(success: @escaping (AVCaptureSession) -> Void, failure: @escaping (Error) -> Void) {
         serialQueue.async {
             do {
-                let captureSession = try self.captureSession ?? QRScanner.createCaptureSessionWithDelegate(self)
+                let captureSession = try self.captureSession ?? QRScanner.createCaptureSession(withDelegate: self)
                 captureSession.startRunning()
 
                 self.captureSession = captureSession
@@ -66,7 +66,7 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         case noQRCodeMetadataType
     }
 
-    private class func createCaptureSessionWithDelegate(_ delegate: AVCaptureMetadataOutputObjectsDelegate) throws -> AVCaptureSession {
+    private class func createCaptureSession(withDelegate delegate: AVCaptureMetadataOutputObjectsDelegate) throws -> AVCaptureSession {
         let captureSession = AVCaptureSession()
 
         guard let captureDevice = AVCaptureDevice.default(for: .video) else {

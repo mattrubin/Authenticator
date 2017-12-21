@@ -182,7 +182,7 @@ extension TokenEntryForm {
         case showErrorMessage(String)
     }
 
-    mutating func update(_ action: Action) -> Effect? {
+    mutating func update(with action: Action) -> Effect? {
         switch action {
         case let .issuer(issuer):
             self.issuer = issuer

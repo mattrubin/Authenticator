@@ -88,7 +88,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
 
     // MARK: - View Model
 
-    func updateWithViewModel(_ viewModel: TextFieldRowViewModel<Action>) {
+    func update(with viewModel: TextFieldRowViewModel<Action>) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
 
@@ -107,7 +107,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
         textField.accessibilityLabel = viewModel.label
     }
 
-    static func heightWithViewModel(_ viewModel: TextFieldRowViewModel<Action>) -> CGFloat {
+    static func heightForRow(with viewModel: TextFieldRowViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 

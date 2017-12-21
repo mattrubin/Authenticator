@@ -37,7 +37,7 @@ class AppController {
         }
     }
     private lazy var view: RootViewController = {
-        let (currentViewModel, nextRefreshTime) = self.component.viewModel(for: self.store.persistentTokens,
+        let (currentViewModel, nextRefreshTime) = self.component.viewModel(with: self.store.persistentTokens,
                                                                            at: .currentDisplayTime())
         self.setTimer(withNextRefreshTime: nextRefreshTime)
         return RootViewController(
@@ -75,10 +75,10 @@ class AppController {
 
     @objc
     func updateView() {
-        let (currentViewModel, nextRefreshTime) = component.viewModel(for: store.persistentTokens,
+        let (currentViewModel, nextRefreshTime) = component.viewModel(with: store.persistentTokens,
                                                                       at: .currentDisplayTime())
         setTimer(withNextRefreshTime: nextRefreshTime)
-        view.updateWithViewModel(currentViewModel)
+        view.update(with: currentViewModel)
     }
 
     private func setTimer(withNextRefreshTime nextRefreshTime: Date) {
@@ -97,7 +97,7 @@ class AppController {
 
     private func handleAction(_ action: Root.Action) {
         do {
-            let sideEffect = try component.update(action)
+            let sideEffect = try component.update(with: action)
             if let effect = sideEffect {
                 handleEffect(effect)
             }
@@ -107,7 +107,7 @@ class AppController {
     }
 
     private func handleEvent(_ event: Root.Event) {
-        let sideEffect = component.update(event)
+        let sideEffect = component.update(with: event)
         if let effect = sideEffect {
             handleEffect(effect)
         }

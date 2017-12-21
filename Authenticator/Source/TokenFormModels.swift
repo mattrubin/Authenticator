@@ -34,7 +34,7 @@ enum TokenFormRowModel<Action>: Identifiable {
     case textFieldRow(identity: String, viewModel: TextFieldRowViewModel<Action>)
     case segmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
 
-    func hasSameIdentity(_ other: TokenFormRowModel) -> Bool {
+    func hasSameIdentity(as other: TokenFormRowModel) -> Bool {
         switch (self, other) {
         case let (.textFieldRow(rowA), .textFieldRow(rowB)):
             return rowA.identity == rowB.identity

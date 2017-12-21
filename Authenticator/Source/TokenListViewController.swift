@@ -166,7 +166,7 @@ class TokenListViewController: UITableViewController {
 
         let searchSelector = #selector(TokenListViewController.filterTokens)
         searchBar.textField.addTarget(self, action: searchSelector, for: .editingChanged)
-        searchBar.updateWithViewModel(viewModel)
+        searchBar.update(with: viewModel)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -224,14 +224,14 @@ extension TokenListViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithClass(TokenRowCell.self)
+        let cell = tableView.dequeueReusableCell(withClass: TokenRowCell.self)
         updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
     }
 
     fileprivate func updateCell(_ cell: TokenRowCell, forRowAtIndexPath indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
-        cell.updateWithRowModel(rowModel)
+        cell.update(with: rowModel)
         cell.dispatchAction = dispatchAction
     }
 
@@ -268,7 +268,7 @@ extension TokenListViewController {
 
 // MARK: TokenListPresenter
 extension TokenListViewController {
-    func updateWithViewModel(_ viewModel: TokenList.ViewModel) {
+    func update(with viewModel: TokenList.ViewModel) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         let filtering = viewModel.isFiltering || self.viewModel.isFiltering
         self.viewModel = viewModel
@@ -292,7 +292,7 @@ extension TokenListViewController {
     }
 
     fileprivate func updatePeripheralViews() {
-        searchBar.updateWithViewModel(viewModel)
+        searchBar.update(with: viewModel)
 
         tableView.isScrollEnabled = viewModel.hasTokens
         editButtonItem.isEnabled = viewModel.hasTokens

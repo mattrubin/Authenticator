@@ -79,7 +79,7 @@ class ProgressRingView: UIView {
         backgroundRingLayer.strokeColor = ringColor.withAlphaComponent(0.2).cgColor
     }
 
-    func updateWithViewModel(_ viewModel: ProgressRingViewModel) {
+    func update(with viewModel: ProgressRingViewModel) {
         let path = #keyPath(RingLayer.strokeStart)
         let animation = CABasicAnimation(keyPath: path)
         let now = layer.convertTime(CACurrentMediaTime(), from: nil)

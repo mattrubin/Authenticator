@@ -35,9 +35,9 @@ struct TokenList: Component {
 
     typealias ViewModel = TokenListViewModel
 
-    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> (viewModel: TokenListViewModel, nextRefreshTime: Date) {
+    func viewModel(with persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> (viewModel: TokenListViewModel, nextRefreshTime: Date) {
         let isFiltering = !(filter ?? "").isEmpty
-        let rowModels = filteredTokens(persistentTokens).map({
+        let rowModels = filteredTokens(from: persistentTokens).map({
             TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
         })
 
@@ -59,7 +59,7 @@ struct TokenList: Component {
         return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }
 
-    private func filteredTokens(_ persistentTokens: [PersistentToken]) -> [PersistentToken] {
+    private func filteredTokens(from persistentTokens: [PersistentToken]) -> [PersistentToken] {
         guard let filter = self.filter, !filter.isEmpty else {
             return persistentTokens
         }
@@ -103,7 +103,7 @@ extension TokenList {
         case showInfo
     }
 
-    mutating func update(_ action: Action) -> Effect? {
+    mutating func update(with action: Action) -> Effect? {
         switch action {
         case .beginAddToken:
             return .beginTokenEntry
