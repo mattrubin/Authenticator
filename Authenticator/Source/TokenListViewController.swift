@@ -235,10 +235,21 @@ extension TokenListViewController {
         cell.dispatchAction = dispatchAction
     }
 
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        if tableView.isEditing {
+            return .delete
+        }
+        // Disable swipe-to-delete when the table view is not in editing mode.
+        return .none
+    }
+
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
-        if editingStyle == .delete {
+        switch editingStyle {
+        case .delete:
             dispatchAction(rowModel.deleteAction)
+        default:
+            print("Unexpected edit style \(editingStyle.rawValue) for row at \(indexPath)")
         }
     }
 
