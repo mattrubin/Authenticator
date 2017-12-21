@@ -245,8 +245,11 @@ extension TokenListViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
-        if editingStyle == .delete {
+        switch editingStyle {
+        case .delete:
             dispatchAction(rowModel.deleteAction)
+        default:
+            print("Unexpected edit style \(editingStyle.rawValue) for row at \(indexPath)")
         }
     }
 
