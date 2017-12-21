@@ -96,6 +96,7 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
 
     // MARK: - Target Action
 
+    @objc
     func segmentedControlValueChanged() {
         let action = actions[segmentedControl.selectedSegmentIndex]
         dispatchAction?(action)

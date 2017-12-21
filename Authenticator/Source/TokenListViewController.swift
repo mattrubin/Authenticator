@@ -50,9 +50,9 @@ class TokenListViewController: UITableViewController {
     fileprivate lazy var noTokensLabel: UILabel = {
         let title = "No Tokens"
         let message = "Tap + to add a new token"
-        let titleAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight)]
-        let messageAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]
-        let plusAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 25, weight: UIFontWeightLight)]
+        let titleAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20, weight: .light)]
+        let messageAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17, weight: .light)]
+        let plusAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 25, weight: .light)]
 
         let noTokenString = NSMutableAttributedString(string: title + "\n", attributes: titleAttributes)
         noTokenString.append(NSAttributedString(string: message, attributes: messageAttributes))
@@ -87,12 +87,12 @@ class TokenListViewController: UITableViewController {
         paragraphStyle.lineHeightMultiple = 1.3
         paragraphStyle.paragraphSpacing = 5
         let attributedMessage = NSMutableAttributedString(string: message, attributes: [
-            NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight),
-            NSParagraphStyleAttributeName: paragraphStyle,
+            .font: UIFont.systemFont(ofSize: 15, weight: .light),
+            .paragraphStyle: paragraphStyle,
             ])
-        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.italicSystemFont(ofSize: 15),
+        attributedMessage.addAttribute(.font, value: UIFont.italicSystemFont(ofSize: 15),
                                        range: (attributedMessage.string as NSString).range(of: "not"))
-        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFont(ofSize: 15),
+        attributedMessage.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 15),
                                        range: (attributedMessage.string as NSString).range(of: linkTitle))
 
         let label = UILabel()
@@ -192,10 +192,12 @@ class TokenListViewController: UITableViewController {
 
     // MARK: Target Actions
 
+    @objc
     func addToken() {
         dispatchAction(.beginAddToken)
     }
 
+    @objc
     func filterTokens() {
         guard let filter = searchBar.text else {
             return dispatchAction(.clearFilter)
@@ -203,10 +205,12 @@ class TokenListViewController: UITableViewController {
         dispatchAction(.filter(filter))
     }
 
+    @objc
     func showBackupInfo() {
         dispatchAction(.showBackupInfo)
     }
 
+    @objc
     func showLicenseInfo() {
         dispatchAction(.showInfo)
     }

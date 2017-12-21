@@ -576,15 +576,16 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = WD7ETSN9J9;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 					C9906A2D1812522100BAEF53 = {
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0910;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 					C9A262CC1E170BD4004E6CEB = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0910;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
@@ -779,7 +780,7 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -794,7 +795,7 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
