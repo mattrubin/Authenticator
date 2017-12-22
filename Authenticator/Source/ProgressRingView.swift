@@ -101,6 +101,12 @@ private class RingLayer: CAShapeLayer {
         fillColor = nil
     }
 
+    override init(layer: Any) {
+        super.init(layer: layer)
+        lineWidth = 1.5
+        fillColor = nil
+    }
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
