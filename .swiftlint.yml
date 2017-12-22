@@ -14,7 +14,6 @@ opt_in_rules:
   - first_where
   - force_unwrapping
   - nimble_operator
-  - number_separator
   - operator_usage_whitespace
   - overridden_super_call
   - private_outlet
