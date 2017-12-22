@@ -97,12 +97,22 @@ class ProgressRingView: UIView {
 private class RingLayer: CAShapeLayer {
     override init() {
         super.init()
-        lineWidth = 1.5
-        fillColor = nil
+        setPropertyDefaults()
+    }
+
+    override init(layer: Any) {
+        super.init(layer: layer)
+        setPropertyDefaults()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        setPropertyDefaults()
+    }
+
+    private func setPropertyDefaults() {
+        lineWidth = 1.5
+        fillColor = nil
     }
 
     override func layoutSublayers() {
