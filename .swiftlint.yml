@@ -35,7 +35,6 @@ opt_in_rules:
   - sorted_first_last
   - switch_case_on_newline
   - vertical_parameter_alignment_on_call
-  - vertical_whitespace
 disabled_rules:
   - line_length
   - todo
