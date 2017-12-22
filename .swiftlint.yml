@@ -21,6 +21,7 @@ opt_in_rules:
   - implicit_return
   - implicitly_unwrapped_optional
   - joined_default_parameter
+  - let_var_whitespace
   - nimble_operator
   - operator_usage_whitespace
   - overridden_super_call

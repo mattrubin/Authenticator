@@ -28,6 +28,7 @@ import OneTimePassword
 
 protocol TokenStore {
     var persistentTokens: [PersistentToken] { get }
+
     func addToken(_ token: Token) throws
     func saveToken(_ token: Token, toPersistentToken persistentToken: PersistentToken) throws
     func updatePersistentToken(_ persistentToken: PersistentToken) throws
