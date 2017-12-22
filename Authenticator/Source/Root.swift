@@ -48,7 +48,7 @@ struct Root: Component {
                 return .entryForm(form.viewModel)
             case .editForm(let form):
                 return .editForm(form.viewModel)
-            case .info(let infoList, let info):
+            case let .info(infoList, info):
                 return .info(infoList.viewModel, info?.viewModel)
             }
         }

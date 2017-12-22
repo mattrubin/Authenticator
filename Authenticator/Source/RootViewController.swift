@@ -160,7 +160,7 @@ extension RootViewController {
             )
             presentViewController(editController)
 
-        case .info(let infoListViewModel, let infoViewModel):
+        case let .info(infoListViewModel, infoViewModel):
             updateWithInfoViewModels(infoListViewModel, infoViewModel)
         }
         currentViewModel = viewModel

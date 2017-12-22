@@ -28,6 +28,7 @@ import OneTimePassword
 
 protocol TokenStore {
     var persistentTokens: [PersistentToken] { get }
+
     func addToken(_ token: Token) throws
     func saveToken(_ token: Token, toPersistentToken persistentToken: PersistentToken) throws
     func updatePersistentToken(_ persistentToken: PersistentToken) throws
@@ -54,7 +55,7 @@ class KeychainTokenStore: TokenStore {
             let indexOfB = sortedIdentifiers.index(of: $1.identifier)
 
             switch (indexOfA, indexOfB) {
-            case (.some(let iA), .some(let iB)) where iA < iB:
+            case let (.some(iA), .some(iB)) where iA < iB:
                 return true
             default:
                 return false
