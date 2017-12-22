@@ -4,22 +4,34 @@ excluded:
   - Carthage
   - fastlane
 opt_in_rules:
+  - array_init
   - attributes
   - closure_end_indentation
   - closure_spacing
   - conditional_returns_on_newline
+  - contains_over_first_not_nil
   - empty_count
+  - explicit_enum_raw_value
   - explicit_init
+  - extension_access_modifier
+  - fatal_error_message
   - file_header
   - first_where
   - force_unwrapping
+  - implicit_return
+  - implicitly_unwrapped_optional
+  - joined_default_parameter
   - nimble_operator
   - operator_usage_whitespace
   - overridden_super_call
+  - override_in_extension
   - private_outlet
   - prohibited_super_call
   - redundant_nil_coalescing
+  - single_test_class
+  - sorted_first_last
   - switch_case_on_newline
+  - vertical_parameter_alignment_on_call
   - vertical_whitespace
 disabled_rules:
   - line_length
