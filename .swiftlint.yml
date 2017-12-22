@@ -28,6 +28,9 @@ disabled_rules:
 cyclomatic_complexity:
   warning: 15
 
+function_body_length:
+  warning: 50
+
 trailing_comma:
   mandatory_comma: true
 
