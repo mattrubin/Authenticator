@@ -151,7 +151,6 @@ final class TokenScannerViewController: UIViewController, QRScannerDelegate {
             // This should only ever be reached if camera restrictions are changed while the app is running, because if
             // the app is launched with restrictions already enabled, the deviceCanScan check will retrun false.
             dispatchAction(.beginManualTokenEntry)
-            break
         }
     }
 
