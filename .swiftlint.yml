@@ -13,7 +13,6 @@ opt_in_rules:
   - file_header
   - first_where
   - force_unwrapping
-  - missing_docs
   - nimble_operator
   - number_separator
   - operator_usage_whitespace
