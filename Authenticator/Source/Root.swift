@@ -66,11 +66,13 @@ struct Root: Component {
 extension Root {
     typealias ViewModel = RootViewModel
 
-    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> ViewModel {
-        return ViewModel(
-            tokenList: tokenList.viewModel(for: persistentTokens, at: displayTime),
+    func viewModel(with persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> (viewModel: ViewModel, nextRefreshTime: Date) {
+        let (tokenListViewModel, nextRefreshTime) = tokenList.viewModel(with: persistentTokens, at: displayTime)
+        let viewModel = ViewModel(
+            tokenList: tokenListViewModel,
             modal: modal.viewModel
         )
+        return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }
 }
 
@@ -125,29 +127,29 @@ extension Root {
         case openURL(URL)
     }
 
-    mutating func update(_ action: Action) throws -> Effect? {
+    mutating func update(with action: Action) throws -> Effect? {
         do {
             switch action {
             case .tokenListAction(let action):
-                let effect = tokenList.update(action)
+                let effect = tokenList.update(with: action)
                 return effect.flatMap { effect in
                     handleTokenListEffect(effect)
                 }
 
             case .tokenEntryFormAction(let action):
-                let effect = try modal.withEntryForm({ form in form.update(action) })
+                let effect = try modal.withEntryForm({ form in form.update(with: action) })
                 return effect.flatMap { effect in
                     handleTokenEntryFormEffect(effect)
                 }
 
             case .tokenEditFormAction(let action):
-                let effect = try modal.withEditForm({ form in form.update(action) })
+                let effect = try modal.withEditForm({ form in form.update(with: action) })
                 return effect.flatMap { effect in
                     handleTokenEditFormEffect(effect)
                 }
 
             case .tokenScannerAction(let action):
-                let effect = try modal.withScanner({ scanner in scanner.update(action) })
+                let effect = try modal.withScanner({ scanner in scanner.update(with: action) })
                 return effect.flatMap { effect in
                     handleTokenScannerEffect(effect)
                 }
@@ -172,7 +174,7 @@ extension Root {
         }
     }
 
-    mutating func update(_ event: Event) -> Effect? {
+    mutating func update(with event: Event) -> Effect? {
         switch event {
         case .addTokenFromURLSucceeded:
             return nil

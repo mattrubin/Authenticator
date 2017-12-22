@@ -30,7 +30,7 @@ protocol Component {
     // MARK: Update
     associatedtype Action
     associatedtype Effect
-    mutating func update(_ action: Action) throws -> Effect?
+    mutating func update(with action: Action) throws -> Effect?
 }
 
 struct ComponentError<C: Component>: Error {

@@ -106,12 +106,12 @@ extension TokenEntryForm {
     static let demoForm: TokenEntryForm = {
         // Construct a pre-filled demo form.
         var form = TokenEntryForm()
-        _ = form.update(.issuer("Google"))
-        _ = form.update(.name("john.appleseed@gmail.com"))
-        _ = form.update(.secret("JBSWY3DPEHPK6PX9"))
+        _ = form.update(with: .issuer("Google"))
+        _ = form.update(with: .name("john.appleseed@gmail.com"))
+        _ = form.update(with: .secret("JBSWY3DPEHPK6PX9"))
         if UIScreen.main.bounds.height > 550 {
             // Expand the advanced options for iPhone 5 and later, but not for the earlier 3.5-inch screens.
-            _ = form.update(.showAdvancedOptions)
+            _ = form.update(with: .showAdvancedOptions)
         }
         return form
     }()

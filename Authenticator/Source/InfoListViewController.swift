@@ -41,7 +41,7 @@ final class InfoListViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateWithViewModel(_ viewModel: InfoList.ViewModel) {
+    func update(with viewModel: InfoList.ViewModel) {
         self.viewModel = viewModel
         applyViewModel()
     }
@@ -70,6 +70,7 @@ final class InfoListViewController: UITableViewController {
 
     // MARK: Target Actions
 
+    @objc
     func done() {
         dispatchAction(.done)
     }
@@ -81,14 +82,14 @@ final class InfoListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithClass(InfoListCell.self)
+        let cell = tableView.dequeueReusableCell(withClass: InfoListCell.self)
         updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
     }
 
     fileprivate func updateCell(_ cell: InfoListCell, forRowAtIndexPath indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
-        cell.updateWithRowModel(rowModel)
+        cell.update(with: rowModel)
     }
 
     // MARK: UITableViewDelegate
@@ -100,9 +101,9 @@ final class InfoListViewController: UITableViewController {
 }
 
 class InfoListCell: UITableViewCell {
-    private static let titleFont = UIFont.systemFont(ofSize: 18, weight: UIFontWeightMedium)
-    private static let descriptionFont = UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight)
-    private static let callToActionFont = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
+    private static let titleFont = UIFont.systemFont(ofSize: 18, weight: .medium)
+    private static let descriptionFont = UIFont.systemFont(ofSize: 15, weight: .light)
+    private static let callToActionFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
     private static let paragraphStyle: NSParagraphStyle = {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.3
@@ -166,13 +167,12 @@ class InfoListCell: UITableViewCell {
 
     // MARK: Update
 
-    func updateWithRowModel(_ rowModel: InfoList.RowModel) {
+    func update(with rowModel: InfoList.RowModel) {
         titleLabel.text = rowModel.title
 
-        let attributes = [NSParagraphStyleAttributeName: InfoListCell.paragraphStyle]
         let attributedDetails = NSMutableAttributedString(string: rowModel.description + "  " + rowModel.callToAction,
-                                                          attributes: attributes)
-        attributedDetails.addAttribute(NSFontAttributeName, value: InfoListCell.callToActionFont,
+                                                          attributes: [.paragraphStyle: InfoListCell.paragraphStyle])
+        attributedDetails.addAttribute(.font, value: InfoListCell.callToActionFont,
                                        range: (attributedDetails.string as NSString).range(of: rowModel.callToAction))
         descriptionLabel.attributedText = attributedDetails
     }
