@@ -89,7 +89,7 @@ class TokenListViewController: UITableViewController {
         let attributedMessage = NSMutableAttributedString(string: message, attributes: [
             .font: UIFont.systemFont(ofSize: 15, weight: .light),
             .paragraphStyle: paragraphStyle,
-            ])
+        ])
         attributedMessage.addAttribute(.font, value: UIFont.italicSystemFont(ofSize: 15),
                                        range: (attributedMessage.string as NSString).range(of: "not"))
         attributedMessage.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 15),
