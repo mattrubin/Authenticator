@@ -58,21 +58,21 @@ struct TokenRowModel: Identifiable {
         canReorder = reorderable
     }
 
-    func hasSameIdentity(_ other: TokenRowModel) -> Bool {
+    func hasSameIdentity(as other: TokenRowModel) -> Bool {
         return (self.identifier == other.identifier)
     }
 
     // Group the password into chunks of two digits, separated by spaces.
     // group by 3 if divisible by 3, 2 if divisible by two. Otherwise do not group.
     private static func chunkPassword(_ password: String) -> String {
-        var characters = password.characters
+        var mutablePassword = password
         guard let chunkSize = [3,2].first(where: { characters.count % $0 == 0  } ) else {
             return String(characters)
         }
-        for i in stride(from: chunkSize, to: characters.count, by: chunkSize).reversed() {
-            characters.insert(" ", at: characters.index(characters.startIndex, offsetBy: i))
+        for i in stride(from: chunkSize, to: mutablePassword.count, by: chunkSize).reversed() {
+            mutablePassword.insert(" ", at: mutablePassword.index(mutablePassword.startIndex, offsetBy: i))
         }
-        return String(characters)
+        return mutablePassword
     }
 }
 

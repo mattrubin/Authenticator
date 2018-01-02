@@ -33,8 +33,8 @@ class OpaqueNavigationController: UINavigationController {
         navigationBar.barTintColor = UIColor.otpBarBackgroundColor
         navigationBar.tintColor = UIColor.otpBarForegroundColor
         navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
-            NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight),
+            .foregroundColor: UIColor.otpBarForegroundColor,
+            .font: UIFont.systemFont(ofSize: 20, weight: .light),
         ]
 
         toolbar.isTranslucent = false
@@ -106,7 +106,7 @@ protocol ModelBasedViewController {
     associatedtype Action
 
     init(viewModel: ViewModel, dispatchAction: @escaping (Action) -> Void)
-    func updateWithViewModel(_ viewModel: ViewModel)
+    func update(with viewModel: ViewModel)
 }
 
 extension TokenScannerViewController: ModelBasedViewController {}
@@ -121,7 +121,7 @@ extension RootViewController {
 
     private func reify<ViewController: ModelBasedViewController>(_ existingViewController: UIViewController?, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
         if let viewController = existingViewController as? ViewController {
-            viewController.updateWithViewModel(viewModel)
+            viewController.update(with: viewModel)
             return viewController
         } else {
             let viewController = ViewController(
@@ -132,8 +132,8 @@ extension RootViewController {
         }
     }
 
-    func updateWithViewModel(_ viewModel: Root.ViewModel) {
-        tokenListViewController.updateWithViewModel(viewModel.tokenList)
+    func update(with viewModel: Root.ViewModel) {
+        tokenListViewController.update(with: viewModel.tokenList)
 
         switch viewModel.modal {
         case .none:
@@ -160,7 +160,7 @@ extension RootViewController {
             )
             presentViewController(editController)
 
-        case .info(let infoListViewModel, let infoViewModel):
+        case let .info(infoListViewModel, infoViewModel):
             updateWithInfoViewModels(infoListViewModel, infoViewModel)
         }
         currentViewModel = viewModel

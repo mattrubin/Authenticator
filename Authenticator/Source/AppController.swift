@@ -33,26 +33,24 @@ class AppController {
     private let store: TokenStore
     private var component: Root {
         didSet {
-            let viewModel = currentViewModel()
-            // TODO: Fix the excessive updates of bar button items so that the tick can run while they are on screen.
-            if case .none = viewModel.modal {
-                if displayLink == nil {
-                    startTick()
-                }
-            } else {
-                if displayLink != nil {
-                    stopTick()
-                }
-            }
-            view.updateWithViewModel(viewModel)
+            updateView()
         }
     }
     private lazy var view: RootViewController = {
+        let (currentViewModel, nextRefreshTime) = self.component.viewModel(with: self.store.persistentTokens,
+                                                                           at: .currentDisplayTime())
+        self.setTimer(withNextRefreshTime: nextRefreshTime)
         return RootViewController(
-            viewModel: self.currentViewModel(),
+            viewModel: currentViewModel,
             dispatchAction: self.handleAction
         )
     }()
+    private var refreshTimer: Timer? {
+        willSet {
+            // Invalidate the old timer
+            refreshTimer?.invalidate()
+        }
+    }
 
     init() {
         do {
@@ -73,40 +71,33 @@ class AppController {
         // If this is a demo, show the scanner even in the simulator.
         let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
         component = Root(deviceCanScan: deviceCanScan)
-
-        startTick()
-    }
-
-    private func currentViewModel() -> Root.ViewModel {
-        return component.viewModel(for: store.persistentTokens, at: .currentDisplayTime())
-    }
-
-    // MARK: - Tick
-
-    private var displayLink: CADisplayLink?
-
-    private func startTick() {
-        let selector = #selector(tick)
-        self.displayLink = CADisplayLink(target: self, selector: selector)
-        self.displayLink?.add(to: RunLoop.main, forMode: .commonModes)
-    }
-
-    private func stopTick() {
-        self.displayLink?.invalidate()
-        self.displayLink = nil
     }
 
     @objc
-    func tick() {
-        // Update the view with a new view model for the current display time.
-        view.updateWithViewModel(currentViewModel())
+    func updateView() {
+        let (currentViewModel, nextRefreshTime) = component.viewModel(with: store.persistentTokens,
+                                                                      at: .currentDisplayTime())
+        setTimer(withNextRefreshTime: nextRefreshTime)
+        view.update(with: currentViewModel)
+    }
+
+    private func setTimer(withNextRefreshTime nextRefreshTime: Date) {
+        let timer = Timer(fireAt: nextRefreshTime,
+                          interval: 0,
+                          target: self,
+                          selector: #selector(updateView),
+                          userInfo: nil,
+                          repeats: false)
+        // Add the new timer to the main run loop
+        RunLoop.main.add(timer, forMode: .commonModes)
+        refreshTimer = timer
     }
 
     // MARK: - Update
 
     private func handleAction(_ action: Root.Action) {
         do {
-            let sideEffect = try component.update(action)
+            let sideEffect = try component.update(with: action)
             if let effect = sideEffect {
                 handleEffect(effect)
             }
@@ -116,7 +107,7 @@ class AppController {
     }
 
     private func handleEvent(_ event: Root.Event) {
-        let sideEffect = component.update(event)
+        let sideEffect = component.update(with: event)
         if let effect = sideEffect {
             handleEffect(effect)
         }
@@ -143,7 +134,7 @@ class AppController {
         case let .updatePersistentToken(persistentToken, failure):
             do {
                 try store.updatePersistentToken(persistentToken)
-                view.updateWithViewModel(currentViewModel())
+                updateView()
             } catch {
                 handleEvent(failure(error))
             }
@@ -151,7 +142,7 @@ class AppController {
         case let .moveToken(fromIndex, toIndex, failure):
             do {
                 try store.moveTokenFromIndex(fromIndex, toIndex: toIndex)
-                view.updateWithViewModel(currentViewModel())
+                updateView()
             } catch {
                 handleEvent(failure(error))
             }
@@ -159,7 +150,7 @@ class AppController {
         case let .deletePersistentToken(persistentToken, failure):
             do {
                 try store.deletePersistentToken(persistentToken)
-                view.updateWithViewModel(currentViewModel())
+                updateView()
             } catch {
                 handleEvent(failure(error))
             }

@@ -34,8 +34,16 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     let app = AppController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let barButtonAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]
-        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonAttributes, for: .normal)
+        let barButtonItemFont = UIFont.systemFont(ofSize: 17, weight: .light)
+        let fontAttributes = [NSAttributedStringKey.font: barButtonItemFont]
+        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .highlighted)
+
+        let disabledAttributes: [NSAttributedStringKey: Any] = [
+            .font: barButtonItemFont,
+            .foregroundColor: UIColor.otpBarForegroundColor.withAlphaComponent(0.3),
+        ]
+        UIBarButtonItem.appearance().setTitleTextAttributes(disabledAttributes, for: .disabled)
 
         // Restore white-on-black style
         SVProgressHUD.setForegroundColor(.otpLightColor)
@@ -46,6 +54,11 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
 
         return true
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        // Ensure the UI is updated with the latest view model whenever the app returns from the background.
+        app.updateView()
     }
 
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {

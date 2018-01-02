@@ -50,9 +50,9 @@ class TokenListViewController: UITableViewController {
     fileprivate lazy var noTokensLabel: UILabel = {
         let title = "No Tokens"
         let message = "Tap + to add a new token"
-        let titleAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight)]
-        let messageAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]
-        let plusAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 25, weight: UIFontWeightLight)]
+        let titleAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20, weight: .light)]
+        let messageAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17, weight: .light)]
+        let plusAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 25, weight: .light)]
 
         let noTokenString = NSMutableAttributedString(string: title + "\n", attributes: titleAttributes)
         noTokenString.append(NSAttributedString(string: message, attributes: messageAttributes))
@@ -87,12 +87,12 @@ class TokenListViewController: UITableViewController {
         paragraphStyle.lineHeightMultiple = 1.3
         paragraphStyle.paragraphSpacing = 5
         let attributedMessage = NSMutableAttributedString(string: message, attributes: [
-            NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight),
-            NSParagraphStyleAttributeName: paragraphStyle,
-            ])
-        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.italicSystemFont(ofSize: 15),
+            .font: UIFont.systemFont(ofSize: 15, weight: .light),
+            .paragraphStyle: paragraphStyle,
+        ])
+        attributedMessage.addAttribute(.font, value: UIFont.italicSystemFont(ofSize: 15),
                                        range: (attributedMessage.string as NSString).range(of: "not"))
-        attributedMessage.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFont(ofSize: 15),
+        attributedMessage.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 15),
                                        range: (attributedMessage.string as NSString).range(of: linkTitle))
 
         let label = UILabel()
@@ -166,6 +166,7 @@ class TokenListViewController: UITableViewController {
 
         let searchSelector = #selector(TokenListViewController.filterTokens)
         searchBar.textField.addTarget(self, action: searchSelector, for: .editingChanged)
+        searchBar.update(with: viewModel)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -191,10 +192,12 @@ class TokenListViewController: UITableViewController {
 
     // MARK: Target Actions
 
+    @objc
     func addToken() {
         dispatchAction(.beginAddToken)
     }
 
+    @objc
     func filterTokens() {
         guard let filter = searchBar.text else {
             return dispatchAction(.clearFilter)
@@ -202,10 +205,12 @@ class TokenListViewController: UITableViewController {
         dispatchAction(.filter(filter))
     }
 
+    @objc
     func showBackupInfo() {
         dispatchAction(.showBackupInfo)
     }
 
+    @objc
     func showLicenseInfo() {
         dispatchAction(.showInfo)
     }
@@ -219,21 +224,32 @@ extension TokenListViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithClass(TokenRowCell.self)
+        let cell = tableView.dequeueReusableCell(withClass: TokenRowCell.self)
         updateCell(cell, forRowAtIndexPath: indexPath)
         return cell
     }
 
     fileprivate func updateCell(_ cell: TokenRowCell, forRowAtIndexPath indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
-        cell.updateWithRowModel(rowModel)
+        cell.update(with: rowModel)
         cell.dispatchAction = dispatchAction
+    }
+
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        if tableView.isEditing {
+            return .delete
+        }
+        // Disable swipe-to-delete when the table view is not in editing mode.
+        return .none
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
-        if editingStyle == .delete {
+        switch editingStyle {
+        case .delete:
             dispatchAction(rowModel.deleteAction)
+        default:
+            print("Unexpected edit style \(editingStyle.rawValue) for row at \(indexPath)")
         }
     }
 
@@ -250,11 +266,20 @@ extension TokenListViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let rowModel = viewModel.rowModels[indexPath.row]
+        if isEditing {
+            dispatchAction(rowModel.editAction)
+        } else {
+            dispatchAction(rowModel.selectAction)
+        }
+    }
 }
 
 // MARK: TokenListPresenter
 extension TokenListViewController {
-    func updateWithViewModel(_ viewModel: TokenList.ViewModel) {
+    func update(with viewModel: TokenList.ViewModel) {
         let changes = changesFrom(self.viewModel.rowModels, to: viewModel.rowModels)
         let filtering = viewModel.isFiltering || self.viewModel.isFiltering
         self.viewModel = viewModel
@@ -278,7 +303,7 @@ extension TokenListViewController {
     }
 
     fileprivate func updatePeripheralViews() {
-        searchBar.updateWithViewModel(viewModel)
+        searchBar.update(with: viewModel)
 
         tableView.isScrollEnabled = viewModel.hasTokens
         editButtonItem.isEnabled = viewModel.hasTokens
