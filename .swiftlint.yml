@@ -10,6 +10,8 @@ opt_in_rules:
   - closure_spacing
   - conditional_returns_on_newline
   - contains_over_first_not_nil
+  - discouraged_object_literal
+  - discouraged_optional_boolean
   - empty_count
   - explicit_enum_raw_value
   - explicit_init
@@ -27,6 +29,7 @@ opt_in_rules:
   - overridden_super_call
   - override_in_extension
   - pattern_matching_keywords
+  - private_action
   - private_outlet
   - prohibited_super_call
   - redundant_nil_coalescing
@@ -34,6 +37,7 @@ opt_in_rules:
   - sorted_first_last
   - switch_case_on_newline
   - vertical_parameter_alignment_on_call
+  - yoda_condition
 disabled_rules:
   - line_length
   - todo
