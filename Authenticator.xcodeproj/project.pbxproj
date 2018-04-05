@@ -571,7 +571,7 @@
 				CLASSPREFIX = OTP;
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
@@ -795,6 +795,7 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
