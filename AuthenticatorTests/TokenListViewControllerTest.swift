@@ -119,7 +119,7 @@ class TokenListViewControllerTest: XCTestCase {
 
 func XCTAssert(_ cell: UITableViewCell, containsText expectedText: String,
                file: StaticString = #file, line: UInt = #line) {
-    let textInCellLabels = cell.contentView.subviews.flatMap({ ($0 as? UILabel)?.text })
+    let textInCellLabels = cell.contentView.subviews.compactMap({ ($0 as? UILabel)?.text })
     XCTAssert(textInCellLabels.contains(expectedText), "Expected \(textInCellLabels) to contain \"\(expectedText)\"",
               file: file, line: line)
 }
