@@ -26,7 +26,7 @@
 import Foundation
 
 /// A simple value representing a moment in time, stored as the number of seconds since the epoch.
-struct DisplayTime: Equatable {
+struct DisplayTime {
     let timeIntervalSince1970: TimeInterval
 
     init(date: Date) {
@@ -36,8 +36,4 @@ struct DisplayTime: Equatable {
     var date: Date {
         return Date(timeIntervalSince1970: timeIntervalSince1970)
     }
-}
-
-func == (lhs: DisplayTime, rhs: DisplayTime) -> Bool {
-    return lhs.timeIntervalSince1970 == rhs.timeIntervalSince1970
 }

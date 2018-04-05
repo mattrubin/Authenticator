@@ -72,7 +72,7 @@ struct TokenList: Component {
 }
 
 extension TokenList {
-    enum Action {
+    enum Action: Equatable {
         case beginAddToken
         case editPersistentToken(PersistentToken)
 
@@ -144,38 +144,6 @@ extension TokenList {
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         // Show an ephemeral success message.
         return .showSuccessMessage("Copied")
-    }
-}
-
-extension TokenList.Action: Equatable {}
-func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
-    switch (lhs, rhs) {
-    case (.beginAddToken, .beginAddToken):
-        return true
-    case let (.editPersistentToken(l), .editPersistentToken(r)):
-        return l == r
-    case let (.updatePersistentToken(l), .updatePersistentToken(r)):
-        return l == r
-    case let (.moveToken(l), .moveToken(r)):
-        return l == r
-    case let (.deletePersistentToken(l), .deletePersistentToken(r)):
-        return l == r
-    case let (.copyPassword(l), .copyPassword(r)):
-        return l == r
-    case (.clearFilter, .clearFilter):
-        return true
-    case let (.filter(l), .filter(r)):
-        return l == r
-    case (.showBackupInfo, .showBackupInfo):
-        return true
-    case (.showInfo, .showInfo):
-        return true
-    case (.beginAddToken, _), (.editPersistentToken, _), (.updatePersistentToken, _), (.moveToken, _),
-         (.deletePersistentToken, _), (.copyPassword, _), (.filter, _), (.clearFilter, _), (.showBackupInfo, _),
-         (.showInfo, _):
-        // Using this verbose case for non-matching `Action`s instead of `default` ensures a
-        // compiler error if a new `Action` is added and not expicitly checked for equality.
-        return false
     }
 }
 
