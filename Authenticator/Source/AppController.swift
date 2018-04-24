@@ -148,7 +148,7 @@ class AppController {
             }
 
         case let .deletePersistentToken(persistentToken, failure):
-            deletePersistentTokenWithConfirmation(persistentToken, failure: failure)
+            confirmDeletion(of: persistentToken, failure: failure)
 
         case let .showErrorMessage(message):
             SVProgressHUD.showError(withStatus: message)
@@ -201,28 +201,28 @@ class AppController {
         handleAction(.addTokenFromURL(token))
     }
 
-    private func deletePersistentTokenWithConfirmation(_ persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event ) {
-        let presenter = topViewController(presentedFrom: rootViewController)
-
+    private func confirmDeletion(of persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event) {
         let messagePrefix = persistentToken.token.displayName.map({ "The token “\($0)”" }) ?? "The unnamed token"
         let message = messagePrefix + " will be permanently deleted from this device."
 
         let alert = UIAlertController(title: "Delete Token?", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
-            guard let sself = self else {
-                return
-            }
-            do {
-                try sself.store.deletePersistentToken(persistentToken)
-                sself.updateView()
-            } catch {
-                sself.handleEvent(failure(error))
-            }
+            self?.permanentlyDelete(persistentToken, failure: failure)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        let presenter = topViewController(presentedFrom: rootViewController)
         presenter.present(alert, animated: true)
     }
 
+    private func permanentlyDelete(_ persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event) {
+        do {
+            try self.store.deletePersistentToken(persistentToken)
+            self.updateView()
+        } catch {
+            self.handleEvent(failure(error))
+        }
+    }
 }
 
 private extension Token {
