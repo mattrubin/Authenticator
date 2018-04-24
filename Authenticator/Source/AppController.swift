@@ -203,9 +203,11 @@ class AppController {
 
     private func deletePersistentTokenWithConfirmation(_ persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event ) {
         let presenter = topViewController(presentedFrom: rootViewController)
-        let alert = UIAlertController(title: "Delete Token?",
-                                      message: "The token \(persistentToken.token.description) will be permanently deleted from this device.",
-                                      preferredStyle: .alert)
+
+        let messagePrefix = persistentToken.token.displayName.map({ "The token “\($0)”" }) ?? "The unnamed token"
+        let message = messagePrefix + " will be permanently deleted from this device."
+
+        let alert = UIAlertController(title: "Delete Token?", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
             guard let sself = self else {
                 return
@@ -223,17 +225,17 @@ class AppController {
 
 }
 
-extension Token {
-    var description: String {
+private extension Token {
+    var displayName: String? {
         switch (!name.isEmpty, !issuer.isEmpty) {
         case (true, true):
-            return "“\(issuer): \(name)”"
+            return "\(issuer): \(name)"
         case (true, false):
-            return "“\(name)”"
+            return name
         case (false, true):
-            return "“\(issuer)”"
+            return issuer
         case (false, false):
-            return "untitled"
+            return nil
         }
     }
 }
