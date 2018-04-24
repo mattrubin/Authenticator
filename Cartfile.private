@@ -1,4 +1,4 @@
 # Configuration for Carthage (https://github.com/Carthage/Carthage)
 
-github "jspahrsummers/xcconfigs" ~> 0.11
+github "jspahrsummers/xcconfigs"
 github "shinydevelopment/SimulatorStatusMagic" ~> 2.0

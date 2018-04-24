@@ -2,7 +2,7 @@
 //  TokenScannerViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2013-2016 Authenticator authors
+//  Copyright (c) 2013-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ final class TokenScannerViewController: UIViewController, QRScannerDelegate {
         let attributedMessage = NSMutableAttributedString(string: message, attributes: [
             .font: UIFont.systemFont(ofSize: 15, weight: .light),
             .paragraphStyle: paragraphStyle,
-            ])
+        ])
         attributedMessage.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 15),
                                        range: (attributedMessage.string as NSString).range(of: linkTitle))
 
@@ -151,7 +151,6 @@ final class TokenScannerViewController: UIViewController, QRScannerDelegate {
             // This should only ever be reached if camera restrictions are changed while the app is running, because if
             // the app is launched with restrictions already enabled, the deviceCanScan check will retrun false.
             dispatchAction(.beginManualTokenEntry)
-            break
         }
     }
 

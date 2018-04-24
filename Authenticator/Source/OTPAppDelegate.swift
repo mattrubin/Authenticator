@@ -2,7 +2,7 @@
 //  OTPAppDelegate.swift
 //  Authenticator
 //
-//  Copyright (c) 2013-2017 Authenticator authors
+//  Copyright (c) 2013-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -61,7 +61,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         app.updateView()
     }
 
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
         if let token = Token(url: url) {
             let message = "Do you want to add a token for “\(token.name)”?"
 

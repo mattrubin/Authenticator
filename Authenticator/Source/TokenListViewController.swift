@@ -2,7 +2,7 @@
 //  TokenListViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2013-2016 Authenticator authors
+//  Copyright (c) 2013-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -89,7 +89,7 @@ class TokenListViewController: UITableViewController {
         let attributedMessage = NSMutableAttributedString(string: message, attributes: [
             .font: UIFont.systemFont(ofSize: 15, weight: .light),
             .paragraphStyle: paragraphStyle,
-            ])
+        ])
         attributedMessage.addAttribute(.font, value: UIFont.italicSystemFont(ofSize: 15),
                                        range: (attributedMessage.string as NSString).range(of: "not"))
         attributedMessage.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 15),
