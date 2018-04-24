@@ -796,7 +796,6 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
