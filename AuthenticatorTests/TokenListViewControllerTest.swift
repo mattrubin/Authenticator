@@ -2,7 +2,7 @@
 //  TokenListViewControllerTest.swift
 //  Authenticator
 //
-//  Copyright (c) 2016 Authenticator authors
+//  Copyright (c) 2016-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -119,7 +119,7 @@ class TokenListViewControllerTest: XCTestCase {
 
 func XCTAssert(_ cell: UITableViewCell, containsText expectedText: String,
                file: StaticString = #file, line: UInt = #line) {
-    let textInCellLabels = cell.contentView.subviews.flatMap({ ($0 as? UILabel)?.text })
+    let textInCellLabels = cell.contentView.subviews.compactMap({ ($0 as? UILabel)?.text })
     XCTAssert(textInCellLabels.contains(expectedText), "Expected \(textInCellLabels) to contain \"\(expectedText)\"",
               file: file, line: line)
 }

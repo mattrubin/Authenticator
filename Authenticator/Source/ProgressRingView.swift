@@ -2,7 +2,7 @@
 //  ProgressRingView.swift
 //  Authenticator
 //
-//  Copyright (c) 2014-2016 Authenticator authors
+//  Copyright (c) 2014-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -84,13 +84,15 @@ class ProgressRingView: UIView {
         let animation = CABasicAnimation(keyPath: path)
         let now = layer.convertTime(CACurrentMediaTime(), from: nil)
         animation.beginTime = now + viewModel.startTime.timeIntervalSinceNow
-        if CommandLine.isDemo {
-            animation.beginTime -= DisplayTime.demoTime.date.timeIntervalSinceNow
-        }
         animation.duration = viewModel.duration
         animation.fromValue = 0
         animation.toValue = 1
         foregroundRingLayer.add(animation, forKey: path)
+
+        if CommandLine.isDemo {
+            let progress = DisplayTime.demoTime.date.timeIntervalSinceNow - viewModel.startTime.timeIntervalSinceNow
+            foregroundRingLayer.strokeStart = CGFloat(progress / viewModel.duration)
+        }
     }
 }
 

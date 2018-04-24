@@ -2,7 +2,7 @@
 //  DisplayTime.swift
 //  Authenticator
 //
-//  Copyright (c) 2016 Authenticator authors
+//  Copyright (c) 2016-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 import Foundation
 
 /// A simple value representing a moment in time, stored as the number of seconds since the epoch.
-struct DisplayTime: Equatable {
+struct DisplayTime {
     let timeIntervalSince1970: TimeInterval
 
     init(date: Date) {
@@ -36,8 +36,4 @@ struct DisplayTime: Equatable {
     var date: Date {
         return Date(timeIntervalSince1970: timeIntervalSince1970)
     }
-}
-
-func == (lhs: DisplayTime, rhs: DisplayTime) -> Bool {
-    return lhs.timeIntervalSince1970 == rhs.timeIntervalSince1970
 }
