@@ -206,15 +206,18 @@ class AppController {
         let alert = UIAlertController(title: "Delete Token?",
                                       message: "The token \(token.description) will be permanently deleted from this device.",
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+            guard let sself = self else {
+                return
+            }
             do {
-                try self.store.deletePersistentToken(token)
-                self.updateView()
+                try sself.store.deletePersistentToken(token)
+                sself.updateView()
             } catch {
-                self.handleEvent(failure(error))
+                sself.handleEvent(failure(error))
             }
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         presenter.present(alert, animated: true)
     }
 
