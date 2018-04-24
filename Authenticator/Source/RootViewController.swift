@@ -194,7 +194,7 @@ private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escap
 }
 
 extension RootViewController: UINavigationControllerDelegate {
-    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         if case .info(_, .some) = currentViewModel.modal,
             viewController is InfoListViewController {
             // If the view model modal state has an Info.ViewModel and the just-shown view controller is an info list,

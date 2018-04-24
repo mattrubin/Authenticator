@@ -13,6 +13,7 @@ opt_in_rules:
   - discouraged_object_literal
   - discouraged_optional_boolean
   - empty_count
+  - empty_string
   - explicit_enum_raw_value
   - explicit_init
   - extension_access_modifier
@@ -25,6 +26,7 @@ opt_in_rules:
   - joined_default_parameter
   - let_var_whitespace
   - literal_expression_end_indentation
+  - lower_acl_than_parent
   - operator_usage_whitespace
   - overridden_super_call
   - override_in_extension
@@ -36,6 +38,7 @@ opt_in_rules:
   - single_test_class
   - sorted_first_last
   - switch_case_on_newline
+  - untyped_error_in_catch
   - vertical_parameter_alignment_on_call
   - yoda_condition
 disabled_rules:
