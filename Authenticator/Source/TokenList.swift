@@ -2,7 +2,7 @@
 //  TokenList.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2015-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -35,9 +35,9 @@ struct TokenList: Component {
 
     typealias ViewModel = TokenListViewModel
 
-    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> (viewModel: TokenListViewModel, nextRefreshTime: Date) {
+    func viewModel(with persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> (viewModel: TokenListViewModel, nextRefreshTime: Date) {
         let isFiltering = !(filter ?? "").isEmpty
-        let rowModels = filteredTokens(persistentTokens).map({
+        let rowModels = filteredTokens(from: persistentTokens).map({
             TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
         })
 
@@ -59,7 +59,7 @@ struct TokenList: Component {
         return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }
 
-    private func filteredTokens(_ persistentTokens: [PersistentToken]) -> [PersistentToken] {
+    private func filteredTokens(from persistentTokens: [PersistentToken]) -> [PersistentToken] {
         guard let filter = self.filter, !filter.isEmpty else {
             return persistentTokens
         }
@@ -72,7 +72,7 @@ struct TokenList: Component {
 }
 
 extension TokenList {
-    enum Action {
+    enum Action: Equatable {
         case beginAddToken
         case editPersistentToken(PersistentToken)
 
@@ -103,7 +103,7 @@ extension TokenList {
         case showInfo
     }
 
-    mutating func update(_ action: Action) -> Effect? {
+    mutating func update(with action: Action) -> Effect? {
         switch action {
         case .beginAddToken:
             return .beginTokenEntry
@@ -144,38 +144,6 @@ extension TokenList {
         pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
         // Show an ephemeral success message.
         return .showSuccessMessage("Copied")
-    }
-}
-
-extension TokenList.Action: Equatable {}
-func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
-    switch (lhs, rhs) {
-    case (.beginAddToken, .beginAddToken):
-        return true
-    case let (.editPersistentToken(l), .editPersistentToken(r)):
-        return l == r
-    case let (.updatePersistentToken(l), .updatePersistentToken(r)):
-        return l == r
-    case let (.moveToken(l), .moveToken(r)):
-        return l == r
-    case let (.deletePersistentToken(l), .deletePersistentToken(r)):
-        return l == r
-    case let (.copyPassword(l), .copyPassword(r)):
-        return l == r
-    case (.clearFilter, .clearFilter):
-        return true
-    case let (.filter(l), .filter(r)):
-        return l == r
-    case (.showBackupInfo, .showBackupInfo):
-        return true
-    case (.showInfo, .showInfo):
-        return true
-    case (.beginAddToken, _), (.editPersistentToken, _), (.updatePersistentToken, _), (.moveToken, _),
-         (.deletePersistentToken, _), (.copyPassword, _), (.filter, _), (.clearFilter, _), (.showBackupInfo, _),
-         (.showInfo, _):
-        // Using this verbose case for non-matching `Action`s instead of `default` ensures a
-        // compiler error if a new `Action` is added and not expicitly checked for equality.
-        return false
     }
 }
 

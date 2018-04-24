@@ -2,7 +2,7 @@
 //  TokenListViewControllerTest.swift
 //  Authenticator
 //
-//  Copyright (c) 2016 Authenticator authors
+//  Copyright (c) 2016-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ class TokenListViewControllerTest: XCTestCase {
     }()
 
     func emptyListViewModel() -> TokenList.ViewModel {
-        return tokenList.viewModel(for: [], at: displayTime).viewModel
+        return tokenList.viewModel(with: [], at: displayTime).viewModel
     }
 
     // Test that inserting a new token will produce the expected changes to the table view.
@@ -53,8 +53,8 @@ class TokenListViewControllerTest: XCTestCase {
         let persistentTokens = mockPersistentTokens([
             ("Service", "email@example.com"),
         ])
-        let (updatedViewModel, _) = tokenList.viewModel(for: persistentTokens, at: displayTime)
-        controller.updateWithViewModel(updatedViewModel)
+        let (updatedViewModel, _) = tokenList.viewModel(with: persistentTokens, at: displayTime)
+        controller.update(with: updatedViewModel)
 
         // Check the table view.
         let expectedChanges: [MockTableView.ChangeType] = [
@@ -70,7 +70,7 @@ class TokenListViewControllerTest: XCTestCase {
     func testUpdatesExistingToken() {
         // Set up a view controller with a mock table view.
         let initialPersistentToken = mockPersistentToken(name: "account@example.com", issuer: "Issuer")
-        let (initialTokenListViewModel, _) = tokenList.viewModel(for: [initialPersistentToken], at: displayTime)
+        let (initialTokenListViewModel, _) = tokenList.viewModel(with: [initialPersistentToken], at: displayTime)
         let controller = TokenListViewController(viewModel: initialTokenListViewModel, dispatchAction: { _ in })
         let tableView = MockTableView()
         controller.tableView = tableView
@@ -80,8 +80,8 @@ class TokenListViewControllerTest: XCTestCase {
 
         // Update the view controller.
         let updatedPersistentToken = initialPersistentToken.updated(with: mockToken(name: "name", issuer: "issuer"))
-        let (updatedTokenListViewModel, _) = tokenList.viewModel(for: [updatedPersistentToken], at: displayTime)
-        controller.updateWithViewModel(updatedTokenListViewModel)
+        let (updatedTokenListViewModel, _) = tokenList.viewModel(with: [updatedPersistentToken], at: displayTime)
+        controller.update(with: updatedTokenListViewModel)
 
         // Check the changes to the table view.
         // Updates to existing rows should be applied directly to the cells, without changing the table view.
@@ -102,7 +102,7 @@ class TokenListViewControllerTest: XCTestCase {
             ("Service", "example@google.com"),
             ("Service", "username"),
         ])
-        let (viewModel, _) = tokenList.viewModel(for: persistentTokens, at: displayTime)
+        let (viewModel, _) = tokenList.viewModel(with: persistentTokens, at: displayTime)
         let controller = TokenListViewController(viewModel: viewModel, dispatchAction: { _ in })
 
         // Check that the table view contains the expected cells.
@@ -119,7 +119,7 @@ class TokenListViewControllerTest: XCTestCase {
 
 func XCTAssert(_ cell: UITableViewCell, containsText expectedText: String,
                file: StaticString = #file, line: UInt = #line) {
-    let textInCellLabels = cell.contentView.subviews.flatMap({ ($0 as? UILabel)?.text })
+    let textInCellLabels = cell.contentView.subviews.compactMap({ ($0 as? UILabel)?.text })
     XCTAssert(textInCellLabels.contains(expectedText), "Expected \(textInCellLabels) to contain \"\(expectedText)\"",
               file: file, line: line)
 }

@@ -2,7 +2,7 @@
 //  UITableView+ReusableCells.swift
 //  Authenticator
 //
-//  Copyright (c) 2015 Authenticator authors
+//  Copyright (c) 2015-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 import UIKit
 
 extension UITableView {
-    func dequeueReusableCellWithClass<Cell: UITableViewCell>(_ cellClass: Cell.Type) -> Cell {
+    func dequeueReusableCell<Cell: UITableViewCell>(withClass cellClass: Cell.Type) -> Cell {
         let reuseIdentifier = NSStringFromClass(cellClass)
         if let cell = dequeueReusableCell(withIdentifier: reuseIdentifier) as? Cell {
             return cell

@@ -2,7 +2,7 @@
 //  TokenEditForm.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2015-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -110,7 +110,7 @@ extension TokenEditForm {
         case showErrorMessage(String)
     }
 
-    mutating func update(_ action: Action) -> Effect? {
+    mutating func update(with action: Action) -> Effect? {
         switch action {
         case let .issuer(issuer):
             self.issuer = issuer

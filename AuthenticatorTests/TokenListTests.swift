@@ -2,7 +2,7 @@
 //  TokenListTests.swift
 //  Authenticator
 //
-//  Copyright (c) 2016 Authenticator authors
+//  Copyright (c) 2016-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -37,9 +37,9 @@ class TokenListTests: XCTestCase {
             ("Github", "username"),
             ("Service", "goo"),
         ])
-        let effect = tokenList.update(.filter("goo"))
+        let effect = tokenList.update(with: .filter("goo"))
 
-        let (viewModel, _) = tokenList.viewModel(for: persistentTokens, at: displayTime)
+        let (viewModel, _) = tokenList.viewModel(with: persistentTokens, at: displayTime)
         let filteredIssuers = viewModel.rowModels.map { $0.issuer }
 
         XCTAssertNil(effect)
@@ -55,8 +55,8 @@ class TokenListTests: XCTestCase {
             ("Service", "example@google.com"),
             ("Service", "username"),
         ])
-        let effect = tokenList.update(.filter("Service"))
-        let (viewModel, _) = tokenList.viewModel(for: persistentTokens, at: displayTime)
+        let effect = tokenList.update(with: .filter("Service"))
+        let (viewModel, _) = tokenList.viewModel(with: persistentTokens, at: displayTime)
 
         XCTAssertNil(effect)
         XCTAssertTrue(viewModel.isFiltering)
@@ -65,7 +65,7 @@ class TokenListTests: XCTestCase {
     func testActionShowBackupInfo() {
         var tokenList = TokenList()
         let action: TokenList.Action = .showBackupInfo
-        let effect = tokenList.update(action)
+        let effect = tokenList.update(with: action)
         // TODO: check that the token list hasn't changed
 
         switch effect {
@@ -80,7 +80,7 @@ class TokenListTests: XCTestCase {
     func testActionShowInfo() {
         var tokenList = TokenList()
         let action: TokenList.Action = .showInfo
-        let effect = tokenList.update(action)
+        let effect = tokenList.update(with: action)
         // TODO: check that the token list hasn't changed
 
         switch effect {

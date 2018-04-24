@@ -2,7 +2,7 @@
 //  SearchField.swift
 //  Authenticator
 //
-//  Copyright (c) 2013-2016 Authenticator authors
+//  Copyright (c) 2013-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -58,13 +58,12 @@ class SearchField: UIView {
 
     private func setupTextField() {
         ring.tintColor = UIColor.otpLightColor
-        let placeHolderAttributes = [
-            NSForegroundColorAttributeName: UIColor.otpLightColor,
-            NSFontAttributeName: UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight),
-        ]
         textField.attributedPlaceholder = NSAttributedString(
             string: "Authenticator",
-            attributes: placeHolderAttributes
+            attributes: [
+                .foregroundColor: UIColor.otpLightColor,
+                .font: UIFont.systemFont(ofSize: 16, weight: .light),
+            ]
         )
         textField.textColor = UIColor.otpLightColor
         textField.backgroundColor = UIColor.otpLightColor.withAlphaComponent(0.2)
@@ -102,9 +101,9 @@ class SearchField: UIView {
 
 // MARK: TokenListPresenter
 extension SearchField {
-    func updateWithViewModel(_ viewModel: TokenList.ViewModel) {
+    func update(with viewModel: TokenList.ViewModel) {
         if let progressRingViewModel = viewModel.progressRingViewModel {
-            ring.updateWithViewModel(progressRingViewModel)
+            ring.update(with: progressRingViewModel)
         }
         // Show the countdown ring only if a time-based token is active
         textField.leftViewMode = viewModel.progressRingViewModel != nil ? .always : .never

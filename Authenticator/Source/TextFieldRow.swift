@@ -2,7 +2,7 @@
 //  TextFieldRow.swift
 //  Authenticator
 //
-//  Copyright (c) 2014-2016 Authenticator authors
+//  Copyright (c) 2014-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -66,12 +66,12 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
     // MARK: - Subviews
 
     private func configureSubviews() {
-        textLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)
+        textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .light)
 
         textField.delegate = self
         textField.addTarget(self, action: #selector(TextFieldRowCell.textFieldValueChanged), for: .editingChanged)
         textField.borderStyle = .roundedRect
-        textField.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight)
+        textField.font = UIFont.systemFont(ofSize: 16, weight: .light)
         contentView.addSubview(textField)
 
         accessibilityElements = [textField]
@@ -88,7 +88,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
 
     // MARK: - View Model
 
-    func updateWithViewModel(_ viewModel: TextFieldRowViewModel<Action>) {
+    func update(with viewModel: TextFieldRowViewModel<Action>) {
         textLabel?.text = viewModel.label
         textField.placeholder = viewModel.placeholder
 
@@ -107,12 +107,13 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
         textField.accessibilityLabel = viewModel.label
     }
 
-    static func heightWithViewModel(_ viewModel: TextFieldRowViewModel<Action>) -> CGFloat {
+    static func heightForRow(with viewModel: TextFieldRowViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 
     // MARK: - Target Action
 
+    @objc
     func textFieldValueChanged() {
         let newText = textField.text ?? ""
         if let action = changeAction?(newText) {

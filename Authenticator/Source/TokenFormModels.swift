@@ -2,7 +2,7 @@
 //  TokenFormModels.swift
 //  Authenticator
 //
-//  Copyright (c) 2015 Authenticator authors
+//  Copyright (c) 2015-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ enum TokenFormRowModel<Action>: Identifiable {
     case textFieldRow(identity: String, viewModel: TextFieldRowViewModel<Action>)
     case segmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
 
-    func hasSameIdentity(_ other: TokenFormRowModel) -> Bool {
+    func hasSameIdentity(as other: TokenFormRowModel) -> Bool {
         switch (self, other) {
         case let (.textFieldRow(rowA), .textFieldRow(rowB)):
             return rowA.identity == rowB.identity
