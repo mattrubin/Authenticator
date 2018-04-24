@@ -226,13 +226,13 @@ class AppController {
 extension PersistentToken {
     var description: String {
         if !token.name.isEmpty && !token.issuer.isEmpty {
-            return "“\(token.name)” issued by \(token.issuer)"
+            return "“\(token.issuer): \(token.name)”"
         }
         if !token.name.isEmpty {
-            return token.name
+            return "“\(token.name)”"
         }
         if !token.issuer.isEmpty {
-            return "issued by \(token.issuer)"
+            return "“\(token.issuer)”"
         }
         return "untitled"
     }
