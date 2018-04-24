@@ -4,7 +4,7 @@ All notable changes to the project will be documented in this file.
 [Authenticator]: https://github.com/mattrubin/Authenticator
 
 
-## [2.0.3] - 2018-04-16
+## [2.0.3] - 2018-04-23
 - Disabled swipe-to-delete on the token list, to prevent tokens from being accidentally deleted. To delete a token, first tap "Edit" and then tap the red delete button.
 - Fixed a bug where the app might crash when adding a token from an "otpauth://" URL.
 
