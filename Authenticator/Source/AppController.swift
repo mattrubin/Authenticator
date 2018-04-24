@@ -203,7 +203,9 @@ class AppController {
 
     private func deletePersistentTokenWithConfirmation(_ token: PersistentToken, failure: @escaping (Error) -> Root.Event ) {
         let presenter = topViewController(presentedFrom: rootViewController)
-        let alert = UIAlertController(title: nil, message: "Permanently delete token \(token.description) from this device?", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Delete Token?",
+                                      message: "The token \(token.description) will be permanently deleted from this device.",
+                                      preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
             do {
                 try self.store.deletePersistentToken(token)
