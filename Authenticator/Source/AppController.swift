@@ -201,17 +201,17 @@ class AppController {
         handleAction(.addTokenFromURL(token))
     }
 
-    private func deletePersistentTokenWithConfirmation(_ token: PersistentToken, failure: @escaping (Error) -> Root.Event ) {
+    private func deletePersistentTokenWithConfirmation(_ persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event ) {
         let presenter = topViewController(presentedFrom: rootViewController)
         let alert = UIAlertController(title: "Delete Token?",
-                                      message: "The token \(token.description) will be permanently deleted from this device.",
+                                      message: "The token \(persistentToken.token.description) will be permanently deleted from this device.",
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
             guard let sself = self else {
                 return
             }
             do {
-                try sself.store.deletePersistentToken(token)
+                try sself.store.deletePersistentToken(persistentToken)
                 sself.updateView()
             } catch {
                 sself.handleEvent(failure(error))
@@ -223,18 +223,18 @@ class AppController {
 
 }
 
-extension PersistentToken {
+extension Token {
     var description: String {
-        if !token.name.isEmpty && !token.issuer.isEmpty {
-            return "“\(token.issuer): \(token.name)”"
+        switch (!name.isEmpty, !issuer.isEmpty) {
+        case (true, true):
+            return "“\(issuer): \(name)”"
+        case (true, false):
+            return "“\(name)”"
+        case (false, true):
+            return "“\(issuer)”"
+        case (false, false):
+            return "untitled"
         }
-        if !token.name.isEmpty {
-            return "“\(token.name)”"
-        }
-        if !token.issuer.isEmpty {
-            return "“\(token.issuer)”"
-        }
-        return "untitled"
     }
 }
 
