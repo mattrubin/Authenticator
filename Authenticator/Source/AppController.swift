@@ -217,10 +217,10 @@ class AppController {
 
     private func permanentlyDelete(_ persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event) {
         do {
-            try self.store.deletePersistentToken(persistentToken)
-            self.updateView()
+            try store.deletePersistentToken(persistentToken)
+            updateView()
         } catch {
-            self.handleEvent(failure(error))
+            handleEvent(failure(error))
         }
     }
 }
