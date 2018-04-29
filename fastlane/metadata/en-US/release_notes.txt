@@ -1,2 +1,1 @@
-• Disabled swipe-to-delete on the token list, to prevent tokens from being accidentally deleted. To delete a token, first tap "Edit" and then tap the red delete button.
-• Fixed a bug where the app might crash when adding a token from an "otpauth://" URL.
+This release fixes an issue that was causing the app to crash on launch for some users.
