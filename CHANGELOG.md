@@ -4,6 +4,11 @@ All notable changes to the project will be documented in this file.
 [Authenticator]: https://github.com/mattrubin/Authenticator
 
 
+## [2.0.4] - 2018-04-29
+- Fixed a crash on launch for some users, caused by deserialization errors when loading persistent tokens from the keychain.
+([#277](https://github.com/mattrubin/Authenticator/issues/277))
+
+
 ## [2.0.3] - 2018-04-23
 - Disabled swipe-to-delete on the token list, to prevent tokens from being accidentally deleted. To delete a token, first tap "Edit" and then tap the red delete button.
 - Fixed a bug where the app might crash when adding a token from an "otpauth://" URL.
@@ -102,7 +107,8 @@ For security reasons, tokens are stored only on one device, and are not included
 ## [1.0] - 2013-11-25
 
 
-[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.0.3...HEAD
+[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.0.4...HEAD
+[2.0.4]: https://github.com/mattrubin/Authenticator/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/mattrubin/Authenticator/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/mattrubin/Authenticator/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/mattrubin/Authenticator/compare/2.0.0...2.0.1
