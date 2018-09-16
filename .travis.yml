@@ -5,7 +5,7 @@ language: objective-c
 xcode_workspace: Authenticator.xcworkspace
 xcode_scheme: Authenticator
 
-osx_image: xcode9.3
+osx_image: xcode10
 
 env:
   - RUNTIME="iOS 9.0"  DEVICE="iPhone 4s"
@@ -13,6 +13,8 @@ env:
   - RUNTIME="iOS 10.0" DEVICE="iPhone SE"
   - RUNTIME="iOS 10.3" DEVICE="iPhone 7 Plus"
   - RUNTIME="iOS 11.0" DEVICE="iPhone X"
+  - RUNTIME="iOS 11.4" DEVICE="iPhone XR"
+  - RUNTIME="iOS 12.0" DEVICE="iPhone XS Max"
 
 install:
   - git submodule update --init --recursive
