@@ -45,6 +45,10 @@ struct InfoList {
         let licenseDescription = "Authenticator makes use of several third party libraries."
 
         return ViewModel(title: "Info", rowModels: [
+            RowModel(title: "Display Options",
+                     description: "The presentation of one-time passwords can be customized.",
+                     callToAction: "See Options →".replacingOccurrences(of: " ", with: "\u{00A0}"),
+                     action: .showDisplayOptions),
             RowModel(title: "Backups",
                      description: backupDescription,
                      callToAction: "Learn More →".replacingOccurrences(of: " ", with: "\u{00A0}"),
@@ -59,6 +63,7 @@ struct InfoList {
     // MARK: Update
 
     enum Effect {
+        case showDisplayOptions
         case showBackupInfo
         case showLicenseInfo
         case done

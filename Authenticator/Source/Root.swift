@@ -307,6 +307,9 @@ extension Root {
 
     private mutating func handleInfoListEffect(_ effect: InfoList.Effect) throws -> Effect? {
         switch effect {
+        case .showDisplayOptions:
+            return nil
+
         case .showBackupInfo:
             let backupInfo: Info
             do {
