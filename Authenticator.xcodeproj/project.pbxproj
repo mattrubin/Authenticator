@@ -49,6 +49,8 @@
 		C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */; };
 		C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09521BA9133B008C54FE /* FocusCell.swift */; };
 		C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09541BA91D1C008C54FE /* TableViewModel.swift */; };
+		C9CDD1CF209662E100636056 /* DisplayOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDD1CE209662E100636056 /* DisplayOptions.swift */; };
+		C9CDD1D12096635300636056 /* DisplayOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDD1D02096635300636056 /* DisplayOptionsViewController.swift */; };
 		C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */; };
 		C9D6C8461906CD54004F0E08 /* TextFieldRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */; };
 		C9D6C84C19075044004F0E08 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* ProgressRingView.swift */; };
@@ -173,6 +175,8 @@
 		C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenFormViewController.swift; sourceTree = "<group>"; };
 		C9CC09521BA9133B008C54FE /* FocusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusCell.swift; sourceTree = "<group>"; };
 		C9CC09541BA91D1C008C54FE /* TableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
+		C9CDD1CE209662E100636056 /* DisplayOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayOptions.swift; sourceTree = "<group>"; };
+		C9CDD1D02096635300636056 /* DisplayOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayOptionsViewController.swift; sourceTree = "<group>"; };
 		C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlRow.swift; sourceTree = "<group>"; };
 		C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldRow.swift; sourceTree = "<group>"; };
 		C9D6C84B19075044004F0E08 /* ProgressRingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressRingView.swift; sourceTree = "<group>"; };
@@ -447,6 +451,8 @@
 				C9DE02E81ED227D600D7E01C /* InfoListViewController.swift */,
 				C9A1C1A81E501D8B009E65D6 /* Info.swift */,
 				C9A1C1A51E501CB2009E65D6 /* InfoViewController.swift */,
+				C9CDD1CE209662E100636056 /* DisplayOptions.swift */,
+				C9CDD1D02096635300636056 /* DisplayOptionsViewController.swift */,
 			);
 			name = Info;
 			sourceTree = "<group>";
@@ -659,6 +665,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C93AD15219CD51BE007480E9 /* Colors.swift in Sources */,
+				C9CDD1D12096635300636056 /* DisplayOptionsViewController.swift in Sources */,
+				C9CDD1CF209662E100636056 /* DisplayOptions.swift in Sources */,
 				C9DE02E71ED2234D00D7E01C /* InfoList.swift in Sources */,
 				C93BD6251C16841D00FFFB8F /* RootViewController.swift in Sources */,
 				C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */,
