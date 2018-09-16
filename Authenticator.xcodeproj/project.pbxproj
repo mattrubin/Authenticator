@@ -107,6 +107,7 @@
 		8B2B8AE1118BA49F00437315 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		8BF5147F118799AE005C936F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C910ADC01BF0315A00C988F5 /* TokenList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenList.swift; sourceTree = "<group>"; };
+		C91CDAEE214EEA82006488F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9204A841E886A3500998D3E /* Acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgements.html; sourceTree = "<group>"; };
 		C92708AB19CFB0750033128B /* TokenListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewController.swift; sourceTree = "<group>"; };
 		C931A5FC1BFF6F9D00706A1C /* .hound.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hound.yml; sourceTree = "<group>"; };
@@ -421,6 +422,7 @@
 		C9906A331812522100BAEF53 /* AuthenticatorTests */ = {
 			isa = PBXGroup;
 			children = (
+				C91CDAEE214EEA82006488F7 /* Info.plist */,
 				C983AB73197F98FC00975003 /* OTPAuthenticatorTests.m */,
 				C9A1C1CD1E6CDBFB009E65D6 /* RootTests.swift */,
 				CCC409751DB28BFE000A050D /* TableDiffTests.swift */,
@@ -570,7 +572,7 @@
 			attributes = {
 				CLASSPREFIX = OTP;
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
@@ -805,6 +807,7 @@
 			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
+				INFOPLIST_FILE = AuthenticatorTests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
@@ -815,6 +818,7 @@
 			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
+				INFOPLIST_FILE = AuthenticatorTests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
