@@ -108,6 +108,7 @@
 		8BF5147F118799AE005C936F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C910ADC01BF0315A00C988F5 /* TokenList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenList.swift; sourceTree = "<group>"; };
 		C91CDAEE214EEA82006488F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C91CDAFD214EF044006488F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9204A841E886A3500998D3E /* Acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgements.html; sourceTree = "<group>"; };
 		C92708AB19CFB0750033128B /* TokenListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenListViewController.swift; sourceTree = "<group>"; };
 		C931A5FC1BFF6F9D00706A1C /* .hound.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hound.yml; sourceTree = "<group>"; };
@@ -450,6 +451,7 @@
 		C9A262CE1E170BD4004E6CEB /* AuthenticatorScreenshots */ = {
 			isa = PBXGroup;
 			children = (
+				C91CDAFD214EF044006488F7 /* Info.plist */,
 				C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */,
 				C9A262D71E170E3A004E6CEB /* SnapshotHelper.swift */,
 			);
@@ -828,6 +830,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = AuthenticatorScreenshots/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.screenshots;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -839,6 +842,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = AuthenticatorScreenshots/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.screenshots;
 				PRODUCT_NAME = "$(TARGET_NAME)";
