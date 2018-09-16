@@ -148,17 +148,18 @@ extension RootViewController {
                              using: TokenFormViewController.self,
                              actionTransform: Root.Action.tokenEditFormAction)
 
-        case let .info(infoListViewModel, infoViewModel):
-            if let infoViewModel = infoViewModel {
-                presentViewModels(infoListViewModel,
+        case let .menu(menuViewModel):
+            switch menuViewModel.child {
+            case .info(let infoViewModel):
+                presentViewModels(menuViewModel.infoList,
                                   using: InfoListViewController.self,
                                   actionTransform: Root.Action.infoListEffect,
                                   and: infoViewModel,
                                   using: InfoViewController.self,
                                   actionTransform: Root.Action.infoEffect)
 
-            } else {
-                presentViewModel(infoListViewModel,
+            case .none:
+                presentViewModel(menuViewModel.infoList,
                                  using: InfoListViewController.self,
                                  actionTransform: Root.Action.infoListEffect)
             }
@@ -199,7 +200,8 @@ private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escap
 
 extension RootViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        if case .info(_, .some) = currentViewModel.modal,
+        if case .menu(let menu) = currentViewModel.modal,
+            case .info = menu.child,
             viewController is InfoListViewController {
             // If the view model modal state has an Info.ViewModel and the just-shown view controller is an info list,
             // then the user has popped the info view controller.

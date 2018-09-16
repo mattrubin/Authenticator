@@ -36,7 +36,7 @@ struct Root: Component {
         case scanner(TokenScanner)
         case entryForm(TokenEntryForm)
         case editForm(TokenEditForm)
-        case info(InfoList, Info?)
+        case menu(Menu)
 
         var viewModel: RootViewModel.ModalViewModel {
             switch self {
@@ -48,10 +48,11 @@ struct Root: Component {
                 return .entryForm(form.viewModel)
             case .editForm(let form):
                 return .editForm(form.viewModel)
-            case let .info(infoList, info):
-                return .info(infoList.viewModel, info?.viewModel)
+            case let .menu(menu):
+                return .menu(menu.viewModel)
             }
         }
+
     }
 
     init(deviceCanScan: Bool) {
@@ -232,14 +233,14 @@ extension Root {
 
         case .showBackupInfo:
             do {
-                modal = .info(InfoList(), try Info.backupInfo())
+                modal = .menu(Menu(infoList: InfoList(), child: .info(try Info.backupInfo())))
                 return nil
             } catch {
                 return .showErrorMessage("Failed to load backup info.")
             }
 
         case .showInfo:
-            modal = .info(InfoList(), nil)
+            modal = .menu(Menu(infoList: InfoList(), child: .none))
             return nil
         }
     }
@@ -382,16 +383,16 @@ private extension Root.Modal {
     }
 
     mutating func setInfo(_ info: Info) throws {
-        guard case .info(let infoList, .none) = self else {
+        guard case .menu(let menu) = self, case .none = menu.child else {
             throw Error(expectedType: InfoList.self, actualState: self)
         }
-        self = .info(infoList, info)
+        self = .menu(Menu(infoList: menu.infoList, child: .info(info)))
     }
 
     mutating func dismissInfo() throws {
-        guard case .info(let infoList, .some) = self else {
+        guard case .menu(let menu) = self, case .info = menu.child else {
             throw Error(expectedType: Info.self, actualState: self)
         }
-        self = .info(infoList, nil)
+        self = .menu(Menu(infoList: menu.infoList, child: .none))
     }
 }

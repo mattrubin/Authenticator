@@ -1,8 +1,8 @@
 //
-//  RootViewModel.swift
+//  Menu.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2017 Authenticator authors
+//  Copyright (c) 2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,36 @@
 //  SOFTWARE.
 //
 
-struct RootViewModel {
-    let tokenList: TokenList.ViewModel
-    let modal: ModalViewModel
+struct Menu {
+    let infoList: InfoList
+    var child: Child
 
-    enum ModalViewModel {
+    enum Child {
         case none
-        case scanner(TokenScanner.ViewModel)
-        case entryForm(TokenEntryForm.ViewModel)
-        case editForm(TokenEditForm.ViewModel)
-        case menu(Menu.ViewModel)
+        case info(Info)
+
+        var viewModel: Menu.ViewModel.Child {
+            switch self {
+            case .none:
+                return .none
+            case .info(let info):
+                return .info(info.viewModel)
+            }
+        }
+    }
+
+    var viewModel: ViewModel {
+        return ViewModel(infoList: infoList.viewModel, child: child.viewModel)
+    }
+
+    struct ViewModel {
+        let infoList: InfoList.ViewModel
+        let child: Child
+
+        enum Child {
+            case none
+            case info(Info.ViewModel)
+        }
+
     }
 }
