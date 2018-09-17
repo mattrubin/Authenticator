@@ -4,6 +4,11 @@ All notable changes to the project will be documented in this file.
 [Authenticator]: https://github.com/mattrubin/Authenticator
 
 
+## [2.0.5] - 2018-09-17
+- Added an alert to ask the user for confirmation before permanently deleting a token.
+([#217](https://github.com/mattrubin/Authenticator/pull/217))
+
+
 ## [2.0.4] - 2018-04-29
 - Fixed a crash on launch for some users, caused by deserialization errors when loading persistent tokens from the keychain.
 ([#277](https://github.com/mattrubin/Authenticator/issues/277))
@@ -107,7 +112,8 @@ For security reasons, tokens are stored only on one device, and are not included
 ## [1.0] - 2013-11-25
 
 
-[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.0.4...HEAD
+[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.0.5...HEAD
+[2.0.5]: https://github.com/mattrubin/Authenticator/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/mattrubin/Authenticator/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/mattrubin/Authenticator/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/mattrubin/Authenticator/compare/2.0.1...2.0.2
