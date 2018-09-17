@@ -1,1 +1,1 @@
-This release fixes an issue that was causing the app to crash on launch for some users.
+• Added an alert to ask the user for confirmation before permanently deleting a token.
