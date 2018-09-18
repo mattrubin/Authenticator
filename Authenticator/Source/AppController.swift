@@ -2,7 +2,7 @@
 //  AppController.swift
 //  Authenticator
 //
-//  Copyright (c) 2016-2017 Authenticator authors
+//  Copyright (c) 2016-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -148,12 +148,7 @@ class AppController {
             }
 
         case let .deletePersistentToken(persistentToken, failure):
-            do {
-                try store.deletePersistentToken(persistentToken)
-                updateView()
-            } catch {
-                handleEvent(failure(error))
-            }
+            confirmDeletion(of: persistentToken, failure: failure)
 
         case let .showErrorMessage(message):
             SVProgressHUD.showError(withStatus: message)
@@ -204,6 +199,44 @@ class AppController {
 
     func addTokenFromURL(_ token: Token) {
         handleAction(.addTokenFromURL(token))
+    }
+
+    private func confirmDeletion(of persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event) {
+        let messagePrefix = persistentToken.token.displayName.map({ "The token “\($0)”" }) ?? "The unnamed token"
+        let message = messagePrefix + " will be permanently deleted from this device."
+
+        let alert = UIAlertController(title: "Delete Token?", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+            self?.permanentlyDelete(persistentToken, failure: failure)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        let presenter = topViewController(presentedFrom: rootViewController)
+        presenter.present(alert, animated: true)
+    }
+
+    private func permanentlyDelete(_ persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event) {
+        do {
+            try store.deletePersistentToken(persistentToken)
+            updateView()
+        } catch {
+            handleEvent(failure(error))
+        }
+    }
+}
+
+private extension Token {
+    var displayName: String? {
+        switch (!name.isEmpty, !issuer.isEmpty) {
+        case (true, true):
+            return "\(issuer): \(name)"
+        case (true, false):
+            return name
+        case (false, true):
+            return issuer
+        case (false, false):
+            return nil
+        }
     }
 }
 
