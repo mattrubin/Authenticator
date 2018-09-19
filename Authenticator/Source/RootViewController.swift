@@ -151,7 +151,19 @@ extension RootViewController {
                              actionTransform: Root.Action.tokenEditFormAction)
 
         case let .info(infoListViewModel, infoViewModel):
-            updateWithInfoViewModels(infoListViewModel, infoViewModel)
+            if let infoViewModel = infoViewModel {
+                presentViewModels(infoListViewModel,
+                                  using: InfoListViewController.self,
+                                  actionTransform: Root.Action.infoListEffect,
+                                  and: infoViewModel,
+                                  using: InfoViewController.self,
+                                  actionTransform: Root.Action.infoEffect)
+
+            } else {
+                presentViewModel(infoListViewModel,
+                                 using: InfoListViewController.self,
+                                 actionTransform: Root.Action.infoListEffect)
+            }
         }
         currentViewModel = viewModel
     }
@@ -180,22 +192,6 @@ extension RootViewController {
             dispatchAction: compose(actionTransformB, dispatchAction)
         )
         presentViewControllers([viewControllerA, viewControllerB])
-    }
-
-    private func updateWithInfoViewModels(_ infoListViewModel: InfoList.ViewModel, _ infoViewModel: Info.ViewModel?) {
-        guard let infoViewModel = infoViewModel else {
-            presentViewModel(infoListViewModel,
-                             using: InfoListViewController.self,
-                             actionTransform: Root.Action.infoListEffect)
-            return
-        }
-
-        presentViewModels(infoListViewModel,
-                          using: InfoListViewController.self,
-                          actionTransform: Root.Action.infoListEffect,
-                          and: infoViewModel,
-                          using: InfoViewController.self,
-                          actionTransform: Root.Action.infoEffect)
     }
 }
 
