@@ -101,7 +101,7 @@ class RootViewController: OpaqueNavigationController {
     }
 }
 
-protocol ModelBasedViewController {
+protocol ModelBased {
     associatedtype ViewModel
     associatedtype Action
 
@@ -109,10 +109,12 @@ protocol ModelBasedViewController {
     func update(with viewModel: ViewModel)
 }
 
-extension TokenScannerViewController: ModelBasedViewController {}
-extension TokenFormViewController: ModelBasedViewController {}
-extension InfoListViewController: ModelBasedViewController {}
-extension InfoViewController: ModelBasedViewController {}
+typealias ModelBasedViewController = UIViewController & ModelBased
+
+extension TokenScannerViewController: ModelBased {}
+extension TokenFormViewController: ModelBased {}
+extension InfoListViewController: ModelBased {}
+extension InfoViewController: ModelBased {}
 
 extension RootViewController {
     private func reify<ViewController: ModelBasedViewController>(_ existingViewController: UIViewController?, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
@@ -168,7 +170,7 @@ extension RootViewController {
         currentViewModel = viewModel
     }
 
-    private func presentViewModel<ViewController: UIViewController & ModelBasedViewController>(_ viewModel: ViewController.ViewModel, using _: ViewController.Type, actionTransform: @escaping ((ViewController.Action) -> Root.Action)) {
+    private func presentViewModel<ViewController: ModelBasedViewController>(_ viewModel: ViewController.ViewModel, using _: ViewController.Type, actionTransform: @escaping ((ViewController.Action) -> Root.Action)) {
         let viewController: ViewController = reify(
             modalNavController?.topViewController,
             viewModel: viewModel,
@@ -178,7 +180,7 @@ extension RootViewController {
     }
 
     // swiftlint:disable:next function_parameter_count
-    private func presentViewModels<A: UIViewController & ModelBasedViewController, B: UIViewController & ModelBasedViewController>(
+    private func presentViewModels<A: ModelBasedViewController, B: ModelBasedViewController>(
         _ viewModelA: A.ViewModel, using _: A.Type, actionTransform actionTransformA: @escaping ((A.Action) -> Root.Action),
         and viewModelB: B.ViewModel, using _: B.Type, actionTransform actionTransformB: @escaping ((B.Action) -> Root.Action)) {
         let viewControllerA: A = reify(
