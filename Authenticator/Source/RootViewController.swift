@@ -115,10 +115,6 @@ extension InfoListViewController: ModelBasedViewController {}
 extension InfoViewController: ModelBasedViewController {}
 
 extension RootViewController {
-    private func reify<ViewController: ModelBasedViewController>(viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
-        return reify(modalNavController?.topViewController, viewModel: viewModel, dispatchAction: dispatchAction)
-    }
-
     private func reify<ViewController: ModelBasedViewController>(_ existingViewController: UIViewController?, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
         if let viewController = existingViewController as? ViewController {
             viewController.update(with: viewModel)
@@ -162,6 +158,7 @@ extension RootViewController {
 
     private func presentViewModel<ViewController: UIViewController & ModelBasedViewController>(_ viewModel: ViewController.ViewModel, using _: ViewController.Type, actionTransform: @escaping ((ViewController.Action) -> Root.Action)) {
         let viewController: ViewController = reify(
+            modalNavController?.topViewController,
             viewModel: viewModel,
             dispatchAction: compose(actionTransform, dispatchAction)
         )
@@ -178,6 +175,7 @@ extension RootViewController {
             dispatchAction: compose(actionTransformA, dispatchAction)
         )
         let viewControllerB: B = reify(
+            modalNavController?.topViewController,
             viewModel: viewModelB,
             dispatchAction: compose(actionTransformB, dispatchAction)
         )
