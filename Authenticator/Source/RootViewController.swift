@@ -112,20 +112,20 @@ extension TokenFormViewController: ModelBased {}
 extension InfoListViewController: ModelBased {}
 extension InfoViewController: ModelBased {}
 
-extension RootViewController {
-    private func reify<ViewController: ModelBasedViewController>(_ existingViewController: UIViewController?, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
-        if let viewController = existingViewController as? ViewController {
-            viewController.update(with: viewModel)
-            return viewController
-        } else {
-            let viewController = ViewController(
-                viewModel: viewModel,
-                dispatchAction: dispatchAction
-            )
-            return viewController
-        }
+private func reify<ViewController: ModelBasedViewController>(_ existingViewController: UIViewController?, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
+    if let viewController = existingViewController as? ViewController {
+        viewController.update(with: viewModel)
+        return viewController
+    } else {
+        let viewController = ViewController(
+            viewModel: viewModel,
+            dispatchAction: dispatchAction
+        )
+        return viewController
     }
+}
 
+extension RootViewController {
     func update(with viewModel: Root.ViewModel) {
         tokenListViewController.update(with: viewModel.tokenList)
 
