@@ -168,6 +168,22 @@ extension RootViewController {
         presentViewController(viewController)
     }
 
+    // swiftlint:disable:next function_parameter_count
+    private func presentViewModels<A: UIViewController & ModelBasedViewController, B: UIViewController & ModelBasedViewController>(
+        _ viewModelA: A.ViewModel, using _: A.Type, actionTransform actionTransformA: @escaping ((A.Action) -> Root.Action),
+        and viewModelB: B.ViewModel, using _: B.Type, actionTransform actionTransformB: @escaping ((B.Action) -> Root.Action)) {
+        let viewControllerA: A = reify(
+            modalNavController?.viewControllers.first,
+            viewModel: viewModelA,
+            dispatchAction: compose(actionTransformA, dispatchAction)
+        )
+        let viewControllerB: B = reify(
+            viewModel: viewModelB,
+            dispatchAction: compose(actionTransformB, dispatchAction)
+        )
+        presentViewControllers([viewControllerA, viewControllerB])
+    }
+
     private func updateWithInfoViewModels(_ infoListViewModel: InfoList.ViewModel, _ infoViewModel: Info.ViewModel?) {
         guard let infoViewModel = infoViewModel else {
             presentViewModel(infoListViewModel,
@@ -176,16 +192,12 @@ extension RootViewController {
             return
         }
 
-        let infoListViewController: InfoListViewController = reify(
-            modalNavController?.viewControllers.first,
-            viewModel: infoListViewModel,
-            dispatchAction: compose(Root.Action.infoListEffect, dispatchAction)
-        )
-        let infoViewController: InfoViewController = reify(
-            viewModel: infoViewModel,
-            dispatchAction: compose(Root.Action.infoEffect, dispatchAction)
-        )
-        presentViewControllers([infoListViewController, infoViewController])
+        presentViewModels(infoListViewModel,
+                          using: InfoListViewController.self,
+                          actionTransform: Root.Action.infoListEffect,
+                          and: infoViewModel,
+                          using: InfoViewController.self,
+                          actionTransform: Root.Action.infoEffect)
     }
 }
 
