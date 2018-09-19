@@ -71,10 +71,6 @@ class RootViewController: OpaqueNavigationController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    fileprivate func presentViewController(_ viewController: UIViewController) {
-        presentViewControllers([viewController])
-    }
-
     fileprivate func presentViewControllers(_ viewControllersToPresent: [UIViewController]) {
         // If there is currently no modal, create one.
         guard let navController = modalNavController else {
@@ -176,7 +172,7 @@ extension RootViewController {
             viewModel: viewModel,
             dispatchAction: compose(actionTransform, dispatchAction)
         )
-        presentViewController(viewController)
+        presentViewControllers([viewController])
     }
 
     // swiftlint:disable:next function_parameter_count
