@@ -78,7 +78,8 @@ platform :ios do
     deliver(
       overwrite_screenshots: true,
       submit_for_review: true,
-      automatic_release: false
+      automatic_release: true,
+      phased_release: true
     )
 
     # Add a git tag for this release.
