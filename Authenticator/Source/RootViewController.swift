@@ -140,25 +140,19 @@ extension RootViewController {
             dismissViewController()
 
         case .scanner(let scannerViewModel):
-            let scannerViewController: TokenScannerViewController = reify(
-                viewModel: scannerViewModel,
-                dispatchAction: compose(Root.Action.tokenScannerAction, dispatchAction)
-            )
-            presentViewController(scannerViewController)
+            presentViewModel(scannerViewModel,
+                             using: TokenScannerViewController.self,
+                             actionTransform: Root.Action.tokenScannerAction)
 
         case .entryForm(let formViewModel):
-            let formController: TokenFormViewController = reify(
-                viewModel: formViewModel,
-                dispatchAction: compose(Root.Action.tokenEntryFormAction, dispatchAction)
-            )
-            presentViewController(formController)
+            presentViewModel(formViewModel,
+                             using: TokenFormViewController.self,
+                             actionTransform: Root.Action.tokenEntryFormAction)
 
         case .editForm(let formViewModel):
-            let editController: TokenFormViewController = reify(
-                viewModel: formViewModel,
-                dispatchAction: compose(Root.Action.tokenEditFormAction, dispatchAction)
-            )
-            presentViewController(editController)
+            presentViewModel(formViewModel,
+                             using: TokenFormViewController.self,
+                             actionTransform: Root.Action.tokenEditFormAction)
 
         case let .info(infoListViewModel, infoViewModel):
             updateWithInfoViewModels(infoListViewModel, infoViewModel)
@@ -166,13 +160,19 @@ extension RootViewController {
         currentViewModel = viewModel
     }
 
+    private func presentViewModel<ViewController: UIViewController & ModelBasedViewController>(_ viewModel: ViewController.ViewModel, using _: ViewController.Type, actionTransform: @escaping ((ViewController.Action) -> Root.Action)) {
+        let viewController: ViewController = reify(
+            viewModel: viewModel,
+            dispatchAction: compose(actionTransform, dispatchAction)
+        )
+        presentViewController(viewController)
+    }
+
     private func updateWithInfoViewModels(_ infoListViewModel: InfoList.ViewModel, _ infoViewModel: Info.ViewModel?) {
         guard let infoViewModel = infoViewModel else {
-            let infoListViewController: InfoListViewController = reify(
-                viewModel: infoListViewModel,
-                dispatchAction: compose(Root.Action.infoListEffect, dispatchAction)
-            )
-            presentViewController(infoListViewController)
+            presentViewModel(infoListViewModel,
+                             using: InfoListViewController.self,
+                             actionTransform: Root.Action.infoListEffect)
             return
         }
 
