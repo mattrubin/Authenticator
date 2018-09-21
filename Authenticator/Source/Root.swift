@@ -168,11 +168,15 @@ extension Root {
                 return handleDisplayOptionsEffect(effect)
 
             case .dismissInfo:
-                try modal.dismissInfo()
+                try modal.withMenu { menu in
+                    try menu.dismissInfo()
+                }
                 return nil
 
             case .dismissDisplayOptions:
-                try modal.dismissDisplayOptions()
+                try modal.withMenu { menu in
+                    try menu.dismissDisplayOptions()
+                }
                 return nil
 
             case .addTokenFromURL(let token):
@@ -319,7 +323,9 @@ extension Root {
     private mutating func handleInfoListEffect(_ effect: InfoList.Effect) throws -> Effect? {
         switch effect {
         case .showDisplayOptions:
-            try modal.showDisplayOptions()
+            try modal.withMenu { menu in
+                try menu.showDisplayOptions()
+            }
             return nil
 
         case .showBackupInfo:
@@ -329,7 +335,9 @@ extension Root {
             } catch {
                 return .showErrorMessage("Failed to load backup info.")
             }
-            try modal.showInfo(backupInfo)
+            try modal.withMenu { menu in
+                try menu.showInfo(backupInfo)
+            }
             return nil
 
         case .showLicenseInfo:
@@ -339,7 +347,9 @@ extension Root {
             } catch {
                 return .showErrorMessage("Failed to load acknowledgements.")
             }
-            try modal.showInfo(licenseInfo)
+            try modal.withMenu { menu in
+                try menu.showInfo(licenseInfo)
+            }
             return nil
 
         case .done:
@@ -403,35 +413,12 @@ private extension Root.Modal {
         return result
     }
 
-    mutating func showInfo(_ info: Info) throws {
+    mutating func withMenu<ResultType>(_ body: (inout Menu) throws -> ResultType) throws -> ResultType {
         guard case .menu(var menu) = self else {
             throw Error(expectedType: Menu.self, actualState: self)
         }
-        try menu.showInfo(info)
+        let result = try body(&menu)
         self = .menu(menu)
-    }
-
-    mutating func dismissInfo() throws {
-        guard case .menu(var menu) = self else {
-            throw Error(expectedType: Menu.self, actualState: self)
-        }
-        try menu.dismissInfo()
-        self = .menu(menu)
-    }
-
-    mutating func showDisplayOptions() throws {
-        guard case .menu(var menu) = self else {
-            throw Error(expectedType: Menu.self, actualState: self)
-        }
-        try menu.showDisplayOptions()
-        self = .menu(menu)
-    }
-
-    mutating func dismissDisplayOptions() throws {
-        guard case .menu(var menu) = self else {
-            throw Error(expectedType: Menu.self, actualState: self)
-        }
-        try menu.dismissDisplayOptions()
-        self = .menu(menu)
+        return result
     }
 }
