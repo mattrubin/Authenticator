@@ -25,11 +25,12 @@
 
 struct Menu {
     let infoList: InfoList
-    var child: Child
+    let child: Child
 
     enum Child {
         case none
         case info(Info)
+        case displayOptions(DisplayOptions)
 
         var viewModel: Menu.ViewModel.Child {
             switch self {
@@ -37,6 +38,8 @@ struct Menu {
                 return .none
             case .info(let info):
                 return .info(info.viewModel)
+            case .displayOptions(let displayOptions):
+                return .displayOptions(displayOptions.viewModel)
             }
         }
     }
@@ -52,7 +55,7 @@ struct Menu {
         enum Child {
             case none
             case info(Info.ViewModel)
+            case displayOptions(DisplayOptions.ViewModel)
         }
-
     }
 }

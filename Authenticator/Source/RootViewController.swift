@@ -111,6 +111,7 @@ extension TokenScannerViewController: ModelBased {}
 extension TokenFormViewController: ModelBased {}
 extension InfoListViewController: ModelBased {}
 extension InfoViewController: ModelBased {}
+extension DisplayOptionsViewController: ModelBased {}
 
 private func reify<ViewController: ModelBasedViewController>(_ existingViewController: UIViewController?, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
     if let viewController = existingViewController as? ViewController {
@@ -158,6 +159,14 @@ extension RootViewController {
                                   using: InfoViewController.self,
                                   actionTransform: Root.Action.infoEffect)
 
+            case .displayOptions(let displayOptionsViewModel):
+                presentViewModels(menuViewModel.infoList,
+                                  using: InfoListViewController.self,
+                                  actionTransform: Root.Action.infoListEffect,
+                                  and: displayOptionsViewModel,
+                                  using: DisplayOptionsViewController.self,
+                                  actionTransform: Root.Action.displayOptionsEffect)
+
             case .none:
                 presentViewModel(menuViewModel.infoList,
                                  using: InfoListViewController.self,
@@ -201,11 +210,17 @@ private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escap
 extension RootViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         if case .menu(let menu) = currentViewModel.modal,
-            case .info = menu.child,
             viewController is InfoListViewController {
-            // If the view model modal state has an Info.ViewModel and the just-shown view controller is an info list,
-            // then the user has popped the info view controller.
-            dispatchAction(.dismissInfo)
+            switch menu.child {
+            case .info:
+                // If the view model modal state has an Info.ViewModel and the just-shown view controller is an info list,
+                // then the user has popped the info view controller.
+                dispatchAction(.dismissInfo)
+            case .displayOptions:
+                dispatchAction(.dismissDisplayOptions)
+            default:
+                break
+            }
         }
     }
 }

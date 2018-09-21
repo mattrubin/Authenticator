@@ -174,6 +174,10 @@ class AppController {
                 // Fallback on earlier versions
                 UIApplication.shared.openURL(url)
             }
+
+        case let .setDigitGroupSize(digitGroupSize):
+            // FIXME!
+            print(digitGroupSize)
         }
     }
 
