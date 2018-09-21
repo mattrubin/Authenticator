@@ -243,14 +243,14 @@ extension Root {
 
         case .showBackupInfo:
             do {
-                modal = .menu(Menu(infoList: InfoList(), child: .info(try Info.backupInfo())))
+                modal = .menu(Menu(info: try Info.backupInfo()))
                 return nil
             } catch {
                 return .showErrorMessage("Failed to load backup info.")
             }
 
         case .showInfo:
-            modal = .menu(Menu(infoList: InfoList(), child: .none))
+            modal = .menu(Menu())
             return nil
         }
     }
@@ -319,7 +319,7 @@ extension Root {
     private mutating func handleInfoListEffect(_ effect: InfoList.Effect) throws -> Effect? {
         switch effect {
         case .showDisplayOptions:
-            try modal.setDisplayOptions(DisplayOptions())
+            try modal.showDisplayOptions()
             return nil
 
         case .showBackupInfo:
@@ -329,7 +329,7 @@ extension Root {
             } catch {
                 return .showErrorMessage("Failed to load backup info.")
             }
-            try modal.setInfo(backupInfo)
+            try modal.showInfo(backupInfo)
             return nil
 
         case .showLicenseInfo:
@@ -339,7 +339,7 @@ extension Root {
             } catch {
                 return .showErrorMessage("Failed to load acknowledgements.")
             }
-            try modal.setInfo(licenseInfo)
+            try modal.showInfo(licenseInfo)
             return nil
 
         case .done:
@@ -403,31 +403,35 @@ private extension Root.Modal {
         return result
     }
 
-    mutating func setInfo(_ info: Info) throws {
-        guard case .menu(let menu) = self, case .none = menu.child else {
-            throw Error(expectedType: InfoList.self, actualState: self)
+    mutating func showInfo(_ info: Info) throws {
+        guard case .menu(var menu) = self else {
+            throw Error(expectedType: Menu.self, actualState: self)
         }
-        self = .menu(Menu(infoList: menu.infoList, child: .info(info)))
+        try menu.showInfo(info)
+        self = .menu(menu)
     }
 
     mutating func dismissInfo() throws {
-        guard case .menu(let menu) = self, case .info = menu.child else {
-            throw Error(expectedType: Info.self, actualState: self)
+        guard case .menu(var menu) = self else {
+            throw Error(expectedType: Menu.self, actualState: self)
         }
-        self = .menu(Menu(infoList: menu.infoList, child: .none))
+        try menu.dismissInfo()
+        self = .menu(menu)
     }
 
-    mutating func setDisplayOptions(_ displayOptions: DisplayOptions) throws {
-        guard case .menu(let menu) = self, case .none = menu.child else {
-            throw Error(expectedType: InfoList.self, actualState: self)
+    mutating func showDisplayOptions() throws {
+        guard case .menu(var menu) = self else {
+            throw Error(expectedType: Menu.self, actualState: self)
         }
-        self = .menu(Menu(infoList: menu.infoList, child: .displayOptions(displayOptions)))
+        try menu.showDisplayOptions()
+        self = .menu(menu)
     }
 
     mutating func dismissDisplayOptions() throws {
-        guard case .menu(let menu) = self, case .displayOptions = menu.child else {
-            throw Error(expectedType: DisplayOptions.self, actualState: self)
+        guard case .menu(var menu) = self else {
+            throw Error(expectedType: Menu.self, actualState: self)
         }
-        self = .menu(Menu(infoList: menu.infoList, child: .none))
+        try menu.dismissDisplayOptions()
+        self = .menu(menu)
     }
 }

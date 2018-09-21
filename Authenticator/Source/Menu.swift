@@ -25,7 +25,7 @@
 
 struct Menu {
     let infoList: InfoList
-    let child: Child
+    private(set) var child: Child
 
     enum Child {
         case none
@@ -44,6 +44,16 @@ struct Menu {
         }
     }
 
+    init() {
+        infoList = InfoList()
+        child = .none
+    }
+
+    init(info: Info) {
+        infoList = InfoList()
+        child = .info(info)
+    }
+
     var viewModel: ViewModel {
         return ViewModel(infoList: infoList.viewModel, child: child.viewModel)
     }
@@ -57,5 +67,39 @@ struct Menu {
             case info(Info.ViewModel)
             case displayOptions(DisplayOptions.ViewModel)
         }
+    }
+
+    // MARK: -
+
+    enum Error: Swift.Error {
+        case badChildState
+    }
+
+    mutating func showInfo(_ info: Info) throws {
+        guard case .none = child else {
+            throw Error.badChildState
+        }
+        child = .info(info)
+    }
+
+    mutating func dismissInfo() throws {
+        guard case .info = child else {
+            throw Error.badChildState
+        }
+        child = .none
+    }
+
+    mutating func showDisplayOptions() throws {
+        guard case .none = child else {
+            throw Error.badChildState
+        }
+        child = .displayOptions(DisplayOptions())
+    }
+
+    mutating func dismissDisplayOptions() throws {
+        guard case .displayOptions = child else {
+            throw Error.badChildState
+        }
+        child = .none
     }
 }
