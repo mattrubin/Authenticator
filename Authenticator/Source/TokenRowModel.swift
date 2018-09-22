@@ -62,10 +62,12 @@ struct TokenRowModel: Equatable, Identifiable {
         return (self.identifier == other.identifier)
     }
 
-    // Group the password into chunks of two digits, separated by spaces.
+    // Group the password into chunks of digits, separated by spaces.
     private static func chunkPassword(_ password: String) -> String {
         var mutablePassword = password
-        let chunkSize = 2
+        // group by size with smallest remainder between 3 or 2 digits, otherwise group by 2
+        let chunkSize = [3,2].first { groupSize in mutablePassword.count % groupSize == 0  } ?? 2
+
         for i in stride(from: chunkSize, to: mutablePassword.count, by: chunkSize).reversed() {
             mutablePassword.insert(" ", at: mutablePassword.index(mutablePassword.startIndex, offsetBy: i))
         }
