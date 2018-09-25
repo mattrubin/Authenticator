@@ -23,7 +23,23 @@
 //  SOFTWARE.
 //
 
+import Foundation
+
+private let digitGroupSizeKey = "password.digitGroupSize"
+private let defaultDigitGroupSize = 2
+
 final class Settings {
-    // TODO: Load from persistent storage.
-    var digitGroupSize = 2
+    let userDefaults = UserDefaults.standard
+
+    var digitGroupSize: Int {
+        get {
+            guard userDefaults.object(forKey: digitGroupSizeKey) != nil else {
+                return defaultDigitGroupSize
+            }
+            return userDefaults.integer(forKey: digitGroupSizeKey)
+        }
+        set {
+            userDefaults.set(newValue, forKey: digitGroupSizeKey)
+        }
+    }
 }

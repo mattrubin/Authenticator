@@ -52,7 +52,7 @@ struct DisplayOptions: TableViewModelRepresentable {
 
     private func digitGroupRowModel(currentValue: Int) -> RowModel {
         return .segmentedControlRow(
-            identity: "digitGroupSize",
+            identity: "password.digitGroupSize",
             viewModel: SegmentedControlRowViewModel(
                 options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
                 value: currentValue,
