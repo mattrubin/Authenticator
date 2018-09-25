@@ -29,9 +29,12 @@ final class DisplayOptionsViewController: UITableViewController {
     fileprivate let dispatchAction: (DisplayOptions.Action) -> Void
     fileprivate var viewModel: DisplayOptions.ViewModel {
         didSet {
-            updateRow(at: IndexPath(row: 0, section: 0))
+            let rowModel = digitGroupRowModel(currentValue: viewModel.digitGroupSize)
+            digitGroupingCell.update(with: rowModel)
         }
     }
+
+    private let digitGroupingCell = DigitGroupingRowCell<DisplayOptions.Action>()
 
     init(viewModel: DisplayOptions.ViewModel, dispatchAction: @escaping (DisplayOptions.Action) -> Void) {
         self.viewModel = viewModel
@@ -82,13 +85,15 @@ final class DisplayOptionsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let rowModel = modelForRow(at: indexPath) else {
+        switch (indexPath.section, indexPath.row) {
+        case (0, 0):
+            let rowModel = digitGroupRowModel(currentValue: viewModel.digitGroupSize)
+            digitGroupingCell.update(with: rowModel)
+            digitGroupingCell.dispatchAction = dispatchAction
+            return digitGroupingCell
+        default:
             return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withClass: DigitGroupingRowCell<DisplayOptions.Action>.self)
-        cell.update(with: rowModel)
-        cell.dispatchAction = dispatchAction
-        return cell
     }
 
     // MARK: - UITableViewDelegate
@@ -106,30 +111,6 @@ final class DisplayOptionsViewController: UITableViewController {
 
 // MARK: - View Model Helpers
 
-extension DisplayOptionsViewController {
-    // MARK: Row Model
-
-    func updateRow(at indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else {
-            // If the given row is not visible, the table view will have no cell for it, and it
-            // doesn't need to be updated.
-            return
-        }
-        guard let rowModel = modelForRow(at: indexPath) else {
-            // If there is no row model for the given index path, just tell the table view to
-            // reload it and hope for the best.
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            return
-        }
-
-        if let cell = cell as? DigitGroupingRowCell<DisplayOptions.Action> {
-            cell.update(with: rowModel)
-        } else {
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        }
-    }
-}
-
 extension DisplayOptions {
     typealias Action = Effect
 }
@@ -146,13 +127,6 @@ private func digitGroupRowModel(currentValue: Int) -> DigitGroupingRowViewModel<
 extension DisplayOptionsViewController {
     func update(with viewModel: DisplayOptions.ViewModel) {
         self.viewModel = viewModel
-    }
-
-    func modelForRow(at indexPath: IndexPath) -> DigitGroupingRowViewModel<Action>? {
-        guard indexPath == IndexPath(row: 0, section: 0) else {
-            return nil
-        }
-        return digitGroupRowModel(currentValue: viewModel.digitGroupSize)
     }
 }
 
