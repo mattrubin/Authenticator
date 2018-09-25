@@ -26,16 +26,16 @@
 import UIKit
 
 final class DisplayOptionsViewController: UITableViewController {
-    fileprivate let dispatchAction: (DisplayOptions.Action) -> Void
+    fileprivate let dispatchAction: (DisplayOptions.Effect) -> Void
     fileprivate var viewModel: DisplayOptions.ViewModel {
         didSet {
             digitGroupingRowCell.update(with: digitGroupingRowViewModel)
         }
     }
 
-    private let digitGroupingRowCell = DigitGroupingRowCell<DisplayOptions.Action>()
+    private let digitGroupingRowCell = DigitGroupingRowCell<DisplayOptions.Effect>()
 
-    init(viewModel: DisplayOptions.ViewModel, dispatchAction: @escaping (DisplayOptions.Action) -> Void) {
+    init(viewModel: DisplayOptions.ViewModel, dispatchAction: @escaping (DisplayOptions.Effect) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
@@ -109,16 +109,12 @@ final class DisplayOptionsViewController: UITableViewController {
 
 // MARK: - View Model Helpers
 
-extension DisplayOptions {
-    typealias Action = Effect
-}
-
 extension DisplayOptionsViewController {
     func update(with viewModel: DisplayOptions.ViewModel) {
         self.viewModel = viewModel
     }
 
-    fileprivate var digitGroupingRowViewModel: DigitGroupingRowViewModel<DisplayOptions.Action> {
+    fileprivate var digitGroupingRowViewModel: DigitGroupingRowViewModel<DisplayOptions.Effect> {
         return DigitGroupingRowViewModel(
             title: "Digit Grouping",
             options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
