@@ -27,7 +27,7 @@ import UIKit
 
 final class DisplayOptionsViewController: UITableViewController {
     fileprivate let dispatchAction: (DisplayOptions.Action) -> Void
-    fileprivate var viewModel: TableViewModel<DisplayOptions> {
+    fileprivate var viewModel: DisplayOptionsTableViewModel {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
                 // Automatic updates aren't implemented for changing number of sections
@@ -76,13 +76,6 @@ final class DisplayOptionsViewController: UITableViewController {
     }
 
     // MARK: - Target Actions
-
-    @objc
-    func leftBarButtonAction() {
-        if let action = viewModel.leftBarButton?.action {
-            dispatchAction(action)
-        }
-    }
 
     @objc
     func rightBarButtonAction() {
@@ -146,10 +139,6 @@ extension DisplayOptionsViewController {
     }
 
     func updateBarButtonItems() {
-        navigationItem.leftBarButtonItem = viewModel.leftBarButton.map { (viewModel) in
-            let action = #selector(DisplayOptionsViewController.leftBarButtonAction)
-            return barButtonItem(for: viewModel, target: self, action: action)
-        }
         navigationItem.rightBarButtonItem = viewModel.rightBarButton.map { (viewModel) in
             let action = #selector(DisplayOptionsViewController.rightBarButtonAction)
             return barButtonItem(for: viewModel, target: self, action: action)
@@ -192,7 +181,52 @@ extension DisplayOptionsViewController {
     }
 }
 
-extension DisplayOptions: TableViewModelRepresentable {
+struct DisplayOptionsTableViewModel {
+    var title: String
+    var rightBarButton: BarButtonViewModel<DisplayOptions.Action>?
+    var sections: [Section<DisplayOptions.HeaderModel, DisplayOptions.RowModel>]
+
+    init(title: String,
+         rightBarButton: BarButtonViewModel<DisplayOptions.Action>? = nil,
+         sections: [Section<DisplayOptions.HeaderModel, DisplayOptions.RowModel>]) {
+        self.title = title
+        self.rightBarButton = rightBarButton
+        self.sections = sections
+    }
+}
+
+extension DisplayOptionsTableViewModel {
+    var numberOfSections: Int {
+        return sections.count
+    }
+
+    func numberOfRows(inSection section: Int) -> Int {
+        guard sections.indices.contains(section) else {
+            return 0
+        }
+        return sections[section].rows.count
+    }
+
+    func modelForRow(at indexPath: IndexPath) -> DisplayOptions.RowModel? {
+        guard sections.indices.contains(indexPath.section) else {
+            return nil
+        }
+        let section = sections[indexPath.section]
+        guard section.rows.indices.contains(indexPath.row) else {
+            return nil
+        }
+        return section.rows[indexPath.row]
+    }
+
+    func modelForHeader(inSection section: Int) -> DisplayOptions.HeaderModel? {
+        guard sections.indices.contains(section) else {
+            return nil
+        }
+        return sections[section].header
+    }
+}
+
+extension DisplayOptions {
     enum HeaderModel {}
     enum RowModel: Identifiable {
         case digitGroupingRow(identity: String, viewModel: DigitGroupingRowViewModel<Action>)
@@ -207,12 +241,11 @@ extension DisplayOptions: TableViewModelRepresentable {
     typealias Action = Effect
 }
 
-private func internalViewModel(for viewModel: DisplayOptions.ViewModel) -> TableViewModel<DisplayOptions> {
-    return TableViewModel(
+private func internalViewModel(for viewModel: DisplayOptions.ViewModel) -> DisplayOptionsTableViewModel {
+    return DisplayOptionsTableViewModel(
         title: "Display Options",
         rightBarButton: BarButtonViewModel(style: .done, action: .done),
-        sections: [[digitGroupRowModel(currentValue: viewModel.digitGroupSize)]],
-        doneKeyAction: .done
+        sections: [[digitGroupRowModel(currentValue: viewModel.digitGroupSize)]]
     )
 }
 
