@@ -68,7 +68,11 @@ extension Root {
     typealias ViewModel = RootViewModel
 
     func viewModel(with persistentTokens: [PersistentToken], at displayTime: DisplayTime, digitGroupSize: Int) -> (viewModel: ViewModel, nextRefreshTime: Date) {
-        let (tokenListViewModel, nextRefreshTime) = tokenList.viewModel(with: persistentTokens, at: displayTime)
+        let (tokenListViewModel, nextRefreshTime) = tokenList.viewModel(
+            with: persistentTokens,
+            at: displayTime,
+            digitGroupSize: digitGroupSize
+        )
         let viewModel = ViewModel(
             tokenList: tokenListViewModel,
             modal: modal.viewModel(digitGroupSize: digitGroupSize)
