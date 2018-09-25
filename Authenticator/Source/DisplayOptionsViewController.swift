@@ -72,16 +72,16 @@ final class DisplayOptionsViewController: UITableViewController {
 
         // Set up top bar
         title = "Display Options"
-        updateBarButtonItems()
+
+        let action = #selector(DisplayOptionsViewController.rightBarButtonAction)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: action)
     }
 
     // MARK: - Target Actions
 
     @objc
     func rightBarButtonAction() {
-        if let action = viewModel.rightBarButton?.action {
-            dispatchAction(action)
-        }
+        dispatchAction(.done)
     }
 
     // MARK: - UITableViewDataSource
@@ -117,34 +117,6 @@ final class DisplayOptionsViewController: UITableViewController {
 // MARK: - View Model Helpers
 
 extension DisplayOptionsViewController {
-    // MARK: Bar Button View Model
-
-    private func barButtonItem(for viewModel: BarButtonViewModel<DisplayOptions.Action>, target: AnyObject?, action: Selector) -> UIBarButtonItem {
-        func systemItem(for style: BarButtonStyle) -> UIBarButtonSystemItem {
-            switch style {
-            case .done:
-                return .done
-            case .cancel:
-                return .cancel
-            }
-        }
-
-        let barButtonItem = UIBarButtonItem(
-            barButtonSystemItem: systemItem(for: viewModel.style),
-            target: target,
-            action: action
-        )
-        barButtonItem.isEnabled = viewModel.enabled
-        return barButtonItem
-    }
-
-    func updateBarButtonItems() {
-        navigationItem.rightBarButtonItem = viewModel.rightBarButton.map { (viewModel) in
-            let action = #selector(DisplayOptionsViewController.rightBarButtonAction)
-            return barButtonItem(for: viewModel, target: self, action: action)
-        }
-    }
-
     // MARK: Row Model
 
     func cell(for rowModel: DisplayOptions.RowModel, in tableView: UITableView) -> UITableViewCell {
@@ -182,12 +154,9 @@ extension DisplayOptionsViewController {
 }
 
 struct DisplayOptionsTableViewModel {
-    var rightBarButton: BarButtonViewModel<DisplayOptions.Action>?
     var sections: [Section<DisplayOptions.HeaderModel, DisplayOptions.RowModel>]
 
-    init(rightBarButton: BarButtonViewModel<DisplayOptions.Action>? = nil,
-         sections: [Section<DisplayOptions.HeaderModel, DisplayOptions.RowModel>]) {
-        self.rightBarButton = rightBarButton
+    init(sections: [Section<DisplayOptions.HeaderModel, DisplayOptions.RowModel>]) {
         self.sections = sections
     }
 }
@@ -240,7 +209,6 @@ extension DisplayOptions {
 
 private func internalViewModel(for viewModel: DisplayOptions.ViewModel) -> DisplayOptionsTableViewModel {
     return DisplayOptionsTableViewModel(
-        rightBarButton: BarButtonViewModel(style: .done, action: .done),
         sections: [[digitGroupRowModel(currentValue: viewModel.digitGroupSize)]]
     )
 }
@@ -260,7 +228,6 @@ private func digitGroupRowModel(currentValue: Int) -> DisplayOptions.RowModel {
 extension DisplayOptionsViewController {
     func update(with viewModel: DisplayOptions.ViewModel) {
         self.viewModel = internalViewModel(for: viewModel)
-        updateBarButtonItems()
     }
 }
 
