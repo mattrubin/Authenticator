@@ -52,7 +52,7 @@ final class DisplayOptionsViewController: UITableViewController {
     init(viewModel: TableViewModel<DisplayOptions>, dispatchAction: @escaping (DisplayOptions.Action) -> Void) {
         self.viewModel = viewModel
         self.dispatchAction = dispatchAction
-        super.init(style: .grouped)
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
