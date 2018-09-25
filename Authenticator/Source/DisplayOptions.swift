@@ -23,18 +23,50 @@
 //  SOFTWARE.
 //
 
-struct DisplayOptions {
+struct DisplayOptions: TableViewModelRepresentable {
+    // MARK: View Model
+
+    typealias ViewModel = TableViewModel<DisplayOptions>
+
+    enum HeaderModel {}
+
+    enum RowModel: Identifiable {
+        case segmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
+
+        func hasSameIdentity(as other: RowModel) -> Bool {
+            switch (self, other) {
+            case let (.segmentedControlRow(rowA), .segmentedControlRow(rowB)):
+                return rowA.identity == rowB.identity
+            }
+        }
+    }
 
     var viewModel: ViewModel {
-        return ViewModel()
+        return TableViewModel(
+            title: "Display Options",
+            rightBarButton: BarButtonViewModel(style: .done, action: .done),
+            sections: [[digitGroupRowModel]],
+            doneKeyAction: .done
+        )
     }
 
-    struct ViewModel {
-        let title = "Display Options"
+    private var digitGroupRowModel: RowModel {
+        return .segmentedControlRow(
+            identity: "digitGroupSize",
+            viewModel: SegmentedControlRowViewModel(
+                options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
+                value: 2,
+                changeAction: DisplayOptions.Effect.setDigitGroupSize
+            )
+        )
     }
+
+    // MARK: Actions
 
     enum Effect {
         case setDigitGroupSize(Int)
         case done
     }
+
+    typealias Action = Effect
 }
