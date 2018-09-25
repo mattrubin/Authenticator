@@ -29,12 +29,11 @@ final class DisplayOptionsViewController: UITableViewController {
     fileprivate let dispatchAction: (DisplayOptions.Action) -> Void
     fileprivate var viewModel: DisplayOptions.ViewModel {
         didSet {
-            let rowModel = digitGroupRowModel(currentValue: viewModel.digitGroupSize)
-            digitGroupingCell.update(with: rowModel)
+            digitGroupingRowCell.update(with: digitGroupingRowViewModel)
         }
     }
 
-    private let digitGroupingCell = DigitGroupingRowCell<DisplayOptions.Action>()
+    private let digitGroupingRowCell = DigitGroupingRowCell<DisplayOptions.Action>()
 
     init(viewModel: DisplayOptions.ViewModel, dispatchAction: @escaping (DisplayOptions.Action) -> Void) {
         self.viewModel = viewModel
@@ -87,10 +86,9 @@ final class DisplayOptionsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
-            let rowModel = digitGroupRowModel(currentValue: viewModel.digitGroupSize)
-            digitGroupingCell.update(with: rowModel)
-            digitGroupingCell.dispatchAction = dispatchAction
-            return digitGroupingCell
+            digitGroupingRowCell.update(with: digitGroupingRowViewModel)
+            digitGroupingRowCell.dispatchAction = dispatchAction
+            return digitGroupingRowCell
         default:
             return UITableViewCell()
         }
@@ -115,18 +113,18 @@ extension DisplayOptions {
     typealias Action = Effect
 }
 
-private func digitGroupRowModel(currentValue: Int) -> DigitGroupingRowViewModel<DisplayOptions.Action> {
-    return DigitGroupingRowViewModel(
-        title: "Digit Grouping",
-        options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
-        value: currentValue,
-        changeAction: DisplayOptions.Effect.setDigitGroupSize
-    )
-}
-
 extension DisplayOptionsViewController {
     func update(with viewModel: DisplayOptions.ViewModel) {
         self.viewModel = viewModel
+    }
+
+    fileprivate var digitGroupingRowViewModel: DigitGroupingRowViewModel<DisplayOptions.Action> {
+        return DigitGroupingRowViewModel(
+            title: "Digit Grouping",
+            options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
+            value: viewModel.digitGroupSize,
+            changeAction: DisplayOptions.Effect.setDigitGroupSize
+        )
     }
 }
 
