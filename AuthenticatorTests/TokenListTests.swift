@@ -28,6 +28,7 @@ import XCTest
 @testable import Authenticator
 
 class TokenListTests: XCTestCase {
+    private let defaultDigitGroupSize = 2
     let displayTime = DisplayTime(date: Date())
 
     func testFilterByIssuerAndName() {
@@ -39,7 +40,7 @@ class TokenListTests: XCTestCase {
         ])
         let effect = tokenList.update(with: .filter("goo"))
 
-        let (viewModel, _) = tokenList.viewModel(with: persistentTokens, at: displayTime)
+        let (viewModel, _) = tokenList.viewModel(with: persistentTokens, at: displayTime, digitGroupSize: defaultDigitGroupSize)
         let filteredIssuers = viewModel.rowModels.map { $0.issuer }
 
         XCTAssertNil(effect)
@@ -56,7 +57,7 @@ class TokenListTests: XCTestCase {
             ("Service", "username"),
         ])
         let effect = tokenList.update(with: .filter("Service"))
-        let (viewModel, _) = tokenList.viewModel(with: persistentTokens, at: displayTime)
+        let (viewModel, _) = tokenList.viewModel(with: persistentTokens, at: displayTime, digitGroupSize: defaultDigitGroupSize)
 
         XCTAssertNil(effect)
         XCTAssertTrue(viewModel.isFiltering)
