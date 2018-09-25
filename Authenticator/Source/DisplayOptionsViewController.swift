@@ -27,11 +27,7 @@ import UIKit
 
 final class DisplayOptionsViewController: UITableViewController {
     fileprivate let dispatchAction: (DisplayOptions.Effect) -> Void
-    fileprivate var viewModel: DisplayOptions.ViewModel {
-        didSet {
-            digitGroupingRowCell.update(with: digitGroupingRowViewModel)
-        }
-    }
+    fileprivate var viewModel: DisplayOptions.ViewModel
 
     private let digitGroupingRowCell = DigitGroupingRowCell<DisplayOptions.Effect>()
 
@@ -112,6 +108,7 @@ final class DisplayOptionsViewController: UITableViewController {
 extension DisplayOptionsViewController {
     func update(with viewModel: DisplayOptions.ViewModel) {
         self.viewModel = viewModel
+        digitGroupingRowCell.update(with: digitGroupingRowViewModel)
     }
 
     fileprivate var digitGroupingRowViewModel: DigitGroupingRowViewModel<DisplayOptions.Effect> {
