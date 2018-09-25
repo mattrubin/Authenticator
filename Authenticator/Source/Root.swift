@@ -52,7 +52,6 @@ struct Root: Component {
                 return .menu(menu.viewModel(digitGroupSize: digitGroupSize))
             }
         }
-
     }
 
     init(deviceCanScan: Bool) {
