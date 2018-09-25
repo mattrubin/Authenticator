@@ -204,8 +204,12 @@ class RootTests: XCTestCase {
     func testEventTokenFormSucceeded() {
         var root = Root(deviceCanScan: false)
 
+        func modalViewModel(from root: Root) -> RootViewModel.ModalViewModel {
+            return root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize).viewModel.modal
+        }
+
         // Ensure the initial view model has no modal.
-        guard case .none = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize).viewModel.modal else {
+        guard case .none = modalViewModel(from: root) else {
             XCTFail("The initial view model should have no modal.")
             return
         }
@@ -219,7 +223,7 @@ class RootTests: XCTestCase {
         }
 
         // Ensure the view model now has a modal entry form.
-        guard case .entryForm = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize).viewModel.modal else {
+        guard case .entryForm = modalViewModel(from: root) else {
             XCTFail("The view model should have a modal entry form.")
             return
         }
@@ -229,7 +233,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(effect)
 
         // Ensure the token entry form hides on success.
-        guard case .none = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize).viewModel.modal else {
+        guard case .none = modalViewModel(from: root) else {
             XCTFail("The final view model should have no modal.")
             return
         }

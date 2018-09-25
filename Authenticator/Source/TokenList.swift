@@ -38,7 +38,10 @@ struct TokenList: Component {
     func viewModel(with persistentTokens: [PersistentToken], at displayTime: DisplayTime, digitGroupSize: Int) -> (viewModel: TokenListViewModel, nextRefreshTime: Date) {
         let isFiltering = !(filter ?? "").isEmpty
         let rowModels = filteredTokens(from: persistentTokens).map({
-            TokenRowModel(persistentToken: $0, displayTime: displayTime, digitGroupSize: digitGroupSize, canReorder: !isFiltering)
+            TokenRowModel(persistentToken: $0,
+                          displayTime: displayTime,
+                          digitGroupSize: digitGroupSize,
+                          canReorder: !isFiltering)
         })
 
         let lastRefreshTime = persistentTokens.reduce(.distantPast) { (lastRefreshTime, persistentToken) in
