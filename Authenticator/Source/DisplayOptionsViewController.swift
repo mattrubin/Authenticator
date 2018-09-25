@@ -67,6 +67,8 @@ final class DisplayOptionsViewController: UITableViewController {
         view.backgroundColor = .otpBackgroundColor
         view.tintColor = .otpForegroundColor
         tableView.separatorStyle = .none
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44.0
 
         // Set up top bar
         title = viewModel.title
@@ -117,27 +119,6 @@ final class DisplayOptionsViewController: UITableViewController {
 
         cell.textLabel?.textColor = .otpForegroundColor
     }
-
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let rowModel = viewModel.modelForRow(at: indexPath) else {
-            return 0
-        }
-        return heightForRow(with: rowModel)
-    }
-
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let headerModel = viewModel.modelForHeader(inSection: section) else {
-            return CGFloat.ulpOfOne
-        }
-        return heightForHeader(with: headerModel)
-    }
-
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerModel = viewModel.modelForHeader(inSection: section) else {
-            return nil
-        }
-        return viewForHeader(with: headerModel)
-    }
 }
 
 // MARK: - View Model Helpers
@@ -179,8 +160,8 @@ extension DisplayOptionsViewController {
 
     func cell(for rowModel: DisplayOptions.RowModel, in tableView: UITableView) -> UITableViewCell {
         switch rowModel {
-        case let .segmentedControlRow(row):
-            let cell = tableView.dequeueReusableCell(withClass: SegmentedControlRowCell<DisplayOptions.Action>.self)
+        case let .digitGroupingRow(row):
+            let cell = tableView.dequeueReusableCell(withClass: DigitGroupingRowCell<DisplayOptions.Action>.self)
             cell.update(with: row.viewModel)
             cell.dispatchAction = dispatchAction
             return cell
@@ -201,31 +182,12 @@ extension DisplayOptionsViewController {
         }
 
         switch rowModel {
-        case let .segmentedControlRow(row):
-            if let cell = cell as? SegmentedControlRowCell<DisplayOptions.Action> {
+        case let .digitGroupingRow(row):
+            if let cell = cell as? DigitGroupingRowCell<DisplayOptions.Action> {
                 cell.update(with: row.viewModel)
             } else {
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }
-        }
-    }
-
-    func heightForRow(with rowModel: DisplayOptions.RowModel) -> CGFloat {
-        switch rowModel {
-        case let .segmentedControlRow(row):
-            return SegmentedControlRowCell<DisplayOptions.Action>.heightForRow(with: row.viewModel)
-        }
-    }
-
-    // MARK: Header Model
-
-    func viewForHeader(with headerModel: DisplayOptions.HeaderModel) -> UIView {
-        switch headerModel {
-        }
-    }
-
-    func heightForHeader(with headerModel: DisplayOptions.HeaderModel) -> CGFloat {
-        switch headerModel {
         }
     }
 }
@@ -234,5 +196,113 @@ extension DisplayOptionsViewController {
     func update(with viewModel: TableViewModel<DisplayOptions>) {
         self.viewModel = viewModel
         updateBarButtonItems()
+    }
+}
+
+// MARK: Digit Grouping Row
+
+struct DigitGroupingRowViewModel<Action> {
+    let title: String
+    let segments: [(title: String, action: Action)]
+    let selectedSegmentIndex: Int?
+
+    init<V: Equatable>(title: String, options: [(title: String, value: V)], value: V, changeAction: (V) -> Action) {
+        self.title = title
+        segments = options.map({ option in
+            (title: option.title, action: changeAction(option.value))
+        })
+        selectedSegmentIndex = options.map({ $0.value }).index(of: value)
+    }
+}
+
+class DigitGroupingRowCell<Action>: UITableViewCell {
+    private let titleLabel = UILabel()
+    private let segmentedControl = UISegmentedControl()
+    private var customConstraints: [NSLayoutConstraint]?
+
+    private var actions: [Action] = []
+    var dispatchAction: ((Action) -> Void)?
+
+    // MARK: Initialization
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureCell()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        configureCell()
+    }
+
+    private func configureCell() {
+        backgroundColor = .otpBackgroundColor
+
+        titleLabel.textColor = .otpForegroundColor
+        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabel)
+
+        let font = UIFont.systemFont(ofSize: 40, weight: .light)
+        let fontAttributes = [NSAttributedStringKey.font: font]
+        segmentedControl.setTitleTextAttributes(fontAttributes, for: .normal)
+        segmentedControl.setContentPositionAdjustment(UIOffset(horizontal: 0, vertical: -3),
+                                                      forSegmentType: .any,
+                                                      barMetrics: .default)
+        let action = #selector(DigitGroupingRowCell.segmentedControlValueChanged)
+        segmentedControl.addTarget(self, action: action, for: .valueChanged)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(segmentedControl)
+
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = UIColor(white: 0, alpha: 0.25)
+
+        setNeedsUpdateConstraints()
+    }
+
+    override func updateConstraints() {
+        if customConstraints == nil {
+            let newConstraints = [
+                titleLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 8),
+                titleLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+                titleLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+                segmentedControl.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+                segmentedControl.heightAnchor.constraint(equalToConstant: 40),
+                segmentedControl.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+                segmentedControl.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+                segmentedControl.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            ]
+            contentView.addConstraints(newConstraints)
+            customConstraints = newConstraints
+        }
+
+        // "Important: Call [super updateConstraints] as the final step in your implementation."
+        super.updateConstraints()
+    }
+
+    // MARK: Update
+
+    func update(with viewModel: DigitGroupingRowViewModel<Action>) {
+        titleLabel.text = viewModel.title
+
+        // Remove any old segments
+        segmentedControl.removeAllSegments()
+        // Add new segments
+        for i in viewModel.segments.indices {
+            let segment = viewModel.segments[i]
+            segmentedControl.insertSegment(withTitle: segment.title, at: i, animated: false)
+        }
+        // Store the action associated with each segment
+        actions = viewModel.segments.map({ $0.action })
+        // Select the initial segment
+        segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControlNoSegment
+    }
+
+    // MARK: - Target Action
+
+    @objc
+    func segmentedControlValueChanged() {
+        let action = actions[segmentedControl.selectedSegmentIndex]
+        dispatchAction?(action)
     }
 }

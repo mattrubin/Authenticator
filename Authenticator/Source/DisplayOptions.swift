@@ -31,11 +31,11 @@ struct DisplayOptions: TableViewModelRepresentable {
     enum HeaderModel {}
 
     enum RowModel: Identifiable {
-        case segmentedControlRow(identity: String, viewModel: SegmentedControlRowViewModel<Action>)
+        case digitGroupingRow(identity: String, viewModel: DigitGroupingRowViewModel<Action>)
 
         func hasSameIdentity(as other: RowModel) -> Bool {
             switch (self, other) {
-            case let (.segmentedControlRow(rowA), .segmentedControlRow(rowB)):
+            case let (.digitGroupingRow(rowA), .digitGroupingRow(rowB)):
                 return rowA.identity == rowB.identity
             }
         }
@@ -51,9 +51,10 @@ struct DisplayOptions: TableViewModelRepresentable {
     }
 
     private func digitGroupRowModel(currentValue: Int) -> RowModel {
-        return .segmentedControlRow(
+        return .digitGroupingRow(
             identity: "password.digitGroupSize",
-            viewModel: SegmentedControlRowViewModel(
+            viewModel: DigitGroupingRowViewModel(
+                title: "Digit Grouping",
                 options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
                 value: currentValue,
                 changeAction: DisplayOptions.Effect.setDigitGroupSize
