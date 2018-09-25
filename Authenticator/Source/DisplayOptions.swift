@@ -23,43 +23,15 @@
 //  SOFTWARE.
 //
 
-struct DisplayOptions: TableViewModelRepresentable {
+struct DisplayOptions {
     // MARK: View Model
 
-    typealias ViewModel = TableViewModel<DisplayOptions>
-
-    enum HeaderModel {}
-
-    enum RowModel: Identifiable {
-        case digitGroupingRow(identity: String, viewModel: DigitGroupingRowViewModel<Action>)
-
-        func hasSameIdentity(as other: RowModel) -> Bool {
-            switch (self, other) {
-            case let (.digitGroupingRow(rowA), .digitGroupingRow(rowB)):
-                return rowA.identity == rowB.identity
-            }
-        }
+    struct ViewModel {
+        let digitGroupSize: Int
     }
 
     func viewModel(digitGroupSize: Int) -> ViewModel {
-        return TableViewModel(
-            title: "Display Options",
-            rightBarButton: BarButtonViewModel(style: .done, action: .done),
-            sections: [[digitGroupRowModel(currentValue: digitGroupSize)]],
-            doneKeyAction: .done
-        )
-    }
-
-    private func digitGroupRowModel(currentValue: Int) -> RowModel {
-        return .digitGroupingRow(
-            identity: "password.digitGroupSize",
-            viewModel: DigitGroupingRowViewModel(
-                title: "Digit Grouping",
-                options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
-                value: currentValue,
-                changeAction: DisplayOptions.Effect.setDigitGroupSize
-            )
-        )
+        return ViewModel(digitGroupSize: digitGroupSize)
     }
 
     // MARK: Actions
@@ -68,6 +40,4 @@ struct DisplayOptions: TableViewModelRepresentable {
         case setDigitGroupSize(Int)
         case done
     }
-
-    typealias Action = Effect
 }

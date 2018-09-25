@@ -49,8 +49,8 @@ final class DisplayOptionsViewController: UITableViewController {
         }
     }
 
-    init(viewModel: TableViewModel<DisplayOptions>, dispatchAction: @escaping (DisplayOptions.Action) -> Void) {
-        self.viewModel = viewModel
+    init(viewModel: DisplayOptions.ViewModel, dispatchAction: @escaping (DisplayOptions.Action) -> Void) {
+        self.viewModel = internalViewModel(for: viewModel)
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
     }
@@ -192,9 +192,45 @@ extension DisplayOptionsViewController {
     }
 }
 
+extension DisplayOptions: TableViewModelRepresentable {
+    enum HeaderModel {}
+    enum RowModel: Identifiable {
+        case digitGroupingRow(identity: String, viewModel: DigitGroupingRowViewModel<Action>)
+
+        func hasSameIdentity(as other: RowModel) -> Bool {
+            switch (self, other) {
+            case let (.digitGroupingRow(rowA), .digitGroupingRow(rowB)):
+                return rowA.identity == rowB.identity
+            }
+        }
+    }
+    typealias Action = Effect
+}
+
+private func internalViewModel(for viewModel: DisplayOptions.ViewModel) -> TableViewModel<DisplayOptions> {
+    return TableViewModel(
+        title: "Display Options",
+        rightBarButton: BarButtonViewModel(style: .done, action: .done),
+        sections: [[digitGroupRowModel(currentValue: viewModel.digitGroupSize)]],
+        doneKeyAction: .done
+    )
+}
+
+private func digitGroupRowModel(currentValue: Int) -> DisplayOptions.RowModel {
+    return .digitGroupingRow(
+        identity: "password.digitGroupSize",
+        viewModel: DigitGroupingRowViewModel(
+            title: "Digit Grouping",
+            options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
+            value: currentValue,
+            changeAction: DisplayOptions.Effect.setDigitGroupSize
+        )
+    )
+}
+
 extension DisplayOptionsViewController {
-    func update(with viewModel: TableViewModel<DisplayOptions>) {
-        self.viewModel = viewModel
+    func update(with viewModel: DisplayOptions.ViewModel) {
+        self.viewModel = internalViewModel(for: viewModel)
         updateBarButtonItems()
     }
 }
