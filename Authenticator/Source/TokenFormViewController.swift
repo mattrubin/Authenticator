@@ -155,9 +155,9 @@ final class TokenFormViewController<Form: TableViewModelRepresentable>: UITableV
     // MARK: - UITableViewDelegate
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        // An apparent rendering error can occur when the form is scrolled programaticallty, causing a cell scrolled off
-        // of the screen to appear with a black background when scrolled back onto the screen. Setting the background
-        // color of the cell to the table view's background color, instead of to clearColor(), fixes the issue.
+        // An apparent rendering error can occur when the table view is scrolled programmatically, causing a cell
+        // scrolled off of the screen to appear with a black background when scrolled back onto the screen. Setting the
+        // background color of the cell to the table view's background color, instead of to `.clear`, fixes the issue.
         cell.backgroundColor = .otpBackgroundColor
         cell.selectionStyle = .none
 
