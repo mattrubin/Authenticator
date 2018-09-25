@@ -38,7 +38,7 @@ struct Root: Component {
         case editForm(TokenEditForm)
         case menu(Menu)
 
-        var viewModel: RootViewModel.ModalViewModel {
+        func viewModel(digitGroupSize: Int) -> RootViewModel.ModalViewModel {
             switch self {
             case .none:
                 return .none
@@ -49,7 +49,7 @@ struct Root: Component {
             case .editForm(let form):
                 return .editForm(form.viewModel)
             case let .menu(menu):
-                return .menu(menu.viewModel)
+                return .menu(menu.viewModel(digitGroupSize: digitGroupSize))
             }
         }
 
@@ -67,11 +67,11 @@ struct Root: Component {
 extension Root {
     typealias ViewModel = RootViewModel
 
-    func viewModel(with persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> (viewModel: ViewModel, nextRefreshTime: Date) {
+    func viewModel(with persistentTokens: [PersistentToken], at displayTime: DisplayTime, digitGroupSize: Int) -> (viewModel: ViewModel, nextRefreshTime: Date) {
         let (tokenListViewModel, nextRefreshTime) = tokenList.viewModel(with: persistentTokens, at: displayTime)
         let viewModel = ViewModel(
             tokenList: tokenListViewModel,
-            modal: modal.viewModel
+            modal: modal.viewModel(digitGroupSize: digitGroupSize)
         )
         return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }

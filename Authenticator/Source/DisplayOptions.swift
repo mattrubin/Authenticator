@@ -41,21 +41,21 @@ struct DisplayOptions: TableViewModelRepresentable {
         }
     }
 
-    var viewModel: ViewModel {
+    func viewModel(digitGroupSize: Int) -> ViewModel {
         return TableViewModel(
             title: "Display Options",
             rightBarButton: BarButtonViewModel(style: .done, action: .done),
-            sections: [[digitGroupRowModel]],
+            sections: [[digitGroupRowModel(currentValue: digitGroupSize)]],
             doneKeyAction: .done
         )
     }
 
-    private var digitGroupRowModel: RowModel {
+    private func digitGroupRowModel(currentValue: Int) -> RowModel {
         return .segmentedControlRow(
             identity: "digitGroupSize",
             viewModel: SegmentedControlRowViewModel(
                 options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
-                value: 2,
+                value: currentValue,
                 changeAction: DisplayOptions.Effect.setDigitGroupSize
             )
         )

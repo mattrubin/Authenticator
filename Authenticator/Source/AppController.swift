@@ -31,6 +31,7 @@ import SVProgressHUD
 
 class AppController {
     private let store: TokenStore
+    private let settings: Settings
     private var component: Root {
         didSet {
             updateView()
@@ -38,7 +39,8 @@ class AppController {
     }
     private lazy var view: RootViewController = {
         let (currentViewModel, nextRefreshTime) = self.component.viewModel(with: self.store.persistentTokens,
-                                                                           at: .currentDisplayTime())
+                                                                           at: .currentDisplayTime(),
+                                                                           digitGroupSize: settings.digitGroupSize)
         self.setTimer(withNextRefreshTime: nextRefreshTime)
         return RootViewController(
             viewModel: currentViewModel,
@@ -68,6 +70,8 @@ class AppController {
             fatalError("Failed to load token store: \(error)")
         }
 
+        settings = Settings()
+
         // If this is a demo, show the scanner even in the simulator.
         let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
         component = Root(deviceCanScan: deviceCanScan)
@@ -76,7 +80,8 @@ class AppController {
     @objc
     func updateView() {
         let (currentViewModel, nextRefreshTime) = component.viewModel(with: store.persistentTokens,
-                                                                      at: .currentDisplayTime())
+                                                                      at: .currentDisplayTime(),
+                                                                      digitGroupSize: settings.digitGroupSize)
         setTimer(withNextRefreshTime: nextRefreshTime)
         view.update(with: currentViewModel)
     }
@@ -176,8 +181,8 @@ class AppController {
             }
 
         case let .setDigitGroupSize(digitGroupSize):
-            // FIXME!
-            print(digitGroupSize)
+            settings.digitGroupSize = digitGroupSize
+            updateView()
         }
     }
 

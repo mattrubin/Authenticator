@@ -32,14 +32,14 @@ struct Menu {
         case info(Info)
         case displayOptions(DisplayOptions)
 
-        var viewModel: Menu.ViewModel.Child {
+        func viewModel(digitGroupSize: Int) -> Menu.ViewModel.Child {
             switch self {
             case .none:
                 return .none
             case .info(let info):
                 return .info(info.viewModel)
             case .displayOptions(let displayOptions):
-                return .displayOptions(displayOptions.viewModel)
+                return .displayOptions(displayOptions.viewModel(digitGroupSize: digitGroupSize))
             }
         }
     }
@@ -54,8 +54,8 @@ struct Menu {
         child = .info(info)
     }
 
-    var viewModel: ViewModel {
-        return ViewModel(infoList: infoList.viewModel, child: child.viewModel)
+    func viewModel(digitGroupSize: Int) -> ViewModel {
+        return ViewModel(infoList: infoList.viewModel, child: child.viewModel(digitGroupSize: digitGroupSize))
     }
 
     struct ViewModel {
