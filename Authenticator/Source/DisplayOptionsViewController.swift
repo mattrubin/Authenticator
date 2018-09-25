@@ -27,30 +27,14 @@ import UIKit
 
 final class DisplayOptionsViewController: UITableViewController {
     fileprivate let dispatchAction: (DisplayOptions.Action) -> Void
-    fileprivate var viewModel: DisplayOptionsTableViewModel {
+    fileprivate var viewModel: DisplayOptions.ViewModel {
         didSet {
-            guard oldValue.sections.count == viewModel.sections.count else {
-                // Automatic updates aren't implemented for changing number of sections
-                tableView.reloadData()
-                return
-            }
-
-            let changes = viewModel.sections.indices.flatMap { sectionIndex -> [Change<IndexPath>] in
-                let oldSection = oldValue.sections[sectionIndex]
-                let newSection = viewModel.sections[sectionIndex]
-                let changes = changesFrom(oldSection.rows, to: newSection.rows)
-                return changes.map({ change in
-                    change.map({ row in
-                        IndexPath(row: row, section: sectionIndex)
-                    })
-                })
-            }
-            tableView.applyChanges(changes, updateRow: updateRow(at:))
+            updateRow(at: IndexPath(row: 0, section: 0))
         }
     }
 
     init(viewModel: DisplayOptions.ViewModel, dispatchAction: @escaping (DisplayOptions.Action) -> Void) {
-        self.viewModel = internalViewModel(for: viewModel)
+        self.viewModel = viewModel
         self.dispatchAction = dispatchAction
         super.init(nibName: nil, bundle: nil)
     }
@@ -87,15 +71,18 @@ final class DisplayOptionsViewController: UITableViewController {
     // MARK: - UITableViewDataSource
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.numberOfSections
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows(inSection: section)
+        guard section == 0 else {
+            return 0
+        }
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let rowModel = viewModel.modelForRow(at: indexPath) else {
+        guard let rowModel = modelForRow(at: indexPath) else {
             return UITableViewCell()
         }
         return cell(for: rowModel, in: tableView)
@@ -135,7 +122,7 @@ extension DisplayOptionsViewController {
             // doesn't need to be updated.
             return
         }
-        guard let rowModel = viewModel.modelForRow(at: indexPath) else {
+        guard let rowModel = modelForRow(at: indexPath) else {
             // If there is no row model for the given index path, just tell the table view to
             // reload it and hope for the best.
             tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -150,45 +137,6 @@ extension DisplayOptionsViewController {
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }
         }
-    }
-}
-
-struct DisplayOptionsTableViewModel {
-    var sections: [Section<DisplayOptions.HeaderModel, DisplayOptions.RowModel>]
-
-    init(sections: [Section<DisplayOptions.HeaderModel, DisplayOptions.RowModel>]) {
-        self.sections = sections
-    }
-}
-
-extension DisplayOptionsTableViewModel {
-    var numberOfSections: Int {
-        return sections.count
-    }
-
-    func numberOfRows(inSection section: Int) -> Int {
-        guard sections.indices.contains(section) else {
-            return 0
-        }
-        return sections[section].rows.count
-    }
-
-    func modelForRow(at indexPath: IndexPath) -> DisplayOptions.RowModel? {
-        guard sections.indices.contains(indexPath.section) else {
-            return nil
-        }
-        let section = sections[indexPath.section]
-        guard section.rows.indices.contains(indexPath.row) else {
-            return nil
-        }
-        return section.rows[indexPath.row]
-    }
-
-    func modelForHeader(inSection section: Int) -> DisplayOptions.HeaderModel? {
-        guard sections.indices.contains(section) else {
-            return nil
-        }
-        return sections[section].header
     }
 }
 
@@ -207,12 +155,6 @@ extension DisplayOptions {
     typealias Action = Effect
 }
 
-private func internalViewModel(for viewModel: DisplayOptions.ViewModel) -> DisplayOptionsTableViewModel {
-    return DisplayOptionsTableViewModel(
-        sections: [[digitGroupRowModel(currentValue: viewModel.digitGroupSize)]]
-    )
-}
-
 private func digitGroupRowModel(currentValue: Int) -> DisplayOptions.RowModel {
     return .digitGroupingRow(
         identity: "password.digitGroupSize",
@@ -227,7 +169,14 @@ private func digitGroupRowModel(currentValue: Int) -> DisplayOptions.RowModel {
 
 extension DisplayOptionsViewController {
     func update(with viewModel: DisplayOptions.ViewModel) {
-        self.viewModel = internalViewModel(for: viewModel)
+        self.viewModel = viewModel
+    }
+
+    func modelForRow(at indexPath: IndexPath) -> DisplayOptions.RowModel? {
+        guard indexPath == IndexPath(row: 0, section: 0) else {
+            return nil
+        }
+        return digitGroupRowModel(currentValue: viewModel.digitGroupSize)
     }
 }
 
