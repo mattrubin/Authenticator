@@ -73,52 +73,6 @@ final class DisplayOptionsViewController: UITableViewController {
         updateBarButtonItems()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if CommandLine.isDemo {
-            // If this is a demo, don't show the keyboard.
-            return
-        }
-
-        focusFirstField()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        unfocus()
-    }
-
-    // MARK: Focus
-
-    @discardableResult
-    private func focusFirstField() -> Bool {
-        for cell in tableView.visibleCells {
-            if let focusCell = cell as? FocusCell {
-                return focusCell.focus()
-            }
-        }
-        return false
-    }
-
-    fileprivate func nextVisibleFocusCell(after currentIndexPath: IndexPath) -> FocusCell? {
-        if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
-            for indexPath in visibleIndexPaths {
-                if currentIndexPath.compare(indexPath) == .orderedAscending {
-                    if let focusCell = tableView.cellForRow(at: indexPath) as? FocusCell {
-                        return focusCell
-                    }
-                }
-            }
-        }
-        return nil
-    }
-
-    @discardableResult
-    private func unfocus() -> Bool {
-        return view.endEditing(false)
-    }
-
     // MARK: - Target Actions
 
     @objc
