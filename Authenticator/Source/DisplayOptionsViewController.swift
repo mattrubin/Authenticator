@@ -71,7 +71,7 @@ final class DisplayOptionsViewController: UITableViewController {
         tableView.estimatedRowHeight = 44.0
 
         // Set up top bar
-        title = viewModel.title
+        title = "Display Options"
         updateBarButtonItems()
     }
 
@@ -182,14 +182,11 @@ extension DisplayOptionsViewController {
 }
 
 struct DisplayOptionsTableViewModel {
-    var title: String
     var rightBarButton: BarButtonViewModel<DisplayOptions.Action>?
     var sections: [Section<DisplayOptions.HeaderModel, DisplayOptions.RowModel>]
 
-    init(title: String,
-         rightBarButton: BarButtonViewModel<DisplayOptions.Action>? = nil,
+    init(rightBarButton: BarButtonViewModel<DisplayOptions.Action>? = nil,
          sections: [Section<DisplayOptions.HeaderModel, DisplayOptions.RowModel>]) {
-        self.title = title
         self.rightBarButton = rightBarButton
         self.sections = sections
     }
@@ -243,7 +240,6 @@ extension DisplayOptions {
 
 private func internalViewModel(for viewModel: DisplayOptions.ViewModel) -> DisplayOptionsTableViewModel {
     return DisplayOptionsTableViewModel(
-        title: "Display Options",
         rightBarButton: BarButtonViewModel(style: .done, action: .done),
         sections: [[digitGroupRowModel(currentValue: viewModel.digitGroupSize)]]
     )
