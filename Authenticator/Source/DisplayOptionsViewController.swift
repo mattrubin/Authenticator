@@ -85,7 +85,10 @@ final class DisplayOptionsViewController: UITableViewController {
         guard let rowModel = modelForRow(at: indexPath) else {
             return UITableViewCell()
         }
-        return cell(for: rowModel, in: tableView)
+        let cell = tableView.dequeueReusableCell(withClass: DigitGroupingRowCell<DisplayOptions.Action>.self)
+        cell.update(with: rowModel)
+        cell.dispatchAction = dispatchAction
+        return cell
     }
 
     // MARK: - UITableViewDelegate
@@ -106,16 +109,6 @@ final class DisplayOptionsViewController: UITableViewController {
 extension DisplayOptionsViewController {
     // MARK: Row Model
 
-    func cell(for rowModel: DisplayOptions.RowModel, in tableView: UITableView) -> UITableViewCell {
-        switch rowModel {
-        case let .digitGroupingRow(row):
-            let cell = tableView.dequeueReusableCell(withClass: DigitGroupingRowCell<DisplayOptions.Action>.self)
-            cell.update(with: row.viewModel)
-            cell.dispatchAction = dispatchAction
-            return cell
-        }
-    }
-
     func updateRow(at indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else {
             // If the given row is not visible, the table view will have no cell for it, and it
@@ -129,41 +122,24 @@ extension DisplayOptionsViewController {
             return
         }
 
-        switch rowModel {
-        case let .digitGroupingRow(row):
-            if let cell = cell as? DigitGroupingRowCell<DisplayOptions.Action> {
-                cell.update(with: row.viewModel)
-            } else {
-                tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
+        if let cell = cell as? DigitGroupingRowCell<DisplayOptions.Action> {
+            cell.update(with: rowModel)
+        } else {
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
 }
 
 extension DisplayOptions {
-    enum HeaderModel {}
-    enum RowModel: Identifiable {
-        case digitGroupingRow(identity: String, viewModel: DigitGroupingRowViewModel<Action>)
-
-        func hasSameIdentity(as other: RowModel) -> Bool {
-            switch (self, other) {
-            case let (.digitGroupingRow(rowA), .digitGroupingRow(rowB)):
-                return rowA.identity == rowB.identity
-            }
-        }
-    }
     typealias Action = Effect
 }
 
-private func digitGroupRowModel(currentValue: Int) -> DisplayOptions.RowModel {
-    return .digitGroupingRow(
-        identity: "password.digitGroupSize",
-        viewModel: DigitGroupingRowViewModel(
-            title: "Digit Grouping",
-            options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
-            value: currentValue,
-            changeAction: DisplayOptions.Effect.setDigitGroupSize
-        )
+private func digitGroupRowModel(currentValue: Int) -> DigitGroupingRowViewModel<DisplayOptions.Action> {
+    return DigitGroupingRowViewModel(
+        title: "Digit Grouping",
+        options: [(title: "•• •• ••", value: 2), (title: "••• •••", value: 3)],
+        value: currentValue,
+        changeAction: DisplayOptions.Effect.setDigitGroupSize
     )
 }
 
@@ -172,7 +148,7 @@ extension DisplayOptionsViewController {
         self.viewModel = viewModel
     }
 
-    func modelForRow(at indexPath: IndexPath) -> DisplayOptions.RowModel? {
+    func modelForRow(at indexPath: IndexPath) -> DigitGroupingRowViewModel<Action>? {
         guard indexPath == IndexPath(row: 0, section: 0) else {
             return nil
         }
