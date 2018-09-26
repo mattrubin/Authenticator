@@ -1,8 +1,8 @@
 //
-//  RootViewModel.swift
+//  DisplayOptions.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2018 Authenticator authors
+//  Copyright (c) 2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,21 @@
 //  SOFTWARE.
 //
 
-struct RootViewModel {
-    let tokenList: TokenList.ViewModel
-    let modal: ModalViewModel
+struct DisplayOptions {
+    // MARK: View Model
 
-    enum ModalViewModel {
-        case none
-        case scanner(TokenScanner.ViewModel)
-        case entryForm(TokenEntryForm.ViewModel)
-        case editForm(TokenEditForm.ViewModel)
-        case menu(Menu.ViewModel)
+    struct ViewModel {
+        let digitGroupSize: Int
+    }
+
+    func viewModel(digitGroupSize: Int) -> ViewModel {
+        return ViewModel(digitGroupSize: digitGroupSize)
+    }
+
+    // MARK: Actions
+
+    enum Effect {
+        case setDigitGroupSize(Int)
+        case done
     }
 }

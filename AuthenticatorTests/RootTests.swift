@@ -27,13 +27,14 @@ import XCTest
 @testable import Authenticator
 
 class RootTests: XCTestCase {
+    private let defaultDigitGroupSize = 2
     let displayTime = DisplayTime(date: Date())
 
     func testShowBackupInfo() {
         var root = Root(deviceCanScan: false)
 
         // Ensure there is no modal visible.
-        let (firstViewModel, _) = root.viewModel(with: [], at: displayTime)
+        let (firstViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         guard case .none = firstViewModel.modal else {
             XCTFail("Expected .none, got \(firstViewModel.modal)")
             return
@@ -51,12 +52,17 @@ class RootTests: XCTestCase {
         XCTAssertNil(showEffect)
 
         // Ensure the backup info modal is visible.
-        let (secondViewModel, _) = root.viewModel(with: [], at: displayTime)
+        let (secondViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         switch secondViewModel.modal {
-        case .info(_, .some(let infoViewModel)):
-            XCTAssert(infoViewModel.title == "Backups")
+        case .menu(let menu):
+            switch menu.child {
+            case .info(let infoViewModel):
+                XCTAssert(infoViewModel.title == "Backups")
+            default:
+                XCTFail("Expected Backups .info, got \(menu.child)")
+            }
         default:
-            XCTFail("Expected Backups .info, got \(secondViewModel.modal)")
+            XCTFail("Expected .menu, got \(secondViewModel.modal)")
         }
 
         // Hide the backup info.
@@ -71,7 +77,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(hideEffect)
 
         // Ensure the backup info modal no longer visible.
-        let (thirdViewModel, _) = root.viewModel(with: [], at: displayTime)
+        let (thirdViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         guard case .none = thirdViewModel.modal else {
             XCTFail("Expected .none, got \(thirdViewModel.modal)")
             return
@@ -82,7 +88,7 @@ class RootTests: XCTestCase {
         var root = Root(deviceCanScan: false)
 
         // Ensure there is no modal visible.
-        let (firstViewModel, _) = root.viewModel(with: [], at: displayTime)
+        let (firstViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         guard case .none = firstViewModel.modal else {
             XCTFail("Expected .none, got \(firstViewModel.modal)")
             return
@@ -100,8 +106,8 @@ class RootTests: XCTestCase {
         XCTAssertNil(showInfoEffect)
 
         // Ensure the info list modal is visible.
-        let (nextViewModel, _) = root.viewModel(with: [], at: displayTime)
-        guard case .info(_, .none) = nextViewModel.modal else {
+        let (nextViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
+        guard case .menu(let menu) = nextViewModel.modal, case .none = menu.child else {
             XCTFail("Expected .info list, got \(nextViewModel.modal)")
             return
         }
@@ -118,12 +124,17 @@ class RootTests: XCTestCase {
         XCTAssertNil(showEffect)
 
         // Ensure the license info modal is visible.
-        let (secondViewModel, _) = root.viewModel(with: [], at: displayTime)
+        let (secondViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         switch secondViewModel.modal {
-        case .info(_, .some(let infoViewModel)):
-            XCTAssert(infoViewModel.title == "Acknowledgements")
+        case .menu(let menu):
+            switch menu.child {
+            case .info(let infoViewModel):
+                XCTAssert(infoViewModel.title == "Acknowledgements")
+            default:
+                XCTFail("Expected Acknowledgements .info, got \(menu.child)")
+            }
         default:
-            XCTFail("Expected Acknowledgements .info, got \(secondViewModel.modal)")
+            XCTFail("Expected .menu, got \(secondViewModel.modal)")
         }
 
         // Hide the license info.
@@ -138,7 +149,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(hideEffect)
 
         // Ensure the license info modal no longer visible.
-        let (thirdViewModel, _) = root.viewModel(with: [], at: displayTime)
+        let (thirdViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         guard case .none = thirdViewModel.modal else {
             XCTFail("Expected .none, got \(thirdViewModel.modal)")
             return
@@ -193,8 +204,12 @@ class RootTests: XCTestCase {
     func testEventTokenFormSucceeded() {
         var root = Root(deviceCanScan: false)
 
+        func modalViewModel(from root: Root) -> RootViewModel.ModalViewModel {
+            return root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize).viewModel.modal
+        }
+
         // Ensure the initial view model has no modal.
-        guard case .none = root.viewModel(with: [], at: displayTime).viewModel.modal else {
+        guard case .none = modalViewModel(from: root) else {
             XCTFail("The initial view model should have no modal.")
             return
         }
@@ -208,7 +223,7 @@ class RootTests: XCTestCase {
         }
 
         // Ensure the view model now has a modal entry form.
-        guard case .entryForm = root.viewModel(with: [], at: displayTime).viewModel.modal else {
+        guard case .entryForm = modalViewModel(from: root) else {
             XCTFail("The view model should have a modal entry form.")
             return
         }
@@ -218,7 +233,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(effect)
 
         // Ensure the token entry form hides on success.
-        guard case .none = root.viewModel(with: [], at: displayTime).viewModel.modal else {
+        guard case .none = modalViewModel(from: root) else {
             XCTFail("The final view model should have no modal.")
             return
         }

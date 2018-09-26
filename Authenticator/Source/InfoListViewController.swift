@@ -2,7 +2,7 @@
 //  InfoListViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2017 Authenticator authors
+//  Copyright (c) 2017-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -110,9 +110,9 @@ class InfoListCell: UITableViewCell {
         return paragraphStyle
     }()
 
-    let titleLabel = UILabel()
-    let descriptionLabel = UILabel()
-    var customConstraints: [NSLayoutConstraint]?
+    private let titleLabel = UILabel()
+    private let descriptionLabel = UILabel()
+    private var customConstraints: [NSLayoutConstraint]?
 
     // MARK: Initialization
 

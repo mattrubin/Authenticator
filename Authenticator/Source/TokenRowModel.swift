@@ -39,12 +39,12 @@ struct TokenRowModel: Equatable, Identifiable {
 
     fileprivate let identifier: Data
 
-    init(persistentToken: PersistentToken, displayTime: DisplayTime, canReorder reorderable: Bool = true) {
+    init(persistentToken: PersistentToken, displayTime: DisplayTime, digitGroupSize: Int, canReorder reorderable: Bool = true) {
         let rawPassword = (try? persistentToken.token.generator.password(at: displayTime.date)) ?? ""
 
         name = persistentToken.token.name
         issuer = persistentToken.token.issuer
-        password = TokenRowModel.chunkPassword(rawPassword)
+        password = TokenRowModel.chunkPassword(rawPassword, chunkSize: digitGroupSize)
         if case .counter = persistentToken.token.generator.factor {
             showsButton = true
         } else {
@@ -63,9 +63,8 @@ struct TokenRowModel: Equatable, Identifiable {
     }
 
     // Group the password into chunks of two digits, separated by spaces.
-    private static func chunkPassword(_ password: String) -> String {
+    private static func chunkPassword(_ password: String, chunkSize: Int) -> String {
         var mutablePassword = password
-        let chunkSize = 2
         for i in stride(from: chunkSize, to: mutablePassword.count, by: chunkSize).reversed() {
             mutablePassword.insert(" ", at: mutablePassword.index(mutablePassword.startIndex, offsetBy: i))
         }

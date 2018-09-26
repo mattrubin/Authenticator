@@ -1,8 +1,8 @@
 //
-//  RootViewModel.swift
+//  Settings.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2018 Authenticator authors
+//  Copyright (c) 2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,23 @@
 //  SOFTWARE.
 //
 
-struct RootViewModel {
-    let tokenList: TokenList.ViewModel
-    let modal: ModalViewModel
+import Foundation
 
-    enum ModalViewModel {
-        case none
-        case scanner(TokenScanner.ViewModel)
-        case entryForm(TokenEntryForm.ViewModel)
-        case editForm(TokenEditForm.ViewModel)
-        case menu(Menu.ViewModel)
+private let digitGroupSizeKey = "password.digitGroupSize"
+private let defaultDigitGroupSize = 2
+
+final class Settings {
+    let userDefaults = UserDefaults.standard
+
+    var digitGroupSize: Int {
+        get {
+            guard userDefaults.object(forKey: digitGroupSizeKey) != nil else {
+                return defaultDigitGroupSize
+            }
+            return userDefaults.integer(forKey: digitGroupSizeKey)
+        }
+        set {
+            userDefaults.set(newValue, forKey: digitGroupSizeKey)
+        }
     }
 }

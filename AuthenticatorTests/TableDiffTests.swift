@@ -28,6 +28,8 @@ import XCTest
 @testable import Authenticator
 
 class TableDiffTests: XCTestCase {
+    private let defaultDigitGroupSize = 2
+
     func testNoChanges() {
         // swiftlint:disable force_unwrapping
         let generator = Generator(factor: .timer(period: 60),
@@ -44,13 +46,15 @@ class TableDiffTests: XCTestCase {
         let before = [
             TokenRowModel(
                 persistentToken: persistentToken,
-                displayTime: DisplayTime(date: date)
+                displayTime: DisplayTime(date: date),
+                digitGroupSize: defaultDigitGroupSize
             ),
         ]
         let after = [
             TokenRowModel(
                 persistentToken: persistentToken,
-                displayTime: DisplayTime(date: date)
+                displayTime: DisplayTime(date: date),
+                digitGroupSize: defaultDigitGroupSize
             ),
         ]
 
