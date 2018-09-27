@@ -7,6 +7,8 @@ codecov:
 ignore:
   - AuthenticatorTests
 
+comment: off # Disable coverage comments on pull requests
+
 coverage:
   status:
     project:
