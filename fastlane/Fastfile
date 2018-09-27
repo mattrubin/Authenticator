@@ -34,6 +34,8 @@ platform :ios do
   lane :screenshots do
     # Generate updated screenshots.
     snapshot
+    # Compress the screenshots with pngcrush
+    sh "for IMG in screenshots/**/*.png; do pngcrush -rem alla -ow \"$IMG\"; done"
   end
 
   desc "Build the app for release"
@@ -76,7 +78,8 @@ platform :ios do
     deliver(
       overwrite_screenshots: true,
       submit_for_review: true,
-      automatic_release: false
+      automatic_release: true,
+      phased_release: true
     )
 
     # Add a git tag for this release.

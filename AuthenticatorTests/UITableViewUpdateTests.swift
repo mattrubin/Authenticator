@@ -248,7 +248,7 @@ class MockTableViewDataSource: NSObject, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithClass(UITableViewCell.self)
+        let cell = tableView.dequeueReusableCell(withClass: UITableViewCell.self)
         cell.textLabel?.text = titles[indexPath.section][indexPath.row]
         return cell
     }

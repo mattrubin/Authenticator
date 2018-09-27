@@ -2,7 +2,7 @@
 //  OTPAppDelegate.swift
 //  Authenticator
 //
-//  Copyright (c) 2013-2017 Authenticator authors
+//  Copyright (c) 2013-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -34,8 +34,16 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     let app = AppController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let barButtonAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightLight)]
-        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonAttributes, for: .normal)
+        let barButtonItemFont = UIFont.systemFont(ofSize: 17, weight: .light)
+        let fontAttributes = [NSAttributedStringKey.font: barButtonItemFont]
+        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .highlighted)
+
+        let disabledAttributes: [NSAttributedStringKey: Any] = [
+            .font: barButtonItemFont,
+            .foregroundColor: UIColor.otpBarForegroundColor.withAlphaComponent(0.3),
+        ]
+        UIBarButtonItem.appearance().setTitleTextAttributes(disabledAttributes, for: .disabled)
 
         // Restore white-on-black style
         SVProgressHUD.setForegroundColor(.otpLightColor)
@@ -56,7 +64,12 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         app.enablePrivacy()
     }
 
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        // Ensure the UI is updated with the latest view model whenever the app returns from the background.
+        app.updateView()
+    }
+
+    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
         if let token = Token(url: url) {
             let message = "Do you want to add a token for “\(token.name)”?"
 

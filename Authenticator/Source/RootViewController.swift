@@ -2,7 +2,7 @@
 //  RootViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2015-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -34,8 +34,8 @@ class OpaqueNavigationController: UINavigationController {
         navigationBar.barTintColor = UIColor.otpBarBackgroundColor
         navigationBar.tintColor = UIColor.otpBarForegroundColor
         navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.otpBarForegroundColor,
-            NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight),
+            .foregroundColor: UIColor.otpBarForegroundColor,
+            .font: UIFont.systemFont(ofSize: 20, weight: .light),
         ]
 
         toolbar.isTranslucent = false
@@ -73,10 +73,6 @@ class RootViewController: OpaqueNavigationController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    fileprivate func presentViewController(_ viewController: UIViewController) {
-        presentViewControllers([viewController])
-    }
-
     fileprivate func presentViewControllers(_ viewControllersToPresent: [UIViewController]) {
         // If there is currently no modal, create one.
         guard let navController = modalNavController else {
@@ -103,94 +99,111 @@ class RootViewController: OpaqueNavigationController {
     }
 }
 
-protocol ModelBasedViewController {
+protocol ModelBased {
     associatedtype ViewModel
     associatedtype Action
 
     init(viewModel: ViewModel, dispatchAction: @escaping (Action) -> Void)
-    func updateWithViewModel(_ viewModel: ViewModel)
+    func update(with viewModel: ViewModel)
 }
 
-extension TokenScannerViewController: ModelBasedViewController {}
-extension TokenFormViewController: ModelBasedViewController {}
-extension InfoListViewController: ModelBasedViewController {}
-extension InfoViewController: ModelBasedViewController {}
+typealias ModelBasedViewController = UIViewController & ModelBased
+
+extension TokenScannerViewController: ModelBased {}
+extension TokenFormViewController: ModelBased {}
+extension InfoListViewController: ModelBased {}
+extension InfoViewController: ModelBased {}
+extension DisplayOptionsViewController: ModelBased {}
+
+private func reify<ViewController: ModelBasedViewController>(_ existingViewController: UIViewController?, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
+    if let viewController = existingViewController as? ViewController {
+        viewController.update(with: viewModel)
+        return viewController
+    } else {
+        let viewController = ViewController(
+            viewModel: viewModel,
+            dispatchAction: dispatchAction
+        )
+        return viewController
+    }
+}
 
 extension RootViewController {
-    private func reify<ViewController: ModelBasedViewController>(viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
-        return reify(modalNavController?.topViewController, viewModel: viewModel, dispatchAction: dispatchAction)
-    }
-
-    private func reify<ViewController: ModelBasedViewController>(_ existingViewController: UIViewController?, viewModel: ViewController.ViewModel, dispatchAction: @escaping (ViewController.Action) -> Void) -> ViewController {
-        if let viewController = existingViewController as? ViewController {
-            viewController.updateWithViewModel(viewModel)
-            return viewController
-        } else {
-            let viewController = ViewController(
-                viewModel: viewModel,
-                dispatchAction: dispatchAction
-            )
-            return viewController
-        }
-    }
-
-    func updateWithViewModel(_ viewModel: Root.ViewModel) {
-        tokenListViewController.updateWithViewModel(viewModel.tokenList)
+    func update(with viewModel: Root.ViewModel) {
+        tokenListViewController.update(with: viewModel.tokenList)
 
         switch viewModel.modal {
         case .none:
             dismissViewController()
 
         case .scanner(let scannerViewModel):
-            let scannerViewController: TokenScannerViewController = reify(
-                viewModel: scannerViewModel,
-                dispatchAction: compose(Root.Action.tokenScannerAction, dispatchAction)
-            )
-            presentViewController(scannerViewController)
+            presentViewModel(scannerViewModel,
+                             using: TokenScannerViewController.self,
+                             actionTransform: Root.Action.tokenScannerAction)
 
         case .entryForm(let formViewModel):
-            let formController: TokenFormViewController = reify(
-                viewModel: formViewModel,
-                dispatchAction: compose(Root.Action.tokenEntryFormAction, dispatchAction)
-            )
-            presentViewController(formController)
+            presentViewModel(formViewModel,
+                             using: TokenFormViewController.self,
+                             actionTransform: Root.Action.tokenEntryFormAction)
 
         case .editForm(let formViewModel):
-            let editController: TokenFormViewController = reify(
-                viewModel: formViewModel,
-                dispatchAction: compose(Root.Action.tokenEditFormAction, dispatchAction)
-            )
-            presentViewController(editController)
+            presentViewModel(formViewModel,
+                             using: TokenFormViewController.self,
+                             actionTransform: Root.Action.tokenEditFormAction)
 
-        case .info(let infoListViewModel, let infoViewModel):
-            updateWithInfoViewModels(infoListViewModel, infoViewModel)
+        case let .menu(menuViewModel):
+            switch menuViewModel.child {
+            case .info(let infoViewModel):
+                presentViewModels(menuViewModel.infoList,
+                                  using: InfoListViewController.self,
+                                  actionTransform: Root.Action.infoListEffect,
+                                  and: infoViewModel,
+                                  using: InfoViewController.self,
+                                  actionTransform: Root.Action.infoEffect)
 
+            case .displayOptions(let displayOptionsViewModel):
+                presentViewModels(menuViewModel.infoList,
+                                  using: InfoListViewController.self,
+                                  actionTransform: Root.Action.infoListEffect,
+                                  and: displayOptionsViewModel,
+                                  using: DisplayOptionsViewController.self,
+                                  actionTransform: Root.Action.displayOptionsEffect)
+
+            case .none:
+                presentViewModel(menuViewModel.infoList,
+                                 using: InfoListViewController.self,
+                                 actionTransform: Root.Action.infoListEffect)
+            }
         }
         updateWithAuthViewModel(viewModel.privacy)
 
         currentViewModel = viewModel
     }
 
-    private func updateWithInfoViewModels(_ infoListViewModel: InfoList.ViewModel, _ infoViewModel: Info.ViewModel?) {
-        guard let infoViewModel = infoViewModel else {
-            let infoListViewController: InfoListViewController = reify(
-                viewModel: infoListViewModel,
-                dispatchAction: compose(Root.Action.infoListEffect, dispatchAction)
-            )
-            presentViewController(infoListViewController)
-            return
-        }
+    private func presentViewModel<ViewController: ModelBasedViewController>(_ viewModel: ViewController.ViewModel, using _: ViewController.Type, actionTransform: @escaping ((ViewController.Action) -> Root.Action)) {
+        let viewController: ViewController = reify(
+            modalNavController?.topViewController,
+            viewModel: viewModel,
+            dispatchAction: compose(actionTransform, dispatchAction)
+        )
+        presentViewControllers([viewController])
+    }
 
-        let infoListViewController: InfoListViewController = reify(
+    // swiftlint:disable:next function_parameter_count
+    private func presentViewModels<A: ModelBasedViewController, B: ModelBasedViewController>(
+        _ viewModelA: A.ViewModel, using _: A.Type, actionTransform actionTransformA: @escaping ((A.Action) -> Root.Action),
+        and viewModelB: B.ViewModel, using _: B.Type, actionTransform actionTransformB: @escaping ((B.Action) -> Root.Action)) {
+        let viewControllerA: A = reify(
             modalNavController?.viewControllers.first,
-            viewModel: infoListViewModel,
-            dispatchAction: compose(Root.Action.infoListEffect, dispatchAction)
+            viewModel: viewModelA,
+            dispatchAction: compose(actionTransformA, dispatchAction)
         )
-        let infoViewController: InfoViewController = reify(
-            viewModel: infoViewModel,
-            dispatchAction: compose(Root.Action.infoEffect, dispatchAction)
+        let viewControllerB: B = reify(
+            modalNavController?.topViewController,
+            viewModel: viewModelB,
+            dispatchAction: compose(actionTransformB, dispatchAction)
         )
-        presentViewControllers([infoListViewController, infoViewController])
+        presentViewControllers([viewControllerA, viewControllerB])
     }
 
     private func updateWithAuthViewModel(_ viewModel: AuthViewModel) {
@@ -242,12 +255,21 @@ private func compose<A, B, C>(_ transform: @escaping (A) -> B, _ handler: @escap
 }
 
 extension RootViewController: UINavigationControllerDelegate {
-    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        if case .info(_, .some) = currentViewModel.modal,
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        if case .menu(let menu) = currentViewModel.modal,
             viewController is InfoListViewController {
-            // If the view model modal state has an Info.ViewModel and the just-shown view controller is an info list,
-            // then the user has popped the info view controller.
-            dispatchAction(.dismissInfo)
+            switch menu.child {
+            case .info:
+                // If the current modal state is the menu with an Info child, and the just-shown view controller is
+                // an InfoList, then the user has popped the Info view controller.
+                dispatchAction(.dismissInfo)
+            case .displayOptions:
+                // If the current modal state is the menu with a DisplayOptions child, and the just-shown view
+                // controller is an InfoList, then the user has popped the DisplayOptions view controller.
+                dispatchAction(.dismissDisplayOptions)
+            default:
+                break
+            }
         }
     }
 }

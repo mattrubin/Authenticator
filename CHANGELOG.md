@@ -4,7 +4,33 @@ All notable changes to the project will be documented in this file.
 [Authenticator]: https://github.com/mattrubin/Authenticator
 
 
-## [Unreleased]
+## [2.0.5] - 2018-09-17
+- Added an alert to ask the user for confirmation before permanently deleting a token.
+([#217](https://github.com/mattrubin/Authenticator/pull/217))
+
+
+## [2.0.4] - 2018-04-29
+- Fixed a crash on launch for some users, caused by deserialization errors when loading persistent tokens from the keychain.
+([#277](https://github.com/mattrubin/Authenticator/issues/277))
+
+
+## [2.0.3] - 2018-04-23
+- Disabled swipe-to-delete on the token list, to prevent tokens from being accidentally deleted. To delete a token, first tap "Edit" and then tap the red delete button.
+- Fixed a bug where the app might crash when adding a token from an "otpauth://" URL.
+
+
+## [2.0.2] - 2017-12-09
+- Improved the accessibility of manual token entry when using VoiceOver
+- Improved app efficiency, reducing energy usage and processor load by over 95%
+
+
+## [2.0.1] - 2017-11-07
+- Added support for iPhone X
+- Fixed a bug where tokens were sometimes copied when trying to scroll the token list
+- Fixed button text color and font weight on iOS 11
+
+
+## [2.0.0] - 2017-06-08
 - Rewrote the app in Swift using a new architecture inspired by [React], [Redux], and [Elm].  
 - Moved token models, persistence, and password generation to the [OneTimePassword] library.  
 
@@ -12,6 +38,20 @@ All notable changes to the project will be documented in this file.
 [Redux]: http://redux.js.org
 [Elm]: http://elm-lang.org
 [OneTimePassword]: https://github.com/mattrubin/OneTimePassword
+
+#### Search & Filter
+Tap the new search field at the top of the token list to filter your tokens by issuer and account name.
+
+#### Easier to Read
+An updated font, improved typography, and better spacing make your passwords easier to read.
+
+#### Security & Backup Info
+For security reasons, tokens are stored only on one device, and are not included in iCloud or unencrypted backups. More information about security and backups has been added in the app.
+
+#### Also…
+- Haptic Feedback
+- Improved Error Messages
+- Many small improvements to polish and performance…
 
 
 ## [1.1.2.1] - 2014-09-19
@@ -72,7 +112,13 @@ All notable changes to the project will be documented in this file.
 ## [1.0] - 2013-11-25
 
 
-[Unreleased]: https://github.com/mattrubin/Authenticator/compare/1.1.2.1...HEAD
+[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.0.5...HEAD
+[2.0.5]: https://github.com/mattrubin/Authenticator/compare/2.0.4...2.0.5
+[2.0.4]: https://github.com/mattrubin/Authenticator/compare/2.0.3...2.0.4
+[2.0.3]: https://github.com/mattrubin/Authenticator/compare/2.0.2...2.0.3
+[2.0.2]: https://github.com/mattrubin/Authenticator/compare/2.0.1...2.0.2
+[2.0.1]: https://github.com/mattrubin/Authenticator/compare/2.0.0...2.0.1
+[2.0.0]: https://github.com/mattrubin/Authenticator/compare/1.1.2.1...2.0.0
 [1.1.2.1]: https://github.com/mattrubin/Authenticator/compare/1.1.2...1.1.2.1
 [1.1.2]: https://github.com/mattrubin/Authenticator/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/mattrubin/Authenticator/compare/1.1...1.1.1

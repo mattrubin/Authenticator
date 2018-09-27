@@ -2,7 +2,7 @@
 //  TokenList.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2015-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -35,45 +35,34 @@ struct TokenList: Component {
 
     typealias ViewModel = TokenListViewModel
 
-    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> TokenListViewModel {
+    func viewModel(with persistentTokens: [PersistentToken], at displayTime: DisplayTime, digitGroupSize: Int) -> (viewModel: TokenListViewModel, nextRefreshTime: Date) {
         let isFiltering = !(filter ?? "").isEmpty
-        let rowModels = filteredTokens(persistentTokens).map({
-            TokenRowModel(persistentToken: $0, displayTime: displayTime, canReorder: !isFiltering)
+        let rowModels = filteredTokens(from: persistentTokens).map({
+            TokenRowModel(persistentToken: $0,
+                          displayTime: displayTime,
+                          digitGroupSize: digitGroupSize,
+                          canReorder: !isFiltering)
         })
-        return TokenListViewModel(
+
+        let lastRefreshTime = persistentTokens.reduce(.distantPast) { (lastRefreshTime, persistentToken) in
+            max(lastRefreshTime, persistentToken.lastRefreshTime(before: displayTime))
+        }
+        let nextRefreshTime = persistentTokens.reduce(.distantFuture) { (nextRefreshTime, persistentToken) in
+            min(nextRefreshTime, persistentToken.nextRefreshTime(after: displayTime))
+        }
+
+        let viewModel = TokenListViewModel(
             rowModels: rowModels,
-            ringProgress: ringProgress(for: persistentTokens, at: displayTime),
+            progressRingViewModel: persistentTokens.isEmpty ? nil :
+                ProgressRingViewModel(startTime: lastRefreshTime, endTime: nextRefreshTime),
             totalTokens: persistentTokens.count,
             isFiltering: isFiltering
         )
+
+        return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }
 
-    /// Returns a sorted, uniqued array of the periods of timer-based tokens
-    private func timeBasedTokenPeriods(for persistentTokens: [PersistentToken]) -> [TimeInterval] {
-        var periods = Set<TimeInterval>()
-        persistentTokens.forEach { (persistentToken) in
-            if case .timer(let period) = persistentToken.token.generator.factor {
-                periods.insert(period)
-            }
-        }
-        return Array(periods).sorted()
-    }
-
-    private func ringProgress(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> Double? {
-        guard let ringPeriod = timeBasedTokenPeriods(for: persistentTokens).first else {
-            // If there are no time-based tokens, return nil to hide the progress ring.
-            return nil
-        }
-        guard ringPeriod > 0 else {
-            // If the period is >= zero, return zero to display the ring but avoid the potential
-            // divide-by-zero error below.
-            return 0
-        }
-        // Calculate the percentage progress in the current period.
-        return fmod(displayTime.timeIntervalSince1970, ringPeriod) / ringPeriod
-    }
-
-    private func filteredTokens(_ persistentTokens: [PersistentToken]) -> [PersistentToken] {
+    private func filteredTokens(from persistentTokens: [PersistentToken]) -> [PersistentToken] {
         guard let filter = self.filter, !filter.isEmpty else {
             return persistentTokens
         }
@@ -86,7 +75,7 @@ struct TokenList: Component {
 }
 
 extension TokenList {
-    enum Action {
+    enum Action: Equatable {
         case beginAddToken
         case editPersistentToken(PersistentToken)
 
@@ -117,7 +106,7 @@ extension TokenList {
         case showInfo
     }
 
-    mutating func update(_ action: Action) -> Effect? {
+    mutating func update(with action: Action) -> Effect? {
         switch action {
         case .beginAddToken:
             return .beginTokenEntry
@@ -161,34 +150,24 @@ extension TokenList {
     }
 }
 
-extension TokenList.Action: Equatable {}
-func == (lhs: TokenList.Action, rhs: TokenList.Action) -> Bool {
-    switch (lhs, rhs) {
-    case (.beginAddToken, .beginAddToken):
-        return true
-    case let (.editPersistentToken(l), .editPersistentToken(r)):
-        return l == r
-    case let (.updatePersistentToken(l), .updatePersistentToken(r)):
-        return l == r
-    case let (.moveToken(l), .moveToken(r)):
-        return l == r
-    case let (.deletePersistentToken(l), .deletePersistentToken(r)):
-        return l == r
-    case let (.copyPassword(l), .copyPassword(r)):
-        return l == r
-    case (.clearFilter, .clearFilter):
-        return true
-    case let (.filter(l), .filter(r)):
-        return l == r
-    case (.showBackupInfo, .showBackupInfo):
-        return true
-    case (.showInfo, .showInfo):
-        return true
-    case (.beginAddToken, _), (.editPersistentToken, _), (.updatePersistentToken, _), (.moveToken, _),
-         (.deletePersistentToken, _), (.copyPassword, _), (.filter, _), (.clearFilter, _), (.showBackupInfo, _),
-         (.showInfo, _):
-        // Using this verbose case for non-matching `Action`s instead of `default` ensures a
-        // compiler error if a new `Action` is added and not expicitly checked for equality.
-        return false
+private extension PersistentToken {
+    func lastRefreshTime(before displayTime: DisplayTime) -> Date {
+        switch token.generator.factor {
+        case .counter:
+            return .distantPast
+        case .timer(let period):
+            let epoch = displayTime.timeIntervalSince1970
+            return Date(timeIntervalSince1970: epoch - epoch.truncatingRemainder(dividingBy: period))
+        }
+    }
+
+    func nextRefreshTime(after displayTime: DisplayTime) -> Date {
+        switch token.generator.factor {
+        case .counter:
+            return .distantFuture
+        case .timer(let period):
+            let epoch = displayTime.timeIntervalSince1970
+            return Date(timeIntervalSince1970: epoch + (period - epoch.truncatingRemainder(dividingBy: period)))
+        }
     }
 }

@@ -2,7 +2,7 @@
 //  TableViewModel.swift
 //  Authenticator
 //
-//  Copyright (c) 2015 Authenticator authors
+//  Copyright (c) 2015-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -56,14 +56,14 @@ extension TableViewModel {
         return sections.count
     }
 
-    func numberOfRowsInSection(_ section: Int) -> Int {
+    func numberOfRows(inSection section: Int) -> Int {
         guard sections.indices.contains(section) else {
             return 0
         }
         return sections[section].rows.count
     }
 
-    func modelForRowAtIndexPath(_ indexPath: IndexPath) -> Models.RowModel? {
+    func modelForRow(at indexPath: IndexPath) -> Models.RowModel? {
         guard sections.indices.contains(indexPath.section) else {
             return nil
         }
@@ -74,7 +74,7 @@ extension TableViewModel {
         return section.rows[indexPath.row]
     }
 
-    func modelForHeaderInSection(_ section: Int) -> Models.HeaderModel? {
+    func modelForHeader(inSection section: Int) -> Models.HeaderModel? {
         guard sections.indices.contains(section) else {
             return nil
         }

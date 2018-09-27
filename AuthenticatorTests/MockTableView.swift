@@ -2,7 +2,7 @@
 //  MockTableView.swift
 //  Authenticator
 //
-//  Copyright (c) 2016 Authenticator authors
+//  Copyright (c) 2016-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 import UIKit
 
 class MockTableView: UITableView {
-    enum ChangeType {
+    enum ChangeType: Equatable {
         case beginUpdates
         case endUpdates
         case insert(indexPath: IndexPath)
@@ -77,26 +77,5 @@ class MockTableView: UITableView {
     override func scrollToRow(at indexPath: IndexPath, at scrollPosition: UITableViewScrollPosition, animated: Bool) {
         super.scrollToRow(at: indexPath, at: scrollPosition, animated: animated)
         changes.append(.scroll(indexPath: indexPath))
-    }
-}
-
-extension MockTableView.ChangeType: Equatable {}
-func == (lhs: MockTableView.ChangeType, rhs: MockTableView.ChangeType) -> Bool {
-    switch (lhs, rhs) {
-    case let (.insert(l), .insert(r)):
-        return l == r
-    case let (.remove(l), .remove(r)):
-        return l == r
-    case let (.reload(l), .reload(r)):
-        return l == r
-    case let (.move(l), .move(r)):
-        return l == r
-    case let (.scroll(l), .scroll(r)):
-        return l == r
-    case (.beginUpdates, .beginUpdates),
-         (.endUpdates, .endUpdates):
-        return true
-    case (.insert, _), (.remove, _), (.reload, _), (.move, _), (.scroll, _), (.beginUpdates, _), (.endUpdates, _):
-        return false
     }
 }

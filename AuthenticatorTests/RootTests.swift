@@ -27,13 +27,14 @@ import XCTest
 @testable import Authenticator
 
 class RootTests: XCTestCase {
+    private let defaultDigitGroupSize = 2
     let displayTime = DisplayTime(date: Date())
 
     func testShowBackupInfo() {
         var root = Root(deviceCanScan: false)
 
         // Ensure there is no modal visible.
-        let firstViewModel = root.viewModel(for: [], at: displayTime)
+        let (firstViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         guard case .none = firstViewModel.modal else {
             XCTFail("Expected .none, got \(firstViewModel.modal)")
             return
@@ -43,7 +44,7 @@ class RootTests: XCTestCase {
         let showAction: Root.Action = .tokenListAction(.showBackupInfo)
         let showEffect: Root.Effect?
         do {
-            showEffect = try root.update(showAction)
+            showEffect = try root.update(with: showAction)
         } catch {
             XCTFail("Unexpected error: \(error)")
             return
@@ -51,19 +52,24 @@ class RootTests: XCTestCase {
         XCTAssertNil(showEffect)
 
         // Ensure the backup info modal is visible.
-        let secondViewModel = root.viewModel(for: [], at: displayTime)
+        let (secondViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         switch secondViewModel.modal {
-        case .info(_, .some(let infoViewModel)):
-            XCTAssert(infoViewModel.title == "Backups")
+        case .menu(let menu):
+            switch menu.child {
+            case .info(let infoViewModel):
+                XCTAssert(infoViewModel.title == "Backups")
+            default:
+                XCTFail("Expected Backups .info, got \(menu.child)")
+            }
         default:
-            XCTFail("Expected Backups .info, got \(secondViewModel.modal)")
+            XCTFail("Expected .menu, got \(secondViewModel.modal)")
         }
 
         // Hide the backup info.
         let hideAction: Root.Action = .infoEffect(.done)
         let hideEffect: Root.Effect?
         do {
-            hideEffect = try root.update(hideAction)
+            hideEffect = try root.update(with: hideAction)
         } catch {
             XCTFail("Unexpected error: \(error)")
             return
@@ -71,7 +77,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(hideEffect)
 
         // Ensure the backup info modal no longer visible.
-        let thirdViewModel = root.viewModel(for: [], at: displayTime)
+        let (thirdViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         guard case .none = thirdViewModel.modal else {
             XCTFail("Expected .none, got \(thirdViewModel.modal)")
             return
@@ -82,7 +88,7 @@ class RootTests: XCTestCase {
         var root = Root(deviceCanScan: false)
 
         // Ensure there is no modal visible.
-        let firstViewModel = root.viewModel(for: [], at: displayTime)
+        let (firstViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         guard case .none = firstViewModel.modal else {
             XCTFail("Expected .none, got \(firstViewModel.modal)")
             return
@@ -92,7 +98,7 @@ class RootTests: XCTestCase {
         let showInfoAction: Root.Action = .tokenListAction(.showInfo)
         let showInfoEffect: Root.Effect?
         do {
-            showInfoEffect = try root.update(showInfoAction)
+            showInfoEffect = try root.update(with: showInfoAction)
         } catch {
             XCTFail("Unexpected error: \(error)")
             return
@@ -100,8 +106,8 @@ class RootTests: XCTestCase {
         XCTAssertNil(showInfoEffect)
 
         // Ensure the info list modal is visible.
-        let nextViewModel = root.viewModel(for: [], at: displayTime)
-        guard case .info(_, .none) = nextViewModel.modal else {
+        let (nextViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
+        guard case .menu(let menu) = nextViewModel.modal, case .none = menu.child else {
             XCTFail("Expected .info list, got \(nextViewModel.modal)")
             return
         }
@@ -110,7 +116,7 @@ class RootTests: XCTestCase {
         let showAction: Root.Action = .infoListEffect(.showLicenseInfo)
         let showEffect: Root.Effect?
         do {
-            showEffect = try root.update(showAction)
+            showEffect = try root.update(with: showAction)
         } catch {
             XCTFail("Unexpected error: \(error)")
             return
@@ -118,19 +124,24 @@ class RootTests: XCTestCase {
         XCTAssertNil(showEffect)
 
         // Ensure the license info modal is visible.
-        let secondViewModel = root.viewModel(for: [], at: displayTime)
+        let (secondViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         switch secondViewModel.modal {
-        case .info(_, .some(let infoViewModel)):
-            XCTAssert(infoViewModel.title == "Acknowledgements")
+        case .menu(let menu):
+            switch menu.child {
+            case .info(let infoViewModel):
+                XCTAssert(infoViewModel.title == "Acknowledgements")
+            default:
+                XCTFail("Expected Acknowledgements .info, got \(menu.child)")
+            }
         default:
-            XCTFail("Expected Acknowledgements .info, got \(secondViewModel.modal)")
+            XCTFail("Expected .menu, got \(secondViewModel.modal)")
         }
 
         // Hide the license info.
         let hideAction: Root.Action = .infoEffect(.done)
         let hideEffect: Root.Effect?
         do {
-            hideEffect = try root.update(hideAction)
+            hideEffect = try root.update(with: hideAction)
         } catch {
             XCTFail("Unexpected error: \(error)")
             return
@@ -138,7 +149,7 @@ class RootTests: XCTestCase {
         XCTAssertNil(hideEffect)
 
         // Ensure the license info modal no longer visible.
-        let thirdViewModel = root.viewModel(for: [], at: displayTime)
+        let (thirdViewModel, _) = root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize)
         guard case .none = thirdViewModel.modal else {
             XCTFail("Expected .none, got \(thirdViewModel.modal)")
             return
@@ -156,7 +167,7 @@ class RootTests: XCTestCase {
         let action: Root.Action = .infoEffect(.openURL(url))
         let effect: Root.Effect?
         do {
-            effect = try root.update(action)
+            effect = try root.update(with: action)
         } catch {
             XCTFail("Unexpected error: \(error)")
             return
@@ -171,7 +182,7 @@ class RootTests: XCTestCase {
     func testEventAddTokenFailed() {
         var root = Root(deviceCanScan: false)
         let event: Root.Event = .addTokenFailed(NSError())
-        let effect = root.update(event)
+        let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
 
         guard case .some(.showErrorMessage("Failed to add token.")) = effect else {
@@ -185,7 +196,7 @@ class RootTests: XCTestCase {
     func testEventAddTokenFromURLSucceeded() {
         var root = Root(deviceCanScan: false)
         let event: Root.Event = .addTokenFromURLSucceeded
-        let effect = root.update(event)
+        let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
         XCTAssertNil(effect)
     }
@@ -193,32 +204,36 @@ class RootTests: XCTestCase {
     func testEventTokenFormSucceeded() {
         var root = Root(deviceCanScan: false)
 
+        func modalViewModel(from root: Root) -> RootViewModel.ModalViewModel {
+            return root.viewModel(with: [], at: displayTime, digitGroupSize: defaultDigitGroupSize).viewModel.modal
+        }
+
         // Ensure the initial view model has no modal.
-        guard case .none = root.viewModel(for: [], at: displayTime).modal else {
+        guard case .none = modalViewModel(from: root) else {
             XCTFail("The initial view model should have no modal.")
             return
         }
 
         // Show the token entry form.
         do {
-            let effect = try root.update(Root.Action.tokenListAction(.beginAddToken))
+            let effect = try root.update(with: .tokenListAction(.beginAddToken))
             XCTAssertNil(effect)
         } catch {
             XCTFail("Caught unexpected error: \(error)")
         }
 
         // Ensure the view model now has a modal entry form.
-        guard case .entryForm = root.viewModel(for: [], at: displayTime).modal else {
+        guard case .entryForm = modalViewModel(from: root) else {
             XCTFail("The view model should have a modal entry form.")
             return
         }
 
         // Signal token entry success.
-        let effect = root.update(.tokenFormSucceeded)
+        let effect = root.update(with: .tokenFormSucceeded)
         XCTAssertNil(effect)
 
         // Ensure the token entry form hides on success.
-        guard case .none = root.viewModel(for: [], at: displayTime).modal else {
+        guard case .none = modalViewModel(from: root) else {
             XCTFail("The final view model should have no modal.")
             return
         }
@@ -227,7 +242,7 @@ class RootTests: XCTestCase {
     func testEventSaveTokenFailed() {
         var root = Root(deviceCanScan: false)
         let event: Root.Event = .saveTokenFailed(NSError())
-        let effect = root.update(event)
+        let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
 
         guard case .some(.showErrorMessage("Failed to save token.")) = effect else {
@@ -239,7 +254,7 @@ class RootTests: XCTestCase {
     func testEventUpdateTokenFailed() {
         var root = Root(deviceCanScan: false)
         let event: Root.Event = .updateTokenFailed(NSError())
-        let effect = root.update(event)
+        let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
 
         guard case .some(.showErrorMessage("Failed to update token.")) = effect else {
@@ -251,7 +266,7 @@ class RootTests: XCTestCase {
     func testEventMoveTokenFailed() {
         var root = Root(deviceCanScan: false)
         let event: Root.Event = .moveTokenFailed(NSError())
-        let effect = root.update(event)
+        let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
 
         guard case .some(.showErrorMessage("Failed to move token.")) = effect else {
@@ -263,7 +278,7 @@ class RootTests: XCTestCase {
     func testEventDeleteTokenFailed() {
         var root = Root(deviceCanScan: false)
         let event: Root.Event = .deleteTokenFailed(NSError())
-        let effect = root.update(event)
+        let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
 
         guard case .some(.showErrorMessage("Failed to delete token.")) = effect else {

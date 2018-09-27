@@ -2,7 +2,7 @@
 //  TokenRowCell.swift
 //  Authenticator
 //
-//  Copyright (c) 2013-2016 Authenticator authors
+//  Copyright (c) 2013-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -50,18 +50,18 @@ class TokenRowCell: UITableViewCell {
         selectionStyle = .none
 
         configureSubviews()
-        updateAppearanceWithRowModel(rowModel)
+        updateAppearance(with: rowModel)
     }
 
     // MARK: - Subviews
 
     private func configureSubviews() {
-        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight)
+        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .light)
         titleLabel.textColor = .otpForegroundColor
         titleLabel.textAlignment = .center
         contentView.addSubview(titleLabel)
 
-        passwordLabel.font = UIFont.systemFont(ofSize: 50, weight: UIFontWeightThin)
+        passwordLabel.font = UIFont.systemFont(ofSize: 50, weight: .thin)
         passwordLabel.textColor = .otpForegroundColor
         passwordLabel.textAlignment = .center
         contentView.addSubview(passwordLabel)
@@ -91,12 +91,12 @@ class TokenRowCell: UITableViewCell {
 
     // MARK: - Update
 
-    func updateWithRowModel(_ rowModel: TokenRowModel) {
-        updateAppearanceWithRowModel(rowModel)
+    func update(with rowModel: TokenRowModel) {
+        updateAppearance(with: rowModel)
         self.rowModel = rowModel
     }
 
-    private func updateAppearanceWithRowModel(_ rowModel: TokenRowModel?) {
+    private func updateAppearance(with rowModel: TokenRowModel?) {
         let name = rowModel?.name ?? ""
         let issuer = rowModel?.issuer ?? ""
         let password = rowModel?.password ?? ""
@@ -110,7 +110,7 @@ class TokenRowCell: UITableViewCell {
     private func setName(_ name: String, issuer: String) {
         let titleString = NSMutableAttributedString()
         if !issuer.isEmpty {
-            let issuerAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightMedium)]
+            let issuerAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15, weight: .medium)]
             titleString.append(NSAttributedString(string: issuer, attributes: issuerAttributes))
         }
         if !issuer.isEmpty && !name.isEmpty {
@@ -123,7 +123,7 @@ class TokenRowCell: UITableViewCell {
     }
 
     private func setPassword(_ password: String) {
-        passwordLabel.attributedText = NSAttributedString(string: password, attributes: [NSKernAttributeName: 2])
+        passwordLabel.attributedText = NSAttributedString(string: password, attributes: [.kern: 2])
     }
 
     // MARK: - Editing
@@ -140,18 +140,7 @@ class TokenRowCell: UITableViewCell {
 
     // MARK: - Actions
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        if selected, let rowModel = rowModel {
-            if self.isEditing {
-                dispatchAction?(rowModel.editAction)
-            } else {
-                dispatchAction?(rowModel.selectAction)
-            }
-        }
-    }
-
+    @objc
     func generateNextPassword() {
         if let action = rowModel?.buttonAction {
             dispatchAction?(action)

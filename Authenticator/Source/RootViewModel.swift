@@ -2,7 +2,7 @@
 //  RootViewModel.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2015-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,6 @@ struct RootViewModel {
         case scanner(TokenScanner.ViewModel)
         case entryForm(TokenEntryForm.ViewModel)
         case editForm(TokenEditForm.ViewModel)
-        case info(InfoList.ViewModel, Info.ViewModel?)
+        case menu(Menu.ViewModel)
     }
 }

@@ -2,7 +2,7 @@
 //  Component.swift
 //  Authenticator
 //
-//  Copyright (c) 2016 Authenticator authors
+//  Copyright (c) 2016-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ protocol Component {
     // MARK: Update
     associatedtype Action
     associatedtype Effect
-    mutating func update(_ action: Action) throws -> Effect?
+    mutating func update(with action: Action) throws -> Effect?
 }
 
 struct ComponentError<C: Component>: Error {

@@ -2,7 +2,7 @@
 //  SegmentedControlRow.swift
 //  Authenticator
 //
-//  Copyright (c) 2014-2016 Authenticator authors
+//  Copyright (c) 2014-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -76,7 +76,7 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
 
     // MARK: - View Model
 
-    func updateWithViewModel(_ viewModel: SegmentedControlRowViewModel<Action>) {
+    func update(with viewModel: SegmentedControlRowViewModel<Action>) {
         // Remove any old segments
         segmentedControl.removeAllSegments()
         // Add new segments
@@ -90,12 +90,13 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
         segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControlNoSegment
     }
 
-    static func heightWithViewModel(_ viewModel: SegmentedControlRowViewModel<Action>) -> CGFloat {
+    static func heightForRow(with viewModel: SegmentedControlRowViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 
     // MARK: - Target Action
 
+    @objc
     func segmentedControlValueChanged() {
         let action = actions[segmentedControl.selectedSegmentIndex]
         dispatchAction?(action)

@@ -2,7 +2,7 @@
 //  ButtonHeaderView.swift
 //  Authenticator
 //
-//  Copyright (c) 2015 Authenticator authors
+//  Copyright (c) 2015-2017 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -57,8 +57,8 @@ class ButtonHeaderView<Action>: UIButton {
 
     private func configureSubviews() {
         titleLabel?.textAlignment = .center
-        titleLabel?.textColor = UIColor.otpForegroundColor
-        titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightLight)
+        setTitleColor(.otpForegroundColor, for: UIControlState.normal)
+        titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
 
         addTarget(self, action: #selector(ButtonHeaderView.buttonWasPressed), for: .touchUpInside)
     }
@@ -68,20 +68,21 @@ class ButtonHeaderView<Action>: UIButton {
     convenience init(viewModel: ButtonHeaderViewModel<Action>, dispatchAction: @escaping (Action) -> Void) {
         self.init()
         self.dispatchAction = dispatchAction
-        updateWithViewModel(viewModel)
+        update(with: viewModel)
     }
 
-    func updateWithViewModel(_ viewModel: ButtonHeaderViewModel<Action>) {
+    func update(with viewModel: ButtonHeaderViewModel<Action>) {
         setTitle(viewModel.title, for: .normal)
         buttonAction = viewModel.action
     }
 
-    static func heightWithViewModel(_ viewModel: ButtonHeaderViewModel<Action>) -> CGFloat {
+    static func heightForHeader(with viewModel: ButtonHeaderViewModel<Action>) -> CGFloat {
         return preferredHeight
     }
 
     // MARK: - Target Action
 
+    @objc
     func buttonWasPressed() {
         if let action = buttonAction {
             dispatchAction?(action)

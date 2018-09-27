@@ -2,7 +2,7 @@
 //  TokenRowModel.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2015-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 import Foundation
 import OneTimePassword
 
-struct TokenRowModel: Identifiable {
+struct TokenRowModel: Equatable, Identifiable {
     typealias Action = TokenList.Action
 
     let name, issuer, password: String
@@ -39,12 +39,12 @@ struct TokenRowModel: Identifiable {
 
     fileprivate let identifier: Data
 
-    init(persistentToken: PersistentToken, displayTime: DisplayTime, canReorder reorderable: Bool = true) {
+    init(persistentToken: PersistentToken, displayTime: DisplayTime, digitGroupSize: Int, canReorder reorderable: Bool = true) {
         let rawPassword = (try? persistentToken.token.generator.password(at: displayTime.date)) ?? ""
 
         name = persistentToken.token.name
         issuer = persistentToken.token.issuer
-        password = TokenRowModel.chunkPassword(rawPassword)
+        password = TokenRowModel.chunkPassword(rawPassword, chunkSize: digitGroupSize)
         if case .counter = persistentToken.token.generator.factor {
             showsButton = true
         } else {
@@ -58,30 +58,16 @@ struct TokenRowModel: Identifiable {
         canReorder = reorderable
     }
 
-    func hasSameIdentity(_ other: TokenRowModel) -> Bool {
+    func hasSameIdentity(as other: TokenRowModel) -> Bool {
         return (self.identifier == other.identifier)
     }
 
     // Group the password into chunks of two digits, separated by spaces.
-    private static func chunkPassword(_ password: String) -> String {
-        var characters = password.characters
-        let chunkSize = 2
-        for i in stride(from: chunkSize, to: characters.count, by: chunkSize).reversed() {
-            characters.insert(" ", at: characters.index(characters.startIndex, offsetBy: i))
+    private static func chunkPassword(_ password: String, chunkSize: Int) -> String {
+        var mutablePassword = password
+        for i in stride(from: chunkSize, to: mutablePassword.count, by: chunkSize).reversed() {
+            mutablePassword.insert(" ", at: mutablePassword.index(mutablePassword.startIndex, offsetBy: i))
         }
-        return String(characters)
+        return mutablePassword
     }
-}
-
-extension TokenRowModel: Equatable {}
-func == (lhs: TokenRowModel, rhs: TokenRowModel) -> Bool {
-    return (lhs.name == rhs.name)
-        && (lhs.issuer == rhs.issuer)
-        && (lhs.password == rhs.password)
-        && (lhs.showsButton == rhs.showsButton)
-        && (lhs.buttonAction == rhs.buttonAction)
-        && (lhs.selectAction == rhs.selectAction)
-        && (lhs.editAction == rhs.editAction)
-        && (lhs.deleteAction == rhs.deleteAction)
-        && (lhs.identifier == rhs.identifier)
 }

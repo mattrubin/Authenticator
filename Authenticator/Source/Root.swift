@@ -2,7 +2,7 @@
 //  Root.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2016 Authenticator authors
+//  Copyright (c) 2015-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -37,9 +37,9 @@ struct Root: Component {
         case scanner(TokenScanner)
         case entryForm(TokenEntryForm)
         case editForm(TokenEditForm)
-        case info(InfoList, Info?)
+        case menu(Menu)
 
-        var viewModel: RootViewModel.ModalViewModel {
+        func viewModel(digitGroupSize: Int) -> RootViewModel.ModalViewModel {
             switch self {
             case .none:
                 return .none
@@ -49,8 +49,8 @@ struct Root: Component {
                 return .entryForm(form.viewModel)
             case .editForm(let form):
                 return .editForm(form.viewModel)
-            case .info(let infoList, let info):
-                return .info(infoList.viewModel, info?.viewModel)
+            case let .menu(menu):
+                return .menu(menu.viewModel(digitGroupSize: digitGroupSize))
             }
         }
     }
@@ -126,12 +126,18 @@ struct AuthViewModel {
 extension Root {
     typealias ViewModel = RootViewModel
 
-    func viewModel(for persistentTokens: [PersistentToken], at displayTime: DisplayTime) -> ViewModel {
-        return ViewModel(
-            tokenList: tokenList.viewModel(for: persistentTokens, at: displayTime),
-            modal: modal.viewModel,
+    func viewModel(with persistentTokens: [PersistentToken], at displayTime: DisplayTime, digitGroupSize: Int) -> (viewModel: ViewModel, nextRefreshTime: Date) {
+        let (tokenListViewModel, nextRefreshTime) = tokenList.viewModel(
+            with: persistentTokens,
+            at: displayTime,
+            digitGroupSize: digitGroupSize
+        )
+        let viewModel = ViewModel(
+            tokenList: tokenListViewModel,
+            modal: modal.viewModel(digitGroupSize: digitGroupSize),
             privacy: auth.viewModel
         )
+        return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }
 }
 
@@ -146,7 +152,9 @@ extension Root {
 
         case infoListEffect(InfoList.Effect)
         case infoEffect(Info.Effect)
+        case displayOptionsEffect(DisplayOptions.Effect)
         case dismissInfo
+        case dismissDisplayOptions
 
         case addTokenFromURL(Token)
         case authAction(Auth.Action)
@@ -185,31 +193,32 @@ extension Root {
         case showSuccessMessage(String)
         case showApplicationSettings
         case openURL(URL)
+        case setDigitGroupSize(Int)
     }
 
-    mutating func update(_ action: Action) throws -> Effect? {
+    mutating func update(with action: Action) throws -> Effect? {
         do {
             switch action {
             case .tokenListAction(let action):
-                let effect = tokenList.update(action)
+                let effect = tokenList.update(with: action)
                 return effect.flatMap { effect in
                     handleTokenListEffect(effect)
                 }
 
             case .tokenEntryFormAction(let action):
-                let effect = try modal.withEntryForm({ form in form.update(action) })
+                let effect = try modal.withEntryForm({ form in form.update(with: action) })
                 return effect.flatMap { effect in
                     handleTokenEntryFormEffect(effect)
                 }
 
             case .tokenEditFormAction(let action):
-                let effect = try modal.withEditForm({ form in form.update(action) })
+                let effect = try modal.withEditForm({ form in form.update(with: action) })
                 return effect.flatMap { effect in
                     handleTokenEditFormEffect(effect)
                 }
 
             case .tokenScannerAction(let action):
-                let effect = try modal.withScanner({ scanner in scanner.update(action) })
+                let effect = try modal.withScanner({ scanner in scanner.update(with: action) })
                 return effect.flatMap { effect in
                     handleTokenScannerEffect(effect)
                 }
@@ -220,8 +229,19 @@ extension Root {
             case .infoEffect(let effect):
                 return handleInfoEffect(effect)
 
+            case .displayOptionsEffect(let effect):
+                return handleDisplayOptionsEffect(effect)
+
             case .dismissInfo:
-                try modal.dismissInfo()
+                try modal.withMenu { menu in
+                    try menu.dismissInfo()
+                }
+                return nil
+
+            case .dismissDisplayOptions:
+                try modal.withMenu { menu in
+                    try menu.dismissDisplayOptions()
+                }
                 return nil
 
             case .addTokenFromURL(let token):
@@ -237,7 +257,7 @@ extension Root {
         }
     }
 
-    mutating func update(_ event: Event) -> Effect? {
+    mutating func update(with event: Event) -> Effect? {
         switch event {
         case .addTokenFromURLSucceeded:
             return nil
@@ -295,14 +315,14 @@ extension Root {
 
         case .showBackupInfo:
             do {
-                modal = .info(InfoList(), try Info.backupInfo())
+                modal = .menu(Menu(info: try Info.backupInfo()))
                 return nil
             } catch {
                 return .showErrorMessage("Failed to load backup info.")
             }
 
         case .showInfo:
-            modal = .info(InfoList(), nil)
+            modal = .menu(Menu())
             return nil
         }
     }
@@ -370,6 +390,12 @@ extension Root {
 
     private mutating func handleInfoListEffect(_ effect: InfoList.Effect) throws -> Effect? {
         switch effect {
+        case .showDisplayOptions:
+            try modal.withMenu { menu in
+                try menu.showDisplayOptions()
+            }
+            return nil
+
         case .showBackupInfo:
             let backupInfo: Info
             do {
@@ -377,7 +403,9 @@ extension Root {
             } catch {
                 return .showErrorMessage("Failed to load backup info.")
             }
-            try modal.setInfo(backupInfo)
+            try modal.withMenu { menu in
+                try menu.showInfo(backupInfo)
+            }
             return nil
 
         case .showLicenseInfo:
@@ -387,7 +415,9 @@ extension Root {
             } catch {
                 return .showErrorMessage("Failed to load acknowledgements.")
             }
-            try modal.setInfo(licenseInfo)
+            try modal.withMenu { menu in
+                try menu.showInfo(licenseInfo)
+            }
             return nil
 
         case .done:
@@ -413,6 +443,16 @@ extension Root {
             return nil
         case .authObtained:
             return nil
+        }
+    }
+
+    private mutating func handleDisplayOptionsEffect(_ effect: DisplayOptions.Effect) -> Effect? {
+        switch effect {
+        case .done:
+            modal = .none
+            return nil
+        case let .setDigitGroupSize(digitGroupSize):
+            return .setDigitGroupSize(digitGroupSize)
         }
     }
 }
@@ -450,17 +490,12 @@ private extension Root.Modal {
         return result
     }
 
-    mutating func setInfo(_ info: Info) throws {
-        guard case .info(let infoList, .none) = self else {
-            throw Error(expectedType: InfoList.self, actualState: self)
+    mutating func withMenu<ResultType>(_ body: (inout Menu) throws -> ResultType) throws -> ResultType {
+        guard case .menu(var menu) = self else {
+            throw Error(expectedType: Menu.self, actualState: self)
         }
-        self = .info(infoList, info)
-    }
-
-    mutating func dismissInfo() throws {
-        guard case .info(let infoList, .some) = self else {
-            throw Error(expectedType: Info.self, actualState: self)
-        }
-        self = .info(infoList, nil)
+        let result = try body(&menu)
+        self = .menu(menu)
+        return result
     }
 }
