@@ -85,14 +85,14 @@ struct Auth: Component {
         }
     }
 
-    mutating func update(_ action: Action) throws -> Effect? {
+    mutating func update(with action: Action) throws -> Effect? {
         switch action {
         case .enableLocalAuth(let isEnabled):
             return try handleEnableLocalAuth(isEnabled)
         case .enablePrivacy:
             authRequired = true
             return authAvailable ? .authRequired : nil
-        case .authResult(let reply, let error):
+        case .authResult(let reply, _):
             if reply {
                 authRequired = false
                 return .authObtained
@@ -110,7 +110,7 @@ struct Auth: Component {
 
         // enabling after not being enabled, show privacy screen
         if ( authAvailable ) {
-            return try update(.enablePrivacy)
+            return try update(with: .enablePrivacy)
         }
         return nil
     }
@@ -250,7 +250,7 @@ extension Root {
                                  failure: Event.addTokenFailed)
 
             case .authAction(let action):
-                return try auth.update(action).flatMap { handleAuthEffect($0) }
+                return try auth.update(with: action).flatMap { handleAuthEffect($0) }
             }
         } catch {
             throw ComponentError(underlyingError: error, action: action, component: self)
