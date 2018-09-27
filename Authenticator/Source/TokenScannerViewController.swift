@@ -2,7 +2,7 @@
 //  TokenScannerViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2013-2017 Authenticator authors
+//  Copyright (c) 2013-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -78,6 +78,7 @@ final class TokenScannerViewController: UIViewController, QRScannerDelegate {
         super.init(nibName: nil, bundle: nil)
     }
 
+    @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
