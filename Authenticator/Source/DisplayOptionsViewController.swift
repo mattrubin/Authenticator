@@ -115,8 +115,8 @@ extension DisplayOptionsViewController {
         return DigitGroupingRowViewModel(
             title: "Digit Grouping",
             options: [
-                (title: "•• •• ••", accessibilityLabel: "Groups of two digits", value: 2, accessibilityHint: "For example, 38 62 47"),
-                (title: "••• •••", accessibilityLabel: "Groups of three digits", value: 3, accessibilityHint: "For example, 386 247"),
+                (title: "•• •• ••", value: 2, accessibilityLabel: "Groups of two digits", accessibilityHint: "For example, 38 62 47"),
+                (title: "••• •••", value: 3, accessibilityLabel: "Groups of three digits", accessibilityHint: "For example, 386 247"),
             ],
             value: viewModel.digitGroupSize,
             changeAction: DisplayOptions.Effect.setDigitGroupSize
@@ -132,7 +132,7 @@ struct DigitGroupingRowViewModel<Action> {
     let segments: [(title: String, accessibilityLabel: String, accessibilityHint: String, action: Action)]
     let selectedSegmentIndex: Int?
 
-    init<V: Equatable>(title: String, options: [(title: String, accessibilityLabel: String, value: V, accessibilityHint: String)], value: V, changeAction: (V) -> Action) {
+    init<V: Equatable>(title: String, options: [(title: String, value: V, accessibilityLabel: String, accessibilityHint: String)], value: V, changeAction: (V) -> Action) {
         self.title = title
         segments = options.map({ option in
             (title: option.title, accessibilityLabel: option.accessibilityLabel, accessibilityHint: option.accessibilityHint, action: changeAction(option.value))
