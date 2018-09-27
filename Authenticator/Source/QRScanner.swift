@@ -99,7 +99,11 @@ class QRScanner: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         guard !CommandLine.isDemo else {
             return
         }
-        AVCaptureDevice.requestAccess(for: .video, completionHandler: completionHandler)
+        AVCaptureDevice.requestAccess(for: .video) { accessGranted in
+            DispatchQueue.main.async {
+                completionHandler(accessGranted)
+            }
+        }
     }
 
     // MARK: AVCaptureMetadataOutputObjectsDelegate
