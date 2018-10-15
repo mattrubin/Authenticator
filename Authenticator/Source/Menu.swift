@@ -26,10 +26,10 @@
 import Foundation
 
 struct Menu: Component {
-    let infoList: InfoList
-    private(set) var child: Child
+    private let infoList: InfoList
+    private var child: Child
 
-    enum Child {
+    private enum Child {
         case none
         case info(Info)
         case displayOptions(DisplayOptions)
