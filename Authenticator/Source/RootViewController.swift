@@ -216,11 +216,11 @@ extension RootViewController: UINavigationControllerDelegate {
             case .info:
                 // If the current modal state is the menu with an Info child, and the just-shown view controller is
                 // an InfoList, then the user has popped the Info view controller.
-                dispatchAction(.dismissInfo)
+                dispatchAction(.menuAction(.dismissInfo))
             case .displayOptions:
                 // If the current modal state is the menu with a DisplayOptions child, and the just-shown view
                 // controller is an InfoList, then the user has popped the DisplayOptions view controller.
-                dispatchAction(.dismissDisplayOptions)
+                dispatchAction(.menuAction(.dismissDisplayOptions))
             default:
                 break
             }

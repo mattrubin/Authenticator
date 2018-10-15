@@ -88,12 +88,11 @@ extension Root {
         case tokenEntryFormAction(TokenEntryForm.Action)
         case tokenEditFormAction(TokenEditForm.Action)
         case tokenScannerAction(TokenScanner.Action)
+        case menuAction(Menu.Action)
 
         case infoListEffect(InfoList.Effect)
         case infoEffect(Info.Effect)
         case displayOptionsEffect(DisplayOptions.Effect)
-        case dismissInfo
-        case dismissDisplayOptions
 
         case addTokenFromURL(Token)
     }
@@ -161,6 +160,12 @@ extension Root {
                     handleTokenScannerEffect(effect)
                 }
 
+            case .menuAction(let action):
+                let effect = try modal.withMenu { menu in try menu.update(with: action) }
+                return effect.flatMap { effect in
+                    handleMenuEffect(effect)
+                }
+
             case .infoListEffect(let effect):
                 return try handleInfoListEffect(effect)
 
@@ -169,18 +174,6 @@ extension Root {
 
             case .displayOptionsEffect(let effect):
                 return handleDisplayOptionsEffect(effect)
-
-            case .dismissInfo:
-                try modal.withMenu { menu in
-                    try menu.dismissInfo()
-                }
-                return nil
-
-            case .dismissDisplayOptions:
-                try modal.withMenu { menu in
-                    try menu.dismissDisplayOptions()
-                }
-                return nil
 
             case .addTokenFromURL(let token):
                 return .addToken(token,
@@ -379,6 +372,11 @@ extension Root {
             return nil
         case let .setDigitGroupSize(digitGroupSize):
             return .setDigitGroupSize(digitGroupSize)
+        }
+    }
+
+    private mutating func handleMenuEffect(_ effect: Menu.Effect) -> Effect? {
+        switch effect {
         }
     }
 }

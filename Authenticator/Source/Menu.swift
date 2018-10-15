@@ -23,7 +23,7 @@
 //  SOFTWARE.
 //
 
-struct Menu {
+struct Menu: Component {
     let infoList: InfoList
     private(set) var child: Child
 
@@ -71,6 +71,25 @@ struct Menu {
 
     // MARK: -
 
+    enum Action {
+        case dismissInfo
+        case dismissDisplayOptions
+    }
+
+    typealias Effect = Never
+
+    mutating func update(with action: Action) throws -> Effect? {
+        switch action {
+        case .dismissInfo:
+            try dismissInfo()
+            return nil
+
+        case .dismissDisplayOptions:
+            try dismissDisplayOptions()
+            return nil
+        }
+    }
+
     enum Error: Swift.Error {
         case badChildState
     }
@@ -82,7 +101,7 @@ struct Menu {
         child = .info(info)
     }
 
-    mutating func dismissInfo() throws {
+    private mutating func dismissInfo() throws {
         guard case .info = child else {
             throw Error.badChildState
         }
@@ -96,7 +115,7 @@ struct Menu {
         child = .displayOptions(DisplayOptions())
     }
 
-    mutating func dismissDisplayOptions() throws {
+    private mutating func dismissDisplayOptions() throws {
         guard case .displayOptions = child else {
             throw Error.badChildState
         }
