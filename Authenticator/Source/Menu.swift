@@ -56,6 +56,8 @@ struct Menu: Component {
         child = .info(info)
     }
 
+    // MARK: View
+
     func viewModel(digitGroupSize: Int) -> ViewModel {
         return ViewModel(infoList: infoList.viewModel, child: child.viewModel(digitGroupSize: digitGroupSize))
     }
@@ -71,7 +73,7 @@ struct Menu: Component {
         }
     }
 
-    // MARK: -
+    // MARK: Update
 
     enum Action {
         case dismissInfo
@@ -162,7 +164,7 @@ struct Menu: Component {
 
     // MARK: -
 
-    enum Error: Swift.Error {
+    private enum Error: Swift.Error {
         case badChildState
     }
 
