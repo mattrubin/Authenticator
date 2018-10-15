@@ -305,7 +305,7 @@ extension Root {
 
     private mutating func handleMenuEffect(_ effect: Menu.Effect) -> Effect? {
         switch effect {
-        case .done:
+        case .dismissMenu:
             modal = .none
             return nil
 

@@ -83,7 +83,7 @@ struct Menu: Component {
     }
 
     enum Effect {
-        case done
+        case dismissMenu
         case showErrorMessage(String)
         case showSuccessMessage(String)
         case openURL(URL)
@@ -138,14 +138,14 @@ struct Menu: Component {
             return nil
 
         case .done:
-            return .done
+            return .dismissMenu
         }
     }
 
     private mutating func handleInfoEffect(_ effect: Info.Effect) -> Effect? {
         switch effect {
         case .done:
-            return .done
+            return .dismissMenu
         case let .openURL(url):
             return .openURL(url)
         }
@@ -154,7 +154,7 @@ struct Menu: Component {
     private mutating func handleDisplayOptionsEffect(_ effect: DisplayOptions.Effect) -> Effect? {
         switch effect {
         case .done:
-            return .done
+            return .dismissMenu
         case let .setDigitGroupSize(digitGroupSize):
             return .setDigitGroupSize(digitGroupSize)
         }
