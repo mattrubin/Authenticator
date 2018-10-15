@@ -114,7 +114,7 @@ struct Menu: Component {
     private mutating func handleInfoListEffect(_ effect: InfoList.Effect) throws -> Effect? {
         switch effect {
         case .showDisplayOptions:
-                try showDisplayOptions()
+            try showDisplayOptions()
             return nil
 
         case .showBackupInfo:

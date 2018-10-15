@@ -157,7 +157,7 @@ extension Root {
                 }
 
             case .menuAction(let action):
-                let effect = try modal.withMenu { menu in try menu.update(with: action) }
+                let effect = try modal.withMenu({ menu in try menu.update(with: action) })
                 return effect.flatMap { effect in
                     handleMenuEffect(effect)
                 }
