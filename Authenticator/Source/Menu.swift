@@ -23,6 +23,8 @@
 //  SOFTWARE.
 //
 
+import Foundation
+
 struct Menu: Component {
     let infoList: InfoList
     private(set) var child: Child
@@ -74,9 +76,19 @@ struct Menu: Component {
     enum Action {
         case dismissInfo
         case dismissDisplayOptions
+
+        case infoListEffect(InfoList.Effect)
+        case infoEffect(Info.Effect)
+        case displayOptionsEffect(DisplayOptions.Effect)
     }
 
-    typealias Effect = Never
+    enum Effect {
+        case done
+        case showErrorMessage(String)
+        case showSuccessMessage(String)
+        case openURL(URL)
+        case setDigitGroupSize(Int)
+    }
 
     mutating func update(with action: Action) throws -> Effect? {
         switch action {
@@ -87,14 +99,74 @@ struct Menu: Component {
         case .dismissDisplayOptions:
             try dismissDisplayOptions()
             return nil
+
+        case .infoListEffect(let effect):
+            return try handleInfoListEffect(effect)
+
+        case .infoEffect(let effect):
+            return handleInfoEffect(effect)
+
+        case .displayOptionsEffect(let effect):
+            return handleDisplayOptionsEffect(effect)
         }
     }
+
+    private mutating func handleInfoListEffect(_ effect: InfoList.Effect) throws -> Effect? {
+        switch effect {
+        case .showDisplayOptions:
+                try showDisplayOptions()
+            return nil
+
+        case .showBackupInfo:
+            let backupInfo: Info
+            do {
+                backupInfo = try Info.backupInfo()
+            } catch {
+                return .showErrorMessage("Failed to load backup info.")
+            }
+            try showInfo(backupInfo)
+            return nil
+
+        case .showLicenseInfo:
+            let licenseInfo: Info
+            do {
+                licenseInfo = try Info.licenseInfo()
+            } catch {
+                return .showErrorMessage("Failed to load acknowledgements.")
+            }
+            try showInfo(licenseInfo)
+            return nil
+
+        case .done:
+            return .done
+        }
+    }
+
+    private mutating func handleInfoEffect(_ effect: Info.Effect) -> Effect? {
+        switch effect {
+        case .done:
+            return .done
+        case let .openURL(url):
+            return .openURL(url)
+        }
+    }
+
+    private mutating func handleDisplayOptionsEffect(_ effect: DisplayOptions.Effect) -> Effect? {
+        switch effect {
+        case .done:
+            return .done
+        case let .setDigitGroupSize(digitGroupSize):
+            return .setDigitGroupSize(digitGroupSize)
+        }
+    }
+
+    // MARK: -
 
     enum Error: Swift.Error {
         case badChildState
     }
 
-    mutating func showInfo(_ info: Info) throws {
+    private mutating func showInfo(_ info: Info) throws {
         guard case .none = child else {
             throw Error.badChildState
         }
@@ -108,7 +180,7 @@ struct Menu: Component {
         child = .none
     }
 
-    mutating func showDisplayOptions() throws {
+    private mutating func showDisplayOptions() throws {
         guard case .none = child else {
             throw Error.badChildState
         }

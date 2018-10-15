@@ -155,23 +155,23 @@ extension RootViewController {
             case .info(let infoViewModel):
                 presentViewModels(menuViewModel.infoList,
                                   using: InfoListViewController.self,
-                                  actionTransform: Root.Action.infoListEffect,
+                                  actionTransform: compose(Menu.Action.infoListEffect, Root.Action.menuAction),
                                   and: infoViewModel,
                                   using: InfoViewController.self,
-                                  actionTransform: Root.Action.infoEffect)
+                                  actionTransform: compose(Menu.Action.infoEffect, Root.Action.menuAction))
 
             case .displayOptions(let displayOptionsViewModel):
                 presentViewModels(menuViewModel.infoList,
                                   using: InfoListViewController.self,
-                                  actionTransform: Root.Action.infoListEffect,
+                                  actionTransform: compose(Menu.Action.infoListEffect, Root.Action.menuAction),
                                   and: displayOptionsViewModel,
                                   using: DisplayOptionsViewController.self,
-                                  actionTransform: Root.Action.displayOptionsEffect)
+                                  actionTransform: compose(Menu.Action.displayOptionsEffect, Root.Action.menuAction))
 
             case .none:
                 presentViewModel(menuViewModel.infoList,
                                  using: InfoListViewController.self,
-                                 actionTransform: Root.Action.infoListEffect)
+                                 actionTransform: compose(Menu.Action.infoListEffect, Root.Action.menuAction))
             }
         }
         currentViewModel = viewModel
