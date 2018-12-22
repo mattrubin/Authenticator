@@ -1,13 +1,16 @@
 # Configuration for SwiftLint (https://github.com/realm/SwiftLint)
 
 excluded:
+  - .bundle
   - Carthage
   - fastlane
+
 opt_in_rules:
   - array_init
   - attributes
   - closure_end_indentation
   - closure_spacing
+  - collection_alignment
   - conditional_returns_on_newline
   - contains_over_first_not_nil
   - convenience_type
@@ -27,11 +30,13 @@ opt_in_rules:
   - implicit_return
   - implicitly_unwrapped_optional
   - joined_default_parameter
+  - legacy_random
   - let_var_whitespace
   - literal_expression_end_indentation
   - lower_acl_than_parent
   - modifier_order
   - multiline_function_chains
+  - multiline_literal_brackets
   - operator_usage_whitespace
   - overridden_super_call
   - override_in_extension
@@ -43,11 +48,16 @@ opt_in_rules:
   - redundant_type_annotation
   - single_test_class
   - sorted_first_last
+  - static_operator
   - switch_case_on_newline
+  - toggle_bool
   - unavailable_function
   - untyped_error_in_catch
+  - unused_import
+  - unused_private_declaration
   - vertical_parameter_alignment_on_call
   - yoda_condition
+
 disabled_rules:
   - identifier_name
   - line_length
@@ -58,6 +68,14 @@ cyclomatic_complexity:
 
 function_body_length:
   warning: 50
+
+line_length:
+  ignores_function_declarations: true
+  ignores_interpolated_strings: true
+
+nesting:
+  type_level:
+    warning: 2
 
 trailing_comma:
   mandatory_comma: true
