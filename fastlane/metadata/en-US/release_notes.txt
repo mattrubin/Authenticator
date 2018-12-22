@@ -1,1 +1,2 @@
-• Added an alert to ask the user for confirmation before permanently deleting a token.
+• Added a new menu where a user can select whether they prefer passwords shown in groups of two digits or groups of three.
+• Fixed a user interface bug that could occur after a user declined the app's request for camera access.
