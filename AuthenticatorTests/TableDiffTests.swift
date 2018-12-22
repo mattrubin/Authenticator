@@ -2,7 +2,7 @@
 //  TableDiffTests.swift
 //  Authenticator
 //
-//  Copyright (c) 2016-2017 Authenticator authors
+//  Copyright (c) 2016-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,8 @@ import XCTest
 @testable import Authenticator
 
 class TableDiffTests: XCTestCase {
+    private let defaultDigitGroupSize = 2
+
     func testNoChanges() {
         // swiftlint:disable force_unwrapping
         let generator = Generator(factor: .timer(period: 60),
@@ -44,13 +46,15 @@ class TableDiffTests: XCTestCase {
         let before = [
             TokenRowModel(
                 persistentToken: persistentToken,
-                displayTime: DisplayTime(date: date)
+                displayTime: DisplayTime(date: date),
+                digitGroupSize: defaultDigitGroupSize
             ),
         ]
         let after = [
             TokenRowModel(
                 persistentToken: persistentToken,
-                displayTime: DisplayTime(date: date)
+                displayTime: DisplayTime(date: date),
+                digitGroupSize: defaultDigitGroupSize
             ),
         ]
 

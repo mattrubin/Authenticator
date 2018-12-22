@@ -4,6 +4,14 @@ All notable changes to the project will be documented in this file.
 [Authenticator]: https://github.com/mattrubin/Authenticator
 
 
+## [2.0.6] - 2018-12-22
+- Added a new menu where a user can select whether they prefer passwords shown in groups of two digits or groups of three.
+([#290](https://github.com/mattrubin/Authenticator/pull/290),
+[#292](https://github.com/mattrubin/Authenticator/pull/292))
+- Fixed a user interface bug that could occur after a user declined the app's request for camera access.
+([#293](https://github.com/mattrubin/Authenticator/pull/293))
+
+
 ## [2.0.5] - 2018-09-17
 - Added an alert to ask the user for confirmation before permanently deleting a token.
 ([#217](https://github.com/mattrubin/Authenticator/pull/217))
@@ -112,7 +120,8 @@ For security reasons, tokens are stored only on one device, and are not included
 ## [1.0] - 2013-11-25
 
 
-[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.0.5...HEAD
+[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.0.6...HEAD
+[2.0.6]: https://github.com/mattrubin/Authenticator/compare/2.0.5...2.0.6
 [2.0.5]: https://github.com/mattrubin/Authenticator/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/mattrubin/Authenticator/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/mattrubin/Authenticator/compare/2.0.2...2.0.3

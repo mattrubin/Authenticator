@@ -35,6 +35,7 @@
 		C9A1C1A91E501D8B009E65D6 /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C1A81E501D8B009E65D6 /* Info.swift */; };
 		C9A1C1AC1E5021A6009E65D6 /* BackupInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = C9A1C1AA1E502195009E65D6 /* BackupInfo.html */; };
 		C9A1C1CE1E6CDBFB009E65D6 /* RootTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C1CD1E6CDBFB009E65D6 /* RootTests.swift */; };
+		C9A23F2E2159C28200615846 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A23F2D2159C28200615846 /* Settings.swift */; };
 		C9A262D01E170BD4004E6CEB /* AuthenticatorScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */; };
 		C9A262D81E170E3A004E6CEB /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262D71E170E3A004E6CEB /* SnapshotHelper.swift */; };
 		C9A262DA1E176A18004E6CEB /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A262D91E176A18004E6CEB /* Demo.swift */; };
@@ -49,11 +50,14 @@
 		C9CC09511BA903B7008C54FE /* TokenFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */; };
 		C9CC09531BA9133B008C54FE /* FocusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09521BA9133B008C54FE /* FocusCell.swift */; };
 		C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CC09541BA91D1C008C54FE /* TableViewModel.swift */; };
+		C9CDD1CF209662E100636056 /* DisplayOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDD1CE209662E100636056 /* DisplayOptions.swift */; };
+		C9CDD1D12096635300636056 /* DisplayOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CDD1D02096635300636056 /* DisplayOptionsViewController.swift */; };
 		C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */; };
 		C9D6C8461906CD54004F0E08 /* TextFieldRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */; };
 		C9D6C84C19075044004F0E08 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D6C84B19075044004F0E08 /* ProgressRingView.swift */; };
 		C9DE02E71ED2234D00D7E01C /* InfoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE02E61ED2234D00D7E01C /* InfoList.swift */; };
 		C9DE02E91ED227D600D7E01C /* InfoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE02E81ED227D600D7E01C /* InfoListViewController.swift */; };
+		C9E11E1121543E2A00C1AA53 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E11E1021543E2A00C1AA53 /* Menu.swift */; };
 		C9E3FB9A1E281CBC00EFA8BB /* TokenScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3FB991E281CBC00EFA8BB /* TokenScanner.swift */; };
 		C9E3FB9C1E2860DD00EFA8BB /* TokenScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E3FB9B1E2860DD00EFA8BB /* TokenScannerTests.swift */; };
 		C9EB448E1C52A74200ACFA87 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EB448D1C52A74200ACFA87 /* Component.swift */; };
@@ -157,6 +161,7 @@
 		C9A1C1A81E501D8B009E65D6 /* Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
 		C9A1C1AA1E502195009E65D6 /* BackupInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = BackupInfo.html; sourceTree = "<group>"; };
 		C9A1C1CD1E6CDBFB009E65D6 /* RootTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootTests.swift; sourceTree = "<group>"; };
+		C9A23F2D2159C28200615846 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		C9A262CD1E170BD4004E6CEB /* AuthenticatorScreenshots.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuthenticatorScreenshots.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A262CF1E170BD4004E6CEB /* AuthenticatorScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatorScreenshots.swift; sourceTree = "<group>"; };
 		C9A262D71E170E3A004E6CEB /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
@@ -172,6 +177,8 @@
 		C9CC09501BA903B7008C54FE /* TokenFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenFormViewController.swift; sourceTree = "<group>"; };
 		C9CC09521BA9133B008C54FE /* FocusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusCell.swift; sourceTree = "<group>"; };
 		C9CC09541BA91D1C008C54FE /* TableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
+		C9CDD1CE209662E100636056 /* DisplayOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayOptions.swift; sourceTree = "<group>"; };
+		C9CDD1D02096635300636056 /* DisplayOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayOptionsViewController.swift; sourceTree = "<group>"; };
 		C9D6C83E1906BD68004F0E08 /* SegmentedControlRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlRow.swift; sourceTree = "<group>"; };
 		C9D6C8451906CD54004F0E08 /* TextFieldRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldRow.swift; sourceTree = "<group>"; };
 		C9D6C84B19075044004F0E08 /* ProgressRingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressRingView.swift; sourceTree = "<group>"; };
@@ -179,6 +186,7 @@
 		C9D844361D4C59D600D5E343 /* CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONDUCT.md; sourceTree = "<group>"; };
 		C9DE02E61ED2234D00D7E01C /* InfoList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoList.swift; sourceTree = "<group>"; };
 		C9DE02E81ED227D600D7E01C /* InfoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoListViewController.swift; sourceTree = "<group>"; };
+		C9E11E1021543E2A00C1AA53 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		C9E3FB991E281CBC00EFA8BB /* TokenScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenScanner.swift; sourceTree = "<group>"; };
 		C9E3FB9B1E2860DD00EFA8BB /* TokenScannerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenScannerTests.swift; sourceTree = "<group>"; };
 		C9EB448D1C52A74200ACFA87 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
@@ -440,10 +448,13 @@
 		C9A1C1A71E501D5F009E65D6 /* Info */ = {
 			isa = PBXGroup;
 			children = (
+				C9E11E1021543E2A00C1AA53 /* Menu.swift */,
 				C9DE02E61ED2234D00D7E01C /* InfoList.swift */,
 				C9DE02E81ED227D600D7E01C /* InfoListViewController.swift */,
 				C9A1C1A81E501D8B009E65D6 /* Info.swift */,
 				C9A1C1A51E501CB2009E65D6 /* InfoViewController.swift */,
+				C9CDD1CE209662E100636056 /* DisplayOptions.swift */,
+				C9CDD1D02096635300636056 /* DisplayOptionsViewController.swift */,
 			);
 			name = Info;
 			sourceTree = "<group>";
@@ -505,6 +516,7 @@
 			isa = PBXGroup;
 			children = (
 				C9F7A8601C4D90B50082E5AE /* TokenStore.swift */,
+				C9A23F2D2159C28200615846 /* Settings.swift */,
 			);
 			name = "Data Store";
 			sourceTree = "<group>";
@@ -656,7 +668,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C93AD15219CD51BE007480E9 /* Colors.swift in Sources */,
+				C9CDD1D12096635300636056 /* DisplayOptionsViewController.swift in Sources */,
+				C9CDD1CF209662E100636056 /* DisplayOptions.swift in Sources */,
 				C9DE02E71ED2234D00D7E01C /* InfoList.swift in Sources */,
+				C9A23F2E2159C28200615846 /* Settings.swift in Sources */,
 				C93BD6251C16841D00FFFB8F /* RootViewController.swift in Sources */,
 				C9919CE01BA721A1006237C1 /* ButtonHeaderView.swift in Sources */,
 				C9EB44901C52AE4500ACFA87 /* AppController.swift in Sources */,
@@ -683,6 +698,7 @@
 				C9D6C83F1906BD68004F0E08 /* SegmentedControlRow.swift in Sources */,
 				C968D1151CB4C639004ED7BB /* DisplayTime.swift in Sources */,
 				8B0028B511EB75920092DE18 /* ScannerOverlayView.swift in Sources */,
+				C9E11E1121543E2A00C1AA53 /* Menu.swift in Sources */,
 				C9CC09551BA91D1C008C54FE /* TableViewModel.swift in Sources */,
 				C92708AC19CFB0750033128B /* TokenListViewController.swift in Sources */,
 				C9A262DA1E176A18004E6CEB /* Demo.swift in Sources */,

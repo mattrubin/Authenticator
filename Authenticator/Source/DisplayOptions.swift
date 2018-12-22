@@ -1,8 +1,8 @@
 //
-//  Colors.swift
+//  DisplayOptions.swift
 //  Authenticator
 //
-//  Copyright (c) 2014-2018 Authenticator authors
+//  Copyright (c) 2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,29 +23,21 @@
 //  SOFTWARE.
 //
 
-import UIKit
+struct DisplayOptions {
+    // MARK: View Model
 
-extension UIColor {
-    private convenience init(red: Int, green: Int, blue: Int) {
-        let divisor: CGFloat = 255
-        self.init(
-            red: CGFloat(red) / divisor,
-            green: CGFloat(green) / divisor,
-            blue: CGFloat(blue) / divisor,
-            alpha: 1
-        )
+    struct ViewModel {
+        let digitGroupSize: Int
     }
 
-    private enum OTP {
-        static let darkColor = UIColor(red: 35, green: 35, blue: 50)
-        static let lightColor = UIColor(red: 250, green: 248, blue: 240)
+    func viewModel(digitGroupSize: Int) -> ViewModel {
+        return ViewModel(digitGroupSize: digitGroupSize)
     }
 
-    class var otpDarkColor: UIColor { return OTP.darkColor }
-    class var otpLightColor: UIColor { return OTP.lightColor }
+    // MARK: Actions
 
-    class var otpBarBackgroundColor: UIColor { return OTP.darkColor }
-    class var otpBarForegroundColor: UIColor { return OTP.lightColor }
-    class var otpBackgroundColor: UIColor { return OTP.darkColor }
-    class var otpForegroundColor: UIColor { return OTP.lightColor }
+    enum Effect {
+        case setDigitGroupSize(Int)
+        case done
+    }
 }

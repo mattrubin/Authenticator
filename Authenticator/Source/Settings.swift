@@ -1,8 +1,8 @@
 //
-//  Colors.swift
+//  Settings.swift
 //  Authenticator
 //
-//  Copyright (c) 2014-2018 Authenticator authors
+//  Copyright (c) 2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -23,29 +23,23 @@
 //  SOFTWARE.
 //
 
-import UIKit
+import Foundation
 
-extension UIColor {
-    private convenience init(red: Int, green: Int, blue: Int) {
-        let divisor: CGFloat = 255
-        self.init(
-            red: CGFloat(red) / divisor,
-            green: CGFloat(green) / divisor,
-            blue: CGFloat(blue) / divisor,
-            alpha: 1
-        )
+private let digitGroupSizeKey = "password.digitGroupSize"
+private let defaultDigitGroupSize = 2
+
+final class Settings {
+    let userDefaults = UserDefaults.standard
+
+    var digitGroupSize: Int {
+        get {
+            guard userDefaults.object(forKey: digitGroupSizeKey) != nil else {
+                return defaultDigitGroupSize
+            }
+            return userDefaults.integer(forKey: digitGroupSizeKey)
+        }
+        set {
+            userDefaults.set(newValue, forKey: digitGroupSizeKey)
+        }
     }
-
-    private enum OTP {
-        static let darkColor = UIColor(red: 35, green: 35, blue: 50)
-        static let lightColor = UIColor(red: 250, green: 248, blue: 240)
-    }
-
-    class var otpDarkColor: UIColor { return OTP.darkColor }
-    class var otpLightColor: UIColor { return OTP.lightColor }
-
-    class var otpBarBackgroundColor: UIColor { return OTP.darkColor }
-    class var otpBarForegroundColor: UIColor { return OTP.lightColor }
-    class var otpBackgroundColor: UIColor { return OTP.darkColor }
-    class var otpForegroundColor: UIColor { return OTP.lightColor }
 }
