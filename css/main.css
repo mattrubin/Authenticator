@@ -143,6 +143,10 @@ main h2 {
     font-weight: 200;
 }
 
+header a {
+    text-decoration: none;
+}
+
 header svg {
     margin: 5px;
 }
