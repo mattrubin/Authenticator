@@ -30,6 +30,7 @@ struct Root: Component {
     fileprivate var tokenList: TokenList
     fileprivate var modal: Modal
     fileprivate let deviceCanScan: Bool
+    fileprivate var auth: Auth
 
     fileprivate enum Modal {
         case none
@@ -57,8 +58,67 @@ struct Root: Component {
     init(deviceCanScan: Bool) {
         tokenList = TokenList()
         modal = .none
+        auth = Auth()
         self.deviceCanScan = deviceCanScan
     }
+}
+
+struct Auth: Component {
+    typealias ViewModel = AuthViewModel
+    var authAvailable: Bool = false
+    var authRequired: Bool = false
+
+    enum Action {
+        case enableLocalAuth(isEnabled: Bool)
+        case enablePrivacy
+        case authResult(reply: Bool, error: Error?)
+    }
+
+    enum Effect {
+        case authRequired
+        case authObtained
+    }
+
+    var viewModel: AuthViewModel {
+        get {
+            return AuthViewModel(enabled: authAvailable && authRequired)
+        }
+    }
+
+    mutating func update(with action: Action) throws -> Effect? {
+        switch action {
+        case .enableLocalAuth(let isEnabled):
+            return try handleEnableLocalAuth(isEnabled)
+        case .enablePrivacy:
+            authRequired = true
+            return authAvailable ? .authRequired : nil
+        case .authResult(let reply, _):
+            if reply {
+                authRequired = false
+                return .authObtained
+            }
+            return nil
+        }
+    }
+
+    private mutating func handleEnableLocalAuth(_ shouldEnable: Bool ) throws -> Effect? {
+        // no change, no effect
+        if( authAvailable == shouldEnable ) {
+            return nil
+        }
+        authAvailable = shouldEnable
+
+        // enabling after not being enabled, show privacy screen
+        if ( authAvailable ) {
+            return try update(with: .enablePrivacy)
+        }
+        return nil
+    }
+
+}
+
+struct AuthViewModel {
+    var enabled: Bool
 }
 
 // MARK: View
@@ -74,7 +134,8 @@ extension Root {
         )
         let viewModel = ViewModel(
             tokenList: tokenListViewModel,
-            modal: modal.viewModel(digitGroupSize: digitGroupSize)
+            modal: modal.viewModel(digitGroupSize: digitGroupSize),
+            privacy: auth.viewModel
         )
         return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }
@@ -96,6 +157,7 @@ extension Root {
         case dismissDisplayOptions
 
         case addTokenFromURL(Token)
+        case authAction(Auth.Action)
     }
 
     enum Event {
@@ -186,6 +248,9 @@ extension Root {
                 return .addToken(token,
                                  success: Event.addTokenFromURLSucceeded,
                                  failure: Event.addTokenFailed)
+
+            case .authAction(let action):
+                return try auth.update(with: action).flatMap { handleAuthEffect($0) }
             }
         } catch {
             throw ComponentError(underlyingError: error, action: action, component: self)
@@ -369,6 +434,15 @@ extension Root {
             return nil
         case let .openURL(url):
             return .openURL(url)
+        }
+    }
+
+    private mutating func handleAuthEffect(_ effect: Auth.Effect) -> Effect? {
+        switch effect {
+        case .authRequired:
+            return nil
+        case .authObtained:
+            return nil
         }
     }
 

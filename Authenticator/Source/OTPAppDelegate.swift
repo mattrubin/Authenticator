@@ -56,6 +56,14 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        app.checkForLocalAuth()
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        app.enablePrivacy()
+    }
+
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Ensure the UI is updated with the latest view model whenever the app returns from the background.
         app.updateView()

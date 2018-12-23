@@ -28,6 +28,7 @@ import UIKit
 import SafariServices
 import OneTimePassword
 import SVProgressHUD
+import LocalAuthentication
 
 class AppController {
     private let store: TokenStore
@@ -210,6 +211,14 @@ class AppController {
         handleAction(.addTokenFromURL(token))
     }
 
+    func checkForLocalAuth() {
+        handleAction(Auth.checkForLocalAuth())
+    }
+
+    func enablePrivacy() {
+        handleAction(.authAction(.enablePrivacy))
+    }
+
     private func confirmDeletion(of persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event) {
         let messagePrefix = persistentToken.token.displayName.map({ "The token “\($0)”" }) ?? "The unnamed token"
         let message = messagePrefix + " will be permanently deleted from this device."
@@ -256,5 +265,13 @@ private extension DisplayTime {
             return DisplayTime.demoTime
         }
         return DisplayTime(date: Date())
+    }
+}
+
+private extension Auth {
+    static func checkForLocalAuth() -> Root.Action {
+        let context = LAContext()
+        let canUseLocalAuth = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
+        return .authAction(.enableLocalAuth(isEnabled: canUseLocalAuth))
     }
 }
