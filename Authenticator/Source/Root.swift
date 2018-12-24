@@ -345,10 +345,6 @@ extension Root {
         case let .authenticateUser(success, failure):
             return .authenticateUser(success: .authenticationEvent(success),
                                      failure: { .authenticationEvent(failure($0)) })
-        case .authRequired:
-            return nil
-        case .authObtained:
-            return nil
         }
     }
 }

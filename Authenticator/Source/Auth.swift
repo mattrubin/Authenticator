@@ -47,8 +47,6 @@ struct Auth: Component {
 
     enum Effect {
         case authenticateUser(success: Event, failure: (Error) -> Event)
-        case authRequired
-        case authObtained
     }
 
     enum Event {
@@ -60,9 +58,11 @@ struct Auth: Component {
         switch action {
         case .enableLocalAuth(let isEnabled):
             return try handleEnableLocalAuth(isEnabled)
+
         case .enablePrivacy:
             authRequired = true
-            return authAvailable ? .authRequired : nil
+            return nil
+
         case .tryToUnlock:
             return .authenticateUser(success: .authenticationSucceeded,
                                      failure: Event.authenticationFailed)
@@ -73,7 +73,7 @@ struct Auth: Component {
         switch event {
         case .authenticationSucceeded:
             authRequired = false
-            return .authObtained
+            return nil
 
         case .authenticationFailed(let error):
             print(error) // TODO: Improve error handling
