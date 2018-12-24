@@ -25,7 +25,7 @@
 
 struct Auth: Component {
     var authAvailable: Bool = false
-    var authRequired: Bool = false
+    var isLocked: Bool = false
 
     // MARK: View
 
@@ -34,7 +34,7 @@ struct Auth: Component {
     }
 
     var viewModel: ViewModel {
-        return ViewModel(enabled: authAvailable && authRequired)
+        return ViewModel(enabled: authAvailable && isLocked)
     }
 
     // MARK: Update
@@ -56,11 +56,19 @@ struct Auth: Component {
 
     mutating func update(with action: Action) throws -> Effect? {
         switch action {
-        case .enableLocalAuth(let isEnabled):
-            return try handleEnableLocalAuth(isEnabled)
+        case .enableLocalAuth(let shouldEnable):
+            if authAvailable != shouldEnable {
+                authAvailable = shouldEnable
+
+                // enabling after not being enabled, show privacy screen
+                if authAvailable {
+                    isLocked = true
+                }
+            }
+            return nil
 
         case .enablePrivacy:
-            authRequired = true
+            isLocked = true
             return nil
 
         case .tryToUnlock:
@@ -72,7 +80,7 @@ struct Auth: Component {
     mutating func update(with event: Event) -> Effect? {
         switch event {
         case .authenticationSucceeded:
-            authRequired = false
+            isLocked = false
             return nil
 
         case .authenticationFailed(let error):
@@ -80,19 +88,4 @@ struct Auth: Component {
             return nil
         }
     }
-
-    private mutating func handleEnableLocalAuth(_ shouldEnable: Bool ) throws -> Effect? {
-        // no change, no effect
-        if authAvailable == shouldEnable {
-            return nil
-        }
-        authAvailable = shouldEnable
-
-        // enabling after not being enabled, show privacy screen
-        if authAvailable {
-            return try update(with: .enablePrivacy)
-        }
-        return nil
-    }
-
 }
