@@ -241,7 +241,8 @@ extension RootViewController {
         }
     }
 
-    @objc private func authChallenge() {
+    @objc
+    private func authChallenge() {
         let context = LAContext()
         context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "LOLZ") { (reply, error) in
             DispatchQueue.main.async {

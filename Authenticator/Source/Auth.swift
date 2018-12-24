@@ -25,6 +25,7 @@
 
 struct Auth: Component {
     typealias ViewModel = AuthViewModel
+
     var authAvailable: Bool = false
     var authRequired: Bool = false
 
@@ -40,9 +41,7 @@ struct Auth: Component {
     }
 
     var viewModel: AuthViewModel {
-        get {
-            return AuthViewModel(enabled: authAvailable && authRequired)
-        }
+        return AuthViewModel(enabled: authAvailable && authRequired)
     }
 
     mutating func update(with action: Action) throws -> Effect? {
@@ -63,13 +62,13 @@ struct Auth: Component {
 
     private mutating func handleEnableLocalAuth(_ shouldEnable: Bool ) throws -> Effect? {
         // no change, no effect
-        if( authAvailable == shouldEnable ) {
+        if authAvailable == shouldEnable {
             return nil
         }
         authAvailable = shouldEnable
 
         // enabling after not being enabled, show privacy screen
-        if ( authAvailable ) {
+        if authAvailable {
             return try update(with: .enablePrivacy)
         }
         return nil
