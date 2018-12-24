@@ -106,6 +106,8 @@ extension Root {
         case updateTokenFailed(Error)
         case moveTokenFailed(Error)
         case deleteTokenFailed(Error)
+
+        case authenticationEvent(Auth.Event)
     }
 
     enum Effect {
@@ -126,7 +128,7 @@ extension Root {
         case deletePersistentToken(PersistentToken,
             failure: (Error) -> Event)
 
-        case authenticateUser
+        case authenticateUser(success: Event, failure: (Error) -> Event)
 
         case showErrorMessage(String)
         case showSuccessMessage(String)
@@ -201,6 +203,12 @@ extension Root {
             return .showErrorMessage("Failed to move token.")
         case .deleteTokenFailed:
             return .showErrorMessage("Failed to delete token.")
+
+        case .authenticationEvent(let authEvent):
+            let effect = auth.update(with: authEvent)
+            return effect.flatMap { effect in
+                handleAuthEffect(effect)
+            }
         }
     }
 
@@ -334,8 +342,9 @@ extension Root {
 
     private mutating func handleAuthEffect(_ effect: Auth.Effect) -> Effect? {
         switch effect {
-        case .authenticateUser:
-            return .authenticateUser
+        case let .authenticateUser(success, failure):
+            return .authenticateUser(success: .authenticationEvent(success),
+                                     failure: { .authenticationEvent(failure($0)) })
         case .authRequired:
             return nil
         case .authObtained:

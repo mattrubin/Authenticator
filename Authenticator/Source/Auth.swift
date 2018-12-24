@@ -43,13 +43,17 @@ struct Auth: Component {
         case enableLocalAuth(isEnabled: Bool)
         case enablePrivacy
         case tryToUnlock
-        case authResult(reply: Bool, error: Error?)
     }
 
     enum Effect {
-        case authenticateUser
+        case authenticateUser(success: Event, failure: (Error) -> Event)
         case authRequired
         case authObtained
+    }
+
+    enum Event {
+        case authenticationSucceeded
+        case authenticationFailed(Error)
     }
 
     mutating func update(with action: Action) throws -> Effect? {
@@ -60,12 +64,19 @@ struct Auth: Component {
             authRequired = true
             return authAvailable ? .authRequired : nil
         case .tryToUnlock:
-            return .authenticateUser
-        case .authResult(let reply, _):
-            if reply {
-                authRequired = false
-                return .authObtained
-            }
+            return .authenticateUser(success: .authenticationSucceeded,
+                                     failure: Event.authenticationFailed)
+        }
+    }
+
+    mutating func update(with event: Event) -> Effect? {
+        switch event {
+        case .authenticationSucceeded:
+            authRequired = false
+            return .authObtained
+
+        case .authenticationFailed(let error):
+            print(error) // TODO: Improve error handling
             return nil
         }
     }
