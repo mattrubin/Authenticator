@@ -156,6 +156,9 @@ class AppController {
         case let .deletePersistentToken(persistentToken, failure):
             confirmDeletion(of: persistentToken, failure: failure)
 
+        case .authenticateUser:
+            authenticateUser()
+
         case let .showErrorMessage(message):
             SVProgressHUD.showError(withStatus: message)
             generateHapticFeedback(for: .error)
@@ -220,6 +223,15 @@ class AppController {
 
     func enablePrivacy() {
         handleAction(.authAction(.enablePrivacy))
+    }
+
+    private func authenticateUser() {
+        let context = LAContext()
+        context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "LOLZ") { (reply, error) in
+            DispatchQueue.main.async { [weak self] in
+                self?.handleAction(.authAction(.authResult(reply: reply, error: error)))
+            }
+        }
     }
 
     private func confirmDeletion(of persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event) {

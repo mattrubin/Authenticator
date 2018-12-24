@@ -42,10 +42,12 @@ struct Auth: Component {
     enum Action {
         case enableLocalAuth(isEnabled: Bool)
         case enablePrivacy
+        case tryToUnlock
         case authResult(reply: Bool, error: Error?)
     }
 
     enum Effect {
+        case authenticateUser
         case authRequired
         case authObtained
     }
@@ -57,6 +59,8 @@ struct Auth: Component {
         case .enablePrivacy:
             authRequired = true
             return authAvailable ? .authRequired : nil
+        case .tryToUnlock:
+            return .authenticateUser
         case .authResult(let reply, _):
             if reply {
                 authRequired = false

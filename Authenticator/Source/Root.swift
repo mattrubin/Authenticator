@@ -126,6 +126,8 @@ extension Root {
         case deletePersistentToken(PersistentToken,
             failure: (Error) -> Event)
 
+        case authenticateUser
+
         case showErrorMessage(String)
         case showSuccessMessage(String)
         case showApplicationSettings
@@ -332,6 +334,8 @@ extension Root {
 
     private mutating func handleAuthEffect(_ effect: Auth.Effect) -> Effect? {
         switch effect {
+        case .authenticateUser:
+            return .authenticateUser
         case .authRequired:
             return nil
         case .authObtained:

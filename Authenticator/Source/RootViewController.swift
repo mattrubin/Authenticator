@@ -24,7 +24,6 @@
 //
 
 import UIKit
-import LocalAuthentication
 
 class OpaqueNavigationController: UINavigationController {
     override func viewDidLoad() {
@@ -218,7 +217,7 @@ extension RootViewController {
                 let button = UIButton(type: .roundedRect)
                 button.setTitleColor(UIColor.otpForegroundColor, for: .normal)
                 button.setTitle("Unlock", for: .normal)
-                button.addTarget(self, action: #selector(authChallenge), for: .touchUpInside)
+                button.addTarget(self, action: #selector(tryToUnlock), for: .touchUpInside)
                 button.sizeToFit()
                 authController?.view.addSubview(button)
                 button.center = authController!.view.center
@@ -242,13 +241,8 @@ extension RootViewController {
     }
 
     @objc
-    private func authChallenge() {
-        let context = LAContext()
-        context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "LOLZ") { (reply, error) in
-            DispatchQueue.main.async {
-                self.dispatchAction(.authAction(.authResult(reply: reply, error: error)))
-            }
-        }
+    private func tryToUnlock() {
+        dispatchAction(.authAction(.tryToUnlock))
     }
 }
 
