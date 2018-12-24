@@ -60,8 +60,8 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         app.checkForLocalAuth()
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        app.applicationDidEnterBackground()
+    func applicationWillResignActive(_ application: UIApplication) {
+        app.applicationWillResignActive()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

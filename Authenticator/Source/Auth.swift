@@ -49,7 +49,7 @@ struct Auth: Component {
     }
 
     enum Event {
-        case applicationDidEnterBackground
+        case applicationWillResignActive
         case authenticationSucceeded
         case authenticationFailed(Error)
     }
@@ -75,7 +75,7 @@ struct Auth: Component {
 
     mutating func update(with event: Event) -> Effect? {
         switch event {
-        case .applicationDidEnterBackground:
+        case .applicationWillResignActive:
             isLocked = true
             return nil
 

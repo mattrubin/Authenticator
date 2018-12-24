@@ -221,8 +221,8 @@ class AppController {
         handleAction(action)
     }
 
-    func applicationDidEnterBackground() {
-        handleEvent(.applicationDidEnterBackground)
+    func applicationWillResignActive() {
+        handleEvent(.applicationWillResignActive)
     }
 
     private func authenticateUser(success successEvent: Root.Event, failure: @escaping (Error) -> Root.Event) {
