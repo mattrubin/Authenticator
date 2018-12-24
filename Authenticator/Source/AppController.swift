@@ -221,8 +221,8 @@ class AppController {
         handleAction(action)
     }
 
-    func enablePrivacy() {
-        handleAction(.authAction(.enablePrivacy))
+    func applicationDidEnterBackground() {
+        handleEvent(.applicationDidEnterBackground)
     }
 
     private func authenticateUser(success successEvent: Root.Event, failure: @escaping (Error) -> Root.Event) {

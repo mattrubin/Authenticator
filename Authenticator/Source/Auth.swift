@@ -41,7 +41,6 @@ struct Auth: Component {
 
     enum Action {
         case enableLocalAuth(isEnabled: Bool)
-        case enablePrivacy
         case tryToUnlock
     }
 
@@ -50,6 +49,7 @@ struct Auth: Component {
     }
 
     enum Event {
+        case applicationDidEnterBackground
         case authenticationSucceeded
         case authenticationFailed(Error)
     }
@@ -67,10 +67,6 @@ struct Auth: Component {
             }
             return nil
 
-        case .enablePrivacy:
-            isLocked = true
-            return nil
-
         case .tryToUnlock:
             return .authenticateUser(success: .authenticationSucceeded,
                                      failure: Event.authenticationFailed)
@@ -79,6 +75,10 @@ struct Auth: Component {
 
     mutating func update(with event: Event) -> Effect? {
         switch event {
+        case .applicationDidEnterBackground:
+            isLocked = true
+            return nil
+
         case .authenticationSucceeded:
             isLocked = false
             return nil
