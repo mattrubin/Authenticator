@@ -212,7 +212,10 @@ class AppController {
     }
 
     func checkForLocalAuth() {
-        handleAction(Auth.checkForLocalAuth())
+        let context = LAContext()
+        let canUseLocalAuth = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
+        let action = Root.Action.authAction(.enableLocalAuth(isEnabled: canUseLocalAuth))
+        handleAction(action)
     }
 
     func enablePrivacy() {
@@ -265,13 +268,5 @@ private extension DisplayTime {
             return DisplayTime.demoTime
         }
         return DisplayTime(date: Date())
-    }
-}
-
-private extension Auth {
-    static func checkForLocalAuth() -> Root.Action {
-        let context = LAContext()
-        let canUseLocalAuth = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
-        return .authAction(.enableLocalAuth(isEnabled: canUseLocalAuth))
     }
 }
