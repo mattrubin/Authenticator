@@ -63,64 +63,6 @@ struct Root: Component {
     }
 }
 
-struct Auth: Component {
-    typealias ViewModel = AuthViewModel
-    var authAvailable: Bool = false
-    var authRequired: Bool = false
-
-    enum Action {
-        case enableLocalAuth(isEnabled: Bool)
-        case enablePrivacy
-        case authResult(reply: Bool, error: Error?)
-    }
-
-    enum Effect {
-        case authRequired
-        case authObtained
-    }
-
-    var viewModel: AuthViewModel {
-        get {
-            return AuthViewModel(enabled: authAvailable && authRequired)
-        }
-    }
-
-    mutating func update(with action: Action) throws -> Effect? {
-        switch action {
-        case .enableLocalAuth(let isEnabled):
-            return try handleEnableLocalAuth(isEnabled)
-        case .enablePrivacy:
-            authRequired = true
-            return authAvailable ? .authRequired : nil
-        case .authResult(let reply, _):
-            if reply {
-                authRequired = false
-                return .authObtained
-            }
-            return nil
-        }
-    }
-
-    private mutating func handleEnableLocalAuth(_ shouldEnable: Bool ) throws -> Effect? {
-        // no change, no effect
-        if( authAvailable == shouldEnable ) {
-            return nil
-        }
-        authAvailable = shouldEnable
-
-        // enabling after not being enabled, show privacy screen
-        if ( authAvailable ) {
-            return try update(with: .enablePrivacy)
-        }
-        return nil
-    }
-
-}
-
-struct AuthViewModel {
-    var enabled: Bool
-}
-
 // MARK: View
 
 extension Root {
