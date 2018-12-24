@@ -66,7 +66,7 @@ class RootTests: XCTestCase {
         }
 
         // Hide the backup info.
-        let hideAction: Root.Action = .infoEffect(.done)
+        let hideAction: Root.Action = .menuAction(.infoEffect(.done))
         let hideEffect: Root.Effect?
         do {
             hideEffect = try root.update(with: hideAction)
@@ -113,7 +113,7 @@ class RootTests: XCTestCase {
         }
 
         // Show the license info.
-        let showAction: Root.Action = .infoListEffect(.showLicenseInfo)
+        let showAction: Root.Action = .menuAction(.infoListEffect(.showLicenseInfo))
         let showEffect: Root.Effect?
         do {
             showEffect = try root.update(with: showAction)
@@ -138,7 +138,7 @@ class RootTests: XCTestCase {
         }
 
         // Hide the license info.
-        let hideAction: Root.Action = .infoEffect(.done)
+        let hideAction: Root.Action = .menuAction(.infoEffect(.done))
         let hideEffect: Root.Effect?
         do {
             hideEffect = try root.update(with: hideAction)
@@ -164,9 +164,10 @@ class RootTests: XCTestCase {
             return
         }
 
-        let action: Root.Action = .infoEffect(.openURL(url))
+        let action: Root.Action = .menuAction(.infoEffect(.openURL(url)))
         let effect: Root.Effect?
         do {
+            XCTAssertNil(try root.update(with: .tokenListAction(.showBackupInfo)))
             effect = try root.update(with: action)
         } catch {
             XCTFail("Unexpected error: \(error)")
