@@ -2,7 +2,7 @@
 //  Colors.swift
 //  Authenticator
 //
-//  Copyright (c) 2014-2017 Authenticator authors
+//  Copyright (c) 2014-2018 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ extension UIColor {
         )
     }
 
-    private struct OTP {
+    private enum OTP {
         static let darkColor = UIColor(red: 35, green: 35, blue: 50)
         static let lightColor = UIColor(red: 250, green: 248, blue: 240)
     }

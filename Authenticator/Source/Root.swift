@@ -149,12 +149,7 @@ extension Root {
         case tokenEntryFormAction(TokenEntryForm.Action)
         case tokenEditFormAction(TokenEditForm.Action)
         case tokenScannerAction(TokenScanner.Action)
-
-        case infoListEffect(InfoList.Effect)
-        case infoEffect(Info.Effect)
-        case displayOptionsEffect(DisplayOptions.Effect)
-        case dismissInfo
-        case dismissDisplayOptions
+        case menuAction(Menu.Action)
 
         case addTokenFromURL(Token)
         case authAction(Auth.Action)
@@ -223,26 +218,11 @@ extension Root {
                     handleTokenScannerEffect(effect)
                 }
 
-            case .infoListEffect(let effect):
-                return try handleInfoListEffect(effect)
-
-            case .infoEffect(let effect):
-                return handleInfoEffect(effect)
-
-            case .displayOptionsEffect(let effect):
-                return handleDisplayOptionsEffect(effect)
-
-            case .dismissInfo:
-                try modal.withMenu { menu in
-                    try menu.dismissInfo()
+            case .menuAction(let action):
+                let effect = try modal.withMenu({ menu in try menu.update(with: action) })
+                return effect.flatMap { effect in
+                    handleMenuEffect(effect)
                 }
-                return nil
-
-            case .dismissDisplayOptions:
-                try modal.withMenu { menu in
-                    try menu.dismissDisplayOptions()
-                }
-                return nil
 
             case .addTokenFromURL(let token):
                 return .addToken(token,
@@ -388,52 +368,23 @@ extension Root {
         }
     }
 
-    private mutating func handleInfoListEffect(_ effect: InfoList.Effect) throws -> Effect? {
+    private mutating func handleMenuEffect(_ effect: Menu.Effect) -> Effect? {
         switch effect {
-        case .showDisplayOptions:
-            try modal.withMenu { menu in
-                try menu.showDisplayOptions()
-            }
-            return nil
-
-        case .showBackupInfo:
-            let backupInfo: Info
-            do {
-                backupInfo = try Info.backupInfo()
-            } catch {
-                return .showErrorMessage("Failed to load backup info.")
-            }
-            try modal.withMenu { menu in
-                try menu.showInfo(backupInfo)
-            }
-            return nil
-
-        case .showLicenseInfo:
-            let licenseInfo: Info
-            do {
-                licenseInfo = try Info.licenseInfo()
-            } catch {
-                return .showErrorMessage("Failed to load acknowledgements.")
-            }
-            try modal.withMenu { menu in
-                try menu.showInfo(licenseInfo)
-            }
-            return nil
-
-        case .done:
+        case .dismissMenu:
             modal = .none
             return nil
 
-        }
-    }
+        case let .showErrorMessage(message):
+            return .showErrorMessage(message)
 
-    private mutating func handleInfoEffect(_ effect: Info.Effect) -> Effect? {
-        switch effect {
-        case .done:
-            modal = .none
-            return nil
+        case let .showSuccessMessage(message):
+            return .showSuccessMessage(message)
+
         case let .openURL(url):
             return .openURL(url)
+
+        case let .setDigitGroupSize(digitGroupSize):
+            return .setDigitGroupSize(digitGroupSize)
         }
     }
 
@@ -443,16 +394,6 @@ extension Root {
             return nil
         case .authObtained:
             return nil
-        }
-    }
-
-    private mutating func handleDisplayOptionsEffect(_ effect: DisplayOptions.Effect) -> Effect? {
-        switch effect {
-        case .done:
-            modal = .none
-            return nil
-        case let .setDigitGroupSize(digitGroupSize):
-            return .setDigitGroupSize(digitGroupSize)
         }
     }
 }
