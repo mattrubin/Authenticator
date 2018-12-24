@@ -207,7 +207,7 @@ extension RootViewController {
         presentViewControllers([viewControllerA, viewControllerB])
     }
 
-    private func updateWithAuthViewModel(_ viewModel: AuthViewModel) {
+    private func updateWithAuthViewModel(_ viewModel: Auth.ViewModel) {
         if viewModel.enabled == currentViewModel.privacy.enabled {
             return
         }

@@ -24,10 +24,20 @@
 //
 
 struct Auth: Component {
-    typealias ViewModel = AuthViewModel
-
     var authAvailable: Bool = false
     var authRequired: Bool = false
+
+    // MARK: View
+
+    struct ViewModel {
+        var enabled: Bool
+    }
+
+    var viewModel: ViewModel {
+        return ViewModel(enabled: authAvailable && authRequired)
+    }
+
+    // MARK: Update
 
     enum Action {
         case enableLocalAuth(isEnabled: Bool)
@@ -38,10 +48,6 @@ struct Auth: Component {
     enum Effect {
         case authRequired
         case authObtained
-    }
-
-    var viewModel: AuthViewModel {
-        return AuthViewModel(enabled: authAvailable && authRequired)
     }
 
     mutating func update(with action: Action) throws -> Effect? {
@@ -74,8 +80,4 @@ struct Auth: Component {
         return nil
     }
 
-}
-
-struct AuthViewModel {
-    var enabled: Bool
 }
