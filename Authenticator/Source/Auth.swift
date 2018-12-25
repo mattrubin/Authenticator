@@ -25,7 +25,21 @@
 
 struct Auth: Component {
     var authAvailable: Bool = false
-    var isLocked: Bool = false
+    private var state: State = .unlocked
+
+    private enum State: Equatable {
+        case unlocked
+        case locked
+
+        var isLocked: Bool {
+            switch self {
+            case .unlocked:
+                return false
+            case .locked:
+                return true
+            }
+        }
+    }
 
     // MARK: View
 
@@ -34,7 +48,7 @@ struct Auth: Component {
     }
 
     var viewModel: ViewModel {
-        return ViewModel(enabled: authAvailable && isLocked)
+        return ViewModel(enabled: authAvailable && state.isLocked)
     }
 
     // MARK: Update
@@ -64,7 +78,7 @@ struct Auth: Component {
 
                 // enabling after not being enabled, show privacy screen
                 if authAvailable {
-                    isLocked = true
+                    state = .locked
                 }
             }
             return nil
@@ -78,7 +92,7 @@ struct Auth: Component {
     mutating func update(with event: Event) -> Effect? {
         switch event {
         case .applicationDidBecomeActive:
-            if isLocked {
+            if state.isLocked {
                 return .authenticateUser(success: .authenticationSucceeded,
                                          failure: Event.authenticationFailed)
             } else {
@@ -86,11 +100,11 @@ struct Auth: Component {
             }
 
         case .applicationWillResignActive:
-            isLocked = true
+            state = .locked
             return nil
 
         case .authenticationSucceeded:
-            isLocked = false
+            state = .unlocked
             return nil
 
         case .authenticationFailed(let error):
