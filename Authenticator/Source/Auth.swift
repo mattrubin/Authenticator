@@ -29,7 +29,7 @@ struct Auth: Component {
 
     private enum State: Equatable {
         case unlocked
-        case locked
+        case locked(shouldAuthenticateAutomatically: Bool)
 
         var isLocked: Bool {
             switch self {
@@ -78,7 +78,7 @@ struct Auth: Component {
 
                 // enabling after not being enabled, show privacy screen
                 if authAvailable {
-                    state = .locked
+                    state = .locked(shouldAuthenticateAutomatically: true)
                 }
             }
             return nil
@@ -92,7 +92,7 @@ struct Auth: Component {
     mutating func update(with event: Event) -> Effect? {
         switch event {
         case .applicationDidBecomeActive:
-            if state.isLocked {
+            if case .locked(shouldAuthenticateAutomatically: true) = state {
                 return .authenticateUser(success: .authenticationSucceeded,
                                          failure: Event.authenticationFailed)
             } else {
@@ -100,7 +100,9 @@ struct Auth: Component {
             }
 
         case .applicationWillResignActive:
-            state = .locked
+            // When the app becomes inactive, regardless of the current state, the app should lock and prepare to
+            // automatically authenticate when the app becomes active.
+            state = .locked(shouldAuthenticateAutomatically: true)
             return nil
 
         case .authenticationSucceeded:
@@ -108,6 +110,11 @@ struct Auth: Component {
             return nil
 
         case .authenticationFailed(let error):
+            // If automatic authentication fails, the app should remain locked, but should not automatically try to
+            // authenticate again.
+            if case .locked(shouldAuthenticateAutomatically: true) = state {
+                state = .locked(shouldAuthenticateAutomatically: false)
+            }
             print(error) // TODO: Improve error handling
             return nil
         }
