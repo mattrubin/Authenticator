@@ -221,6 +221,10 @@ class AppController {
         handleAction(action)
     }
 
+    func applicationDidBecomeActive() {
+        handleEvent(.applicationDidBecomeActive)
+    }
+
     func applicationWillResignActive() {
         handleEvent(.applicationWillResignActive)
     }

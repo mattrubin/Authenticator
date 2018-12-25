@@ -107,6 +107,7 @@ extension Root {
         case moveTokenFailed(Error)
         case deleteTokenFailed(Error)
 
+        case applicationDidBecomeActive
         case applicationWillResignActive
         case authenticationEvent(Auth.Event)
     }
@@ -204,6 +205,12 @@ extension Root {
             return .showErrorMessage("Failed to move token.")
         case .deleteTokenFailed:
             return .showErrorMessage("Failed to delete token.")
+
+        case .applicationDidBecomeActive:
+            let effect = auth.update(with: .applicationDidBecomeActive)
+            return effect.flatMap { effect in
+                handleAuthEffect(effect)
+            }
 
         case .applicationWillResignActive:
             let effect = auth.update(with: .applicationWillResignActive)

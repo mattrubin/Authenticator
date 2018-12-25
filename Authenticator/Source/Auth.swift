@@ -49,7 +49,9 @@ struct Auth: Component {
     }
 
     enum Event {
+        case applicationDidBecomeActive
         case applicationWillResignActive
+
         case authenticationSucceeded
         case authenticationFailed(Error)
     }
@@ -75,6 +77,14 @@ struct Auth: Component {
 
     mutating func update(with event: Event) -> Effect? {
         switch event {
+        case .applicationDidBecomeActive:
+            if isLocked {
+                return .authenticateUser(success: .authenticationSucceeded,
+                                         failure: Event.authenticationFailed)
+            } else {
+                return nil
+            }
+
         case .applicationWillResignActive:
             isLocked = true
             return nil
