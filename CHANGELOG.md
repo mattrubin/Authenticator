@@ -4,7 +4,7 @@ All notable changes to the project will be documented in this file.
 [Authenticator]: https://github.com/mattrubin/Authenticator
 
 
-## [2.0.6] - 2018-12-22
+## [2.1.0] - 2018-12-22
 - Added a new menu where a user can select whether they prefer passwords shown in groups of two digits or groups of three.
 ([#290](https://github.com/mattrubin/Authenticator/pull/290),
 [#292](https://github.com/mattrubin/Authenticator/pull/292))
@@ -120,8 +120,8 @@ For security reasons, tokens are stored only on one device, and are not included
 ## [1.0] - 2013-11-25
 
 
-[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.0.6...HEAD
-[2.0.6]: https://github.com/mattrubin/Authenticator/compare/2.0.5...2.0.6
+[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.1.0...HEAD
+[2.1.0]: https://github.com/mattrubin/Authenticator/compare/2.0.5...2.1.0
 [2.0.5]: https://github.com/mattrubin/Authenticator/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/mattrubin/Authenticator/compare/2.0.3...2.0.4
 [2.0.3]: https://github.com/mattrubin/Authenticator/compare/2.0.2...2.0.3
