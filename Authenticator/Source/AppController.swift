@@ -231,7 +231,8 @@ class AppController {
 
     private func authenticateUser(success successEvent: Root.Event, failure: @escaping (Error) -> Root.Event) {
         let context = LAContext()
-        context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "LOLZ") { (success, error) in
+        let localizedReason = "The Authenticator screen is locked to protect your tokens."
+        context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: localizedReason) { (success, error) in
             DispatchQueue.main.async { [weak self] in
                 if let error = error {
                     assert(success == false)
