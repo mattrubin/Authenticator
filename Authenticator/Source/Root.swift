@@ -30,7 +30,7 @@ struct Root: Component {
     fileprivate var tokenList: TokenList
     fileprivate var modal: Modal
     fileprivate let deviceCanScan: Bool
-    fileprivate var auth: Auth
+    fileprivate var screenLock: ScreenLock
 
     fileprivate enum Modal {
         case none
@@ -58,7 +58,7 @@ struct Root: Component {
     init(deviceCanScan: Bool, screenLockEnabled: Bool) {
         tokenList = TokenList()
         modal = .none
-        auth = Auth(screenLockEnabled: screenLockEnabled)
+        screenLock = ScreenLock(screenLockEnabled: screenLockEnabled)
         self.deviceCanScan = deviceCanScan
     }
 }
@@ -77,7 +77,7 @@ extension Root {
         let viewModel = ViewModel(
             tokenList: tokenListViewModel,
             modal: modal.viewModel(digitGroupSize: digitGroupSize),
-            privacy: auth.viewModel
+            screenLock: screenLock.viewModel
         )
         return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }
@@ -92,9 +92,9 @@ extension Root {
         case tokenEditFormAction(TokenEditForm.Action)
         case tokenScannerAction(TokenScanner.Action)
         case menuAction(Menu.Action)
+        case screenLockAction(ScreenLock.Action)
 
         case addTokenFromURL(Token)
-        case authAction(Auth.Action)
     }
 
     enum Event {
@@ -109,7 +109,7 @@ extension Root {
 
         case applicationDidBecomeActive
         case applicationWillResignActive
-        case authenticationEvent(Auth.Event)
+        case screenLockEvent(ScreenLock.Event)
     }
 
     enum Effect {
@@ -177,8 +177,8 @@ extension Root {
                                  success: Event.addTokenFromURLSucceeded,
                                  failure: Event.addTokenFailed)
 
-            case .authAction(let action):
-                return try auth.update(with: action).flatMap { handleAuthEffect($0) }
+            case .screenLockAction(let action):
+                return try screenLock.update(with: action).flatMap { handleScreenLockEffect($0) }
             }
         } catch {
             throw ComponentError(underlyingError: error, action: action, component: self)
@@ -207,21 +207,21 @@ extension Root {
             return .showErrorMessage("Failed to delete token.")
 
         case .applicationDidBecomeActive:
-            let effect = auth.update(with: .applicationDidBecomeActive)
+            let effect = screenLock.update(with: .applicationDidBecomeActive)
             return effect.flatMap { effect in
-                handleAuthEffect(effect)
+                handleScreenLockEffect(effect)
             }
 
         case .applicationWillResignActive:
-            let effect = auth.update(with: .applicationWillResignActive)
+            let effect = screenLock.update(with: .applicationWillResignActive)
             return effect.flatMap { effect in
-                handleAuthEffect(effect)
+                handleScreenLockEffect(effect)
             }
 
-        case .authenticationEvent(let authEvent):
-            let effect = auth.update(with: authEvent)
+        case .screenLockEvent(let screenLockEvent):
+            let effect = screenLock.update(with: screenLockEvent)
             return effect.flatMap { effect in
-                handleAuthEffect(effect)
+                handleScreenLockEffect(effect)
             }
         }
     }
@@ -354,11 +354,11 @@ extension Root {
         }
     }
 
-    private mutating func handleAuthEffect(_ effect: Auth.Effect) -> Effect? {
+    private mutating func handleScreenLockEffect(_ effect: ScreenLock.Effect) -> Effect? {
         switch effect {
         case let .authenticateUser(success, failure):
-            return .authenticateUser(success: .authenticationEvent(success),
-                                     failure: { .authenticationEvent(failure($0)) })
+            return .authenticateUser(success: .screenLockEvent(success),
+                                     failure: { .screenLockEvent(failure($0)) })
         }
     }
 }

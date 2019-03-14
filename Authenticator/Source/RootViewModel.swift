@@ -26,7 +26,7 @@
 struct RootViewModel {
     let tokenList: TokenList.ViewModel
     let modal: ModalViewModel
-    let privacy: Auth.ViewModel
+    let screenLock: ScreenLock.ViewModel
 
     enum ModalViewModel {
         case none

@@ -67,7 +67,7 @@ class RootViewController: OpaqueNavigationController {
         super.init(nibName: nil, bundle: nil)
         self.viewControllers = [tokenListViewController]
 
-        updateWithAuthViewModel(viewModel.privacy)
+        updateWithScreenLockViewModel(viewModel.screenLock)
     }
 
     @available(*, unavailable)
@@ -177,7 +177,7 @@ extension RootViewController {
                                  actionTransform: compose(Menu.Action.infoListEffect, Root.Action.menuAction))
             }
         }
-        updateWithAuthViewModel(viewModel.privacy)
+        updateWithScreenLockViewModel(viewModel.screenLock)
 
         currentViewModel = viewModel
     }
@@ -208,7 +208,7 @@ extension RootViewController {
         presentViewControllers([viewControllerA, viewControllerB])
     }
 
-    private func updateWithAuthViewModel(_ viewModel: Auth.ViewModel) {
+    private func updateWithScreenLockViewModel(_ viewModel: ScreenLock.ViewModel) {
         if viewModel.enabled && authController?.presentingViewController == nil {
             if authController == nil {
                 authController = UIViewController()
@@ -241,7 +241,7 @@ extension RootViewController {
 
     @objc
     private func tryToUnlock() {
-        dispatchAction(.authAction(.tryToUnlock))
+        dispatchAction(.screenLockAction(.tryToUnlock))
     }
 }
 

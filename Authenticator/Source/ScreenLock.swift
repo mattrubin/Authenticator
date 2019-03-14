@@ -1,5 +1,5 @@
 //
-//  Auth.swift
+//  ScreenLock.swift
 //  Authenticator
 //
 //  Copyright (c) 2017-2018 Authenticator authors
@@ -23,7 +23,7 @@
 //  SOFTWARE.
 //
 
-struct Auth: Component {
+struct ScreenLock: Component {
     private var state: State
 
     private enum State: Equatable {
