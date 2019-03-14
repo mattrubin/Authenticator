@@ -226,6 +226,7 @@ extension RootViewController {
             guard let controller = authController else {
                 return
             }
+            // FIXME: This fails to present a model over a VC that has not yet been added to the window.
             if let presented = presentedViewController {
                 presented.present(controller, animated: false)
                 return
