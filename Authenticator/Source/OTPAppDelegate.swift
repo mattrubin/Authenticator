@@ -57,7 +57,6 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        app.checkForLocalAuth()
         app.applicationDidBecomeActive()
     }
 

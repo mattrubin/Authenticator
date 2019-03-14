@@ -220,12 +220,6 @@ class AppController {
         return context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
     }
 
-    func checkForLocalAuth() {
-        let canUseLocalAuth = AppController.canUseLocalAuth()
-        let action = Root.Action.authAction(.enableLocalAuth(isEnabled: canUseLocalAuth))
-        handleAction(action)
-    }
-
     func applicationDidBecomeActive() {
         handleEvent(.applicationDidBecomeActive)
     }
