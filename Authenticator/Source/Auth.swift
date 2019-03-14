@@ -24,8 +24,8 @@
 //
 
 struct Auth: Component {
-    var authAvailable: Bool = false
-    private var state: State = .unlocked
+    var authAvailable: Bool
+    private var state: State
 
     private enum State: Equatable {
         case unlocked
@@ -41,6 +41,17 @@ struct Auth: Component {
         }
     }
 
+    init(screenLockEnabled: Bool) {
+        if screenLockEnabled {
+            state = .locked(shouldAuthenticateAutomatically: true)
+        } else {
+            state = .unlocked
+        }
+        // Initially, we will assume that if the screen lock is enabled, LocalAuthentication is available.
+        // TODO: Don't conflate the screen lock feature being enabled with the availability of LocalAuthentication
+        authAvailable = screenLockEnabled
+    }
+
     // MARK: View
 
     struct ViewModel {
@@ -48,6 +59,7 @@ struct Auth: Component {
     }
 
     var viewModel: ViewModel {
+        // TODO: Incorporate auth availability into lock state, so it does not possibly override lock state here.r
         return ViewModel(enabled: authAvailable && state.isLocked)
     }
 

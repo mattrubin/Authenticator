@@ -75,7 +75,8 @@ class AppController {
 
         // If this is a demo, show the scanner even in the simulator.
         let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
-        component = Root(deviceCanScan: deviceCanScan)
+        let isScreenLockEnabled = AppController.canUseLocalAuth()
+        component = Root(deviceCanScan: deviceCanScan, screenLockEnabled: isScreenLockEnabled)
     }
 
     @objc
@@ -214,9 +215,13 @@ class AppController {
         handleAction(.addTokenFromURL(token))
     }
 
-    func checkForLocalAuth() {
+    static func canUseLocalAuth() -> Bool {
         let context = LAContext()
-        let canUseLocalAuth = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
+        return context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
+    }
+
+    func checkForLocalAuth() {
+        let canUseLocalAuth = AppController.canUseLocalAuth()
         let action = Root.Action.authAction(.enableLocalAuth(isEnabled: canUseLocalAuth))
         handleAction(action)
     }

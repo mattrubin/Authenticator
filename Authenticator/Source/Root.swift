@@ -55,10 +55,10 @@ struct Root: Component {
         }
     }
 
-    init(deviceCanScan: Bool) {
+    init(deviceCanScan: Bool, screenLockEnabled: Bool) {
         tokenList = TokenList()
         modal = .none
-        auth = Auth()
+        auth = Auth(screenLockEnabled: screenLockEnabled)
         self.deviceCanScan = deviceCanScan
     }
 }

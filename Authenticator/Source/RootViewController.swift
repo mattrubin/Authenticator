@@ -66,6 +66,8 @@ class RootViewController: OpaqueNavigationController {
 
         super.init(nibName: nil, bundle: nil)
         self.viewControllers = [tokenListViewController]
+
+        updateWithAuthViewModel(viewModel.privacy)
     }
 
     @available(*, unavailable)
@@ -207,10 +209,7 @@ extension RootViewController {
     }
 
     private func updateWithAuthViewModel(_ viewModel: Auth.ViewModel) {
-        if viewModel.enabled == currentViewModel.privacy.enabled {
-            return
-        }
-        if viewModel.enabled {
+        if viewModel.enabled && authController?.presentingViewController == nil {
             if authController == nil {
                 authController = UIViewController()
                 authController?.view.backgroundColor = UIColor.otpBackgroundColor
@@ -233,8 +232,7 @@ extension RootViewController {
             } else {
                 present(controller, animated: false)
             }
-        }
-        if !viewModel.enabled {
+        } else if !viewModel.enabled && authController?.presentingViewController != nil {
             authController?.presentingViewController?.dismiss(animated: true)
             authController = nil
         }
