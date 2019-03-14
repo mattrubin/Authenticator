@@ -87,10 +87,12 @@ struct ScreenLock: Component {
     mutating func update(with event: Event) -> Effect? {
         switch event {
         case .applicationDidBecomeActive:
-            if case .locked(shouldAuthenticateAutomatically: true) = state {
+            switch state {
+            case .locked(shouldAuthenticateAutomatically: true):
                 return .authenticateUser(success: .authenticationSucceeded,
                                          failure: Event.authenticationFailed)
-            } else {
+            case .unlocked,
+                 .locked(shouldAuthenticateAutomatically: false):
                 return nil
             }
 
