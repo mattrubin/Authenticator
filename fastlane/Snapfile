@@ -7,8 +7,8 @@ devices([
   "iPhone SE",
   "iPhone 8",
   "iPhone 8 Plus",
-  "iPhone XS",
-  "iPhone XS Max",
+  "iPhone Xs",
+  "iPhone Xs Max",
 ])
 
 languages([
