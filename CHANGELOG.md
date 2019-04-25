@@ -4,7 +4,7 @@ All notable changes to the project will be documented in this file.
 [Authenticator]: https://github.com/mattrubin/Authenticator
 
 
-## [2.1.1]
+## [2.1.1] - 2019-04-25
 For users on iOS 12.2 and above, the app binary size has been reduced by more than 85%.
 ([#307](https://github.com/mattrubin/Authenticator/pull/307))
 
