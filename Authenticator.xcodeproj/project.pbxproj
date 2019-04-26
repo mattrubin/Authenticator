@@ -132,10 +132,6 @@
 		C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
 		C944A5751A7F772600E08B1E /* iOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Framework.xcconfig"; sourceTree = "<group>"; };
 		C944A5761A7F772600E08B1E /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
-		C944A5781A7F772600E08B1E /* Mac-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Application.xcconfig"; sourceTree = "<group>"; };
-		C944A57A1A7F772600E08B1E /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
-		C944A57B1A7F772600E08B1E /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
-		C944A57C1A7F772600E08B1E /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
 		C94765081C646E5E00C7527E /* Cartfile.private */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile.private; sourceTree = "<group>"; };
 		C959A63C190A69120042DEC0 /* Icon.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Icon.svg; sourceTree = "<group>"; };
 		C959A63E190A69E60042DEC0 /* GenerateIcons.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = GenerateIcons.sh; sourceTree = "<group>"; };
@@ -312,7 +308,6 @@
 			children = (
 				C944A5671A7F772500E08B1E /* Base */,
 				C944A5721A7F772600E08B1E /* iOS */,
-				C944A5771A7F772600E08B1E /* Mac OS X */,
 			);
 			name = Configuration;
 			path = Carthage/Checkouts/xcconfigs;
@@ -337,17 +332,6 @@
 				C944A5761A7F772600E08B1E /* iOS-StaticLibrary.xcconfig */,
 			);
 			path = iOS;
-			sourceTree = "<group>";
-		};
-		C944A5771A7F772600E08B1E /* Mac OS X */ = {
-			isa = PBXGroup;
-			children = (
-				C944A5781A7F772600E08B1E /* Mac-Application.xcconfig */,
-				C944A57A1A7F772600E08B1E /* Mac-DynamicLibrary.xcconfig */,
-				C944A57B1A7F772600E08B1E /* Mac-Framework.xcconfig */,
-				C944A57C1A7F772600E08B1E /* Mac-StaticLibrary.xcconfig */,
-			);
-			path = "Mac OS X";
 			sourceTree = "<group>";
 		};
 		C9776E32185187E8003D53CB /* Docs */ = {
@@ -592,26 +576,27 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = WD7ETSN9J9;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					C9906A2D1812522100BAEF53 = {
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1020;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 					C9A262CC1E170BD4004E6CEB = {
 						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1020;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Authenticator" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
