@@ -4,6 +4,10 @@ All notable changes to the project will be documented in this file.
 [Authenticator]: https://github.com/mattrubin/Authenticator
 
 
+## [2.1.2] - 2019-05-23
+By building the app with Xcode 10.1 instead of Xcode 10.2, this update fixes a crash that could occur when trying to manually enter a token on a 32-bit device (iPhone 5 or earlier).
+
+
 ## [2.1.1] - 2019-04-25
 For users on iOS 12.2 and above, the app binary size has been reduced by more than 85%.
 ([#307](https://github.com/mattrubin/Authenticator/pull/307))
@@ -125,7 +129,8 @@ For security reasons, tokens are stored only on one device, and are not included
 ## [1.0] - 2013-11-25
 
 
-[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.1.1...HEAD
+[Unreleased]: https://github.com/mattrubin/Authenticator/compare/2.1.2...HEAD
+[2.1.2]: https://github.com/mattrubin/Authenticator/compare/2.1.1...2.1.2
 [2.1.1]: https://github.com/mattrubin/Authenticator/compare/2.1.0...2.1.1
 [2.1.0]: https://github.com/mattrubin/Authenticator/compare/2.0.5...2.1.0
 [2.0.5]: https://github.com/mattrubin/Authenticator/compare/2.0.4...2.0.5
