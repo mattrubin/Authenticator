@@ -1,1 +1,1 @@
-For users on iOS 12.2 and above, the app binary size has been reduced by more than 85%.
+This update fixes a crash that could occur when trying to manually enter a token on a 32-bit device (iPhone 5 or earlier).
