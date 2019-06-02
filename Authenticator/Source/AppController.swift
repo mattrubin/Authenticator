@@ -28,6 +28,7 @@ import UIKit
 import SafariServices
 import OneTimePassword
 import SVProgressHUD
+import LocalAuthentication
 
 class AppController {
     private let store: TokenStore
@@ -74,7 +75,8 @@ class AppController {
 
         // If this is a demo, show the scanner even in the simulator.
         let deviceCanScan = QRScanner.deviceCanScan || CommandLine.isDemo
-        component = Root(deviceCanScan: deviceCanScan)
+        let isScreenLockEnabled = AppController.canUseLocalAuth()
+        component = Root(deviceCanScan: deviceCanScan, screenLockEnabled: isScreenLockEnabled)
     }
 
     @objc
@@ -155,6 +157,9 @@ class AppController {
         case let .deletePersistentToken(persistentToken, failure):
             confirmDeletion(of: persistentToken, failure: failure)
 
+        case let .authenticateUser(success, failure):
+            authenticateUser(success: success, failure: failure)
+
         case let .showErrorMessage(message):
             SVProgressHUD.showError(withStatus: message)
             generateHapticFeedback(for: .error)
@@ -208,6 +213,36 @@ class AppController {
 
     func addTokenFromURL(_ token: Token) {
         handleAction(.addTokenFromURL(token))
+    }
+
+    static func canUseLocalAuth() -> Bool {
+        let context = LAContext()
+        return context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
+    }
+
+    func applicationDidBecomeActive() {
+        handleEvent(.applicationDidBecomeActive)
+    }
+
+    func applicationWillResignActive() {
+        handleEvent(.applicationWillResignActive)
+    }
+
+    private func authenticateUser(success successEvent: Root.Event, failure: @escaping (Error) -> Root.Event) {
+        let context = LAContext()
+        let localizedReason = "The Authenticator screen is locked to protect your tokens."
+        context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: localizedReason) { (success, error) in
+            DispatchQueue.main.async { [weak self] in
+                if let error = error {
+                    assert(success == false)
+                    let failureEvent = failure(error)
+                    self?.handleEvent(failureEvent)
+                } else {
+                    assert(success == true)
+                    self?.handleEvent(successEvent)
+                }
+            }
+        }
     }
 
     private func confirmDeletion(of persistentToken: PersistentToken, failure: @escaping (Error) -> Root.Event) {

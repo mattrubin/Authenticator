@@ -30,6 +30,7 @@ struct Root: Component {
     fileprivate var tokenList: TokenList
     fileprivate var modal: Modal
     fileprivate let deviceCanScan: Bool
+    fileprivate var screenLock: ScreenLock
 
     fileprivate enum Modal {
         case none
@@ -54,9 +55,10 @@ struct Root: Component {
         }
     }
 
-    init(deviceCanScan: Bool) {
+    init(deviceCanScan: Bool, screenLockEnabled: Bool) {
         tokenList = TokenList()
         modal = .none
+        screenLock = ScreenLock(screenLockEnabled: screenLockEnabled)
         self.deviceCanScan = deviceCanScan
     }
 }
@@ -74,7 +76,8 @@ extension Root {
         )
         let viewModel = ViewModel(
             tokenList: tokenListViewModel,
-            modal: modal.viewModel(digitGroupSize: digitGroupSize)
+            modal: modal.viewModel(digitGroupSize: digitGroupSize),
+            screenLock: screenLock.viewModel
         )
         return (viewModel: viewModel, nextRefreshTime: nextRefreshTime)
     }
@@ -89,6 +92,7 @@ extension Root {
         case tokenEditFormAction(TokenEditForm.Action)
         case tokenScannerAction(TokenScanner.Action)
         case menuAction(Menu.Action)
+        case screenLockAction(ScreenLock.Action)
 
         case addTokenFromURL(Token)
     }
@@ -102,6 +106,10 @@ extension Root {
         case updateTokenFailed(Error)
         case moveTokenFailed(Error)
         case deleteTokenFailed(Error)
+
+        case applicationDidBecomeActive
+        case applicationWillResignActive
+        case screenLockEvent(ScreenLock.Event)
     }
 
     enum Effect {
@@ -121,6 +129,8 @@ extension Root {
 
         case deletePersistentToken(PersistentToken,
             failure: (Error) -> Event)
+
+        case authenticateUser(success: Event, failure: (Error) -> Event)
 
         case showErrorMessage(String)
         case showSuccessMessage(String)
@@ -166,6 +176,9 @@ extension Root {
                 return .addToken(token,
                                  success: Event.addTokenFromURLSucceeded,
                                  failure: Event.addTokenFailed)
+
+            case .screenLockAction(let action):
+                return try screenLock.update(with: action).flatMap { handleScreenLockEffect($0) }
             }
         } catch {
             throw ComponentError(underlyingError: error, action: action, component: self)
@@ -192,6 +205,24 @@ extension Root {
             return .showErrorMessage("Failed to move token.")
         case .deleteTokenFailed:
             return .showErrorMessage("Failed to delete token.")
+
+        case .applicationDidBecomeActive:
+            let effect = screenLock.update(with: .applicationDidBecomeActive)
+            return effect.flatMap { effect in
+                handleScreenLockEffect(effect)
+            }
+
+        case .applicationWillResignActive:
+            let effect = screenLock.update(with: .applicationWillResignActive)
+            return effect.flatMap { effect in
+                handleScreenLockEffect(effect)
+            }
+
+        case .screenLockEvent(let screenLockEvent):
+            let effect = screenLock.update(with: screenLockEvent)
+            return effect.flatMap { effect in
+                handleScreenLockEffect(effect)
+            }
         }
     }
 
@@ -320,6 +351,14 @@ extension Root {
 
         case let .setDigitGroupSize(digitGroupSize):
             return .setDigitGroupSize(digitGroupSize)
+        }
+    }
+
+    private mutating func handleScreenLockEffect(_ effect: ScreenLock.Effect) -> Effect? {
+        switch effect {
+        case let .authenticateUser(success, failure):
+            return .authenticateUser(success: .screenLockEvent(success),
+                                     failure: { .screenLockEvent(failure($0)) })
         }
     }
 }

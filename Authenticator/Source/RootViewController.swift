@@ -52,6 +52,7 @@ class RootViewController: OpaqueNavigationController {
 
     fileprivate var tokenListViewController: TokenListViewController
     fileprivate var modalNavController: UINavigationController?
+    fileprivate var authController: UIViewController?
 
     fileprivate let dispatchAction: (Root.Action) -> Void
 
@@ -65,6 +66,8 @@ class RootViewController: OpaqueNavigationController {
 
         super.init(nibName: nil, bundle: nil)
         self.viewControllers = [tokenListViewController]
+
+        updateWithScreenLockViewModel(viewModel.screenLock)
     }
 
     @available(*, unavailable)
@@ -174,6 +177,8 @@ extension RootViewController {
                                  actionTransform: compose(Menu.Action.infoListEffect, Root.Action.menuAction))
             }
         }
+        updateWithScreenLockViewModel(viewModel.screenLock)
+
         currentViewModel = viewModel
     }
 
@@ -201,6 +206,42 @@ extension RootViewController {
             dispatchAction: compose(actionTransformB, dispatchAction)
         )
         presentViewControllers([viewControllerA, viewControllerB])
+    }
+
+    private func updateWithScreenLockViewModel(_ viewModel: ScreenLock.ViewModel) {
+        if viewModel.enabled && authController?.presentingViewController == nil {
+            if authController == nil {
+                authController = UIViewController()
+                authController?.view.backgroundColor = UIColor.otpBackgroundColor
+                let button = UIButton(type: .roundedRect)
+                button.setTitleColor(UIColor.otpForegroundColor, for: .normal)
+                button.setTitle("Unlock", for: .normal)
+                button.addTarget(self, action: #selector(tryToUnlock), for: .touchUpInside)
+                button.sizeToFit()
+                authController?.view.addSubview(button)
+                button.center = authController!.view.center
+                authController?.modalPresentationStyle = .overFullScreen
+            }
+
+            guard let controller = authController else {
+                return
+            }
+            // FIXME: This fails to present a model over a VC that has not yet been added to the window.
+            if let presented = presentedViewController {
+                presented.present(controller, animated: false)
+                return
+            } else {
+                present(controller, animated: false)
+            }
+        } else if !viewModel.enabled && authController?.presentingViewController != nil {
+            authController?.presentingViewController?.dismiss(animated: true)
+            authController = nil
+        }
+    }
+
+    @objc
+    private func tryToUnlock() {
+        dispatchAction(.screenLockAction(.tryToUnlock))
     }
 }
 
