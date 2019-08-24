@@ -2,7 +2,7 @@
 //  TokenStore.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2017 Authenticator authors
+//  Copyright (c) 2015-2019 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -37,9 +37,9 @@ protocol TokenStore {
 }
 
 class KeychainTokenStore: TokenStore {
-    fileprivate let keychain: Keychain
+    private let keychain: Keychain
     private let userDefaults: UserDefaults
-    fileprivate(set) var persistentTokens: [PersistentToken]
+    private(set) var persistentTokens: [PersistentToken]
 
     // Throws an error if the initial state could not be loaded from the keychain.
     init(keychain: Keychain, userDefaults: UserDefaults) throws {
@@ -68,7 +68,7 @@ class KeychainTokenStore: TokenStore {
         }
     }
 
-    fileprivate func saveTokenOrder() {
+    private func saveTokenOrder() {
         let persistentIdentifiers = persistentTokens.map { $0.identifier }
         userDefaults.savePersistentIdentifiers(persistentIdentifiers)
     }

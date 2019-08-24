@@ -2,7 +2,7 @@
 //  TokenEntryForm.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2017 Authenticator authors
+//  Copyright (c) 2015-2019 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -31,16 +31,16 @@ private let defaultTimerFactor = Generator.Factor.timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.counter(0)
 
 struct TokenEntryForm: Component {
-    fileprivate var issuer: String = ""
-    fileprivate var name: String = ""
-    fileprivate var secret: String = ""
-    fileprivate var tokenType: TokenType = .timer
-    fileprivate var digitCount: Int = 6
-    fileprivate var algorithm: Generator.Algorithm = .sha1
+    private var issuer: String = ""
+    private var name: String = ""
+    private var secret: String = ""
+    private var tokenType: TokenType = .timer
+    private var digitCount: Int = 6
+    private var algorithm: Generator.Algorithm = .sha1
 
-    fileprivate var showsAdvancedOptions: Bool = false
+    private var showsAdvancedOptions: Bool = false
 
-    fileprivate var isValid: Bool {
+    private var isValid: Bool {
         return !secret.isEmpty && !(issuer.isEmpty && name.isEmpty)
     }
 

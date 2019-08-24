@@ -2,7 +2,7 @@
 //  TextFieldRow.swift
 //  Authenticator
 //
-//  Copyright (c) 2014-2017 Authenticator authors
+//  Copyright (c) 2014-2019 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -45,7 +45,6 @@ protocol TextFieldRowCellDelegate: class {
 private let preferredHeight: CGFloat = 74
 
 class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
-
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
     var dispatchAction: ((Action) -> Void)?

@@ -2,7 +2,7 @@
 //  RootViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2018 Authenticator authors
+//  Copyright (c) 2015-2019 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -48,12 +48,12 @@ class OpaqueNavigationController: UINavigationController {
 }
 
 class RootViewController: OpaqueNavigationController {
-    fileprivate var currentViewModel: Root.ViewModel
+    private var currentViewModel: Root.ViewModel
 
-    fileprivate var tokenListViewController: TokenListViewController
-    fileprivate var modalNavController: UINavigationController?
+    private var tokenListViewController: TokenListViewController
+    private var modalNavController: UINavigationController?
 
-    fileprivate let dispatchAction: (Root.Action) -> Void
+    private let dispatchAction: (Root.Action) -> Void
 
     init(viewModel: Root.ViewModel, dispatchAction: @escaping (Root.Action) -> Void) {
         self.currentViewModel = viewModel
@@ -72,7 +72,7 @@ class RootViewController: OpaqueNavigationController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    fileprivate func presentViewControllers(_ viewControllersToPresent: [UIViewController]) {
+    private func presentViewControllers(_ viewControllersToPresent: [UIViewController]) {
         // If there is currently no modal, create one.
         guard let navController = modalNavController else {
             let navController = OpaqueNavigationController()
@@ -90,7 +90,7 @@ class RootViewController: OpaqueNavigationController {
         navController.setViewControllers(viewControllersToPresent, animated: true)
     }
 
-    fileprivate func dismissViewController() {
+    private func dismissViewController() {
         if modalNavController != nil {
             modalNavController = nil
             dismiss(animated: true)

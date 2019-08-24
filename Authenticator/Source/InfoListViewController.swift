@@ -2,7 +2,7 @@
 //  InfoListViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2017-2018 Authenticator authors
+//  Copyright (c) 2017-2019 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -88,7 +88,7 @@ final class InfoListViewController: UITableViewController {
         return cell
     }
 
-    fileprivate func updateCell(_ cell: InfoListCell, forRowAtIndexPath indexPath: IndexPath) {
+    private func updateCell(_ cell: InfoListCell, forRowAtIndexPath indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
         cell.update(with: rowModel)
     }

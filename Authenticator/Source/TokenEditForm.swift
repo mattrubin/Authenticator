@@ -2,7 +2,7 @@
 //  TokenEditForm.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2017 Authenticator authors
+//  Copyright (c) 2015-2019 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,12 @@
 import OneTimePassword
 
 struct TokenEditForm: Component {
-    fileprivate let persistentToken: PersistentToken
+    private let persistentToken: PersistentToken
 
-    fileprivate var issuer: String
-    fileprivate var name: String
+    private var issuer: String
+    private var name: String
 
-    fileprivate var isValid: Bool {
+    private var isValid: Bool {
         return !(issuer.isEmpty && name.isEmpty)
     }
 

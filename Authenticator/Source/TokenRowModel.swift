@@ -2,7 +2,7 @@
 //  TokenRowModel.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2018 Authenticator authors
+//  Copyright (c) 2015-2019 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ struct TokenRowModel: Equatable, Identifiable {
     let editAction: Action
     let deleteAction: Action
 
-    fileprivate let identifier: Data
+    private let identifier: Data
 
     init(persistentToken: PersistentToken, displayTime: DisplayTime, digitGroupSize: Int, canReorder reorderable: Bool = true) {
         let rawPassword = (try? persistentToken.token.generator.password(at: displayTime.date)) ?? ""

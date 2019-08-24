@@ -2,7 +2,7 @@
 //  SearchField.swift
 //  Authenticator
 //
-//  Copyright (c) 2013-2017 Authenticator authors
+//  Copyright (c) 2013-2019 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,6 @@ import UIKit
 //
 // Displays a ProgressRingView as the `leftView` control.
 class SearchField: UIView {
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupTextField()

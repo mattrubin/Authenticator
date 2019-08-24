@@ -2,7 +2,7 @@
 //  TokenFormViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2018 Authenticator authors
+//  Copyright (c) 2015-2019 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@
 import UIKit
 
 final class TokenFormViewController<Form: TableViewModelRepresentable>: UITableViewController where Form.HeaderModel == TokenFormHeaderModel<Form.Action>, Form.RowModel == TokenFormRowModel<Form.Action> {
-    fileprivate let dispatchAction: (Form.Action) -> Void
-    fileprivate var viewModel: TableViewModel<Form> {
+    private let dispatchAction: (Form.Action) -> Void
+    private var viewModel: TableViewModel<Form> {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
                 // Automatic updates aren't implemented for changing number of sections
@@ -102,7 +102,7 @@ final class TokenFormViewController<Form: TableViewModelRepresentable>: UITableV
         return false
     }
 
-    fileprivate func nextVisibleFocusCell(after currentIndexPath: IndexPath) -> FocusCell? {
+    private func nextVisibleFocusCell(after currentIndexPath: IndexPath) -> FocusCell? {
         if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
             for indexPath in visibleIndexPaths {
                 if currentIndexPath.compare(indexPath) == .orderedAscending {
