@@ -29,7 +29,7 @@ import MobileCoreServices
 import OneTimePassword
 
 struct TokenList: Component {
-    fileprivate var filter: String?
+    private var filter: String?
 
     // MARK: View Model
 

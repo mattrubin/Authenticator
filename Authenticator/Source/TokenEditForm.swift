@@ -26,12 +26,12 @@
 import OneTimePassword
 
 struct TokenEditForm: Component {
-    fileprivate let persistentToken: PersistentToken
+    private let persistentToken: PersistentToken
 
-    fileprivate var issuer: String
-    fileprivate var name: String
+    private var issuer: String
+    private var name: String
 
-    fileprivate var isValid: Bool {
+    private var isValid: Bool {
         return !(issuer.isEmpty && name.isEmpty)
     }
 

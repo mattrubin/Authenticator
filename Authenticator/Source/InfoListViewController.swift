@@ -88,7 +88,7 @@ final class InfoListViewController: UITableViewController {
         return cell
     }
 
-    fileprivate func updateCell(_ cell: InfoListCell, forRowAtIndexPath indexPath: IndexPath) {
+    private func updateCell(_ cell: InfoListCell, forRowAtIndexPath indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
         cell.update(with: rowModel)
     }

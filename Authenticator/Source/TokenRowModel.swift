@@ -37,7 +37,7 @@ struct TokenRowModel: Equatable, Identifiable {
     let editAction: Action
     let deleteAction: Action
 
-    fileprivate let identifier: Data
+    private let identifier: Data
 
     init(persistentToken: PersistentToken, displayTime: DisplayTime, digitGroupSize: Int, canReorder reorderable: Bool = true) {
         let rawPassword = (try? persistentToken.token.generator.password(at: displayTime.date)) ?? ""

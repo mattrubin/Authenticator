@@ -27,10 +27,11 @@ import Foundation
 import OneTimePassword
 
 struct Root: Component {
-    fileprivate var tokenList: TokenList
-    fileprivate var modal: Modal
-    fileprivate let deviceCanScan: Bool
+    private var tokenList: TokenList
+    private var modal: Modal
+    private let deviceCanScan: Bool
 
+    // swiftlint:disable:next strict_fileprivate
     fileprivate enum Modal {
         case none
         case scanner(TokenScanner)

@@ -26,8 +26,8 @@
 import UIKit
 
 final class TokenFormViewController<Form: TableViewModelRepresentable>: UITableViewController where Form.HeaderModel == TokenFormHeaderModel<Form.Action>, Form.RowModel == TokenFormRowModel<Form.Action> {
-    fileprivate let dispatchAction: (Form.Action) -> Void
-    fileprivate var viewModel: TableViewModel<Form> {
+    private let dispatchAction: (Form.Action) -> Void
+    private var viewModel: TableViewModel<Form> {
         didSet {
             guard oldValue.sections.count == viewModel.sections.count else {
                 // Automatic updates aren't implemented for changing number of sections
@@ -102,7 +102,7 @@ final class TokenFormViewController<Form: TableViewModelRepresentable>: UITableV
         return false
     }
 
-    fileprivate func nextVisibleFocusCell(after currentIndexPath: IndexPath) -> FocusCell? {
+    private func nextVisibleFocusCell(after currentIndexPath: IndexPath) -> FocusCell? {
         if let visibleIndexPaths = tableView.indexPathsForVisibleRows {
             for indexPath in visibleIndexPaths {
                 if currentIndexPath.compare(indexPath) == .orderedAscending {

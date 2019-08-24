@@ -26,9 +26,9 @@
 import UIKit
 
 class TokenListViewController: UITableViewController {
-    fileprivate let dispatchAction: (TokenList.Action) -> Void
-    fileprivate var viewModel: TokenList.ViewModel
-    fileprivate var ignoreTableViewUpdates = false
+    private let dispatchAction: (TokenList.Action) -> Void
+    private var viewModel: TokenList.ViewModel
+    private var ignoreTableViewUpdates = false
 
     init(viewModel: TokenList.ViewModel, dispatchAction: @escaping (TokenList.Action) -> Void) {
         self.viewModel = viewModel
@@ -41,14 +41,14 @@ class TokenListViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    fileprivate var searchBar = SearchField(
+    private var searchBar = SearchField(
         frame: CGRect(
             origin: .zero,
             size: CGSize(width: 0, height: 44)
         )
     )
 
-    fileprivate lazy var noTokensLabel: UILabel = {
+    private lazy var noTokensLabel: UILabel = {
         let title = "No Tokens"
         let message = "Tap + to add a new token"
         let titleAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20, weight: .light)]
@@ -67,7 +67,7 @@ class TokenListViewController: UITableViewController {
         return label
     }()
 
-    fileprivate lazy var noTokensButton: UIButton = {
+    private lazy var noTokensButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(addToken), for: .touchUpInside)
 
@@ -81,7 +81,7 @@ class TokenListViewController: UITableViewController {
         return button
     }()
 
-    fileprivate let backupWarningLabel: UILabel = {
+    private let backupWarningLabel: UILabel = {
         let linkTitle = "Learn More →"
         let message = "For security reasons, tokens will be stored only on this \(UIDevice.current.model), and will not be included in iCloud or unencrypted backups.  \(linkTitle)"
         let paragraphStyle = NSMutableParagraphStyle()
@@ -104,7 +104,7 @@ class TokenListViewController: UITableViewController {
         return label
     }()
 
-    fileprivate lazy var backupWarning: UIButton = {
+    private lazy var backupWarning: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(showBackupInfo), for: .touchUpInside)
 
@@ -230,7 +230,7 @@ extension TokenListViewController {
         return cell
     }
 
-    fileprivate func updateCell(_ cell: TokenRowCell, forRowAtIndexPath indexPath: IndexPath) {
+    private func updateCell(_ cell: TokenRowCell, forRowAtIndexPath indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
         cell.update(with: rowModel)
         cell.dispatchAction = dispatchAction
@@ -303,7 +303,7 @@ extension TokenListViewController {
         updatePeripheralViews()
     }
 
-    fileprivate func updatePeripheralViews() {
+    private func updatePeripheralViews() {
         searchBar.update(with: viewModel)
 
         tableView.isScrollEnabled = viewModel.hasTokens
