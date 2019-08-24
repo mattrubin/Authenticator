@@ -8,6 +8,7 @@ excluded:
 opt_in_rules:
   - array_init
   - attributes
+  - closure_body_length
   - closure_end_indentation
   - closure_spacing
   - collection_alignment
@@ -30,6 +31,8 @@ opt_in_rules:
   - implicit_return
   - implicitly_unwrapped_optional
   - joined_default_parameter
+  - last_where
+  - legacy_multiple
   - legacy_random
   - let_var_whitespace
   - literal_expression_end_indentation
@@ -37,6 +40,7 @@ opt_in_rules:
   - modifier_order
   - multiline_function_chains
   - multiline_literal_brackets
+  - nslocalizedstring_key
   - operator_usage_whitespace
   - overridden_super_call
   - override_in_extension
@@ -44,6 +48,7 @@ opt_in_rules:
   - private_action
   - private_outlet
   - prohibited_super_call
+  - reduce_into
   - redundant_nil_coalescing
   - redundant_type_annotation
   - single_test_class
@@ -52,10 +57,12 @@ opt_in_rules:
   - switch_case_on_newline
   - toggle_bool
   - unavailable_function
+  - unowned_variable_capture
   - untyped_error_in_catch
+  - unused_declaration
   - unused_import
-  - unused_private_declaration
   - vertical_parameter_alignment_on_call
+  - xct_specific_matcher
   - yoda_condition
 
 disabled_rules:
