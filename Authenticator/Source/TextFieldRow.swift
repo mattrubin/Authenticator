@@ -45,7 +45,6 @@ protocol TextFieldRowCellDelegate: class {
 private let preferredHeight: CGFloat = 74
 
 class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
-
     let textField = UITextField()
     weak var delegate: TextFieldRowCellDelegate?
     var dispatchAction: ((Action) -> Void)?

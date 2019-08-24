@@ -219,7 +219,6 @@ class TokenListViewController: UITableViewController {
 
 // MARK: UITableViewDataSource
 extension TokenListViewController {
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.rowModels.count
     }
@@ -259,7 +258,6 @@ extension TokenListViewController {
         dispatchAction(.moveToken(fromIndex: source.row, toIndex: destination.row))
         ignoreTableViewUpdates = false
     }
-
 }
 
 // MARK: UITableViewDelegate
@@ -324,5 +322,4 @@ extension TokenListViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return false
     }
-
 }

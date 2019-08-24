@@ -30,7 +30,6 @@ import UIKit
 //
 // Displays a ProgressRingView as the `leftView` control.
 class SearchField: UIView {
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupTextField()
