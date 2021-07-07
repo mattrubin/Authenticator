@@ -29,6 +29,7 @@ import Base32
 
 private let defaultTimerFactor = Generator.Factor.timer(period: 30)
 private let defaultCounterFactor = Generator.Factor.counter(0)
+private let steamguardFactor = Generator.Factor.timer(period: 30)
 
 struct TokenEntryForm: Component {
     private var issuer: String = ""
@@ -91,9 +92,10 @@ extension TokenEntryForm {
                     rows: !showsAdvancedOptions ? [] :
                         [
                             tokenTypeRowModel,
+                        ] + (tokenType == .steamguard ? [] : [
                             digitCountRowModel,
                             algorithmRowModel,
-                        ]
+                        ])
                 ),
             ],
             doneKeyAction: .submit
@@ -190,8 +192,16 @@ extension TokenEntryForm {
             self.name = name
         case let .secret(secret):
             self.secret = secret
+        case .tokenType(.steamguard):
+            self.tokenType = .steamguard
+            // All Steam Guard tokens use the following settings.
+            self.algorithm = .sha1
+            self.digitCount = 5
         case let .tokenType(tokenType):
             self.tokenType = tokenType
+            // The digit count may have been lowered by
+            // switching to Steam Guard, so clamp it.
+            self.digitCount = max(self.digitCount, 6)
         case let .digitCount(digitCount):
             self.digitCount = digitCount
         case let .algorithm(algorithm):
@@ -217,18 +227,25 @@ extension TokenEntryForm {
         }
 
         let factor: Generator.Factor
+        let representation: Generator.Representation
         switch tokenType {
         case .counter:
             factor = defaultCounterFactor
+            representation = .numeric
         case .timer:
             factor = defaultTimerFactor
+            representation = .numeric
+        case .steamguard:
+            factor = steamguardFactor
+            representation = .steamguard
         }
 
         guard let generator = Generator(
             factor: factor,
             secret: secretData,
             algorithm: algorithm,
-            digits: digitCount
+            digits: digitCount,
+            representation: representation
             ) else {
                 // This UI doesn't allow the user to create an invalid period or digit count,
                 // so a generic error message is acceptable here.

@@ -47,7 +47,7 @@ enum TokenFormRowModel<Action>: Identifiable {
 }
 
 enum TokenType {
-    case counter, timer
+    case counter, timer, steamguard
 }
 
 extension TextFieldRowViewModel {
@@ -96,6 +96,7 @@ extension SegmentedControlRowViewModel {
         let options = [
             (title: "Time Based", value: TokenType.timer),
             (title: "Counter Based", value: TokenType.counter),
+            (title: "Steam Guard", value: TokenType.steamguard),
         ]
         self.init(options: options, value: value, changeAction: changeAction)
     }

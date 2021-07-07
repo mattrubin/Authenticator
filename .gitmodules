@@ -1,6 +1,6 @@
 [submodule "Carthage/Checkouts/OneTimePassword"]
 	path = Carthage/Checkouts/OneTimePassword
-	url = https://github.com/mattrubin/OneTimePassword.git
+	url = https://github.com/bmwalters/OneTimePassword.git
 [submodule "Carthage/Checkouts/xcconfigs"]
 	path = Carthage/Checkouts/xcconfigs
 	url = https://github.com/jspahrsummers/xcconfigs.git

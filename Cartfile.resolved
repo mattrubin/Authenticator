@@ -1,5 +1,5 @@
 github "SVProgressHUD/SVProgressHUD" "2.2.5"
+github "bmwalters/OneTimePassword" "d00dd01e81d89d0dafd4770e4d50141733007584"
 github "jspahrsummers/xcconfigs" "1.0"
 github "mattrubin/Base32" "1.1.2+xcode10.2"
-github "mattrubin/OneTimePassword" "3.1.5"
 github "shinydevelopment/SimulatorStatusMagic" "2.4.1"
