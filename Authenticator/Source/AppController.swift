@@ -171,14 +171,9 @@ class AppController {
             UIApplication.shared.open(applicationSettingsURL)
 
         case let .openURL(url):
-            if #available(iOS 9.0, *) {
-                let safariViewController = SFSafariViewController(url: url)
-                let presenter = topViewController(presentedFrom: rootViewController)
-                presenter.present(safariViewController, animated: true)
-            } else {
-                // Fallback on earlier versions
-                UIApplication.shared.openURL(url)
-            }
+            let safariViewController = SFSafariViewController(url: url)
+            let presenter = topViewController(presentedFrom: rootViewController)
+            presenter.present(safariViewController, animated: true)
 
         case let .setDigitGroupSize(digitGroupSize):
             settings.digitGroupSize = digitGroupSize
@@ -194,10 +189,8 @@ class AppController {
     }
 
     private func generateHapticFeedback(for notificationFeedbackType: UINotificationFeedbackType) {
-        if #available(iOS 10.0, *) {
-            let feedbackGenerator = UINotificationFeedbackGenerator()
-            feedbackGenerator.notificationOccurred(notificationFeedbackType)
-        }
+        let feedbackGenerator = UINotificationFeedbackGenerator()
+        feedbackGenerator.notificationOccurred(notificationFeedbackType)
     }
 
     // MARK: - Public
