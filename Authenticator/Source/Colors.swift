@@ -49,3 +49,8 @@ extension UIColor {
     class var otpBackgroundColor: UIColor { return OTP.darkColor }
     class var otpForegroundColor: UIColor { return OTP.lightColor }
 }
+
+extension UIFont {
+    static let otpBarTitleFont = UIFont.systemFont(ofSize: 20, weight: .light)
+    static let otpBarButtonFont = UIFont.systemFont(ofSize: 17, weight: .light)
+}

@@ -25,6 +25,16 @@
 
 import UIKit
 
+private let otpTitleTextAttributes: [NSAttributedString.Key: Any] = [
+    .foregroundColor: UIColor.otpBarForegroundColor,
+    .font: UIFont.otpBarTitleFont,
+]
+
+let otpBarButtonTextAttributes: [NSAttributedString.Key: Any] = [
+    .foregroundColor: UIColor.otpBarForegroundColor,
+    .font: UIFont.otpBarButtonFont,
+]
+
 extension UINavigationBarAppearance {
     static let appDefault: UINavigationBarAppearance = {
         let appearance = UINavigationBarAppearance()
@@ -32,16 +42,12 @@ extension UINavigationBarAppearance {
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .otpBarBackgroundColor
 
-        let textAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.otpBarForegroundColor,
-            .font: UIFont.systemFont(ofSize: 20, weight: .light),
-        ]
-        appearance.titleTextAttributes = textAttributes
-        appearance.largeTitleTextAttributes = textAttributes
+        appearance.titleTextAttributes = otpTitleTextAttributes
+        appearance.largeTitleTextAttributes = otpTitleTextAttributes
 
-        appearance.buttonAppearance.normal.titleTextAttributes = textAttributes
-        appearance.backButtonAppearance.normal.titleTextAttributes = textAttributes
-        appearance.doneButtonAppearance.normal.titleTextAttributes = textAttributes
+        appearance.buttonAppearance.normal.titleTextAttributes = otpBarButtonTextAttributes
+        appearance.backButtonAppearance.normal.titleTextAttributes = otpBarButtonTextAttributes
+        appearance.doneButtonAppearance.normal.titleTextAttributes = otpBarButtonTextAttributes
 
         return appearance
     }()
@@ -54,11 +60,7 @@ extension UIToolbarAppearance {
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .otpBarBackgroundColor
 
-        let textAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.otpBarForegroundColor,
-            .font: UIFont.systemFont(ofSize: 20, weight: .light),
-        ]
-        appearance.buttonAppearance.normal.titleTextAttributes = textAttributes
+        appearance.buttonAppearance.normal.titleTextAttributes = otpBarButtonTextAttributes
 
         return appearance
     }()
@@ -94,10 +96,7 @@ class OpaqueNavigationController: UINavigationController {
         navigationBar.isTranslucent = false
         navigationBar.barTintColor = UIColor.otpBarBackgroundColor
         navigationBar.tintColor = UIColor.otpBarForegroundColor
-        navigationBar.titleTextAttributes = [
-            .foregroundColor: UIColor.otpBarForegroundColor,
-            .font: UIFont.systemFont(ofSize: 20, weight: .light),
-        ]
+        navigationBar.titleTextAttributes = otpTitleTextAttributes
         navigationBar.applyAppStyle()
 
         toolbar.isTranslucent = false
