@@ -4,7 +4,7 @@ workspace "Authenticator.xcworkspace"
 scheme "Authenticator Demo"
 
 devices([
-  "iPhone SE",
+  "iPhone SE (1st generation)",
   "iPhone 8",
   "iPhone 8 Plus",
   "iPhone Xs",

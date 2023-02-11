@@ -29,6 +29,7 @@ import SimulatorStatusMagiciOS
 class AuthenticatorScreenshots: XCTestCase {
     override class func setUp() {
         super.setUp()
+        SDStatusBarManager.sharedInstance().batteryDetailEnabled = false
         SDStatusBarManager.sharedInstance().enableOverrides()
     }
 
