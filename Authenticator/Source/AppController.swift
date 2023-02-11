@@ -168,7 +168,7 @@ class AppController {
                 handleEffect(.showErrorMessage("Failed to open application settings."))
                 return
             }
-            UIApplication.shared.openURL(applicationSettingsURL)
+            UIApplication.shared.open(applicationSettingsURL)
 
         case let .openURL(url):
             if #available(iOS 9.0, *) {
