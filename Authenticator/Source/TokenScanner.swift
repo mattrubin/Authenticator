@@ -77,7 +77,7 @@ struct TokenScanner: Component {
         case .scannerDecodedText(let text):
             // Attempt to create a token from the decoded text
             guard let url = URL(string: text),
-                let token = Token(url: url) else {
+                let token = try? Token(url: url) else {
                     // Show an error message
                     return .showErrorMessage("Invalid Token")
             }

@@ -158,10 +158,11 @@ func mockPersistentTokens(_ list: [(String, String)]) -> [PersistentToken] {
 
 func mockToken(name: String, issuer: String, secret: String = "mocksecret") -> Token {
     // swiftlint:disable force_unwrapping
-    let generator = Generator(factor: .timer(period: 60),
-                              secret: secret.data(using: String.Encoding.utf8)!,
-                              algorithm: .sha256,
-                              digits: 6)!
+    // swiftlint:disable:next force_try
+    let generator = try! Generator(factor: .timer(period: 60),
+                                   secret: secret.data(using: String.Encoding.utf8)!,
+                                   algorithm: .sha256,
+                                   digits: 6)
     // swiftlint:enable force_unwrapping
     return Token(name: name, issuer: issuer, generator: generator)
 }

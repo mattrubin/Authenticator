@@ -62,7 +62,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
-        if let token = Token(url: url) {
+        if let token = try? Token(url: url) {
             let message = "Do you want to add a token for “\(token.name)”?"
 
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .alert)

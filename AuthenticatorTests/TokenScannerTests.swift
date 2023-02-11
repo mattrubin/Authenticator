@@ -103,7 +103,7 @@ class TokenScannerTests: XCTestCase {
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
     }
 
-    func testScannerDecodedGoodURL() {
+    func testScannerDecodedGoodURL() throws {
         var tokenScanner = TokenScanner()
         XCTAssertTrue(tokenScanner.viewModel.isScanning)
 
@@ -116,7 +116,7 @@ class TokenScannerTests: XCTestCase {
                 return
         }
         // swiftlint:disable:next force_unwrapping
-        let expectedToken = Token(url: URL(string: urlString)!)
+        let expectedToken = try Token(url: URL(string: urlString)!)
         XCTAssertEqual(token, expectedToken)
 
         // The scanner should stop after the first successful token capture.

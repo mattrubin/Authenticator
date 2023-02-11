@@ -785,7 +785,7 @@
 					"$(BUILT_PRODUCTS_DIR)",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -800,7 +800,7 @@
 					"$(BUILT_PRODUCTS_DIR)",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

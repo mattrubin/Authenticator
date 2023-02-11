@@ -88,8 +88,8 @@ struct DemoTokenStore: TokenStore {
 
 private extension Token {
     init(name: String = "", issuer: String = "", factor: Generator.Factor) {
-        // swiftlint:disable:next force_unwrapping
-        let generator = Generator(factor: factor, secret: Data(), algorithm: .sha1, digits: 6)!
+        // swiftlint:disable:next force_try
+        let generator = try! Generator(factor: factor, secret: Data(), algorithm: .sha1, digits: 6)
         self.init(name: name, issuer: issuer, generator: generator)
     }
 }

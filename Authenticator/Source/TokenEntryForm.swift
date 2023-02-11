@@ -224,7 +224,7 @@ extension TokenEntryForm {
             factor = defaultTimerFactor
         }
 
-        guard let generator = Generator(
+        guard let generator = try? Generator(
             factor: factor,
             secret: secretData,
             algorithm: algorithm,
