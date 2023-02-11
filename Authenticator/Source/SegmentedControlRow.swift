@@ -64,6 +64,9 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
         contentView.addSubview(segmentedControl)
         let action = #selector(SegmentedControlRowCell.segmentedControlValueChanged)
         segmentedControl.addTarget(self, action: action, for: .valueChanged)
+
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.otpForegroundColor], for: .normal)
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.otpBackgroundColor], for: .selected)
     }
 
     override func layoutSubviews() {

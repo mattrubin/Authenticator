@@ -174,8 +174,14 @@ class DigitGroupingRowCell<Action>: UITableViewCell {
         accessibilityHint = "The digits of a password can be shown in different sized groups."
 
         let font = UIFont.systemFont(ofSize: 40, weight: .light)
-        let fontAttributes = [NSAttributedString.Key.font: font]
-        segmentedControl.setTitleTextAttributes(fontAttributes, for: .normal)
+        segmentedControl.setTitleTextAttributes([
+            .foregroundColor: UIColor.otpForegroundColor,
+            .font: font,
+        ], for: .normal)
+        segmentedControl.setTitleTextAttributes([
+            .foregroundColor: UIColor.otpBackgroundColor,
+            .font: font,
+        ], for: .selected)
         segmentedControl.setContentPositionAdjustment(UIOffset(horizontal: 0, vertical: -3),
                                                       forSegmentType: .any,
                                                       barMetrics: .default)
