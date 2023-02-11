@@ -198,7 +198,7 @@ extension TokenFormViewController {
     // MARK: Bar Button View Model
 
     private func barButtonItem(for viewModel: BarButtonViewModel<Form.Action>, target: AnyObject?, action: Selector) -> UIBarButtonItem {
-        func systemItem(for style: BarButtonStyle) -> UIBarButtonSystemItem {
+        func systemItem(for style: BarButtonStyle) -> UIBarButtonItem.SystemItem {
             switch style {
             case .done:
                 return .done

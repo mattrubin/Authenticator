@@ -48,21 +48,21 @@ class MockTableView: UITableView {
         changes.append(.endUpdates)
     }
 
-    override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func insertRows(at indexPaths: [IndexPath], with animation: RowAnimation) {
         super.insertRows(at: indexPaths, with: animation)
         for indexPath in indexPaths {
             changes.append(.insert(indexPath: indexPath))
         }
     }
 
-    override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func deleteRows(at indexPaths: [IndexPath], with animation: RowAnimation) {
         super.deleteRows(at: indexPaths, with: animation)
         for indexPath in indexPaths {
             changes.append(.remove(indexPath: indexPath))
         }
     }
 
-    override func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func reloadRows(at indexPaths: [IndexPath], with animation: RowAnimation) {
         super.reloadRows(at: indexPaths, with: animation)
         for indexPath in indexPaths {
             changes.append(.reload(indexPath: indexPath))
@@ -74,7 +74,7 @@ class MockTableView: UITableView {
         changes.append(.move(fromIndexPath: indexPath, toIndexPath: newIndexPath))
     }
 
-    override func scrollToRow(at indexPath: IndexPath, at scrollPosition: UITableViewScrollPosition, animated: Bool) {
+    override func scrollToRow(at indexPath: IndexPath, at scrollPosition: ScrollPosition, animated: Bool) {
         super.scrollToRow(at: indexPath, at: scrollPosition, animated: animated)
         changes.append(.scroll(indexPath: indexPath))
     }

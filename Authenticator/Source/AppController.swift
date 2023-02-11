@@ -94,7 +94,7 @@ class AppController {
                           userInfo: nil,
                           repeats: false)
         // Add the new timer to the main run loop
-        RunLoop.main.add(timer, forMode: .commonModes)
+        RunLoop.main.add(timer, forMode: .common)
         refreshTimer = timer
     }
 
@@ -164,7 +164,7 @@ class AppController {
             generateHapticFeedback(for: .success)
 
         case .showApplicationSettings:
-            guard let applicationSettingsURL = URL(string: UIApplicationOpenSettingsURLString) else {
+            guard let applicationSettingsURL = URL(string: UIApplication.openSettingsURLString) else {
                 handleEffect(.showErrorMessage("Failed to open application settings."))
                 return
             }
@@ -188,7 +188,7 @@ class AppController {
         return topViewController(presentedFrom: presentedViewController)
     }
 
-    private func generateHapticFeedback(for notificationFeedbackType: UINotificationFeedbackType) {
+    private func generateHapticFeedback(for notificationFeedbackType: UINotificationFeedbackGenerator.FeedbackType) {
         let feedbackGenerator = UINotificationFeedbackGenerator()
         feedbackGenerator.notificationOccurred(notificationFeedbackType)
     }

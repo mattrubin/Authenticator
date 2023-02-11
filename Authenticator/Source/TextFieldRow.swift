@@ -38,7 +38,7 @@ struct TextFieldRowViewModel<Action> {
     let changeAction: (String) -> Action
 }
 
-protocol TextFieldRowCellDelegate: class {
+protocol TextFieldRowCellDelegate: AnyObject {
     func textFieldCellDidReturn<Action>(_ textFieldCell: TextFieldRowCell<Action>)
 }
 
@@ -57,7 +57,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
         configureSubviews()
     }
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureSubviews()
     }

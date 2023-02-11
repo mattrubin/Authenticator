@@ -51,8 +51,8 @@ class KeychainTokenStore: TokenStore {
         let sortedIdentifiers = userDefaults.persistentIdentifiers()
 
         persistentTokens = persistentTokenSet.sorted(by: {
-            let indexOfA = sortedIdentifiers.index(of: $0.identifier)
-            let indexOfB = sortedIdentifiers.index(of: $1.identifier)
+            let indexOfA = sortedIdentifiers.firstIndex(of: $0.identifier)
+            let indexOfB = sortedIdentifiers.firstIndex(of: $1.identifier)
 
             switch (indexOfA, indexOfB) {
             case let (.some(iA), .some(iB)) where iA < iB:
@@ -108,7 +108,7 @@ extension KeychainTokenStore {
 
     func deletePersistentToken(_ persistentToken: PersistentToken) throws {
         try keychain.delete(persistentToken)
-        if let index = persistentTokens.index(of: persistentToken) {
+        if let index = persistentTokens.firstIndex(of: persistentToken) {
             persistentTokens.remove(at: index)
         }
         saveTokenOrder()

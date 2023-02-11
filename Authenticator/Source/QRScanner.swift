@@ -25,7 +25,7 @@
 
 import AVFoundation
 
-protocol QRScannerDelegate: class {
+protocol QRScannerDelegate: AnyObject {
     func handleDecodedText(_ text: String)
 }
 

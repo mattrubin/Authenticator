@@ -50,7 +50,7 @@ final class DisplayOptionsViewController: UITableViewController {
         view.backgroundColor = .otpBackgroundColor
         view.tintColor = .otpForegroundColor
         tableView.separatorStyle = .none
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44.0
 
         // Set up top bar
@@ -138,7 +138,7 @@ struct DigitGroupingRowViewModel<Action> {
         segments = options.map({ option in
             (title: option.title, accessibilityLabel: option.accessibilityLabel, accessibilityHint: option.accessibilityHint, action: changeAction(option.value))
         })
-        selectedSegmentIndex = options.map({ $0.value }).index(of: value)
+        selectedSegmentIndex = options.map({ $0.value }).firstIndex(of: value)
     }
 }
 // swiftlint:enable large_tuple
@@ -153,7 +153,7 @@ class DigitGroupingRowCell<Action>: UITableViewCell {
 
     // MARK: Initialization
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureCell()
     }
@@ -174,7 +174,7 @@ class DigitGroupingRowCell<Action>: UITableViewCell {
         accessibilityHint = "The digits of a password can be shown in different sized groups."
 
         let font = UIFont.systemFont(ofSize: 40, weight: .light)
-        let fontAttributes = [NSAttributedStringKey.font: font]
+        let fontAttributes = [NSAttributedString.Key.font: font]
         segmentedControl.setTitleTextAttributes(fontAttributes, for: .normal)
         segmentedControl.setContentPositionAdjustment(UIOffset(horizontal: 0, vertical: -3),
                                                       forSegmentType: .any,
@@ -230,7 +230,7 @@ class DigitGroupingRowCell<Action>: UITableViewCell {
         // Store the action associated with each segment
         actions = viewModel.segments.map({ $0.action })
         // Select the initial segment
-        segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControlNoSegment
+        segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControl.noSegment
     }
 
     // MARK: - Target Action

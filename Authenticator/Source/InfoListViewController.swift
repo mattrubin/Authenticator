@@ -59,7 +59,7 @@ final class InfoListViewController: UITableViewController {
         tableView.backgroundColor = UIColor.otpBackgroundColor
         tableView.separatorStyle = .none
         tableView.indicatorStyle = .white
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 44.0
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
@@ -117,7 +117,7 @@ class InfoListCell: UITableViewCell {
 
     // MARK: Initialization
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         configureCell()
     }

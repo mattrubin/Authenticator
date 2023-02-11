@@ -51,9 +51,9 @@ class TokenListViewController: UITableViewController {
     private lazy var noTokensLabel: UILabel = {
         let title = "No Tokens"
         let message = "Tap + to add a new token"
-        let titleAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20, weight: .light)]
-        let messageAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17, weight: .light)]
-        let plusAttributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 25, weight: .light)]
+        let titleAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .light)]
+        let messageAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .light)]
+        let plusAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25, weight: .light)]
 
         let noTokenString = NSMutableAttributedString(string: title + "\n", attributes: titleAttributes)
         noTokenString.append(NSAttributedString(string: message, attributes: messageAttributes))
@@ -235,7 +235,7 @@ extension TokenListViewController {
         cell.dispatchAction = dispatchAction
     }
 
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         if tableView.isEditing {
             return .delete
         }
@@ -243,7 +243,7 @@ extension TokenListViewController {
         return .none
     }
 
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let rowModel = viewModel.rowModels[indexPath.row]
         switch editingStyle {
         case .delete:

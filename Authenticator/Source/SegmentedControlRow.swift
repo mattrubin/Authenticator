@@ -33,7 +33,7 @@ struct SegmentedControlRowViewModel<Action> {
         segments = options.map({ option in
             (title: option.title, action: changeAction(option.value))
         })
-        selectedSegmentIndex = options.map({ $0.value }).index(of: value)
+        selectedSegmentIndex = options.map({ $0.value }).firstIndex(of: value)
     }
 }
 
@@ -53,7 +53,7 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
         configureSubviews()
     }
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureSubviews()
     }
@@ -87,7 +87,7 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
         // Store the action associated with each segment
         actions = viewModel.segments.map({ $0.action })
         // Select the initial segment
-        segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControlNoSegment
+        segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControl.noSegment
     }
 
     static func heightForRow(with viewModel: SegmentedControlRowViewModel<Action>) -> CGFloat {

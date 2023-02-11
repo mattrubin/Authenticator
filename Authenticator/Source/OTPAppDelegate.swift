@@ -33,13 +33,13 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
     let app = AppController()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let barButtonItemFont = UIFont.systemFont(ofSize: 17, weight: .light)
-        let fontAttributes = [NSAttributedStringKey.font: barButtonItemFont]
+        let fontAttributes = [NSAttributedString.Key.font: barButtonItemFont]
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .highlighted)
 
-        let disabledAttributes: [NSAttributedStringKey: Any] = [
+        let disabledAttributes: [NSAttributedString.Key: Any] = [
             .font: barButtonItemFont,
             .foregroundColor: UIColor.otpBarForegroundColor.withAlphaComponent(0.3),
         ]
@@ -61,7 +61,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         app.updateView()
     }
 
-    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         if let token = try? Token(url: url) {
             let message = "Do you want to add a token for “\(token.name)”?"
 
