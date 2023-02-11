@@ -231,16 +231,16 @@ extension TokenFormViewController {
 
     func cell(for rowModel: Form.RowModel, in tableView: UITableView) -> UITableViewCell {
         switch rowModel {
-        case let .textFieldRow(row):
+        case let .textFieldRow(_, rowViewModel):
             let cell = tableView.dequeueReusableCell(withClass: TextFieldRowCell<Form.Action>.self)
-            cell.update(with: row.viewModel)
+            cell.update(with: rowViewModel)
             cell.dispatchAction = dispatchAction
             cell.delegate = self
             return cell
 
-        case let .segmentedControlRow(row):
+        case let .segmentedControlRow(_, rowViewModel):
             let cell = tableView.dequeueReusableCell(withClass: SegmentedControlRowCell<Form.Action>.self)
-            cell.update(with: row.viewModel)
+            cell.update(with: rowViewModel)
             cell.dispatchAction = dispatchAction
             return cell
         }
@@ -260,15 +260,15 @@ extension TokenFormViewController {
         }
 
         switch rowModel {
-        case let .textFieldRow(row):
+        case let .textFieldRow(_, rowViewModel):
             if let cell = cell as? TextFieldRowCell<Form.Action> {
-                cell.update(with: row.viewModel)
+                cell.update(with: rowViewModel)
             } else {
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }
-        case let .segmentedControlRow(row):
+        case let .segmentedControlRow(_, rowViewModel):
             if let cell = cell as? SegmentedControlRowCell<Form.Action> {
-                cell.update(with: row.viewModel)
+                cell.update(with: rowViewModel)
             } else {
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }
@@ -277,10 +277,10 @@ extension TokenFormViewController {
 
     func heightForRow(with rowModel: Form.RowModel) -> CGFloat {
         switch rowModel {
-        case let .textFieldRow(row):
-            return TextFieldRowCell<Form.Action>.heightForRow(with: row.viewModel)
-        case let .segmentedControlRow(row):
-            return SegmentedControlRowCell<Form.Action>.heightForRow(with: row.viewModel)
+        case let .textFieldRow(_, rowViewModel):
+            return TextFieldRowCell<Form.Action>.heightForRow(with: rowViewModel)
+        case let .segmentedControlRow(_, rowViewModel):
+            return SegmentedControlRowCell<Form.Action>.heightForRow(with: rowViewModel)
         }
     }
 
@@ -288,15 +288,15 @@ extension TokenFormViewController {
 
     func viewForHeader(with headerModel: Form.HeaderModel) -> UIView {
         switch headerModel {
-        case let .buttonHeader(header):
-            return ButtonHeaderView(viewModel: header.viewModel, dispatchAction: dispatchAction)
+        case let .buttonHeader(_, headerViewModel):
+            return ButtonHeaderView(viewModel: headerViewModel, dispatchAction: dispatchAction)
         }
     }
 
     func heightForHeader(with headerModel: Form.HeaderModel) -> CGFloat {
         switch headerModel {
-        case let .buttonHeader(header):
-            return ButtonHeaderView.heightForHeader(with: header.viewModel)
+        case let .buttonHeader(_, headerViewModel):
+            return ButtonHeaderView.heightForHeader(with: headerViewModel)
         }
     }
 }

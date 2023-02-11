@@ -36,10 +36,10 @@ enum TokenFormRowModel<Action>: Identifiable {
 
     func hasSameIdentity(as other: TokenFormRowModel) -> Bool {
         switch (self, other) {
-        case let (.textFieldRow(rowA), .textFieldRow(rowB)):
-            return rowA.identity == rowB.identity
-        case let (.segmentedControlRow(rowA), .segmentedControlRow(rowB)):
-            return rowA.identity == rowB.identity
+        case let (.textFieldRow(identityA, _), .textFieldRow(identityB, _)):
+            return identityA == identityB
+        case let (.segmentedControlRow(identityA, _), .segmentedControlRow(identityB, _)):
+            return identityA == identityB
         default:
             return false
         }
