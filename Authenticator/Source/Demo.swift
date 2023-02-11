@@ -29,13 +29,21 @@ import UIKit
 
 extension CommandLine {
     static var isDemo: Bool {
+#if DEBUG
         return arguments.contains("--demo")
             || UserDefaults.standard.bool(forKey: "FASTLANE_SNAPSHOT")
+#else
+        return false
+#endif
     }
 }
 
 struct DemoTokenStore: TokenStore {
+#if DEBUG
     let persistentTokens = demoTokens.map(PersistentToken.init(demoToken:))
+#else
+    let persistentTokens: [PersistentToken] = []
+#endif
 
     private static let demoTokens = [
         Token(
@@ -94,13 +102,19 @@ private extension Token {
     }
 }
 
+#if DEBUG
+@testable import OneTimePassword
+
 private extension PersistentToken {
     init(demoToken: Token) {
-        token = demoToken
         // swiftlint:disable:next force_unwrapping
-        identifier = UUID().uuidString.data(using: String.Encoding.utf8)!
+        let identifier = UUID().uuidString.data(using: String.Encoding.utf8)!
+
+        self.init(token: demoToken, identifier: identifier)
     }
 }
+
+#endif
 
 extension TokenEntryForm {
     static let demoForm: TokenEntryForm = {
