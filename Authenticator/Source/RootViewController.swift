@@ -25,10 +25,72 @@
 
 import UIKit
 
+extension UINavigationBarAppearance {
+    static let appDefault: UINavigationBarAppearance = {
+        let appearance = UINavigationBarAppearance()
+
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .otpBarBackgroundColor
+
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.otpBarForegroundColor,
+            .font: UIFont.systemFont(ofSize: 20, weight: .light),
+        ]
+        appearance.titleTextAttributes = textAttributes
+        appearance.largeTitleTextAttributes = textAttributes
+
+        appearance.buttonAppearance.normal.titleTextAttributes = textAttributes
+        appearance.backButtonAppearance.normal.titleTextAttributes = textAttributes
+        appearance.doneButtonAppearance.normal.titleTextAttributes = textAttributes
+
+        return appearance
+    }()
+}
+
+extension UIToolbarAppearance {
+    static let appDefault: UIToolbarAppearance = {
+        let appearance = UIToolbarAppearance()
+
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .otpBarBackgroundColor
+
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.otpBarForegroundColor,
+            .font: UIFont.systemFont(ofSize: 20, weight: .light),
+        ]
+        appearance.buttonAppearance.normal.titleTextAttributes = textAttributes
+
+        return appearance
+    }()
+}
+
+extension UINavigationBar {
+    func applyAppStyle() {
+        standardAppearance = .appDefault
+        compactAppearance = .appDefault
+        scrollEdgeAppearance = .appDefault
+        if #available(iOS 15, *) {
+            compactScrollEdgeAppearance = .appDefault
+        }
+    }
+}
+
+extension UIToolbar {
+    func applyAppStyle() {
+        standardAppearance = .appDefault
+        compactAppearance = .appDefault
+        if #available(iOS 15, *) {
+            scrollEdgeAppearance = .appDefault
+            compactScrollEdgeAppearance = .appDefault
+        }
+    }
+}
+
 class OpaqueNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationBar.barStyle = .black
         navigationBar.isTranslucent = false
         navigationBar.barTintColor = UIColor.otpBarBackgroundColor
         navigationBar.tintColor = UIColor.otpBarForegroundColor
@@ -36,10 +98,12 @@ class OpaqueNavigationController: UINavigationController {
             .foregroundColor: UIColor.otpBarForegroundColor,
             .font: UIFont.systemFont(ofSize: 20, weight: .light),
         ]
+        navigationBar.applyAppStyle()
 
         toolbar.isTranslucent = false
         toolbar.barTintColor = UIColor.otpBarBackgroundColor
         toolbar.tintColor = UIColor.otpBarForegroundColor
+        toolbar.applyAppStyle()
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -76,6 +140,7 @@ class RootViewController: OpaqueNavigationController {
         // If there is currently no modal, create one.
         guard let navController = modalNavController else {
             let navController = OpaqueNavigationController()
+            navController.modalPresentationStyle = .fullScreen
             navController.delegate = self
             navController.setViewControllers(viewControllersToPresent, animated: false)
             present(navController, animated: true)
