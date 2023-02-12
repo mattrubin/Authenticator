@@ -10,7 +10,6 @@ analyzer_rules:
   - unused_import
 
 disabled_rules:
-  - discouraged_direct_init
   - for_where
   - identifier_name
   - line_length
