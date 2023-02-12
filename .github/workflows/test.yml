@@ -48,7 +48,7 @@ jobs:
           xcodebuild test -workspace "Authenticator.xcworkspace" -scheme "Authenticator" -destination "id=${{ steps.prepare-simulator.outputs.destination-id }}" | xcpretty -c
       - uses: sersoft-gmbh/swift-coverage-action@v3
         with:
-          target-name-filter: ^OneTimePassword$
+          target-name-filter: ^Authenticator$
       - uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
