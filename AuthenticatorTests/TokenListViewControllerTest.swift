@@ -114,9 +114,7 @@ class TokenListViewControllerTest: XCTestCase {
                                                  at: displayTime,
                                                  digitGroupSize: defaultDigitGroupSize)
         let controller = TokenListViewController(viewModel: viewModel, dispatchAction: { _ in })
-
-        // Ensure the view is large enough to show its contents
-        controller.view.bounds = CGRect(origin: .zero, size: CGSize(width: 1000, height: 1000))
+        addToTestViewHierarchy(controller)
 
         // Check that the table view contains the expected cells.
         XCTAssertEqual(controller.tableView.numberOfSections, 1)

@@ -30,6 +30,8 @@ class UITableViewUpdateTests: XCTestCase {
     func testInsert() {
         // Set up a table view and empty data source.
         let tableView = MockTableView()
+        addToTestViewHierarchy(tableView)
+
         let dataSource = MockTableViewDataSource()
         tableView.dataSource = dataSource
 
@@ -65,6 +67,8 @@ class UITableViewUpdateTests: XCTestCase {
     func testDelete() {
         // Set up a table view and empty data source.
         let tableView = MockTableView()
+        addToTestViewHierarchy(tableView)
+
         let dataSource = MockTableViewDataSource()
         dataSource.titles = [["B"]]
         tableView.dataSource = dataSource
@@ -101,6 +105,8 @@ class UITableViewUpdateTests: XCTestCase {
     func testUpdate() {
         // Set up a table view and empty data source.
         let tableView = MockTableView()
+        addToTestViewHierarchy(tableView)
+
         let dataSource = MockTableViewDataSource()
         dataSource.titles = [["X"]]
         tableView.dataSource = dataSource
@@ -135,6 +141,8 @@ class UITableViewUpdateTests: XCTestCase {
     func testManyChanges() {
         // Set up a table view and empty data source.
         let tableView = MockTableView()
+        addToTestViewHierarchy(tableView)
+
         // Make the table view big to ensure it allocates all the cells.
         tableView.frame = CGRect(origin: .zero, size: CGSize(width: 999, height: 999))
         let dataSource = MockTableViewDataSource()
@@ -187,6 +195,8 @@ class UITableViewUpdateTests: XCTestCase {
     func testScrollToLastInsert() {
         // Set up a table view and empty data source.
         let tableView = MockTableView()
+        addToTestViewHierarchy(tableView)
+
         // Make the table view big to ensure it allocates all the cells.
         tableView.frame = CGRect(origin: .zero, size: CGSize(width: 999, height: 999))
         let dataSource = MockTableViewDataSource()
