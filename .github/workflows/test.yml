@@ -1,0 +1,45 @@
+name: Build & Test
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  ios:
+    name: "Build & Test (Xcode ${{ matrix.env.xcode }}, ${{ matrix.env.runtime }}, ${{ matrix.env.device }})"
+    runs-on: macOS-12
+    strategy:
+      matrix:
+        env:
+          - xcode: 14.2
+            runtime: "iOS 16.2"
+            device: "iPhone 14 Pro"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: "Select Xcode ${{ matrix.env.xcode }}"
+        uses: ./.github/actions/xcode-select
+        with:
+          version: ${{ matrix.env.xcode }}
+      - name: "Cache downloaded simulator runtimes"
+        uses: actions/cache@v3
+        with:
+          path: ~/Library/Caches/XcodeInstall/*.dmg
+          key: Xcode ${{ matrix.env.xcode }}+${{ matrix.env.runtime }}
+      - name: "Prepare simulator"
+        id: prepare-simulator
+        uses: ./.github/actions/prepare-simulator
+        with:
+          runtime: ${{ matrix.env.runtime }}
+          device: ${{ matrix.env.device }}
+      - name: "Build and test"
+        run: |
+          set -o pipefail
+          xcodebuild test -workspace "Authenticator.xcworkspace" -scheme "Authenticator" -destination "id=${{ steps.prepare-simulator.outputs.destination-id }}" | xcpretty -c
+      - uses: sersoft-gmbh/swift-coverage-action@v3
+        with:
+          target-name-filter: ^OneTimePassword$
+      - uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
