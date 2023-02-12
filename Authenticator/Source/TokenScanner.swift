@@ -2,7 +2,7 @@
 //  TokenScanner.swift
 //  Authenticator
 //
-//  Copyright (c) 2017 Authenticator authors
+//  Copyright (c) 2017-2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -77,7 +77,7 @@ struct TokenScanner: Component {
         case .scannerDecodedText(let text):
             // Attempt to create a token from the decoded text
             guard let url = URL(string: text),
-                let token = Token(url: url) else {
+                let token = try? Token(url: url) else {
                     // Show an error message
                     return .showErrorMessage("Invalid Token")
             }

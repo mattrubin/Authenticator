@@ -1,0 +1,25 @@
+name: "Select Xcode version"
+description: "Selects the specified version of Xcode"
+inputs:
+  version:
+    description: "Version number"
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: |
+        echo "::group::Selecting Xcode ${{ inputs.version }}…"
+        sudo xcode-select -s /Applications/Xcode_${{ inputs.version }}.app
+        xcode-select -p
+        echo "::endgroup::"
+      shell: bash
+    - run: |
+        echo "::group::xcodebuild -version -sdk"
+        xcodebuild -version -sdk
+        echo "::endgroup::"
+      shell: bash
+    - run: |
+        echo "::group::xcrun simctl list"
+        xcrun simctl list
+        echo "::endgroup::"
+      shell: bash

@@ -2,7 +2,7 @@
 //  SegmentedControlRow.swift
 //  Authenticator
 //
-//  Copyright (c) 2014-2017 Authenticator authors
+//  Copyright (c) 2014-2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ struct SegmentedControlRowViewModel<Action> {
         segments = options.map({ option in
             (title: option.title, action: changeAction(option.value))
         })
-        selectedSegmentIndex = options.map({ $0.value }).index(of: value)
+        selectedSegmentIndex = options.map({ $0.value }).firstIndex(of: value)
     }
 }
 
@@ -53,7 +53,7 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
         configureSubviews()
     }
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureSubviews()
     }
@@ -64,6 +64,9 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
         contentView.addSubview(segmentedControl)
         let action = #selector(SegmentedControlRowCell.segmentedControlValueChanged)
         segmentedControl.addTarget(self, action: action, for: .valueChanged)
+
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.otpForegroundColor], for: .normal)
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.otpBackgroundColor], for: .selected)
     }
 
     override func layoutSubviews() {
@@ -87,7 +90,7 @@ class SegmentedControlRowCell<Action>: UITableViewCell {
         // Store the action associated with each segment
         actions = viewModel.segments.map({ $0.action })
         // Select the initial segment
-        segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControlNoSegment
+        segmentedControl.selectedSegmentIndex = viewModel.selectedSegmentIndex ?? UISegmentedControl.noSegment
     }
 
     static func heightForRow(with viewModel: SegmentedControlRowViewModel<Action>) -> CGFloat {

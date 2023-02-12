@@ -2,7 +2,7 @@
 //  Demo.swift
 //  Authenticator
 //
-//  Copyright (c) 2016-2017 Authenticator authors
+//  Copyright (c) 2016-2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +29,21 @@ import UIKit
 
 extension CommandLine {
     static var isDemo: Bool {
+#if DEBUG
         return arguments.contains("--demo")
             || UserDefaults.standard.bool(forKey: "FASTLANE_SNAPSHOT")
+#else
+        return false
+#endif
     }
 }
 
 struct DemoTokenStore: TokenStore {
+#if DEBUG
     let persistentTokens = demoTokens.map(PersistentToken.init(demoToken:))
+#else
+    let persistentTokens: [PersistentToken] = []
+#endif
 
     private static let demoTokens = [
         Token(
@@ -88,19 +96,25 @@ struct DemoTokenStore: TokenStore {
 
 private extension Token {
     init(name: String = "", issuer: String = "", factor: Generator.Factor) {
-        // swiftlint:disable:next force_unwrapping
-        let generator = Generator(factor: factor, secret: Data(), algorithm: .sha1, digits: 6)!
+        // swiftlint:disable:next force_try
+        let generator = try! Generator(factor: factor, secret: Data(), algorithm: .sha1, digits: 6)
         self.init(name: name, issuer: issuer, generator: generator)
     }
 }
 
+#if DEBUG
+@testable import OneTimePassword
+
 private extension PersistentToken {
     init(demoToken: Token) {
-        token = demoToken
         // swiftlint:disable:next force_unwrapping
-        identifier = UUID().uuidString.data(using: String.Encoding.utf8)!
+        let identifier = UUID().uuidString.data(using: String.Encoding.utf8)!
+
+        self.init(token: demoToken, identifier: identifier)
     }
 }
+
+#endif
 
 extension TokenEntryForm {
     static let demoForm: TokenEntryForm = {

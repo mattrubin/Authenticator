@@ -1,0 +1,54 @@
+name: "Prepare simulator"
+description: "Creates and boots a custom simulator"
+inputs:
+  runtime:
+    description: "Runtime name"
+    required: true
+  device:
+    description: "Device name"
+    required: true
+outputs:
+  destination-id:
+    description: "Destination simulator ID"
+    value: ${{ steps.simulator.outputs.destination-id }}
+runs:
+  using: composite
+  steps:
+    - name: "Print bundled runtimes"
+      shell: bash
+      run: |
+        echo "::group::Bundled runtimes:"
+        for xcode in /Applications/Xcode*.app; do \
+          echo $xcode | grep -o "Xcode.*\.app"; \
+          for plist in $xcode/Contents/Developer/Platforms/*.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/*.simruntime/Contents/Info.plist; do \
+            defaults read $plist CFBundleName; \
+          done; \
+          echo ""; \
+        done
+        echo "::endgroup::"
+
+    - name: "Install runtime"
+      shell: bash
+      run: |
+        RUNTIME="${{ inputs.runtime }}"
+        if xcrun simctl list | grep "$RUNTIME"
+        then
+          echo "$RUNTIME is already installed.";
+        else
+          echo "::group::Available runtimes:"
+          xcversion simulators
+          echo "::endgroup::"
+          xcversion simulators --install="$RUNTIME";
+        fi
+
+    - name: "Create and boot simulator"
+      id: simulator
+      shell: bash
+      run: |
+        RUNTIME="${{ inputs.runtime }}"
+        DEVICE="${{ inputs.device }}"
+        DEVICE_ID=com.apple.CoreSimulator.SimDeviceType.$(echo $DEVICE | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        RUNTIME_ID=com.apple.CoreSimulator.SimRuntime.$(echo $RUNTIME | sed -E -e "s/[ \-]+/ /g" -e "s/[^[:alnum:]]/-/g")
+        DESTINATION_ID=$(xcrun simctl create "Custom: $DEVICE, $RUNTIME" $DEVICE_ID $RUNTIME_ID)
+        xcrun simctl boot $DESTINATION_ID
+        echo "destination-id=$(echo $DESTINATION_ID)" >> $GITHUB_OUTPUT

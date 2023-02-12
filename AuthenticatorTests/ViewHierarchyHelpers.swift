@@ -1,8 +1,8 @@
 //
-//  Colors.swift
+//  ViewHierarchyHelpers.swift
 //  Authenticator
 //
-//  Copyright (c) 2014-2023 Authenticator authors
+//  Copyright (c) 2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,32 +25,17 @@
 
 import UIKit
 
-extension UIColor {
-    private convenience init(red: Int, green: Int, blue: Int) {
-        let divisor: CGFloat = 255
-        self.init(
-            red: CGFloat(red) / divisor,
-            green: CGFloat(green) / divisor,
-            blue: CGFloat(blue) / divisor,
-            alpha: 1
-        )
-    }
-
-    private enum OTP {
-        static let darkColor = UIColor(red: 35, green: 35, blue: 50)
-        static let lightColor = UIColor(red: 250, green: 248, blue: 240)
-    }
-
-    class var otpDarkColor: UIColor { return OTP.darkColor }
-    class var otpLightColor: UIColor { return OTP.lightColor }
-
-    class var otpBarBackgroundColor: UIColor { return OTP.darkColor }
-    class var otpBarForegroundColor: UIColor { return OTP.lightColor }
-    class var otpBackgroundColor: UIColor { return OTP.darkColor }
-    class var otpForegroundColor: UIColor { return OTP.lightColor }
+// Adds the given view controller to a visible window to avoid `UITableViewAlertForLayoutOutsideViewHierarchy` warnings
+// at runtime.
+func addToTestViewHierarchy(_ viewController: UIViewController) {
+    let window = UIWindow()
+    window.rootViewController = viewController
+    window.makeKeyAndVisible()
 }
 
-extension UIFont {
-    static let otpBarTitleFont = UIFont.systemFont(ofSize: 20, weight: .light)
-    static let otpBarButtonFont = UIFont.systemFont(ofSize: 17, weight: .light)
+// Adds the given view to a visible window to avoid `UITableViewAlertForLayoutOutsideViewHierarchy` warnings at runtime.
+func addToTestViewHierarchy(_ view: UIView) {
+    let viewController = UIViewController()
+    viewController.view.addSubview(view)
+    addToTestViewHierarchy(viewController)
 }

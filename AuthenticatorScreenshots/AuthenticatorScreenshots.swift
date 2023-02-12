@@ -2,7 +2,7 @@
 //  AuthenticatorScreenshots.swift
 //  Authenticator
 //
-//  Copyright (c) 2016-2017 Authenticator authors
+//  Copyright (c) 2016-2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import SimulatorStatusMagiciOS
 class AuthenticatorScreenshots: XCTestCase {
     override class func setUp() {
         super.setUp()
+        SDStatusBarManager.sharedInstance().batteryDetailEnabled = false
         SDStatusBarManager.sharedInstance().enableOverrides()
     }
 

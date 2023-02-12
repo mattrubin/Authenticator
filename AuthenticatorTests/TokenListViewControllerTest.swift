@@ -2,7 +2,7 @@
 //  TokenListViewControllerTest.swift
 //  Authenticator
 //
-//  Copyright (c) 2016-2018 Authenticator authors
+//  Copyright (c) 2016-2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -114,6 +114,7 @@ class TokenListViewControllerTest: XCTestCase {
                                                  at: displayTime,
                                                  digitGroupSize: defaultDigitGroupSize)
         let controller = TokenListViewController(viewModel: viewModel, dispatchAction: { _ in })
+        addToTestViewHierarchy(controller)
 
         // Check that the table view contains the expected cells.
         XCTAssertEqual(controller.tableView.numberOfSections, 1)

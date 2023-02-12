@@ -2,7 +2,7 @@
 //  QRScanner.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2018 Authenticator authors
+//  Copyright (c) 2015-2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@
 
 import AVFoundation
 
-protocol QRScannerDelegate: class {
+protocol QRScannerDelegate: AnyObject {
     func handleDecodedText(_ text: String)
 }
 

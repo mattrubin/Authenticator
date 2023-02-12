@@ -2,7 +2,7 @@
 //  AppController.swift
 //  Authenticator
 //
-//  Copyright (c) 2016-2018 Authenticator authors
+//  Copyright (c) 2016-2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -94,7 +94,7 @@ class AppController {
                           userInfo: nil,
                           repeats: false)
         // Add the new timer to the main run loop
-        RunLoop.main.add(timer, forMode: .commonModes)
+        RunLoop.main.add(timer, forMode: .common)
         refreshTimer = timer
     }
 
@@ -164,21 +164,16 @@ class AppController {
             generateHapticFeedback(for: .success)
 
         case .showApplicationSettings:
-            guard let applicationSettingsURL = URL(string: UIApplicationOpenSettingsURLString) else {
+            guard let applicationSettingsURL = URL(string: UIApplication.openSettingsURLString) else {
                 handleEffect(.showErrorMessage("Failed to open application settings."))
                 return
             }
-            UIApplication.shared.openURL(applicationSettingsURL)
+            UIApplication.shared.open(applicationSettingsURL)
 
         case let .openURL(url):
-            if #available(iOS 9.0, *) {
-                let safariViewController = SFSafariViewController(url: url)
-                let presenter = topViewController(presentedFrom: rootViewController)
-                presenter.present(safariViewController, animated: true)
-            } else {
-                // Fallback on earlier versions
-                UIApplication.shared.openURL(url)
-            }
+            let safariViewController = SFSafariViewController(url: url)
+            let presenter = topViewController(presentedFrom: rootViewController)
+            presenter.present(safariViewController, animated: true)
 
         case let .setDigitGroupSize(digitGroupSize):
             settings.digitGroupSize = digitGroupSize
@@ -193,11 +188,9 @@ class AppController {
         return topViewController(presentedFrom: presentedViewController)
     }
 
-    private func generateHapticFeedback(for notificationFeedbackType: UINotificationFeedbackType) {
-        if #available(iOS 10.0, *) {
-            let feedbackGenerator = UINotificationFeedbackGenerator()
-            feedbackGenerator.notificationOccurred(notificationFeedbackType)
-        }
+    private func generateHapticFeedback(for notificationFeedbackType: UINotificationFeedbackGenerator.FeedbackType) {
+        let feedbackGenerator = UINotificationFeedbackGenerator()
+        feedbackGenerator.notificationOccurred(notificationFeedbackType)
     }
 
     // MARK: - Public

@@ -2,7 +2,7 @@
 //  OTPAppDelegate.swift
 //  Authenticator
 //
-//  Copyright (c) 2013-2018 Authenticator authors
+//  Copyright (c) 2013-2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,14 +33,13 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
     let app = AppController()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let barButtonItemFont = UIFont.systemFont(ofSize: 17, weight: .light)
-        let fontAttributes = [NSAttributedStringKey.font: barButtonItemFont]
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let fontAttributes = [NSAttributedString.Key.font: UIFont.otpBarButtonFont]
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .highlighted)
 
-        let disabledAttributes: [NSAttributedStringKey: Any] = [
-            .font: barButtonItemFont,
+        let disabledAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.otpBarButtonFont,
             .foregroundColor: UIColor.otpBarForegroundColor.withAlphaComponent(0.3),
         ]
         UIBarButtonItem.appearance().setTitleTextAttributes(disabledAttributes, for: .disabled)
@@ -61,8 +60,8 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         app.updateView()
     }
 
-    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
-        if let token = Token(url: url) {
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        if let token = try? Token(url: url) {
             let message = "Do you want to add a token for “\(token.name)”?"
 
             let alert = UIAlertController(title: "Add Token", message: message, preferredStyle: .alert)

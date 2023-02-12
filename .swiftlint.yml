@@ -5,6 +5,16 @@ excluded:
   - Carthage
   - fastlane
 
+analyzer_rules:
+  - unused_declaration
+  - unused_import
+
+disabled_rules:
+  - for_where
+  - identifier_name
+  - line_length
+  - todo
+
 opt_in_rules:
   - array_init
   - attributes
@@ -28,7 +38,6 @@ opt_in_rules:
   - file_header
   - first_where
   - force_unwrapping
-  - implicit_return
   - implicitly_unwrapped_optional
   - joined_default_parameter
   - last_where
@@ -50,7 +59,6 @@ opt_in_rules:
   - prohibited_super_call
   - reduce_into
   - redundant_nil_coalescing
-  - redundant_type_annotation
   - single_test_class
   - sorted_first_last
   - static_operator
@@ -60,28 +68,17 @@ opt_in_rules:
   - unavailable_function
   - unowned_variable_capture
   - untyped_error_in_catch
-  - unused_declaration
-  - unused_import
   - vertical_parameter_alignment_on_call
   - vertical_whitespace_closing_braces
   - vertical_whitespace_opening_braces
   - xct_specific_matcher
   - yoda_condition
 
-disabled_rules:
-  - identifier_name
-  - line_length
-  - todo
-
 cyclomatic_complexity:
-  warning: 15
+  warning: 16
 
 function_body_length:
-  warning: 50
-
-line_length:
-  ignores_function_declarations: true
-  ignores_interpolated_strings: true
+  warning: 55
 
 nesting:
   type_level:

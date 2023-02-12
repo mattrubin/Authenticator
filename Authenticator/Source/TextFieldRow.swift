@@ -2,7 +2,7 @@
 //  TextFieldRow.swift
 //  Authenticator
 //
-//  Copyright (c) 2014-2019 Authenticator authors
+//  Copyright (c) 2014-2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ struct TextFieldRowViewModel<Action> {
     let changeAction: (String) -> Action
 }
 
-protocol TextFieldRowCellDelegate: class {
+protocol TextFieldRowCellDelegate: AnyObject {
     func textFieldCellDidReturn<Action>(_ textFieldCell: TextFieldRowCell<Action>)
 }
 
@@ -57,7 +57,7 @@ class TextFieldRowCell<Action>: UITableViewCell, UITextFieldDelegate {
         configureSubviews()
     }
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureSubviews()
     }

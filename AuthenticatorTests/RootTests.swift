@@ -2,7 +2,7 @@
 //  RootTests.swift
 //  Authenticator
 //
-//  Copyright (c) 2017-2019 Authenticator authors
+//  Copyright (c) 2017-2023 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,8 @@ import XCTest
 @testable import Authenticator
 
 class RootTests: XCTestCase {
+    private struct FakeError: Error {}
+
     private let defaultDigitGroupSize = 2
     let displayTime = DisplayTime(date: Date())
 
@@ -182,7 +184,7 @@ class RootTests: XCTestCase {
 
     func testEventAddTokenFailed() {
         var root = Root(deviceCanScan: false)
-        let event: Root.Event = .addTokenFailed(NSError())
+        let event: Root.Event = .addTokenFailed(FakeError())
         let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
 
@@ -242,7 +244,7 @@ class RootTests: XCTestCase {
 
     func testEventSaveTokenFailed() {
         var root = Root(deviceCanScan: false)
-        let event: Root.Event = .saveTokenFailed(NSError())
+        let event: Root.Event = .saveTokenFailed(FakeError())
         let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
 
@@ -254,7 +256,7 @@ class RootTests: XCTestCase {
 
     func testEventUpdateTokenFailed() {
         var root = Root(deviceCanScan: false)
-        let event: Root.Event = .updateTokenFailed(NSError())
+        let event: Root.Event = .updateTokenFailed(FakeError())
         let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
 
@@ -266,7 +268,7 @@ class RootTests: XCTestCase {
 
     func testEventMoveTokenFailed() {
         var root = Root(deviceCanScan: false)
-        let event: Root.Event = .moveTokenFailed(NSError())
+        let event: Root.Event = .moveTokenFailed(FakeError())
         let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
 
@@ -278,7 +280,7 @@ class RootTests: XCTestCase {
 
     func testEventDeleteTokenFailed() {
         var root = Root(deviceCanScan: false)
-        let event: Root.Event = .deleteTokenFailed(NSError())
+        let event: Root.Event = .deleteTokenFailed(FakeError())
         let effect = root.update(with: event)
         // TODO: check that the component state hasn't changed
 
