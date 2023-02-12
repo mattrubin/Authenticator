@@ -12,8 +12,17 @@ jobs:
       matrix:
         env:
           - xcode: 14.2
+            runtime: "iOS 13.7"
+            device: "iPhone 6s"
+          - xcode: 14.2
+            runtime: "iOS 14.5"
+            device: "iPhone 8 Plus"
+          - xcode: 14.2
+            runtime: "iOS 15.4"
+            device: "iPhone 12 mini"
+          - xcode: 14.2
             runtime: "iOS 16.2"
-            device: "iPhone 14 Pro"
+            device: "iPhone 14 Pro Max"
     steps:
       - uses: actions/checkout@v3
         with:
