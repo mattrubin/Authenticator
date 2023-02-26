@@ -30,6 +30,8 @@ import MessageUI
 
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
+    private let backgroundErrorKey = "__backgroudError"
+
     var window: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
 
     // swiftlint:disable:next implicitly_unwrapped_optional
@@ -51,43 +53,12 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setBackgroundColor(UIColor(white: 0, alpha: 0.95))
         SVProgressHUD.setMinimumDismissTimeInterval(1)
 
-        let backgroundErrorKey = "__backgroudError"
         do {
             app = try AppController()
             self.window?.rootViewController = app.rootViewController
             self.window?.makeKeyAndVisible()
 
-            print("\(backgroundErrorKey)): \(UserDefaults.standard.value(forKey: backgroundErrorKey) ?? "<nil>")")
-            if let previousErrorReportString = UserDefaults.standard.string(forKey: backgroundErrorKey) {
-                UserDefaults.standard.removeObject(forKey: backgroundErrorKey)
-                let alert = UIAlertController(
-                    title: "An error occured while Authenticator was in the background.",
-                    message: "Do you want to send an error report?",
-                    preferredStyle: .alert)
-
-                let acceptHandler: (UIAlertAction) -> Void = { [weak window] (_) in
-                    let errorReport: ErrorReport
-                    do {
-                        errorReport = try ErrorReport.fromString(previousErrorReportString)
-                    } catch {
-                        // If we can't decode the error report, send a report on the decoding error instead.
-                        errorReport = ErrorReport(
-                            application: application,
-                            launchOptions: launchOptions,
-                            error: error,
-                            message: "Failed to decode error report")
-                    }
-
-                    let mailComposeViewController = errorReport.mailComposeViewController()
-                    mailComposeViewController.mailComposeDelegate = self
-                    window?.rootViewController?.present(mailComposeViewController, animated: true)
-                }
-
-                alert.addAction(UIAlertAction(title: "Ignore", style: .cancel))
-                alert.addAction(UIAlertAction(title: "Send", style: .default, handler: acceptHandler))
-
-                window?.rootViewController?.present(alert, animated: true)
-            }
+            checkForBackgroundErrors(application: application, launchOptions: launchOptions)
         } catch {
             print("Failed to load token store: \(error)")
 
@@ -99,13 +70,45 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
             if application.applicationState == .background {
                 // If the app is in the background, save the error to send later.
                 UserDefaults.standard.set(errorReport.toString(), forKey: backgroundErrorKey)
-                print("\(backgroundErrorKey)): \(UserDefaults.standard.value(forKey: backgroundErrorKey) ?? "<nil>")")
             }
             self.window?.rootViewController = ErrorViewController(errorReport: errorReport)
             self.window?.makeKeyAndVisible()
         }
 
         return true
+    }
+
+    private func checkForBackgroundErrors(application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+        if let previousErrorReportString = UserDefaults.standard.string(forKey: backgroundErrorKey) {
+            UserDefaults.standard.removeObject(forKey: backgroundErrorKey)
+            let alert = UIAlertController(
+                title: "An error occured while Authenticator was in the background.",
+                message: "Do you want to send an error report?",
+                preferredStyle: .alert)
+
+            let acceptHandler: (UIAlertAction) -> Void = { [weak window] (_) in
+                let errorReport: ErrorReport
+                do {
+                    errorReport = try ErrorReport.fromString(previousErrorReportString)
+                } catch {
+                    // If we can't decode the error report, send a report on the decoding error instead.
+                    errorReport = ErrorReport(
+                        application: application,
+                        launchOptions: launchOptions,
+                        error: error,
+                        message: "Failed to decode error report")
+                }
+
+                let mailComposeViewController = errorReport.mailComposeViewController()
+                mailComposeViewController.mailComposeDelegate = self
+                window?.rootViewController?.present(mailComposeViewController, animated: true)
+            }
+
+            alert.addAction(UIAlertAction(title: "Ignore", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Send", style: .default, handler: acceptHandler))
+
+            window?.rootViewController?.present(alert, animated: true)
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
