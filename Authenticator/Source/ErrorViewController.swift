@@ -39,15 +39,45 @@ class ErrorViewController: UIViewController {
 
         view.backgroundColor = .otpBackgroundColor
 
+        let title = UILabel()
+        title.text = "An Error Occurred"
+        title.textColor = .otpForegroundColor
+        title.font = .preferredFont(forTextStyle: .title1)
+        title.textAlignment = .center
+        title.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(title)
+
+        let emailButton = UIButton(type: .roundedRect)
+        emailButton.addTarget(self, action: #selector(sendEmail), for: .touchUpInside)
+        emailButton.setTitle("Send error report", for: .normal)
+        emailButton.titleLabel?.font = .preferredFont(forTextStyle: .title2)
+        emailButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(emailButton)
+
         let label = UITextView()
         label.font = .preferredFont(forTextStyle: .body)
         label.isEditable = false
-        label.backgroundColor = .otpBackgroundColor
-        label.textColor = .otpForegroundColor
+        label.layer.cornerRadius = 4
         label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
+
         view.addConstraints([
-            label.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            title.topAnchor.constraint(equalToSystemSpacingBelow: view.layoutMarginsGuide.topAnchor, multiplier: 1),
+            title.leadingAnchor.constraint(equalToSystemSpacingAfter: view.layoutMarginsGuide.leadingAnchor, multiplier: 1),
+            view.layoutMarginsGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: title.trailingAnchor, multiplier: 1),
+
+            emailButton.topAnchor.constraint(
+                equalTo: title.layoutMarginsGuide.bottomAnchor,
+                constant: 16),
+            emailButton.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
+            emailButton.leadingAnchor.constraint(
+                greaterThanOrEqualToSystemSpacingAfter: view.layoutMarginsGuide.leadingAnchor,
+                multiplier: 1),
+            emailButton.trailingAnchor.constraint(
+                lessThanOrEqualToSystemSpacingAfter: view.layoutMarginsGuide.trailingAnchor,
+                multiplier: 1),
+
+            label.topAnchor.constraint(equalTo: emailButton.bottomAnchor, constant: 16),
             label.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             label.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             label.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
@@ -55,8 +85,6 @@ class ErrorViewController: UIViewController {
 
         let errorReportString = errorReport.toString()
         label.text = errorReportString
-
-        sendEmail(body: errorReportString)
     }
 
     @available(*, unavailable)
@@ -64,17 +92,11 @@ class ErrorViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func sendEmail(body: String) {
-        let emailViewController = MFMailComposeViewController()
-        emailViewController.mailComposeDelegate = self
-
-        let appVersionString = errorReport.application.version.map({ " v" + $0 })
-        let appBuildString = errorReport.application.build.map({ " (Build " + $0 + ")" })
-        emailViewController.setSubject("Authenticator\(appVersionString ?? "")\(appBuildString ?? "") Error Report")
-        emailViewController.setMessageBody(body, isHTML: false)
-        emailViewController.setToRecipients(["authenticator@mattrubin.me"])
-
-        present(emailViewController, animated: true)
+    @objc
+    private func sendEmail() {
+        let mailComposeViewController = errorReport.mailComposeViewController()
+        mailComposeViewController.mailComposeDelegate = self
+        present(mailComposeViewController, animated: true)
     }
 }
 

@@ -25,6 +25,7 @@
 
 import Foundation
 import UIKit
+import MessageUI
 
 struct ErrorReport: Encodable {
     let message: String?
@@ -52,6 +53,18 @@ struct ErrorReport: Encodable {
         let jsonString = jsonData.flatMap({ String(data: $0, encoding: .utf8) })
 
         return jsonString ?? String(describing: self)
+    }
+
+    func mailComposeViewController() -> MFMailComposeViewController {
+        let appVersionString = application.version.map({ " v" + $0 })
+        let appBuildString = application.build.map({ " (Build " + $0 + ")" })
+        let subject = "Authenticator\(appVersionString ?? "")\(appBuildString ?? "") Error Report"
+
+        let mailComposeViewController = MFMailComposeViewController()
+        mailComposeViewController.setSubject(subject)
+        mailComposeViewController.setMessageBody(self.toString(), isHTML: false)
+        mailComposeViewController.setToRecipients(["authenticator@mattrubin.me"])
+        return mailComposeViewController
     }
 
     struct ApplicationInfo: Encodable {
