@@ -54,8 +54,7 @@ class AppController {
         }
     }
 
-    init() {
-        do {
+    init() throws {
             if CommandLine.isDemo {
                 // If this is a demo, use a token store of mock data, not backed by the keychain.
                 store = DemoTokenStore()
@@ -65,10 +64,6 @@ class AppController {
                     userDefaults: UserDefaults.standard
                 )
             }
-        } catch {
-            // If the TokenStore could not be created, the app is unusable.
-            fatalError("Failed to load token store: \(error)")
-        }
 
         settings = Settings()
 

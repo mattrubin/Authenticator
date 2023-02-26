@@ -31,7 +31,8 @@ import SVProgressHUD
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
 
-    let app = AppController()
+    // swiftlint:disable:next implicitly_unwrapped_optional
+    var app: AppController!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let fontAttributes = [NSAttributedString.Key.font: UIFont.otpBarButtonFont]
@@ -49,7 +50,20 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setBackgroundColor(UIColor(white: 0, alpha: 0.95))
         SVProgressHUD.setMinimumDismissTimeInterval(1)
 
-        self.window?.rootViewController = app.rootViewController
+        do {
+            app = try AppController()
+            self.window?.rootViewController = app.rootViewController
+        } catch {
+            let logger = RemoteLogger()
+            let entry = RemoteLogger.LogEntry(error: error, message: "Failed to load token store")
+            Task(priority: .high, operation: {
+                try await logger.log(entry)
+            })
+
+            print("Failed to load token store: \(error)")
+            self.window?.rootViewController = ErrorViewController(error: error)
+        }
+
         self.window?.makeKeyAndVisible()
 
         return true
