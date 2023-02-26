@@ -24,6 +24,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class ErrorViewController: UIViewController {
     private let logEntry: RemoteLogger.LogEntry
@@ -55,12 +56,40 @@ class ErrorViewController: UIViewController {
         // TODO: more user-friendly error presentation
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .withoutEscapingSlashes]
-        label.text = (try? encoder.encode(logEntry)).map({ String(data: $0, encoding: .utf8) })
+        let errorReport = (try? encoder.encode(logEntry)).flatMap({ String(data: $0, encoding: .utf8) })
             ?? String(describing: logEntry)
+        label.text = errorReport
+
+        sendEmail(body: errorReport)
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func sendEmail(body: String) {
+        let emailViewController = MFMailComposeViewController()
+        emailViewController.mailComposeDelegate = self
+
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let appVersionString = appVersion.map({ " v" + $0 })
+        let appBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        let appBuildString = appBuild.map({ " (Build " + $0 + ")" })
+        emailViewController.setSubject("Authenticator\(appVersionString ?? "")\(appBuildString ?? "") Error Report")
+        emailViewController.setMessageBody(body, isHTML: false)
+        emailViewController.setToRecipients(["authenticator@mattrubin.me"])
+
+        present(emailViewController, animated: true)
+    }
+}
+
+extension ErrorViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(
+        _ controller: MFMailComposeViewController,
+        didFinishWith result: MFMailComposeResult,
+        error: Error?
+    ) {
+        dismiss(animated: true)
     }
 }
