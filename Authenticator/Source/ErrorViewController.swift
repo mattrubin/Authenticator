@@ -27,10 +27,10 @@ import UIKit
 import MessageUI
 
 class ErrorViewController: UIViewController {
-    private let logEntry: RemoteLogger.LogEntry
+    private let errorReport: ErrorReport
 
-    init(logEntry: RemoteLogger.LogEntry) {
-        self.logEntry = logEntry
+    init(errorReport: ErrorReport) {
+        self.errorReport = errorReport
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -53,14 +53,10 @@ class ErrorViewController: UIViewController {
             label.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
         ])
 
-        // TODO: more user-friendly error presentation
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .withoutEscapingSlashes]
-        let errorReport = (try? encoder.encode(logEntry)).flatMap({ String(data: $0, encoding: .utf8) })
-            ?? String(describing: logEntry)
-        label.text = errorReport
+        let errorReportString = errorReport.toString()
+        label.text = errorReportString
 
-        sendEmail(body: errorReport)
+        sendEmail(body: errorReportString)
     }
 
     @available(*, unavailable)

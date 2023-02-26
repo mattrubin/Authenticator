@@ -1,5 +1,5 @@
 //
-//  RemoteLogger.swift
+//  ErrorReport.swift
 //  Authenticator
 //
 //  Copyright (c) 2023 Authenticator authors
@@ -26,44 +26,32 @@
 import Foundation
 import UIKit
 
-class RemoteLogger {
-    func log(_ entry: LogEntry) async throws {
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(entry)
+struct ErrorReport: Encodable {
+    let message: String?
+    let application: ApplicationInfo
+    let error: ErrorInfo
+    let nsError: NSErrorInfo
 
-        func printable(_ data: Data) -> String {
-            return String(data: data, encoding: .utf8) ?? String(describing: data)
-        }
-        print("Logging:\n\(printable(data))")
-
-        // swiftlint:disable:next force_unwrapping
-        let url = URL(string: "https://httpbin.org/anything")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = data
-
-        let session = URLSession.shared
-        let (responseData, response) = try await session.data(for: request)
-        print("Response:\n\(response)\nData:\n\(printable(responseData))")
+    init(
+        application: UIApplication,
+        launchOptions: [UIApplication.LaunchOptionsKey: Any]?,
+        error: Error,
+        message: String?
+    ) {
+        self.message = message
+        self.application = ApplicationInfo(application: application, launchOptions: launchOptions)
+        self.error = ErrorInfo(error: error)
+        self.nsError = NSErrorInfo(error: error as NSError)
     }
 
-    struct LogEntry: Encodable {
-        let message: String?
-        let application: ApplicationInfo
-        let error: ErrorInfo
-        let nsError: NSErrorInfo
+    func toString() -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .withoutEscapingSlashes]
 
-        init(
-            application: UIApplication,
-            launchOptions: [UIApplication.LaunchOptionsKey: Any]?,
-            error: Error,
-            message: String?
-        ) {
-            self.message = message
-            self.application = ApplicationInfo(application: application, launchOptions: launchOptions)
-            self.error = ErrorInfo(error: error)
-            self.nsError = NSErrorInfo(error: error as NSError)
-        }
+        let jsonData = try? encoder.encode(self)
+        let jsonString = jsonData.flatMap({ String(data: $0, encoding: .utf8) })
+
+        return jsonString ?? String(describing: self)
     }
 
     struct ApplicationInfo: Encodable {
