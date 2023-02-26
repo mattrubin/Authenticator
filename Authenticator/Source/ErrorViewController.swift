@@ -26,10 +26,10 @@
 import UIKit
 
 class ErrorViewController: UIViewController {
-    private let error: Error
+    private let logEntry: RemoteLogger.LogEntry
 
-    init(error: Error) {
-        self.error = error
+    init(logEntry: RemoteLogger.LogEntry) {
+        self.logEntry = logEntry
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -53,14 +53,10 @@ class ErrorViewController: UIViewController {
         ])
 
         // TODO: more user-friendly error presentation
-        let entry = RemoteLogger.LogEntry(error: error, message: "Failed to load token store")
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .withoutEscapingSlashes]
-        do {
-            label.text = String(data: try encoder.encode(entry), encoding: .utf8)
-        } catch {
-            label.text = String(describing: error)
-        }
+        label.text = (try? encoder.encode(logEntry)).map({ String(data: $0, encoding: .utf8) })
+            ?? String(describing: logEntry)
     }
 
     @available(*, unavailable)

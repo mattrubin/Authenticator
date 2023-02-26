@@ -53,9 +53,14 @@ class RemoteLogger {
         let error: ErrorInfo
         let nsError: NSErrorInfo
 
-        init(error: Error, message: String?) {
+        init(
+            application: UIApplication,
+            launchOptions: [UIApplication.LaunchOptionsKey: Any]?,
+            error: Error,
+            message: String?
+        ) {
             self.message = message
-            self.application = ApplicationInfo()
+            self.application = ApplicationInfo(application: application, launchOptions: launchOptions)
             self.error = ErrorInfo(error: error)
             self.nsError = NSErrorInfo(error: error as NSError)
         }
@@ -64,12 +69,14 @@ class RemoteLogger {
     struct ApplicationInfo: Encodable {
         let applicationState: Int
         let isProtectedDataAvailable: Bool
+        let launchOptionsKeys: [String]?
 
-        init() {
-            let application = UIApplication.shared
-
+        init(application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
             applicationState = application.applicationState.rawValue
             isProtectedDataAvailable = application.isProtectedDataAvailable
+
+            // Only log keys for now, because some options (like `UIApplicationLaunchOptionsURLKey`) may hold user data.
+            self.launchOptionsKeys = launchOptions?.keys.map(\.rawValue)
         }
     }
 

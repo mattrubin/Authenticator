@@ -55,13 +55,17 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = app.rootViewController
         } catch {
             let logger = RemoteLogger()
-            let entry = RemoteLogger.LogEntry(error: error, message: "Failed to load token store")
+            let logEntry = RemoteLogger.LogEntry(
+                application: application,
+                launchOptions: launchOptions,
+                error: error,
+                message: "Failed to load token store")
             Task(priority: .high, operation: {
-                try await logger.log(entry)
+                try await logger.log(logEntry)
             })
 
             print("Failed to load token store: \(error)")
-            self.window?.rootViewController = ErrorViewController(error: error)
+            self.window?.rootViewController = ErrorViewController(logEntry: logEntry)
         }
 
         self.window?.makeKeyAndVisible()
