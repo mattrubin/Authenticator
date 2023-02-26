@@ -27,7 +27,7 @@ import Foundation
 import UIKit
 import MessageUI
 
-struct ErrorReport: Encodable {
+struct ErrorReport: Codable {
     let message: String?
     let application: ApplicationInfo
     let error: ErrorInfo
@@ -55,6 +55,17 @@ struct ErrorReport: Encodable {
         return jsonString ?? String(describing: self)
     }
 
+    static func fromString(_ jsonString: String) throws -> Self {
+        let decoder = JSONDecoder()
+        guard let jsonData = jsonString.data(using: .utf8) else {
+            struct StringEncodingError: Error {
+                let string: String
+            }
+            throw StringEncodingError(string: jsonString)
+        }
+        return try decoder.decode(Self.self, from: jsonData)
+    }
+
     func mailComposeViewController() -> MFMailComposeViewController {
         let appVersionString = application.version.map({ " v" + $0 })
         let appBuildString = application.build.map({ " (Build " + $0 + ")" })
@@ -67,7 +78,7 @@ struct ErrorReport: Encodable {
         return mailComposeViewController
     }
 
-    struct ApplicationInfo: Encodable {
+    struct ApplicationInfo: Codable {
         let version: String?
         let build: String?
 
@@ -87,7 +98,7 @@ struct ErrorReport: Encodable {
         }
     }
 
-    struct ErrorInfo: Encodable {
+    struct ErrorInfo: Codable {
         let stringDescribing: String
 
         let errorDescription: String?
@@ -106,7 +117,7 @@ struct ErrorReport: Encodable {
         }
     }
 
-    struct NSErrorInfo: Encodable {
+    struct NSErrorInfo: Codable {
         let stringDescribing: String
 
         let domain: String
