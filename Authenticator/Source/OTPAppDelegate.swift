@@ -34,8 +34,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
 
-    // swiftlint:disable:next implicitly_unwrapped_optional
-    var app: AppController!
+    var app: AppController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let fontAttributes = [NSAttributedString.Key.font: UIFont.otpBarButtonFont]
@@ -55,7 +54,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
         do {
             app = try AppController()
-            self.window?.rootViewController = app.rootViewController
+            self.window?.rootViewController = app?.rootViewController
             self.window?.makeKeyAndVisible()
 
             checkForBackgroundErrors(application: application, launchOptions: launchOptions)
@@ -113,7 +112,7 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Ensure the UI is updated with the latest view model whenever the app returns from the background.
-        app.updateView()
+        app?.updateView()
     }
 
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
