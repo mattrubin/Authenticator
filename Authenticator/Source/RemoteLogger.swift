@@ -31,7 +31,20 @@ class RemoteLogger {
         let encoder = JSONEncoder()
         let data = try encoder.encode(entry)
 
-        print(String(data: data, encoding: .utf8) ?? "uh oh")
+        func printable(_ data: Data) -> String {
+            return String(data: data, encoding: .utf8) ?? String(describing: data)
+        }
+        print("Logging:\n\(printable(data))")
+
+        // swiftlint:disable:next force_unwrapping
+        let url = URL(string: "https://httpbin.org/anything")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = data
+
+        let session = URLSession.shared
+        let (responseData, response) = try await session.data(for: request)
+        print("Response:\n\(response)\nData:\n\(printable(responseData))")
     }
 
     struct LogEntry: Encodable {
