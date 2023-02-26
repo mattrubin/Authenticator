@@ -68,10 +68,8 @@ class ErrorViewController: UIViewController {
         let emailViewController = MFMailComposeViewController()
         emailViewController.mailComposeDelegate = self
 
-        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        let appVersionString = appVersion.map({ " v" + $0 })
-        let appBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
-        let appBuildString = appBuild.map({ " (Build " + $0 + ")" })
+        let appVersionString = errorReport.application.version.map({ " v" + $0 })
+        let appBuildString = errorReport.application.build.map({ " (Build " + $0 + ")" })
         emailViewController.setSubject("Authenticator\(appVersionString ?? "")\(appBuildString ?? "") Error Report")
         emailViewController.setMessageBody(body, isHTML: false)
         emailViewController.setToRecipients(["authenticator@mattrubin.me"])

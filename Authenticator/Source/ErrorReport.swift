@@ -55,11 +55,17 @@ struct ErrorReport: Encodable {
     }
 
     struct ApplicationInfo: Encodable {
+        let version: String?
+        let build: String?
+
         let applicationState: Int
         let isProtectedDataAvailable: Bool
         let launchOptionsKeys: [String]?
 
         init(application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+            version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+
             applicationState = application.applicationState.rawValue
             isProtectedDataAvailable = application.isProtectedDataAvailable
 
