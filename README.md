@@ -1,5 +1,5 @@
 # Authenticator
-### Two-Factor Authentication Client for iOS.
+### Two-Factor Authentication for iOS.
 
 [![CI status](https://github.com/mattrubin/Authenticator/actions/workflows/test.yml/badge.svg)](https://github.com/mattrubin/Authenticator/actions/workflows/test.yml)
 [![Codecov](https://codecov.io/gh/mattrubin/Authenticator/branch/develop/graph/badge.svg)](https://codecov.io/gh/mattrubin/Authenticator)
