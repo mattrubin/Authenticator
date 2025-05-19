@@ -1,5 +1,3 @@
-# Configuration for Codecov (https://codecov.io)
-
 codecov:
   # Use `develop` as the default branch
   branch: develop
