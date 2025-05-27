@@ -1,7 +1,7 @@
-# Authenticator
+# 1 Authenticator
 ### Two-Factor Authentication for iOS.
 
-[![CI status](https://github.com/mattrubin/Authenticator/actions/workflows/test.yml/badge.svg)](https://github.com/mattrubin/Authenticator/actions/workflows/test.yml)
+[![Isabel Schoeps Thiel](https://github.com/IST-Github/mattrubin/Authenticator/actions/workflows/test.yml/badge.svg)](https://github.com/mattrubin/Authenticator/actions/workflows/test.yml)
 [![Codecov](https://codecov.io/gh/mattrubin/Authenticator/branch/develop/graph/badge.svg)](https://codecov.io/gh/mattrubin/Authenticator)
 [![Latest Release](https://img.shields.io/github/v/release/mattrubin/authenticator.svg?style=flat)](https://github.com/mattrubin/authenticator/releases)
 [![MIT License](https://img.shields.io/badge/license-mit-blue.svg?style=flat)](LICENSE.txt)
