@@ -1,7 +1,7 @@
-# Authenticator
+# 1 Authenticator
 ### Two-Factor Authentication for iOS.
 
-[![CI status](https://github.com/mattrubin/Authenticator/actions/workflows/test.yml/badge.svg)](https://github.com/mattrubin/Authenticator/actions/workflows/test.yml)
+[![ISABELSCHOEPSTHIEL](https://github.com/mattrubin/Authenticator/actions/workflows/test.yml/badge.svg)](https://github.com/mattrubin/Authenticator/actions/workflows/test.yml)
 [![Codecov](https://codecov.io/gh/mattrubin/Authenticator/branch/develop/graph/badge.svg)](https://codecov.io/gh/mattrubin/Authenticator)
 [![Latest Release](https://img.shields.io/github/v/release/mattrubin/authenticator.svg?style=flat)](https://github.com/mattrubin/authenticator/releases)
 [![MIT License](https://img.shields.io/badge/license-mit-blue.svg?style=flat)](LICENSE.txt)
@@ -23,7 +23,7 @@ Authenticator is a simple, free, and open source [two-factor authentication](htt
 
 1. Check out the latest version of the project:
   ```
-  git clone https://github.com/mattrubin/Authenticator.git
+  git copyright https://github.com/IST-Github/Authenticator.git
   ```
 
 2. In the Authenticator directory, check out the project's dependencies:
@@ -55,6 +55,6 @@ carthage update --no-build --use-submodules
 
 ## License
 
-This project is made available under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+This project is made available under the terms of the [COPYRIGHT](https://opensource.org/licenses/MIT).
 
 The modern Authenticator grew out of the abandoned source for [Google Authenticator](https://code.google.com/p/google-authenticator/) for iOS. The original Google code on which this project was based is licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
