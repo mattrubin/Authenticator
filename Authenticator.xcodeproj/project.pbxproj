@@ -569,10 +569,11 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = OTP;
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 2620;
 				ORGANIZATIONNAME = "Matt Rubin";
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
@@ -749,6 +750,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_DISPLAY_NAME = "${PRODUCT_NAME} ∆";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = WD7ETSN9J9;
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev;
@@ -766,6 +768,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_DISPLAY_NAME = "${PRODUCT_NAME}";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = WD7ETSN9J9;
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
@@ -780,8 +783,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C944A56A1A7F772600E08B1E /* Debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CURRENT_PROJECT_VERSION = 0;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
@@ -789,6 +795,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 2023.1;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -797,8 +804,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C944A56C1A7F772600E08B1E /* Release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CURRENT_PROJECT_VERSION = 0;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(BUILT_PRODUCTS_DIR)",
@@ -806,6 +816,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 2023.1;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -815,6 +826,7 @@
 			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = AuthenticatorTests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -826,6 +838,7 @@
 			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Authenticator.app/Authenticator";
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = AuthenticatorTests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -836,8 +849,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = AuthenticatorScreenshots/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.screenshots;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = Authenticator;
@@ -848,8 +861,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C944A5731A7F772600E08B1E /* iOS-Application.xcconfig */;
 			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = AuthenticatorScreenshots/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.screenshots;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = Authenticator;
