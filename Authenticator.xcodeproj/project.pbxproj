@@ -646,7 +646,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -752,6 +752,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = WD7ETSN9J9;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator.dev;
 				PRODUCT_NAME = Authenticator;
@@ -770,6 +771,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = WD7ETSN9J9;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = Authenticator/Resources/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mattrubin.authenticator;
 				PRODUCT_NAME = Authenticator;
