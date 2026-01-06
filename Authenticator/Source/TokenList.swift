@@ -2,7 +2,7 @@
 //  TokenList.swift
 //  Authenticator
 //
-//  Copyright (c) 2015-2019 Authenticator authors
+//  Copyright (c) 2015-2026 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@
 
 import Foundation
 import UIKit
-import MobileCoreServices
+import MobileCoreServices // swiftlint:disable:this unused_import
 import OneTimePassword
 
 struct TokenList: Component {
