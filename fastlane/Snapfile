@@ -4,16 +4,21 @@ workspace "Authenticator.xcworkspace"
 scheme "Authenticator Demo"
 
 devices([
-  "iPhone SE (1st generation)",
-  "iPhone 8",
-  "iPhone 8 Plus",
-  "iPhone Xs",
-  "iPhone Xs Max",
+  "iPhone 16e",
+  "iPhone 17", # Same screen dimensions as "iPhone 17 Pro"
+  "iPhone 17 Pro Max",
+  "iPhone Air",
 ])
 
 languages([
   "en-US",
 ])
+
+override_status_bar(true)
+override_status_bar_arguments(
+  # Workaround for https://github.com/fastlane/fastlane/issues/21255
+  "--time 9:41 --dataNetwork wifi --wifiMode active --wifiBars 3 --cellularMode active --cellularBars 4 --operatorName '' --batteryState discharging --batteryLevel 100"
+)
 
 clear_previous_screenshots true
 skip_open_summary true

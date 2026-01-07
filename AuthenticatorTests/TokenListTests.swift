@@ -2,7 +2,7 @@
 //  TokenListTests.swift
 //  Authenticator
 //
-//  Copyright (c) 2016-2023 Authenticator authors
+//  Copyright (c) 2016-2026 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -102,51 +102,51 @@ class TokenListTests: XCTestCase {
         let persistentTokenB = mockPersistentToken(name: "Something", issuer: "Else")
 
         // BeginAddToken
-        XCTAssert(TokenList.Action.beginAddToken == .beginAddToken)
-        XCTAssert(TokenList.Action.beginAddToken != .clearFilter)
+        XCTAssertEqual(TokenList.Action.beginAddToken, .beginAddToken)
+        XCTAssertNotEqual(TokenList.Action.beginAddToken, .clearFilter)
 
         // EditPersistentToken(PersistentToken)
-        XCTAssert(TokenList.Action.editPersistentToken(persistentTokenA) == .editPersistentToken(persistentTokenA))
-        XCTAssert(TokenList.Action.editPersistentToken(persistentTokenA) != .editPersistentToken(persistentTokenB))
-        XCTAssert(TokenList.Action.editPersistentToken(persistentTokenA) != .beginAddToken)
+        XCTAssertEqual(TokenList.Action.editPersistentToken(persistentTokenA), .editPersistentToken(persistentTokenA))
+        XCTAssertNotEqual(TokenList.Action.editPersistentToken(persistentTokenA), .editPersistentToken(persistentTokenB))
+        XCTAssertNotEqual(TokenList.Action.editPersistentToken(persistentTokenA), .beginAddToken)
 
         // UpdatePersistentToken(PersistentToken)
-        XCTAssert(TokenList.Action.updatePersistentToken(persistentTokenA) == .updatePersistentToken(persistentTokenA))
-        XCTAssert(TokenList.Action.updatePersistentToken(persistentTokenA) != .updatePersistentToken(persistentTokenB))
-        XCTAssert(TokenList.Action.updatePersistentToken(persistentTokenA) != .beginAddToken)
+        XCTAssertEqual(TokenList.Action.updatePersistentToken(persistentTokenA), .updatePersistentToken(persistentTokenA))
+        XCTAssertNotEqual(TokenList.Action.updatePersistentToken(persistentTokenA), .updatePersistentToken(persistentTokenB))
+        XCTAssertNotEqual(TokenList.Action.updatePersistentToken(persistentTokenA), .beginAddToken)
 
         // MoveToken(fromIndex: Int, toIndex: Int)
-        XCTAssert(TokenList.Action.moveToken(fromIndex: 0, toIndex: 1) == .moveToken(fromIndex: 0, toIndex: 1))
-        XCTAssert(TokenList.Action.moveToken(fromIndex: 0, toIndex: 1) != .moveToken(fromIndex: 0, toIndex: 2))
-        XCTAssert(TokenList.Action.moveToken(fromIndex: 2, toIndex: 1) != .moveToken(fromIndex: 0, toIndex: 1))
-        XCTAssert(TokenList.Action.moveToken(fromIndex: 0, toIndex: 1) != .beginAddToken)
+        XCTAssertEqual(TokenList.Action.moveToken(fromIndex: 0, toIndex: 1), .moveToken(fromIndex: 0, toIndex: 1))
+        XCTAssertNotEqual(TokenList.Action.moveToken(fromIndex: 0, toIndex: 1), .moveToken(fromIndex: 0, toIndex: 2))
+        XCTAssertNotEqual(TokenList.Action.moveToken(fromIndex: 2, toIndex: 1), .moveToken(fromIndex: 0, toIndex: 1))
+        XCTAssertNotEqual(TokenList.Action.moveToken(fromIndex: 0, toIndex: 1), .beginAddToken)
 
         // DeletePersistentToken(PersistentToken)
-        XCTAssert(TokenList.Action.deletePersistentToken(persistentTokenA) == .deletePersistentToken(persistentTokenA))
-        XCTAssert(TokenList.Action.deletePersistentToken(persistentTokenA) != .deletePersistentToken(persistentTokenB))
-        XCTAssert(TokenList.Action.deletePersistentToken(persistentTokenA) != .beginAddToken)
+        XCTAssertEqual(TokenList.Action.deletePersistentToken(persistentTokenA), .deletePersistentToken(persistentTokenA))
+        XCTAssertNotEqual(TokenList.Action.deletePersistentToken(persistentTokenA), .deletePersistentToken(persistentTokenB))
+        XCTAssertNotEqual(TokenList.Action.deletePersistentToken(persistentTokenA), .beginAddToken)
 
         // CopyPassword(String)
-        XCTAssert(TokenList.Action.copyPassword("123") == .copyPassword("123"))
-        XCTAssert(TokenList.Action.copyPassword("123") != .copyPassword("456"))
-        XCTAssert(TokenList.Action.copyPassword("123") != .beginAddToken)
+        XCTAssertEqual(TokenList.Action.copyPassword("123"), .copyPassword("123"))
+        XCTAssertNotEqual(TokenList.Action.copyPassword("123"), .copyPassword("456"))
+        XCTAssertNotEqual(TokenList.Action.copyPassword("123"), .beginAddToken)
 
         // Filter(String)
-        XCTAssert(TokenList.Action.filter("ABC") == .filter("ABC"))
-        XCTAssert(TokenList.Action.filter("ABC") != .filter("XYZ"))
-        XCTAssert(TokenList.Action.filter("ABC") != .beginAddToken)
+        XCTAssertEqual(TokenList.Action.filter("ABC"), .filter("ABC"))
+        XCTAssertNotEqual(TokenList.Action.filter("ABC"), .filter("XYZ"))
+        XCTAssertNotEqual(TokenList.Action.filter("ABC"), .beginAddToken)
 
         // ClearFilter
-        XCTAssert(TokenList.Action.clearFilter == .clearFilter)
-        XCTAssert(TokenList.Action.clearFilter != .showBackupInfo)
+        XCTAssertEqual(TokenList.Action.clearFilter, .clearFilter)
+        XCTAssertNotEqual(TokenList.Action.clearFilter, .showBackupInfo)
 
         // ShowBackupInfo
-        XCTAssert(TokenList.Action.showBackupInfo == .showBackupInfo)
-        XCTAssert(TokenList.Action.showBackupInfo != .beginAddToken)
+        XCTAssertEqual(TokenList.Action.showBackupInfo, .showBackupInfo)
+        XCTAssertNotEqual(TokenList.Action.showBackupInfo, .beginAddToken)
 
         // ShowLicenseInfo
-        XCTAssert(TokenList.Action.showInfo == .showInfo)
-        XCTAssert(TokenList.Action.showInfo != .beginAddToken)
+        XCTAssertEqual(TokenList.Action.showInfo, .showInfo)
+        XCTAssertNotEqual(TokenList.Action.showInfo, .beginAddToken)
     }
 }
 

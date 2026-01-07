@@ -2,7 +2,7 @@
 //  AuthenticatorScreenshots.swift
 //  Authenticator
 //
-//  Copyright (c) 2016-2023 Authenticator authors
+//  Copyright (c) 2016-2026 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,15 +24,9 @@
 //
 
 import XCTest
-import SimulatorStatusMagiciOS
 
+@MainActor
 class AuthenticatorScreenshots: XCTestCase {
-    override class func setUp() {
-        super.setUp()
-        SDStatusBarManager.sharedInstance().batteryDetailEnabled = false
-        SDStatusBarManager.sharedInstance().enableOverrides()
-    }
-
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
@@ -43,11 +37,6 @@ class AuthenticatorScreenshots: XCTestCase {
             app.launchArguments += ["-demo-scanner-image", demoScannerImagePath]
         }
         app.launch()
-    }
-
-    override class func tearDown() {
-        SDStatusBarManager.sharedInstance().disableOverrides()
-        super.tearDown()
     }
 
     func testScreenshots() {

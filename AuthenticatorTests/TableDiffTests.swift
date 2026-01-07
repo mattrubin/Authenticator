@@ -2,7 +2,7 @@
 //  TableDiffTests.swift
 //  Authenticator
 //
-//  Copyright (c) 2016-2023 Authenticator authors
+//  Copyright (c) 2016-2026 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -31,12 +31,10 @@ class TableDiffTests: XCTestCase {
     private let defaultDigitGroupSize = 2
 
     func testNoChanges() throws {
-        // swiftlint:disable force_unwrapping
         let generator = try Generator(factor: .timer(period: 60),
-                                      secret: "secret".data(using: String.Encoding.utf8)!,
+                                      secret: Data("secret".utf8),
                                       algorithm: .sha256,
                                       digits: 6)
-        // swiftlint:enable force_unwrapping
         let token = Token(name: "Token Name",
                           issuer: "Token Issuer",
                           generator: generator)
