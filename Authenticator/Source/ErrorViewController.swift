@@ -2,7 +2,7 @@
 //  ErrorViewController.swift
 //  Authenticator
 //
-//  Copyright (c) 2023 Authenticator authors
+//  Copyright (c) 2023-2026 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -85,6 +85,8 @@ class ErrorViewController: UIViewController {
 
         let errorReportString = errorReport.toString()
         label.text = errorReportString
+
+        emailButton.isHidden = !MFMailComposeViewController.canSendMail()
     }
 
     @available(*, unavailable)
