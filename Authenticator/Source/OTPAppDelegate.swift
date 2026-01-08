@@ -2,7 +2,7 @@
 //  OTPAppDelegate.swift
 //  Authenticator
 //
-//  Copyright (c) 2013-2023 Authenticator authors
+//  Copyright (c) 2013-2026 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,14 @@
 import UIKit
 import OneTimePassword
 import SVProgressHUD
+import MessageUI
 
 @UIApplicationMain
 class OTPAppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
 
-    let app = AppController()
+//    let app = AppController()
+    var app: AppController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let fontAttributes = [NSAttributedString.Key.font: UIFont.otpBarButtonFont]
@@ -49,15 +51,36 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setBackgroundColor(UIColor(white: 0, alpha: 0.95))
         SVProgressHUD.setMinimumDismissTimeInterval(1)
 
-        self.window?.rootViewController = app.rootViewController
-        self.window?.makeKeyAndVisible()
+        do {
+            let app = try AppController()
+            self.app = app
+            self.window?.rootViewController = app.rootViewController
+            self.window?.makeKeyAndVisible()
+        } catch {
+            let vc = UIViewController()
+            vc.view.backgroundColor = .otpBackgroundColor
+            self.window?.rootViewController = UINavigationController(rootViewController: vc)
+            self.window?.makeKeyAndVisible()
+
+            if MFMailComposeViewController.canSendMail() {
+
+                let composeVC = MFMailComposeViewController()
+                composeVC.mailComposeDelegate = self
+
+                composeVC.setToRecipients(["authenticator@mattrubin.me"])
+                composeVC.setSubject("Authenticator Error Report")
+                composeVC.setMessageBody("\(error)", isHTML: false)
+                // Present the view controller modally.
+                self.window?.rootViewController?.present(composeVC, animated: true, completion: nil)
+            }
+        }
 
         return true
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Ensure the UI is updated with the latest view model whenever the app returns from the background.
-        app.updateView()
+        app?.updateView()
     }
 
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
@@ -80,5 +103,13 @@ class OTPAppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return false
+    }
+}
+
+extension OTPAppDelegate: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult,
+                               error: (any Error)?) {
+        controller.dismiss(animated: true)
     }
 }

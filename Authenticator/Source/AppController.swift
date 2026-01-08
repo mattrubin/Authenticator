@@ -2,7 +2,7 @@
 //  AppController.swift
 //  Authenticator
 //
-//  Copyright (c) 2016-2023 Authenticator authors
+//  Copyright (c) 2016-2026 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -54,7 +54,7 @@ class AppController {
         }
     }
 
-    init() {
+    init() throws {
         do {
             if CommandLine.isDemo {
                 // If this is a demo, use a token store of mock data, not backed by the keychain.
@@ -64,10 +64,12 @@ class AppController {
                     keychain: Keychain.sharedInstance,
                     userDefaults: UserDefaults.standard
                 )
+                throw NSError(domain:"oh no", code:123)
             }
         } catch {
             // If the TokenStore could not be created, the app is unusable.
-            fatalError("Failed to load token store: \(error)")
+            NSLog("Failed to load token store: \(error)")
+            throw error
         }
 
         settings = Settings()
