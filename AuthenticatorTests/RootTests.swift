@@ -2,7 +2,7 @@
 //  RootTests.swift
 //  Authenticator
 //
-//  Copyright (c) 2017-2023 Authenticator authors
+//  Copyright (c) 2017-2026 Authenticator authors
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -59,7 +59,7 @@ class RootTests: XCTestCase {
         case .menu(let menu):
             switch menu.child {
             case .info(let infoViewModel):
-                XCTAssert(infoViewModel.title == "Backups")
+                XCTAssertEqual(infoViewModel.title, "Backups")
             default:
                 XCTFail("Expected Backups .info, got \(menu.child)")
             }
@@ -131,7 +131,7 @@ class RootTests: XCTestCase {
         case .menu(let menu):
             switch menu.child {
             case .info(let infoViewModel):
-                XCTAssert(infoViewModel.title == "Acknowledgements")
+                XCTAssertEqual(infoViewModel.title, "Acknowledgements")
             default:
                 XCTFail("Expected Acknowledgements .info, got \(menu.child)")
             }

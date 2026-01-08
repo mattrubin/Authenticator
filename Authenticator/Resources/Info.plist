@@ -37,6 +37,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIDesignRequiresCompatibility</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Authenticator can import tokens by scanning QR codes.</string>
 	<key>UILaunchStoryboardName</key>

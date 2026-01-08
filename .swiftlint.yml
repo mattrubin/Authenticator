@@ -5,80 +5,74 @@ excluded:
   - Carthage
   - fastlane
 
+opt_in_rules:
+  - all
+
 analyzer_rules:
-  - unused_declaration
-  - unused_import
+  - all
 
 disabled_rules:
-  - for_where
+  - anonymous_argument_in_multiline_closure
+  - balanced_xctest_lifecycle
+  - contrasted_opening_brace
+  - direct_return # TODO: re-enable this rule
+  - discouraged_none_name # TODO: re-enable this rule
+  - discouraged_optional_collection
+  - explicit_acl
+  - explicit_self
+  - explicit_top_level_acl
+  - explicit_type_interface
+  - file_name
+  - file_types_order
+  - final_test_case # TODO: re-enable this rule
+  - for_where # TODO: re-enable this rule
+  - function_default_parameter_at_end
   - identifier_name
+  - indentation_width
+  - legacy_objc_type
   - line_length
+  - multiline_arguments # TODO: re-enable this rule
+  - multiline_arguments_brackets
+  - multiline_call_arguments # TODO: re-enable this rule
+  - multiline_parameters # TODO: re-enable this rule
+  - multiline_parameters_brackets
+  - no_empty_block # TODO: re-enable this rule
+  - no_extension_access_modifier
+  - no_grouping_extension
+  - no_magic_numbers
+  - non_overridable_class_declaration # TODO: re-enable this rule
+  - object_literal
+  - one_declaration_per_file
+  - prefer_condition_list # TODO: re-enable this rule
+  - prefer_key_path # TODO: re-enable this rule
+  - prefer_nimble
+  - prefer_self_in_static_references # TODO: re-enable this rule
+  - prefixed_toplevel_constant
+  - redundant_self # TODO: Consider re-enabling either this rule or `explicit_self`
+  - required_deinit
+  - return_value_from_void_function # TODO: re-enable this rule
+  - sorted_enum_cases
+  - sorted_imports
+  - superfluous_else
+  - test_case_accessibility # TODO: re-enable this rule
   - todo
-
-opt_in_rules:
-  - array_init
-  - attributes
-  - closure_body_length
-  - closure_end_indentation
-  - closure_spacing
-  - collection_alignment
-  - conditional_returns_on_newline
-  - contains_over_first_not_nil
-  - convenience_type
-  - discouraged_object_literal
-  - discouraged_optional_boolean
-  - empty_count
-  - empty_string
-  - empty_xctest_method
-  - explicit_enum_raw_value
-  - explicit_init
-  - extension_access_modifier
-  - fallthrough
-  - fatal_error_message
-  - file_header
-  - first_where
-  - force_unwrapping
-  - implicitly_unwrapped_optional
-  - joined_default_parameter
-  - last_where
-  - legacy_multiple
-  - legacy_random
-  - let_var_whitespace
-  - literal_expression_end_indentation
-  - lower_acl_than_parent
-  - modifier_order
-  - multiline_function_chains
-  - multiline_literal_brackets
-  - nslocalizedstring_key
-  - operator_usage_whitespace
-  - overridden_super_call
-  - override_in_extension
-  - pattern_matching_keywords
-  - private_action
-  - private_outlet
-  - prohibited_super_call
-  - reduce_into
-  - redundant_nil_coalescing
-  - single_test_class
-  - sorted_first_last
-  - static_operator
-  - strict_fileprivate
-  - switch_case_on_newline
-  - toggle_bool
-  - unavailable_function
-  - unowned_variable_capture
-  - untyped_error_in_catch
-  - vertical_parameter_alignment_on_call
-  - vertical_whitespace_closing_braces
-  - vertical_whitespace_opening_braces
-  - xct_specific_matcher
-  - yoda_condition
+  - trailing_closure
+  - type_contents_order
+  - unneeded_escaping # TODO: Consider re-enabling this rule
+  - unneeded_parentheses_in_closure_argument # TODO: Consider re-enabling this rule
+  - unused_declaration # False positives on protocol-confirming methods
+  - unused_parameter
+  - vertical_whitespace_between_cases
 
 cyclomatic_complexity:
   warning: 16
 
 function_body_length:
   warning: 55
+
+implicit_return:
+  included:
+    - closure
 
 nesting:
   type_level:
