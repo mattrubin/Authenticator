@@ -9,6 +9,7 @@ jobs:
     name: "Build & Test (Xcode ${{ matrix.env.xcode }}, ${{ matrix.env.runtime }}, ${{ matrix.env.device }})"
     runs-on: macos-15
     strategy:
+      fail-fast: false
       matrix:
         env:
           - xcode: 26.2
