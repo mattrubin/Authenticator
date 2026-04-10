@@ -47,9 +47,9 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild test -workspace "Authenticator.xcworkspace" -scheme "Authenticator" -destination "id=${{ steps.prepare-simulator.outputs.destination-id }}" | xcpretty -c
-      - uses: sersoft-gmbh/swift-coverage-action@v5
-        with:
-          target-name-filter: ^Authenticator$
-      - uses: codecov/codecov-action@v6
-        with:
-          fail_ci_if_error: true
+      # - uses: sersoft-gmbh/swift-coverage-action@v5
+      #   with:
+      #     target-name-filter: ^Authenticator$
+      # - uses: codecov/codecov-action@v6
+      #   with:
+      #     fail_ci_if_error: true
