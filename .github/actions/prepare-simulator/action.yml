@@ -14,18 +14,18 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: "Print bundled runtimes"
-      shell: bash
-      run: |
-        echo "::group::Bundled runtimes:"
-        for xcode in /Applications/Xcode*.app; do \
-          echo $xcode | grep -o "Xcode.*\.app"; \
-          for plist in $xcode/Contents/Developer/Platforms/*.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/*.simruntime/Contents/Info.plist; do \
-            defaults read $plist CFBundleName; \
-          done; \
-          echo ""; \
-        done
-        echo "::endgroup::"
+    # - name: "Print bundled runtimes"
+    #   shell: bash
+    #   run: |
+    #     echo "::group::Bundled runtimes:"
+    #     for xcode in /Applications/Xcode*.app; do \
+    #       echo $xcode | grep -o "Xcode.*\.app"; \
+    #       for plist in $xcode/Contents/Developer/Platforms/*.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/*.simruntime/Contents/Info.plist; do \
+    #         defaults read $plist CFBundleName; \
+    #       done; \
+    #       echo ""; \
+    #     done
+    #     echo "::endgroup::"
 
     - name: "Install runtime"
       shell: bash
