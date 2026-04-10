@@ -36,9 +36,9 @@ runs:
           echo "$RUNTIME is already installed.";
         else
           echo "::group::Available runtimes:"
-          xcversion simulators
+          xcodes runtimes
           echo "::endgroup::"
-          xcversion simulators --install="$RUNTIME";
+          xcodes runtimes install "$RUNTIME"
         fi
 
     - name: "Create and boot simulator"
