@@ -25,7 +25,7 @@
 
 import Foundation
 import UIKit
-import MobileCoreServices // swiftlint:disable:this unused_import
+import UniformTypeIdentifiers
 import OneTimePassword
 
 struct TokenList: Component {
@@ -144,7 +144,7 @@ extension TokenList {
 
     private mutating func copyPassword(_ password: String) -> Effect {
         let pasteboard = UIPasteboard.general
-        pasteboard.setValue(password, forPasteboardType: kUTTypeUTF8PlainText as String)
+        pasteboard.setValue(password, forPasteboardType: UTType.utf8PlainText.identifier)
         // Show an ephemeral success message.
         return .showSuccessMessage("Copied")
     }
