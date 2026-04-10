@@ -24,12 +24,14 @@
 //
 
 import OneTimePassword
+import Base32
 
 struct TokenEditForm: Component {
     private let persistentToken: PersistentToken
 
     private var issuer: String
     private var name: String
+    private var secret: String
 
     private var isValid: Bool {
         return !(issuer.isEmpty && name.isEmpty)
@@ -39,6 +41,7 @@ struct TokenEditForm: Component {
 
     init(persistentToken: PersistentToken) {
         self.persistentToken = persistentToken
+        secret = MF_Base32Codec.base32String(from: persistentToken.token.generator.secret)
         issuer = persistentToken.token.issuer
         name = persistentToken.token.name
     }
@@ -52,6 +55,7 @@ extension TokenEditForm: TableViewModelRepresentable {
         case name(String)
         case cancel
         case submit
+        case secret(String)
     }
 
     typealias HeaderModel = TokenFormHeaderModel<Action>
@@ -70,6 +74,7 @@ extension TokenEditForm {
             rightBarButton: BarButtonViewModel(style: .done, action: .submit, enabled: isValid),
             sections: [
                 [
+                    tokenRowModel,
                     issuerRowModel,
                     nameRowModel,
                 ],
@@ -78,6 +83,16 @@ extension TokenEditForm {
         )
     }
 
+    private var tokenRowModel: RowModel {
+        return .textFieldRow(
+            identity: "token.secret",
+            viewModel: TextFieldRowViewModel(
+                secret: secret,
+                changeAction: Action.secret
+            )
+        )
+    }
+    
     private var issuerRowModel: RowModel {
         return .textFieldRow(
             identity: "token.issuer",
@@ -112,6 +127,8 @@ extension TokenEditForm {
 
     mutating func update(with action: Action) -> Effect? {
         switch action {
+        case let .secret(secret):
+            self.secret = secret
         case let .issuer(issuer):
             self.issuer = issuer
         case let .name(name):
