@@ -7,21 +7,21 @@ on:
 jobs:
   ios:
     name: "Build & Test (Xcode ${{ matrix.env.xcode }}, ${{ matrix.env.runtime }}, ${{ matrix.env.device }})"
-    runs-on: macos-15
+    runs-on: macos-26
     strategy:
       fail-fast: false
       matrix:
         env:
-          - xcode: 26.2
+          - xcode: 26.6
             runtime: "iOS 16.4"
             device: "iPhone XR"
-          - xcode: 26.2
+          - xcode: 26.6
             runtime: "iOS 17.5"
             device: "iPhone SE (2nd generation)"
-          - xcode: 26.2
+          - xcode: 26.6
             runtime: "iOS 18.6"
             device: "iPhone 16e"
-          - xcode: 26.2
+          - xcode: 26.6
             runtime: "iOS 26.2"
             device: "iPhone 17 Pro Max"
     steps:
